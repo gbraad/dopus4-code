@@ -114,7 +114,7 @@ int fixsortmethod(int win, int type)
     if (type==ENTRY_DEVICE) return DISPLAY_NAME;
     else if (type>=ENTRY_DIRECTORY) {
         switch (selsortmethod) {
-            case DISPLAY_SIZE:
+//            case DISPLAY_SIZE:
             case DISPLAY_FILETYPE:
                 return DISPLAY_NAME;
                 break;

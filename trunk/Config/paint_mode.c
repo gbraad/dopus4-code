@@ -30,7 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "config.h"
 
-get_paint_colours(fg,bg,type)
+int get_paint_colours(fg,bg,type)
 int *fg,*bg,type;
 {
 	struct DOpusListView dummylist;
@@ -53,14 +53,14 @@ int *fg,*bg,type;
 		listokaygad,
 		listviewgads,
 		2,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen,1);
+		screen_pens[(int)config->gadgettopcol].pen,screen_pens[(int)config->gadgetbotcol].pen,1);
 	setupcolourbox(window->RPort,dummylist.x+7,dummylist.y+13,*fg,*bg);
 	showfuncob(window->RPort,cfg_string[STR_EXAMPLE],*fg,*bg,type,dummylist.x+101,dummylist.y+3);
 
 	busy();
 
 	FOREVER {
-		while (msg=(struct IntuiMessage *)GetMsg(window->UserPort)) {
+		while ((msg=(struct IntuiMessage *)GetMsg(window->UserPort))) {
 			class=msg->Class;
 			code=msg->Code;
 			x=msg->MouseX;
@@ -91,7 +91,7 @@ int *fg,*bg,type;
 void do3dbox(x,y,w,h)
 int x,y,w,h;
 {
-	Do3DBox(rp,x,y,w,h,screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+	Do3DBox(rp,x,y,w,h,screen_pens[(int)config->gadgettopcol].pen,screen_pens[(int)config->gadgetbotcol].pen);
 }
 
 void fix_slider(gad)
@@ -106,7 +106,7 @@ struct NewWindow *newwin;
 {
 	struct Window *win;
 
-	if (win=OpenWindow(newwin)) {
+	if ((win=OpenWindow(newwin))) {
 		if (tfont) SetFont(win->RPort,tfont);
 		SetAPen(win->RPort,screen_pens[0].pen);
 		RectFill(win->RPort,

@@ -99,10 +99,10 @@ void __saveds hotkeytaskcode()
 
   if (CxBase && !(status_flags&STATUS_IANSCRAP)) {
     hotkey_broker.nb_Port=inputport;
-    if (broker=CxBroker(&hotkey_broker,NULL)) {
+    if ((broker=CxBroker(&hotkey_broker,NULL))) {
 
       /* Initialise main hotkey */
-      if (hotkey_filter=set_dopus_filter(broker,inputport,NULL,config->hotkeycode,config->hotkeyqual,HOTKEY_UNICONIFY,1)) {
+      if ((hotkey_filter=set_dopus_filter(broker,inputport,NULL,config->hotkeycode,config->hotkeyqual,HOTKEY_UNICONIFY,1))) {
 
         hotkey_ix.ix_Code=IECODE_LBUTTON;
         hotkey_ix.ix_Qualifier=IEQUALIFIER_RBUTTON;
@@ -155,11 +155,11 @@ void __saveds hotkeytaskcode()
     sig=Wait(waitbits);
     command=0;
 
-    while (dummymsg=(struct IntuiMessage *)GetMsg(idcmpport))
+    while ((dummymsg=(struct IntuiMessage *)GetMsg(idcmpport)))
       FreeMem(dummymsg,sizeof(struct IntuiMessage));
 
     if (commodity) {
-      while (cxmsg=(CxMsg *)GetMsg(inputport)) {
+      while ((cxmsg=(CxMsg *)GetMsg(inputport))) {
         msgid=CxMsgID(cxmsg);
         msgtype=CxMsgType(cxmsg);
         ReplyMsg((struct Message *)cxmsg);
@@ -271,7 +271,7 @@ void __saveds hotkeytaskcode()
     }
 
     if (pwindow) {
-      while (msg=(struct IntuiMessage *)GetMsg(pwindow->UserPort)) {
+      while ((msg=(struct IntuiMessage *)GetMsg(pwindow->UserPort))) {
         if ((class=msg->Class)==IDCMP_GADGETUP)
           gadgetid=((struct Gadget *)msg->IAddress)->GadgetID;
         ReplyMsg((struct Message *)msg);
@@ -282,7 +282,7 @@ void __saveds hotkeytaskcode()
       }
     }
 
-    while (hmsg=(struct dopustaskmsg *)GetMsg(hotkeymsg_port)) {
+    while ((hmsg=(struct dopustaskmsg *)GetMsg(hotkeymsg_port))) {
       switch (hmsg->command) {
 
         case PROGRESS_UPDATE:
@@ -374,7 +374,7 @@ void __saveds hotkeytaskcode()
  if (commodity) {
    add_hotkey_objects(broker,inputport,0);
    DeleteCxObjAll(broker);
-   while (cxmsg=(CxMsg *)GetMsg(inputport))
+   while ((cxmsg=(CxMsg *)GetMsg(inputport)))
      ReplyMsg((struct Message *)cxmsg);
  }
  else {
@@ -442,7 +442,7 @@ int translate;
 {
   CxObj *filter,*cxobj;
 
-  if (filter=CxFilter(string)) {
+  if ((filter=CxFilter(string))) {
     if (!string) {
       hotkey_ix.ix_Class=IECLASS_RAWKEY;
       if (code==(USHORT)~0) {
@@ -463,7 +463,7 @@ int translate;
     }
     SetFilterIX(filter,&hotkey_ix);
     AttachCxObj(broker,filter);
-    if (cxobj=CxSender(port,command))
+    if ((cxobj=CxSender(port,command)))
       AttachCxObj(filter,cxobj);
     if (translate && (cxobj=CxTranslate(NULL)))
       AttachCxObj(filter,cxobj);
@@ -733,7 +733,7 @@ void __saveds clocktask()
   char buf[160],date[20],time[20],formstring[160],memstring[160],ampm;
   struct MsgPort *clock_time_port;
   struct timerequest ctimereq;
-  struct DOpusDateTime datetime;
+  struct DOpusDateTime datetime = {0};
   struct dopustaskmsg *cmsg;
   struct RastPort clock_rp;
   struct SI_CpuUsage sicpu;
@@ -798,7 +798,7 @@ void __saveds clocktask()
   FOREVER {
     wmes=Wait(sig);
     if (wmes&1<<clockmsg_port->mp_SigBit) {
-      while (cmsg=(struct dopustaskmsg *)GetMsg(clockmsg_port)) {
+      while ((cmsg=(struct dopustaskmsg *)GetMsg(clockmsg_port))) {
         switch (cmsg->command) {
           case TASK_QUIT:
             if (!(CheckIO((struct IORequest *)&ctimereq.tr_node)))
@@ -846,7 +846,7 @@ void __saveds clocktask()
             strcat(formstring,buf);
           }
           if (config->scrclktype&(SCRCLOCK_DATE|SCRCLOCK_TIME)) {
-            CurrentTime((ULONG *)&secs,(ULONG *)&micro);
+            CurrentTime(&secs,&micro);
             datetime.dat_Stamp.ds_Days=secs/86400; secs-=(datetime.dat_Stamp.ds_Days*86400);
             datetime.dat_Stamp.ds_Minute=secs/60; secs-=(datetime.dat_Stamp.ds_Minute*60);
             datetime.dat_Stamp.ds_Tick=secs*50;

@@ -66,6 +66,7 @@ struct Library *LocaleBase = NULL;          /* locale.library */
 struct muBase *muBase = NULL;               /* multiuser.library */
 struct Library *DataTypesBase=NULL;         /* datatypes.library */
 struct Library *AmigaGuideBase=NULL;        /* amigaguide.library */
+struct Library *GadToolsBase=NULL;          /* gadtools.library */
 
 /* Intuition objects */
 

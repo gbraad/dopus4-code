@@ -183,6 +183,7 @@ char *argv[];
     LocaleBase = OpenLibrary("locale.library",38);
     DataTypesBase = OpenLibrary("datatypes.library",39);
     AmigaGuideBase = OpenLibrary("amigaguide.library",39);
+    GadToolsBase = OpenLibrary("gadtools.library",39);
 
     /* Restore window pointer now that we've got our libraries */
 

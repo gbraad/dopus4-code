@@ -427,10 +427,12 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
         }
         nextfile=file->next;
 
-        if (!file->selected && !globflag) {
-            file=nextfile;
-            continue;
-        }
+        if ((!file->selected && !globflag) ||
+            (str_filter_parsed[0] && (LMatchPatternI(str_filter_parsed,file->name)==FALSE)))
+         {
+          file=nextfile;
+          continue;
+         }
 
         if (doicons && candoicon && !(isicon(file->name))) {
             StrCombine(oldiconname,file->name,".info",256);

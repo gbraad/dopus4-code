@@ -61,15 +61,15 @@ void showupdownslider()
 		DoArrow(rp,
 			x-2,ay[a],
 			config->sliderwidth+4,config->arrowsize[0]-2,
-			screen_pens[config->arrowfg].pen,screen_pens[config->arrowbg].pen,a);
+			screen_pens[(int)config->arrowfg].pen,screen_pens[(int)config->arrowbg].pen,a);
 		do3dbox(x-2,ay[a],config->sliderwidth+4,config->arrowsize[0]-2);
 	}
 
 	Do3DBox(rp,
 		x,y+1,
 		config->sliderwidth,height,
-		screen_pens[config->sliderbgcol].pen,screen_pens[config->sliderbgcol].pen);
-	SetAPen(rp,screen_pens[config->slidercol].pen);
+		screen_pens[(int)config->sliderbgcol].pen,screen_pens[(int)config->sliderbgcol].pen);
+	SetAPen(rp,screen_pens[(int)config->slidercol].pen);
 	RectFill(rp,x,y+1,x+config->sliderwidth-1,y+height);
 	do3dbox(x-2,y,config->sliderwidth+4,height+2);
 
@@ -113,15 +113,15 @@ void showleftrightslider()
 		DoArrow(rp,
 			ax[a],y-1,
 			config->arrowsize[1]+2,config->sliderheight+2,
-			screen_pens[config->arrowfg].pen,screen_pens[config->arrowbg].pen,3-a);
+			screen_pens[(int)config->arrowfg].pen,screen_pens[(int)config->arrowbg].pen,3-a);
 		do3dbox(ax[a],y-1,config->arrowsize[1]+2,config->sliderheight+2);
 	}
 
 	Do3DBox(rp,
 		x+2,y,
 		width,config->sliderheight,
-		screen_pens[config->sliderbgcol].pen,screen_pens[config->sliderbgcol].pen);
-	SetAPen(rp,screen_pens[config->slidercol].pen);
+		screen_pens[(int)config->sliderbgcol].pen,screen_pens[(int)config->sliderbgcol].pen);
+	SetAPen(rp,screen_pens[(int)config->slidercol].pen);
 	RectFill(rp,x+2,y,x+width+1,y+config->sliderheight-1);
 	do3dbox(x,y-1,width+4,config->sliderheight+2);
 
@@ -164,16 +164,16 @@ void showstringgadget()
 		DoArrow(rp,
 			ax[a],y-1,
 			config->arrowsize[2]+2,config->stringheight+2,
-			screen_pens[config->arrowfg].pen,screen_pens[config->arrowbg].pen,3-a);
+			screen_pens[(int)config->arrowfg].pen,screen_pens[(int)config->arrowbg].pen,3-a);
 		do3dbox(ax[a],y-1,config->arrowsize[2]+2,config->stringheight+2);
 	}
 
-	SetAPen(rp,screen_pens[config->stringbgcol].pen);
+	SetAPen(rp,screen_pens[(int)config->stringbgcol].pen);
 	RectFill(rp,x,y,x+width,y+config->stringheight-1);
 	Do3DStringBox(rp,
 		x,y,
 		width+1,config->stringheight,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+		screen_pens[(int)config->gadgettopcol].pen,screen_pens[(int)config->gadgetbotcol].pen);
 
 	SetAPen(rp,screen_pens[0].pen);
 	RectFill(rp,

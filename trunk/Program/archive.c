@@ -266,6 +266,12 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
      for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next) if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0) break;
      if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER,xfi->xfi_EntryNumber,XAD_OUTFILENAME,(ULONG)arcname,TAG_END)))
       {
+       struct DateStamp ds;
+
+       xadConvertDates(XAD_DATEXADDATE, (Tag)&xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag)&ds, TAG_END);
+       SetFileDate(arcname,&ds);
+       SetProtection(arcname,xfi->xfi_Protection);
+
        strcpy(str_arcorgname,file);
 D(bug("str_arcorgname set\n"));
        return TRUE;

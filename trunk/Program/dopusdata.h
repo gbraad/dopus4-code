@@ -62,6 +62,7 @@ extern struct Library *LocaleBase;               /* locale.library */
 extern struct muBase *muBase;                    /* multiuser.library */
 extern struct Library *DataTypesBase;            /* datatypes.library */
 extern struct Library *AmigaGuideBase;           /* amigaguide.library */
+extern struct Library *GadToolsBase;             /* gadtools.library */
 
 extern struct DosLibrary *DOSBase;               /* dos.library */
 extern struct ExecBase *SysBase;                 /* exec.library */

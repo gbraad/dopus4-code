@@ -141,6 +141,7 @@ void doidcmp()
             int got=0;
 
             while ((note=(struct NotifyMessage *)GetMsg(count_port))) {
+D(bug("DOS notification message\n"));
                 if (/*system_version2 &&*/ config->dynamicflags&UPDATE_NOTIFY) {
                     a=note->nm_NReq->nr_UserData;
                     ReplyMsg((struct Message *)note);
@@ -168,7 +169,7 @@ void doidcmp()
          {
           BOOL do_iconify;
 
-          while (snm = (struct ScreenNotifyMessage *) GetMsg(snm_port))
+          while ((snm = (struct ScreenNotifyMessage *) GetMsg(snm_port)))
            {
             do_iconify = FALSE;
             if (snm->snm_Type == SCREENNOTIFY_TYPE_WORKBENCH)

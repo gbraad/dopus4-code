@@ -6,9 +6,13 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (24.02.2002):
+4.17 (12.05.2002):
 - few hits removed
-- Parent on directory tree retrun to previous lister display
+- Files and dirs copied from a listed archive have their original datestamp
+and protection bits preserved
+- Filter works for selected files too
+- File viewer uses Gadtools for its GUI
+- Parent on directory tree returns to previous lister display
 - Query/Modify OutputCmd/OutputWindow Arexx commands work now
 - select pattern window allows selecting by file comment too.
 - viewer window will open even if it's coordinates do not match the screen

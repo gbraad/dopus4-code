@@ -970,19 +970,19 @@ STR_LISTER_MENU (//)
 Lister options
 ;
 STR_FILE_NAME (//)
-File name
+Name
 ;
 STR_FILE_SIZE (//)
-File size
+Size
 ;
 STR_PROTECTION_BITS (//)
-Protection bits
+Protection
 ;
 STR_CREATION_DATE (//)
-Creation date
+Timestamp
 ;
 STR_FILE_COMMENT (//)
-File comment
+Comment
 ;
 STR_FILE_TYPE (//)
 File type
@@ -1068,7 +1068,7 @@ STR_SORTBY (//)
 Sort by
 ;
 STR_NAMESORT_MENU (//)
-Filename sorting
+Name sorting
 ;
 STR_FILE_EXTENSION (//)
 Extension

@@ -1,4 +1,4 @@
- #ifndef DOPUS_VIEW_H
+#ifndef DOPUS_VIEW_H
 #define DOPUS_VIEW_H
 /*
 
@@ -29,11 +29,6 @@ The release of Directory Opus 4 under the GPL in NO WAY affects
 the existing commercial status of Directory Opus 5.
 
 */
-
-struct viewhilite {
-    struct viewhilite *next;
-    int x,y,x1,y1;
-};
 
 struct ViewData {
     int view_file_size;
@@ -85,7 +80,8 @@ struct ViewData {
     int view_display_right;
     int view_display_bottom;
     int view_display_height;
-    int view_scroll_bar;
+
+    APTR view_GTvi;
 
     struct viewhilite *view_first_hilite;
     struct viewhilite *view_current_hilite;
@@ -103,31 +99,5 @@ struct ViewData {
     struct VisInfo view_vis_info;
 };
 
-enum {
-    VIEW_SCROLLUP,
-    VIEW_SCROLLDOWN,
-    VIEW_PAGEUP,
-    VIEW_PAGEDOWN,
-    VIEW_GOTOP,
-    VIEW_GOBOTTOM,
-    VIEW_SEARCH,
-    VIEW_PRINT,
-    VIEW_QUIT,
-    VIEW_JUMPTOLINE,
-    VIEW_JUMPTOPERCENT,
-    VIEW_SCROLLGADGET,
-
-    VIEW_GADGET_COUNT};
-
-enum {
-    PEN_BACKGROUND,
-    PEN_SHADOW,
-    PEN_SHINE,
-    PEN_TEXT,
-    PEN_TEXTBACKGROUND,
-    VIEWPEN_STATUSTEXT,
-    VIEWPEN_STATUSBACKGROUND,
-    
-    VIEWPEN_LAST_COLOUR};
 #endif /* DOPUS_VIEW_H */
 

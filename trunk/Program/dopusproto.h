@@ -28,13 +28,13 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#ifdef __PPC__
-
-#define __saveds
-
 /* assembly.c */
 
+#ifdef __PPC__
 #define lsprintf sprintf
+#else
+void lsprintf (char *,char *,...);
+#endif
 /* void Keyhandler(void); */
 int countlines(struct ViewData *);
 int smartcountlines(struct ViewData *);
@@ -44,23 +44,6 @@ int getusage(void);
 void dprintf (char *,char *,...);
 int filteroff(void);
 void filteron(void);
-
-#else
-
-/* assembly */
-
-void lsprintf (char *,char *,...);
-/* void Keyhandler(void); */
-int countlines(register struct ViewData * __asm("a0"));
-int smartcountlines(register struct ViewData * __asm("a0"));
-int ansicountlines(register struct ViewData * __asm("a0"));
-void removetabs(register struct ViewData * __asm("a0"));
-int getusage(void);
-void dprintf (char *,char *,...);
-int filteroff(void);
-void filteron(void);
-
-#endif
 
 /* about.c */
 
@@ -595,37 +578,7 @@ void progressbar(int,int,int,int);
 /* view.c */
 
 int viewfile(char *,char *,int,char *,struct ViewData *,int,int);
-void __saveds view_file_process(void);
 void cleanupviewfile(struct ViewData *);
-void view_display(struct ViewData *,int,int);
-void view_displayall(struct ViewData *);
-void view_print(struct ViewData *,char *,int,int);
-void view_update_status(struct ViewData *);
-void view_pensrp(struct ViewData *);
-void view_penrp(struct ViewData *);
-void view_pageup(struct ViewData *);
-void view_pagedown(struct ViewData *);
-void view_gotop(struct ViewData *);
-void view_gobottom(struct ViewData *);
-void view_search(struct ViewData *,int);
-void view_busy(struct ViewData *);
-void view_unbusy(struct ViewData *);
-void view_doscroll(struct ViewData *,int,int);
-int view_lineup(struct ViewData *);
-int view_linedown(struct ViewData *);
-void view_status_text(struct ViewData *,char *);
-void view_printtext(struct ViewData *,int);
-void view_checkprint(struct ViewData *,int);
-void view_makeuphex(struct ViewData *,char *,unsigned char *,int);
-void view_togglescroll(struct ViewData *);
-void view_setupscreen(struct ViewData *);
-void view_viewhilite(struct ViewData *,int,int,int,int);
-void view_clearhilite(struct ViewData *,int);
-void view_fix_scroll_gadget(struct ViewData *);
-void view_clearsearch(struct ViewData *);
-//void view_readkeys(struct IOStdReq *,APTR);
-int view_simplerequest (struct ViewData *,char *,...);
-int view_whatsit(struct ViewData *,char *,int,char *);
 
 
 /* launchexternal.c */

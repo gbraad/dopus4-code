@@ -56,7 +56,7 @@ struct dopus_func_start *func;
         func->startup.wbstartup.sm_ArgList[arg].wa_Name=func->args[arg];
 
     strcpy(path,func->segname);
-    if (ptr=BaseName(path)) *ptr=0;
+    if ((ptr=BaseName(path))) *ptr=0;
 D(bug("start_external: Lock(%s)\n",path));
     if (!(func->startup.wbstartup.sm_ArgList[0].wa_Lock=Lock(path,ACCESS_READ)))
         return(0);
@@ -69,7 +69,7 @@ D(bug("start_external: Lock(%s)\n",path));
     if (!func->segment) {
 //        if (system_version2) {
             Forbid();
-            if (func->resseg=FindSegment(func->segname,NULL,0)) {
+            if ((func->resseg=FindSegment(func->segname,NULL,0))) {
 D(bug("Segment %s found\n",func->segname));
                 func->resseg->seg_UC++;
                 func->segment=func->resseg->seg_Seg;
@@ -214,7 +214,7 @@ void doconfig()
     Permit();
 
     FOREVER {
-        while (repmsg=(struct dopusconfigmsg *)GetMsg(conport)) {
+        while ((repmsg=(struct dopusconfigmsg *)GetMsg(conport))) {
             switch (repmsg->command) {
                 case CONFIG_ALL_DONE:
                     ReplyMsg((struct Message *)repmsg);
@@ -284,6 +284,7 @@ configdone:
       fixcstuff(&cstuff);
       CheckConfig(&cstuff);
       SetUp(2);
+      config_changed=1;
      }
     else
      {
@@ -362,7 +363,7 @@ D(bug("dopus_diskop: funcpath = %s\n",disk_data->funcpath));
             if (rexx) {
                 if ((disk_data->argcount+=rexx_argcount)>16) disk_data->argcount=16;
                 for (a=3;a<disk_data->argcount;a++) {
-                    if (disk_data->args[a]=LAllocRemember(&memkey,strlen(rexx_args[a-3])+1,0))
+                    if ((disk_data->args[a]=LAllocRemember(&memkey,strlen(rexx_args[a-3])+1,0)))
                         strcpy(disk_data->args[a],rexx_args[a-3]);
                 }
             }
@@ -413,7 +414,7 @@ void __saveds launch_diskop()
 
     disk_data=(struct DiskData *)(my_startup_message->data);
 
-    if (control_port=CreateUniquePort("DOPUS_DISK",portbuf,NULL)) {
+    if ((control_port=CreateUniquePort("DOPUS_DISK",portbuf,NULL))) {
         disk_func.segment=external_mod_segment[SEG_DISK];
         disk_func.procname=external_modules[SEG_DISK];
         disk_func.segname=disk_data->funcpath;
@@ -438,7 +439,7 @@ void __saveds launch_diskop()
 */
             FOREVER {
                 if (GetMsg(disk_func.replyport)) break;
-                while (dopusmsg=(struct DOpusMessage *)GetMsg(control_port)) {
+                while ((dopusmsg=(struct DOpusMessage *)GetMsg(control_port))) {
                     switch (dopusmsg->command) {
                         case DOPUSMSG_GETVIS:
                             fill_out_visinfo((struct VisInfo *)dopusmsg->data,screen);
@@ -451,7 +452,7 @@ void __saveds launch_diskop()
 
                                 drive=(char *)dopusmsg->data;
                                 if (drive && drive[0]) {
-                                    if (lock=Lock(drive,ACCESS_READ)) {
+                                    if ((lock=Lock(drive,ACCESS_READ))) {
                                         for (win=0;win<2;win++) {
                                             if (dopus_curwin[win]->realdevice[0] &&
                                                 (testlock=Lock(dopus_curwin[win]->realdevice,ACCESS_READ))) {
@@ -559,7 +560,7 @@ struct ViewData *vdata;
             struct DOpusMessage *dmsg;
             struct DOpusArgsList *arg;
 
-            while (dmsg=(struct DOpusMessage *)GetMsg(vdata->view_port)) {
+            while ((dmsg=(struct DOpusMessage *)GetMsg(vdata->view_port))) {
                 switch (dmsg->command) {
                     case DOPUSMSG_GETVIS:
                         CopyMem((char *)&vdata->view_vis_info,(char *)dmsg->data,

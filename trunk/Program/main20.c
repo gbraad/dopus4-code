@@ -132,6 +132,7 @@ D(bug("Freeing special dirs\n"));
     CloseLibrary(LocaleBase);
     CloseLibrary(DataTypesBase);
     CloseLibrary(AmigaGuideBase);
+    CloseLibrary(GadToolsBase);
 
     /*if (DOpusBase)*/ CloseLibrary((struct Library *) DOpusBase);
 

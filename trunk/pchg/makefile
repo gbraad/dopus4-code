@@ -1,4 +1,4 @@
-CC = gcc
+CC = m68k-amigaos-gcc
 ASM = Work:Dev/PhxAss/PhxAss
 ASMOPTS = INCPATH Include: MACHINE=68020 SYMDEBUG SD 4
 

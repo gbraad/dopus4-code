@@ -34,22 +34,39 @@ the existing commercial status of Directory Opus 5.
 #include <newmouse.h>
 //#include <proto/powerpacker.h>
 #include <proto/xfdmaster.h>
+#include <proto/gadtools.h>
 
-static struct NewWindow
-  viewwin={
-    0,0,0,0,
-    255,255,
-    IDCMP_RAWKEY|IDCMP_VANILLAKEY|IDCMP_MOUSEBUTTONS|IDCMP_GADGETUP|
-      IDCMP_GADGETDOWN|IDCMP_INACTIVEWINDOW|IDCMP_ACTIVEWINDOW|IDCMP_MOUSEMOVE,
-    WFLG_BORDERLESS|WFLG_RMBTRAP,
-    NULL,NULL,NULL,NULL,NULL,0,0,0,0,CUSTOMSCREEN},
-  ansiread_win={
-    0,0,0,0,
-    255,255,
-    0,
-    WFLG_BORDERLESS|WFLG_BACKDROP,
-    NULL,NULL,NULL,NULL,NULL,
-    0,0,0,0,CUSTOMSCREEN};
+void __saveds view_file_process(void);
+int view_loadfile(struct ViewData *);
+int view_idcmp(struct ViewData *);
+void view_display(struct ViewData *,int,int);
+void view_displayall(struct ViewData *);
+void view_print(struct ViewData *,char *,int,int);
+void view_update_status(struct ViewData *);
+//void view_pensrp(struct ViewData *);
+//void view_penrp(struct ViewData *);
+void view_pageup(struct ViewData *);
+void view_pagedown(struct ViewData *);
+void view_gotop(struct ViewData *);
+void view_gobottom(struct ViewData *);
+void view_search(struct ViewData *,int);
+void view_busy(struct ViewData *);
+void view_unbusy(struct ViewData *);
+void view_doscroll(struct ViewData *,int,int);
+int view_lineup(struct ViewData *);
+int view_linedown(struct ViewData *);
+void view_status_text(struct ViewData *,char *);
+void view_printtext(struct ViewData *,int);
+void view_checkprint(struct ViewData *,int);
+void view_makeuphex(struct ViewData *,char *,unsigned char *,int);
+void view_togglescroll(struct ViewData *);
+int view_setupdisplay(struct ViewData *);
+void view_viewhilite(struct ViewData *,int,int,int,int);
+void view_clearhilite(struct ViewData *,int);
+void view_fix_scroll_gadget(struct ViewData *);
+void view_clearsearch(struct ViewData *);
+int view_simplerequest (struct ViewData *,char *,...);
+int view_whatsit(struct ViewData *,char *,int,char *);
 
 struct ViewMessage {
   char *filename;
@@ -59,6 +76,50 @@ struct ViewMessage {
   struct ViewData *viewdata;
   BOOL deleteonexit;
 };
+
+struct viewhilite {
+    struct viewhilite *next;
+    int x,y,x1,y1;
+};
+
+enum {
+    PEN_BACKGROUND,
+    PEN_SHADOW,
+    PEN_SHINE,
+    PEN_TEXT,
+    PEN_TEXTBACKGROUND,
+    VIEWPEN_STATUSTEXT,
+    VIEWPEN_STATUSBACKGROUND,
+
+    VIEWPEN_LAST_COLOUR};
+
+enum {
+    VIEW_SCROLLGADGET,
+    VIEW_PAGEUP,
+    VIEW_PAGEDOWN,
+    VIEW_GOTOP,
+    VIEW_GOBOTTOM,
+    VIEW_SEARCH,
+    VIEW_PRINT,
+    VIEW_QUIT,
+    VIEW_JUMPTOPERCENT,
+    VIEW_JUMPTOPERCENTNUM,
+    VIEW_JUMPTOLINE,
+    VIEW_JUMPTOLINE1,
+    VIEW_JUMPTOLINE2,
+    VIEW_LINECOUNT,
+    VIEW_FILENAME,
+
+    VIEW_GAD_COUNT};
+
+static struct NewWindow viewwin={
+    0,0,0,0,
+    255,255,
+    IDCMP_RAWKEY | IDCMP_VANILLAKEY | IDCMP_MOUSEBUTTONS | IDCMP_GADGETUP | IDCMP_GADGETDOWN | /*IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW |*/ IDCMP_MOUSEMOVE,
+    0,
+    NULL,NULL,NULL,NULL,NULL,0,0,0,0,CUSTOMSCREEN};
+
+static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
 
 int viewfile(filename,name,function,initialsearch,viewdata,wait,noftype)
 char *filename,*name;
@@ -112,23 +173,10 @@ D(bug("viewfile(%s,%s,%ld,%s,%lx,%ld,%ld)\n",filename?filename:"<NULL>",name?nam
 
 void __saveds view_file_process()
 {
-  int a,b,c,in,/*err,*/size,/*old_file_size,old_buffer_size,*/fsize,retcode=100;
-  short
-    scroll_speed,
-    scroll_pos_1,
-    scroll_pos_2,
-    scroll_pos_3,
-    scroll_pos_4,
-    scroll_pos_5,
-    scroll_pos_6,
-    scroll_pos_7;
-  ULONG class;
-  USHORT code,qual,gadgetid;
+  int a,size,retcode=100;
   char buf[60];
   struct ConUnit *view_console_unit=NULL;
   struct ViewData *vdata = NULL;
-  struct Gadget *gadget;
-  struct IntuiMessage *msg;
   struct Process *my_process;
   struct ArbiterMessage *my_startup_message;
   struct ViewMessage *view_msg;
@@ -137,8 +185,6 @@ void __saveds view_file_process()
   char *initialsearch;
   struct ViewData *viewdata;
   struct MsgPort *view_port;
-  struct IOStdReq *view_req=NULL;
-//  UBYTE key_matrix[13];
   char portname[20],titlebuf[300];
 
   my_process=(struct Process *)FindTask(NULL);
@@ -159,607 +205,369 @@ void __saveds view_file_process()
   }
   Permit();
 
-  if (!(view_port=LCreatePort(portname,0))) goto view_end;
-  if ((view_req=(struct IOStdReq *)LCreateExtIO(view_port,sizeof(struct IOStdReq)))) {
-    if (OpenDevice("keyboard.device",0,(struct IORequest *)view_req,0)) {
-      LDeleteExtIO((struct IORequest *)view_req);
-      view_req=NULL;
-      goto view_end;
-    }
-  }
-
-  if (CheckExist(filename,&size)>=0) {
-    retcode=-2;
-    goto view_end;
-  }
-  if (size<1) {
-    retcode=-3;
-    goto view_end;
-  }
-
-  if (viewdata)
+  if ((view_port=LCreatePort(portname,0)))
    {
-    vdata=viewdata;
-D(bug("external vdata: %lX\n",vdata));
-   }
-  else {
-    if (!(vdata=AllocMem(sizeof(struct ViewData),MEMF_CLEAR))) {
-      retcode=-4;
-      goto view_end;
-    }
-D(bug("internal vdata: %lX (%ld bytes)\n",vdata,sizeof(struct ViewData)));
-  }
-  strcpy(vdata->view_port_name,portname);
-  vdata->view_port=view_port;
-  vdata->view_file_size=size;
-
-  view_clearsearch(vdata);
-
-  vdata->view_search_string[0]=
-    vdata->view_scroll_dir=
-    vdata->view_scroll=
-    vdata->view_last_line=
-    vdata->view_last_charpos=0;
-  vdata->view_last_char=NULL;
-  vdata->view_first_hilite=
-    vdata->view_current_hilite=NULL;
-  vdata->view_search_flags=search_flags;
-
-  if (vdata->view_window) {
-    Forbid();
-    vdata->view_window->UserPort->mp_SigTask=(void *)my_process;
-    Permit();
-  }
-  else {
-    short scr_pens[ARB_PEN_LASTPEN];
-
-    vdata->view_colour_table[PEN_BACKGROUND]=0;
-    vdata->view_colour_table[PEN_SHADOW]=config->gadgetbotcol;
-    vdata->view_colour_table[PEN_SHINE]=config->gadgettopcol;
-    vdata->view_colour_table[PEN_TEXT]=1;
-    vdata->view_colour_table[PEN_TEXTBACKGROUND]=0;
-    vdata->view_colour_table[VIEWPEN_STATUSTEXT]=config->statusfg;
-    vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]=config->statusbg;
-    vdata->view_colour_table[VIEWPEN_LAST_COLOUR]=-1;
-
-    if (config->statusbg==0) {
-      scr_pens[ARB_PEN_DETAIL]=config->statusbg;
-      scr_pens[ARB_PEN_BLOCK]=config->statusfg;
-    }
-    else {
-      scr_pens[ARB_PEN_DETAIL]=config->statusfg;
-      scr_pens[ARB_PEN_BLOCK]=config->statusbg;
-    }
-
-    if ( !( config->viewbits & VIEWBITS_INWINDOW ) ) if (!(vdata->view_screen= //HUX
-      open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE],
-         scr_font[FONT_TEXT],&vdata->view_memory,
-        /*(system_version2)?*/NULL/*:scr_pens*/)) ||
-        !(vdata->view_font=OpenFont(vdata->view_screen->Font))) {
-      retcode=-4;
-      goto view_end;
-    }
-
-    if ( config->viewbits & VIEWBITS_INWINDOW ) //HUX
+    if (CheckExist(filename,&size)<0)
      {
-      vdata->view_font = scr_font[FONT_TEXT];
-// HUX: begin
-      if ( config->viewtext_topleftx < 0 ) viewwin.LeftEdge = 0;
-      else viewwin.LeftEdge = config->viewtext_topleftx;
-
-      if ( config->viewtext_toplefty < 0 ) viewwin.TopEdge = 0;
-      else viewwin.TopEdge = config->viewtext_toplefty;
-
-      if ( config->viewtext_width <= 0 ) viewwin.Width = Window->WScreen->Width + config->viewtext_width; // The value is negative;//MainScreen->Width
-      else viewwin.Width = config->viewtext_width;
-      if ( viewwin.Width < 50 ) viewwin.Width = 50;
-
-      if ( config->viewtext_height <= 0 ) viewwin.Height = Window->WScreen->Height + config->viewtext_height; // The value is negative //MainScreen->Height
-      else viewwin.Height = config->viewtext_height;
-      if ( viewwin.Height < 50 ) viewwin.Height = 50;
-// HUX: end
-      viewwin.Flags |= WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET | WFLG_NOCAREREFRESH;
-      viewwin.Flags &= ~(WFLG_BORDERLESS /*| WFLG_RMBTRAP*/);
-      viewwin.IDCMPFlags |= IDCMP_CLOSEWINDOW;
-//      if (vdata->view_vis_info.vi_flags&VISF_WINDOW) viewwin.Screen = (struct Screen *)vdata->view_window;
-//      else viewwin.Screen = LockPubScreen(NULL);
-            viewwin.Screen = Window->WScreen;// HUX
-     }
-    else
-     {
-// HUX: begin
-          viewwin.Flags = WFLG_BORDERLESS | WFLG_RMBTRAP;
-      viewwin.IDCMPFlags = IDCMP_RAWKEY | IDCMP_VANILLAKEY |
-          IDCMP_MOUSEBUTTONS | IDCMP_GADGETUP | IDCMP_GADGETDOWN |
-          IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW |
-          IDCMP_MOUSEMOVE;
-// HUX: end
-      viewwin.TopEdge=vdata->view_screen->BarHeight+2;
-      viewwin.Width=vdata->view_screen->Width;
-      viewwin.Height=vdata->view_screen->Height-(vdata->view_screen->BarHeight+2);
-      viewwin.Screen=vdata->view_screen;
-     }
-    viewwin.BlockPen=vdata->view_colour_table[PEN_SHINE];
-
-    if (!(vdata->view_gadgets=LAllocRemember(&vdata->view_memory,
-        sizeof(struct Gadget)*VIEW_GADGET_COUNT,MEMF_CLEAR)) ||
-      (!(vdata->view_window=OpenWindowTags(&viewwin,WA_AutoAdjust,TRUE,TAG_END)))) {
-//      if (viewonwb) /*if (!(vdata->view_vis_info.vi_flags&VISF_WINDOW))*/ UnlockPubScreen(NULL,viewwin.Screen);
-//      else CloseScreen(vdata->view_screen);
-      if ( !( config->viewbits & VIEWBITS_INWINDOW ) ) CloseScreen(vdata->view_screen); //HUX
-      LFreeRemember(&vdata->view_memory);
-      if (!viewdata) FreeMem(vdata,sizeof(struct ViewData));
-      retcode=-4;
-      goto view_end;
-    }
-D(bug("view gads: %lX (%ld bytes)\n",vdata->view_gadgets,sizeof(struct Gadget)*VIEW_GADGET_COUNT));
-
-    vdata->view_screen = vdata->view_window->WScreen;
-    vdata->view_rastport=vdata->view_window->RPort;
-
-    if ( config->viewbits & VIEWBITS_INWINDOW ) //HUX
-     {
-//      UnlockPubScreen(NULL,vdata->view_screen);
-      SetFont(vdata->view_rastport,vdata->view_font);
-     }
-
-    vdata->view_vis_info.vi_fg=vdata->view_colour_table[VIEWPEN_STATUSTEXT];
-    vdata->view_vis_info.vi_bg=vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
-    vdata->view_vis_info.vi_shine=vdata->view_colour_table[PEN_SHINE];
-    vdata->view_vis_info.vi_shadow=vdata->view_colour_table[PEN_SHADOW];
-
-    vdata->view_vis_info.vi_stringcol[0]=vdata->view_colour_table[PEN_TEXT];
-    vdata->view_vis_info.vi_stringcol[1]=vdata->view_colour_table[PEN_TEXTBACKGROUND];
-    vdata->view_vis_info.vi_activestringcol[0]=vdata->view_colour_table[PEN_TEXT];
-    vdata->view_vis_info.vi_activestringcol[1]=vdata->view_colour_table[PEN_TEXTBACKGROUND];
-
-    if ((vdata->view_window->UserData=LAllocRemember(&vdata->view_memory,SEARCH_COLOURS,0))) {
-D(bug("view userdata: %lX (%ld bytes)\n",vdata->view_window->UserData,SEARCH_COLOURS));
-      vdata->view_window->UserData[SEARCH_COL_FG]=
-        vdata->view_colour_table[VIEWPEN_STATUSTEXT];
-      vdata->view_window->UserData[SEARCH_COL_BG]=
-        vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
-      vdata->view_window->UserData[SEARCH_COL_SHINE]=
-        vdata->view_colour_table[PEN_SHINE];
-      vdata->view_window->UserData[SEARCH_COL_SHADOW]=
-        vdata->view_colour_table[PEN_SHADOW];
-      vdata->view_window->UserData[SEARCH_COL_STRINGFG]=
-        vdata->view_colour_table[PEN_TEXT];
-      vdata->view_window->UserData[SEARCH_COL_STRINGBG]=
-        vdata->view_colour_table[PEN_TEXTBACKGROUND];
-      vdata->view_window->UserData[SEARCH_COL_STRINGSELFG]=
-        vdata->view_colour_table[PEN_TEXT];
-      vdata->view_window->UserData[SEARCH_COL_STRINGSELBG]=
-        vdata->view_colour_table[PEN_TEXTBACKGROUND];
-    }
-
-    vdata->view_vis_info.vi_font=vdata->view_font;
-    if (vdata->view_vis_info.vi_flags&VISF_WINDOW)
-      vdata->view_vis_info.vi_screen=(struct Screen *)vdata->view_window;
-    else vdata->view_vis_info.vi_screen=vdata->view_screen;
-
-    if (config->generalscreenflags&SCR_GENERAL_REQDRAG)
-      vdata->view_vis_info.vi_flags|=VISF_BORDERS;
-
-    vdata->view_vis_info.vi_language=config->language;
-
-    vdata->view_status_bar_ypos=vdata->view_window->Height-(vdata->view_font->tf_YSize+1);
-    if ( config->viewbits & VIEWBITS_INWINDOW ) vdata->view_status_bar_ypos -= vdata->view_window->BorderBottom; //HUX
-
-    if ((config->viewbits&VIEWBITS_TEXTBORDERS) /*|| viewonwb*/) {
-
-      vdata->view_display_left = 2;
-      vdata->view_display_top  = 2;
-      vdata->view_display_right = vdata->view_window->Width-20;
-      if ( config->viewbits & VIEWBITS_INWINDOW ) //HUX
+      if (size>0)
        {
-        vdata->view_display_left  += vdata->view_window->BorderLeft;
-        vdata->view_display_top   += vdata->view_window->BorderTop;
-        vdata->view_display_right -= vdata->view_window->BorderRight;
-       }
-      vdata->view_display_bottom = vdata->view_status_bar_ypos-3;
-
-      vdata->view_lines_per_screen=(vdata->view_display_bottom - vdata->view_display_top)/vdata->view_font->tf_YSize;
-
-      Do3DBox(vdata->view_rastport,vdata->view_display_left,vdata->view_display_top-1,
-        (vdata->view_display_right-vdata->view_display_left)+2,
-        vdata->view_display_bottom-vdata->view_display_top+2,
-        vdata->view_colour_table[PEN_SHINE],
-        vdata->view_colour_table[PEN_SHADOW]);
-
-      vdata->view_gadgets[VIEW_SCROLLGADGET].LeftEdge=vdata->view_display_right+8;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].TopEdge=vdata->view_display_top;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].Height=vdata->view_display_bottom-vdata->view_display_top;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].Width=8;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].Flags=GFLG_GADGHNONE;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].Activation=
-        GACT_IMMEDIATE|GACT_RELVERIFY|GACT_FOLLOWMOUSE;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].GadgetType=GTYP_PROPGADGET;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].GadgetRender=
-        (APTR)&vdata->view_prop_image;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].SpecialInfo=
-        (APTR)&vdata->view_prop_info;
-      vdata->view_gadgets[VIEW_SCROLLGADGET].GadgetID=VIEW_SCROLLGADGET;
-
-      vdata->view_prop_info.Flags=AUTOKNOB|FREEVERT|PROPNEWLOOK|PROPBORDERLESS;
-      vdata->view_prop_info.VertBody=MAXBODY;
-
-      AddGList(vdata->view_window,&vdata->view_gadgets[VIEW_SCROLLGADGET],-1,1,NULL);
-      RefreshGList(&vdata->view_gadgets[VIEW_SCROLLGADGET],vdata->view_window,NULL,1);
-      Do3DBox(vdata->view_rastport,
-        vdata->view_gadgets[VIEW_SCROLLGADGET].LeftEdge-2,
-        vdata->view_gadgets[VIEW_SCROLLGADGET].TopEdge-1,
-        vdata->view_gadgets[VIEW_SCROLLGADGET].Width+4,
-        vdata->view_gadgets[VIEW_SCROLLGADGET].Height+2,
-        vdata->view_colour_table[PEN_SHINE],
-        vdata->view_colour_table[PEN_SHADOW]);
-
-      vdata->view_scroll_bar=1;
-    }
-    else {
-      vdata->view_display_left = vdata->view_display_top = 0;
-      vdata->view_display_right = vdata->view_window->Width-1;
-      if ( config->viewbits & VIEWBITS_INWINDOW ) //HUX
-       {
-        vdata->view_display_left  += vdata->view_window->BorderLeft;
-        vdata->view_display_top   += vdata->view_window->BorderTop;
-        vdata->view_display_right -= vdata->view_window->BorderRight;
-       }
-      vdata->view_lines_per_screen=(vdata->view_status_bar_ypos-vdata->view_display_top-1)/vdata->view_font->tf_YSize;
-
-      vdata->view_display_bottom=vdata->view_display_top+
-        (vdata->view_lines_per_screen*vdata->view_font->tf_YSize)-1;
-    }
-
-    vdata->view_display_height=vdata->view_lines_per_screen*vdata->view_font->tf_YSize;
-
-    for (a=9;a<11;a++) {
-      vdata->view_gadgets[a].TopEdge=vdata->view_status_bar_ypos;
-      vdata->view_gadgets[a].Width=vdata->view_font->tf_XSize*((a==9)?6:4);
-      vdata->view_gadgets[a].Height=vdata->view_font->tf_YSize;
-      vdata->view_gadgets[a].Flags=GFLG_GADGHCOMP;
-      vdata->view_gadgets[a].Activation=GACT_RELVERIFY;
-      vdata->view_gadgets[a].GadgetType=GTYP_BOOLGADGET;
-      vdata->view_gadgets[a].GadgetID=a;
-    }
-
-    vdata->view_gadgets[VIEW_JUMPTOLINE].NextGadget=&vdata->view_gadgets[VIEW_JUMPTOPERCENT];
-    a = vdata->view_window->Width-( ( config->viewbits & VIEWBITS_INWINDOW )?vdata->view_window->BorderRight:0); //HUX
-    vdata->view_gadgets[VIEW_JUMPTOLINE].LeftEdge=a-((vdata->view_font->tf_XSize*49)+14);
-    vdata->view_gadgets[VIEW_JUMPTOPERCENT].LeftEdge=a-((vdata->view_font->tf_XSize*22)+14);
-
-    view_setupscreen(vdata);
-    AddGadgetBorders(&vdata->view_memory,
-      vdata->view_gadgets,9,
-      vdata->view_colour_table[PEN_SHINE],vdata->view_colour_table[PEN_SHADOW]);
-    AddGList(vdata->view_window,vdata->view_gadgets,-1,11,NULL);
-  }
-
-  vdata->view_char_width=((vdata->view_display_right-vdata->view_display_left)+1)/
-    vdata->view_font->tf_XSize;
-
-  if (function==FUNC_HEXREAD) {
-    vdata->view_char_width=(vdata->view_char_width>62)?62:vdata->view_char_width;
-    vdata->view_max_line_length=16;
-  }
-  else vdata->view_max_line_length=vdata->view_char_width+1;
-
-D(bug("charwidth: %ld\n",vdata->view_max_line_length));
-  a=vdata->view_window->Height/8;
-  scroll_pos_1=a;
-  scroll_pos_2=a*2;
-  scroll_pos_3=a*3;
-  scroll_pos_4=a*4;
-  scroll_pos_5=a*5;
-  scroll_pos_6=a*6;
-  scroll_pos_7=a*7;
-
-  vdata->view_display_as_hex=(function==FUNC_HEXREAD);
-
-//  view_busy(vdata);
-  ActivateWindow(vdata->view_window);
-
-  view_status_text(vdata,globstring[STR_READING_FILE]);
-//tryload: // HUX this label is not used
-  if (vdata->view_file_size>16) {
-     if ((vdata->view_file_size&15)==0)
-       vdata->view_buffer_size=vdata->view_file_size+16;
-     else vdata->view_buffer_size=((vdata->view_file_size>>4)+1)<<4;
-
-     for (a=0;a<2;a++) {
-       if ((vdata->view_text_buffer=AllocMem(vdata->view_buffer_size,MEMF_ANY)))
-         break;
-       view_status_text(vdata,globstring[STR_NO_MEMORY_TO_DECRUNCH]);
-       if ((vdata->view_buffer_size=AvailMem(MEMF_PUBLIC|MEMF_LARGEST))<16)
-         break;
-       if (vdata->view_buffer_size<=vdata->view_file_size)
-         vdata->view_file_size=vdata->view_buffer_size;
-     }
-     if (!vdata->view_text_buffer) goto cleanup;
-D(bug("view textbuf: %lX (%ld bytes)\n",vdata->view_text_buffer,vdata->view_buffer_size));
-     if (!(in=Open(filename,MODE_OLDFILE))) goto cleanup;
-     {
-      char *bufpos;
-      int chunk,done,stop=0;
-      struct IntuiMessage *imsg;
-      int class, code;
-
-      bufpos = vdata->view_text_buffer;
-      chunk = 64*1024;
-      for(done = 0; (done < vdata->view_file_size) && !stop;)
-       {
-        if ((done + chunk) > vdata->view_file_size) chunk = vdata->view_file_size - done;
-        fsize=Read(in,bufpos,chunk);
-        while ((imsg = (struct IntuiMessage *)GetMsg(vdata->view_window->UserPort)))
+        if (viewdata)
          {
-          class = imsg->Class;
-          code = imsg->Code;
-          ReplyMsg((struct Message *)imsg);
-          if ((class == IDCMP_MOUSEBUTTONS) && (code == MENUDOWN))
-           {
-D(bug("*** USER BREAK ***\t%ld (0x%lx) bytes read\n",done+fsize,done+fsize));
-//      Close(in);
-//      goto cleanup;
-      stop = 1;
-           }
+          vdata=viewdata;
+
+          vdata->view_search_string[0]=
+            vdata->view_scroll_dir=
+            vdata->view_scroll=
+            vdata->view_last_line=
+            vdata->view_last_charpos=
+            vdata->view_text_offset=
+            vdata->view_old_offset=
+            vdata->view_line_count=
+            vdata->view_top_buffer_pos=
+            vdata->view_bottom_buffer_pos=0;
+
+          vdata->view_last_char=NULL;
+
+          vdata->view_first_hilite=
+            vdata->view_current_hilite=NULL;
+D(bug("external vdata:\n"));
          }
-        if (fsize <= 0) break;
-        bufpos += fsize;
-        done += fsize;
-        fsize = done;
-       }
-     }
-     if ((vdata->view_buffer_size!=vdata->view_file_size) ||
-       ((fsize>-1) && (fsize!=vdata->view_file_size))) vdata->view_file_size=fsize;
-     Close(in);
-D(bug("view_file_size=%ld\n",fsize));
-     if (fsize==-1) goto cleanup;
-     view_busy(vdata);
-     if (OpenXFDlib())
-      {
-       struct xfdBufferInfo *xfdbi;
+        else
+         {
+          if (!(vdata=AllocMem(sizeof(struct ViewData),MEMF_CLEAR))) retcode=-4;
+D(bug("internal vdata:\n"));
+         }
+        if (vdata)
+         {
+D(KDump(vdata,sizeof(*vdata)));
+          strcpy(vdata->view_port_name,portname);
+          vdata->view_port=view_port;
+          vdata->view_file_size=size;
+          vdata->view_file_name=name;
+          vdata->view_path_name=filename;
+          vdata->view_tab_size=config->tabsize;
 
-       if ((xfdbi = xfdAllocObject(XFDOBJ_BUFFERINFO)))
-        {
-         xfdbi->xfdbi_SourceBuffer = vdata->view_text_buffer;
-         xfdbi->xfdbi_SourceBufLen = vdata->view_file_size;
-//         xfdbi->xfdbi_Flags = XFDFB_RECOGEXTERN;
-         if (xfdRecogBuffer(xfdbi))
-          {
-           xfdbi->xfdbi_TargetBufMemType = MEMF_ANY;
-           if (xfdDecrunchBuffer(xfdbi))
-            {
-             FreeMem(xfdbi->xfdbi_SourceBuffer,vdata->view_buffer_size);
-             vdata->view_text_buffer = xfdbi->xfdbi_TargetBuffer;
-             vdata->view_buffer_size = xfdbi->xfdbi_TargetBufLen;
-             vdata->view_file_size   = xfdbi->xfdbi_TargetBufSaveLen;
-            }
-           else view_status_text(vdata,globstring[STR_NO_MEMORY_TO_DECRUNCH]);
+          view_clearsearch(vdata);
+          vdata->view_search_flags=search_flags;
+
+          if (vdata->view_window) {
+            Forbid();
+            vdata->view_window->UserPort->mp_SigTask=(void *)my_process;
+            Permit();
           }
-         xfdFreeObject(xfdbi);
-        }
-      }
-     vdata->view_last_char=vdata->view_text_buffer+vdata->view_buffer_size-16;
-     vdata->view_last_charpos=vdata->view_file_size-
-       (vdata->view_last_char-vdata->view_text_buffer);
+          else {
+            retcode = view_setupdisplay(vdata);
+            if (retcode) goto view_end;
+          }
+
+          lsprintf(titlebuf,"%s - \"%s\"",globstring[STR_FILE],vdata->view_path_name);
+          if (config->viewbits & VIEWBITS_INWINDOW) SetWindowTitles(vdata->view_window,titlebuf,"Directory Opus Reader"); //HUX
+          else SetWindowTitles(vdata->view_window,(char *)-1,titlebuf);
+
+//          view_busy(vdata);
+          ActivateWindow(vdata->view_window);
+
+          vdata->view_char_width=((vdata->view_display_right-vdata->view_display_left)+1)/vdata->view_font->tf_XSize;
+
+          if (function==FUNC_HEXREAD) {
+            vdata->view_char_width=(vdata->view_char_width>62)?62:vdata->view_char_width;
+            vdata->view_max_line_length=16;
+            vdata->view_display_as_hex=1;
+          }
+          else {
+            vdata->view_max_line_length=vdata->view_char_width+1;
+            vdata->view_display_as_hex=0;
+          }
+D(bug("max_line_length: %ld\n",vdata->view_max_line_length));
+
+          view_status_text(vdata,globstring[STR_READING_FILE]);
+
+          if (view_loadfile(vdata))
+           {
+            vdata->view_last_char=vdata->view_text_buffer+vdata->view_buffer_size-16;
+            vdata->view_last_charpos=vdata->view_file_size-(vdata->view_last_char-vdata->view_text_buffer);
+
+            view_status_text(vdata,globstring[STR_COUNTING_LINES]);
+
+            if (function==FUNC_SMARTREAD) {
+              if ((vdata->view_line_count=smartcountlines(vdata))==-1) {
+                vdata->view_display_as_hex=1;
+                vdata->view_max_line_length=16;
+                vdata->view_char_width=62;
+              }
+              else if (vdata->view_line_count==-2) function=FUNC_ANSIREAD;
+//              else removetabs(vdata);
+            }
+
+            if (function==FUNC_ANSIREAD) {
+              vdata->view_line_count=ansicountlines(vdata);
+            }
+            else {
+              if (vdata->view_display_as_hex) {
+//                vdata->view_file_size=vdata->view_buffer_size;
+                vdata->view_line_count=vdata->view_file_size/16;
+                if (vdata->view_file_size<16) {
+                  vdata->view_line_count=1;
+                }
+                else if (vdata->view_file_size%16!=0) {
+                  ++vdata->view_line_count;
+                }
+              }
+              else {
+                vdata->view_line_count=countlines(vdata);
+              }
+            }
+            vdata->view_last_line=vdata->view_line_count-vdata->view_lines_per_screen;
+            if (vdata->view_last_line<0) vdata->view_last_line=0;
+
+            if (config->viewbits & VIEWBITS_TEXTBORDERS)
+             {
+D(bug("linecount = %ld\n",vdata->view_line_count));
 /*
-    if (!PPBase ||
-      (err=ppLoadData(filename,DECR_POINTER,MEMF_CLEAR,
-        (UBYTE **)&vdata->view_text_buffer,&size,NULL))==PP_UNKNOWNPP)
-      goto readnormal;
-
-    old_file_size=vdata->view_file_size;
-    old_buffer_size=vdata->view_buffer_size;
-
-    vdata->view_file_size=vdata->view_buffer_size=size;
-
-    if ((size%16)==0) size+=16;
-    else size=((vdata->view_file_size/16)+1)*16;
-
-    vdata->view_last_char=vdata->view_text_buffer+size-16;
-    vdata->view_last_charpos=vdata->view_file_size-
-      (vdata->view_last_char-vdata->view_text_buffer);
-
-    if (err) {
-      vdata->view_text_buffer=NULL;
-      vdata->view_file_size=0;
-
-      if (err==PP_NOMEMORY) {
-        view_status_text(vdata,globstring[STR_NO_MEMORY_TO_DECRUNCH]);
-        vdata->view_file_size=old_file_size;
-        vdata->view_buffer_size=old_buffer_size;
-        goto readnormal;
-      }
-      else if (err==PP_PASSERR) {
-        view_status_text(vdata,globstring[STR_BAD_PASSWORD]);
-        view_simplerequest(vdata,globstring[STR_BAD_PASSWORD],globstring[STR_CONTINUE],NULL);
-        goto cleanup;
-      }
-      else {
-readnormal:
-        if (!(in=Open(filename,MODE_OLDFILE))) goto cleanup;
-        if ((vdata->view_file_size%16)==0)
-          vdata->view_buffer_size=vdata->view_file_size+16;
-        else vdata->view_buffer_size=((vdata->view_file_size/16)+1)*16;
-
-        for (a=0;a<2;a++) {
-          if (vdata->view_text_buffer=AllocMem(vdata->view_buffer_size,MEMF_CLEAR))
-            break;
-          if ((vdata->view_buffer_size=AvailMem(MEMF_PUBLIC|MEMF_LARGEST))<16)
-            break;
-          if (vdata->view_buffer_size<=vdata->view_file_size)
-            vdata->view_file_size=vdata->view_buffer_size;
-        }
-        if (!vdata->view_text_buffer) {
-          Close(in);
-          goto cleanup;
-        }
-
-        fsize=Read(in,vdata->view_text_buffer,vdata->view_file_size);
-
-        if (vdata->view_buffer_size!=vdata->view_file_size &&
-          fsize>-1 && fsize!=vdata->view_file_size) vdata->view_file_size=fsize;
-
-        Close(in);
-        if (fsize==-1) goto cleanup;
-        vdata->view_last_char=vdata->view_text_buffer+vdata->view_buffer_size-16;
-        vdata->view_last_charpos=vdata->view_file_size-
-          (vdata->view_last_char-vdata->view_text_buffer);
-      }
-    }
+              a = vdata->view_line_count>>15;
+              a++;
+              GT_SetGadgetAttrs(viewGadgets[VIEW_SCROLLGADGET],vdata->view_window,NULL,
+                GTSC_Top, 0,
+                GTSC_Total, vdata->view_line_count/a,
+                GTSC_Visible, vdata->view_lines_per_screen/a,
+                TAG_END);
 */
-  }
-  else {
-    vdata->view_buffer_size=16;
-    if (!(in=Open(filename,MODE_OLDFILE))) goto cleanup;
-    if (!(vdata->view_text_buffer=AllocMem(16,MEMF_CLEAR))) {
-      Close(in);
-      goto cleanup;
-    }
-    vdata->view_file_size=Read(in,vdata->view_text_buffer,16);
-    Close(in);
-    vdata->view_last_char=vdata->view_text_buffer;
-    vdata->view_last_charpos=vdata->view_file_size;
-  }
+              GT_SetGadgetAttrs(viewGadgets[VIEW_LINECOUNT],vdata->view_window,NULL,
+                  GTNM_Number,vdata->view_line_count,
+                  TAG_END);
+              view_update_status(vdata);
+              view_status_text(vdata,name);
+             }
 
-  vdata->view_text_offset=
-    vdata->view_old_offset=
-    vdata->view_line_count=
-    vdata->view_top_buffer_pos=
-    vdata->view_bottom_buffer_pos=0;
+            if (function==FUNC_ANSIREAD && !vdata->view_display_as_hex) {
+              vdata->view_display_as_ansi=1;
 
-  view_status_text(vdata,globstring[STR_COUNTING_LINES]);
+              if ((vdata->view_ansiread_window = OpenWindowTags(NULL,WA_Left,         viewwin.LeftEdge,
+                                                                     WA_Top,          viewwin.TopEdge,
+                                                                     WA_Width,        vdata->view_char_width*vdata->view_font->tf_XSize,
+                                                                     WA_Height,       vdata->view_font->tf_YSize*6, //HUX was 3
+                                                                     WA_Flags,        WFLG_SMART_REFRESH | WFLG_BORDERLESS | WFLG_BACKDROP,
+                                                                     WA_CustomScreen, (Tag)vdata->view_screen,
+                                                                     WA_AutoAdjust,   TRUE,
+                                                                     TAG_END)))
+               {
+                WindowToBack(vdata->view_ansiread_window);
+                SetFont(vdata->view_ansiread_window->RPort,vdata->view_font);
+                vdata->view_console_request.io_Data=(APTR)vdata->view_ansiread_window;
+                vdata->view_console_request.io_Length=sizeof(struct Window);
+//                Delay(5);
 
-  vdata->view_tab_size=config->tabsize;
+                if (OpenDevice("console.device",CONU_STANDARD,(struct IORequest *)&vdata->view_console_request,0))
+                  vdata->view_display_as_ansi=0;
+                else {
+                  view_console_unit=(struct ConUnit *)vdata->view_console_request.io_Unit;
 
-  if (function==FUNC_SMARTREAD) {
-    if ((vdata->view_line_count=smartcountlines(vdata))==-1) {
-      vdata->view_display_as_hex=1;
-      vdata->view_max_line_length=16;
-      vdata->view_char_width=62;
-    }
-    else if (vdata->view_line_count==-2) function=FUNC_ANSIREAD;
-//    else removetabs(vdata);
-  }
+                  for (a=0;a<MAXTABS;a++) view_console_unit->cu_TabStops[a]=a*config->tabsize;
+                  view_console_unit->cu_TabStops[MAXTABS-1]=0xffff;
 
-  if (function==FUNC_ANSIREAD) {
-    vdata->view_line_count=ansicountlines(vdata);
-  }
-  else {
-    if (vdata->view_display_as_hex) {
-//      vdata->view_file_size=vdata->view_buffer_size;
-      vdata->view_line_count=vdata->view_file_size/16;
-      if (vdata->view_file_size<16) {
-        vdata->view_line_count=1;
-      }
-      else if (vdata->view_file_size%16!=0) {
-        ++vdata->view_line_count;
-      }
-    }
-    else {
-      vdata->view_line_count=countlines(vdata);
-    }
-  }
-  vdata->view_last_line=vdata->view_line_count-vdata->view_lines_per_screen;
-  if (vdata->view_last_line<0) vdata->view_last_line=0;
+                  lsprintf(buf,"\x9b\x30\x20\x70\x9b%ld\x75\x9b%ld\x74",vdata->view_max_line_length+1,vdata->view_lines_per_screen); //turn off cursor, set line length, set page height
+                  view_print(vdata,buf,1,strlen(buf));
 
-  if (function==FUNC_ANSIREAD && !vdata->view_display_as_hex) {
-    vdata->view_display_as_ansi=1;
+                  vdata->view_max_line_length=255;
+                }
+               }
+              else
+                vdata->view_display_as_ansi=0;
+            }
+            else vdata->view_display_as_ansi=0;
 
-    ansiread_win.LeftEdge = viewwin.LeftEdge;
-    ansiread_win.TopEdge  = viewwin.TopEdge;
-    ansiread_win.Width=vdata->view_char_width*vdata->view_font->tf_XSize;
-    ansiread_win.Height=vdata->view_font->tf_YSize*6; //HUX was 3
-/*
-    if ( config->viewbits & VIEWBITS_INWINDOW ) //HUX
-     {
-      ansiread_win.Flags |= WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET | WFLG_NOCAREREFRESH;
-      ansiread_win.Flags &= ~(WFLG_BORDERLESS | WFLG_RMBTRAP);
-      ansiread_win.IDCMPFlags |= IDCMP_CLOSEWINDOW;
+            vdata->view_scroll_width=vdata->view_char_width*vdata->view_font->tf_XSize;
+
+            view_displayall(vdata);
+            view_unbusy(vdata);
+
+            if (initialsearch) {
+              strcpy(vdata->view_search_string,initialsearch);
+              view_search(vdata,1);
+            }
+
+            retcode = view_idcmp(vdata);
+           }
+//        cleanup:
+          if (vdata->view_text_buffer) FreeMem(vdata->view_text_buffer,vdata->view_buffer_size);
+          if (view_console_unit) CloseDevice((struct IORequest *)&vdata->view_console_request);
+          if (vdata->view_ansiread_window) {
+            CloseWindow(vdata->view_ansiread_window);
+            vdata->view_ansiread_window=NULL;
+          }
+          view_clearhilite(vdata,0);
+          if (!viewdata) {
+            cleanupviewfile(vdata);
+            FreeMem(vdata,sizeof(struct ViewData));
+          }
+          else {
+            SetBusyPointer(vdata->view_window);
+//            if (!(config->viewbits & VIEWBITS_INWINDOW)) vdata->view_window->WLayer->Flags&=~LAYERBACKDROP; //HUX
+          }
+         }
+       }
+      else retcode=-3;
      }
-     else // HUX
+    else retcode=-2;
+view_end:
+    LDeletePort(view_port);
+   }
+  my_startup_message->command=retcode;
+  if (view_msg->deleteonexit) DeleteFile(filename);
+  Forbid();
+  ReplyMsg((struct Message *)my_startup_message);
+  return;
+}
+
+void cleanupviewfile(vdata)
+struct ViewData *vdata;
+{
+  if (config->viewbits & VIEWBITS_INWINDOW) //HUX
+   {
+    if (vdata->view_window)
      {
-      ansiread_win.Flags = WFLG_BORDERLESS | WFLG_BACKDROP;
-        ansiread_win.IDCMPFlags &= ~IDCMP_CLOSEWINDOW;
+      config->viewtext_topleftx = vdata->view_window->LeftEdge;
+      config->viewtext_toplefty  = vdata->view_window->TopEdge;
+      CloseWindow(vdata->view_window);
      }
-*/
-    ansiread_win.Screen=vdata->view_screen;
+   }
+  else if (vdata->view_screen) {
+    ScreenToBack(vdata->view_screen);
+    if (vdata->view_window) CloseWindow(vdata->view_window);
+    CloseScreen(vdata->view_screen);
+    if (vdata->view_font) CloseFont(vdata->view_font);
+  }
+  FreeGadgets(vdata->view_gadgets);
+  vdata->view_gadgets = NULL;
+  FreeVisualInfo(vdata->view_GTvi);
+  vdata->view_GTvi = NULL;
+  LFreeRemember(&vdata->view_memory);
+}
 
-    if (!((vdata->view_ansiread_window=OpenWindowTags(&ansiread_win,WA_AutoAdjust,TRUE,TAG_END))))
-      vdata->view_display_as_ansi=0;
-    else {
-      WindowToBack(vdata->view_ansiread_window);
-      SetFont(vdata->view_ansiread_window->RPort,vdata->view_font);
-      vdata->view_console_request.io_Data=(APTR)vdata->view_ansiread_window;
-      Delay(5);
-    }
+int view_loadfile(struct ViewData *vdata)
+ {
+  struct IntuiMessage *msg;
+  int a, in, fsize;
 
-    if (vdata->view_display_as_ansi) {
-      if (OpenDevice("console.device",0,(struct IORequest *)&vdata->view_console_request,0))
-        vdata->view_display_as_ansi=0;
-      else {
-        view_console_unit=(struct ConUnit *)vdata->view_console_request.io_Unit;
-        for (a=0;a<MAXTABS;a++) {
-          view_console_unit->cu_TabStops[a]=a*config->tabsize;
+/*     if ((vdata->view_file_size&15)==0)
+    vdata->view_buffer_size=vdata->view_file_size+16;
+  else*/ vdata->view_buffer_size=((vdata->view_file_size>>4)+1)<<4;
+
+  for (a=0;a<2;a++) {
+    if ((vdata->view_text_buffer=AllocMem(vdata->view_buffer_size,MEMF_ANY)))
+      break;
+    view_status_text(vdata,globstring[STR_NO_MEMORY_TO_DECRUNCH]);
+    if ((vdata->view_buffer_size=AvailMem(MEMF_PUBLIC|MEMF_LARGEST))<16)
+      break;
+    if (vdata->view_buffer_size<=vdata->view_file_size)
+      vdata->view_file_size=vdata->view_buffer_size;
+  }
+  if (!vdata->view_text_buffer) return 0;;
+D(bug("view textbuf: %lX (%ld bytes)\n",vdata->view_text_buffer,vdata->view_buffer_size));
+  if (!(in=Open(vdata->view_path_name,MODE_OLDFILE))) return 0;
+  {
+   char *bufpos;
+   int chunk,done,stop=0;
+
+   bufpos = vdata->view_text_buffer;
+   chunk = 64*1024;
+   for(done = 0; (done < vdata->view_file_size) && !stop;)
+    {
+     if ((done + chunk) > vdata->view_file_size) chunk = vdata->view_file_size - done;
+     fsize=Read(in,bufpos,chunk);
+     while ((msg = GT_GetIMsg(vdata->view_window->UserPort)))
+      {
+       if (msg->Class == IDCMP_REFRESHWINDOW)
+        {
+         GT_BeginRefresh(vdata->view_window);
+         GT_EndRefresh(vdata->view_window,TRUE);
         }
-        view_console_unit->cu_TabStops[MAXTABS-1]=0xffff;
-        lsprintf(buf,"\x9b\x30\x20\x70\x9b%ld\x74",vdata->view_lines_per_screen);
-        view_print(vdata,buf,1,strlen(buf));
-        vdata->view_max_line_length=255;
+       else if ((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == MENUDOWN))
+        {
+D(bug("*** USER BREAK ***\t%ld (0x%lx) bytes read\n",done+fsize,done+fsize));
+         stop = 1;
+        }
+       GT_ReplyIMsg(msg);
       }
+     if (fsize <= 0) break;
+     bufpos += fsize;
+     done += fsize;
+     fsize = done;
     }
   }
-  else vdata->view_display_as_ansi=0;
+  if ((vdata->view_buffer_size!=vdata->view_file_size) ||
+    ((fsize>-1) && (fsize!=vdata->view_file_size))) vdata->view_file_size=fsize;
+  Close(in);
+D(bug("view_file_size=%ld\n",fsize));
+  if (fsize==-1) return 0;
+  view_busy(vdata);
+  if (OpenXFDlib())
+   {
+    struct xfdBufferInfo *xfdbi;
 
-  view_status_text(vdata,name);
-  vdata->view_file_name=name;
-  vdata->view_path_name=filename;
-  view_update_status(vdata);
-  view_penrp(vdata);
+    if ((xfdbi = xfdAllocObject(XFDOBJ_BUFFERINFO)))
+     {
+      xfdbi->xfdbi_SourceBuffer = vdata->view_text_buffer;
+      xfdbi->xfdbi_SourceBufLen = vdata->view_file_size;
+//         xfdbi->xfdbi_Flags = XFDFB_RECOGEXTERN;
+      if (xfdRecogBuffer(xfdbi))
+       {
+        xfdbi->xfdbi_TargetBufMemType = MEMF_ANY;
+        if (xfdDecrunchBuffer(xfdbi))
+         {
+          FreeMem(xfdbi->xfdbi_SourceBuffer,vdata->view_buffer_size);
+          vdata->view_text_buffer = xfdbi->xfdbi_TargetBuffer;
+          vdata->view_buffer_size = xfdbi->xfdbi_TargetBufLen;
+          vdata->view_file_size   = xfdbi->xfdbi_TargetBufSaveLen;
+         }
+        else view_status_text(vdata,globstring[STR_NO_MEMORY_TO_DECRUNCH]);
+       }
+      xfdFreeObject(xfdbi);
+     }
+   }
+  return 1;
+ }
 
-  vdata->view_scroll_width=vdata->view_char_width*vdata->view_font->tf_XSize;
-  view_displayall(vdata);
-  retcode=1;
+int view_idcmp(struct ViewData *vdata)
+ {
+  struct IntuiMessage *msg;
+  short scroll_speed, scroll_pos[7];
+  ULONG iclass;
+  USHORT code,qual,gadgetid;
+  struct Gadget *gadget;
+  char buf[60];
+  int a,b,c;
+  int retcode=1;
+  BOOL quit=FALSE;
 
-  if (config->viewbits&VIEWBITS_TEXTBORDERS) {
-    FixSliderBody(vdata->view_window,&vdata->view_gadgets[VIEW_SCROLLGADGET],
-      vdata->view_line_count,vdata->view_lines_per_screen,1);
-    FixSliderPot(vdata->view_window,&vdata->view_gadgets[VIEW_SCROLLGADGET],
-      0,vdata->view_line_count,vdata->view_lines_per_screen,1);
-  }
+  for (a = 0; a < 7; a++) scroll_pos[a] = (vdata->view_window->Height/8)*(a+1);
 
-  lsprintf(titlebuf,"%s - \"%s\"",globstring[STR_FILE],vdata->view_path_name);
-  if ( config->viewbits & VIEWBITS_INWINDOW ) SetWindowTitles(vdata->view_window,titlebuf,"Directory Opus Reader"); //HUX
-  else SetWindowTitles(vdata->view_window,(char *)-1,titlebuf);
-
-  if ( !( config->viewbits & VIEWBITS_INWINDOW ) ) vdata->view_window->WLayer->Flags|=LAYERBACKDROP; //HUX
-
-  view_unbusy(vdata);
-
-  if (initialsearch) {
-    strcpy(vdata->view_search_string,initialsearch);
-    view_search(vdata,1);
-  }
-
-  FOREVER {
-    while ((msg=(struct IntuiMessage *)GetMsg(vdata->view_window->UserPort))) {
-      class=msg->Class; code=msg->Code; qual=msg->Qualifier;
+  while(!quit) {
+    while ((msg=GT_GetIMsg(vdata->view_window->UserPort))) {
+      iclass=msg->Class; code=msg->Code; qual=msg->Qualifier;
       gadget=(struct Gadget *)msg->IAddress;
-      ReplyMsg((struct Message *)msg);
+      GT_ReplyIMsg(msg);
 
-      switch (class) {
+      switch (iclass) {
+        case IDCMP_REFRESHWINDOW:
+          GT_BeginRefresh(vdata->view_window);
+          GT_EndRefresh(vdata->view_window,TRUE);
+          break;
+
         case IDCMP_CLOSEWINDOW:
           retcode=-1;
-          goto cleanup;
-        case IDCMP_MOUSEMOVE:
-          if (vdata->view_gadgets[VIEW_SCROLLGADGET].Flags&GFLG_SELECTED)
-            view_fix_scroll_gadget(vdata);
+          quit = TRUE;
           break;
+
+        case IDCMP_MOUSEMOVE:
+          if (gadget->GadgetID == VIEW_SCROLLGADGET) view_fix_scroll_gadget(vdata);
+          break;
+
         case IDCMP_MOUSEBUTTONS:
           if (code==SELECTDOWN) view_togglescroll(vdata);
           else if (code==MENUDOWN) {
             retcode=-1;
-            goto cleanup;
+            quit = TRUE;
           }
           break;
         case IDCMP_GADGETDOWN:
@@ -767,29 +575,9 @@ readnormal:
             view_togglescroll(vdata);
             break;
           }
-          gadgetid=gadget->GadgetID;
-          switch (gadgetid) {
+          switch (gadget->GadgetID) {
             case VIEW_SCROLLGADGET:
               view_fix_scroll_gadget(vdata);
-              break;
-            case VIEW_SCROLLUP:
-            case VIEW_SCROLLDOWN:
-              if (gadgetid==VIEW_SCROLLUP) a=view_lineup(vdata);
-              else a=view_linedown(vdata);
-              if (!a) break;
-              Delay(5);
-              FOREVER {
-                if ((msg=(struct IntuiMessage *)GetMsg(vdata->view_window->UserPort))) {
-                  if (msg->Class==IDCMP_GADGETUP ||
-                    (msg->Class==IDCMP_MOUSEBUTTONS && msg->Code==SELECTUP))
-                    break;
-                  ReplyMsg((struct Message *)msg); msg=NULL;
-                }
-                if (gadgetid==VIEW_SCROLLUP) a=view_lineup(vdata);
-                else a=view_linedown(vdata);
-                if (!a) break;
-              }
-              if (msg) ReplyMsg((struct Message *)msg);
               break;
           }
           break;
@@ -820,7 +608,7 @@ testgad:
               view_search(vdata,1);
               break;
             case VIEW_QUIT:
-              goto cleanup;
+              quit = TRUE;
               break;
             case VIEW_PRINT:
               view_checkprint(vdata,0);
@@ -842,7 +630,7 @@ testgad:
                 break;
               }
               a=atoi(buf); if (a<0) a=0;
-              if (gadgetid==VIEW_JUMPTOPERCENT)
+              if (gadgetid==VIEW_JUMPTOPERCENTNUM)
                 a=((a+1)*(vdata->view_last_line))/100;
               if (a>vdata->view_last_line) a=vdata->view_last_line;
 
@@ -929,7 +717,8 @@ D(bug("VANILLAKEY: %lx,%lx\n",code,qual));
                 view_checkprint(vdata,0);
                 break;
               case 6:
-                goto cleanup;
+                quit = TRUE;
+                break;
              }
            }
           else switch (code)
@@ -959,7 +748,8 @@ D(bug("VANILLAKEY: %lx,%lx\n",code,qual));
             case 0x1B: // ESC
               retcode=-1;
             case 'X':
-              goto cleanup;
+              quit = TRUE;
+              break;
             case 'J':
               gadgetid=VIEW_JUMPTOLINE;
               goto testgad;
@@ -973,41 +763,41 @@ D(bug("VANILLAKEY: %lx,%lx\n",code,qual));
               if (qual & IEQUALIFIER_NUMERICPAD) switch (code)
                {
                 case '1': // End
-            view_gobottom(vdata);
-            break;
+                  view_gobottom(vdata);
+                  break;
                 case '7': // Home
-            view_gotop(vdata);
-            break;
+                  view_gotop(vdata);
+                  break;
                 case '9': // PageUp
-            view_pageup(vdata);
-            break;
+                  view_pageup(vdata);
+                  break;
                 case '3': // PageDown
-            view_pagedown(vdata);
-            break;
+                  view_pagedown(vdata);
+                  break;
                 case '8': // CrsrUp
-            if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
-/*            view_readkeys(view_req,key_matrix);
-            if (!(qual&IEQUALIFIER_REPEAT) ||
-              key_matrix[9]&16 || key_matrix[7]&64)*/ {                             // 9,4 = 4C = UP_ARROW; 7,6 = 3E = NUM-8
-              if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pageup(vdata);
-              else if (qual&IEQUALIFIER_CONTROL) view_gotop(vdata);
-              else view_lineup(vdata);
-            }
-            break;
+                  if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
+      /*            view_readkeys(view_req,key_matrix);
+                  if (!(qual&IEQUALIFIER_REPEAT) ||
+                    key_matrix[9]&16 || key_matrix[7]&64)*/ {                             // 9,4 = 4C = UP_ARROW; 7,6 = 3E = NUM-8
+                    if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pageup(vdata);
+                    else if (qual&IEQUALIFIER_CONTROL) view_gotop(vdata);
+                    else view_lineup(vdata);
+                  }
+                  break;
                 case '2': // CrsrDown
-            if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
-/*            view_readkeys(view_req,key_matrix);
-            if (!(qual&IEQUALIFIER_REPEAT) ||
-              key_matrix[9]&32 || key_matrix[3]&64)*/ {                             // 9,5 = 4D = DOWN_ARROW; 3,6 = 1E = NUM-2
-              if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pagedown(vdata);
-              else if (qual&IEQUALIFIER_CONTROL) view_gobottom(vdata);
-              else view_linedown(vdata);
-            }
-            break;
+                  if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
+      /*            view_readkeys(view_req,key_matrix);
+                  if (!(qual&IEQUALIFIER_REPEAT) ||
+                    key_matrix[9]&32 || key_matrix[3]&64)*/ {                             // 9,5 = 4D = DOWN_ARROW; 3,6 = 1E = NUM-2
+                    if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pagedown(vdata);
+                    else if (qual&IEQUALIFIER_CONTROL) view_gobottom(vdata);
+                    else view_linedown(vdata);
+                  }
+                  break;
                }
               break;
-               }
-              break;
+           }
+          break;
         case IDCMP_RAWKEY:
           if (vdata->view_scroll && code!=0x40) {
             view_togglescroll(vdata);
@@ -1052,11 +842,11 @@ D(bug("RAWKEY: %lx,%lx\n",code,qual));
     }
     if (IntuitionBase->ActiveWindow==vdata->view_window && vdata->view_scroll) {
       a=vdata->view_window->MouseY;
-      if (a<scroll_pos_4) {
-        if (a<scroll_pos_1) scroll_speed=1;
-        else if (a<scroll_pos_2) scroll_speed=vdata->view_font->tf_YSize/4;
-        else if (a<scroll_pos_3) scroll_speed=vdata->view_font->tf_YSize/2;
-        else if (a<scroll_pos_4-10) scroll_speed=vdata->view_font->tf_YSize;
+      if (a<scroll_pos[3]) {
+        if (a<scroll_pos[0]) scroll_speed=1;
+        else if (a<scroll_pos[1]) scroll_speed=vdata->view_font->tf_YSize/4;
+        else if (a<scroll_pos[2]) scroll_speed=vdata->view_font->tf_YSize/2;
+        else if (a<scroll_pos[3]-10) scroll_speed=vdata->view_font->tf_YSize;
         else scroll_speed=0;
 
         if (scroll_speed>0 && vdata->view_line_count>vdata->view_lines_per_screen) {
@@ -1073,10 +863,10 @@ D(bug("RAWKEY: %lx,%lx\n",code,qual));
         }
       }
       else {
-        if (a>scroll_pos_7) scroll_speed=1;
-        else if (a>scroll_pos_6) scroll_speed=vdata->view_font->tf_YSize/4;
-        else if (a>scroll_pos_5) scroll_speed=vdata->view_font->tf_YSize/2;
-        else if (a>scroll_pos_4+10) scroll_speed=vdata->view_font->tf_YSize;
+        if (a>scroll_pos[6]) scroll_speed=1;
+        else if (a>scroll_pos[5]) scroll_speed=vdata->view_font->tf_YSize/4;
+        else if (a>scroll_pos[4]) scroll_speed=vdata->view_font->tf_YSize/2;
+        else if (a>scroll_pos[3]+10) scroll_speed=vdata->view_font->tf_YSize;
         else scroll_speed=0;
         if (scroll_speed>0 && vdata->view_line_count>vdata->view_lines_per_screen) {
           ++vdata->view_text_offset;
@@ -1092,58 +882,304 @@ D(bug("RAWKEY: %lx,%lx\n",code,qual));
     }
      Wait(1<<vdata->view_window->UserPort->mp_SigBit);
   }
+  return retcode;
+ }
 
-cleanup:
-  if (vdata->view_text_buffer)
-    FreeMem(vdata->view_text_buffer,vdata->view_buffer_size);
-  if (view_console_unit)
-    CloseDevice((struct IORequest *)&vdata->view_console_request);
-  if (vdata->view_ansiread_window) {
-    CloseWindow(vdata->view_ansiread_window);
-    vdata->view_ansiread_window=NULL;
+int view_setupdisplay(struct ViewData *vdata)
+{
+  static struct TextAttr viewGta;
+  static char            viewGNames[7*2];
+  static ULONG           viewGTags[] = {
+  	  GTSC_Arrows, 12, PGA_Freedom, LORIENT_VERT, GA_RelVerify, TRUE, GA_Immediate, TRUE, TAG_DONE,
+  	  GTNM_FrontPen, 0, GTNM_BackPen, 0, GTNM_Justification, GTJ_RIGHT, GTNM_Format, (ULONG)"%3ld%%", TAG_DONE,
+  	  GTNM_FrontPen, 0, GTNM_BackPen, 0, GTNM_Justification, GTJ_RIGHT, TAG_DONE,
+  	  GTNM_FrontPen, 0, GTNM_BackPen, 0, GTNM_Format, (ULONG)" - %ld", TAG_DONE,
+  	  GTNM_FrontPen, 0, GTNM_BackPen, 0, GTNM_Format, (ULONG)" / %ld", TAG_DONE,
+  	  GTTX_FrontPen, 0, GTTX_BackPen, 0, GTTX_Clipped, TRUE, TAG_DONE,
+  };
+
+  struct Gadget *g;
+  struct NewGadget ng = {0};
+  int tc = 0;
+  short int a,width,fontx;
+
+  vdata->view_colour_table[PEN_BACKGROUND]=0;
+  vdata->view_colour_table[PEN_SHADOW]=config->gadgetbotcol;
+  vdata->view_colour_table[PEN_SHINE]=config->gadgettopcol;
+  vdata->view_colour_table[PEN_TEXT]=1;
+  vdata->view_colour_table[PEN_TEXTBACKGROUND]=0;
+  vdata->view_colour_table[VIEWPEN_STATUSTEXT]=config->statusfg;
+  vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]=config->statusbg;
+  vdata->view_colour_table[VIEWPEN_LAST_COLOUR]=-1;
+
+  viewwin.BlockPen=vdata->view_colour_table[PEN_SHINE];
+
+  vdata->view_vis_info.vi_fg=vdata->view_colour_table[VIEWPEN_STATUSTEXT];
+  vdata->view_vis_info.vi_bg=vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
+  vdata->view_vis_info.vi_shine=vdata->view_colour_table[PEN_SHINE];
+  vdata->view_vis_info.vi_shadow=vdata->view_colour_table[PEN_SHADOW];
+
+  vdata->view_vis_info.vi_stringcol[0]=vdata->view_colour_table[PEN_TEXT];
+  vdata->view_vis_info.vi_stringcol[1]=vdata->view_colour_table[PEN_TEXTBACKGROUND];
+  vdata->view_vis_info.vi_activestringcol[0]=vdata->view_colour_table[PEN_TEXT];
+  vdata->view_vis_info.vi_activestringcol[1]=vdata->view_colour_table[PEN_TEXTBACKGROUND];
+/*
+  if ((vdata->view_window->UserData=LAllocRemember(&vdata->view_memory,SEARCH_COLOURS,0))) {
+D(bug("view userdata:\n"));
+D(KDump(vdata->view_window->UserData,SEARCH_COLOURS));
+    vdata->view_window->UserData[SEARCH_COL_FG]          = vdata->view_colour_table[VIEWPEN_STATUSTEXT];
+    vdata->view_window->UserData[SEARCH_COL_BG]          = vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
+    vdata->view_window->UserData[SEARCH_COL_SHINE]       = vdata->view_colour_table[PEN_SHINE];
+    vdata->view_window->UserData[SEARCH_COL_SHADOW]      = vdata->view_colour_table[PEN_SHADOW];
+    vdata->view_window->UserData[SEARCH_COL_STRINGFG]    = vdata->view_colour_table[PEN_TEXT];
+    vdata->view_window->UserData[SEARCH_COL_STRINGBG]    = vdata->view_colour_table[PEN_TEXTBACKGROUND];
+    vdata->view_window->UserData[SEARCH_COL_STRINGSELFG] = vdata->view_colour_table[PEN_TEXT];
+    vdata->view_window->UserData[SEARCH_COL_STRINGSELBG] = vdata->view_colour_table[PEN_TEXTBACKGROUND];
   }
-  view_clearhilite(vdata,0);
-  if (!viewdata) {
-    cleanupviewfile(vdata);
-    FreeMem(vdata,sizeof(struct ViewData));
+*/
+  if (config->viewbits & VIEWBITS_INWINDOW) //HUX
+   {
+    vdata->view_font = scr_font[FONT_TEXT];
+// HUX: begin
+    if (config->viewtext_topleftx < 0) viewwin.LeftEdge = 0;
+    else viewwin.LeftEdge = config->viewtext_topleftx;
+
+    if (config->viewtext_toplefty < 0) viewwin.TopEdge = 0;
+    else viewwin.TopEdge = config->viewtext_toplefty;
+
+    if (config->viewtext_width <= 0) viewwin.Width = Window->WScreen->Width + config->viewtext_width; // The value is negative;//MainScreen->Width
+    else viewwin.Width = config->viewtext_width;
+    if (viewwin.Width < 50) viewwin.Width = 50;
+
+    if (config->viewtext_height <= 0) viewwin.Height = Window->WScreen->Height + config->viewtext_height; // The value is negative //MainScreen->Height
+    else viewwin.Height = config->viewtext_height;
+    if (viewwin.Height < 50) viewwin.Height = 50;
+// HUX: end
+    viewwin.Flags = WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET | WFLG_RMBTRAP;
+    viewwin.IDCMPFlags |= IDCMP_CLOSEWINDOW;
+//      if (vdata->view_vis_info.vi_flags&VISF_WINDOW) viewwin.Screen = (struct Screen *)vdata->view_window;
+//      else viewwin.Screen = LockPubScreen(NULL);
+    viewwin.Screen = Window->WScreen;// HUX
+   }
+  else
+   {
+    if (!(vdata->view_screen=open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE],scr_font[FONT_TEXT],&vdata->view_memory,NULL)) ||
+        !(vdata->view_font=OpenFont(vdata->view_screen->Font))) {
+      return -4;
+    }
+    viewwin.Screen=vdata->view_screen;
+    viewwin.TopEdge=vdata->view_screen->BarHeight+2;
+    viewwin.Width=vdata->view_screen->Width;
+    viewwin.Height=vdata->view_screen->Height-viewwin.TopEdge;
+    viewwin.Flags = WFLG_BORDERLESS | WFLG_RMBTRAP;
+   }
+
+  if (config->viewbits&VIEWBITS_TEXTBORDERS) viewwin.IDCMPFlags |= ARROWIDCMP | SCROLLERIDCMP | NUMBERIDCMP | TEXTIDCMP;
+
+  if (!(vdata->view_window=OpenWindowTags(&viewwin,WA_AutoAdjust,TRUE,TAG_END))) {
+    if (!(config->viewbits & VIEWBITS_INWINDOW)) CloseScreen(vdata->view_screen); //HUX
+    LFreeRemember(&vdata->view_memory);
+    return -4;
+  }
+/*
+  if (config->viewbits & VIEWBITS_INWINDOW) //HUX
+   {
+//      UnlockPubScreen(NULL,vdata->view_screen);
+    SetFont(vdata->view_rastport,vdata->view_font);
+   }
+*/
+  vdata->view_screen = vdata->view_window->WScreen;
+  vdata->view_rastport=vdata->view_window->RPort;
+
+  fontx = vdata->view_font->tf_XSize;
+
+  viewGta.ta_Name = vdata->view_font->tf_Message.mn_Node.ln_Name,
+  viewGta.ta_YSize = vdata->view_font->tf_YSize,
+  /*viewGta.ta_Flags = vdata->view_font->tf_Flags*/
+
+//D(bug("viewfont:   name = %s\tysize = %ld, style = %ld, flags = %ld, fontx = %ld\n",vdata->view_font->tf_Message.mn_Node.ln_Name,vdata->view_font->tf_YSize,vdata->view_font->tf_Style,vdata->view_font->tf_Flags,fontx));
+//D(bug("screenfont: name = %s\tysize = %ld, style = %ld, flags = %ld\n",vdata->view_screen->Font->ta_Name,vdata->view_screen->Font->ta_YSize,vdata->view_screen->Font->ta_Style,vdata->view_screen->Font->ta_Flags));
+
+  vdata->view_status_bar_ypos=vdata->view_window->Height-(vdata->view_font->tf_YSize+1);
+
+  if (config->viewbits & VIEWBITS_INWINDOW)
+   {
+    vdata->view_status_bar_ypos -= vdata->view_window->BorderBottom; //HUX
+
+    vdata->view_display_left  = vdata->view_window->BorderLeft;
+    vdata->view_display_top   = vdata->view_window->BorderTop;
+    vdata->view_display_right = -vdata->view_window->BorderRight;
+   }
+
+  if (config->viewbits & VIEWBITS_TEXTBORDERS) {
+    vdata->view_display_left += 2;
+    vdata->view_display_top  += 2;
+    vdata->view_display_right += vdata->view_window->Width-20;
+    vdata->view_display_bottom = vdata->view_status_bar_ypos-3;
+
+    vdata->view_lines_per_screen=(vdata->view_display_bottom - vdata->view_display_top)/vdata->view_font->tf_YSize;
   }
   else {
-    SetBusyPointer(vdata->view_window);
-    if ( !( config->viewbits & VIEWBITS_INWINDOW ) ) vdata->view_window->WLayer->Flags&=~LAYERBACKDROP; //HUX
+    vdata->view_lines_per_screen=(vdata->view_window->Height-vdata->view_display_top-1)/vdata->view_font->tf_YSize;
+
+    vdata->view_display_bottom=vdata->view_display_top+(vdata->view_lines_per_screen*vdata->view_font->tf_YSize)-1;
+    vdata->view_display_right += vdata->view_window->Width-1;
   }
 
-view_end:
-  if (view_req) {
-    CloseDevice((struct IORequest *)view_req);
-    LDeleteExtIO((struct IORequest *)view_req);
-  }
-  if (view_port) LDeletePort(view_port);
-  my_startup_message->command=retcode;
-  if (view_msg->deleteonexit) DeleteFile(filename);
-  Forbid();
-  ReplyMsg((struct Message *)my_startup_message);
-  return;
-}
+  vdata->view_display_height=vdata->view_lines_per_screen*vdata->view_font->tf_YSize;
 
-void cleanupviewfile(vdata)
-struct ViewData *vdata;
-{
-  if ( config->viewbits & VIEWBITS_INWINDOW ) //HUX
+  width = vdata->view_window->Width;
+  if (config->viewbits & VIEWBITS_INWINDOW) width -= vdata->view_window->BorderRight + vdata->view_window->BorderLeft;
+
+  SetFont(vdata->view_rastport,vdata->view_font);
+
+  SetAPen(vdata->view_rastport,vdata->view_colour_table[PEN_TEXTBACKGROUND]);
+  RectFill(vdata->view_rastport,
+    vdata->view_display_left,
+    vdata->view_display_top,
+    vdata->view_display_right,
+    vdata->view_display_bottom);
+
+  if (config->viewbits & VIEWBITS_TEXTBORDERS)
    {
-    if (vdata->view_window)
+    /* text display border */
+    Do3DBox(vdata->view_rastport,vdata->view_display_left,vdata->view_display_top-1,
+      (vdata->view_display_right-vdata->view_display_left)+2,
+      vdata->view_display_bottom-vdata->view_display_top+2,
+      vdata->view_colour_table[PEN_SHINE],
+      vdata->view_colour_table[PEN_SHADOW]);
+    /* status border */
+    Do3DBox(vdata->view_rastport,
+      vdata->view_display_left,
+      vdata->view_status_bar_ypos,
+      width-((fontx*7*2)+4),
+      vdata->view_font->tf_YSize,
+      vdata->view_colour_table[PEN_SHINE],
+      vdata->view_colour_table[PEN_SHADOW]);
+    /* status bar */
+    SetAPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]);
+    RectFill(vdata->view_rastport,
+      vdata->view_display_left,
+      vdata->view_status_bar_ypos,
+      vdata->view_window->Width-((config->viewbits & VIEWBITS_INWINDOW)?vdata->view_window->BorderRight:0)-((fontx*7*2)+3), //HUX
+      vdata->view_window->Height-2-((config->viewbits & VIEWBITS_INWINDOW) ? vdata->view_window->BorderBottom : 0)); //HUX
+
+    if (config->viewbits & VIEWBITS_INWINDOW) width += vdata->view_window->BorderLeft;
+
+    g = CreateContext(&vdata->view_gadgets);
+
+    vdata->view_GTvi = GetVisualInfoA(vdata->view_screen,NULL);
+
+    ng.ng_VisualInfo = vdata->view_GTvi;
+    ng.ng_TextAttr = /*vdata->view_screen->Font*/&viewGta;
+
+    ng.ng_LeftEdge = vdata->view_display_right+4;
+    ng.ng_TopEdge = vdata->view_display_top-2;
+    ng.ng_Height = vdata->view_display_bottom-vdata->view_display_top+4;
+    ng.ng_Width = 16;
+    ng.ng_GadgetID = VIEW_SCROLLGADGET;
+
+    viewGadgets[VIEW_SCROLLGADGET] = g = CreateGadgetA(SCROLLER_KIND, g, &ng, (struct TagItem *)&viewGTags[tc]);
+
+    while(viewGTags[tc]) tc += 2;
+    tc++;
+
+    ng.ng_TopEdge = vdata->view_status_bar_ypos-1;
+    ng.ng_Height = vdata->view_font->tf_YSize+2;
+    ng.ng_Flags = PLACETEXT_IN;
+    ng.ng_Width = fontx*2;
+    ng.ng_LeftEdge = width-ng.ng_Width;
+    ng.ng_GadgetID = VIEW_QUIT;
+
+    for(a=6;a>=0;a--)
      {
-      config->viewtext_topleftx = vdata->view_window->LeftEdge;
-      config->viewtext_toplefty  = vdata->view_window->TopEdge;
-      CloseWindow(vdata->view_window);
+      viewGNames[a*2] = globstring[STR_VIEW_BUTTONS][a];
+//      viewGNames[a*2+1] = 0;
+
+      ng.ng_GadgetText = viewGNames+a*2;
+
+  	  viewGadgets[VIEW_PAGEUP+a] = g = CreateGadgetA(BUTTON_KIND, g, &ng, NULL);
+
+      if (a) ng.ng_LeftEdge -= ng.ng_Width;
+      ng.ng_GadgetID--;
      }
+
+    ng.ng_GadgetText = NULL;
+    ng.ng_Flags = 0;
+
+    ng.ng_Width = fontx*5;
+    ng.ng_LeftEdge -= ng.ng_Width;
+    ng.ng_GadgetID = VIEW_JUMPTOPERCENT;
+
+    viewGadgets[VIEW_JUMPTOPERCENT] = g = CreateGadgetA(GENERIC_KIND, g, &ng, NULL);
+    g->Flags = GFLG_GADGHCOMP;
+    g->Activation = GACT_RELVERIFY;
+    g->GadgetType |= GTYP_BOOLGADGET;
+
+    ng.ng_Width -= fontx;
+    ng.ng_GadgetID = VIEW_JUMPTOPERCENTNUM;
+
+    viewGTags[tc+1] = vdata->view_colour_table[VIEWPEN_STATUSTEXT];
+    viewGTags[tc+3] = vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
+
+    viewGadgets[VIEW_JUMPTOPERCENTNUM] = g = CreateGadgetA(NUMBER_KIND, g, &ng, (struct TagItem *)&viewGTags[tc]);
+
+    while(viewGTags[tc]) tc += 2;
+    tc++;
+
+    ng.ng_LeftEdge -= fontx*(6+9+9+2);
+    ng.ng_Width = fontx*(6+9);
+    ng.ng_GadgetID = VIEW_JUMPTOLINE;
+
+    viewGadgets[VIEW_JUMPTOLINE] = g = CreateGadgetA(GENERIC_KIND, g, &ng, NULL);
+    g->Flags = GFLG_GADGHCOMP;
+    g->Activation = GACT_RELVERIFY;
+    g->GadgetType |= GTYP_BOOLGADGET;
+
+    ng.ng_Width = fontx*6;
+    ng.ng_GadgetID = VIEW_JUMPTOLINE1;
+
+    for(a=0;a<3;a++)
+     {
+      viewGTags[tc+1] = vdata->view_colour_table[VIEWPEN_STATUSTEXT];
+      viewGTags[tc+3] = vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
+  	
+      viewGadgets[a+VIEW_JUMPTOLINE1] = g = CreateGadgetA(NUMBER_KIND, g, &ng, (struct TagItem *)&viewGTags[tc]);
+
+  	  while(viewGTags[tc]) tc += 2;
+  	  tc++;
+
+      ng.ng_LeftEdge += ng.ng_Width;
+      if (a == 0) ng.ng_Width = fontx*9;
+      ng.ng_GadgetID++;
+     }
+
+    viewGTags[tc+1] = vdata->view_colour_table[VIEWPEN_STATUSTEXT];
+    viewGTags[tc+3] = vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND];
+
+    ng.ng_LeftEdge = 3;
+    if (config->viewbits & VIEWBITS_INWINDOW) ng.ng_LeftEdge += vdata->view_window->BorderLeft;
+
+    ng.ng_Width = viewGadgets[VIEW_JUMPTOLINE1]->LeftEdge - ng.ng_LeftEdge;
+    ng.ng_GadgetID = VIEW_FILENAME;
+
+    viewGadgets[VIEW_FILENAME] = g = CreateGadgetA(TEXT_KIND, g, &ng, (struct TagItem *)&viewGTags[tc]);
+
+    AddGList(vdata->view_window,vdata->view_gadgets,-1,-1,NULL);
+    RefreshGList(vdata->view_gadgets,vdata->view_window,NULL,-1);
+    GT_RefreshWindow(vdata->view_window,NULL);
    }
-  else if (vdata->view_screen) {
-    ScreenToBack(vdata->view_screen);
-    if (vdata->view_window) CloseWindow(vdata->view_window);
-    CloseScreen(vdata->view_screen);
-    if (vdata->view_font) CloseFont(vdata->view_font);
-  }
-  LFreeRemember(&vdata->view_memory);
+//D(for(g=vdata->view_gadgets;g;g=g->NextGadget) KDump(g,sizeof(*g)));
+
+  vdata->view_vis_info.vi_font=vdata->view_font;
+  vdata->view_vis_info.vi_language=config->language;
+
+  if (vdata->view_vis_info.vi_flags&VISF_WINDOW) vdata->view_vis_info.vi_screen=(struct Screen *)vdata->view_window;
+  else vdata->view_vis_info.vi_screen=vdata->view_screen;
+
+  if (config->generalscreenflags&SCR_GENERAL_REQDRAG) vdata->view_vis_info.vi_flags|=VISF_BORDERS;
+
+  return 0;
 }
 
 void view_display(vdata,scroll_speed,w)
@@ -1242,7 +1278,7 @@ struct ViewData *vdata;
     vdata->view_display_left,
     vdata->view_display_top,
     vdata->view_display_right,
-    vdata->view_display_bottom);
+    vdata->view_status_bar_ypos-3);
   SetAPen(vdata->view_rastport,vdata->view_colour_table[PEN_TEXT]);
 
   view_clearhilite(vdata,0);
@@ -1277,7 +1313,7 @@ kgettime(&time1);
       if (d<vdata->view_file_size)
         view_print(vdata,&vdata->view_text_buffer[d],a,c+1);
       d=f;
-      if (a<(vdata->view_lines_per_screen-1) )
+      if (a<(vdata->view_lines_per_screen-1))
         vdata->view_bottom_buffer_pos=d;
     }
 #ifdef DEBUG
@@ -1301,8 +1337,8 @@ int y,len;
   if (vdata->view_display_as_ansi) {
     if (len>0) {
       if (str[len-1]=='\n') --len;
-      vdata->view_console_request.io_Data=(APTR)"\x9b;0m\f";
-      vdata->view_console_request.io_Length=5;
+      vdata->view_console_request.io_Data=(APTR)"\f"/*"\x9b;0m\f"*/;
+      vdata->view_console_request.io_Length=1/*5*/;
       vdata->view_console_request.io_Command=CMD_WRITE;
       DoIO((struct IORequest *)&vdata->view_console_request);
 
@@ -1313,11 +1349,12 @@ int y,len;
 
       if (y>-1) {
         ClipBlit(vdata->view_ansiread_window->RPort,
-          vdata->view_ansiread_window->BorderLeft, vdata->view_ansiread_window->BorderTop, // HUX
+          0,0,
+//          vdata->view_ansiread_window->BorderLeft, vdata->view_ansiread_window->BorderTop, // HUX
           vdata->view_rastport,
           vdata->view_display_left,
           vdata->view_display_top+(y*vdata->view_font->tf_YSize),
-          vdata->view_ansiread_window->Width - vdata->view_ansiread_window->BorderLeft - vdata->view_ansiread_window->BorderRight, // HUX
+          vdata->view_ansiread_window->Width/* - vdata->view_ansiread_window->BorderLeft - vdata->view_ansiread_window->BorderRight*/,
           vdata->view_font->tf_YSize,0xc0);
       }
     }
@@ -1358,52 +1395,50 @@ int y,len;
 void view_update_status(vdata)
 struct ViewData *vdata;
 {
-  char textbuf[80];
-  int a;
+  if (config->viewbits&VIEWBITS_TEXTBORDERS)
+   {
+    int a;
 
-  view_pensrp(vdata);
-  Move(vdata->view_rastport,
-    vdata->view_window->Width-((config->viewbits & VIEWBITS_INWINDOW)?vdata->view_window->BorderRight:0)-((vdata->view_font->tf_XSize*49)+14), //HUX
-    vdata->view_status_bar_ypos+vdata->view_font->tf_Baseline);
+    if (vdata->view_line_count<=vdata->view_lines_per_screen)
+      a=100;
+    else a=(vdata->view_text_offset*100)/vdata->view_last_line;
 
-  if (vdata->view_line_count<=vdata->view_lines_per_screen)
-    a=100;
-  else a=(vdata->view_text_offset*100)/vdata->view_last_line;
+    GT_SetGadgetAttrs(viewGadgets[VIEW_JUMPTOLINE1],vdata->view_window,NULL,
+        GTNM_Number,vdata->view_text_offset,
+        TAG_END);
+    GT_SetGadgetAttrs(viewGadgets[VIEW_JUMPTOLINE2],vdata->view_window,NULL,
+        GTNM_Number,(vdata->view_text_offset+vdata->view_lines_per_screen>vdata->view_line_count)?
+                     vdata->view_line_count:vdata->view_text_offset+vdata->view_lines_per_screen,
+        TAG_END);
+    GT_SetGadgetAttrs(viewGadgets[VIEW_JUMPTOPERCENTNUM],vdata->view_window,NULL,
+        GTNM_Number,a,
+        TAG_END);
 
-  lsprintf(textbuf,
-    "%-6ld > %-6ld / %-6ld   %-3ld%%",vdata->view_text_offset,
-    (vdata->view_text_offset+vdata->view_lines_per_screen>vdata->view_line_count)?
-      vdata->view_line_count:vdata->view_text_offset+vdata->view_lines_per_screen,
-    vdata->view_line_count,a);
-
-  Text(vdata->view_rastport,textbuf,31);
-
-  if (config->viewbits&VIEWBITS_TEXTBORDERS && vdata->view_scroll_bar)
-    FixSliderPot(vdata->view_window,
-      &vdata->view_gadgets[VIEW_SCROLLGADGET],
-      vdata->view_text_offset,
-      vdata->view_line_count,
-      vdata->view_lines_per_screen,1);
-
-  view_penrp(vdata);
+    a = vdata->view_line_count>>15;
+    a++;
+    GT_SetGadgetAttrs(viewGadgets[VIEW_SCROLLGADGET],vdata->view_window,NULL,
+      GTSC_Top, vdata->view_text_offset/a,
+      GTSC_Total, vdata->view_line_count/a,
+      GTSC_Visible, vdata->view_lines_per_screen/a,
+      TAG_END);
+   }
+//  view_penrp(vdata);
 }
-
-void view_pensrp(vdata)
-struct ViewData *vdata;
+/*
+void view_pensrp(struct ViewData *vdata)
 {
-  SetAPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSTEXT]);
-  SetBPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]);
-  SetDrMd(vdata->view_rastport,JAM2);
+  SetABPenDrMd(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSTEXT],
+                                    vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND],
+                                    JAM2);
 }
 
-void view_penrp(vdata)
-struct ViewData *vdata;
+void view_penrp(struct ViewData *vdata)
 {
-  SetAPen(vdata->view_rastport,vdata->view_colour_table[PEN_TEXT]);
-  SetBPen(vdata->view_rastport,vdata->view_colour_table[PEN_TEXTBACKGROUND]);
-  SetDrMd(vdata->view_rastport,JAM1);
+  SetABPenDrMd(vdata->view_rastport,vdata->view_colour_table[PEN_TEXT],
+                                    vdata->view_colour_table[PEN_TEXTBACKGROUND],
+                                    JAM1);
 }
-
+*/
 void view_pageup(vdata)
 struct ViewData *vdata;
 {
@@ -1678,8 +1713,7 @@ int dy,w;
     SetWrMsk(vdata->view_rastport,0xff);
 }
 
-int view_lineup(vdata)
-struct ViewData *vdata;
+int view_lineup(struct ViewData *vdata)
 {
   if (vdata->view_text_offset==0) return(0);
   --vdata->view_text_offset;
@@ -1690,8 +1724,7 @@ struct ViewData *vdata;
   return(1);
 }
 
-int view_linedown(vdata)
-struct ViewData *vdata;
+int view_linedown(struct ViewData *vdata)
 {
   if (vdata->view_text_offset>=vdata->view_last_line) return(0);
   ++vdata->view_text_offset;
@@ -1700,28 +1733,29 @@ struct ViewData *vdata;
   return(1);
 }
 
-void view_status_text(vdata,str)
-struct ViewData *vdata;
-char *str;
+void view_status_text(struct ViewData *vdata, char *str)
 {
-  SetAPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]);
-  RectFill(vdata->view_rastport,
-    vdata->view_display_left,
-    vdata->view_status_bar_ypos,
-    vdata->view_window->Width-((config->viewbits & VIEWBITS_INWINDOW)?vdata->view_window->BorderRight:0)-((vdata->view_font->tf_XSize*18)+3), //HUX
-    vdata->view_window->Height-2-((config->viewbits & VIEWBITS_INWINDOW) ? vdata->view_window->BorderBottom : 0)); //HUX
+  static char buf[108];
+  struct Gadget *g = viewGadgets[VIEW_FILENAME];
 
-  view_pensrp(vdata);
-
-  if (str) {
-    Move(vdata->view_rastport,vdata->view_display_left,vdata->view_status_bar_ypos+vdata->view_font->tf_Baseline);
-    Text(vdata->view_rastport,str,strlen(str));
-  }
+  if (config->viewbits&VIEWBITS_TEXTBORDERS)
+   {
+    strcpy(buf,str);
+/*
+    GT_SetGadgetAttrs(g,vdata->view_window,NULL,
+        GTTX_Text,NULL,
+        TAG_END);
+    GT_RefreshWindow(vdata->view_window,NULL);
+    SetAPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]);
+    RectFill(vdata->view_rastport,g->LeftEdge,g->TopEdge+1,g->LeftEdge+g->Width-1,g->TopEdge+g->Height-2);
+*/
+    GT_SetGadgetAttrs(g,vdata->view_window,NULL,
+        GTTX_Text,(Tag)buf,
+        TAG_END);
+   }
 }
 
-void view_printtext(vdata,state)
-struct ViewData *vdata;
-int state;
+void view_printtext(struct ViewData *vdata, int state)
 {
   int out,a,tb;
   char temp[60],*str;
@@ -1869,76 +1903,6 @@ struct ViewData *vdata;
   }
 }
 
-void view_setupscreen(vdata)
-struct ViewData *vdata;
-{
-  int a,width;
-
-  width = vdata->view_window->Width-((config->viewbits & VIEWBITS_INWINDOW)?vdata->view_window->BorderRight:0); //HUX
-  SetAPen(vdata->view_rastport,vdata->view_colour_table[PEN_TEXTBACKGROUND]);
-  RectFill(vdata->view_rastport,
-    vdata->view_display_left,
-    vdata->view_display_top,
-    vdata->view_display_right,
-    vdata->view_display_bottom);
-
-  Do3DBox(vdata->view_rastport,
-    vdata->view_display_left,
-    vdata->view_status_bar_ypos,
-    width-((vdata->view_font->tf_XSize*18)+4),
-    vdata->view_font->tf_YSize,
-    vdata->view_colour_table[PEN_SHINE],
-    vdata->view_colour_table[PEN_SHADOW]);
-
-  view_status_text(vdata,NULL);
-  SetDrMd(vdata->view_rastport,JAM2);
-
-  for (a=0;a<9;a++) {
-    vdata->view_gadgets[a].NextGadget=&vdata->view_gadgets[a+1];
-    vdata->view_gadgets[a].LeftEdge=(width-(vdata->view_font->tf_XSize*18))+(a*vdata->view_font->tf_XSize*2);
-    vdata->view_gadgets[a].TopEdge=vdata->view_status_bar_ypos-1;
-    vdata->view_gadgets[a].Width=vdata->view_font->tf_XSize*2;
-    vdata->view_gadgets[a].Height=vdata->view_font->tf_YSize+2;
-    vdata->view_gadgets[a].Flags=GFLG_GADGHCOMP;
-    vdata->view_gadgets[a].Activation=(a<2)?GACT_IMMEDIATE|GACT_RELVERIFY:GACT_RELVERIFY;
-    vdata->view_gadgets[a].GadgetType=GTYP_BOOLGADGET;
-    vdata->view_gadgets[a].GadgetID=a;
-
-    Do3DBox(vdata->view_rastport,
-      vdata->view_gadgets[a].LeftEdge+2,
-      vdata->view_status_bar_ypos,
-      (vdata->view_font->tf_XSize*2)-4,vdata->view_font->tf_YSize,
-      vdata->view_colour_table[PEN_SHINE],
-      vdata->view_colour_table[PEN_SHADOW]);
-
-    SetAPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]);
-    RectFill(vdata->view_rastport,
-      vdata->view_gadgets[a].LeftEdge+2,
-      vdata->view_status_bar_ypos,
-      vdata->view_gadgets[a].LeftEdge+vdata->view_gadgets[a].Width-3,
-      vdata->view_status_bar_ypos+vdata->view_font->tf_YSize-1);
-    SetAPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSTEXT]);
-    SetBPen(vdata->view_rastport,vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND]);
-
-    if (a>1) {
-      Move(vdata->view_rastport,
-        vdata->view_gadgets[a].LeftEdge+
-          ((vdata->view_gadgets[a].Width-vdata->view_font->tf_XSize)/2),
-        vdata->view_status_bar_ypos+vdata->view_font->tf_Baseline);
-      Text(vdata->view_rastport,&globstring[STR_VIEW_BUTTONS][a-2],1);
-    }
-  }
-  for (a=0;a<2;a++) {
-    DoArrow(vdata->view_rastport,
-      vdata->view_gadgets[a].LeftEdge+2,
-      vdata->view_status_bar_ypos+1,
-      (vdata->view_font->tf_XSize*2)-4,vdata->view_font->tf_YSize-2,
-      vdata->view_colour_table[VIEWPEN_STATUSTEXT],
-      vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND],a);
-  }
-  SetFont(vdata->view_rastport,vdata->view_font);
-}
-
 void view_viewhilite(vdata,x,y,x1,y1)
 struct ViewData *vdata;
 int x,y,x1,y1;
@@ -1981,13 +1945,16 @@ void view_fix_scroll_gadget(vdata)
 struct ViewData *vdata;
 {
   int a,b,c,d;
-
-  if ((a=GetSliderPos(&vdata->view_gadgets[VIEW_SCROLLGADGET],
-    vdata->view_line_count,
-    vdata->view_lines_per_screen))==vdata->view_text_offset) return;
+//D(bug("view_fix_scroll_gadget()\n"));
+  GT_GetGadgetAttrs(viewGadgets[VIEW_SCROLLGADGET],vdata->view_window,NULL,GTSC_Top,(Tag)&a,TAG_END);
+  if (vdata->view_line_count > 0x7FFF)
+   {
+    b = vdata->view_line_count>>15;
+    a *= (b+1);
+   }
+  if (a == vdata->view_text_offset) return;
 
   d=vdata->view_text_offset-a;
-  vdata->view_scroll_bar=0;
 
   if (d>0 && d<vdata->view_lines_per_screen/2) {
     while (d--) view_lineup(vdata);
@@ -2057,7 +2024,6 @@ struct ViewData *vdata;
     view_displayall(vdata);
     ClearPointer(vdata->view_window);
   }
-  vdata->view_scroll_bar=1;
 }
 
 void view_clearsearch(vdata)
@@ -2068,19 +2034,7 @@ struct ViewData *vdata;
     vdata->view_pick_offset=
     vdata->view_pick_charoffset=-1;
 }
-/*
-void view_readkeys(req,keys)
-struct IOStdReq *req;
-APTR keys;
-{
-  if (req) {
-    req->io_Length=13;
-    req->io_Data=(APTR)keys;
-    req->io_Command=KBD_READMATRIX;
-    DoIO((struct IORequest *)req);
-  }
-}
-*/
+
 int view_simplerequest(struct ViewData *vdata,char *txt,...)
 {
   char *gads[4],*cancelgad=NULL,*gad;

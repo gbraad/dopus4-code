@@ -431,6 +431,7 @@ void layout_menus()
 
     for (a=0;a<5;a++) {
         c=0; d=a*20; l=0;
+
         menu_menus[a].Width=
             gettextlength(title_font,config->menutit[a],&l,0)+
             title_font->tf_XSize;
@@ -469,9 +470,11 @@ void layout_menus()
             barimage=NULL;
 
             for (e=0;e<20;e++) {
+
                 menu_menuitem[f].TopEdge=top;
                 menu_menuitem[f].Width=w;
                 menu_menuitem[f].Height=scr_font[FONT_MENUS]->tf_YSize;
+
                 menu_menuitem[f].Flags=
                     ITEMTEXT|ITEMENABLED|((isvalidgad(&config->menu[f]))?HIGHCOMP:HIGHNONE);
 
@@ -510,7 +513,26 @@ void layout_menus()
             lastmenu->NextMenu=NULL;
         }
     }
-    if (firstmenu) SetMenuStrip(Window,firstmenu);
+    if (firstmenu)
+     {
+/* do not enable - crash will happen
+      APTR vi;
+
+      if (GadToolsBase)
+       {
+        if (vi = GetVisualInfoA(Window->WScreen,NULL))
+         {
+          struct TextAttr ta = {scr_font[FONT_MENUS]->tf_Message.mn_Node.ln_Name,
+                                scr_font[FONT_MENUS]->tf_YSize,
+                                scr_font[FONT_MENUS]->tf_Style,
+                                scr_font[FONT_MENUS]->tf_Flags};
+          LayoutMenus(firstmenu,vi,GTMN_TextAttr,&ta,TAG_END);
+          FreeVisualInfo(vi);
+         }
+       }
+*/
+      SetMenuStrip(Window,firstmenu);
+     }
     if (drinfo) FreeScreenDrawInfo(Window->WScreen,drinfo);
 }
 

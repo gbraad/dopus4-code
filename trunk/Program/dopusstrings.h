@@ -1,6 +1,6 @@
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.4'
+   This file was created automatically by `FlexCat 2.5'
    from "../catalogs/DOpus4.cd".
 
    Do NOT edit by hand!

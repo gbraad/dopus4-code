@@ -323,8 +323,7 @@ char *path;
     char buf[256];
 //    int a;
 
-    if (rexx) strcpy(buf,rexx_args[0]);
-    else strcpy(buf,path);
+    strcpy(buf,rexx?rexx_args[0]:path);
 D(bug("relabel(%ld,%s)\n",rexx,buf));
     if (!(getroot(buf,NULL))) {
         doerror(-1);
@@ -339,6 +338,8 @@ D(bug("relabel(%ld,%s)\n",rexx,buf));
         if (!(whatsit(globstring[STR_ENTER_NEW_DISK_NAME],30,name,NULL))) return;
     }
     else strcpy(name,rexx_args[1]);
+
+    if (name[strlen(name)-1] == ':') name[strlen(name)-1] = 0;
 
     strcat(buf,":");
 D(bug("Relabel(%s,%s)\n",buf,name));

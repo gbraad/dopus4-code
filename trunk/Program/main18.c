@@ -62,6 +62,7 @@ int dowhat,fdata;
     struct makedirlist *first_makedir=NULL;
     struct DirectoryWindow lister;
     struct Directory *entry = NULL, *t_entry;
+    int askeach=1, autoskip=0;
 
     if (dowhat&R_STARDIR) {
         rec_firstpath=NULL;
@@ -255,7 +256,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 adir=NULL;
                 dofilename(name);
                 if (dowhat&R_GETNAMES) {
-                    if (new_rec=LAllocRemember(&recurse_dir_key,sizeof(struct RecursiveDirectory),MEMF_CLEAR)) {
+                    if ((new_rec=LAllocRemember(&recurse_dir_key,sizeof(struct RecursiveDirectory),MEMF_CLEAR))) {
                         strcpy(new_rec->name,enfinfo.fib_FileName);
                         CopyMem((char *)&enfinfo.fib_Date,(char *)&new_rec->date,sizeof(struct DateStamp));
                         if (addparent_recurse) {
@@ -409,37 +410,57 @@ if (entry)
   AddPart(name,tempname,256);
 }
                     a=0;
-                    FOREVER {
-                        if (!(a=copyfile(name,dname,&err,/*-1,*/NULL,0))) {
-                            doerror(err);
-                            a=checkerror(globstring[STR_COPYING],enfinfo.fib_FileName,err);
-                            if (a==1) continue;
-                            if (a!=3) seename(data_active_window);
-                        }
-                        else if (a==-1) {
+                    if (askeach) {
+                        if ((a=checkexistreplace(name,dname,&enfinfo.fib_Date,1,1))==0) { // ABORT
                             myabort();
-                            a=3;
+                            ret=-10;
                             break;
                         }
-                        else {
-                            if (dowhat==R_COPY) {
-                                if (config->copyflags&COPY_ARC && !(enfinfo.fib_Protection&FIBF_ARCHIVE))
-                                    SetProtection(name,enfinfo.fib_Protection|FIBF_ARCHIVE);
-                            }
-                            dos_global_copiedbytes+=enfinfo.fib_Size;
+                        if (a==2) {
+                            askeach=0;   // ALL
                         }
-                        if (config->dynamicflags&1) seename(data_active_window);
-                        break;
+                        else if (a==4) {  // SKIP ALL
+                            askeach = 0;
+                            autoskip = 1;
+                        }
+//                        if (a==3) // SKIP
                     }
-                    dotaskmsg(hotkeymsg_port,PROGRESS_INCREASE,1,0,NULL,0);
+                    if (!autoskip && (a!=3))
+                     {
+                      a=0;
+                      FOREVER {
+                          if (!(a=copyfile(name,dname,&err,/*-1,*/NULL,0))) {
+                              doerror(err);
+                              a=checkerror(globstring[STR_COPYING],enfinfo.fib_FileName,err);
+                              if (a==1) continue;
+                              if (a!=3) seename(data_active_window);
+                          }
+                          else if (a==-1) {
+                              myabort();
+                              a=3;
+                              break;
+                          }
+                          else {
+                              if (dowhat==R_COPY) {
+                                  if (config->copyflags&COPY_ARC && !(enfinfo.fib_Protection&FIBF_ARCHIVE))
+                                      SetProtection(name,enfinfo.fib_Protection|FIBF_ARCHIVE);
+                              }
+                              dos_global_copiedbytes+=enfinfo.fib_Size;
+                          }
+                          if (config->dynamicflags&1) seename(data_active_window);
+                          break;
+                      }
+                      dotaskmsg(hotkeymsg_port,PROGRESS_INCREASE,1,0,NULL,0);
 if (entry) removetemparcfile(name);
-                    if (a==3) {
-                        ret=-10;
-                        break;
+                      if (a==3) {
+                          ret=-10;
+                          break;
+                      }
+                      else if (config->dynamicflags&1) {
+                          seename(data_active_window); seename(w1);
+                      }
                     }
-                    if (config->dynamicflags&1) {
-                        seename(data_active_window); seename(w1);
-                    }
+                   else if (entry) removetemparcfile(name);
                 }
                 if (dowhat&R_DELETE) {
                     if (!((dowhat&R_COPY) && (a==2)))

@@ -1015,7 +1015,7 @@ doentryselection:
                         break;
 
                     case MOD_FONT:
-                        if (b<0 || b>=NUMFONTS) break;
+                        if (b<0 || b>=FONT_LAST) break;
                         lsprintf(buf,"%s/%ld",config->fontbufs[b],config->fontsizes[b]);
                         retbuf=buf;
                         break;
@@ -1232,7 +1232,7 @@ doentryselection:
                     break;
 
                 case MOD_FONT:
-                    if (b<0 || b>=NUMFONTS) break;
+                    if (b<0 || b>=FONT_LAST) break;
                     strcpy(config->fontbufs[b],rexx_args[2]);
                     if (!strstri(config->fontbufs[b],".font"))
                         strcat(config->fontbufs[b],".font");

@@ -1,6 +1,6 @@
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.4'
+   This file was created automatically by `FlexCat 2.5'
    from "../catalogs/DOpus4.cd".
 
    Do NOT edit by hand!
@@ -353,11 +353,11 @@ static const struct DefaultString
     	{STR_GFX_NATIVE,"Native"},
     	{STR_OPENING_ARCHIVE,"Opening archive..."},
     	{STR_LISTER_MENU,"Lister options"},
-    	{STR_FILE_NAME,"File name"},
-    	{STR_FILE_SIZE,"File size"},
-    	{STR_PROTECTION_BITS,"Protection bits"},
-    	{STR_CREATION_DATE,"Creation date"},
-    	{STR_FILE_COMMENT,"File comment"},
+    	{STR_FILE_NAME,"Name"},
+    	{STR_FILE_SIZE,"Size"},
+    	{STR_PROTECTION_BITS,"Protection"},
+    	{STR_CREATION_DATE,"Timestamp"},
+    	{STR_FILE_COMMENT,"Comment"},
     	{STR_FILE_TYPE,"File type"},
     	{STR_OWNER,"Owner"},
     	{STR_GROUP,"Group"},
@@ -393,7 +393,7 @@ static const struct DefaultString
     	{STR_SORTDEC,"Recognize decimals"},
     	{STR_SORTHEX,"Recognize hexadecimals"},
     	{STR_SORTBY,"Sort by"},
-    	{STR_NAMESORT_MENU,"Filename sorting"},
+    	{STR_NAMESORT_MENU,"Name sorting"},
     	{STR_FILE_EXTENSION,"Extension"},
     	{STR_PROTECT_OKAY,"_Okay"},
     	{STR_PROTECT_ALL,"A_ll"},
