@@ -53,7 +53,8 @@ char *argv[];
     struct WBStartup *WBmsg;
     struct WBArg *p;
 //    struct DiskObject *dobj;
-    char **toolarray,*s,*startdir=NULL,buf[32];
+    const char **toolarray;
+    char *s,*startdir=NULL,buf[32];
 //    BPTR lock;
 /*
 #ifndef __SASC
@@ -144,7 +145,7 @@ char *argv[];
 
     GfxBase=DOpusBase->GfxBase;
     IntuitionBase=DOpusBase->IntuitionBase;
-    LayersBase=(struct Library *)DOpusBase->LayersBase;
+    LayersBase=DOpusBase->LayersBase;
 #ifdef __SASC
     DOSBase = (struct DosLibrary *)OpenLibrary( "dos.library", 39 );
 #endif
@@ -161,13 +162,13 @@ char *argv[];
 
     Forbid();
     if (FindName(&SysBase->LibList,"services.library")) {
-        if (AccountsBase=OpenLibrary("accounts.library",0)) {
+        if ((AccountsBase=OpenLibrary("accounts.library",0))) {
             user_info=AllocUserInfo();
             group_info=AllocGroupInfo();
         }
     }
     if (FindName(&SysBase->LibList,"multiuser.library")) {
-      if (muBase = (struct muBase *)OpenLibrary("multiuser.library",39))
+      if ((muBase = (struct muBase *)OpenLibrary("multiuser.library",39)))
        {
         mu_userinfo = muAllocUserInfo();
         mu_groupinfo = muAllocGroupInfo();
@@ -206,7 +207,7 @@ D(bug("beepwave: %lx\n",beepwave));
     str_filter[0]=0;
     str_filter_parsed[0]=0;
 
-    if (str_last_rexx_result = AllocVec(256,MEMF_ANY)) str_last_rexx_result[0] = 0;
+    if ((str_last_rexx_result = AllocVec(256,MEMF_ANY))) str_last_rexx_result[0] = 0;
     else quit();
 
     func_single_file[0]=0;
@@ -263,21 +264,21 @@ D(bug("beepwave: %lx\n",beepwave));
         WBmsg=(struct WBStartup *)argv;
         p=WBmsg->sm_ArgList;
         if ((user_appicon=/*dobj=*/GetDiskObject(p->wa_Name))) {
-            toolarray=(char **)user_appicon/*dobj*/->do_ToolTypes;
+            toolarray=(const char **)user_appicon/*dobj*/->do_ToolTypes;
             if ((s=(char *)FindToolType(toolarray,"ICONSTART")))   iconstart=atoi(s);
             if ((s=(char *)FindToolType(toolarray,"BUTTONSTART"))) iconstart=atoi(s)?2:iconstart;
             if ((s=(char *)FindToolType(toolarray,"CONFIGFILE")))  LStrnCpy(str_config_basename,s,256);
             if ((s=(char *)FindToolType(toolarray,"CHECK")))       ck=atoi(s);
-            if (FindToolType((STRPTR *)toolarray,"USEAHI"))        useAHI=TRUE;
-            if (FindToolType((STRPTR *)toolarray,"FORCEOPENXFD"))  xfdMasterBase = (struct xfdMasterBase *)OpenLibrary("xfdmaster.library",38);
-            if (FindToolType((STRPTR *)toolarray,"FORCEOPENXAD"))  xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4);
-            if (FindToolType((STRPTR *)toolarray,"USESYSINFO"))
+            if (FindToolType(toolarray,"USEAHI"))        useAHI=TRUE;
+            if (FindToolType(toolarray,"FORCEOPENXFD"))  xfdMasterBase = (struct xfdMasterBase *)OpenLibrary("xfdmaster.library",38);
+            if (FindToolType(toolarray,"FORCEOPENXAD"))  xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4);
+            if (FindToolType(toolarray,"USESYSINFO"))
               {
 D(bug("Opening sysinfo.library v2..."));
-               if (SysInfoBase = OpenLibrary(SYSINFONAME,2L))
+               if ((SysInfoBase = OpenLibrary(SYSINFONAME,2L)))
                 {
 D(bug("success\n"));
-                 if (sysinfo = InitSysInfo())
+                 if ((sysinfo = InitSysInfo()))
                   {
 D(bug("InitSysInfo() successful\n"));
                    if (!(sysinfo->cpu_usage_implemented & CPU_USAGEF_LASTSEC_IMPLEMENTED))
@@ -366,9 +367,7 @@ else D(bug("FAILED!\n"));
             if (!(appmsg_port=LCreatePort(0,0))) quit();
         }
         for (a=0;a<2;a++) {
-            if (dos_notify_req[a]=LAllocRemember(&general_key,
-                sizeof(struct NotifyRequest),
-                MEMF_CLEAR))
+            if ((dos_notify_req[a]=LAllocRemember(&general_key,sizeof(struct NotifyRequest),MEMF_ANY|MEMF_CLEAR)))
                 dos_notify_req[a]->nr_Name=dos_notify_names[a];
         }
 //    }
@@ -544,11 +543,11 @@ int tit;
 
     main_win.Flags=WFLG_NW_EXTENDED|WFLG_NEWLOOKMENUS;
     mainwindow_tags[0].ti_Tag=TAG_SKIP;
-    mainwindow_tags[0].ti_Data=0;
+//    mainwindow_tags[0].ti_Data=0;
 #ifdef _USE_CAPITAL_Q
     if (status_flags&STATUS_IANSCRAP2) {
         mainwindow_tags[2].ti_Tag=TAG_SKIP;
-        mainwindow_tags[2].ti_Data=0;
+//        mainwindow_tags[2].ti_Data=0;
     }
 #endif
     if (config->screenmode==MODE_PUBLICSCREEN && /*system_version2 &&*/
@@ -1497,9 +1496,9 @@ int ver;
     char buf[80];
     struct Library *lib;
 
-    if (lib=OpenLibrary(name,ver)) return(lib);
+    if ((lib=OpenLibrary(name,ver))) return(lib);
     FindSystemFile(name,buf,80,SYSFILE_LIBRARY);
-    return(OpenLibrary(buf,ver));
+    return (OpenLibrary(buf,ver));
 }
 
 void read_configuration(def)
@@ -1517,7 +1516,7 @@ int def;
      {
       int i;
 
-      if (locale = OpenLocale(NULL))
+      if ((locale = OpenLocale(NULL)))
        {
         for (i = 0; locale->loc_LanguageName && (locale->loc_LanguageName[i] != '.'); i++)
           config->language[i] = locale->loc_LanguageName[i];
@@ -1587,7 +1586,7 @@ void setup_draw_info()
 
 //    if (system_version2) {
         mainscreen_tags[SCREENTAGS_DISPLAYID].ti_Data=0;
-        if (wbscreen=LockPubScreen(NULL)) {
+        if ((wbscreen=LockPubScreen(NULL))) {
             drinfo=GetScreenDrawInfo(wbscreen);
             b=drinfo->dri_NumPens;
             if (b>NUMDRIPENS) b=NUMDRIPENS;

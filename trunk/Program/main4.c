@@ -475,18 +475,6 @@ int x,y,w,h;
     RectFill(r,x,y,x+w-1,y+h-1);
 }
 
-int isinwindow(x,y)
-int x,y;
-{
-    int win;
-
-    for (win=0;win<2;win++) {
-        if (x>=scrdata_dirwin_xpos[win] && x<scrdata_dirwin_xpos[win]+scrdata_dirwin_width[win] &&
-            y>=scrdata_dirwin_ypos[win] && y<scrdata_dirwin_height+scrdata_dirwin_ypos[win]) return(win);
-    }
-    return(-1);
-}
-
 int isvalidwindow(win)
 int win;
 {

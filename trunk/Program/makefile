@@ -9,7 +9,7 @@ main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o
 
-OBJS_DEBUG = $(patsubst %.o, %.odebug, $(OBJS))
+OBJS_DEBUG = $(patsubst %.o,%.odebug, $(OBJS))
 
 CCOPTS = -m68020 -fbaserel
 INC = -I../include

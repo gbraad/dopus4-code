@@ -86,7 +86,7 @@ void doidcmp()
                 if (apmsg->am_Type==AMTYPE_APPWINDOW && apmsg->am_ID==APPWINID) {
                     for (a=0;a<apmsg->am_NumArgs;a++) {
                         if (apmsg->am_ArgList[a].wa_Lock) {
-                            if ((b=isinwindow(apmsg->am_MouseX,apmsg->am_MouseY))!=-1) {
+                            if ((b=isinwindow(apmsg->am_MouseX,apmsg->am_MouseY))!=-1) { // lister area
                                 if (!(*apmsg->am_ArgList[a].wa_Name)) {
                                     PathName(apmsg->am_ArgList[a].wa_Lock,str_pathbuffer[b],256);
                                     checkdir(str_pathbuffer[b],&path_strgadget[b]);
@@ -103,7 +103,7 @@ void doidcmp()
                                 }
                             }
                             else if (dopus_curgadbank &&
-                                (b=gadgetfrompos(apmsg->am_MouseX,apmsg->am_MouseY))!=-1) {
+                                (b=gadgetfrompos(apmsg->am_MouseX,apmsg->am_MouseY))!=-1) { // gadget bank area
                                 b+=(data_gadgetrow_offset*7);
                                 if (isvalidgad(&dopus_curgadbank->gadgets[b])) {
                                     PathName(apmsg->am_ArgList[a].wa_Lock,func_external_file,256);
@@ -295,193 +295,6 @@ D(bug("DOS notification message\n"));
                     break;
 
 ///
-/// "IDCMP_RAWKEY"
-                case IDCMP_RAWKEY:
-/*
-                    code&=0x7f;
-                    readkeys(var_key_matrix);
-                    a=code/8; b=code%8;
-                    if (!(var_key_matrix[a]&(1<<b)))
-*/
-                    if (code & IECODE_UP_PREFIX)
-                     {
-                      flushidcmp();
-                      break;
-                     }
-                    qual&=VALID_QUALIFIERS;
-                    bank=dopus_firstgadbank;
-                    while (bank) {
-                        for (a=0;a<GADCOUNT;a++) {
-                            if (check_key_press((struct dopusfunction *)&bank->gadgets[a],code,qual)) {
-                                dofunctionstring(bank->gadgets[a].function,bank->gadgets[a].name,
-                                    NULL,(struct dopusfuncpar *)&bank->gadgets[a].which);
-                                goto foobarbaz;
-                            }
-                        }
-                        bank=bank->next;
-                    }
-                    for (a=0;a<MENUCOUNT;a++) {
-                        if (check_key_press((struct dopusfunction *)&config->menu[a],code,qual)) {
-                            dofunctionstring(config->menu[a].function,config->menu[a].name,
-                                NULL,(struct dopusfuncpar *)&config->menu[a].which);
-                            goto foobarbaz;
-                        }
-                    }
-                    for (a=0;a<USEDRIVECOUNT;a++) {
-                        if (check_key_press(&config->drive[a],code,qual)) {
-                            strcpy(str_pathbuffer[data_active_window],config->drive[a].function);
-                            startgetdir(data_active_window,SGDFLAGS_CANMOVEEMPTY);
-                            goto foobarbaz;
-                        }
-                    }
-                    if (qual&(IEQUALIFIER_RCOMMAND|IEQUALIFIER_LCOMMAND)) {
-                        RawkeyToStr(code,qual,NULL,buf,0);
-                        switch (ToUpper(buf[0])) {
-                            case 'R': function=FUNC_RESELECT; break;
-                            case 'A': function=FUNC_AREXX; break;
-                            case 'S': function=FUNC_SELECT; break;
-                            case 'B': function=FUNC_BUFFERLIST; break;
-                            case ' ':
-                                if (qual&IEQUALIFIER_LCOMMAND) findfirstsel(data_active_window,ENTRY_FILE);
-                                else findfirstsel(data_active_window,ENTRY_DIRECTORY);
-                                break;
-/*
-                        switch (code) {
-                            case 0x13: function=FUNC_RESELECT; break;  // R
-                            case 0x20: function=FUNC_AREXX; break;     // A
-                            case 0x21: function=FUNC_SELECT; break;    // S
-                            case 0x35: function=FUNC_BUFFERLIST; break;// B
-                            case 0x40:                                 // SPACE
-                                if (qual&IEQUALIFIER_LCOMMAND) findfirstsel(data_active_window,ENTRY_FILE);
-                                else findfirstsel(data_active_window,ENTRY_DIRECTORY);
-                                break;
-*/
-                        }
-                    }
-                    else {
-                        win = -1;
-                        switch (code) {
-                            case NM_WHEEL_UP: win=isinwindow(x,y);
-                            case CURSOR_UP:
-                                if (win == -1) win = data_active_window;
-                                if (dopus_curwin[win]->total<scrdata_dispwin_lines) break;
-                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
-                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[win]->offset=0;
-                                    else {
-                                        dopus_curwin[win]->offset-=scrdata_dispwin_lines;
-                                        if (dopus_curwin[win]->offset<0)
-                                            dopus_curwin[win]->offset=0;
-                                    }
-                                    fixvertprop(win);
-                                    displaydir(win);
-                                    break;
-                                }
-                                verticalscroll(win,-1);
-                                break;
-                            case NM_WHEEL_DOWN: win=isinwindow(x,y);
-                            case CURSOR_DOWN:
-                                if (win == -1) win = data_active_window;
-                                if (dopus_curwin[win]->total<scrdata_dispwin_lines) break;
-                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
-                                    if (qual&IEQUALIFIER_CONTROL)
-                                        dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;
-                                    else {
-                                        dopus_curwin[win]->offset+=scrdata_dispwin_lines;
-                                        if (dopus_curwin[win]->offset>dopus_curwin[win]->total-scrdata_dispwin_lines)
-                                            dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;
-                                    }
-                                    fixvertprop(win);
-                                    displaydir(win);
-                                    break;
-                                }
-                                verticalscroll(win,1);
-                                break;
-                            case CURSOR_LEFT:
-                                if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) {
-                                    incrementbuf(data_active_window,-1,1);
-                                    break;
-                                }
-                            case NM_WHEEL_LEFT:
-                                if (code == NM_WHEEL_LEFT) win = isinwindow(x,y);
-                                if (win == -1) win = data_active_window;
-                                if (dopus_curwin[win]->total==0) break;
-                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
-                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[win]->hoffset=0;
-                                    else {
-                                        dopus_curwin[win]->hoffset-=scrdata_dispwin_nchars[win];
-                                        if (dopus_curwin[win]->hoffset<0) dopus_curwin[win]->hoffset=0;
-                                    }
-                                    refreshwindow(win,1);
-                                    break;
-                                }
-                                horizontalscroll(win,-1);
-                                break;
-                            case CURSOR_RIGHT:
-                                if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) {
-                                    incrementbuf(data_active_window,1,1);
-                                    break;
-                                }
-                            case NM_WHEEL_RIGHT:
-                                if (code == NM_WHEEL_RIGHT) win = isinwindow(x,y);
-                                if (win == -1) win = data_active_window;
-                                if (dopus_curwin[win]->total==0) break;
-                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
-                                    if (qual&IEQUALIFIER_CONTROL) {
-                                        dopus_curwin[win]->hoffset=dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win];
-                                        if (dopus_curwin[win]->hoffset<0) dopus_curwin[win]->hoffset=0;
-                                    }
-                                    else {
-                                        dopus_curwin[win]->hoffset+=scrdata_dispwin_nchars[win];
-                                        if (dopus_curwin[win]->hoffset>=(dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win]))
-                                            dopus_curwin[win]->hoffset=dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win];
-                                    }
-                                    refreshwindow(win,1);
-                                    break;
-                                }
-                                horizontalscroll(win,1);
-                                break;
-                        }
-                        switch (code) {
-                            case 0x5f: // HELP
-                                function=FUNC_HELP;
-                                break;
-                            case 0x40: // SPACE
-                            case 0x42: // TAB
-                                makeactive(1-data_active_window,1);
-                                break;
-                            case 0x44: // RETURN
-                                if (qual&IEQUALIFIER_ANYSHIFT) function=FUNC_BUFFERLIST;
-                                else if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) function=FUNC_DEVICELIST;
-                                else ActivateStrGad(&path_strgadget[data_active_window],Window);
-                                break;
-                            case 0x0b: // - _
-                                dosizedirwindows(-60000);
-                                break;
-                            case 0x0c: // = +
-                                dosizedirwindows(0);
-                                break;
-                            case 0x0d: // \ |
-                                dosizedirwindows(60000);
-                                break;
-                            case 0x1a: // [ {
-                                goto prevgadgetbank;
-                                break;
-                            case 0x1b: // ] }
-                                goto nextgadgetbank;
-                                break;
-                            default:
-                                if (code<0x40 && !(qual&IEQUALIFIER_CONTROL)) { // a digit or char
-                                    RawkeyToStr(code,qual,NULL,buf,0);
-                                    ch=buf[0];
-                                    if (_isprint(ch)) findfirstchar(data_active_window,ch);
-                                }
-                            break;
-                      }
-                    }
-                    unbusy();
-                    break;
-
-///
 /// "IDCMP_MENUPICK"
                 case IDCMP_MENUPICK:
                     Window->Flags|=RMBTRAP;
@@ -523,7 +336,7 @@ D(bug("DOS notification message\n"));
                             else win=1;
                             if (config->generalflags&GENERAL_ACTIVATE) makeactive(win,0);
                             verticalscroll(win,dir);
-                            Delay(5);
+//                            Delay(5);
                             while (!getintuimsg())
                                 if (gad->Flags&SELECTED) verticalscroll(win,dir);
                             ReplyMsg((struct Message *) IMsg);
@@ -539,7 +352,7 @@ D(bug("DOS notification message\n"));
                             else win=1;
                             if (config->generalflags&GENERAL_ACTIVATE) makeactive(win,0);
                             horizontalscroll(win,dir);
-                            Delay(5);
+//                            Delay(5);
                             while (!getintuimsg())
                                 if (gad->Flags&SELECTED) horizontalscroll(win,dir);
                             ReplyMsg((struct Message *) IMsg);
@@ -714,6 +527,265 @@ D(bug("doidcmp: a = %ld\n",a);KDump(&dopus_curgadbank->gadgets[a],sizeof(struct 
                     break;
 
 ///
+/// "IDCMP_RAWKEY"
+                case IDCMP_RAWKEY:
+/*
+                    code&=0x7f;
+                    readkeys(var_key_matrix);
+                    a=code/8; b=code%8;
+                    if (!(var_key_matrix[a]&(1<<b)))
+*/
+                    if (code & IECODE_UP_PREFIX)
+                     {
+                      flushidcmp();
+                      break;
+                     }
+                    qual&=VALID_QUALIFIERS;
+                    bank=dopus_firstgadbank;
+                    while (bank) {
+                        for (a=0;a<GADCOUNT;a++) {
+                            if (check_key_press((struct dopusfunction *)&bank->gadgets[a],code,qual)) {
+                                dofunctionstring(bank->gadgets[a].function,bank->gadgets[a].name,
+                                    NULL,(struct dopusfuncpar *)&bank->gadgets[a].which);
+                                goto foobarbaz;
+                            }
+                        }
+                        bank=bank->next;
+                    }
+                    for (a=0;a<MENUCOUNT;a++) {
+                        if (check_key_press((struct dopusfunction *)&config->menu[a],code,qual)) {
+                            dofunctionstring(config->menu[a].function,config->menu[a].name,
+                                NULL,(struct dopusfuncpar *)&config->menu[a].which);
+                            goto foobarbaz;
+                        }
+                    }
+                    for (a=0;a<USEDRIVECOUNT;a++) {
+                        if (check_key_press(&config->drive[a],code,qual)) {
+                            strcpy(str_pathbuffer[data_active_window],config->drive[a].function);
+                            startgetdir(data_active_window,SGDFLAGS_CANMOVEEMPTY);
+                            goto foobarbaz;
+                        }
+                    }
+                    if (qual&(IEQUALIFIER_RCOMMAND|IEQUALIFIER_LCOMMAND)) {
+                        RawkeyToStr(code,qual,NULL,buf,0);
+                        switch (ToUpper(buf[0])) {
+                            case 'R': function=FUNC_RESELECT; break;
+                            case 'A': function=FUNC_AREXX; break;
+                            case 'S': function=FUNC_SELECT; break;
+                            case 'B': function=FUNC_BUFFERLIST; break;
+                            case ' ':
+                                if (qual&IEQUALIFIER_LCOMMAND) findfirstsel(data_active_window,ENTRY_FILE);
+                                else findfirstsel(data_active_window,ENTRY_DIRECTORY);
+                                break;
+/*
+                        switch (code) {
+                            case 0x13: function=FUNC_RESELECT; break;  // R
+                            case 0x20: function=FUNC_AREXX; break;     // A
+                            case 0x21: function=FUNC_SELECT; break;    // S
+                            case 0x35: function=FUNC_BUFFERLIST; break;// B
+                            case 0x40:                                 // SPACE
+                                if (qual&IEQUALIFIER_LCOMMAND) findfirstsel(data_active_window,ENTRY_FILE);
+                                else findfirstsel(data_active_window,ENTRY_DIRECTORY);
+                                break;
+*/
+                        }
+                    }
+                    else {
+                        win = -1;
+                        switch (code) {
+                            case NM_WHEEL_UP:
+                                if ((y>=scrdata_gadget_ypos) && (y<=scrdata_gadget_ypos+(scr_gadget_rows*scrdata_gadget_height))) // gadget bank area
+                                 {
+                                  if ((x>=scrdata_gadget_offset) && (x<scrdata_gadget_xpos) && scr_gadget_rows) //drive bank
+                                   {
+                                    if (scrdata_drive_width)
+                                     {
+                                      data_drive_offset--;
+                                      if (data_drive_offset < 0) data_drive_offset = 0;
+                                      if (config->generalscreenflags&SCR_GENERAL_GADSLIDERS) {
+                                          FixSliderPot(Window,&drive_propgad,data_drive_offset,
+                                              USEDRIVECOUNT,scr_gadget_rows,!status_iconified);
+                                      }
+                                      if (!status_iconified) fixdrivegadgets();
+                                     }
+                                   }
+                                  else // button bank
+                                   {
+                                    int max = (getgadbankcount()*6)/scr_gadget_rows,
+                                        pos = GetSliderPos(&gadget_propgad,max,1);
+
+                                    if (--pos < 0) pos = 0;
+                                    else
+                                     {
+                                      FixSliderPot(Window,&gadget_propgad,pos,max,1,0);
+                                      doposgadgetprop(0);
+                                     }
+                                   }
+                                  break;
+                                 }
+                                else
+                                  win = isinwindow(x,y); // lister area
+                                  if (win == -1) break;
+                            case CURSOR_UP:
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total<scrdata_dispwin_lines) break;
+                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
+                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[win]->offset=0;
+                                    else {
+                                        dopus_curwin[win]->offset-=scrdata_dispwin_lines;
+                                        if (dopus_curwin[win]->offset<0)
+                                            dopus_curwin[win]->offset=0;
+                                    }
+                                    fixvertprop(win);
+                                    displaydir(win);
+                                    break;
+                                }
+                                verticalscroll(win,-1);
+                                break;
+                            case NM_WHEEL_DOWN:
+                                if ((y>=scrdata_gadget_ypos) && (y<=scrdata_gadget_ypos+(scr_gadget_rows*scrdata_gadget_height))) // gadget bank area
+                                 {
+                                  if ((x>=scrdata_gadget_offset) && (x<scrdata_gadget_xpos) && scr_gadget_rows) //drive bank
+                                   {
+                                    if (scrdata_drive_width)
+                                     {
+                                      data_drive_offset++;
+                                      if (data_drive_offset > (USEDRIVECOUNT-scr_gadget_rows)) data_drive_offset = USEDRIVECOUNT - scr_gadget_rows;
+                                      if (config->generalscreenflags&SCR_GENERAL_GADSLIDERS) {
+                                          FixSliderPot(Window,&drive_propgad,data_drive_offset,
+                                              USEDRIVECOUNT,scr_gadget_rows,!status_iconified);
+                                      }
+                                      if (!status_iconified) fixdrivegadgets();
+                                     }
+                                   }
+                                  else // button bank
+                                   {
+                                    int max = (getgadbankcount()*6)/scr_gadget_rows,
+                                        pos = GetSliderPos(&gadget_propgad,max,1);
+
+                                    if (++pos == max) pos = max-1;
+                                    else
+                                     {
+                                      FixSliderPot(Window,&gadget_propgad,pos,max,1,0);
+                                      doposgadgetprop(0);
+                                     }
+                                   }
+                                  break;
+                                 }
+                                else
+                                  win = isinwindow(x,y); // lister area
+                                  if (win == -1) break;
+                            case CURSOR_DOWN:
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total<scrdata_dispwin_lines) break;
+                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
+                                    if (qual&IEQUALIFIER_CONTROL)
+                                        dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;
+                                    else {
+                                        dopus_curwin[win]->offset+=scrdata_dispwin_lines;
+                                        if (dopus_curwin[win]->offset>dopus_curwin[win]->total-scrdata_dispwin_lines)
+                                            dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;
+                                    }
+                                    fixvertprop(win);
+                                    displaydir(win);
+                                    break;
+                                }
+                                verticalscroll(win,1);
+                                break;
+                            case CURSOR_LEFT:
+                                if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) {
+                                    incrementbuf(data_active_window,-1,1);
+                                    break;
+                                }
+                            case NM_WHEEL_LEFT:
+                                if (code == NM_WHEEL_LEFT)
+                                 {
+                                  win = isinwindow(x,y); // lister area
+                                  if (win == -1) break;
+                                 }
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total==0) break;
+                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
+                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[win]->hoffset=0;
+                                    else {
+                                        dopus_curwin[win]->hoffset-=scrdata_dispwin_nchars[win];
+                                        if (dopus_curwin[win]->hoffset<0) dopus_curwin[win]->hoffset=0;
+                                    }
+                                    refreshwindow(win,1);
+                                    break;
+                                }
+                                horizontalscroll(win,-1);
+                                break;
+                            case CURSOR_RIGHT:
+                                if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) {
+                                    incrementbuf(data_active_window,1,1);
+                                    break;
+                                }
+                            case NM_WHEEL_RIGHT:
+                                if (code == NM_WHEEL_RIGHT)
+                                 {
+                                  win = isinwindow(x,y); // lister area
+                                  if (win == -1) break;
+                                 }
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total==0) break;
+                                if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
+                                    if (qual&IEQUALIFIER_CONTROL) {
+                                        dopus_curwin[win]->hoffset=dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win];
+                                        if (dopus_curwin[win]->hoffset<0) dopus_curwin[win]->hoffset=0;
+                                    }
+                                    else {
+                                        dopus_curwin[win]->hoffset+=scrdata_dispwin_nchars[win];
+                                        if (dopus_curwin[win]->hoffset>=(dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win]))
+                                            dopus_curwin[win]->hoffset=dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win];
+                                    }
+                                    refreshwindow(win,1);
+                                    break;
+                                }
+                                horizontalscroll(win,1);
+                                break;
+                        }
+                        switch (code) {
+                            case 0x5f: // HELP
+                                function=FUNC_HELP;
+                                break;
+                            case 0x40: // SPACE
+                            case 0x42: // TAB
+                                makeactive(1-data_active_window,1);
+                                break;
+                            case 0x44: // RETURN
+                                if (qual&IEQUALIFIER_ANYSHIFT) function=FUNC_BUFFERLIST;
+                                else if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) function=FUNC_DEVICELIST;
+                                else ActivateStrGad(&path_strgadget[data_active_window],Window);
+                                break;
+                            case 0x0b: // - _
+                                dosizedirwindows(-60000);
+                                break;
+                            case 0x0c: // = +
+                                dosizedirwindows(0);
+                                break;
+                            case 0x0d: // \ |
+                                dosizedirwindows(60000);
+                                break;
+                            case 0x1a: // [ {
+                                goto prevgadgetbank;
+                                break;
+                            case 0x1b: // ] }
+                                goto nextgadgetbank;
+                                break;
+                            default:
+                                if (code<0x40 && !(qual&IEQUALIFIER_CONTROL)) { // a digit or char
+                                    RawkeyToStr(code,qual,NULL,buf,0);
+                                    ch=buf[0];
+                                    if (_isprint(ch)) findfirstchar(data_active_window,ch);
+                                }
+                            break;
+                      }
+                    }
+                    unbusy();
+                    break;
+
+///
 /// "IDCMP_MOUSEBUTTONS"
                 case IDCMP_MOUSEBUTTONS:
                     if (stringgd) {
@@ -721,7 +793,7 @@ D(bug("doidcmp: a = %ld\n",a);KDump(&dopus_curgadbank->gadgets[a],sizeof(struct 
                         stringgd=0;
                     }
                     if (code==SELECTDOWN) {
-                        if (y>=scrdata_diskname_ypos && y<scrdata_diskname_ypos+scrdata_diskname_height) {
+                        if (y>=scrdata_diskname_ypos && y<scrdata_diskname_ypos+scrdata_diskname_height) { // disk name bar
                             a=(x<scrdata_dispwin_center)?0:1;
                             if (data_active_window==1-a) {
                                  if (DoubleClick(time_previous_sec,time_previous_micro,
@@ -746,11 +818,11 @@ D(bug("doidcmp: a = %ld\n",a);KDump(&dopus_curgadbank->gadgets[a],sizeof(struct 
                             break;
                         }
                         else if (x>scrdata_dispwin_center-3 && x<scrdata_dispwin_center+2 &&
-                            y>=scrdata_dispwin_ypos && y<scrdata_dispwin_height+scrdata_dispwin_ypos) {
+                            y>=scrdata_dispwin_ypos && y<scrdata_dispwin_height+scrdata_dispwin_ypos) { // lister inner edge
                             dosizedirwindows(65536);
                         }
-                        else if ((a=isinwindow(x,y))!=-1) doselection(a,TRUE);
-                        else if (x>=scrdata_xoffset && x<scrdata_xoffset+scrdata_clock_width &&
+                        else if ((a=isinwindow(x,y))!=-1) doselection(a,TRUE);                          // lister area
+                        else if (x>=scrdata_xoffset && x<scrdata_xoffset+scrdata_clock_width &&         // button bank area
                             y>scrdata_clock_ypos-3) {
 nextgadgetbank:
                             if ((data_gadgetrow_offset+=scr_gadget_rows)>=6) {
@@ -766,7 +838,7 @@ nextgadgetbank:
                         }
                     }
                     else if (code==MENUDOWN) {
-                        if ((a=DoRMBGadget(mainrmbgads,Window))>-1) {
+                        if ((a=DoRMBGadget(mainrmbgads,Window))>-1) {		// check buttons reacting on RMB click
                             if (a==FUNC_ROOT) {
                                char buf[256];
                                int w;
@@ -790,7 +862,7 @@ nextgadgetbank:
                         else if (y<scrdata_diskname_ypos ||
                             y>scrdata_yoffset+scrdata_height ||
                             x<scrdata_xoffset ||
-                            x>scrdata_xoffset+scrdata_width)
+                            x>scrdata_xoffset+scrdata_width)		// window frame
                               quickfixmenus();
 
                         else if (y>=scrdata_diskname_ypos && y<=scrdata_dispwin_ypos) {  /* diskname bar */
@@ -813,7 +885,7 @@ nextgadgetbank:
                             checksize(1-a);
                         }
                         else if (x>=scrdata_xoffset && x<scrdata_xoffset+scrdata_clock_width &&
-                            y>scrdata_clock_ypos-3) {
+                            y>scrdata_clock_ypos-3) {												// clock bar
                             if (qual&IEQUALIFIER_ANYSHIFT) {
                                 drawgadgets(0,GADCOUNT/2);
                                 FOREVER {
@@ -843,7 +915,7 @@ prevgadgetbank:
                             }
                         }
                         else if (y>scrdata_dispwin_ypos+1 &&
-                            y<scrdata_dispwin_height+scrdata_dispwin_ypos+2) {
+                            y<scrdata_dispwin_height+scrdata_dispwin_ypos+2) {        // lister area
                             if (x>1 && x<scrdata_dispwin_center-13) {
                               if (config->generalflags & GENERAL_FMPARENT) function = FUNC_PARENT;
                               else {
@@ -860,7 +932,7 @@ prevgadgetbank:
                                 }
                             }
                         }
-                        else if (x>=scrdata_gadget_xpos && y>=scrdata_gadget_ypos &&
+                        else if (x>=scrdata_gadget_xpos && y>=scrdata_gadget_ypos &&             // gadget bank area
                             y<scrdata_gadget_ypos+(scr_gadget_rows*scrdata_gadget_height)+1 &&
                             dopus_curgadbank) {
 
@@ -886,7 +958,7 @@ prevgadgetbank:
 
                       if (config->hotkeyflags & HOTKEY_USEMMB) break;
 
-                      if ((win=isinwindow(x,y))!=-1)
+                      if ((win=isinwindow(x,y))!=-1)	// lister area
                        {
                         if (DoubleClick(time_previous_sec,time_previous_micro,time_current_sec,time_current_micro))
                          {
@@ -959,6 +1031,18 @@ struct IntuiMessage *getintuimsg(void)
 void flushidcmp()
 {
     while (getintuimsg()) ReplyMsg((struct Message *)IMsg);
+}
+
+int isinwindow(x,y)
+int x,y;
+{
+    int win;
+
+    for (win=0;win<2;win++) {
+        if (x>=scrdata_dirwin_xpos[win] && x<scrdata_dirwin_xpos[win]+scrdata_dirwin_width[win] &&
+            y>=scrdata_dirwin_ypos[win] && y<scrdata_dirwin_ypos[win]+scrdata_dirwin_height) return(win);
+    }
+    return(-1);
 }
 
 

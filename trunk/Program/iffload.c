@@ -153,47 +153,52 @@ char *name;
     dbufinfo=NULL; dbufport=NULL;
 #endif
 
-    if (DataTypesBase)
+    dt_ok = 0;
+
+    if (readfile(name,&picbuffer,(int *)&buffersize))
      {
-      if ((dto = NewDTObject(name,DTA_GroupID,GID_PICTURE,
-//                                 PDTA_Remap, FALSE,
-                                 PDTA_FreeSourceBitMap, TRUE,
-                                 TAG_END)))
+      return(0);
+     }
+
+    if (!chunkread(chunkbuf,sizeof(ULONG)*3) ||
+        chunkbuf[0]!=ID_FORM ||
+        (chunkbuf[2]!=ID_ANIM && chunkbuf[2]!=ID_ILBM))
+     {
+DTload:
+      if (DataTypesBase)
        {
-        struct BitMapHeader *dto_bmhd;
-
-        if (GetDTAttrs (dto,
-                    PDTA_ModeID,            (Tag)&viewmode,
-                    PDTA_BitMapHeader,      (Tag)&dto_bmhd,
-                    PDTA_ColorRegisters,    (Tag)&colourptr,
-                    PDTA_NumColors,         (Tag)&coloursize,
-                    TAG_DONE)==4)
+        if ((dto = NewDTObject(name,DTA_GroupID,GID_PICTURE,
+  //                                 PDTA_Remap, FALSE,
+                                   PDTA_FreeSourceBitMap, TRUE,
+                                   TAG_END)))
          {
-D(bug("viewmode(0) = %08lx\n",viewmode));
-          bmhd = *dto_bmhd;
-          coloursize*=3;
-          picbuffer=NULL;
+          struct BitMapHeader *dto_bmhd;
 
-          dt_ok = TRUE;
-//D(KDump(colourptr,coloursize));
+          if (GetDTAttrs (dto,
+                      PDTA_ModeID,            (Tag)&viewmode,
+                      PDTA_BitMapHeader,      (Tag)&dto_bmhd,
+                      PDTA_ColorRegisters,    (Tag)&colourptr,
+                      PDTA_NumColors,         (Tag)&coloursize,
+                      TAG_DONE)==4)
+           {
+D(bug("viewmode(0) = %08lx\n",viewmode));
+            bmhd = *dto_bmhd;
+            coloursize*=3;
+            picbuffer=NULL;
+
+            dt_ok = TRUE;
+  //D(KDump(colourptr,coloursize));
+           }
          }
+       }
+      if (! dt_ok)
+       {
+        retcode=IFFERR_NOTILBM;
+        goto endiff;
        }
      }
     if (! dt_ok)
      {
-      if (readfile(name,&picbuffer,(int *)&buffersize))
-       {
-        DisposeDTObject(dto);
-        dto=NULL;
-        return(0);
-       }
-
-      if (!chunkread(chunkbuf,sizeof(ULONG)*3) ||
-          chunkbuf[0]!=ID_FORM ||
-          (chunkbuf[2]!=ID_ANIM && chunkbuf[2]!=ID_ILBM)) {
-          retcode=IFFERR_NOTILBM;
-          goto endiff;
-      }
       if (chunkbuf[2]==ID_ANIM) isanim=1;
 
       while (bufferpos<=buffersize) {
@@ -239,6 +244,7 @@ D(bug("viewmode(0) = %08lx\n",viewmode));
                       retcode=IFFERR_BADIFF;
                       goto endiff;
                   }
+                  if ((! isanim) && (bmhd.bmh_Depth > 8)) goto DTload;
                   chunksize=0;
                   break;
               case ID_CMAP:

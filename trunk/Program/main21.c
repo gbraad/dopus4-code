@@ -602,20 +602,30 @@ void doposdriveprop()
     }
 }
 
+int getgadbankcount(void)
+{
+  struct dopusgadgetbanks *bank = dopus_firstgadbank;
+  int bankcount = 0;
+
+  for (;;bankcount++) {
+      if (!bank) break;
+      bank=bank->next;
+  }
+  return bankcount;
+}
+
 void doposgadgetprop(ref)
 int ref;
 {
-    struct dopusgadgetbanks *bank,*oldbank;
-    int a,bankcount,bankstep,oldoff,num;
-
     if (scr_gadget_rows) {
+        struct dopusgadgetbanks *oldbank = dopus_curgadbank;
+        int a,
+            bankcount = getgadbankcount(),
+            bankstep,
+            oldoff = data_gadgetrow_offset,
+            num;
+
         ShowSlider(Window,&gadget_propgad);
-        oldbank=dopus_curgadbank; oldoff=data_gadgetrow_offset;
-        bank=dopus_firstgadbank;
-        for (bankcount=0;;bankcount++) {
-            if (!bank) break;
-            bank=bank->next;
-        }
         bankstep=6/scr_gadget_rows;
         data_gadgetrow_offset=GetSliderPos(&gadget_propgad,(bankcount*6)/scr_gadget_rows,1);
         a=data_gadgetrow_offset/bankstep;

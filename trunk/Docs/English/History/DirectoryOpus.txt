@@ -6,8 +6,11 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (08.08.2002):
+4.17 (23.08.2002):
 - few hits removed
+- Show function will use datatypes if it fails to load IFF file (it 
+supports 24bit IFF files only through datatypes)
+- MouseWheel can be used to scroll drive and button banks
 - separate version with debug enabled (use it with Sushi/Sashimi tools to report
 bugs)
 - Rename function supports multiple asterisks
@@ -35,7 +38,6 @@ and protection bits preserved
 - preliminary support for AmigaGuide help
 - it will quietly wait for all alien windows to close before closing its
 screen and terminating
-- preliminary datatypes support for Show function
 - cleaned up input handling code
 - 8SVX PAN chunk support added
 - AHI support for samples (modules are still played by inovamusic.library

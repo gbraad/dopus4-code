@@ -179,7 +179,6 @@ void doarrowgadgets(struct Gadget *,int);
 void makermbgad(struct RMBGadget *,struct Gadget *,int);
 void dolittlegads(struct Gadget *,char *,int);
 void rectfill(struct RastPort *,int,int,int,int);
-int isinwindow(int,int);
 int isvalidwindow(int);
 int _isdigit(unsigned char);
 int _isxdigit(unsigned char);
@@ -418,6 +417,7 @@ int maxgadwidth(struct TextFont *,char **,int);
 int gettextlength(struct TextFont *,char *,int *,int);
 int dotextlength(struct RastPort *,char *,int *,int);
 void doposdriveprop(void);
+int getgadbankcount(void);
 void doposgadgetprop(int);
 void fixgadgetprop(void);
 int makeusstring(char *,char *,int *);
@@ -479,6 +479,7 @@ int checkerror(char *,char *,int);
 void doidcmp(void);
 struct IntuiMessage *getintuimsg(void);
 void flushidcmp(void);
+int isinwindow(int,int);
 
 /* iffload.c */
 
