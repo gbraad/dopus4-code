@@ -474,20 +474,23 @@ int win;
 char c;
 {
         struct Directory *sel;
-        int a=0,b=0,file=0;
+        int a=0,b=0,file=0,rev;
+        char d;
 
         if (_isupper(c)) { file=1; c=ToLower(c); }
         if (dopus_curwin[win]->total<=scrdata_dispwin_lines) return;
+        rev = (config->sortflags&(win?SORT_RREVERSE:SORT_LREVERSE))?1:0;
         sel=dopus_curwin[win]->firstentry;
         while (sel) {
-                if (ToLower(sel->name[0])>=c) {
+                d = ToLower(sel->name[0]);
+                if ((rev && (d<=c)) || (!rev && (d>=c))) {
                         if (!file || ENTRYTYPE(sel->type)==ENTRY_FILE) {
                                 b=1;
                                 break;
                         }
                 }
-                if (sel->next) sel=sel->next;
-                else sel=NULL;
+                /*if (sel->next)*/ sel=sel->next;
+//                else sel=NULL;
                 ++a;
         }
         if (!b) dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;

@@ -847,7 +847,7 @@ foobarbaz:
 //    goto foreverloop; // JRZ: Just in case???
 }
 
-struct IntuiMessage *getintuimsg()
+struct IntuiMessage *getintuimsg(void)
 {
     return((IMsg=(struct IntuiMessage *)GetMsg(Window->UserPort)));
 }

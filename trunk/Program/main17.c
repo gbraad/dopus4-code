@@ -1525,22 +1525,17 @@ int num;
 void modify(flag)
 unsigned char *flag;
 {
-    int a,b;
-    unsigned char c;
+    int a;
 
-    c=*flag;
     for (a=1;a<rexx_argcount;a++) {
         if (rexx_args[a][0]=='+') {
-            b=atoi(&rexx_args[a][1]);
-            c|=b;
+            (*flag) |= atoi(&rexx_args[a][1]);
         }
         else if (rexx_args[a][0]=='-') {
-            b=atoi(&rexx_args[a][1]);
-            c&=~b;
+            *(flag) &= ~(atoi(&rexx_args[a][1]));
         }
-        else c=atoi(rexx_args[a]);
+        else (*flag)=atoi(rexx_args[a]);
     }
-    *flag=c;
 }
 
 void rexx_return(msg,num)

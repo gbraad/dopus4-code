@@ -8,6 +8,9 @@ like more.
 
 4.17 (23.01.2002):
 - few hits removed
+- QUERY/MODIFY functions fixed for some parameters
+- jumping to entry name starting with pressed key works for reverse sorted
+lister too
 - replaced built-in error messages with system ones
 - no longer warns about modified config after returning from ConfigOpus
 - printing empty directory should not cause Enforcer hits anymore

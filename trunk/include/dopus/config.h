@@ -274,7 +274,7 @@ struct Config {
     char pad3;
 
     char scrdepth;
-    char screenflags;
+    UBYTE screenflags;
     int screenmode;
     int scrw,scrh;
     char pad3a[40];
@@ -283,7 +283,7 @@ struct Config {
     char pad4; //HUX - now unused
 
     char startupscript[80];
-    char dirflags;
+    UBYTE dirflags;
     unsigned char bufcount;
 
     UBYTE listerdisplayflags[2]; //HUX - was char pad5[2]
@@ -330,11 +330,11 @@ struct Config {
     UBYTE stringfgcol,stringbgcol;
     char namelength[2];
     char sliderwidth,sliderheight;
-    char formatflags;
+    UBYTE formatflags;
     short iconbutx,iconbuty;
     char stringheight;
     UBYTE stringselfgcol,stringselbgcol;
-    char generalscreenflags;
+    UBYTE generalscreenflags;
 
     struct Rectangle scrollborders[2];
 
