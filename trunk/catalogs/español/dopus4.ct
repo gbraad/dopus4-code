@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.11 (22.01.2002)
+## version $VER: DOpus4.catalog 1.12 (22.01.2002)
 ## codeset 0
 ## language español
 ;
@@ -355,7 +355,7 @@ Se desconoce el tamaño de alguno de los directorios seleccionados.\n\n\
 STR_ENTRIES_MAY_NOT_FIT
 Posiblemente los objetos seleccionados no cabrán en el destino.\n\n\
 ¿De verdad desea copiarlos?
-; Selected entries will probably not fit in destination.\nContinue with the copy?;
+; Selected entries will probably not fit in destination.\nContinue with the copy?
 ;
 STR_ENTER_NEW_NAME_COPY
 Introduzca un nuevo nombre para el fichero copiado
@@ -1685,3 +1685,15 @@ Ordenar por
 STR_NAMESORT_MENU
 Nombres de fichero
 ; Filename sorting
+;
+STR_FILE_EXTENSION
+Extensión
+; Extension
+;
+STR_PROTECT_OKAY
+Aceptar
+; Okay
+;
+STR_PROTECT_ALL
+Todos
+; All
