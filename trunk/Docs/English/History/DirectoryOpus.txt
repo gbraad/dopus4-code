@@ -6,8 +6,9 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (27.10.2001):
+4.17 (13.01.2002):
 - few hits removed
+- Search function works on listed archives
 - name sorting mode can be selected in lister menu
 - archives should work on all filesystems again
 - command line length in generated scripts increased to 510 chars
