@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <newmouse.h>
+#include <devices/newmouse.h>
 //#include <proto/powerpacker.h>
 #ifdef WITHPCHG
   #ifdef __PPC__

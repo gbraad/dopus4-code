@@ -33,6 +33,10 @@ the existing commercial status of Directory Opus 5.
 #include <proto/ahi.h>
 #include <workbench/icon.h>
 
+#ifndef SAMPLETYPE_Stereo
+#define SAMPLETYPE_Stereo SVX_STEREO
+#endif
+
 #define RAWKEY_ESC 0x45
 #define RAWKEY_Q   0x10
 #define RAWKEY_X   0x32
@@ -47,7 +51,7 @@ static struct IOAudio *audio_req2[2];        /* Audio IO Request block #2 */
 static UBYTE *audiodata;                     /* Audio data to play */
 static ULONG audio_size;                     /* Size of audio data */
 
-static struct Library      *AHIBase;
+struct Library      *AHIBase;
 static struct MsgPort      *AHImp;
 static struct AHIRequest   *AHIio;
 static BYTE                 AHIDevice = -1;

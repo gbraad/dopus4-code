@@ -44,6 +44,15 @@ static BOOL staybehindWB;
 
 extern BOOL useAHI;
 
+static struct EasyStruct alert_es =
+{
+	sizeof(struct EasyStruct),
+        0,
+        "Directory Opus alert",
+        0,
+        "Abort"
+};
+
 int  CXBRK(void) { return(0); }  /* Disable Lattice CTRL/C handling */
 void chkabort(void) { return; }
 
@@ -63,6 +72,7 @@ char *argv[];
     SysBase = *( (void **)4L );
 #endif
 */
+#ifndef __MORPHOS__
     /* Verify useable OS version */
     if (SysBase->LibNode.lib_Version>=40) system_version2=OSVER_40;
     else if (SysBase->LibNode.lib_Version==39) system_version2=OSVER_39;
@@ -84,7 +94,7 @@ char *argv[];
 #endif
 */
      }
-
+#endif
     /* Get pointer to our Process structure and set our WindowPtr for
        errors to -1 (no errors appear). */
 
@@ -92,8 +102,9 @@ char *argv[];
 
     if ( main_proc->pr_StackSize < 16384 )
      {
-      IntuitionBase=(struct IntuitionBase *) OpenLibrary("intuition.library",0);
-      DisplayAlert(RECOVERY_ALERT,"\0\0\xf           You need at least 16384 bytes of stack to run Directory Opus!\0",26);
+      IntuitionBase=(struct IntuitionBase *) OpenLibrary("intuition.library",36);
+      alert_es.es_TextFormat="You need at least 16384 bytes of stack to run Directory Opus!";
+      EasyRequestArgs(NULL,&alert_es,NULL,NULL);
       CloseLibrary((struct Library *) IntuitionBase);
 
       return 5;
@@ -114,15 +125,14 @@ char *argv[];
       if (!(DOpusBase=(struct DOpusBase *)OpenLibrary("PROGDIR:dopus.library",DOPUSLIB_VERSION)))
         if (!(DOpusBase=(struct DOpusBase *)OpenLibrary("PROGDIR:libs/dopus.library",DOPUSLIB_VERSION)))
           DOpusBase=(struct DOpusBase *)OpenLibrary("DOpus:libs/dopus.library",DOPUSLIB_VERSION);
+          DOpusBase = NULL;
     if (!DOpusBase || (DOpusBase->LibNode.lib_Revision < DOPUSLIB_REVISION))
      {
-      char buf[80];
 
-      IntuitionBase=(struct IntuitionBase *) OpenLibrary("intuition.library",0);
+      IntuitionBase=(struct IntuitionBase *) OpenLibrary("intuition.library",36);
 
-      lsprintf(buf+2,"\xf         You need dopus.library v%ld.%ld or later to use Directory Opus!",DOPUSLIB_VERSION,DOPUSLIB_REVISION);
-      buf[strlen(buf+2)+3] = buf[0] = buf[1] = 0;
-      DisplayAlert(RECOVERY_ALERT,buf,26);
+      alert_es.es_TextFormat="You need dopus.library v%ld.%ld or later to use Directory Opus!";
+      EasyRequest(NULL,&alert_es,NULL,DOPUSLIB_VERSION,DOPUSLIB_REVISION);
       CloseLibrary((struct Library *) DOpusBase);
       CloseLibrary((struct Library *) IntuitionBase);
 

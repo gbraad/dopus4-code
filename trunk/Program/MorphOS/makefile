@@ -1,6 +1,6 @@
 vpath %.c ../
-CC = ppc-morphos-gcc
-CCOPTS = -mcpu=604
+CC = gcc
+CCOPTS = -mcpu=604 -fsigned-char
 CDEFS = 
 INC = -I../../include-mos -I/gg/mos-include
 
@@ -13,10 +13,10 @@ main20.o main21.o main22.o makelinkdata.o parentmulti.o popupmenu.o \
 protectdata.o remember.o renamedata.o rexx.o screendata.o searchdata.o \
 select.o selectdata.o strings.o tasks.o view.o chipimage.o
 
-LIBS = -L./ -lm -lpm -lasync
+LIBS = -L./ -lm -lpm -lasyncio
 # -ldebug
 
-APPNAME = ../../../DirectoryOpus.elf
+APPNAME = ../../DirectoryOpus.elf
 
 All : $(APPNAME)
 

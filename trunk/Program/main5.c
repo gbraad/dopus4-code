@@ -35,6 +35,8 @@ the existing commercial status of Directory Opus 5.
 #include <clib/asyncio_protos.h>
 //#include <inline/asyncio.h>
 
+struct Library *AsyncIOBase;
+
 int copyfile(src,dst,err,/*size,*/password,encryptstate)
 char *src,*dst;
 int *err/*,size*/;

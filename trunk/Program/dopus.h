@@ -37,6 +37,7 @@ the existing commercial status of Directory Opus 5.
 #endif
 
 #ifdef __PPC__
+  #undef  __saveds
   #define __saveds
   #define __chip
   #define __aligned __attribute__((__aligned__(4)))
@@ -73,7 +74,21 @@ the existing commercial status of Directory Opus 5.
 #include <devices/conunit.h>
 #include <hardware/intbits.h>
 #include <datatypes/datatypesclass.h>
-#include <proto/all.h>
+#include <proto/alib.h>
+#include <proto/exec.h>
+#include <proto/dos.h>
+#include <proto/datatypes.h>
+#include <proto/diskfont.h>
+#include <proto/icon.h>
+#include <proto/intuition.h>
+#include <proto/graphics.h>
+#include <proto/layers.h>
+#include <proto/locale.h>
+#include <proto/commodities.h>
+#include <proto/wb.h>
+#include <proto/rexxsyslib.h>
+#include <proto/timer.h>
+#include <proto/utility.h>
 
 #include <proto/dopus.h>
 #include <proto/accounts.h>
