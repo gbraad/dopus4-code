@@ -1,10 +1,10 @@
-## version $VER: DOpus4.catalog 1.11 (17.02.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4.catalog 1.15 (24.08.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 1.9 (09.02.2002)
+; $VER: DOpus4.cd 1.10 (27.05.2002)
 ;
 ;
 ; General
@@ -66,7 +66,7 @@ Lista urzâdzeï\n\n
 ; Device list\n\n
 ;
 STR_NO_CHIP_FOR_ICON
-Zbyt maîo wolnej pamiëci chip do wyôwietlenia ikony
+Zbyt maîo wolnej pamiëci chip do wyôwietlenia ikonki
 ; Not enough chip memory to display icon
 ;
 STR_FILE_NOT_ILBM
@@ -234,7 +234,7 @@ Zmieniîeô konfiguracjë.\nCzy chcesz wczytaê ostatnio zapisane ustawienia?
 ; You have modified the configuration.\nReally load the last-saved settings?
 ;
 STR_CONFIG_CHANGED_DEFAULTS
-Zmieniîeô konfiguracjë.\nZapisaê przed przywróceniem ustawieï domyôlnych?
+Zmodyfikowaîeô konfiguracjë.\nZapisaê przed odtworzeniem ustawieï domyôlnych?
 ; You have modified the configuration.\nSave before restoring defaults?
 ;
 STR_HELP_NOT_AVAILABLE
@@ -377,9 +377,17 @@ STR_ADDING_ICON
 dodawania ikonki do
 ; adding an icon to
 ;
+STR_SELECT_COMMENT
+Komentarz
+; Comment
+;
 STR_ENTER_COMMENT
 Podaj komentarz
 ; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+Nie mogë zamknâê ekranu poniewaû\nsâ na nim otwarte obce okna.\nPoczekam aû zostanâ one zamkniëte.
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
 ;
 STR_ENTER_PASSWORD
 Podaj hasîo
@@ -392,6 +400,10 @@ Podaj datë i czas (puste = aktualnie)
 STR_ENTER_SEARCH_STRING
 Podaj szukany ciâg
 ; Enter search string
+;
+STR_RENAME_REQ
+Zmieï _nazwë
+; Rena_me
 ;
 STR_STRING_NOT_FOUND
 Przykro mi! Ciâg nie zostaî znaleziony!
@@ -506,7 +518,7 @@ Drukarka gotowa, wybierz W porzâdku aby kontynuowaê
 ;
 ;
 STR_CANT_FIND_ICON
-Nie mogë znaleúê lub wczytaê ikony dla tego pliku.
+Nie mogë znaleúê lub wczytaê ikonki dla tego pliku.
 ; Unable to find or load an icon for that file.
 ;
 STR_ENCRYPTING
@@ -516,6 +528,10 @@ deszyfrujë
 STR_NEW_DISK_INSERTED
 Nowy dysk w urzâdzeniu DF%ld:\nCzy chcesz odczytaê zawartoôê tego dysku?
 ; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
+;
+STR_REPLACE_ALL
+Zas_tâp wszystko
+; Replace _all
 ;
 STR_ENTER_DATE_1
 Podaj datë w formacie dd-mmm-rr
@@ -628,7 +644,7 @@ Po_miï
 ;
 STR_ALL
 Wszys_tkie
-; A_ll
+; _All
 ;
 STR_REMOVE
 Usuï
@@ -817,11 +833,11 @@ Opcje czcionki
 ; Font flags
 ;
 STR_ICON
-Ikona
+Ikonka
 ; Icon
 ;
 STR_ICON_TYPE
-Typ ikony
+Typ ikonki
 ; Icon type
 ;
 STR_ICON_ALTERNATE
@@ -841,7 +857,9 @@ Odtwarzam wybranâ animacjë...
 ; Playing selected animation...
 ;
 STR_OLD_NEW_FILE_REPLACE
-\"%s\" juû istnieje! Zastâpiê?\n\nNowy  - Rozmiar : %7ld Data : %19s\nStary - Rozmiar : %7ld Data : %19s
+\"%s\" juû istnieje! Zastâpiê?\n\n\
+Nowy  - Rozmiar : %7ld Data : %19s\n\
+Stary - Rozmiar : %7ld Data : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %7ld  Date : %19s\n\
 ; Old  -  Size : %7ld  Date : %19s
@@ -1017,10 +1035,6 @@ RAZEM:
 STR_CLOCK_MEM
 PAM:
 ; MEM:
-;
-STR_CLOCK_MEMORY
-PAMIËCI:
-; MEMORY:
 ;
 ;
 ; Used to describe the keyboard shortcut for some function
@@ -1226,7 +1240,7 @@ Przeciâganie wielu plików - %ld plików zaznaczonych
 ; Multi-drag - %ld files selected
 ;
 STR_PRESS_MOUSE_BUTTON
-Naciônij lewy przycisk myszy aby kontynuowaê
+Naciônij lewy przycisk myszki aby kontynuowaê
 ; Press left mouse button to continue...
 ;
 STR_NETWORK_NO_OWNER
@@ -1274,24 +1288,24 @@ Opcje listera
 ; Lister options
 ;
 STR_FILE_NAME
-Nazwy pliku
-; File name
+Nazwy
+; Name
 ;
 STR_FILE_SIZE
-Rozmiaru pliku
-; File size
+Rozmiaru
+; Size
 ;
 STR_PROTECTION_BITS
 Bitów protekcji
-; Protection bits
+; Protection
 ;
 STR_CREATION_DATE
-Daty utworzenia
-; Creation date
+Daty
+; Date
 ;
 STR_FILE_COMMENT
-Komentarzy pliku
-; File comment
+Komentarzy
+; Comment
 ;
 STR_FILE_TYPE
 Typu pliku
@@ -1302,7 +1316,7 @@ Wîaôciciela
 ; Owner
 ;
 STR_GROUP
-Grupu
+Grupy
 ; Group
 ;
 STR_NET_PROTECTION_BITS
@@ -1358,7 +1372,7 @@ STR_VERSION_CONTENTS
   Procesor%30s  \n\
   Koprocesor matematyczny%15s  \n\
   Ukîad graficzny%23s  \n\
-  System obsîugi grafiki%16s  \n
+  System obsîugi grafiki%16s  \0
 ; %-42s\n\n\
 ;   Directory Opus%24s  \n\
 ;   DOpus Library%25s  \n\
@@ -1370,7 +1384,7 @@ STR_VERSION_CONTENTS
 ;   Processor%29s  \n\
 ;   Math co-processor%21s  \n\
 ;   Graphics chipset%22s  \n\
-;   Video system%26s
+;   Video system%26s  \0
 ;
 STR_VERSION_HEADER
 Informacje o wersji...
@@ -1408,8 +1422,8 @@ Sortuj wedîug
 ; Sort by
 ;
 STR_NAMESORT_MENU
-Sortowanie nazw plików
-; Filename sorting
+Sortowanie nazw
+; Name sorting
 ;
 STR_FILE_EXTENSION
 Rozszerzenia
@@ -1425,4 +1439,35 @@ _OK
 STR_PROTECT_ALL
 Wszys_tkie
 ; A_ll
+;
+;
+; Experimental (enter "Makelink" in the ARexx window to see these)
+;
+STR_ENTER_MAKELINK_PARAMS
+Podaj parametry odnoônika
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Soft
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Hard
+; Hard
+;
+STR_MAKELINK_TYPE
+Rodzaj
+; Type
+;
+STR_MAKELINK_NAME
+Nazwa odnoônika
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Katalog docelowy odnoônika
+; Link destination
+;
+STR_PROTECT_CANCEL
+Ponie_chaj
+; _Cancel
 ;

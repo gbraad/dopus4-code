@@ -1,6 +1,7 @@
-## version $VER: DOpus4_Icon.catalog 1.2 (07.11.2001) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4_Icon.catalog 1.5 (31.05.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
+;
 ;
 STR_REMAP_COLORS
 _Przekoloruj
@@ -135,9 +136,9 @@ Kick
 ; Kick
 ;
 STR_APPICON
-AppIkona
+AppIkonka
 ; AppIcon
 ;
 STR_ICON
-Ikona
+Ikonka
 ; Icon
