@@ -2,13 +2,6 @@
 ## language polski
 ## codeset 0
 ;
-; DOpus4.cd - Directory Opus 4 catalog description file
-;
-; $VER: DOpus4.cd 1.10 (27.05.2002)
-;
-;
-; General
-;
 STR_DIRS_FILES_BYTES_COUNT
 Katalogów: %03ld/%03ld   Plików: %03ld/%03ld   Bajtów: %7s/%7s
 ; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
@@ -445,16 +438,9 @@ STR_NO_HELP_FOR_ERROR
 Dla tego bîëdu pomoc jest niedostëpna!
 ; Help not available for that error code!
 ;
-;
-; This becomes something like "An error ocurred deleting "object"
-;                              DOS error code 214 - Disk is write-protected"
-;
 STR_ERROR_OCCURED
 Wystâpiî bîâd podczas %s \"%s\"\n%s
 ; An error occured %s \"%s\"\n%s
-;
-;
-; Rename window
 ;
 STR_RENAME
 Zmieï nazwë
@@ -463,7 +449,6 @@ Zmieï nazwë
 STR_AS
 na
 ; As
-;
 ;
 STR_ENTER_SELECT_PATTERN
 Podaj wzorzec zaznaczenia
@@ -489,9 +474,6 @@ STR_COUNTING_LINES
 Liczë linie...
 ; Counting lines...
 ;
-;
-; Built-in text viewer requesters
-;
 STR_JUMP_TO_LINE
 Skocz do linii
 ; Jump to which line?
@@ -499,9 +481,6 @@ Skocz do linii
 STR_JUMP_TO_PERCENTAGE
 Skocz do % pliku
 ; Jump to what percentage?
-;
-;
-; Printer related errors
 ;
 STR_CANT_OPEN_PRINTER
 Problem z dostëpem do drukarki!
@@ -514,8 +493,6 @@ Bîâd podczas drukowania pliku! IoErr = %ld\n
 STR_READY_PRINTER
 Drukarka gotowa, wybierz W porzâdku aby kontynuowaê
 ; Ready printer, and choose OKAY to continue
-;
-;
 ;
 STR_CANT_FIND_ICON
 Nie mogë znaleúê lub wczytaê ikonki dla tego pliku.
@@ -613,11 +590,6 @@ STR_UNPROTECT
 Odbezpieczony
 ; Unprotect
 ;
-;
-; Action gadgets in requesters
-;
-; Please do NOT put shortcuts where there isn't any!
-;
 STR_RUN
 U_ruchom
 ; _Run
@@ -705,8 +677,6 @@ _OK
 STR_CANCEL
 Ponie_chaj
 ; _Cancel
-;
-;
 ;
 STR_OKAY_TITLE
 OK
@@ -928,9 +898,6 @@ STR_UNABLE_TO_LOAD_MODULE
 Nie mogë wczytaê zewnëtrznego moduîu
 ; Unable to load external module
 ;
-;
-; Selecting by pattern
-;
 STR_SELECT_ALL_ENTRIES
 Wszystkie wpisy
 ; All entries
@@ -954,7 +921,6 @@ Data
 STR_SELECT_BITS
 Bity
 ; Bits
-;
 ;
 STR_STARTING_PRINT_MODULE
 Uruchamiam moduî drukarki...
@@ -992,9 +958,6 @@ STR_PRINTTITLE
 Drukuj _tytuî
 ; Print _Title
 ;
-;
-; Searching a string in a file
-;
 STR_SEARCH_NO_CASE
 Traktuj maîe i wielkie litery tak samo
 ; Treat upper and lower case as the same
@@ -1006,7 +969,6 @@ Uûywaj ? jako znaku zastëpczego
 STR_SEARCH_ONLYWORD
 Dopasuj tylko caîe, niepodzielone sîowa
 ; Only match on whole, unbroken words
-;
 ;
 STR_ENTER_FILTER
 Podaj filtr pliku
@@ -1036,30 +998,17 @@ STR_CLOCK_MEM
 PAM:
 ; MEM:
 ;
-;
-; Used to describe the keyboard shortcut for some function
-;
 STR_KEY
 Wywoîanie :
 ; Key :
-;
-;
-; The tiny buttons at the bottom-right corner of the main window
 ;
 STR_TINY_BUTTONS
 BRSA?EFCIQ
 ; BRSA?EFCIQ
 ;
-;
-; The tiny buttons used in the built-in text viewer
-;
 STR_VIEW_BUTTONS
 UDTBSPQ
 ; UDTBSPQ
-;
-;
-;
-; Diskinfo
 ;
 STR_DISKINFO_DEVICE
 Urzâdzenie
@@ -1121,21 +1070,9 @@ STR_DISKINFO_BYTESPERBLOCK
 bajtów/blok
 ; bytes/block
 ;
-;
 STR_TEXT_VIEWER_TITLE
 Directory Opus - przeglâdarka tekstu
 ; Directory Opus Text Viewer
-;
-;
-; Protect window (1/2)
-;
-; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
-;       change them, but use something like this instead:
-;
-;       (_H) - <your translation for "Hidden">
-;       (_S) - <your translation for "Script">
-;       (_P) - <your translation for "Pure">
-;       ...
 ;
 STR_PROTECT_ALL_BITS
 Wszystkie
@@ -1196,8 +1133,6 @@ STR_PROTECT_EXECUTED
 STR_PROTECT_DELETED
 (_D) - Kasowalny
 ; _Delete
-;
-;
 ;
 STR_FILE_REQUEST
 Ûâdanie pliku
@@ -1279,10 +1214,6 @@ STR_OPENING_ARCHIVE
 Otwieram archiwum...
 ; Opening archive...
 ;
-;
-;
-; Pop-up menu (1/2)
-;
 STR_LISTER_MENU
 Opcje listera
 ; Lister options
@@ -1331,8 +1262,6 @@ STR_SIZE_AS_KMG
 Rozmiar w formacie K/M/G
 ; Sizes in K/M/G format
 ;
-;
-;
 STR_BRING_TO_FRONT
 _Przenieô na wierzch
 ; _Bring to front
@@ -1356,9 +1285,6 @@ Operacja nie obsîugiwana
 STR_QUERY_REMOVE_ASSIGN
 Czy chcesz usunâê przypisanie \"%s\"?
 ; Do you really wish to remove \"%s\" assign?
-;
-;
-; Version window
 ;
 STR_VERSION_CONTENTS
 %-42s\n\n\
@@ -1389,9 +1315,6 @@ STR_VERSION_CONTENTS
 STR_VERSION_HEADER
 Informacje o wersji...
 ; Version information...
-;
-;
-; Pop-up menu (2/2)
 ;
 STR_DIRSFIRST
 Najpierw katalogi
@@ -1429,9 +1352,6 @@ STR_FILE_EXTENSION
 Rozszerzenia
 ; Extension
 ;
-;
-; Protect window (2/2)
-;
 STR_PROTECT_OKAY
 _OK
 ; _Okay
@@ -1439,9 +1359,6 @@ _OK
 STR_PROTECT_ALL
 Wszys_tkie
 ; A_ll
-;
-;
-; Experimental (enter "Makelink" in the ARexx window to see these)
 ;
 STR_ENTER_MAKELINK_PARAMS
 Podaj parametry odnoônika

@@ -2,15 +2,9 @@
 ## language polski
 ## codeset 0
 ;
-;
-;*** Format
-;
-; This string should be 5 characters (plus the underline character) or less
-;
 STR_FORMAT_NAME
 _Nazwa
 ; _Name
-;
 ;
 STR_FORMAT_FFS
 _Fast File System
@@ -40,13 +34,9 @@ STR_FORMAT_QUICKFORMAT
 Form. szybko
 ; Quick Format
 ;
-;
-; Common "Exit" button
-;
 STR_FORMAT_EXIT
 _Wyjdú
 ; E_xit
-;
 ;
 STR_FORMAT_EMPTY
 Pusty
@@ -124,9 +114,6 @@ STR_FORMAT_MAKINGTRASHCAN
 Tworzë ômietnik...
 ; Creating Trashcan...
 ;
-;
-; Note: The last placeholder becomes STR_WINDOW_(FORMAT|DISKCOPY|INSTALL) !
-;
 STR_DISK_NOT_BLANK
 Dysk w napëdzie %s nie jest pusty!\n\nWolumen \"%s\" zawiera %s.\n\nWszystkie dane zostanâ utracone.\nWybierz koontynuuj, aby kontynuowaê %s.
 ; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n\
@@ -140,13 +127,9 @@ STR_CHECKING_DESTINATION
 Sprawdzam dysk docelowy...
 ; Checking destination disk...
 ;
-;
-; The [Diskcopy] button in the DiskCopy window
-;
 STR_DISKCOPY_DISKCOPY
 _Kopiuj
 ; _Diskcopy
-;
 ;
 STR_DISKCOPY_FROM
 Z...
@@ -232,10 +215,6 @@ STR_CANCEL
 Poniechaj
 ; Cancel
 ;
-;
-; If "Bump name" is used, the destination disk will be relabelled as
-; "Copy_of_<name>", otherwise the label is copied "as is"
-;
 STR_BUMP_NAMES
 _Zmieï nazwë
 ; _Bump name
@@ -244,17 +223,9 @@ STR_BUMPING_NAME
 Zmieniam nazwë dysku...
 ; Bumping disk name...
 ;
-;
-; The [Check] button in the DiskCopy window
-;
 STR_DISKCOPY_CHECK
 _Sprawdú
 ; _Check
-;
-;
-; Window titles
-;
-; NOTE: These also show up via the last placeholder in STR_DISK_NOT_BLANK !
 ;
 STR_WINDOW_FORMAT
 Formatowanie

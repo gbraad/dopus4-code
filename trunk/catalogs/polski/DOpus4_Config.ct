@@ -1,13 +1,6 @@
-## version $VER: Dopus4_Config.catalog 1.7 (18.06.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4_Config.catalog 1.7 (18.06.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
-;
-; DOpus4_Config.cd - ConfigOpus catalog description file
-;
-; $VER: DOpus4_Config.cd 1.6 (13.06.2002)
-;
-;
-;*** Messages on quit
 ;
 STR_REALLY_DISCARD_CONFIG
 Czy chcesz porzuciê\n aktualne ustawienia?
@@ -16,9 +9,6 @@ Czy chcesz porzuciê\n aktualne ustawienia?
 STR_EXIT_WITHOUT_SAVING
 Czy chcesz wyjôê bez\nzapisania aktualnych ustawieï?
 ; Do you really want to exit without\nsaving the current configuration settings?
-;
-;
-;*** Window titles
 ;
 STR_CONFIGURATION_MAIN_SCREEN
 Konfiguracja programu
@@ -56,9 +46,6 @@ STR_MAIN_MENU
 Menu gîówne
 ; Main Menu
 ;
-;
-;*** Configuration/Buttons (1/3)
-;
 STR_LEFT_MOUSE_BUTTON
 Lewy przycisk myszki
 ; Left mouse button
@@ -67,9 +54,6 @@ STR_RIGHT_MOUSE_BUTTON
 Prawy przycisk myszki
 ; Right mouse button
 ;
-;
-;*** General usage buttons (1/2)
-;
 STR_OKAY
 OK
 ; Okay
@@ -77,9 +61,6 @@ OK
 STR_CANCEL
 Poniechaj
 ; Cancel
-;
-;
-;*** Operation/List format (1/5)
 ;
 STR_AVAILABLE_DISPLAY_ITEMS
 Dostëpne elementy...
@@ -101,22 +82,13 @@ STR_ENTRY_SEPARATION
 Oddzielanie wpisów...
 ; Entry separation...
 ;
-;
-;*** System/Hotkey (1/2)
-;
 STR_UNICONIFY_HOTKEY
 Wywoîanie deikonifikacji/aktywacji
 ; Uniconify/activate hotkey
 ;
-;
-;*** System/Icons (1/3)
-;
 STR_PROJECTS_DEFAULT_TOOL
 Domyôlne narzëdzie projektów...
 ; Project's Default Tool...
-;
-;
-;*** General purpose file/directory requester titles
 ;
 STR_SELECT_DESIRED_FILE
 Wybierz ûâdany plik
@@ -130,15 +102,9 @@ STR_SELECT_DESIRED_FONT
 Wybierz ûâdany czcionkë i jej wielkoôê
 ; Select the desired font and size
 ;
-;
-;*** Hotkey edit screen
-;
 STR_HOTKEY_USCORE
 _Wywoîanie
 ; _Hotkey
-;
-;
-;*** Configuration/Buttons - messages
 ;
 STR_NEW_GADGET_BANKS_APPENDED
 Nowy bank przycisków dodano do juû istniejâcych.
@@ -232,9 +198,6 @@ STR_NEW_BANK_CREATED
 Nowy bank przycisków utworzony.
 ; New button bank created.
 ;
-;
-;*** Menu configuration screen (1/3)
-;
 STR_NEW_MENUS_LOADED
 Nowe menu wczytane.
 ; New menus loaded.
@@ -319,29 +282,17 @@ STR_SELECT_MENU_ITEM_TO_DELETE
 Wybierz element menu do skasowania.
 ; Select a menu item to delete.
 ;
-;
-;*** The well known 'Edit' menu
-;
 STR_EDIT
 Edytuj
 ; Edit
-;
-;
-;*** (Drive) Button & Menu configuration screen (1/2)
 ;
 STR_SHORTCUT_KEY
 Skrót _klaw.
 ; Shortcut _key
 ;
-;
-;*** Another common string
-;
 STR_HOTKEY
 Wywoîanie
 ; Hotkey
-;
-;
-;*** File requester titles for edit screens
 ;
 STR_ARGUMENT_CONTROL_SEQUENCES
 Lista dostëpnych funkcji...
@@ -350,9 +301,6 @@ Lista dostëpnych funkcji...
 STR_AVAILABLE_COMMANDS
 Lista dostëpnych poleceï...
 ; List of available commands...
-;
-;
-;*** (Drive) Button edit screens
 ;
 STR_FOREGROUND
 Pierwszy plan
@@ -434,9 +382,6 @@ STR_SELECT_DRIVE_GADGET_TO_DELETE
 Który przycisk urzâdzenia chesz skasowaê?
 ; Select a drive button to delete.
 ;
-;
-;*** Filetype configuration screen - messages
-;
 STR_NEW_FILETYPES_MERGED
 Nowy typ pliku poîâczono z istniejâcym.
 ; New filetypes merged with existing ones.
@@ -444,9 +389,6 @@ Nowy typ pliku poîâczono z istniejâcym.
 STR_DEFAULT_FILETYPES_MERGED
 Standardowy typ pliku poîâczono z istniejâcym.
 ; Default filetypes merged with existing ones.
-;
-;
-;*** File classes (1/2)
 ;
 STR_REALLY_DELETE_THIS_CLASS
 Czy chcesz skasowaê tâ klasë?
@@ -540,28 +482,17 @@ STR_OFFSET
 Przesuniëcie
 ; Offset
 ;
-;
-;
 STR_FILE_NOT_FOUND
 Plik nie znaleziony!
 ; File not found!
-;
-;
-;*** Screen/Colors (1/3)
 ;
 STR_EXAMPLE
 Przykîad
 ; Example
 ;
-;
-;*** Screen/Screen mode (1/7)
-;
 STR_DISPLAY_MODE_DESCRIPTION
 Charakterystyka trybu...
 ; Display mode description...
-;
-;
-;*** Screen/Fonts (1/3)
 ;
 STR_DISPLAY_ITEM
 Wyôwietlane elementy...
@@ -575,22 +506,13 @@ STR_FONT_SIZE
 Rozmiar...
 ; Size...
 ;
-;
-;*** Screen/Arrows (1/2)
-;
 STR_MODIFY_SIZE
 Dopasuj rozmiar...
 ; Adjust size...
 ;
-;
-;*** System/Hotkey (2/2)
-;
 STR_USE_MMB
 Uûyj ôrodkowego przycisku myszki
 ; Use middle mouse button
-;
-;
-;*** Screen/Screen mode (2/7)
 ;
 STR_MINIMUM_SIZE
 Minimalny rozmiar
@@ -607,9 +529,6 @@ Domyôlny rozmiar
 STR_MAXIMUM_COLORS
 Maksymalnie kolorów
 ; Maximum colors
-;
-;
-;*** Misc. messages
 ;
 STR_LOADING_FONT
 Wczytujë czcionkë...
@@ -647,9 +566,6 @@ STR_SELECT_FUNCTION_TO_PASTE
 Wybierz funkcjë do wstawienia
 ; Select function to paste
 ;
-;
-;*** Configuration/Hotkeys (1/3)
-;
 STR_NEW_HOTKEYS_MERGED
 Nowe wywoîanie zostaîo poîâczone z istniejâcym.
 ; New hotkeys merged with existing ones.
@@ -678,9 +594,6 @@ STR_HOTKEY_EDIT_SCREEN
 Edycja wywoîaï
 ; Hotkey edit screen
 ;
-;
-; Configuration/Buttons (2/3)
-;
 STR_NEW_BANK
 Nowy bank
 ; New bank
@@ -697,8 +610,6 @@ STR_LAST_BANK
 Poprzedni bank
 ; Prev bank
 ;
-;
-;
 STR_CLEAR
 Wyczyôê
 ; Clear
@@ -706,9 +617,6 @@ Wyczyôê
 STR_CLEAR_LAST
 Wyczyôê ost.
 ; Clear last
-;
-;
-;*** Menus (1/5)
 ;
 STR_MENU_DEFAULT
 Standardowa
@@ -786,9 +694,6 @@ STR_MENUNAME_CLASSES
 Klasy
 ; Classes
 ;
-;
-;*** Misc. messages for classes management
-;
 STR_FILECLASS_DEFINE
 Definicja dziaîaï dla klas...
 ; Define an action for class...
@@ -800,9 +705,6 @@ Wybierz klasë do edycji...
 STR_FILECLASS_DELETE
 Wybierz klasë do skasowania...
 ; Select class to delete...
-;
-;
-;*** Screen/Fonts (2/3)
 ;
 STR_FONTPLACE_CLOCK
 Zegar/Pamiëê
@@ -848,24 +750,13 @@ STR_FONTPLACE_TEXTVIEWER
 Przeglâdarka tekstu
 ; Text viewer
 ;
-;
-;*** Screen/Palette (1/4)
-;
 STR_PALETTE_PRESETS
 Przykîady...
 ; Presets...
 ;
-;
-;*** System/Icons (2/3)
-;
 STR_ICONLIST_TITLE
 Dodaj ikonki...
 ; AddIcon's icons...
-;
-;
-;*** Operation/List format (2/5)
-;
-; Note these should be no longer than 20 characters!
 ;
 STR_FORMAT_NAME
 Nazwa pliku
@@ -891,11 +782,6 @@ STR_FORMAT_TYPE
 Typ pliku
 ; File type
 ;
-;
-;*** System/Icons (3/3)
-;
-; Do NOT remove the three blanks in front!
-;
 STR_ICONS_DRAWER
    Ikonka katalogu
 ;    Drawer icon
@@ -907,9 +793,6 @@ STR_ICONS_TOOL
 STR_ICONS_PROJECT
    Domyôlna ikonka projektu
 ;    Default Project icon
-;
-;
-;*** Main screen gadgets
 ;
 STR_MAINMENU_GADGETS
 Przyciski
@@ -943,15 +826,9 @@ STR_MAINMENU_SYSTEM
 System
 ; System
 ;
-;
-;*** The "All" gadget used when importing stuff
-;
 STR_ALL
 Wszystko
 ; All
-;
-;
-;*** Operation configuration screen
 ;
 STR_OPERATION_DATEFORMAT
 Format daty
@@ -980,9 +857,6 @@ Format listera
 STR_OPERATION_UPDATE
 Uaktualnianie
 ; Update
-;
-;
-;*** System configuration screen
 ;
 STR_SYSTEM_AMIGADOS
 AmigaDOS
@@ -1016,9 +890,6 @@ STR_SYSTEM_VIEWPLAY
 Obraz i dúwiëk
 ; View & Play
 ;
-;
-;*** Configuration/Buttons (3/3)
-;
 STR_GADGET_COPYBANK
 Skopiuj bank
 ; Copy bank
@@ -1042,11 +913,6 @@ Zamieï przyciski
 STR_GADGET_DELETEGADGET
 Skasuj przycisk
 ; Del. button
-;
-;
-;*** Filetype classes - flags
-;
-; These should be no longer than 24 characters!
 ;
 STR_FLAG_AUTOICONIFY
 Autom. ikonifikacja
@@ -1112,9 +978,6 @@ STR_FLAG_WORKBENCHTOFRONT
 Workbench na wierzch
 ; Workbench to front
 ;
-;
-;*** Common gadgets & textfields in edit screens
-;
 STR_EDIT_NAME
 _Nazwa
 ; _Name
@@ -1151,9 +1014,6 @@ STR_EDIT_ACTION
 Opis zdarz_enia
 ; _Event description
 ;
-;
-;*** File classes (2/2)
-;
 STR_EDITCLASS_FILECLASS
 _Klasa pliku
 ; _File class
@@ -1165,9 +1025,6 @@ _ID klasy
 STR_EDITCLASS_FILEVIEWER
 Prze_glâdarka
 ; File _viewer
-;
-;
-;*** Menu configuration screen (2/3)
 ;
 STR_MENU_COPYMENU
 Kopiuj menu
@@ -1201,9 +1058,6 @@ STR_MENU_DELETEITEM
 Usuï element
 ; Delete item
 ;
-;
-;*** Drive button configuration screen
-;
 STR_DRIVES_GETDRIVES
 Pobierz urzâdz.
 ; Get drives
@@ -1224,15 +1078,9 @@ STR_DRIVES_DELETEDRIVE
 Usuï urzâdzenie
 ; Delete drive
 ;
-;
-;*** Configuration/Hotkeys (2/3)
-;
 STR_HOTKEYS_NEWHOTKEY
 Nowe wywoînaie
 ; New hotkey
-;
-;
-;*** Screen configuration screen (1/3)
 ;
 STR_SCREEN_COLORS
 Kolory
@@ -1250,9 +1098,6 @@ STR_SCREEN_SCREENMODE
 Tryby wyôwietlania
 ; Screen mode
 ;
-;
-;*** Screen/Palette (2/4)
-;
 STR_PALETTE_RED
 _Czerwony
 ; _Red
@@ -1264,9 +1109,6 @@ _Zielony
 STR_PALETTE_BLUE
 _Niebieski
 ; _Blue
-;
-;
-;*** Screen/Colors (2/3)
 ;
 STR_COLOR_STATUS
 Linia statusowa
@@ -1328,9 +1170,6 @@ STR_COLOR_SELPATHNAME
 Zaznaczona nazwa ôcieûki
 ; Selected path name
 ;
-;
-;*** Screen/Screen mode (3/7)
-;
 STR_SCREENMODE_WIDTH
 Sze_rokoôê
 ; _Width
@@ -1351,9 +1190,6 @@ STR_SCREENMODE_HALFHEIGHT
 Poîowa wysokoôci ekranu
 ; Half-height screen
 ;
-;
-;*** Operation/List format (3/5)
-;
 STR_LISTFORMAT_TITLE
 Format wyôwietlania w
 ; Format of the list in the
@@ -1373,9 +1209,6 @@ STR_LISTFORMAT_COMMENT
 STR_LISTFORMAT_REVERSE
 Porzâdek odwrotny
 ; Reverse sorting
-;
-;
-;*** Screen/Arrows (2/2)
 ;
 STR_ARROWS_INSIDE
 Strzaîki w ôrodku
@@ -1401,22 +1234,13 @@ STR_ARROWTYPE_PREVNEXT
 Bufor poprzedni/nastëpny
 ; Buffer previous/next
 ;
-;
-;
-;
 STR_NEW
 Nowy
 ; New
 ;
-;
-;*** Common string
-;
 STR_MISC_FLAGS
 Róûne...
 ; Misc. flags...
-;
-;
-;*** Operation/Copy (1/2)
 ;
 STR_OP_COPY_WHENCOPYING
 Kopiowanie plików i katalogów...
@@ -1466,9 +1290,6 @@ STR_OP_COPY_ASKBEFORE
 Pytaj przed zastâpieniem
 ; Ask before replacing
 ;
-;
-;*** Operation/Date format
-;
 STR_OP_DATE_DATEFORMAT
 Data w formacie...
 ; Date format...
@@ -1497,9 +1318,6 @@ STR_OP_DATE_12HOUR
 12 godzinny zegar
 ; 12 hour clock
 ;
-;
-;*** Operation/Delete
-;
 STR_OP_DEL_ASKBEFORE
 Pytaj przed...
 ; Ask before...
@@ -1520,9 +1338,6 @@ STR_OP_DEL_IGNOREPROT
 Ignoruj bit 'kasowalny'
 ; Ignore the delete protection bit
 ;
-;
-;*** Operation/Error check
-;
 STR_OP_ERROR_ENABLE
 Wîâczone...
 ; Enable...
@@ -1534,9 +1349,6 @@ Komunikaty DOS-u
 STR_OP_ERROR_OPUSREQ
 Komunikaty bîëdów Opusa
 ; Opus error requesters
-;
-;
-;*** Operation/General (1/4)
 ;
 STR_OP_GENERAL_DRAG
 Miëdzyklik przeciâga
@@ -1554,9 +1366,6 @@ STR_OP_GENERAL_SLIDERACTIVE
 Suwak aktywuje okno
 ; Window slider activate
 ;
-;
-;*** Operation/Icons
-;
 STR_OP_ICON_CREATEWITHDIR
 Twórz ikonki z katalogami
 ; Create icon with directories
@@ -1568,9 +1377,6 @@ Wykonuj operacje takûe na ikonkach
 STR_OP_ICON_SELECTAUTO
 Automatycznie zaznaczaj ikonki
 ; Select icons automatically
-;
-;
-;*** Operation/Update (1/3)
 ;
 STR_OP_UPDATE_WHENPROCESSING
 Podczas operacji na plikach...
@@ -1604,9 +1410,6 @@ STR_OP_UPDATE_QUIETGETDIR
 Uaktualniaj lister podczas skanowania katalogu
 ; Update listview slider while scanning
 ;
-;
-;*** System/AmigaDOS
-;
 STR_SYS_AMIGADOS_TITLE
 Uruchamianie aplikacji AmigaDOS...
 ; Running AmigaDOS applications...
@@ -1626,9 +1429,6 @@ Skrypt startowy
 STR_SYS_AMIGADOS_PRIORITY
 Priorytet
 ; Priority
-;
-;
-;*** System/Clocks (1/2)
 ;
 STR_SYS_CLOCK_TITLE
 Zegar/pamiëê w lini statusowej...
@@ -1690,9 +1490,6 @@ STR_SYS_CLOCK_CANDF
 C: i F:
 ; C: and F:
 ;
-;
-;*** System/Directories (1/2)
-;
 STR_SYS_DIR_CACHES
 Bufory katalogów...
 ; Directory caches...
@@ -1737,15 +1534,9 @@ STR_SYS_DIR_USEEXALL
 Uûywaj funkcji ExAll()
 ; Use ExAll()
 ;
-;
-;*** Filetype class edit screen (1/2)
-;
 STR_FILEVIEW_HEX
 Hexagonalny
 ; Hex
-;
-;
-;*** System/Directories (2/2)
 ;
 STR_SYS_DIR_BLOCKSFREE
 Wolne bloki
@@ -1754,9 +1545,6 @@ Wolne bloki
 STR_SYS_DIR_PERCENTAGE
 Procent wolnego miejsca
 ; Percentage of space free
-;
-;
-;*** Screen/Palette (3/4)
 ;
 STR_PALETTE_RESET
 Przywróê
@@ -1774,22 +1562,13 @@ STR_PALETTE_WB_CURRENT
 Aktualne Workbencha
 ; Workbench current
 ;
-;
-;*** The main "Okay" button
-;
 STR_OKAY_TO_QUIT
 OK
 ; Okay
 ;
-;
-;*** Screen configuration screen (2/3)
-;
 STR_SCREEN_GENERAL
 Ogólne
 ; General
-;
-;
-;*** Filetype classes editing again - type of event
 ;
 STR_FTYPE_ACTION
 Dziaîanie
@@ -1799,22 +1578,13 @@ STR_FTYPE_COMMAND
 Komenda
 ; Command
 ;
-;
-;*** Filetype class edit screen (2/2)
-;
 STR_FILEVIEW_DEC
 Dziesiëtny
 ; Decimal
 ;
-;
-;*** Menus (2/5)
-;
 STR_EDIT_MENU
 Edycja
 ; Edit
-;
-;
-;*** System/Show pattern
 ;
 STR_SYS_SHOWPATTERN_TITLE
 Wzorce dla listerów...
@@ -1831,9 +1601,6 @@ Pokaû
 STR_SYS_SHOWPATTERN_HIDE
 Schowaj
 ; Hide
-;
-;
-;*** System/Startup (1/2)
 ;
 STR_SYS_STARTUP_TITLE
 Zawartoôê katalogów pokazywana w oknach przy uruchomieniu programu...
@@ -1858,9 +1625,6 @@ Start
 STR_SYS_STARTUP_UNICONIFY
 Deikonifikacja
 ; Uniconify
-;
-;
-;*** System/View & Play (1/3)
 ;
 STR_SYS_VIEWPLAY_TITLE
 Wyôwietlanie obrazka/animacji (IFF ILBM/ANIM)...
@@ -1910,12 +1674,6 @@ STR_SYS_VIEWPLAY_TABSIZE
 Rozmiar tabulatora
 ; Tab size
 ;
-;
-;
-;
-;
-;*** Screen/General (1/4)
-;
 STR_SCREEN_GENERAL_TINYGADS
 Maîe przyciski na dole po prawej
 ; Bottom-right tiny buttons
@@ -1932,9 +1690,6 @@ STR_SCREEN_GENERAL_NEWLOOKSLIDERS
 Suwaki typu New-look
 ; New-look sliders
 ;
-;
-;*** Common titles for edit lists
-;
 STR_EDITLIST_TITLE1
 Opcje...
 ; Flags...
@@ -1943,29 +1698,17 @@ STR_EDITLIST_TITLE2
 Zdarzenia...
 ; Events...
 ;
-;
-;*** Filetype configuration screen
-;
 STR_FILETYPEACTIONLIST_TITLE
 Definicja dziaîaï dla typów plików...
 ; Defined filetype actions...
-;
-;
-;*** Configuration/Hotkeys (3/3)
 ;
 STR_HOTKEYSLIST_TITLE
 Definiowanie wywoîaï...
 ; Global hotkeys defined...
 ;
-;
-;*** Screen/Screen mode (4/7)
-;
 STR_SCREENMODELIST_TITLE
 Tryby wyôwietlania...
 ; Display mode...
-;
-;
-;*** Operation/List format (4/5)
 ;
 STR_LEFT_WINDOW
 lewym oknie
@@ -1986,11 +1729,6 @@ Katalogi najpierw
 STR_SEP_FILES_FIRST
 Pliki najpierw
 ; Files first
-;
-;
-;*** List - ARexx commands (1/4)
-;
-; Note: these should be *exactly* 41 characters long!
 ;
 STR_FUNCTIONLIST_ABOUT
 About         -    Wyôw. info o programie
@@ -2357,11 +2095,6 @@ STR_FUNCTIONLIST_VERSION
 Version       -    Wyôwietla numer wersji
 ; Version       -   Display version numbers
 ;
-;
-;*** List - requester placeholders (1/2)
-;
-; NOTE: These should be *exactly* 41 characters long!
-;
 STR_COMMANDSEQ_DESTINATION
 {d}  -          Nazwa katalogu docelowego
 ; {d}  -         Destination directory name
@@ -2426,11 +2159,6 @@ STR_COMMANDSEQ_SOURCE
 {s}  -          Nazwa katalogu úródîowego
 ; {s}  -              Source directory name
 ;
-;
-;*** List - file identification commands (1/2)
-;
-; These should be no longer than 41 characters
-;
 STR_CLASSOPS_AND
 And          - poczâtek innej grupy
 ; And          - start of another group
@@ -2474,16 +2202,10 @@ Or           - poczâtek innej grupy
 STR_CLASSOPS_SEARCHFOR
 SearchFor    - tekst lub $hex
 ; SearchFor    - text or $hex
-;
-;
-;
 ; 
 STR_BY
 na
 ; by
-;
-;
-;*** Hotkey configuration screen - messages
 ;
 STR_SELECT_HOTKEY_TO_SWAP
 Wybierz wywoîanie do zamiany.
@@ -2493,69 +2215,41 @@ STR_SELECT_SECOND_HOTKEY_TO_SWAP
 Wybierz kolejne wywoîanie do zamiany z pierwszym.
 ; Select second hotkey to swap with first.
 ;
-;
-;*** System/Modules
-;
 STR_MODULE_LIST_TITLE
 Obsîugiwane zewnëtrzne moduîy...
 ; External support modules...
-;
 ;
 STR_MODULE_LIST_CHECK_STRING
 (   Oznacza moduîy wczytywane przy starcie)
 ; (  Check indicates a module to be pre-loaded)
 ;
-;
-;
-;*** System/Clocks (2/2)
-;
 STR_SYS_CLOCK_KILOBYTES_FREE
 Kilobajty wolne
 ; Kilobytes free
-;
-;
-;*** System/Startup (2/2)
 ;
 STR_SYS_STARTUP_CONFIG
 Powrót z konf.
 ; Cfg return
 ;
-;
-;*** Menus (3/5)
-;
 STR_MENU_DUPLICATE
 Duplikat...
 ; Duplicate...
-;
-;
-;
 ;
 STR_FILECLASS_DUPLICATE
 Wybierz klasë do duplikacji...
 ; Select class to duplicate...
 ;
-;
-;*** Menus (4/5)
-;
 STR_MENU_CLEARCLIPS
 Wyczyôê przechowywane
 ; Clear clips
-;
-;
-;*** Another common message
 ;
 STR_REALLY_CLEAR_CLIPS
 Czy na pewno usunâê wszystkie przechowywane funkcje?
 ; Really clear all clipped functions?
 ;
-;
-;*** Screen/General (2/4)
-;
 STR_SCREEN_GENERAL_DRAGREQUESTERS
 Przeciâganie komunikatów
 ; Draggable requesters
-;
-;
 ;
 STR_FORMAT_OWNER
 Wîaôciciel
@@ -2564,11 +2258,6 @@ Wîaôciciel
 STR_FORMAT_GROUP
 Grupa
 ; Group
-;
-;
-;*** Screen/Palette (4/4)
-;
-; These should match the presets used by ScreenMode Prefs.
 ;
 STR_PALETTE_TINT
 Cieniowana
@@ -2606,9 +2295,6 @@ STR_PALETTE_A2024
 A2024
 ; A2024
 ;
-;
-;*** Filetype classes editing again
-;
 STR_FTYPE_CLICKMCLICK
 Miëdzyklik
 ; Click-m-click
@@ -2641,10 +2327,6 @@ STR_FUNCTION_AREXX
 ARexx
 ; ARexx
 ;
-;
-;
-;*** Screen/Screen mode (5/7)
-;
 STR_MODE_WORKBENCH_CLONE
 Workbench: Kopia ekranu
 ; Workbench:Clone
@@ -2653,21 +2335,13 @@ STR_MODE_WORKBENCH_USE
 Workbench: Uûyj
 ; Workbench:Use
 ;
-;
-;*** Screen/Colors (3/3)
-;
 STR_COLOURS_TINY_GADS
 BRSA?EFCIQ
 ; BRSA?EFCIQ
 ;
-;
-;
 STR_FORMAT_GROUPBITS
 Sieciowe bity protekcji
 ; Net protection bits
-;
-;
-;*** Menus (5/5)
 ;
 STR_MENUNAME_NEATSTUFF
 Narzëdzia
@@ -2677,9 +2351,6 @@ STR_NEAT_PAINT_MODE
 Zmiana kolorów
 ; Paint mode
 ;
-;
-;*** (Drive) Button & Menu configuration screen (2/2)
-;
 STR_PAINT_SELECT_COLOURS
 Ustal nowe kolory
 ; Select paint colors
@@ -2688,86 +2359,49 @@ STR_PAINT_STATE
 (Aktywny tryb zmiany kolorów)
 ;   (Paint mode active)
 ;
-;
-;
-;*** Screen/General (3/4)
-;
 STR_SCREEN_GENERAL_TITLEBARSTATUS
 Wyôwietlaj teksty statusowe na belce tytuîowej
 ; Display status text in title bar
-;
-;
-;*** Operation/Update (2/3)
 ;
 STR_OP_UPDATE_PROGRESSIND_COPY
 Wskaúnik postëpu aktualnego pliku (kopiowanie)
 ; Current file progress indicator (Copy)
 ;
-;
-;*** Screen/Screen mode (6/7)
-;
 STR_SCREEN_MODE_USE
 Uûyj
 ; Use
-;
-;
-;*** Screen/General (4/4)
 ;
 STR_SCREEN_GENERAL_WINDOWBORDERS
 Ramki na wîasnym ekranie
 ; Custom screen window borders
 ;
-;
-;*** Screen/Screen mode (7/7)
-;
 STR_SCREEN_MODE_CLONE
 Klon
 ; Clone
-;
-;
-;*** Screen configuration screen (3/3)
 ;
 STR_SCREEN_SLIDERS
 Suwaki
 ; Sliders
 ;
-;
-;*** Operation/Update (3/3)
-;
 STR_OP_UPDATE_PROGRESS
 Pasek postëpu...
 ; Progress indicator...
-;
-;
-;*** Screen/Fonts (3/3)
 ;
 STR_FONTPLACE_SCREEN
 Czcionka ekranu
 ; Screen font
 ;
-;
-;*** List - ARexx commands (2/4)
-;
 STR_FUNCTIONLIST_SETVAR
 SetVar       - Ustawia wewnëtrznâ zmiennâ
 ; SetVar        -  Set an internal variable
-;
-;
-;*** List - requester placeholders (2/2)
 ;
 STR_COMMANDSEQ_VARIABLE
 {v}  -            Predefiniowalna zmienna
 ; {v}  -               Pre-defined variable
 ;
-;
-;*** System/View & Play (2/3)
-;
 STR_SYS_VIEWPLAY_BESTMODEID
 Wybierz najlepszy tryb
 ; Pick best screen-mode
-;
-;
-;*** List - ARexx commands (3/4)
 ;
 STR_FUNCTIONLIST_NOTIFY
 Notify        -             Powiadomienie
@@ -2777,15 +2411,9 @@ STR_FUNCTIONLIST_PARENTLIST
 ParentList    -    Lista nadrzëdnych kat.
 ; ParentList    -   List parent directories
 ;
-;
-;*** Operation/List format (5/5)
-;
 STR_SIZE_KMGMODE
 Pokazuj rozmiary w K/M/G
 ; Show size in K/M/G
-;
-;
-;*** System/View & Play (3/3)
 ;
 STR_SYS_VIEWPLAY_INWINDOW
 W oknie
@@ -2807,57 +2435,33 @@ STR_SYS_HEIGHT
 Wysokoôê
 ; Height
 ;
-;
-;*** List - file identification commands (2/2)
-;
 STR_CLASSOPS_MATCHI
 MatchI       - tekst (bez wielkoôci znaków)
 ; MatchI       - text (case-insensitive)
-;
-;
-;*** Menu configuration screen (3/3)
 ;
 STR_MENU_MAX_REACHED
 Uwaga! Niektóre menu nie zostaîy zaimportowane z powodu braku miejsca.
 ; Warning! Some menus were not imported due to lack of free space.
 ;
-;
-;*** Operation/General (2/4)
-;
 STR_OP_GENERAL_FMPARENTMODE
 Nadrzëdne jak w FileMasterze
 ; FileMaster-like Parent
-;
-;
-;*** Operation/Copy (2/2)
 ;
 STR_OP_COPY_COPYARCHIVE
 Kopiuj takûe bit A
 ; Copy archive bit too
 ;
-;
-;*** Operation/General (3/4)
-;
 STR_OP_GENERAL_FORCEQUIT
 Nie pytaj przed zakoïczeniem pracy
 ; Don't ask before quit
-;
-;
-;*** General usage buttons (2/2)
 ;
 STR_USE
 Uûyj
 ; Use
 ;
-;
-;*** List - ARexx commands (4/4)
-;
 STR_FUNCTIONLIST_MAKELINK
 MakeLink      - Tworzy odn. soft lub hard
 ; MakeLink      -  Create soft or hard link
-;
-;
-;*** Operation/General (4/4)
 ;
 STR_OP_GENERAL_MMBSELECTS
 Klikniëcie MMB wybiera lister
