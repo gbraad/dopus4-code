@@ -1,10 +1,10 @@
-## version $VER: DOpus4.catalog 1.6 (23.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4.catalog 1.8 (24.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 1.5 (08.01.2002)
+; $VER: DOpus4.cd 1.8 (23.01.2002)
 ;
 ;
 ; General
@@ -59,7 +59,7 @@ Drukujë zawartoôê katalogu...
 ;
 STR_DIRECTORY
 Katalog 
-; Directory
+; Directory 
 ;
 STR_DEVICE_LIST
 Lista urzâdzeï\n\n
@@ -474,7 +474,7 @@ Podano zîe hasîo!
 ; Incorrect password given!
 ;
 STR_COUNTING_LINES
-Liczë linië...
+Liczë linie...
 ; Counting lines...
 ;
 ;
@@ -1113,7 +1113,7 @@ Directory Opus - przeglâdarka tekstu
 ; Directory Opus Text Viewer
 ;
 ;
-; Protect window
+; Protect window (1/2)
 ;
 ; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
 ;       change them, but use something like this instead:
@@ -1414,3 +1414,15 @@ Sortowanie nazw plików
 STR_FILE_EXTENSION
 Rozszerzenia
 ; Extension
+;
+;
+; Protect window (2/2)
+;
+STR_PROTECT_OKAY
+_OK
+; _Okay
+;
+STR_PROTECT_ALL
+Wszys_tkie
+; A_ll
+;
