@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Config.catalog 1.4 (04.12.2001) © Daniel Sternik <dxs2@wp.pl>
+## version $VER: DOpus4_Config.catalog 1.5 (09.02.2002) © Daniel Sternik <dxs2@wp.pl>
 ## language polski
 ## codeset 0
 ;
@@ -1674,10 +1674,6 @@ STR_SYS_VIEWPLAY_TABSIZE
 Rozmiar tabulatora
 ; Tab size
 ;
-STR_removed_0
-
-; 
-;
 STR_SCREEN_GENERAL_TINYGADS
 Maîe przyciski na dole po prawej
 ; Bottom-right tiny buttons
@@ -1821,10 +1817,6 @@ CopyAs        -  Kopiuje zmieniajâc nazwë
 STR_FUNCTIONLIST_COPYWINDOW
 CopyWindow    -    Kopiuje zawartoôê okna
 ; CopyWindow    -  Copy one window to other
-;
-STR_removed_1
-
-; 
 ;
 STR_FUNCTIONLIST_DATESTAMP
 DateStamp     -    Modyfikuje daty plików
@@ -2226,17 +2218,9 @@ STR_MODULE_LIST_TITLE
 Obsîugiwane zewnëtrzne moduîy...
 ; External support modules...
 ;
-STR_removed_2
-
-; 
-;
 STR_MODULE_LIST_CHECK_STRING
 (   Oznacza moduîy wczytywane przy starcie)
 ; (  Check indicates a module to be pre-loaded)
-;
-STR_removed_3
-
-; 
 ;
 STR_SYS_CLOCK_KILOBYTES_FREE
 Kilobajty wolne
@@ -2337,10 +2321,6 @@ Plik wsadowy
 STR_FUNCTION_AREXX
 ARexx
 ; ARexx
-;
-STR_removed_tech
-
-;
 ; 
 STR_MODE_WORKBENCH_CLONE
 Workbench: Kopia ekranu
@@ -2373,10 +2353,6 @@ Ustal nowe kolory
 STR_PAINT_STATE
 (Aktywny tryb zmiany kolorów)
 ;   (Paint mode active)
-;
-STR_removed_4
-
-; 
 ;
 STR_SCREEN_GENERAL_TITLEBARSTATUS
 Wyôwietlaj teksty statusowe na belce tytuîowej
