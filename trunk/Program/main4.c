@@ -545,27 +545,27 @@ int win;
     return(1);
 }
 
-int _isdigit (char c)
+int _isdigit (unsigned char c)
 {
  return locale?IsDigit(locale,c):isdigit(c);
 }
 
-int _isprint (char c)
+int _isprint (unsigned char c)
 {
  return locale?IsPrint(locale,c):isprint(c);
 }
 
-int _isspace (char c)
+int _isspace (unsigned char c)
 {
  return locale?IsSpace(locale,c):isspace(c);
 }
 
-int _isupper (char c)
+int _isupper (unsigned char c)
 {
  return locale?IsUpper(locale,c):isupper(c);
 }
 
-int _ispunct (char c)
+int _ispunct (unsigned char c)
 {
  return locale?IsPunct(locale,c):ispunct(c);
 }

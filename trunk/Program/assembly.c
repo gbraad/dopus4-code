@@ -97,7 +97,7 @@ int countlines(register struct ViewData *vd __asm("a0"))
     if (*buf != '\n') linecount ++;
 
     // lastlf
-
+D(bug("countlines() = %ld\n",linecount));
     return linecount;
 }
 
@@ -319,6 +319,7 @@ int smartcountlines(register struct ViewData *vd __asm("a0"))
 
     if (*a0_buf != '\n') d0_linecount++;
 
+D(bug("smartcountlines() = %ld\n",d0_linecount));
     return d0_linecount;
 }
 

@@ -284,29 +284,6 @@ void __saveds hotkeytaskcode()
 
     while (hmsg=(struct dopustaskmsg *)GetMsg(hotkeymsg_port)) {
       switch (hmsg->command) {
-        case TASK_QUIT:
-          run = 0;
-          break;
-
-        case PROGRESS_OPEN:
-          if (!pwindow) {
-            openprogresswindow(hmsg->data,hmsg->value,hmsg->total,hmsg->flag);
-            if (pwindow)
-             {
-              SetBusyPointer(pwindow);
-              waitbits |= 1<<pwindow->UserPort->mp_SigBit;
-             }
-          }
-          break;
-
-        case PROGRESS_CLOSE:
-          if (pwindow) {
-            waitbits &= ~(1<<pwindow->UserPort->mp_SigBit);
-            CloseWindow(pwindow);
-            pwindow=NULL;
-          }
-          LFreeRemember(&prog_key);
-          break;
 
         case PROGRESS_UPDATE:
           if (pwindow) {
@@ -334,10 +311,32 @@ void __saveds hotkeytaskcode()
 
                 progressbar(prog_barx[hmsg->flag],prog_bary[hmsg->flag],prog_val[hmsg->flag],prog_tot[hmsg->flag]);
                }
-              if (!hmsg->flag || hmsg->data)
-                progresstext(prog_texty[hmsg->flag],prog_val[hmsg->flag],prog_tot[hmsg->flag],hmsg->data);
             }
           }
+          break;
+
+        case PROGRESS_OPEN:
+          if (!pwindow) {
+            openprogresswindow(hmsg->data,hmsg->value,hmsg->total,hmsg->flag);
+            if (pwindow)
+             {
+              SetBusyPointer(pwindow);
+              waitbits |= 1<<pwindow->UserPort->mp_SigBit;
+             }
+          }
+          break;
+
+        case PROGRESS_CLOSE:
+          if (pwindow) {
+            waitbits &= ~(1<<pwindow->UserPort->mp_SigBit);
+            CloseWindow(pwindow);
+            pwindow=NULL;
+          }
+          LFreeRemember(&prog_key);
+          break;
+
+        case TASK_QUIT:
+          run = 0;
           break;
 
         case HOTKEY_HOTKEYCHANGE:
@@ -617,10 +616,7 @@ char *text;
   char buf[80],*ptr;
   int x,y1,len;
 
-  if (val==-1) {
-    if (total) ptr=globstring[STR_ABORTED];
-    else ptr=globstring[STR_COMPLETED];
-  }
+  if (val==-1) ptr = globstring[total?STR_ABORTED:STR_COMPLETED];
   else {
     if (text) LStrnCpy(buf,text,(pwindow->Width-prog_xextra-56)/prp->Font->tf_XSize);
     else lsprintf(buf,globstring[STR_REMAINING],val,total);
@@ -655,11 +651,12 @@ char *text;
 void progressbar(x,y,val,total)
 int x,y,val,total;
 {
+  static int last_w;
   int w;
-  float f;
 
-  f=(float)val/(float)total;
-  if (f>0) {
+  if (val>0) {
+    float f=(float)val/(float)total;
+
     if ((w=(int)(300*f))>300) w=300;
     else if (w<1) w=1;
     SetAPen(prp,screen_pens[3].pen);
@@ -668,7 +665,11 @@ int x,y,val,total;
     w=300;
     SetAPen(prp,screen_pens[0].pen);
   }
-  RectFill(prp,x,y,x+w-1,y+prp->Font->tf_YSize-1);
+  if (w != last_w)
+   {
+    RectFill(prp,x,y,x+w-1,y+prp->Font->tf_YSize-1);
+    last_w = w;
+   }
 }
 
 #ifdef __MORPHOS__

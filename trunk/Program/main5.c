@@ -43,7 +43,8 @@ int encryptstate;
 {
     struct FileInfoBlock __aligned cfinfo;
     char *buffer;
-    int out,length,suc,readsize,size_read,size_write,size_total,ret=0,prog=0,buffer_size,size;
+    int out,length,suc,readsize,size_read,size_write,size_total,ret=0,buffer_size,size;
+    int prog = (config->dynamicflags&UPDATE_PROGRESSIND_COPY);
     int inhandle, outhandle;
     struct AsyncFile *infile;
 /*
@@ -53,8 +54,8 @@ int encryptstate;
 //    ULONG owner_info;
 
     buffer=NULL;
-    infile=NULL;
 /*
+    infile=NULL;
     outfile=NULL;
 */
     inhandle=0;
@@ -67,30 +68,8 @@ int encryptstate;
         Seed(encrypt);
     }
 
-    if (config->dynamicflags&UPDATE_PROGRESSIND_COPY) prog=1;
-
     suc=lockandexamine(src,&cfinfo);
-/*
-    if (size==0) {
-kprintf("copy zero-length file\n");
-        if (suc) {
-kprintf("source examined\n");
-            if (cfinfo.fib_Size==0) {
-                if ((out=Open(dst,MODE_NEWFILE))) Close(out);
-                else goto failed;
-            }
-            if (config->copyflags&COPY_DATE) setdate(dst,&(cfinfo.fib_Date));
-            if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo.fib_Protection);
-            if (config->copyflags&COPY_NOTE) SetComment(dst,cfinfo.fib_Comment);
-//            if (system_version2) {
-                owner_info=(cfinfo.fib_OwnerUID<<16)|cfinfo.fib_OwnerGID;
-                if (owner_info) SetOwner(dst,owner_info);
-//            }
-        }
-        filloutcopydatafile(dst);
-        if (suc) return(1);
-    }
-*/
+
     if (!suc) {
         *err=IoErr();
         return(0);
@@ -112,52 +91,20 @@ kprintf("source examined\n");
     }
     else dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,0,100,NULL,1);
 
-/*
-    if (prog) {
-        buffer_size=COPY_BUF_SIZE;
-        buffer=AllocMem(COPY_BUF_SIZE,0);
-        if (infile=OpenAsync(src,MODE_READ,ASYNC_READ_SIZE))
-            outfile=OpenAsync(dst,MODE_WRITE,ASYNC_WRITE_SIZE);
-        if (!outfile) goto failed;
-    }
-    else {
-        if (size>65536) buffer_size=size/2;
-        else buffer_size=size;
-        if (buffer_size>122880) buffer_size=122880;
-
-        while (buffer_size>0) {
-            if (buffer=AllocMem(buffer_size,0)) break;
-            buffer_size/=2;
-        }
-        if (inhandle=Open(src,MODE_OLDFILE))
-            outhandle=Open(dst,MODE_NEWFILE);
-        if (!outhandle) goto failed;
-    }
-
-    if (!buffer) goto failed;
-*/
-
-    if (prog) {
-//        buffer_size=COPY_BUF_SIZE;
-        infile=OpenAsync(src,MODE_READ,ASYNC_READ_SIZE);
-    }
-    /*else*/ {
-        if (size>65536) buffer_size=size/2;
-        else buffer_size=size;
-        if (buffer_size>122880) buffer_size=122880;
-    }
-
-    while (buffer_size>0) {
-        if (buffer=AllocMem(buffer_size,0)) break;
-        buffer_size/=2;
-    }
-
-    if (!buffer) goto failed;
-
+    infile = OpenAsync(src,MODE_READ,ASYNC_READ_SIZE);
     if (!infile && (!(inhandle=Open(src,MODE_OLDFILE)))) goto failed;
+
     if (!(outhandle=Open(dst,MODE_NEWFILE))) goto failed;
 
-    DateStamp(&ds);
+    if (size>(64*1024)) buffer_size=size/2;
+    else buffer_size=size;
+    if (buffer_size>(128*1024)) buffer_size=128*1024;
+
+    while (buffer_size>0) {
+        if (buffer=AllocMem(buffer_size,MEMF_ANY)) break;
+        buffer_size/=2;
+    }
+    if (!buffer) goto failed;
 
     size_read=size_write=0;
     size_total=size*2;
@@ -217,11 +164,11 @@ kprintf("source examined\n");
     }
 
     if (infile) CloseAsync(infile);
+    else /*if (inhandle)*/ Close(inhandle);
 /*
     if (outfile) CloseAsync(outfile);
 */
-    if (inhandle) Close(inhandle);
-    if (outhandle) Close(outhandle);
+    /*if (outhandle)*/ Close(outhandle);
 
     FreeMem(buffer,buffer_size);
 
@@ -229,15 +176,22 @@ kprintf("source examined\n");
         setdate(dst,&(cfinfo.fib_Date));
         dsp=&cfinfo.fib_Date;
     }
-    else dsp=&ds;
+    else {
+        DateStamp(&ds);
+        dsp=&ds;
+    }
     copy_datestamp(dsp,&dos_copy_date);
-    if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo.fib_Protection&((config->copyflags&COPY_COPYARC)?~0:~FIBF_ARCHIVE));
+
+    if (config->copyflags&COPY_PROT)
+        SetProtection(dst,cfinfo.fib_Protection&((config->copyflags&COPY_COPYARC)?~0:~FIBF_ARCHIVE));
     dos_copy_protection=cfinfo.fib_Protection;
+
     if (config->copyflags&COPY_NOTE) {
         SetComment(dst,cfinfo.fib_Comment);
         strcpy(dos_copy_comment,cfinfo.fib_Comment);
     }
     else dos_copy_comment[0]=0;
+
     return(1);
 
 failed:

@@ -414,8 +414,8 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
          }
         else strcpy(titlebuf,"Directory Opus");
 
-        if (total>1) dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,value,total,titlebuf,progress_copy);
-        else dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,1,1,titlebuf,progress_copy);
+        /*if (total>1)*/ dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,(total>1)?value:1,(total>1)?total:1,titlebuf,progress_copy);
+//        else dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,1,1,titlebuf,progress_copy);
         prog_indicator=1;
     }
 

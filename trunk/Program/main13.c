@@ -415,6 +415,6 @@ struct DateStamp *ds;
 //    datetime.custom_weekdays=date_weekdays;
 //    datetime.custom_shortweekdays=date_shortweekdays;
 //    datetime.custom_special_days=date_special;
-    StrToStamp(&datetime);
+    D(bug("strtostamp=%ld\n",StrToStamp(&datetime)));
     copy_datestamp(&datetime.dat_Stamp,ds);
 }

@@ -222,11 +222,11 @@ void quickfixmenus()
         a=0;
         while (getintuimsg()) {
             class=IMsg->Class; code=IMsg->Code;
+            ReplyMsg((struct Message *)IMsg);
             if (class==MOUSEBUTTONS && code==MENUUP) {
                 a=1;
                 break;
             }
-            ReplyMsg((struct Message *)IMsg);
         }
         if (!a) {
             Window->Flags&=~RMBTRAP;

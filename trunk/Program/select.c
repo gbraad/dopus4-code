@@ -744,23 +744,30 @@ char *buf;
 struct DateStamp *ds1,*ds2;
 {
     char datebuf[2][85],timebuf[2][85],*ptr;
-    int a,b;
+    int a/*,b*/;
 
-    datebuf[0][0]=datebuf[1][0]=timebuf[0][0]=timebuf[1][0]=a=b=0;
-    ptr=parsedatetime(str_select_pattern[1],datebuf[0],timebuf[0],&a);
+    datebuf[0][0]=datebuf[1][0]=timebuf[0][0]=timebuf[1][0]=a/*=b*/=0;
+    ptr=parsedatetime(buf/*str_select_pattern[1]*/,datebuf[0],timebuf[0],&a);
+    switch (a) {
+        case 0:
+            strcpy(datebuf[1],datebuf[0]);
+            strcpy(timebuf[1],"23:59:59");
+            break;
+        case -1:
+            strcpy(datebuf[1],datebuf[0]);
+            strcpy(timebuf[1],timebuf[0]);
+            break;
+        default:
+            parsedatetime(ptr,datebuf[1],timebuf[1],&a/*&b*/);
+            break;
+    }
+D(bug("getseldatestamps(%s,%s,%s,%s)\n",datebuf[0],timebuf[0],datebuf[1],timebuf[1]));
     strtostamp(datebuf[0],timebuf[0],ds1);
-    if (!a) {
-        strcpy(datebuf[1],datebuf[0]);
-        strcpy(timebuf[1],"23:59:59");
-    }
-    else if (a==-1) {
-        strcpy(datebuf[1],datebuf[0]);
-        strcpy(timebuf[1],timebuf[0]);
-    }
-    else parsedatetime(ptr,datebuf[1],timebuf[1],&b);
     strtostamp(datebuf[1],timebuf[1],ds2);
     ds1->ds_Tick=((ds1->ds_Tick/50)*50);
     ds2->ds_Tick=((ds2->ds_Tick/50)*50)+49;
+D(bug("getseldatestamp: ds1=%ld,%ld,%ld\n",ds1->ds_Days,ds1->ds_Minute,ds1->ds_Tick));
+D(bug("getseldatestamp: ds2=%ld,%ld,%ld\n",ds2->ds_Days,ds2->ds_Minute,ds2->ds_Tick));
 }
 
 void getprotselvals(buf,prot)

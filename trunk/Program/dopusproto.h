@@ -199,11 +199,11 @@ void dolittlegads(struct Gadget *,char *,int);
 void rectfill(struct RastPort *,int,int,int,int);
 int isinwindow(int,int);
 int isvalidwindow(int);
-int _isdigit(char);
-int _isprint(char);
-int _isspace(char);
-int _isupper(char);
-int _ispunct(char);
+int _isdigit(unsigned char);
+int _isprint(unsigned char);
+int _isspace(unsigned char);
+int _isupper(unsigned char);
+int _ispunct(unsigned char);
 
 /* main5.c */
 

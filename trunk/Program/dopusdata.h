@@ -102,7 +102,6 @@ extern struct Task *clock_task;                  /* Clock Task */
 
 extern struct MsgPort *count_port;               /* Port to establish run count */
 extern struct MsgPort *general_port;             /* General Message Port */
-extern struct MsgPort *audio_port[2];            /* 8SVX Sound player Ports */
 extern struct MsgPort *appmsg_port;              /* AppObject Message Port */
 extern struct MsgPort *arexx_port;               /* ARexx Port */
 extern struct MsgPort *snm_port;                 /* ScreenNotify Port */
@@ -112,8 +111,6 @@ extern struct MsgPort *clockmsg_port;            /* Messages to the clock task *
 
 extern struct IOStdReq *keyboard_req;            /* Keyboard IO Request block */
 extern struct IOStdReq *input_req;               /* Input IO Request block */
-extern struct IOAudio *audio_req1[2];            /* Audio IO Request block #1 */
-extern struct IOAudio *audio_req2[2];            /* Audio IO Request block #2 */
 
 extern struct SysInfo *sysinfo;                  /* SysInfo.library */
 
@@ -135,8 +132,6 @@ extern struct DOpusRemember *filetype_key;       /* Memory key for filetype list
 extern struct DOpusRemember *menu_key;           /* Memory key for menus */
 
 extern USHORT *nullpalette;                      /* Pointer to a black palette */
-extern UBYTE *audiodata;                         /* Audio data to play */
-extern ULONG audio_size;                         /* Size of audio data */
 
 extern struct UserInfo *user_info;               /* UserInfo for envoy */
 extern struct GroupInfo *group_info;             /* GroupInfo for envoy */

@@ -96,7 +96,6 @@ struct Task *clock_task=NULL;             /* Clock Task */
 
 struct MsgPort *count_port=NULL;          /* Port to establish run count */
 struct MsgPort *general_port=NULL;        /* General Message Port */
-struct MsgPort *audio_port[2]={0};        /* 8SVX Sound player Ports */
 struct MsgPort *appmsg_port=NULL;         /* AppObject Message Port */
 struct MsgPort *arexx_port=NULL;          /* ARexx Port */
 struct MsgPort *snm_port=NULL;            /* ScreenNotify Port */
@@ -106,8 +105,6 @@ struct MsgPort *clockmsg_port=NULL;       /* Messages to the clock task */
 
 struct IOStdReq *keyboard_req=NULL;       /* Keyboard IO Request block */
 struct IOStdReq *input_req=NULL;          /* Input IO Request block */
-struct IOAudio *audio_req1[2]={0};        /* Audio IO Request block #1 */
-struct IOAudio *audio_req2[2]={0};        /* Audio IO Request block #2 */
 
 /* DOS objects */
 
@@ -127,8 +124,6 @@ struct DOpusRemember *filetype_key=NULL;  /* Memory key for filetype list */
 struct DOpusRemember *menu_key=NULL;      /* Memory key for menus */
 
 USHORT *nullpalette=NULL;                 /* Pointer to a black palette */
-UBYTE *audiodata=NULL;                    /* Audio data to play */
-ULONG audio_size=0;                       /* Size of audio data */
 
 struct UserInfo *user_info=NULL;          /* UserInfo for envoy */
 struct GroupInfo *group_info=NULL;        /* GroupInfo for envoy */

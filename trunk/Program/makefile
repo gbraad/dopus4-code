@@ -39,11 +39,11 @@ strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
 chipimage.o: chipimage.asm
 	$(ASM) $*.asm $(ASMOPTS)
 
-assembly.o: assembly.asm
-	$(ASM) $*.asm $(ASMOPTS)
-	@hunk2aout $*.o >NIL:
-	@delete $*.o QUIET
-	@rename obj.* $*.o
+#assembly.o: assembly.asm
+#	$(ASM) $*.asm $(ASMOPTS)
+#	@hunk2aout $*.o >NIL:
+#	@delete $*.o QUIET
+#	@rename obj.* $*.o
 
 #getusage.o: getusage.asm
 #	$(ASM) $*.asm $(ASMOPTS)

@@ -211,7 +211,6 @@ void centerwindow(wind)
 struct NewWindow *wind;
 {
     int h,w,pw,ph;
-    struct Screen scrbuf;
 
     if (!status_iconified && Window) {
         w=Window->WScreen->Width;
@@ -220,6 +219,8 @@ struct NewWindow *wind;
         ph=Window->Height;
     }
     else {
+        struct Screen scrbuf;
+
         GetWBScreen(&scrbuf);
         pw=w=scrbuf.Width;
         ph=h=scrbuf.Height;
@@ -246,11 +247,10 @@ char *parsedatetime(buf,dbuf,tbuf,dis)
 char *buf,*dbuf,*tbuf;
 int *dis;
 {
-    char *datebuf,*timebuf,*ptr,*temp,dbuffer[80],mydtbuf[20],mytmbuf[20];
+    unsigned char *datebuf,*timebuf,*ptr,*temp,dbuffer[80],mydtbuf[20],mytmbuf[20];
     struct DOpusDateTime datetime;
     int a,b,c,swap=0;
 
-D(bug("parsedatetime(&s,...)\n",buf));
     timebuf=datebuf=NULL; *dis=0;
     strcpy(dbuffer,buf); b=strlen(dbuffer);
     for (a=0;a<b;a++) if (!(_isspace(dbuffer[a]))) break;
@@ -303,7 +303,7 @@ getout:
     initdatetime(&datetime,mydtbuf,mytmbuf,-1);
 
     c=0;
-    if (datebuf && (a=strlen(datebuf))<16 && a>4) strcpy(dbuf,datebuf);
+    if (datebuf && (a=strlen(datebuf))<16 && a>2) strcpy(dbuf,datebuf);
     else {
         if ((*dis)!=2) {
             c=1;
@@ -313,7 +313,9 @@ getout:
             char *fptr;
 
             switch (dateformat(config->dateformat)) {
-                case FORMAT_INT: fptr="78-01-01"; break;
+                case FORMAT_INT:
+                    fptr="78-01-01";
+                    break;
                 case FORMAT_USA:
                 case FORMAT_AUS:
                     fptr="01-01-78"; 
@@ -329,10 +331,9 @@ getout:
         strcpy(tbuf,timebuf);
         if (!(*dis)) *dis=-1;
     }
-    else {
-        if (c) strcpy(tbuf,mytmbuf);
-        else strcpy(tbuf,"00:00:00");
-    }
+    else strcpy(tbuf,c?mytmbuf:"00:00:00");
+
+D(bug("parsedatetime(%s)=%ld\n",buf,*dis));
     return(ptr);
 }
 

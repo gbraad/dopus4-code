@@ -75,6 +75,9 @@ struct dopustaskmsg {
     char *data;
 };
 
+#define TASKMSGFLAG_SINGLE 0
+#define TASKMSGFLAG_DOUBLE 1
+
 struct DirectoryWindow {
     struct DirectoryWindow *next,*last;
     int number;
