@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Config.catalog 1.8 (09.02.2002)
+## version $VER: DOpus4_Config.catalog 1.9 (30.05.2002)
 ## language español
 ## codeset 0
 ;
@@ -2299,8 +2299,12 @@ Pulsar-M-Pulsar
 ; Click-m-click
 ;
 STR_FTYPE_DOUBLECLICK
-Doble pulsación
-; Double-click
+Doble puls. (LMB)
+; LMB Double-click
+;
+STR_FTYPE_MMBCLICK
+Doble puls. (MMB)
+; MMB Double-click
 ;
 STR_FUNCTION_COMMAND
 Comando
