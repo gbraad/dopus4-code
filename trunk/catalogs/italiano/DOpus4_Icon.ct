@@ -1,143 +1,144 @@
 ## chunk AUTH Massimo Mascia & Francesco Mancuso
 ## language italiano
 ## version $VER: DOpus4_Icon.catalog 1.2 (05.06.2001)
+;
 STR_REMAP_COLORS
 _Rimappa col.
-;#DEF Rema_p colors
-;#SET (//)
+; Rema_p colors
+;
 STR_SAVE
 Sal_va
-;#DEF Sa_ve
-;#SET (//)
+; Sa_ve
+;
 STR_SKIP
 Sal_ta
-;#DEF S_kip
-;#SET (//)
+; S_kip
+;
 STR_CANCEL
 Ann_ulla
-;#DEF _Cancel
-;#SET (//)
+; _Cancel
+;
 STR_DELETE
 Cance_lla
-;#DEF De_lete
-;#SET (//)
+; De_lete
+;
 STR_NEW
 _Nuovo
-;#DEF _New
-;#SET (//)
+; _New
+;
 STR_TOOLTYPES
 Parametri:
-;#DEF Tool types:
-;#SET (//)
+; Tool types:
+;
 STR_COMMENT
 Co_mmento:
-;#DEF Co_mment:
-;#SET (//)
+; Co_mment:
+;
 STR_DEFAULT_TOOL
 A_pri con:
-;#DEF De_fault tool:
-;#SET (//)
+; De_fault tool:
+;
 STR_VALIDATING
 Convalida
-;#DEF Validating
-;#SET (//)
+; Validating
+;
 STR_WRITE_PROTECTED
 Protetto da scrittura
-;#DEF Write protected
-;#SET (//)
+; Write protected
+;
 STR_READ_WRITE
 Lettura/Scrittura
-;#DEF Read/Write
-;#SET (//)
+; Read/Write
+;
 STR_SCRIPT
 _File script
-;#DEF _Script
-;#SET (//)
+; _Script
+;
 STR_ARCHIVED
 _Archivia
-;#DEF _Archived
-;#SET (//)
+; _Archived
+;
 STR_READABLE
 Le_ggi
-;#DEF _Readable
-;#SET (//)
+; _Readable
+;
 STR_WRITABLE
 _Scrivi
-;#DEF _Writable
-;#SET (//)
+; _Writable
+;
 STR_EXECUTABLE
 _Esegui
-;#DEF _Executable
-;#SET (//)
+; _Executable
+;
 STR_DELETABLE
 _Cancella
-;#DEF _Deletable
-;#SET (//)
+; _Deletable
+;
 STR_BLOCKS
 Blocchi
-;#DEF Blocks
-;#SET (//)
+; Blocks
+;
 STR_USED
 In uso
-;#DEF Used
-;#SET (//)
+; Used
+;
 STR_FREE
 Liberi
-;#DEF Free
-;#SET (//)
+; Free
+;
 STR_BLOCK_SIZE
 Dim. blocco
-;#DEF Block size
-;#SET (//)
+; Block size
+;
 STR_CREATED
 Creato
-;#DEF Created
-;#SET (//)
+; Created
+;
 STR_LAST_CHANGED
 Data modif.
-;#DEF Last changed
-;#SET (//)
+; Last changed
+;
 STR_BYTES
 Byte
-;#DEF Bytes
-;#SET (//)
+; Bytes
+;
 STR_STACK
 Stac_k
-;#DEF S_tack
-;#SET (//)
+; S_tack
+;
 STR_DISK
 Disco
-;#DEF Disk
-;#SET (//)
+; Disk
+;
 STR_DRAWER
 Cassetto
-;#DEF Drawer
-;#SET (//)
+; Drawer
+;
 STR_TOOL
 Strumento
-;#DEF Tool
-;#SET (//)
+; Tool
+;
 STR_PROJECT
 Progetto
-;#DEF Project
-;#SET (//)
+; Project
+;
 STR_TRASH
 Cestino
-;#DEF Trash
-;#SET (//)
+; Trash
+;
 STR_DEVICE
 Dispositivo
-;#DEF Device
-;#SET (//)
+; Device
+;
 STR_KICK
 Kickstart
-;#DEF Kick
-;#SET (//)
+; Kick
+;
 STR_APPICON
 AppIcon
-;#DEF AppIcon
-;#SET (//)
+; AppIcon
+;
 STR_ICON
 Icona
-;#DEF Icon
-;#SET (//)
+; Icon
+;

@@ -1,235 +1,236 @@
 ## chunk AUTH Massimo Mascia e Francesco Mancuso
 ## language italiano
 ## version $VER: DOpus4_Print.catalog 1.2 (07.06.2001)
+;
 STR_SELECT_FILE
 Scegli file
-;#DEF Select file
-;#SET (//)
+; Select file
+;
 STR_ABORT
 _Interrompi
-;#DEF Abort
-;#SET (//)
+; Abort
+;
 STR_CONTINUE
 _Continua
-;#DEF Continue
-;#SET (//)
+; Continue
+;
 STR_OKAY
 _Okay
-;#DEF Okay
-;#SET (//)
+; Okay
+;
 STR_CANCEL
 _Cancella
-;#DEF Cancel
-;#SET (//)
+; Cancel
+;
 STR_FILE
 File
-;#DEF File
-;#SET (//)
+; File
+;
 STR_TOP_MARGIN
 Margine sup.
-;#DEF Top Margin
-;#SET (//)
+; Top Margin
+;
 STR_BOTTOM_MARGIN
 Margine inf.
-;#DEF Bottom Margin
-;#SET (//)
+; Bottom Margin
+;
 STR_LEFT_MARGIN
 Margine sin.
-;#DEF Left Margin
-;#SET (//)
+; Left Margin
+;
 STR_RIGHT_MARGIN
 Margine des.
-;#DEF Right Margin
-;#SET (//)
+; Right Margin
+;
 STR_TAB_SIZE
 Dim. tab.
-;#DEF Tab size
-;#SET (//)
+; Tab size
+;
 STR_PRINT_PITCH
 Corpo stampa
-;#DEF Print pitch
-;#SET (//)
+; Print pitch
+;
 STR_QUALITY
 Densità
-;#DEF Density
-;#SET (//)
+; Density
+;
 STR_EJECT
 Espelli ultima pag.
-;#DEF Eject final page
-;#SET (//)
+; Eject final page
+;
 STR_CONFIGURATION
 configurazione...
-;#DEF configuration...
-;#SET (//)
+; configuration...
+;
 STR_TITLE
 Titolo
-;#DEF Title
-;#SET (//)
+; Title
+;
 STR_DATE
 Data
-;#DEF Date
-;#SET (//)
+; Date
+;
 STR_PAGE_NUMBER
 N° pagina
-;#DEF Page no.
-;#SET (//)
+; Page no.
+;
 STR_TEXT_STYLE
 Stile testo
-;#DEF Text style
-;#SET (//)
+; Text style
+;
 STR_PRINTER
 Stampante
-;#DEF Printer
-;#SET (//)
+; Printer
+;
 STR_PRINT
 Stampa
-;#DEF Print
-;#SET (//)
+; Print
+;
 STR_EXIT
 Esci
-;#DEF Exit
-;#SET (//)
+; Exit
+;
 STR_OUTPUT_TO
 Output:
-;#DEF Output to...
-;#SET (//)
+; Output to...
+;
 STR_PICA
 Pica
-;#DEF Pica
-;#SET (//)
+; Pica
+;
 STR_ELITE
 Elite
-;#DEF Elite
-;#SET (//)
+; Elite
+;
 STR_FINE
 Fine
-;#DEF Fine
-;#SET (//)
+; Fine
+;
 STR_NORMAL
 Normale
-;#DEF Normal
-;#SET (//)
+; Normal
+;
 STR_BOLD
 Grassetto
-;#DEF Bold
-;#SET (//)
+; Bold
+;
 STR_ITALICS
 Corsivo
-;#DEF Italics
-;#SET (//)
+; Italics
+;
 STR_UNDERLINED
 Sottolin.
-;#DEF UnLined
-;#SET (//)
+; UnLined
+;
 STR_DOUBLESTRIKE
 Doppio
-;#DEF DbStrik
-;#SET (//)
+; DbStrik
+;
 STR_SHADOW
 Ombregg.
-;#DEF Shadow
-;#SET (//)
+; Shadow
+;
 STR_DRAFT
 Bozza
-;#DEF Draft
-;#SET (//)
+; Draft
+;
 STR_LETTER
 Lettera
-;#DEF Letter
-;#SET (//)
+; Letter
+;
 STR_HEADER
 Testata
-;#DEF Header
-;#SET (//)
+; Header
+;
 STR_FOOTER
 Piè pag.
-;#DEF Footer
-;#SET (//)
+; Footer
+;
 STR_SIZE
 Dimens.
-;#DEF Size
-;#SET (//)
+; Size
+;
 STR_PROTECTION
 Protezione
-;#DEF Protection
-;#SET (//)
+; Protection
+;
 STR_COMMENT
 Commento
-;#DEF Comment
-;#SET (//)
+; Comment
+;
 STR_FILETYPE
 Formato file
-;#DEF File type
-;#SET (//)
+; File type
+;
 STR_PRINT_DOT
 Stampa...
-;#DEF Print...
-;#SET (//)
+; Print...
+;
 STR_PRINTDIR
 StampaDir
-;#DEF Printdir
-;#SET (//)
+; Printdir
+;
 STR_UNABLE_TO_OPEN_FILE
 Non riesco ad aprire il file. Riprovo?
-;#DEF Unable to open file. Try again?
-;#SET (//)
+; Unable to open file. Try again?
+;
 STR_UNABLE_TO_OPEN_OUTPUT
 Non posso aprire il file in uscita. Riprovo?
-;#DEF Unable to open output file. Try again?
-;#SET (//)
+; Unable to open output file. Try again?
+;
 STR_UNABLE_TO_OPEN_PRINTER
 La stampante non risponde. Riprovo?
-;#DEF Unable to open printer. Try again?
-;#SET (//)
+; Unable to open printer. Try again?
+;
 STR_ERROR_PRINTING_DIR
 Errore stampa directory. Riprovo?
-;#DEF Error printing directory. Try again?
-;#SET (//)
+; Error printing directory. Try again?
+;
 STR_INCORRECT_PASSWORD
 La password non è corretta. Riprovo?
-;#DEF Incorrect password entered. Try again?
-;#SET (//)
+; Incorrect password entered. Try again?
+;
 STR_PRINT_ERROR
 Errore di stampa! Riprovo?
-;#DEF Print error! Try again?
-;#SET (//)
+; Print error! Try again?
+;
 STR_REALLY_ABORT
 Vuoi davvero annullare la stampa?
-;#DEF Really abort print operation?
-;#SET (//)
+; Really abort print operation?
+;
 STR_CREATING_FILE
 Creo il file...
-;#DEF Creating file
-;#SET (//)
+; Creating file
+;
 STR_OPENING_PRINTER
 Attivo stampante
-;#DEF Opening printer
-;#SET (//)
+; Opening printer
+;
 STR_LOADING_FILE
 Carico il file...
-;#DEF Loading file..
-;#SET (//)
+; Loading file..
+;
 STR_PRINTING_FILE
 Stampo il file...
-;#DEF Printing file...
-;#SET (//)
+; Printing file...
+;
 STR_PRESS_ESCAPE
 [ESC] per annullare
-;#DEF Press ESC to abort
-;#SET (//)
+; Press ESC to abort
+;
 STR_PAGE
 Pagina
-;#DEF Page
-;#SET (//)
+; Page
+;
 STR_COMPLETE
 completo
-;#DEF complete
-;#SET (//)
+; complete
+;
 STR_TOFILE
 File
-;#DEF File
-;#SET (//)
+; File
+;
 STR_PRINTWIN
 Stampa
-;#DEF Print
-;#SET (//)
+; Print
+;
