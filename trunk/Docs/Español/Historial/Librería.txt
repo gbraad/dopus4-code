@@ -1,0 +1,128 @@
+22.20 (25.11.2001)
+
+- Pequeñas correcciones
+
+- Añadida la localización
+
+- Limpieza general
+
+- Convertida completamente a C
+
+- Ya no es posible asignar empleando una cadena vacía
+
+
+22.20 (27.9.2001)
+
+- Corregido un impacto de Enforcer en la función Assign()
+
+- Se borran los espacios a continuación de la cadena de fecha.
+
+- Posibilidad de que la anchura de las columnas de las ventanas de
+  directorio supere los 255 pixels.
+
+
+22.19 (17.8.2001)
+
+- Convertidos a pixels los tamaños de formato de ventana de directorio
+  empleados por omisión.
+
+- Cierra con Expunge() todas las librerías abiertas.
+
+- Utiliza funciones de dos.library para el manejo de fechas (sí, esto
+  significa que la fecha está ahora localizada).
+
+- Corregido el fallo con el color de la primera opción de menú.
+
+- Corregido el nombre del tipo de letra por omisión.
+
+
+22.18 (3.6.2001)
+
+- Pequeñas correcciones
+
+
+22.18 (24.5.2001)
+
+- Optimizadas algunas funciones.
+
+- Eliminado el código de soporte al AmigaOS <3.x.
+
+
+22.17 (12.5.2001)
+
+- Aumentado hasta 69 caracteres el tamaño de la senda de directorio
+  de inicio.
+
+- Convierte automáticamente el atajo '~' en los ficheros de configuración
+  antiguos.
+
+- Puede mostrar '~' como atajo en ConfigOpus.
+
+
+22.16 (28.4.2001)
+
+- Pequeña corrección en UScoreText() para el módulo de iconos.
+
+
+22.15 (4.3.2001)
+
+- No más requesters "Inserte el volumen DOpus: en cualquier unidad".
+
+
+22.14 (25.2.2001)
+
+- Eliminado el soporte para el fichero .STR.
+
+
+22.13 (14.2.2001)
+
+- Sustituidas las funciones de reserva de memoria con otras nuevas que
+  utilizan las piscinas de memoria del AmigaOS 3.x.
+
+- Creación automática de atajos de teclado para los requesters sencillos.
+
+- Corregida la numeración de cadenas al cargarlas del fichero .catalog.
+
+
+22.12 (29.1.2001)
+
+- ReadStringFile() carga y utiliza el fichero .catalog si está disponible
+
+- FindSystemFile() busca ahora ficheros en los directorios del sistema, y
+  a continuación en los subdirectorios de PROGDIR:, y por último en los
+  de DOpus:.
+
+
+22.11 (22.1.2001)
+
+* FindSystemFile() comprueba ahora si un usuario ha indicado un directorio
+  para los ficheros. Esto está pensado para ayudar a  eliminar la
+  asignación DOpus:.
+
+
+22.10 (12.10.2000)
+
+- Sustituidas unas cuantas funciones con llamadas del AmigaOS 2.0+.
+
+- Algunas correcciones para los nombres de fichero muy largos.
+
+
+22.9
+
+- locale.library se encarga ahora de la conversión minúsculas<->mayúsculas.
+
+- Corregido el nombre incorrecto de unidad (el segundo carácter se
+  corrompía).
+
+
+22.8
+
+- Versión pública
+
+
+22.7a
+
+- Corregido el fallo con la memoria CHIP. Ya no más gráficos corruptos
+  en las pantallas nativas.
+
+- Necesita el AmigaOS 3.0+ para funcionar.

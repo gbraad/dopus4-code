@@ -1,0 +1,189 @@
+4.16 (25.11.2001)
+
+- Utiliza ConfigOpus.info como icono de aplicación, en caso de estar
+  disponible
+
+- En la página principal, el botón [Ok] es ahora [Usar]
+
+- Añadida la opción "Operaciones/General/No pedir confirmación al salir"
+
+- Si ConfigOpus trabaja en su propia pantalla, la ventana aparecerá centrada
+
+- El botón [Guardar] fuerza la salida de ConfigOpus después de guardar la
+  configuración
+
+- Las pantallas públicas de DOpus son filtradas de la lista de pantallas
+  disponibles de Sistema/Pantalla.
+
+- Soporte multiusuario
+
+
+4.16 (27.9.2001)
+
+- Permite guardar la configuración a utilizar por omisión (DirectoryOpus.defCFG)
+
+- Permite que la anchura de las columnas de las ventanas de directorio
+  supere los 255 pixels
+
+- Requiere dopus.library 22.20+
+
+
+4.14k (1.9.2001)
+
+- Nueva opción "Copiar también bandera Archivado" en Operaciones/Copiar
+  para un completo control de la bandera A.
+
+
+4.14j (17.8.2001)
+
+- El tamaño de columna indicado en "Operaciones/Listas" utiliza ahora
+  pixels en lugar de caracteres. Anchura mínima=20; máxima=255.
+
+- Permite seleccionar un tipo de letra proporcional para las ventanas
+  de directorio.
+
+- Nuevo interruptor "Operaciones/General/Padre al estilo FileMaster".
+
+- Corregida la senda utilizada por omisión para la grabación del fichero
+  ".CLA".
+
+
+4.14i (15.7.2001)
+
+- Puede funcionar otra vez como módulo precargado.
+
+
+4.14h
+
+- Añadido "Execute" a la lista de comandos en la definición de operaciones.
+
+
+4.14g (3.6.2001)
+
+- Eliminado el interruptor para activar los menús de nuevo estilo
+
+- Correcciones en el color de la pantalla de edición de menús.
+
+
+4.14f (25.5.2001)
+
+- Los atajos de teclado existentes responden a la localización.
+
+- Requiere dopus.library 22.18 o superior.
+
+- Eliminado todo el código de soporte al AmigaOS <3.x.
+
+- Nuevo comando de reconocimiento de tipos de fichero: "MatchI". Hace
+  exactamente lo mismo que "Match", pero no distingue entre letras
+  mayúsculas y minúsculas.
+
+- Puede mostrar '~' como atajo de teclado.
+
+
+4.14e (4.3.2001)
+
+- Los iconos del AmigaOS 3.5+ deberían mostrarse ahora correctamente.
+
+- Corregido el fallo del "campo de edición con longitud del tipo de
+  fichero que falta" introducido por Paul. También se ha rediseñado
+  la presentación de la ventana para evitar la superposición de botones
+  cuando se ha instalado Envoy (Paul debería prestar atención a esto).
+
+
+4.14d (25.2.2001)
+
+- La ayuda vuelve a funcionar.
+
+- Eliminada la selección de idiomas. Ahora el idioma es seleccionado
+  automáticamente por locale.library.
+
+- Ya no se utiliza el fichero .STR, en favor de dopus4_config.catalog.
+
+
+4.14c (31.1.2001)
+
+- La localización respeta las reglas del sistema.
+
+- Eliminada la asignación DOpus: en la búsqueda del fichero .STR.
+
+
+4.14b (22.1.2001)
+
+* Añadida la opción de configuración 'Sistema/Ver y Reproducir/Ver en
+  ventana'. Esto sustituye al viejo tipo de herramienta VIEWONWB, que
+  ha sido ahora eliminado. Un valor de 0 como anchura o altura equivale
+  al máximo valor posible para ese tamaño. La ventana no puede ser de
+  menos de 50 x 50 pixels.
+
+* Añadido un #define (NODOPUSASSIGN) para habilitar el uso de PROGDIR:
+  en lugar de DOpus:.
+
+* Localizadas todas las cadenas en inglés integradas en el código.
+
+* Añadida la opción de configuración 'Operaciones/Actualizar/Actualizar
+  deslizadores durante la exploración de directorios'. Esto sustituye al
+  viejo tipo de herramienta QUIETGETDIR, que ha sido ahora eliminado.
+
+* Añadida la opción de configuración 'Operaciones/Formato de listado/
+  Mostrar objetos en K/M/G', que puede ahora utilizarse para elegir el
+  tipo de indicador por omisión de la lista, entre bytes o K/M/G. Cada
+  listados puede configurarse de forma independiente.
+
+
+4.14a (2.10.2000)
+
+- Soporte para iconos V44 en el previsionado de iconos (Sistema/Iconos).
+
+
+4.14
+
+- Versión pública
+
+
+4.13d
+
+- Eliminado un fallo en la lista de comandos (la lista era demasiado
+  larga).
+
+
+4.13c
+
+- Corregido un fallo en el visor hexadecimal de edición de tipos de
+  ficheros.
+
+
+4.13b
+
+- Aumentado a 64 el número máximo de caracteres mostrados de los nombres
+  de los ficheros.
+
+
+4.13a
+
+- Corregido un fallo en la selección de tipos de pantalla para ConfigOpus.
+  A veces prefería PAL en lugar de CGX.
+
+- Eliminado el límite de colores de 16 colores para la pantalla propia de
+  DOpus. DOpus sigue utilizando hasta 16 colores para su interfaz gráfico.
+
+
+4.13
+
+- Versión pública.
+
+
+4.12b
+
+- Corregido el fallo con la memoria CHIP. Se terminaron los gráficos
+  corruptos en las pantallas nativas.
+
+
+4.12a
+
+- Si la ventana de configuración no puede abrirse en el Workbench por no
+  haber un número suficiente de plumas libres, se intentará elegir el
+  mejor tipo de pantalla posible utilizando BestModeID() bajo AmigaOS 3.0+.
+  Se terminó el molesto tipo de pantalla PAL.
+
+- El filtro de tipos de pantalla admite ahora los modos CGX/P96 (hasta 16
+  colores).

@@ -1,0 +1,25 @@
+4.8 (9.12.2001)
+
+- Corregidos los impactos de MungWall/Wipeout
+
+- Limpieza del código
+
+
+4.7 (20.9.2001)
+
+- Anulada cualquier posibilidad de que se utilicen variables no
+  inicializadas
+
+- Reconstruida FindPath() para añadir las Forbid()/Permit() ausentes
+
+
+4.6 (19.10.2000)
+
+- Se ha vuelto a la vieja versión de FindPath(). Según MungWall,
+  Jaroslav se equivocaba.
+
+
+4.5 (29.9.2000)
+
+- Corregidos los impactos en FindPath() (de las fuentes de Jaroslav
+  Pokorny).

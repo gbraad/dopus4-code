@@ -1,0 +1,50 @@
+1.8 (15.7.2001)
+
+- Puede funcionar otra vez como módulo precargado.
+
+- Eliminado un impacto de Enforcer.
+
+
+1.7h (28.4.2001)
+
+- Todos los botones tienen atajos de teclado operativos (localizables).
+
+
+1.7g (25.2.2001)
+
+- Ya no se utiliza el fichero .STR, en favor de dopus4_icon.catalog.
+
+
+1.7f (14.2.2001)
+
+- El código de localización se ha unificado con otras partes de DOpus.
+
+
+1.7e (22.1.2001)
+
+- Eliminada una variable no utilizada (Paul Huxham).
+
+
+1.7d (19.9.2000)
+
+- Ahora todos los iconos funcionan.
+
+
+1.7c
+
+- Corregido el soporte para el AmigaOS 3.5. NewIcons todavía no
+  funciona. :(
+
+
+1.7b
+
+- Cambiado el soporte para iconos del AmigaOS 3.5.
+
+- Los atajos de teclado obedecen a la localización.
+
+
+1.7a
+
+- Auténtica localización.
+
+- Soporte experimental para los iconos del AmigaOS 3.5.

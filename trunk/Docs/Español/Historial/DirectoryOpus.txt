@@ -1,0 +1,720 @@
+¡¡¡ATENCIÓN!!!
+
+Todos los cambios marcados con un asterisco '*' proceden de la versión
+de Directory Opus 4 realizada por Paul Huxham. No espere que vaya a
+introducir a lo loco todos sus cambios. Algunos de ellos tienen fallos,
+mientras que otros no tienen en mi opinión demasiado sentido. Utilice
+la versión que más le guste.
+
+
+4.17 (27.10.2001)
+
+- Corregidos algunos impactos de Enforcer.
+
+- El criterio de ordenación por nombre puede seleccionarse en el menú
+  "Opciones de listado".
+
+- El manejo de archivos debería ahora funcionar de nuevo con todos los
+  sistemas de ficheros.
+
+- Incrementada a 510 caracteres la longitud máxima de la línea de comando
+  en los scripts generados.
+
+- Reorganizado el menú instantáneo.
+
+- Los atajos de teclado para los botones pequeños respetan ahora el
+  mapa de teclado local.
+
+- Corregido el problema con el deslizador horizontal en el árbol de
+  directorios.
+
+- Puede lanzarse otra copia de DOpus si alguna otra ya lanzada está esperando
+  el retorno de ConfigOpus.
+
+- La ventana del visor de ficheros debería poder recurrir al tamaño de la
+  pantalla actual en caso de necesidad.
+
+- Añadidas al menú instantáneo las opciones de visualización que faltaban.
+
+- El cambio del criterio de ordenación de las ventanas de directorio ya
+  no requiere una re-lectura.
+
+- Limpiado el procedimiento de lectura de los directorios.
+
+- Los buffers de directorio utilizan ahora el algoritmo LRU (usado menos
+  recientemente) para la limpieza.
+
+- Puede abrir de nuevo tipos de letra ya calculados.
+
+- Corregido el intérprete de archivos para no distinguir entre letras
+  mayúsculas y minúsculas.
+
+- El comando "Modify" maneja ahora correctamente sus argumentos.
+
+- Corregido el cálculo automático de la anchura del campo de fecha en
+  las ventanas de directorio.
+
+- La pantalla/ventana ya no se abre de nuevo si no se han hecho cambios
+  en ConfigOpus.
+
+- Utilizamos a la vez el menú de aplicación y el icono de aplicación
+  cuando el programa se reduce a un icono de aplicación.
+
+- Soporta una nueva opción en ConfigOpus para desactivar el requester
+  que pide confirmación al salir.
+
+- El título de la ventana de progreso abierta por las funciones "Search"
+  y "Hunt" muestra también el patrón de búsqueda.
+
+- Los comandos HexRead/ANSIRead/SmartRead ya no dejan DOpus ocupado cuando
+  se utilizan desde scripts ARexx.
+
+- Los comandos NewCLI y SaveConfig obedecen ahora al argumento que se
+  les pase.
+
+- LoadStrings ya no está soportado, puesto que ahora empleamos la
+  localización.
+
+- El comando Show debería ahora ser capaz de mostrar iconos bajo OS3.5+
+
+- Reactivado el menú instantáneo para la lista de unidades (sólo con la
+  opción "Invertir").
+
+- Soporte multiusuario.
+
+- Las banderas de protección ya no son localizables.
+
+- La inversión de la marca de revisado en el menú instantáneo de las
+  ventanas de directorio debería funcionar bien ahora.
+
+- El indicador del tamaño de los ficheros ya no se trunca.
+
+- Pulsar el botón "Padre" de la ventana de directorio con el botón
+  derecho del ratón cuando se está mostrando un directorio raíz hace
+  que aparezca la lista de unidades.
+
+- Permite que la anchura de las columnas de las ventanas de directorio
+  supere los 255 pixels.
+
+- Requiere dopus.library 22.20+
+
+
+4.16b4 (1.9.2001)
+
+- Soporta la opción "Copiar también bandera Archivado" de ConfigOpus.
+
+- La anchura de la columna de tamaño de fichero de las ventanas de
+  directorio se calcula automáticamente.
+
+- Corregidos algunos errores de visualización de las ventanas de directorio.
+
+- Corregidos algunos impactos de Enforcer introducidos en la beta anterior.
+
+
+4.16b3 (17.8.2001)
+
+- Las ventanas de directorio pueden ahora utilizar tipos de letra de
+  anchura proporcional. Tenga en cuenta que el campo dedicado al tamaño
+  de los ficheros tiene ahora una anchura limitada y su contenido se
+  justifica a la derecha, así que no utilice una anchura demasiado
+  pequeña si no quiere perder algunos dígitos al comienzo. La anchura
+  del campo dedicado a las banderas de protección y la fecha se calcula
+  automáticamente para que su contenido siempre pueda mostrarse sin
+  problemas.
+
+- La función 'Parent' en el directorio raíz invoca la lista de unidades.
+
+- El interruptor "Operaciones/General/Padre al estilo FileMaster" hace
+  que las ventanas de directorio funcionen como las empleadas por
+  FileMaster, esto es, el botón derecho del ratón hace aparecer el
+  contenido del directorio padre. Las antiguas funciones 'Parent'/'Root'
+  que se invocan pulsando el borde de las ventanas siguen funcionando.
+
+- Corregido el soporte para popupmenu.library.
+
+
+4.16b2 (23.7.2001)
+
+- Las ventanas de directorio deberían funcionar ahora con particiones
+  de más de 2GB.
+
+
+4.16b1 (15.7.2001)
+
+- Aumentado a 8kB el tamaño de la pila para los módulos externos.
+
+- COPYAS/MOVEAS en el mismo directorio ya no dejan desfasado el contenido
+  que se muestra en el directorio.
+
+- Simplificada la carga de tipos de letra.
+
+- La bandera 'Archivado' ya no se copia.
+
+- Reorganizado el requester de eliminación de asignaciones.
+
+
+4.16
+
+- Versión pública.
+
+- Soporte para los ratones con ruedas en las ventanas de directorio, la
+  función 'Show' y el lector interno de ficheros.
+
+- El tipo de fichero por omisión vuelve a funcionar como antes.
+
+
+4.16m
+
+- La función "Hunt" vuelve a funcionar correctamente.
+
+- Copiar ficheros de 0 bytes de longitud define correctamente las banderas
+  de protección en el fichero destino.
+
+- Sustituidas todas las llamadas a utility.library a través de dopus.library
+  por llamadas directas.
+
+
+4.15l (3.6.2001)
+
+- Ahora deberían utilizarse siempre en los menús los colores definidos
+  por el usuario.
+
+- Siempre se utiliza el nuevo estilo de menús.
+
+- Algunas correcciones en la localización.
+
+- La función de recuperación de los valores por omisión vuelve a
+  funcionar.
+
+- Parámetro "-X" del CLI para forzar la apertura de la xadmaster.library
+
+- Corregida la edición de tipo de fichero con MatchI.
+
+- Corregido el reconocimiento de tipos de ficheros.
+
+
+4.15k (24.5.2001)
+
+- Requiere dopus.library 22.18 o superior.
+
+- Ya no se produce el error "Operación no soportada" cuando se intenta
+  utilizar la función GetSizes y la lista destino contiene un archivo.
+
+- Nuevo comando de reconocimiento de tipos de fichero: "MatchI". Hace
+  exactamente lo mismo que "Match", pero no distingue entre letras
+  mayúsculas y minúsculas.
+
+- Aumentado hasta 69 caracteres el tamaño de la senda de directorio de
+  inicio.
+
+- Corregido el atajo de teclado del requester abierto por DiskInfo.
+
+- Localizado el requester de Protección (exceptuando los botones
+  centrales).
+
+- Localizado el requester "Acerca de...".
+
+- Activado el atajo '~' en botones, unidades y menús.
+
+- La función de cambio de nombre de disco funciona ahora también en la
+  lista de unidades (sólo con los objetos <VOL>) y utiliza la llamada
+  Relabel() de dos.library en lugar de enviar paquetes directamente al
+  sistema de ficheros.
+
+- Corregido el cuelgue total que se producía cuando no podía abrirse
+  dopus.library.
+
+- El tamaño en formato K/M/G funciona de nuevo.
+
+- También cuando se ejecuta desde el CLI, DOpus intenta utilizar su icono
+  para presentar el icono de aplicación.
+
+- El visor de ficheros muestra la parte cargada del fichero al producirse
+  una interrupción por parte del usuario (con el botón derecho del ratón).
+
+- La función "Assign" interna trabaja también con las asignaciones en
+  espera (<DFR>) y las no vinculantes (<NBD>).
+
+
+4.15j (2.5.2001)
+
+- Modificado el orden de los botones en ciertos requesters (INTERRUMPIR
+  ha pasado al extremo derecho).
+
+- Los directorios que se corresponden con un disco (como es el caso de
+  los archivos) no se releen automáticamente.
+
+- La ventana del intérprete ANSI se abre ahora detrás de la ventana del
+  lector.
+
+- Mejorado el soporte para XAD: ahora pueden copiarse directorios.
+
+- Recompilado con GCC 2.95.3
+
+- GetSizes reporta ahora un tamaño de cero en el caso de los directorios
+  vacíos.
+
+- Los colores de los menús deberían ser ahora los correctos.
+
+- Añadida la opción "Saltar todo" al requester de sustitución de ficheros
+  que pueden hacer aparecer los comandos COPY y MOVE. AVISO: UTILÍCESE CON
+  PRECAUCIÓN - NO ESTÁ TOTALMENTE PROBADA.
+
+- La imagen del icono de aplicación de DOpus se toma del icono del programa
+  en lugar de hacerlo del fichero "def_appicon.info".
+
+- Los comandos "QUERY UpdateFlags" y "QUERY ViewPlayFlags" soportan nuevas
+  banderas de ConfigOpus ("Actualizar deslizador durante la exploración" y
+  "Usar ventana").
+
+- Al ejecutar DOpus puede indicarse un directorio que debería leerse en la
+  ventana izquierda, saltándose el parámetro de la opción de configuración
+  correspondiente. Simplemente indique el nombre del directorio en la línea
+  de comando al ejecutarlo desde el CLI, o bien pulse dos veces el icono del
+  directorio en el Workbench estando seleccionado al mismo tiempo el icono
+  de DOpus. Tenga en cuenta que hay un límite de 29 caracteres para el
+  nombre del directorio.
+
+- Incrementada a 8kB la pila del visor de ficheros.
+
+- Sustituidas las llamadas a CreateProc() con CreateNewProc(). Esto corrige
+  numerosos problemas con la búsqueda de ficheros cuando no existe la
+  asignación DOpus:.
+
+- Los requesters de DiskInfo y de indicación de padres eligen automáticamente
+  como atajo un carácter del texto de los botones.
+
+- El requester "Versión" puede traducirse.
+
+
+4.15i (26.2.2001)
+
+- El fichero .STR ya no se utiliza, en favor de dopus4.catalog.
+
+- La llamada de DOpusRT utiliza comillas. Esto corrige un problema del
+  tipo 'No se puede lanzar ningún programa externo si la senda del
+  directorio de DOpus contiene espacios'.
+
+- Corregida la función CLONE en los nombres de los requesters.
+
+- NODOPUSASSIGN está ahora obsoleta.
+
+
+4.15h (14.2.2001)
+
+- Ahora puede salir del visor de texto también con el botón derecho del
+  ratón cuando se utiliza la pantalla del Workbench.
+
+- Corregido un fallo que producía la caída del sistema cuando no estaba
+  definido el tipo de herramienta FORCEOPENXAD y el usuario indicaba el
+  nombre de un fichero en la caja de senda.
+
+- La ordenación de los ficheros vuelve a utilizar números decimales.
+
+
+4.15g
+
+- La localización sigue ahora las normas del sistema.
+
+- Eliminado cierto código de soporte a versiones anteriores al S.O. 3.0.
+
+
+4.15f (22.1.2001)
+
+- Importadas la mayoría de modificaciones de Paul y modificado el árbol
+  de fuente para facilitar la conversión a SAS/C.
+
+* Eliminado el tipo de herramienta VIEWONWB y trasladado a la configuración
+  (véase ConfigOpus).
+
+* Corregido un fallo en la salida que producía la caída del sistema cuando
+  se salía habiéndose reducido el tamaño de la pila.
+
+* Corregido un fallo que podía causar caídas intermitentes al eliminar una
+  asignación debido a puntero no inicializado. 
+
+* Añadido un #define (NODOPUSASSIGN) para permitir el uso de PROGDIR: en
+  lugar de DOpus:.
+
+* El visor de texto utiliza ahora la pantalla de Directory Opus 4 cuando
+  se abre en una ventana.
+
+* Localizadas todas las cadenas en inglés integradas en el código.
+
+* El icono de aplicación del usuario puede ahora colocarse en S: o DOpus:S.
+
+* Eliminado el tipo de herramienta QUIETGETDIR y trasladado a la
+  configuración (véase ConfigOpus).
+
+* Eliminada la opción "ReadDir silencioso" del menú instantáneo, puesto
+  que no es algo que se utilice a menudo. Ahora forma parte de la
+  configuración.
+
+* Eliminado el tipo de herramienta SIZEKMGMODE y trasladado a la
+  configuración (véase ConfigOpus).
+
+* Eliminado el modo Kilo/Mega/Giga del menú instantáneo, pasado a un
+  nivel raíz y renombrado como 'Tamaño en K/M/G'.
+
+* Ahora puede indicar su propio icono de aplicación (para la iconificación)
+  colocando un icono en DOpus: llamado 'def_AppIcon.info'. Si no existe un
+  fichero con este nombre, se utilizará el icono de aplicación habitual.
+
+* 'Rename' no sobreescribirá ahora los directorios en caso de que renombre
+  un directorio, y también muestra información diferente (de momento, sin
+  posibilidad de ser traducida) dependiendo de qué objeto se está
+  renombrando y el nombre que se le está dando.
+
+
+4.15e
+SALTADA.
+
+
+4.15d (3.11.2000)
+
+- Corregido el soporte para SysInfo.library (¡puñetas, no sabía que
+  OpenLibrary() distinguía mayúsculas y minúsculas!).
+
+- Corregido un bloqueo que se producía cuando DOpus intentaba leer un
+  directorio inexistente.
+
+- Las asignaciones pueden ahora eliminarse utilizando la función DELETE
+  sobre la lista de unidades.
+
+- Corregido el código de ordenación por nombre. '0A' se considera ahora
+  como de un valor superior a '09'.
+
+- Corregida la descripción del formato del tipo de herramienta VIEWONWB.
+
+
+4.15c (29.10.2000)
+
+- Soporte preliminar para archivos (utiliza XADMaster, que se distribuye
+  bajo el concepto de shareware - ¡regístrelo si quiere utilizarlo!).
+  Funciones soportadas: doble pulsación (excluyendo los tipos de fichero
+  definidos), Copy(As), xxxRead y CheckFit (¡sólo para ficheros!). Podrían
+  funcionar otras, pero no se han probado. ¡QUEDA AVISADO! Si se atreve a
+  probar alguna, no deje de contarme el resultado.
+
+- Añadidos los tipos de herramienta QUIETGETDIR y SIZEKMGMODE.
+
+- Los parámetros de pantalla del Workbench pueden cambiarse cuando DOpus
+  está corriendo en su propia pantalla (si DOpus está iconificado como
+  botón o ventana, se desiconificará automáticamente).
+
+- La ordenación por nombre pone atención a los ceros que pueda haber al
+  comienzo del nombre.
+
+- Eliminado algún código obsoleto, disminuido un poco el consumo de
+  memoria.
+
+- La función interna Show puede mostrar iconos del AmigaOS 3.5 (de momento
+  sólo con 16 colores, RGB4).
+
+- A veces, algunos de los ficheros seleccionados no se procesaban. Corregido.
+
+- La función MakeDir ya no funciona en las listas vacías o de unidades, ni
+  en los ásboles de directorios.
+
+- El visor de ficheros puede abrirse en la pantalla pública por omisión.
+  Habilite el tipo de herramienta VIEWONWB en el icono del programa para
+  activar este modo. Puede definir el tamaño de la ventana con
+  VIEWONWB=margen_izquierdo/margen_superior/anchura/altura (por omisión
+  es 0/0/640/200).
+
+- Soporte para SysInfo.library. Ahora DOpus puede utilizar esta librería
+  para la estimación del consumo de tiempo de la CPU, en lugar de emplear
+  el medidor interno. Tenga en cuenta que la librería requiere Executive
+  o SysMon para funcionar; si ninguno de ellos está presente, DOpus
+  recurrirá al medidor interno. Para activar el soporte para SysInfo,
+   active en su icono el tipo de herramienta USESYSINFO.
+
+- Para abrir XADMaster.library al inicio, utilice el tipo de herramienta
+  FORCEOPENXAD (por omisión sólo se utiliza si ya está en la memoria).
+
+- Algunas correcciones más para los nombres de fichero muy largos
+  (¿queda algo por corregir?)
+
+- Corregido un fallo en DateStamp que había con los nombres de fichero
+  de más de 40 caracteres.
+
+- Ahora sí puede navegarse por los directorios enlazados.
+
+
+4.15b (2.10.2000)
+
+- Soporte preliminar para enlaces.
+
+- Eliminadas unas cuantas asignaciones obsoletas (de las fuentes de
+  Jaroslav Pokorny).
+
+- Los resultados de ARexx pueden ser ahora de más de 256 caracteres
+  sin que ello corrompa la memoria.
+
+- La actualización del deslizador de lista al vuelo durante la lectura
+  de un directorio puede ahora desactivarse (de momento sólo disponible
+  en el menú instantáneo del listado, y no se guarda en el fichero de
+  configuración).
+
+
+4.15a (20.9.2000)
+
+- Indicador de tamaño en K/M/G en los listados (de momento sólo disponible
+  mediante el menú instantáneo, no se guarda en el fichero de configuración).
+
+
+4.15
+
+- Versión pública
+
+
+4.14j
+
+- Los nombres de fichero muy largos ya no corrompen la ventana de progreso
+  de copia/movimiento/borrado.
+
+- El menú instantáneo para la ordenación ya no aparece en la lista de
+  unidades ni de los buffers.
+
+- El menú instantáneo para la ordenación debería permitir ahora la
+  multiselección (aunque probablemente no lo haga, debido un fallo en
+  popupmenu.library).
+
+- El visor de ficheros soporta ahora ficheros con líneas de más de 65535
+  líneas.
+
+- El requester 'DOpus ya está corriendo' ya no necesita ARexx para
+  funcionar.
+
+
+4.14i
+
+- Eliminado un montón (¿todo?) de código condicional de soporte para el
+  AmigaOS <3.0.
+
+- Eliminado completamente el soporte para PowerPacker, que ha sido
+  sustituido por el soporte para XFDMaster.
+
+- La XFDMaster.library se abre sólo cuando es necesaria y si ha sido ya
+  abierta por otro programa. Esto impide la carga de todos los
+  descompresores presentes en el directorio LIBS:XFD/. Esta característica
+  puede desactivarse activando el tipo de herramienta FORCEOPENXFD en el
+  icono del programa o bien con el argumento -x (¡ojo, tiene que ser una
+  letra minúscula!) desde el CLI.
+
+- Corregida la cancelación del requester 'DOpus ya está corriendo'. Ahora
+  utiliza ARexx y necesita que RexxMast esté corriendo para poder funcionar.
+  Añadida la opción 'Traer a primer término'.
+
+
+4.14h
+
+- Detecta correctamente el 68060 sin FPU.
+
+- Corregidor el indicador de espacio libre en K/M/G en la barra de título
+  para los kilobytes.
+
+- Ahora puede que funcione el soporte para particiones de más de 2GB. ;-)
+
+- La ventana de tipos de letra se abre ahora con la anchura y altura por
+  omisión.
+
+- Corregida la alerta del sistema que se produce cuando DOpus se ejecuta
+  bajo un Kickstart demasiado viejo.
+
+
+4.14g
+
+- Si cancela el requester 'DOpus ya está corriendo', la pantalla/ventana
+  del DOpus ya existente se situará en primer término.
+
+- Los módulos de disco no se abren en una nueva pantalla cuando se lanzan
+  de forma asíncrona y DOpus está abierto en su propia pantalla.
+
+- Las ventanas de impresión y de tipos de letra ya no necesitan la promoción
+  de tipos de pantalla al utilizar tarjetas gráficas.
+
+- La función Hunt no enumera los nombres de los ficheros durante la
+  exploración, sino únicamente los directorios. Esto supone una mejora
+  importante en la velocidad.
+
+- Soporte para particiones de más de 2GB.
+
+- Ahora debería informarse correctamente de la presencia de un 68060 con FPU.
+
+
+4.14f
+
+- La función de búsqueda del visor de ficheros soporta ahora todos los
+  caracteres y no sólo hasta el $79.
+
+- Las funciones GetSizes no enumera los nombres de los ficheros durante
+  la exploración, sino únicamente los directorios. Esto supone una mejora
+  importante en la velocidad.
+
+- Corregido el reconocimiento de FPU para el 68060.
+
+
+4.14e
+
+- XFDMaster no utiliza los descompresores externos del directorio
+  LIBS:XFD/. Esto debería acelerar notablemente la apertura de la
+  librería.
+
+
+4.14d
+
+- Corregido un fallo en el menú instantáneo para la ordenación, que
+  producía el marcado incorrecto del método de ordenación activo.
+
+- Los atajos de teclado del visor de ficheros se pasan ahora por el
+  mapa de teclado, así que deberían funcionar correctamente en teclados
+  no-QWERTY.
+
+- Los atajos de teclado U, D, T, B, S, P, Q del visor de ficheros
+  obedecen ahora a la localización. Las teclas X, J, N y C siguen
+  siendo no localizables.
+
+- El visor de ficheros utiliza XFDMaster en lugar de PowerPacker para
+  leer ficheros.
+
+- En el visor de ficheros, la lectura del fichero puede interrumpirse
+  pulsando el botón derecho del ratón (se comprueba cada 128kB).
+
+
+4.14c
+
+- Corregido un fallo en el visor de ficheros que se producía cuando TAB
+  no estaba al comienzo de la línea. Ufff, ¡esto fue difícil!
+
+- Pequeñas correcciones en el código de iconificación (el cambio en el
+  Workbench durante la iconificación a botón o a ventana todavía no
+  funciona).
+
+
+4.14b
+
+- Aumentado a 64 el número máximo de caracteres del nombre del fichero
+  mostrado.
+
+- El visor de ficheros respeta los tabuladores.
+
+
+4.14a
+
+- Rehabilitada la búsqueda en DOpus:libs/dopus.library del programa
+  principal.
+
+- El patrón por omisión para la selección de ficheros por fecha es el
+  día de hoy.
+
+- Aumentado el espacio para el tamaño del fichero en los listados, de
+  7 a 9 dígitos (Pavel Cizek).
+
+- Eliminado el límite de 16 colores en la pantalla de DOpus. DOpus todavía
+  utiliza hasta 16 colores para su interfaz gráfico.
+
+- En la función DiskInfo, 'DosType' devuelve el valor correcto para los
+  sistemas de ficheros no estándar.
+
+
+4.14
+
+- Versión pública
+
+
+4.13h
+
+- Eliminada una posible condición de carrera que podía producir una
+  congelación después de procesar ficheros cuando se abría la ventana
+  del indicador de progreso. Pero no creo que ayude mucho ;-)
+
+- Reactivada la actualización de los deslizadores duante la lectura de
+  los directorios.
+
+
+4.13g
+
+- Recompilación con los ficheros que faltaban con el fallo de la memoria
+  CHIP.
+
+
+4.13f
+
+- Resueltos por fin los problemas con la memoria CHIP. Era tan sencillo...
+
+- Desactivada la actualización de los deslizadores durante la lectura de
+  los directorios (Pavel Cizek).
+
+- Atajos adicionales en el visor de ficheros: <Espacio> para bajar una
+  página (ya no activa el deslizamiento), <Retroceso> para subir una
+  página, </> para abrir el requester de búsqueda. (Pavel Cizek)
+
+- Desactivada la actualización de los deslizadores durante la lectura de
+  los directorios para probar la mejora en la velocidad (Pavel Cizek).
+
+
+4.13e
+
+- Añadido el menú instantáneo para la ordenación (para esto se necesita
+  la popupmenu.library). Pulse con el botón derecho del ratón sobre la
+  barra de nombre del disco para verlo.
+
+
+4.13d
+
+- Cadena de versión estándar en el programa principal.
+
+- Admite pantallas propias CGX/P96 (pero el límite de 16 colores sigue
+  ahí).
+
+
+4.13c
+
+- Corrección parcial para el fallo de información gráfica de GCC. Ya no
+  más botones, punteros o icono de aplicación corruptos en el programa
+  principal. Sin embargo, espere a encontrar gráficos corruptor en
+  ConfigOpus y en las funciones de dopus.library. La correción final está
+  aún por llegar.
+
+
+4.13b
+
+- Cambiada la creación del fichero del icono para ser la misma que
+  utiliza el AmigaDOS.
+
+- Eliminado el límite de 30 caracteres de la función AddIcon (me
+  pregunto cuántos límites de este tipo siguen ocultos por la fuente...).
+
+- Añadido soporte para screennotify.library, que en caso de estar
+  disponible permitirá a DOpus no bloquear los cambios de tipo de pantalla
+  en el Workbench.
+
+
+4.13a
+
+- Soporte para el 68060 y el sistema RTG en el requester de versión.
+
+
+4.13
+
+- Soporte para nombres de ficheros muy largos (hasta 107 caracteres).
+
+- Corregido el problema de la pila al ser ejecutado desde el CLI.
+
+
+4.12
+
+- Recompilado con GCC 2.95.2 y PhxAss 4.39.
+
+- Optimizado para el 68020.
+
+- Utiliza directamente piscinas de memoria en el Kickstart 3.0+.
+
+- Acelerada la copia de ficheros al estar activado el indicador de
+  progreso (casi tan rápido ahora como DOpus Magellan).
+
+- Añadidas rutinas AsyncIO actualizadas (de Aminet:dev/c/asyncio.lha).
+
+- Ya no se cuelga durante la copia/traslado de ficheros (probablemente
+  gracias a las nuevas rutinas AsyncIO).

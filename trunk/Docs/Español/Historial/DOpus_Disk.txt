@@ -1,0 +1,33 @@
+2.6 (3.11.2001)
+
+- Actualizada la localización
+
+
+2.5 (14.7.2001)
+
+- Puede funcionar otra vez como módulo precargado
+
+
+2.4 (2.6.2001)
+
+- Actualizada la localización
+
+
+2.3f (12.5.2001)
+
+- Algunas correcciones en los atajos de teclado y la localización
+
+
+2.3e (4.5.2001)
+
+- Localizados los atajos de teclado
+
+
+2.3d (25.2.2001)
+
+- El fichero .STR ya no se utiliza, en favor de dopus4_disk.catalog
+
+
+2.3c (14.2.2001)
+
+- La localización respeta ahora las reglas del sistema
