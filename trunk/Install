@@ -434,84 +434,82 @@
 
 (if (= @language "italiano")
 (
-(set #welcome (cat "\nWelcome to the Directory Opus installation!\n\n"
-                   "Written by Christoph Gutjahr and Eddie Churchill\n"
+(set #welcome (cat "\nBenvenuto all'installazione di Directory Opus!\n\n"
+                   "Scritta da Christoph Gutjahr ed Eddie Churchill\n"
                    "© 2001,2002 Directory Opus 4 Research Project\n"
               )
 )
-(set #exists "\nThere seems to be a Directory Opus already installed in your drawer named:\n\n")
-(set #exists2 (cat "\n\nDo you want to backup this version first?\n\n"
-                   "\(click on \"Help\" for more information\)"
+(set #exists "\nSembra che ci sia una versione di Directory Opus già installata nel cassetto:\n\n")
+(set #exists2 (cat "\n\nVuoi farne una copia prima di continuare?\n\n"
+                   "\(premere \"Aiuto\" per maggiori dettagli\)"
               )
 )
-(set #existhelp (cat "\nThe installation routine has determined that there is "
-                     "already a copy of Directory Opus installed in the specified "
-                     "destination directory.\n\n"
-                     "Select \"Yes\" and the existing files will be backuped in "
-                     "a directory called \"Backup\".\n\nIf you answer \"No\", they "
-                     "will be overwritten.\n\n"
-                     "Note: Configuration files, or files not directly related to "
-                     "the Directory Opus distribution will never get deleted!"
+(set #existhelp (cat "\nLa routine di installazione ha rilevato una copia "
+                     "di Directory Opus nella directory di destinazione specificata.\n\n"
+                     "Scegliendo \"Si\" i file esistenti verranno duplicati in "
+                     "una directory chiamata \"Backup\".\n\n"
+                     "Se la risposta è \"No\", questi verranno sovrascritti.\n\n"
+                     "Nota: file di configurazione, o file non direttamente in "
+                     "relazione alla distribuzione di Directory Opus non saranno mai cancellati!"
                 )
 )
-(set #askdir (cat "Where would you like Directory Opus installed ?\n"
-                  "\(A drawer named 'DirOpus4' will be created, if necessary\)"
+(set #askdir (cat "Dove vuoi installare Directory Opus?\n"
+                  "\(Se necessario, verrà creato un cassetto dal nome 'DirOpus4'\)"
              )
 )
-(set #copyfiles "Copying files needed by DirOpus.")
-(set #copyhelp (cat "\nThis will copy the program and support files needed by DirOpus.\n\n"
-                    "You can select which parts of the distribution should be installed.\n\n"
-                    "Under normal circumstances, it is recommended to copy all files.\n\n"
+(set #copyfiles "Copia dei file di DirOpus in corso.")
+(set #copyhelp (cat "\nCosì copierai il programma e i file di supporto per DirOpus.\n\n"
+                    "Puoi scegliere quali parti della distribuzione installare.\n\n"
+                    "Come norma, è consigliabile copiare tutti i file.\n\n"
                )
 )
-(set #startup "What do you want to do when your machine starts up ?")
-(set #startuphelp (cat "\nThe installation routine can modify the boot process "
-                       "of your computer, to start up Directory Opus immediately "
-                       "at startup.\n\n"
-                       "To achieve this, the program will make an additional entry "
-                       "in your User-Startup."
+(set #startup "Cosa vuoi fare all'avvio del Sistema?")
+(set #startuphelp (cat "\nLa routine di installazione può modificare la procedura "
+                       "d'avvio del sistema e lanciare automaticamente Directory Opus.\n\n"
+                       "A questo scopo, aggiungerà una voce al file User-Startup."
                   )
 )
-(set #schoice1 "Do not auto-start Directory Opus")
-(set #schoice2 "Startup Directory Opus")
-(set #schoice3 "Startup Directory Opus iconified")
-(set #updateus "Updating S:User-Startup.")
-(set #addinstr (cat "\nThese instructions need to be added to your 'S:User-Startup', "
-                    "to properly configure your system for the use of Directory Opus 4:\n\n"
+(set #schoice1 "Non auto-avviare Directory Opus")
+(set #schoice2 "Avvia Directory Opus")
+(set #schoice3 "Avvia e iconifica Directory Opus")
+(set #updateus "Aggiornamento di S:User-Startup in corso.")
+(set #addinstr (cat "\nLe seguenti istruzioni devono essere aggiunte al file "
+                    "'S:User-Startup', per configurare correttamente il tuo "
+                    "sistema e usare Directory Opus 4:\n\n"
                )
 )
-(set #endtext (cat "\nWell that's it folks, have a fun time with Directory Opus 4.\n\n"
-                   "If you are upgrading from an earlier version of Directory Opus, "
-                   "please reboot your computer now."
+(set #endtext (cat "\nOk gente, ciò è tutto! Divertiti con Directory Opus 4.\n\n"
+                   "Se hai aggiornato DOpus ad una nuova versione, riavvia il sistema adesso."
               )
 )
-(set #abort "You aborted the installation process.")
-(set #informassign (cat "\nThe assign \"DOpus:\" exists on your system. "
-                        "This assign is not needed anymore, please remove "
-                        "the following line from your user-startup once the "
-                        "installation is finished:\n\nassign DOpus: \""
+(set #abort "Hai interrotto il processo di installazione.")
+(set #informassign (cat "\nL'assign \"DOpus:\" è presente nel sistema. Questo "
+                        "assign non è più necessario, per favore rimuovi la linea "
+                        "seguente dalla tua user-startup non appena l'installazione "
+                        "sarà terminata:\n\n"
+                        "assign DOpus: \""
                    )
 )
-(set #remfiles (cat "Do you want to scan your hard disk for outdated "
-                    "DOpus files and delete them?\n\n"
-                    "(Configuration files found will not be deleted of course)"
+(set #remfiles (cat "Vuoi ricercare nel disco rigido file di DOpus "
+                    "obsoleti per cancellarli?\n\n"
+                    "(Nessun file di configurazione verrà alterato)"
                )
 )
-(set #remhelp (cat "Earlier versions of Directory Opus spread their files over "
-                   "various system directories. Some users continued to do so "
-                   "with 4.x versions, to avoid the need of creating an assign.\n\n"
-                   "None of this is needed anymore, but there may be some DOpus "
-                   "files still lurking in some places. Answer \"Yes\" to delete "
-                   "DOpus related files from your System directories."
+(set #remhelp (cat "Versioni precedenti di Directory Opus copiavano i file "
+                   "in svariate directory. Alcuni utenti hanno continuato a "
+                   "farlo con le versioni 4.x, per non dover utilizzare un assign.\n\n"
+                   "Niente di tutto ciò e più richiesto, ma potrebbe esserci qualche "
+                   "file di DOpus nascosto da qualche parte. Rispondi \"Si\" per "
+                   "cancellare file di Dopus dai cassetti del Sistema."
               )
 )
-(set #backupfiles "Backing up existing version of Directory Opus...")
-(set #lang_catalog (cat "Which catalog files do you want to install?\n"
-                        "(English language is built-in)"
+(set #backupfiles "Copia della precedente versione di Directory Opus in corso...")
+(set #lang_catalog (cat "Che cataloghi vuoi installare?\n"
+                        "(L'Inglese è incorporato nel programma)"
                    )
 )
-(set #lang_manual "Which version of the documentation would you like to install ?")
-(set #removingold "Removing DOpus files from system directories.")
+(set #lang_manual "Quale versione della documentazione vuoi installare?")
+(set #removingold "Rimozione dei file di DOpus dal Sistema in corso.")
 
 (set #def_cat_lang #def_lang_italiano)
 )
