@@ -22,8 +22,8 @@
   You can email the author at dwsauder@erols.com.
 
   $RCSfile: i64.h,v $
-  $Revision: 1.1.1.1 $
-  $Date: 2001-12-21 08:57:45 $
+  $Revision: 1.2 $
+  $Date: 2002-01-07 15:32:06 $
 \*--------------------------------------------------------------------------*/
 
 #ifndef I64_MATH

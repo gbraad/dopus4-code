@@ -277,7 +277,7 @@ void doidcmp()
                 case IDCMP_RAWKEY:
                     code&=0x7f;
                     readkeys(var_key_matrix);
-                    a=code/8; b=code-(a*8);
+                    a=code/8; b=code%8/*-(a*8)*/;
                     if (!(var_key_matrix[a]&(1<<b))) {
                         flushidcmp();
                         break;
@@ -309,15 +309,27 @@ void doidcmp()
                         }
                     }
                     if (qual&(IEQUALIFIER_RCOMMAND|IEQUALIFIER_LCOMMAND)) {
-                        switch (code) {
-                            case 0x13: function=FUNC_RESELECT; break;
-                            case 0x20: function=FUNC_AREXX; break;
-                            case 0x21: function=FUNC_SELECT; break;
-                            case 0x35: function=FUNC_BUFFERLIST; break;
-                            case 0x40:
+                        RawkeyToStr(code,qual,NULL,buf,0);
+                        switch (ToUpper(buf[0])) {
+                            case 'R': function=FUNC_RESELECT; break;
+                            case 'A': function=FUNC_AREXX; break;
+                            case 'S': function=FUNC_SELECT; break;
+                            case 'B': function=FUNC_BUFFERLIST; break;
+                            case ' ':
                                 if (qual&IEQUALIFIER_LCOMMAND) findfirstsel(data_active_window,ENTRY_FILE);
                                 else findfirstsel(data_active_window,ENTRY_DIRECTORY);
                                 break;
+/*
+                        switch (code) {
+                            case 0x13: function=FUNC_RESELECT; break;  // R
+                            case 0x20: function=FUNC_AREXX; break;     // A
+                            case 0x21: function=FUNC_SELECT; break;    // S
+                            case 0x35: function=FUNC_BUFFERLIST; break;// B
+                            case 0x40:                                 // SPACE
+                                if (qual&IEQUALIFIER_LCOMMAND) findfirstsel(data_active_window,ENTRY_FILE);
+                                else findfirstsel(data_active_window,ENTRY_DIRECTORY);
+                                break;
+*/
                         }
                     }
                     else {
@@ -397,35 +409,35 @@ void doidcmp()
                                 break;
                         }
                         switch (code) {
-                            case 0x5f:
+                            case 0x5f: // HELP
                                 function=FUNC_HELP;
                                 break;
-                            case 0x40:
-                            case 0x42:
+                            case 0x40: // SPACE
+                            case 0x42: // TAB
                                 makeactive(1-data_active_window,1);
                                 break;
-                            case 0x44:
+                            case 0x44: // RETURN
                                 if (qual&IEQUALIFIER_ANYSHIFT) function=FUNC_BUFFERLIST;
                                 else if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) function=FUNC_DEVICELIST;
                                 else ActivateStrGad(&path_strgadget[data_active_window],Window);
                                 break;
-                            case 0x0b:
+                            case 0x0b: // - _
                                 dosizedirwindows(-60000);
                                 break;
-                            case 0x0c:
+                            case 0x0c: // = +
                                 dosizedirwindows(0);
                                 break;
-                            case 0x0d:
+                            case 0x0d: // \ |
                                 dosizedirwindows(60000);
                                 break;
-                            case 0x1a:
+                            case 0x1a: // [ {
                                 goto prevgadgetbank;
                                 break;
-                            case 0x1b:
+                            case 0x1b: // ] }
                                 goto nextgadgetbank;
                                 break;
                             default:
-                                if (code<0x40 && !(qual&IEQUALIFIER_CONTROL)) {
+                                if (code<0x40 && !(qual&IEQUALIFIER_CONTROL)) { // a digit or char
                                     RawkeyToStr(code,qual,NULL,buf,0);
                                     ch=buf[0];
                                     if (_isprint(ch)) findfirstchar(data_active_window,ch);

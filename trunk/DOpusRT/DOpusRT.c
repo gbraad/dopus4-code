@@ -49,6 +49,8 @@ the existing commercial status of Directory Opus 5.
 #include <proto/icon.h>
 #include <proto/dopus.h>
 
+#include <debug.h>
+
 //extern struct ExecBase *SysBase;
 //extern struct DosLibrary *DOSBase;
 struct DOpusBase *DOpusBase = NULL;
@@ -113,7 +115,6 @@ char *argv[];
 
     myproc=(struct Process *)FindTask(NULL);
     cli=BADDR(myproc->pr_CLI);
-
     if (cont=GetConsoleTask()) {
         struct InfoData __aligned ind;
         ULONG arg=MKBADDR(&ind);
@@ -239,11 +240,10 @@ BPTR CloneCommandDir(const char *taskname)
 
           mext->nextPath=NULL;
           mext->pathLock=DupLock(wext->pathLock);
-
           if (!newpath) newpath=MKBADDR(mext);
 
           if (lastmext) lastmext->nextPath=MKBADDR(mext);
-          else lastmext=mext;
+          lastmext=mext;
          }
        }
      }

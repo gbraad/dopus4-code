@@ -2,7 +2,7 @@
 #define	PCHG_H
 /*
 **	$Filename: iff/pchg.h $
-**	$Revision: 1.1.1.1 $
+**	$Revision: 1.2 $
 **
 ** Definitions for the PCHG chunk
 */

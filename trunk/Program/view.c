@@ -1271,8 +1271,8 @@ struct ViewData *vdata;
 #ifdef DEBUG
 long long time1,time2;
 //D(bug("tabsize: %ld\n",config->tabsize));
-init_timer();
-GetTime(&time1);
+kinittimer();
+kgettime(&time1);
 #endif
     for (a=0;a<vdata->view_lines_per_screen;a++) {
       for (c=0;c<vdata->view_max_line_length;c++) {
@@ -1290,9 +1290,9 @@ GetTime(&time1);
         vdata->view_bottom_buffer_pos=d;
     }
 #ifdef DEBUG
-GetTime(&time2);
+kgettime(&time2);
 D(bug("Time: %ld ticks\n",(ULONG)(time2-time1)));
-remove_timer();
+kremovetimer();
 #endif
   }
 

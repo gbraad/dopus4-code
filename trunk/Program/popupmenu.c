@@ -34,7 +34,9 @@ the existing commercial status of Directory Opus 5.
 
 enum SortBy {
         sbName=DISPLAY_NAME+1, sbSize, sbProt, sbDate, sbComment, sbType, sbOwner, sbGroup, sbNetprot,
+        sbKMG=100,
         sbMix=0x00010000,sbDirF=0x00020000,sbFileF=0x00030000,
+        sbSortA=0x01000000,sbSortD=0x02000000,sbSortH=0x03000000,
         sbReverse=0x40000000    // So we can put in the same LONG, as a flag...
 };
 
@@ -88,6 +90,14 @@ __saveds ULONG MenuHandlerFunc(register struct Hook *hook __asm("a0"),\
      *((ULONG *)hook->h_Data) |= id;
     }
   }
+ else if(((id>>24)&0xF)>0)
+  {
+   if(on)
+    {
+     *((ULONG *)hook->h_Data) &= 0xF0FFFFFF;
+     *((ULONG *)hook->h_Data) |= id;
+    }
+  }
  return 0;
 }
 
@@ -113,7 +123,7 @@ void handlelistermenu(int a)
  for (r = DISPLAY_NAME; r <= DISPLAY_NETPROT; r++)
    PM_SetItemAttrs(PM_FindItem(sortmenu,1+r),
      PM_Checked,config->sortmethod[a] == r,
-     PM_Hidden, devlist ? TRUE : ((r > DISPLAY_FILETYPE) ? ((AccountsBase || muBase) ? FALSE : TRUE) : FALSE),
+     PM_Disabled, devlist ? TRUE : (/*(r > DISPLAY_FILETYPE) ? ((AccountsBase || muBase) ? FALSE : TRUE) :*/ FALSE),
      TAG_END);
 
  PM_SetItemAttrs(PM_FindItem(sortmenu,sbReverse),PM_Checked,oldsort,TAG_END);
@@ -121,15 +131,21 @@ void handlelistermenu(int a)
  for (r = 0; r < 3; r++)
    PM_SetItemAttrs(PM_FindItem(sortmenu,(r+1)*0x00010000),
      PM_Checked,config->separatemethod[a] == r,
-     PM_Hidden, devlist ? TRUE : FALSE,
+     PM_Disabled, devlist ? TRUE : FALSE,
      TAG_END);
 
- PM_SetItemAttrs(PM_FindItem(sortmenu,100),
+ for (r = 0; r < 3; r++)
+   PM_SetItemAttrs(PM_FindItem(sortmenu,(r+1)*0x01000000),
+     PM_Checked, SORT_NAMEMODE(config->sortflags)==r,
+     PM_Disabled, devlist ? TRUE : FALSE,
+     TAG_END);
+
+ PM_SetItemAttrs(PM_FindItem(sortmenu,sbKMG),
    PM_Checked,(config->listerdisplayflags[a] & SIZE_KMG) == SIZE_KMG,
-   PM_Hidden, devlist ? TRUE : FALSE,
+   PM_Disabled, devlist ? TRUE : FALSE,
    TAG_END); // HUX
 
- sortorder = (config->sortmethod[a] + 1) + (oldsort ? sbReverse : 0) + (config->separatemethod[a]+1)*0x00010000;
+ sortorder = (config->sortmethod[a] + 1) + (oldsort ? sbReverse : 0) + (config->separatemethod[a]+1)*0x00010000 + (SORT_NAMEMODE(config->sortflags)+1)*0x01000000;
 
  PM_OpenPopupMenu(Window, PM_Menu, sortmenu,
                           PM_MenuHandler, &MenuHandler,
@@ -148,6 +164,13 @@ D(bug("sortorder=%lx\n",sortorder));
    config->separatemethod[a] = r;
    changed = TRUE;
   }
+ r = ((sortorder>>24)&0xF) - 1;
+ if (SORT_NAMEMODE(config->sortflags) != r)
+  {
+   config->sortflags&=~SORT_NAMEMASK;
+   config->sortflags|= r<<SORT_BITPOS;
+   changed = TRUE;
+  }
  r = (sortorder & sbReverse) ? ~0 : 0;
  newsort = r & sortbit;
 //D(bug("newsort = %lx\n",newsort));
@@ -158,7 +181,7 @@ D(bug("sortorder=%lx\n",sortorder));
    changed = TRUE;
   }
 // HUX: begin
- r = PM_ItemChecked(sortmenu,100) ? SIZE_KMG : 0;
+ r = PM_ItemChecked(sortmenu,sbKMG) ? SIZE_KMG : 0;
  if ( ( config->listerdisplayflags[a] & SIZE_KMG ) != r )
   {
    if ( r & SIZE_KMG ) config->listerdisplayflags[a] |= SIZE_KMG;
@@ -183,7 +206,10 @@ void initlistermenu(void)
  {
   BOOL userinfo = AccountsBase || muBase;
 
-  sortmenu = PMMenu(globstring[STR_SORT_BY]),
+  sortmenu = PMMenu(globstring[STR_LISTER_MENU]),
+      PMInfo(globstring[STR_SORTBY]),
+        PM_Center, TRUE,
+        End,
       PMCheckItem(globstring[STR_FILE_NAME],sbName),
       	PM_Exclude, PM_ExLst(sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,0),
         End,
@@ -231,7 +257,21 @@ void initlistermenu(void)
         End,
       PMBar,
       	End,
-      PMCheckItem(globstring[STR_SIZE_AS_KMG],100),
+      PMInfo(globstring[STR_NAMESORT_MENU]),
+        PM_Center, TRUE,
+        End,
+      PMCheckItem(globstring[STR_SORTALPHA],sbSortA),
+      	PM_Exclude, PM_ExLst(sbSortD,sbSortH,0),
+      	End,
+      PMCheckItem(globstring[STR_SORTDEC],sbSortD),
+      	PM_Exclude, PM_ExLst(sbSortA,sbSortH,0),
+        End,
+      PMCheckItem(globstring[STR_SORTHEX],sbSortH),
+      	PM_Exclude, PM_ExLst(sbSortA,sbSortD,0),
+        End,
+      PMBar,
+      	End,
+      PMCheckItem(globstring[STR_SIZE_AS_KMG],sbKMG),
       	End,
       End;
  }

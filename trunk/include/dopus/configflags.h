@@ -81,6 +81,20 @@ the existing commercial status of Directory Opus 5.
 #define SORT_LREVERSE    1
 #define SORT_RREVERSE    2
 
+#define SORT_BITPOS 4
+
+#define SORT_NAMEALPHA   0
+#define SORT_NAMEDEC     1
+#define SORT_NAMEHEX     2
+
+#define SORT_NAMEMASK ((1<<SORT_BITPOS)+(1<<(SORT_BITPOS+1)))
+
+#define SORT_NAMEMODE(x) (((x)&SORT_NAMEMASK)>>SORT_BITPOS)
+
+#define SORT_ISALPHA(x) (SORT_NAMEMODE(x)==SORT_NAMEALPHA)
+#define SORT_ISDEC(x) (SORT_NAMEMODE(x)==SORT_NAMEDEC)
+#define SORT_ISHEX(x) (SORT_NAMEMODE(x)==SORT_NAMEHEX)
+
 /* UpdateFlags */
 
 #define UPDATE_FREE               1

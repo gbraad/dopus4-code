@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <dos/dostags.h>
 
-#define MAXCOMMANDLEN 256
+#define MAXCOMMANDLEN 510
 
 void defaultpar(par)
 struct dopusfuncpar *par;
@@ -508,6 +508,7 @@ addfile2:
                         if (!funcdata->recursive_path) {
                             if (cust) cust=cust->next;
                         }
+//D(bug("buffer: %s\n",buffer));
                     }
                     if (!funcdata->recursive_path) {
 //kprintf("funcdata->entry_first: %s\t",funcdata->entry_first->name);
@@ -895,19 +896,19 @@ int quote;
     if (d>0 && !(_isspace(buf[d-1]))) quote=0;
 
     if (quote) {
-        StrConcat(buf,"\"",256);
+        StrConcat(buf,"\"",MAXCOMMANDLEN);
         ++c;
     }
     if (part1) {
-        StrConcat(buf,part1,256);
+        StrConcat(buf,part1,MAXCOMMANDLEN);
         c+=strlen(part1);
     }
     if (part2) {
-        StrConcat(buf,part2,256);
+        StrConcat(buf,part2,MAXCOMMANDLEN);
         c+=strlen(part2);
     }
     if (quote) {
-        StrConcat(buf,"\"",256);
+        StrConcat(buf,"\"",MAXCOMMANDLEN);
         ++c;
     }
 //kprintf("buf(%ld): %s\n",strlen(buf),buf);

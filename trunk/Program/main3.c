@@ -682,7 +682,7 @@ char *str1,*str2;
 {
     int n1,n2;
 
-    if (_isdigit(str1[0]) && _isdigit(str2[0])) {
+    if ((!(SORT_ISALPHA(config->sortflags))) && _isdigit(str1[0]) && _isdigit(str2[0])) {
 /*        if ((str1[0] == '0') || (str2[0] == '0'))
          {
 */
@@ -690,8 +690,14 @@ char *str1,*str2;
           for(n2 = 0; str2[n2] && (str2[n2] == '0'); n2++);
           if (n1 != n2) return (n2-n1);
 //         }
-        n1=atoi(str1); n2=atoi(str2);
-//        n1=strtol(str1,NULL,10); n2=strtol(str2,NULL,10); //JRZ: put 16 for HEX numbers
+        if (SORT_ISDEC(config->sortflags))
+         {
+          n1=atoi(str1); n2=atoi(str2);
+         }
+        else
+         {
+          n1=strtol(str1,NULL,16); n2=strtol(str2,NULL,16);
+         }
         if (n1!=n2) return((n1-n2));
         str1=getstrafternum(str1);
         str2=getstrafternum(str2);
@@ -866,8 +872,8 @@ void sortdir(struct DirectoryWindow *dir, int win)
 #ifdef DEBUG
 {
 long long time1,time2;
-init_timer();
-GetTime(&time1);
+kinittimer();
+kgettime(&time1);
 #endif
     for(; 1; entry1 = entry2)
      {
@@ -908,8 +914,8 @@ GetTime(&time1);
        }
      }
 #ifdef DEBUG
-GetTime(&time2);
-remove_timer();
+kgettime(&time2);
+kremovetimer();
 kprintf("sortdir() took %ld ticks\n",(ULONG)(time2-time1));
 }
 #endif

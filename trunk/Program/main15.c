@@ -427,7 +427,6 @@ char *source,*dest;
                 okay();
                 break;
             case FUNC_ALL:
-//                globalselect(data_active_window,1);
                 globalselect(data_active_window,1);
                 refreshwindow(data_active_window,0);
                 break;
@@ -678,6 +677,7 @@ D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
     func_global_function=0; func_single_entry=NULL;
     func_single_file[0]=0; func_external_file[0]=0;
 
+D(bug("internalfunction: rexx=%ld\n",rexx));
     if ((!rexx) /*&& (function!=FUNC_READ) && (function!=FUNC_HEXREAD) &&
         (function!=FUNC_SMARTREAD) && (function!=FUNC_ANSIREAD)*/) unbusy();
     a=status_previousabort=status_justabort; status_justabort=0;

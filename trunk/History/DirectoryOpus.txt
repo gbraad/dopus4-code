@@ -8,6 +8,11 @@ like more.
 
 4.17 (27.10.2001):
 - few hits removed
+- name sorting mode can be selected in lister menu
+- archives should work on all filesystems again
+- command line length in generated scripts increased to 510 chars
+- lister popup menu rearranged
+- built-in key shortcuts to tiny buttons follow keymap settings
 - horizontal scroller of directory tree fixed
 - next copy of DOpus can be started if any of prevoiusly started copies are
 waiting for ConfigOpus to return.

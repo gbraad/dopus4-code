@@ -411,7 +411,7 @@ enum {
     STR_ANIM_TYPE,
     STR_GFX_NATIVE,              // HUX: begin
     STR_OPENING_ARCHIVE,
-    STR_SORT_BY,
+    STR_LISTER_MENU,
     STR_FILE_NAME,
     STR_FILE_SIZE,
     STR_PROTECTION_BITS,
@@ -433,6 +433,11 @@ enum {
     STR_DIRSFIRST,				 // JRZ
     STR_FILESFIRST,              // JRZ
     STR_MIXDIRSFILES,            // JRZ
+    STR_SORTALPHA,				 // JRZ
+    STR_SORTDEC,                 // JRZ
+    STR_SORTHEX,                 // JRZ
+    STR_SORTBY,
+    STR_NAMESORT_MENU,
 
     STR_STRING_COUNT
 };

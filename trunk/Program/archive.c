@@ -45,7 +45,7 @@ int readarchive(struct DirectoryWindow *dir,int win)
    strcpy(arcdir,"");
 D(bug("readarchive: %s\n",dir->directory)); //Delay(100);
    strcpy(arcname, dir->directory);
-//   if (len = strlen(arcname)) if (arcname[len-1] == '/') arcname[len-1] = 0;
+   if (len = strlen(arcname)) if (arcname[len-1] == '/') arcname[len-1] = 0;
 //D(bug("arcname: %s\n",arcname));
    while(!(lock = Lock(arcname, ACCESS_READ)))
     {
@@ -228,12 +228,14 @@ BOOL unarcfiledir(const struct DirectoryWindow *dir, const char *path, char *nam
 //     int i;
 
      strcpy(arcname,dir->arcname);
+D(bug("unarcfiledir: arcname = %s\n",arcname));
       {
        c = strstr(dir->directory,FilePart(arcname));
        if (c) for (; c && (*c != '/'); c++);
        if (c) c++;
        strcpy(arcdir,c?c:"");
       }
+D(bug("unarcfiledir: arcdir = %s\n",arcdir));
 /*
      else
       {
@@ -260,7 +262,7 @@ BOOL unarcfiledir(const struct DirectoryWindow *dir, const char *path, char *nam
      if (c) strcat(namebuf,c);
      strcpy(arcname,path);
      strcat(arcname,namebuf);
-     for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next) if (LStrCmp(xfi->xfi_FileName,arcdir) == 0) break;
+     for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next) if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0) break;
      if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER,xfi->xfi_EntryNumber,XAD_OUTFILENAME,(ULONG)arcname,TAG_END))) return TRUE;
     }
   }

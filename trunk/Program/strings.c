@@ -1190,8 +1190,8 @@ Old  -  Size : %7ld  Date : %19s"},
         {STR_OPENING_ARCHIVE,
         "Opening archive..."},
 
-        {STR_SORT_BY,
-        "Sort by"},
+        {STR_LISTER_MENU,
+        "Lister options"},
 
         {STR_FILE_NAME,
         "File name"},
@@ -1224,7 +1224,7 @@ Old  -  Size : %7ld  Date : %19s"},
         "Reverse order"},
 
         {STR_SIZE_AS_KMG,
-        "Size as K/M/G"},
+        "Sizes in K/M/G format"},
 
         {STR_BRING_TO_FRONT,
         "_Bring to front"},
@@ -1266,6 +1266,21 @@ Old  -  Size : %7ld  Date : %19s"},
 
         {STR_MIXDIRSFILES,
         "Mix files and dirs"},
+
+        {STR_SORTALPHA,
+        "Plain alphanumeric"},
+
+        {STR_SORTDEC,
+        "Recognize decimals"},
+
+        {STR_SORTHEX,
+        "Recognize hexadecimals"},
+
+        {STR_SORTBY,
+        "Sort by"},
+
+        {STR_NAMESORT_MENU,
+        "Filename sorting"},
 
         {STR_STRING_COUNT,NULL}};
 

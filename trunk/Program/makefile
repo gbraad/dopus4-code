@@ -1,4 +1,6 @@
-CC = gcc
+CC = m68k-amigaos-gcc
+
+prefix = /gg
 
 OBJS = about.o arbiter.o archive.o assembly.o buffers.o complete.o\
 custom.o cycling.o data.o dirtree.o doerror.o doidcmp.o dopusfunctions.o\
@@ -20,7 +22,7 @@ APPNAME = ../../DirectoryOpus
 All : $(APPNAME)
 
 $(APPNAME) : $(OBJS)
-	$(CC) -o $(APPNAME) $(OBJS) $(CCOPTS) -noixemul /gg/lib/libb/libm020/libnix/detach.o $(LIBS)
+	$(CC) -o $(APPNAME) $(OBJS) $(CCOPTS) -noixemul -detach $(LIBS)
 # -s
 
 .c.o:
