@@ -52,7 +52,7 @@ int allfuncs;
             struct DOpusMessage *dopusmsg;
             struct DOpusArgsList *arglist;
 
-//kprintf("0.%s\t%ld\n",msg->rm_Args[0],IsRexxMsg(msg));
+//D(bug("0.%s\t%ld\n",msg->rm_Args[0],IsRexxMsg(msg)));
             dopusmsg=(struct DOpusMessage *)msg;
 
             switch (dopusmsg->command) {

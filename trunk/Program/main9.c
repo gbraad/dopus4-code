@@ -160,7 +160,7 @@ void get_colour_table()
           screen_pens[a].pen=pen;
           screen_pens[a].alloc=1;
          }
-//kprintf("pen[%lu] = %lu\n",(int)a,(int)screen_pens[a].pen);
+//D(bug("pen[%lu] = %lu\n",(int)a,(int)screen_pens[a].pen));
     }
 }
 

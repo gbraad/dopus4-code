@@ -227,7 +227,7 @@ BOOL unarcfiledir(const struct DirectoryWindow *dir, const char *path, char *nam
     {
      struct xadFileInfo *xfi;
      char arcname[256], arcdir[256], *c;
-     int err;
+     int err=XADERR_UNKNOWN;
 
      if (dir->xai->xai_Flags & XADAIF_CRYPTED)
       {
@@ -274,7 +274,7 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
        if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0)
          break;
 
-     if (xfi) while(1)
+     if (xfi) while(err != XADERR_OK)
       {
        err = xadFileUnArc(dir->xai,XAD_ENTRYNUMBER, xfi->xfi_EntryNumber,
                                    XAD_OUTFILENAME, (ULONG)arcname,
@@ -299,6 +299,9 @@ D(bug("str_arcorgname set\n"));
            if (!(whatsit(globstring[STR_ENTER_PASSWORD],32,dir->arcpassword,NULL)))
              return FALSE;
            break;
+         default:
+D(bug("XADERR: %ld\n",err);)
+           err = XADERR_OK;
         }
       }
     }
@@ -308,10 +311,13 @@ D(bug("str_arcorgname set\n"));
 
 void removetemparcfile(const char *name)
  {
+  if (str_arcorgname[0])
+   {
 D(bug("removetemparcfile(%s)\n",name));
-  DeleteFile(name);
-  str_arcorgname[0]=0;
+    DeleteFile(name);
+    str_arcorgname[0]=0;
 D(bug("str_arcorgname cleared\n"));
+   }
  }
 
 void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)

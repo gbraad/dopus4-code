@@ -396,7 +396,10 @@ encrypting
 STR_NEW_DISK_INSERTED (//)
 A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
 ;
-STR_ENTER_DATE_1 (+1//)
+STR_REPLACE_ALL (//)
+Replace _all
+;
+STR_ENTER_DATE_1 (//)
 Enter date in the form DD-MMM-YY
 ;
 STR_ENTER_DATE_2 (//)

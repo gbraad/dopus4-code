@@ -151,4 +151,14 @@ enum {
 #define WILDSELECT_NAME    0
 #define WILDSELECT_COMMENT 1
 
+/* Return values for checkexistreplace() function */
+
+#define REPLACE_OK 1
+#define REPLACE_ABORT 0
+#define REPLACE_ALL 2
+#define REPLACE_RETRY 2
+#define REPLACE_RENAME 3
+#define REPLACE_SKIP 4
+#define REPLACE_SKIPALL 5
+
 #endif

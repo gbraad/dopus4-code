@@ -173,26 +173,28 @@ USHORT gadid;
 int simplerequest(char *txt,...)
 {
     char *gads[11],*cancelgad=NULL,*gad;
-    int a,r,rets[10],num;
+    int a,r,rets[10],gnum,rnum;
     va_list ap;
     struct DOpusSimpleRequest request;
 
-    va_start(ap,txt); r=1; num=0;
+    va_start(ap,txt); r=1; gnum=rnum=0;
     for (a=0;a<10;a++) {
         if (!(gad=(char *)va_arg(ap,char *))) break;
         if (a==1) cancelgad=gad;
         else {
-            gads[num]=gad;
-            rets[num++]=r++;
+            gads[gnum++]=gad;
+            if (gad[0] != '\n') rets[rnum++] = r++;
         }
     }
     if (cancelgad) {
-        gads[num]=cancelgad;
-        rets[num]=0;
-        a=num+1;
+        gads[gnum]=cancelgad;
+        rets[rnum]=0;
+        a=gnum+1;
     }
     for (;a<11;a++) gads[a]=NULL;
 
+//D(KDump(gads,32));
+//D(KDump(rets,32));
     request.strbuf=NULL;
     request.flags=0;
     return(dorequest(&request,txt,gads,rets,NULL));
@@ -329,9 +331,9 @@ int ftype,funconly;
         }
         else {
             if (!funconly || (type->function[ftype] && type->function[ftype][0])) {
-D(bug("type->function[ftype]: %s\n",type->function[ftype]));
-D(bug("type->recognition: %s\n",type->recognition));
-D(bug("dochecktype: %ld\n",dochecktype(type,fullname,file,&info)));
+//D(bug("type->function[ftype]: %s\n",type->function[ftype]));
+//D(bug("type->recognition: %s\n",type->recognition));
+//D(bug("dochecktype: %ld\n",dochecktype(type,fullname,file,&info)));
                 if (type->recognition && dochecktype(type,fullname,file,&info) &&
                     (ftype==-1 || (type->function[ftype] && type->function[ftype][0]))) {
                     Close(file);

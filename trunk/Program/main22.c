@@ -39,7 +39,7 @@ int act,inact,rexx;
 {
     struct InfoData __aligned infodata;
     struct FileInfoBlock __aligned fileinfo;
-    int askeach=0,autoskip=0,a,b,special=0,candoicon=1,old,specflags,noshow=0,err;
+    int a,b,special=0,candoicon=1,old,specflags,noshow=0,err;
     int sourcewild=0,destwild=0,firstset=0,breakout,rexarg,protstuff[2];
     int pt=1,okayflag,show,lastfile,flag,exist,count,data,mask=0,temp;
     int globflag,noremove,doicons=0,total,value=0,progtype,blocksize,retval=0;
@@ -160,6 +160,7 @@ D(bug("\tfile: %lx\n",file));
     else scrdata_old_offset_store=-1;
 
     status_justabort=count=0; namebuf[0]=0;
+    autoskip = 0;
 
     /* Bump entry depth to check for recursion */
 
@@ -243,6 +244,7 @@ D(bug("\tfile: %lx\n",file));
         case FUNC_MOVEAS:
             if (!(checkdest(inact))) goto endfunction;
             if (!(config->existflags&REPLACE_ALWAYS)) askeach=1;
+            else askeach = 0;
             progress_copy=1;
             break;
         case FUNC_COPY:
@@ -251,6 +253,7 @@ D(bug("\tfile: %lx\n",file));
         case FUNC_COPYAS:
             if (!(checkdest(inact))) goto endfunction;
             if (!(config->existflags&REPLACE_ALWAYS)) askeach=1;
+            else askeach = 0;
             progress_copy=1;
             if (!(specflags&FUNCFLAGS_COPYISCLONE) && config->copyflags&COPY_CHECK) {
                 old=scrdata_old_offset_store;
@@ -318,6 +321,7 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
             if (!(checkdest(inact)) || !(checksame(sourcedir,destdir,1)))
                 goto endfunction;
             if (!(config->existflags&REPLACE_ALWAYS)) askeach=1;
+            else askeach = 0;
             if (rexx && rexx_argcount>0) strcpy(buf2,rexx_args[rexarg]);
             else if (!(whatsit(globstring[STR_ENTER_PASSWORD],20,buf2,NULL)) ||
                 !buf2[0]) {
@@ -375,7 +379,7 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
                 blocksize=infodata.id_BytesPerBlock;
             }
             else blocksize=512;
-//kprintf("infodata: %lx\tdestdir: %s\tblocksize: %ld\n",&infodata,destdir,blocksize);
+//D(bug("infodata: %lx\tdestdir: %s\tblocksize: %ld\n",&infodata,destdir,blocksize));
             if (config->errorflags&ERROR_ENABLE_DOS) main_proc->pr_WindowPtr=(APTR)Window;
             total=-1;
             dos_global_files = 0;
@@ -523,7 +527,7 @@ functionloop:
                 else {
                     a=(file->size+(blocksize-1))/blocksize;
                     data+=a+(a/72)+1;
-//kprintf("size: %ld\tdata: %ld\n",file->size,data);
+//D(bug("size: %ld\tdata: %ld\n",file->size,data));
                 }
                 if (doicons && !(isicon(file->name))) {
                     StrCombine(oldiconname,file->name,".info",256);
@@ -670,7 +674,7 @@ functionloop:
                   c = strchr(buf,':');
                   if (c) *c = 0;
                   a = AssignLock(buf,NULL)?1:0;
-//kprintf("Removing assign %s\t%s\n",buf,a?"success":"failure");
+//D(bug("Removing assign %s\t%s\n",buf,a?"success":"failure"));
                  }
                 else if ((a=delfile(sourcename,file->name,globstring[STR_DELETING],
                     glob_unprotect_all,1))==-1) {
@@ -711,26 +715,28 @@ functionloop:
                         StrCombine(destname,sourcedir,namebuf,256);
                         StrCombine(newiconname,namebuf,".info",256);
                     }
+retry_rename:
                     if (!(Rename(sourcename,destname))) {
                         if ((a=IoErr())==ERROR_OBJECT_EXISTS) {
                             if (askeach) {
                                 if (!lastfile) {
-                                    if (!(a=checkexistreplace(sourcename,destname,&file->date,destwild,1))) // ABORT
+                                    if ((a=checkexistreplace(sourcename,destname,&file->date,destwild,1))==REPLACE_ABORT)
                                     {
                                         myabort();
                                         break;
                                     }
-                                    if (a==2) {
+                                    if (a==REPLACE_ALL) {
                                         if (!destwild) goto functionloop; // TRY AGAIN
-                                        askeach=0;                        // ALL
+                                        askeach=0;                        // REPLACE ALL
                                     }
-                                    else if (a==3) { // SKIP
+                                    else if (a==REPLACE_SKIP) {
                                         break;
                                     }
-                                    else if (a==4) { // SKIP ALL
+                                    else if (a==REPLACE_SKIPALL) {
                                         askeach = 0;
                                         autoskip = 1;
                                     }
+                                    else if (a==REPLACE_RENAME) goto retry_rename;
                                 }
                             }
                             if (autoskip) break;
@@ -809,20 +815,25 @@ functionloop:
                     StrCombine(newiconname,destname,".info",256);
                 }
                 if (!(checksame(destdir,sourcename,0))) break;
+retry_move:
                 if ((exist=CheckExist(destname,NULL))) {
                     if (askeach) {
-                        if ((a=checkexistreplace(sourcename,destname,&file->date,(function==FUNC_MOVE),1))==0) { // ABORT
+                        if ((a=checkexistreplace(sourcename,destname,&file->date,(function==FUNC_MOVE),1))==REPLACE_ABORT) {
                             myabort();
                             break;
                         }
-                        if (a==3) break; // SKIP
-                        if (a==2) {
+                        if (a==REPLACE_SKIP) break;
+                        if (a==REPLACE_ALL) {
                             if (function==FUNC_MOVEAS) goto functionloop; // TRY AGAIN
                             askeach=0;                                    // ALL
                         }
-                        if (a==4) {    // SKIP ALL
+                        if (a==REPLACE_SKIPALL) {
                             askeach = 0;
                             autoskip = 1;
+                        }
+                        else if (a==REPLACE_RENAME) {
+                            StrCombine(newiconname,destname,".info",256);
+                            goto retry_move;
                         }
                     }
                     if (autoskip) break;
@@ -985,21 +996,27 @@ D(bug("recursedir returned %ld\n",a));
                 }
                 arcfile = getsourcefromarc(swindow,sourcename,file->name);
                 if (!(checksame(destdir,sourcename,0))) break;
+retry_copy:
                 if ((exist=CheckExist(destname,NULL))) {
+D(bug("askeach = %ld\n",askeach));
                     if (askeach) {
                         if ((a=checkexistreplace(sourcename,destname,&file->date,
-                            (function==FUNC_COPY),1))==0) { // ABORT
+                            (function==FUNC_COPY),1))==REPLACE_ABORT) {
                             myabort();
                             break;
                         }
-                        if (a==3) break; // SKIP
-                        else if (a==2) {
+                        if (a==REPLACE_SKIP) break;
+                        else if (a==REPLACE_ALL) {
                             if (function!=FUNC_COPY/*==FUNC_COPYAS*/) goto functionloop; // TRY AGAIN
                             askeach=0;                                    // ALL
                         }
-                        else if (a==4) {    // SKIP ALL
+                        else if (a==REPLACE_SKIPALL) {
                             askeach = 0;
                             autoskip = 1;
+                        }
+                        else if (a==REPLACE_RENAME) {
+                            StrCombine(newiconname,destname,".info",256);
+                            goto retry_copy;
                         }
                     }
                     if (autoskip) break;
@@ -1121,8 +1138,10 @@ D(bug("recursedir returned %ld\n",a));
                     break;
                 }
                 arcfile = getsourcefromarc(swindow,sourcename,file->name);
-                if ((a=viewfile(sourcename,file->name,function,NULL,
-                    viewdata,(viewdata)?1:0,(entry_depth>1)))!=-2) {
+                a = viewfile(sourcename,str_arcorgname[0]?str_arcorgname:file->name,function,NULL,
+                             viewdata,(viewdata || str_arcorgname[0])?1:0,(entry_depth>1));
+D(bug("viewfile() returned %ld\n",a));
+                if (a!=-2) {
                     if (a!=-3) ++count;
                     else if (count==0) unselect(act,file);
                     if (file->selected) {
@@ -1291,19 +1310,22 @@ D(bug("recursedir returned %ld\n",a));
                 if (CheckExist(destname,NULL)) {
                     if (askeach) {
                         doerror(ERROR_OBJECT_EXISTS);
-                        if (!(a=checkexistreplace(destname,destname,NULL,1,1))) { // ABORT
+                        if ((a=checkexistreplace(destname,destname,NULL,1,1))==REPLACE_ABORT) {
                             myabort();
                             break;
                         }
-                        else if (a==2) askeach=0; // ALL
-                        else if (a==3) {          // SKIP
+                        else if (a==REPLACE_ALL) askeach=0;
+                        else if (a==REPLACE_SKIP) {
                             file=NULL;
                             break;
                         }
-                        else if (a==4) {          // SKIP ALL
+                        else if (a==REPLACE_SKIPALL) {
                             askeach = 0;
                             autoskip = 1;
                             file = NULL;
+                        }
+                        else if (a==REPLACE_RENAME) {
+                            strcpy(buf2,BaseName(destname));
                         }
                     }
                     if (autoskip) break;
@@ -1423,22 +1445,24 @@ D(bug("recursedir returned %ld\n",a));
                 StrCombine(destname,destdir,file->name,256);
                 if (CheckExist(destname,NULL)) {
                     if (askeach) {
-                        if ((a=checkexistreplace(sourcename,destname,&file->date,1,1))) {
-                            if (a==2) askeach=0; // ALL
-                            else if (a==3) {     // SKIP
-                                file=NULL;
-                                break;
-                            }
-                            else if (a==4) {     // SKIP ALL
-                                askeach = 0;
-                                autoskip = 1;
-                                file = NULL;
-                            }
-                        }
-                        else {          // ABORT
+                        if ((a=checkexistreplace(sourcename,destname,&file->date,1,1))==REPLACE_ABORT) {
                             myabort();
                             break;
                         }
+                        else if (a==REPLACE_ALL) askeach=0;
+                        else if (a==REPLACE_SKIP) {
+                                file=NULL;
+                                break;
+                        }
+                        else if (a==REPLACE_SKIPALL) {
+                            askeach = 0;
+                            autoskip = 1;
+                            file = NULL;
+                        }
+/*
+                        else if (a==REPLACE_RENAME) {
+                        }
+*/
                     }
                     if (autoskip) break;
                     if ((a=delfile(destname,file->name,globstring[STR_DATESTAMPING],1,1))==-1) {

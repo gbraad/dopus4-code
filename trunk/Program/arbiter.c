@@ -108,6 +108,7 @@ int flags;
     WaitPort(&command_port);
     GetMsg(&command_port);
 
+D(bug("arbiter_command() returned %ld\n",arbiter_msg.command));
     return(arbiter_msg.command);
 }
 
@@ -125,7 +126,7 @@ void __saveds arbiter_process()
     struct Message *my_startup_message;
     struct ArbiterMessage *arb_msg,*remove_msg=NULL;
     struct LaunchList *first_launch=NULL,*launch,*launchpos;
-    struct MsgPort *message_reply;
+    struct MsgPort *replyport;
     char ret,remove=0;
     int wait_mask;
 
@@ -136,12 +137,12 @@ void __saveds arbiter_process()
 
     wait_mask=1<<my_process->pr_MsgPort.mp_SigBit;
 
-    if ((message_reply=LCreatePort(NULL,0)))
-        wait_mask|=1<<message_reply->mp_SigBit;
+    if ((replyport=LCreatePort(NULL,0)))
+        wait_mask|=1<<replyport->mp_SigBit;
 
     FOREVER {
-        if (message_reply) {
-            while ((arb_msg=(struct ArbiterMessage *)GetMsg(message_reply))) {
+        if (replyport) {
+            while ((arb_msg=(struct ArbiterMessage *)GetMsg(replyport))) {
                 launch=first_launch;
                 launchpos=NULL;
                 while (launch) {
@@ -171,19 +172,17 @@ void __saveds arbiter_process()
                 case ARBITER_REMOVE:
                     if (first_launch) {
                         remove_msg=arb_msg;
-                        arb_msg=NULL;
+//                        arb_msg=NULL;
                     }
                     else remove=1;
                     break;
                 case ARBITER_LAUNCH:
-                    if (message_reply &&
-                        (launch=AllocMem(sizeof(struct LaunchList),MEMF_CLEAR))) {
+                    if (replyport && (launch=AllocMem(sizeof(struct LaunchList),MEMF_CLEAR))) {
                         struct ArbiterLaunch *arb_launch;
                         struct MsgPort *port;
 
-                        if ((launchpos=first_launch)) {
-                            while (launchpos->next) launchpos=launchpos->next;
-                        }
+                        if ((launchpos=first_launch)) for (;launchpos->next; launchpos=launchpos->next);
+
                         if (launchpos) launchpos->next=launch;
                         else first_launch=launch;
 
@@ -198,7 +197,7 @@ void __saveds arbiter_process()
                             launch->seglist->ps_EntryPoint=arb_launch->launch_code;
 
                             launch->launch_msg.msg.mn_Node.ln_Type=NT_MESSAGE;
-                            launch->launch_msg.msg.mn_ReplyPort=message_reply;
+                            launch->launch_msg.msg.mn_ReplyPort=replyport;
                             launch->launch_msg.msg.mn_Length=sizeof(struct ArbiterMessage);
                         
                             launch->launch_msg.command=arb_msg->command;
@@ -207,18 +206,18 @@ void __saveds arbiter_process()
 
 D(bug("ARBITER_LAUNCH: %s, flags: %lx\n",arb_launch->launch_name,arb_msg->flags));
 #ifdef __MORPHOS__
-struct EmulLibEntry GATE_arbiterlaunch_process = { TRAP_LIB, 0, (void (*)(void))&arbiter_process };
+                            struct EmulLibEntry GATE_arbiterlaunch_process = { TRAP_LIB, 0, (void (*)(void))&arbiter_process };
 
-struct TagItem arbiterlaunch_tags[] = {
-  { NP_Entry, (Tag)&GATE_arbiterlaunch_process },
-//                                                   NP_Seglist,     (long)launch->seglist>>2,
-  { NP_Name,  (Tag)arb_launch->launch_name },
-  { NP_Priority, 0 },
-  { NP_StackSize,8192 },
-  { NP_FreeSeglist, FALSE },
-  { NP_CloseInput,  FALSE },
-  { NP_CloseOutput, FALSE },
-  { TAG_END } };
+                            struct TagItem arbiterlaunch_tags[] = {
+                              { NP_Entry, (Tag)&GATE_arbiterlaunch_process },
+//                              {  NP_Seglist,     (long)launch->seglist>>2 },
+                              { NP_Name,  (Tag)arb_launch->launch_name },
+                              { NP_Priority, 0 },
+                              { NP_StackSize,8192 },
+                              { NP_FreeSeglist, FALSE },
+                              { NP_CloseInput,  FALSE },
+                              { NP_CloseOutput, FALSE },
+                              { TAG_END } };
 #else
                             if ((port=(struct MsgPort *)
 //                                CreateProc(arb_launch->launch_name,0,(long)launch->seglist>>2,4000))) {
@@ -255,7 +254,7 @@ struct TagItem arbiterlaunch_tags[] = {
         Wait(wait_mask);
     }
 
-    if (message_reply) LDeletePort(message_reply);
+    if (replyport) LDeletePort(replyport);
     Forbid();
     ReplyMsg(my_startup_message);
     return;

@@ -96,20 +96,20 @@ int allabort,all;
     struct DateStamp ds;
 
 //D(bug("checkexistreplace(%s,%s,...)\n",sourcename,destname));
-    if (!(lockandexamine(sourcename,&s_fib))) return(1);
-    if (!(suc_dfib=lockandexamine(destname,&d_fib))) return(1);
+    if (!(lockandexamine(sourcename,&s_fib))) return(REPLACE_OK);
+    if (!(suc_dfib=lockandexamine(destname,&d_fib))) return(REPLACE_OK);
 
 //HUX Prevent directories and files from being treated differently
     if (suc_dfib && d_fib.fib_DirEntryType>0) {
         if (s_fib.fib_DirEntryType<0) {
             doerror(ERROR_OBJECT_EXISTS);
-            return(0);
+            return(REPLACE_ABORT);
         }
-        return(1);
+        return(REPLACE_OK);
     }
 //HUX
 
-    if (config->existflags&REPLACE_ALWAYS) return(1);
+    if (config->existflags&REPLACE_ALWAYS) return(REPLACE_OK);
     else if (config->existflags&REPLACE_NEVER) {
         doerror(ERROR_OBJECT_EXISTS);
 //        return(3/*0*/);
@@ -120,7 +120,7 @@ int allabort,all;
             date=&ds;
         }
         if (suc_dfib) {
-            if (CompareDate(date,&(d_fib.fib_Date))>0) return(1);
+            if (CompareDate(date,&(d_fib.fib_Date))>0) return(REPLACE_OK);
             doerror(ERROR_OBJECT_EXISTS);
         }
 //        return(3/*0*/);
@@ -164,23 +164,43 @@ int allabort,all;
                 s_fib.fib_Size,datebuf1,d_fib.fib_Size,datebuf2);
 */
         }
-        if (all) a=simplerequest(buf,
-                                 globstring[STR_REPLACE],                        // 1
-                                 globstring[STR_ABORT],                          // 0
-                                 globstring[allabort ? STR_ALL : STR_TRY_AGAIN], // 2
-                                 globstring[STR_SKIP],                           // 3
-                                 globstring[STR_SKIP_ALL],                       // 4
+        do
+         {
+/*        if (all)*/ a=simplerequest(buf,
+                                 globstring[STR_REPLACE],                        // REPLACE_OK
+                                 globstring[STR_ABORT],                          // REPLACE_ABORT
+                                 globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], // REPLACE_ALL/REPLACE_RETRY
+                                 globstring[STR_RENAME],
+                                 "\n",
+                                 globstring[STR_SKIP],                           // REPLACE_SKIP
+                                 globstring[STR_SKIP_ALL],                       // REPLACE_SKIPALL
                                  NULL);
 /*
-        else a=simplerequest(buf,globstring[STR_REPLACE],                          // 1
-                                 globstring[STR_SKIP],                             // 0
-                                 globstring[allabort ? STR_ABORT : STR_TRY_AGAIN], // 2
+        else a=simplerequest(buf,globstring[STR_REPLACE],                          // REPLACE_OK
+                                 globstring[STR_SKIP],                             // REPLACE_ABORT
+                                 globstring[allabort ? STR_ABORT : STR_TRY_AGAIN], // REPLACE_ALL/REPLACE_RETRY
                                  NULL,NULL,NULL);
 */
-D(bug("checkexistreplace: result = %ld\n",a));
+
+          if (a == REPLACE_RENAME)
+           {
+            char dname[FILEBUF_SIZE];
+
+            strcpy(dname,BaseName(sourcename));
+
+            if (whatsit(globstring[STR_ENTER_NEW_NAME],FILEBUF_SIZE,dname,NULL))
+             {
+              *BaseName(destname) = 0;
+              strcat(destname,dname);
+             }
+           }
+          else break;
+         }
+        while(CheckExist(destname,NULL));
+D(bug("checkexistreplace() returned %ld\n",a));
         return(a);
     }
-    return 3/*0*/;
+    return REPLACE_SKIP/*0*/;
 }
 
 int lockandexamine(name,fib)
@@ -593,7 +613,7 @@ struct TagItem **gadgets;
 int mask,*count;
 {
     int gad;
-    struct Gadget *gadget=NULL,*newgadget,*firstgadget;
+    struct Gadget *gadget=NULL,*newgadget,*firstgadget=NULL;
 
     for (gad=0;;gad++) {
         if (!gadgets[gad]) break;
@@ -606,7 +626,7 @@ int mask,*count;
             if (count) ++*count;
         }
     }
-    AddGadgets(reqbase->rb_window,firstgadget,NULL,gad,reqbase->rb_shine,reqbase->rb_shadow,1);
+    if (firstgadget) AddGadgets(reqbase->rb_window,firstgadget,NULL,gad,reqbase->rb_shine,reqbase->rb_shadow,1);
     return(firstgadget);
 }
 

@@ -875,7 +875,7 @@ kgettime(&time1);
 #ifdef DEBUG
 kgettime(&time2);
 kremovetimer();
-kprintf("sortdir() took %ld ticks\n",(ULONG)(time2-time1));
+bug("sortdir() took %ld ticks\n",(ULONG)(time2-time1));
 }
 #endif
 //D(bug("sortdir: %ld %s\n",sortmethod,reverse?"reverse":""));
@@ -959,9 +959,7 @@ void unbusy()
 void setnullpointer(wind)
 struct Window *wind;
 {
-#ifdef DEBUG
-KPrintF("null_pointer at %lx\n",null_pointer);
-#endif
+D(bug("null_pointer at %lx\n",null_pointer));
     SetPointer(wind,null_pointer,1,16,0,0);
 }
 

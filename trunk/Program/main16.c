@@ -110,9 +110,7 @@ UWORD *coltab;
                                                  BIDTAG_Depth, font_scr.Depth,
                                                  BIDTAG_MonitorID, GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK,
                                                  TAG_END);
-#ifdef DEBUG
-kprintf("Font screen ModeID: %lx\n",font_scr.Extension[0].ti_Data);
-#endif
+D(bug("Font screen ModeID: %lx\n",font_scr.Extension[0].ti_Data));
       if (font_scr.Extension[0].ti_Data == INVALID_ID) font_scr.Extension[0].ti_Data = HIRES_KEY;
       if (GetDisplayInfoData(NULL,&dims,sizeof(struct DimensionInfo),DTAG_DIMS,font_scr.Extension[0].ti_Data))
        {

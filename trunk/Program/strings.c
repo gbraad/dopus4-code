@@ -168,6 +168,7 @@ static const struct DefaultString
     	{STR_CANT_FIND_ICON,"Unable to find or load an icon for that file."},
     	{STR_ENCRYPTING,"encrypting"},
     	{STR_NEW_DISK_INSERTED,"A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?"},
+    	{STR_REPLACE_ALL,"Replace _all"},
     	{STR_ENTER_DATE_1,"Enter date in the form DD-MMM-YY"},
     	{STR_ENTER_DATE_2,"Enter date in the form YY-MM-DD"},
     	{STR_ENTER_DATE_3,"Enter date in the form MM-DD-YY"},
@@ -417,8 +418,8 @@ char *file;
     stringdata.min_version=0;
 //D(bug("readstrings(%s)\n",file);Delay(50);)
 
-//kprintf("STR_STRING_COUNT=%ld\n",STR_STRING_COUNT);
-//for(a=0;a<STR_STRING_COUNT;a++) kprintf("%ld\t%s\n",default_strings[a].string_id,default_strings[a].string);
+//D(bug("STR_STRING_COUNT=%ld\n",STR_STRING_COUNT));
+//D(for(a=0;a<STR_STRING_COUNT;a++) bug("%ld\t%s\n",default_strings[a].string_id,default_strings[a].string));
     if (!(ReadStringFile(&stringdata,file))) quit();
     globstring=stringdata.string_table;
 /*

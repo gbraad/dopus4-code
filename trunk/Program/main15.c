@@ -191,7 +191,7 @@ D(bug("Archive recognized: %s\n",cl->xc_ArchiverName));
     else {
         dostatustext(globstring[STR_READING_SELECTED_FILE]);
         strcpy(func_single_file,name);
-        if (viewfile(buf,name,FUNC_SMARTREAD,NULL,NULL,0,1)) okay();
+        if (viewfile(buf,str_arcorgname[0]?str_arcorgname:name,FUNC_SMARTREAD,NULL,NULL,str_arcorgname[0]?1:0,1)) okay();
         func_single_file[0]=0;
     }
     if (strcmp(str_last_statustext,globstring[STR_INTERROGATING_FILES])==0)

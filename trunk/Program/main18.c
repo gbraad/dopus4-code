@@ -62,7 +62,6 @@ int dowhat,fdata;
     struct makedirlist *first_makedir=NULL;
     struct DirectoryWindow lister;
     struct Directory *entry = NULL, *t_entry;
-    int askeach=1, autoskip=0;
 
     if (dowhat&R_STARDIR) {
         rec_firstpath=NULL;
@@ -411,21 +410,21 @@ if (entry)
 }
                     a=0;
                     if (askeach) {
-                        if ((a=checkexistreplace(name,dname,&enfinfo.fib_Date,1,1))==0) { // ABORT
+                        if ((a=checkexistreplace(name,dname,&enfinfo.fib_Date,1,1))==REPLACE_ABORT) {
                             myabort();
                             ret=-10;
                             break;
                         }
-                        if (a==2) {
-                            askeach=0;   // ALL
+                        if (a==REPLACE_ALL) {
+                            askeach=0;
                         }
-                        else if (a==4) {  // SKIP ALL
+                        else if (a==REPLACE_SKIPALL) {
                             askeach = 0;
                             autoskip = 1;
                         }
-//                        if (a==3) // SKIP
+//                        if (a==REPLACE_SKIP)
                     }
-                    if (!autoskip && (a!=3))
+                    if (!autoskip && (a!=REPLACE_SKIP))
                      {
                       a=0;
                       FOREVER {

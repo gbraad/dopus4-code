@@ -123,7 +123,7 @@ int win;
     char fullbuf[256];
 
     if (dir->flags & DWF_ARCHIVE) return;
-//kprintf("findemptybuffer()\n");
+//D(bug("findemptybuffer()\n"));
     expand_path(str_pathbuffer[win],fullbuf);
     checkdir(str_pathbuffer[win],NULL);
     checkdir(fullbuf,NULL);
@@ -158,14 +158,14 @@ void startgetdir(win,flags)
 int win,flags;
 {
     checkcurrentbuffer(win);
-//kprintf("startgetdir %s\ncurrent: %s\n",str_pathbuffer[win],dopus_curwin[win]->directory);
+//D(bug("startgetdir %s\ncurrent: %s\n",str_pathbuffer[win],dopus_curwin[win]->directory));
     if (!(config->dirflags&DIRFLAGS_CHECKBUFS && (flags&SGDFLAGS_CANCHECKBUFS)) ||
         !(findbuffer(str_pathbuffer[win],win,1,0))) {
         if ((config->dirflags&DIRFLAGS_FINDEMPTY) && (flags&SGDFLAGS_CANMOVEEMPTY))
             findemptybuffer(win);
         if (str_pathbuffer[win][0]==0) expand_path("",str_pathbuffer[win]);
         checkdir(str_pathbuffer[win],&path_strgadget[win]);
-//kprintf("path: %s\n",str_pathbuffer[win]);
+//D(bug("path: %s\n",str_pathbuffer[win]));
         strcpy(dopus_curwin[win]->directory,str_pathbuffer[win]);
         getdir(dopus_curwin[win],win,(flags&SGDFLAGS_REREADINGOLD));
     }
@@ -302,7 +302,7 @@ int win,canchecklocks,onlyreturn;
     BPTR lock=0,testlock;
     char tempbuf[300];
 
-//kprintf("findbuffer()\n");
+//D(bug("findbuffer()\n"));
     if (status_iconified) return(NULL);
     dir=dopus_curwin[win];
     if (dir->flags & DWF_ARCHIVE) return NULL;

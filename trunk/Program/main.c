@@ -442,7 +442,7 @@ D(bug("beepwave: %lx\n",beepwave));
                       message->rm_Args[0] = comm;
                       if (FillRexxMsg (message, 1, 0))
                        {
-  //                      kprintf("Sending msg: %s\n",message->rm_Args[0]);
+  //                      D(bug("Sending msg: %s\n",message->rm_Args[0]));
                         PutMsg(port,(struct Message *)message);
                         Permit();
                         WaitPort(replyport);

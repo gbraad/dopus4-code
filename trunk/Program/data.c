@@ -224,6 +224,9 @@ USHORT scr_min_height=0;                  /* Minimum window height */
 APTR snm_handle=NULL;                     /* ScreenNotify handle */
 struct SysInfo *sysinfo=NULL;             /* SysInfo.library */
 
+int askeach = 0;                          /* Should replace requester be displayed */
+int autoskip = 0;                         /* Should files be automatically owerwritten */
+
 /* Configuration data */
 
 struct Config *config=NULL;               /* Configuration structure */

@@ -259,21 +259,27 @@ int __saveds DoSearchPathList(register char *name __asm("a0"), register char *bu
 int __saveds DoCheckExist(register char *name __asm("a0"), register int *size __asm("a1"))
 {
     int a=0;
-    BPTR mylock;
-    struct FileInfoBlock __aligned myfinfo;
+    BPTR lock;
     struct Process *myproc;
     APTR wsave;
 
 //D(bug("CheckExist(%s)\n",name);Delay(50);)
-    myproc=(struct Process *)FindTask(NULL);
-    wsave=myproc->pr_WindowPtr;
-    myproc->pr_WindowPtr=(APTR)-1;
-    if (mylock=Lock(name,ACCESS_READ)) {
-        Examine(mylock,&myfinfo);
-        UnLock(mylock);
-        a=myfinfo.fib_DirEntryType;
-        if (size) *size=myfinfo.fib_Size;
-    }
-    myproc->pr_WindowPtr=wsave;
+    myproc = (struct Process *)FindTask(NULL);
+    wsave = myproc->pr_WindowPtr;
+    myproc->pr_WindowPtr = (APTR)-1;
+    if ((lock = Lock(name,ACCESS_READ)))
+     {
+      struct FileInfoBlock __aligned fib;
+
+      Examine(lock,&fib);
+
+      if (size) *size = fib.fib_Size;
+
+      a = fib.fib_DirEntryType;
+
+      UnLock(lock);
+     }
+    myproc->pr_WindowPtr = wsave;
+
     return(a);
 }

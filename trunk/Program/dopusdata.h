@@ -228,6 +228,9 @@ extern USHORT scr_gadget_bank_count;             /* Number of button banks */
 extern USHORT scr_min_width;                     /* Minimum window width */
 extern USHORT scr_min_height;                    /* Minimum window height */
 
+extern int askeach;                              /* Should replace requester be displayed */
+extern int autoskip;                             /* Should files be automatically owerwritten */
+
 /* Configuration data */
 
 extern struct Config *config;                    /* Configuration structure */

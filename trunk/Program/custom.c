@@ -60,6 +60,7 @@ struct dopusfuncpar *pars;
     struct Directory *curcf;
     struct function_data *funcdata;
 
+D(bug("dofunctionstring(%s,%s,%s,%lx)\n",func?func:"<NULL>",name?name:"<NULL>",title?title:"<NULL>",pars));
     if (!func || !func[0] ||
         !(funcdata=LAllocRemember(&general_key,sizeof(struct function_data),MEMF_CLEAR))) return;
 
@@ -91,7 +92,7 @@ D(bug("file: %s\n",func_external_file));
     else funcdata->entry_first=checkalltot(dopus_curwin[funcdata->activewin]);
 
     if (norm) {
-        strcpy(funcdata->source_path,str_pathbuffer[funcdata->activewin]);
+        strcpy(funcdata->source_path,str_arcorgname[0]?"T:":str_pathbuffer[funcdata->activewin]);
         strcpy(funcdata->dest_path,str_pathbuffer[funcdata->inactivewin]);
     }
 
@@ -326,7 +327,6 @@ struct function_data *funcdata;
             ++ptr;
         }
         len=strlen((char *)buf);
-
         count=funcdata->function_count;
         endarg=usearg=funcdata->arg_use;
 
@@ -344,6 +344,7 @@ struct function_data *funcdata;
                 tot=0;
                 break;
             }
+D(bug("customthing(): buf2 = %s\n",buf2));
             if (type==FT_BATCH) strcpy(tbuf,"Execute ");
             else if (type==FT_WORKBENCH) lsprintf(tbuf,"\"%s\" -r ",str_dopusrt_path);
             else tbuf[0]=0;
@@ -463,7 +464,7 @@ addfile1:
                     }
                     else cust=custgetfirst(funcdata);
                     while (a<(MAXCOMMANDLEN-1) && (cust || funcdata->recursive_path)) {
-//if (cust) kprintf("cust->name: %s\n",cust->name);
+//if (cust) D(bug("cust->name: %s\n",cust->name));
                         if (funcdata->recursive_path || (cust->selected && cust->type!=0)) {
                             if (!funcdata->recursive_path && cust->type>0) {
                                 if (star) {
@@ -509,9 +510,9 @@ addfile2:
 //D(bug("buffer: %s\n",buffer));
                     }
                     if (!funcdata->recursive_path) {
-//kprintf("funcdata->entry_first: %s\t",funcdata->entry_first->name);
+//D(bug("funcdata->entry_first: %s\t",funcdata->entry_first->name));
                       custnextsel(&funcdata->entry_first);
-//kprintf("->\tfuncdata->entry_first: %s\n",funcdata->entry_first->name);
+//D(bug("->\tfuncdata->entry_first: %s\n",funcdata->entry_first->name));
                     }
                     bufpos+=a-d;
                     if (moretodo) *moretodo=1;
@@ -525,6 +526,7 @@ addfile2:
 
             case FUNC_ONEPATH:
             case FUNC_ONEPATH_NO:
+D(bug("buildcustfunc(): %lx\n",func_single_file));
                 if (!func_single_file[0]) {
                     if (status_iconified || status_flags&STATUS_FROMHOTKEY) {
                         if (getdummyfile(&dummy,dirbuf,&funcdata->file_request)) cust=&dummy;
@@ -640,9 +642,9 @@ addfile4:
                         }
                     }
                     if (!funcdata->recursive_path) {
-//kprintf("funcdata->entry_first: %s\t",funcdata->entry_first->name);
+//D(bug("funcdata->entry_first: %s\t",funcdata->entry_first->name));
                       custnextsel(&funcdata->entry_first);
-//kprintf("->\tfuncdata->entry_first: %s\n",funcdata->entry_first->name);
+//D(bug("->\tfuncdata->entry_first: %s\n",funcdata->entry_first->name));
                     }
                     bufpos+=a-d;
                     if (moretodo) *moretodo=1;
@@ -909,7 +911,7 @@ int quote;
         StrConcat(buf,"\"",MAXCOMMANDLEN);
         ++c;
     }
-//kprintf("buf(%ld): %s\n",strlen(buf),buf);
+//D(bug("buf(%ld): %s\n",strlen(buf),buf));
     return(c);
 }
 
@@ -1227,6 +1229,14 @@ struct function_data *funcdata;
             }
             Write(funcdata->output_file,"EndCLI >NIL:\n",13);
         }
+
+        if (str_arcorgname[0])
+         {
+          lsprintf(buf,"Delete \"%s\"\n",funcdata->last_file);
+
+          Write(funcdata->output_file,buf,strlen(buf));
+          str_arcorgname[0] = 0;
+         }
 
         Close(funcdata->output_file); funcdata->output_file=0;
 

@@ -127,7 +127,7 @@ int win;
                {
                 char *c;
 
-//kprintf("path: %s",dopus_curwin[win]->arcname);
+//D(bug("path: %s",dopus_curwin[win]->arcname));
                 c = strstr(dopus_curwin[win]->directory,FilePart(dopus_curwin[win]->arcname));
                 if (c) for (a = 0; c && (*c != '/') && (a < 31); c++) dopus_curwin[win]->diskname[a++] = *c;
                 dopus_curwin[win]->diskname[a] = 0;

@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 
 #define DOPUS_VERSION  "4"
 #define DOPUS_REV      "17"
-#define DOPUS_BETAREV  "pre12"
+#define DOPUS_BETAREV  "pre13"
 
 #define DOPUS_REVISION DOPUS_REV
 

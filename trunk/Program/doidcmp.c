@@ -78,6 +78,7 @@ void doidcmp()
             status_haveaborted=0;
             continue;
         }
+/// "AppMessage"
         if (WorkbenchBase && dopus_appwindow &&
             (wmes&(1<<appmsg_port->mp_SigBit))) {
             ActivateWindow(Window);
@@ -136,6 +137,8 @@ void doidcmp()
                 ReplyMsg((struct Message *)apmsg);
             }
         }
+///
+/// "DOS notify"
         if (wmes&(1<<count_port->mp_SigBit)) {
             struct NotifyMessage *note;
             int got=0;
@@ -165,6 +168,8 @@ D(bug("DOS notification message\n"));
                 else ReplyMsg((struct Message *)note);
             }
         }
+///
+/// "Screen notify"
         if (wmes & (1 << snm_port->mp_SigBit))
          {
           BOOL do_iconify;
@@ -183,6 +188,7 @@ D(bug("DOS notification message\n"));
             else ReplyMsg((struct Message *) snm);
            }
          }
+///
         while (getintuimsg()) {
             x=IMsg->MouseX;
             y=IMsg->MouseY;
@@ -200,10 +206,13 @@ D(bug("DOS notification message\n"));
 
             function=status_haveaborted=0;
             switch (class) {
+/// "IDCMP_ACTIVEWINDOW"
                 case IDCMP_ACTIVEWINDOW:
                     for (a=0;a<2;a++) check_old_buffer(a);
                     break;
 
+///
+/// "IDCMP_NEWSIZE"
                 case IDCMP_NEWSIZE:
                     config->scr_winw=Window->Width;
                     config->scr_winh=Window->Height;
@@ -217,6 +226,8 @@ D(bug("DOS notification message\n"));
                     dostatustext(str_last_statustext);
                     break;
 
+///
+/// "IDCMP_CLOSEWINDOW"
                 case IDCMP_CLOSEWINDOW:
                     busy();
                     if (!(config->generalflags&GENERAL_FORCEQUIT)) a=simplerequest(globstring[STR_REALLY_QUIT],globstring[STR_QUIT],str_cancelstring,globstring[STR_ICONIFY],NULL);
@@ -232,10 +243,14 @@ D(bug("DOS notification message\n"));
                     unbusy();
                     break;
 
+///
+/// "IDCMP_DISKREMOVED"
                 case IDCMP_DISKREMOVED:
                     setupchangestate();
                     break;
 
+///
+/// "IDCMP_DISKINSERTED"
                 case IDCMP_DISKINSERTED:
                     old_change_state=disk_change_state;
                     setupchangestate();
@@ -279,6 +294,8 @@ D(bug("DOS notification message\n"));
                     }
                     break;
 
+///
+/// "IDCMP_RAWKEY"
                 case IDCMP_RAWKEY:
 /*
                     code&=0x7f;
@@ -464,6 +481,8 @@ D(bug("DOS notification message\n"));
                     unbusy();
                     break;
 
+///
+/// "IDCMP_MENUPICK"
                 case IDCMP_MENUPICK:
                     Window->Flags|=RMBTRAP;
                     if (!Window->MenuStrip) break;
@@ -486,6 +505,8 @@ D(bug("DOS notification message\n"));
                             NULL,(struct dopusfuncpar *)&config->menu[a].which);
                     }
                     break;
+///
+/// "IDCMP_GADGETDOWN"
                 case IDCMP_GADGETDOWN:
                     if (stringgd) {
                         checkstringgads(stringgd);
@@ -607,6 +628,8 @@ D(bug("DOS notification message\n"));
                     }
                     break;
 
+///
+/// "IDCMP_GADGETUP"
                 case IDCMP_GADGETUP:
                     if (stringgd) {
                         if (gadgetid!=SCRGAD_LEFTSTRING && gadgetid!=SCRGAD_RIGHTSTRING)
@@ -690,6 +713,8 @@ D(bug("doidcmp: a = %ld\n",a);KDump(&dopus_curgadbank->gadgets[a],sizeof(struct 
                     }
                     break;
 
+///
+/// "IDCMP_MOUSEBUTTONS"
                 case IDCMP_MOUSEBUTTONS:
                     if (stringgd) {
                         checkstringgads(stringgd);
@@ -916,6 +941,7 @@ prevgadgetbank:
                        }
                      }
                     break;
+///
             }
 foobarbaz:
             if (function) internal_function(function,0,NULL,NULL);

@@ -36,12 +36,13 @@ the existing commercial status of Directory Opus 5.
 #define HOTKEY_MMB     5
 #define HOTKEY_HOTKEY    10
 
+#ifdef INPUTDEV_HOTKEY
 #ifdef __MORPHOS__
 static struct InputEvent *keyhandler(void);
 
 static struct EmulLibEntry GATE_keyhandler = { TRAP_LIB, 0, (void (*)(void))keyhandler };
 #endif
-
+#endif
 static struct Gadget
   abortopgad={
     NULL,0,0,104,0,GFLG_GADGHCOMP,GACT_RELVERIFY,GTYP_BOOLGADGET,
@@ -50,7 +51,7 @@ static struct Gadget
 static struct NewWindow
   progresswindow={
     0,0,0,0,255,255,
-    IDCMP_GADGETUP|IDCMP_RAWKEY,WFLG_BORDERLESS|WFLG_RMBTRAP|WFLG_ACTIVATE,
+    IDCMP_GADGETUP|IDCMP_RAWKEY,WFLG_RMBTRAP|WFLG_ACTIVATE,
     NULL,NULL,NULL,NULL,NULL,0,0,0,0,CUSTOMSCREEN};
 
 static struct Window *pwindow;
@@ -58,6 +59,7 @@ static struct RastPort *prp;
 static struct DOpusRemember *prog_key;
 static int prog_barx[2],prog_bary[2],prog_texty[2],prog_val[2],prog_tot[2];
 static int prog_xoff,prog_yoff,prog_xextra,prog_yextra,prog_areax;
+#ifdef INPUTDEV_HOTKEY
 static struct Interrupt
   hotkey_interrupt={
     {NULL,NULL,2,52,"hotkeez_port"},
@@ -65,6 +67,7 @@ static struct Interrupt
     NULL,(VOID *)&GATE_keyhandler};
 #else
     NULL,(VOID *)keyhandler};
+#endif
 #endif
 static struct NewBroker
   hotkey_broker={
@@ -80,12 +83,14 @@ void __saveds hotkeytaskcode()
 {
   int top,sig,waitbits,commodity=0,command,x,run=1;
   struct dopustaskmsg *hmsg;
+#ifdef INPUTDEV_HOTKEY
   struct IOStdReq *inreq;
-  struct MsgPort *inputport,*idcmpport;
+#endif
+  struct MsgPort *inputport/*,*idcmpport*/;
   struct IntuiMessage *msg;
   ULONG class,msgid,msgtype;
   USHORT gadgetid/*,norm_height,norm_width*/;
-  struct IntuiMessage *dummymsg;
+//  struct IntuiMessage *dummymsg;
   struct dopushotkey *hotkey;
   CxObj *broker,*hotkey_filter,*mmb_filter=NULL;
   CxMsg *cxmsg;
@@ -95,7 +100,7 @@ void __saveds hotkeytaskcode()
 */
   hotkeymsg_port=LCreatePort(NULL,0);
   inputport=LCreatePort(NULL,0);
-  idcmpport=LCreatePort(NULL,0);
+//  idcmpport=LCreatePort(NULL,0);
 
   if (CxBase
 #ifdef _USE_SMALL_Q
@@ -142,7 +147,7 @@ void __saveds hotkeytaskcode()
       DeleteCxObjAll(broker);
     }
   }
-
+#ifdef INPUTDEV_HOTKEY
   if (!commodity) {
     inreq=(struct IOStdReq *)LCreateExtIO(inputport,sizeof(struct IOStdReq));
     OpenDevice("input.device",NULL,(struct IORequest *)inreq,NULL);
@@ -150,18 +155,19 @@ void __saveds hotkeytaskcode()
     inreq->io_Command=IND_ADDHANDLER;
     DoIO((struct IORequest *)inreq);
   }
-
-  waitbits=1<<hotkeymsg_port->mp_SigBit|1<<idcmpport->mp_SigBit;
+#endif
+  waitbits=1<<hotkeymsg_port->mp_SigBit/*|1<<idcmpport->mp_SigBit*/;
   if (commodity) waitbits|=1<<inputport->mp_SigBit;
+#ifdef INPUTDEV_HOTKEY
   else waitbits|=INPUTSIG_UNICONIFY|INPUTSIG_HOTKEY;
-
+#endif
   while(run) {
     sig=Wait(waitbits);
     command=0;
-
+/*
     while ((dummymsg=(struct IntuiMessage *)GetMsg(idcmpport)))
       FreeMem(dummymsg,sizeof(struct IntuiMessage));
-
+*/
     if (commodity) {
       while ((cxmsg=(CxMsg *)GetMsg(inputport))) {
         msgid=CxMsgID(cxmsg);
@@ -205,13 +211,14 @@ void __saveds hotkeytaskcode()
         }
       }
     }
+#ifdef INPUTDEV_HOTKEY
     else {
       if (sig&INPUTSIG_UNICONIFY)
         command=HOTKEY_UNICONIFY;
       else if (sig&INPUTSIG_HOTKEY)
         command=HOTKEY_HOTKEY;
     }
-
+#endif
     switch (command) {
       case HOTKEY_ABORT:
         if (IntuitionBase->ActiveWindow==Window) {
@@ -382,6 +389,7 @@ void __saveds hotkeytaskcode()
    while ((cxmsg=(CxMsg *)GetMsg(inputport)))
      ReplyMsg((struct Message *)cxmsg);
  }
+#ifdef INPUTDEV_HOTKEY
  else {
    inreq->io_Data=(APTR)&hotkey_interrupt;
    inreq->io_Command=IND_REMHANDLER;
@@ -389,12 +397,13 @@ void __saveds hotkeytaskcode()
    CloseDevice((struct IORequest *)inreq);
    LDeleteExtIO((struct IORequest *)inreq);
  }
+#endif
  if (pwindow) CloseWindow(pwindow);
  LFreeRemember(&prog_key);
  LDeletePort(inputport);
 // ReplyMsg((struct Message *)hmsg);
  LDeletePort(hotkeymsg_port);
- LDeletePort(idcmpport);
+// LDeletePort(idcmpport);
  Wait(0);
 }
 
@@ -510,11 +519,8 @@ char *title;
 int value,total,flag;
 {
   struct TextFont *font;
-  char *gadtxt[2];
+  char *gadtxt[] = { globstring[STR_ABORT], NULL };
   int a;
-
-  gadtxt[0]=globstring[STR_ABORT];
-  gadtxt[1]=NULL;
 
   if (config->generalscreenflags&SCR_GENERAL_REQDRAG) {
     prog_xoff=Window->WScreen->WBorLeft+2;
@@ -546,11 +552,11 @@ int value,total,flag;
 
   if (config->generalscreenflags&SCR_GENERAL_REQDRAG) {
     progresswindow.Height+=prog_yoff+Window->WScreen->WBorBottom-1;
-    progresswindow.Flags=WFLG_RMBTRAP|WFLG_ACTIVATE|WFLG_DRAGBAR|WFLG_DEPTHGADGET;
+    progresswindow.Flags|=WFLG_DRAGBAR|WFLG_DEPTHGADGET;
     progresswindow.Title=title;
   }
   else {
-    progresswindow.Flags=WFLG_BORDERLESS|WFLG_RMBTRAP|WFLG_ACTIVATE;
+    progresswindow.Flags|=WFLG_BORDERLESS;
     progresswindow.Title=NULL;
   }
 
@@ -621,6 +627,7 @@ char *text;
   char buf[80],*ptr;
   int x,y1,len;
 
+D(bug("progresstext(%ld,%ld,%ld,%s)\n",y,val,total,text?text:"<NULL>"));
   if (val==-1) ptr = globstring[total?STR_ABORTED:STR_COMPLETED];
   else {
     if (text) LStrnCpy(buf,text,(pwindow->Width-prog_xextra-56)/prp->Font->tf_XSize);
@@ -659,6 +666,7 @@ int x,y,val,total;
   static int last_w;
   int w;
 
+D(bug("progressbar(%ld,%ld,%ld,%ld)\n",x,y,val,total));
   if (val>0) {
     float f=(float)val/(float)total;
 
@@ -677,6 +685,7 @@ int x,y,val,total;
    }
 }
 
+#ifdef INPUTDEV_HOTKEY
 #ifdef __MORPHOS__
 struct InputEvent *keyhandler(void)
  {
@@ -730,7 +739,7 @@ struct InputEvent * __saveds keyhandler(register struct InputEvent *oldevent __a
   }
   return(oldevent);
 }
-
+#endif
 void __saveds clocktask()
 {
   ULONG chipc,fast,wmes,h,m,s,/*secs,micro,*/cx,sig,cy,len,ct,chipnum,fastnum,a,active=1,usage;

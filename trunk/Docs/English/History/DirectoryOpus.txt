@@ -6,8 +6,11 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (10.06.2002):
+4.17 (07.07.2002):
 - few hits removed
+- archive support improved
+- SkipAll/ReplaceAll refers to all selected directories
+- Rename button in the Replace requester
 - MakeLink command added
 - New MMB functions do not work if MMB hotkey is enabled.
 - Singe MMB click selects source lister.
