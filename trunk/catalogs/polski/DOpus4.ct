@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.5 (08.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4.catalog 1.6 (23.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
@@ -55,7 +55,7 @@ Katalog zostaî utworzony.
 ;
 STR_PRINTING_DIRECTORY
 Drukujë zawartoôê katalogu...
-; Printing directory..
+; Printing directory...
 ;
 STR_DIRECTORY
 Katalog 
@@ -223,11 +223,11 @@ Zmieniîeô konfiguracjë programu.\nCzy na pewno chcesz skoïczyê pracë?
 ;
 STR_SAVING_CONFIG
 Zapisujë konfiguracjë...
-; Saving configuration..
+; Saving configuration...
 ;
 STR_READING_CONFIG
 Odczytujë konfiguracjë...
-; Reading configuration..
+; Reading configuration...
 ;
 STR_CONFIG_CHANGED_LASTSAVED
 Zmieniîeô konfiguracjë.\nCzy chcesz wczytaê ostatnio zapisane ustawienia?
@@ -377,25 +377,13 @@ STR_ADDING_ICON
 dodawania ikonki do
 ; adding an icon to
 ;
-STR_recremoved1
-
-; 
-;
 STR_ENTER_COMMENT
 Podaj komentarz
 ; Enter comment
 ;
-STR_recremoved2
-
-; 
-;
 STR_ENTER_PASSWORD
 Podaj hasîo
 ; Enter password
-;
-STR_recremoved3
-
-; 
 ;
 STR_ENTER_DATE_AND_TIME
 Podaj datë i czas (puste = aktualnie)
@@ -404,10 +392,6 @@ Podaj datë i czas (puste = aktualnie)
 STR_ENTER_SEARCH_STRING
 Podaj szukany ciâg
 ; Enter search string
-;
-STR_recremoved4
-
-; 
 ;
 STR_STRING_NOT_FOUND
 Przykro mi! Ciâg nie zostaî znaleziony!
@@ -432,149 +416,6 @@ Podaj argumenty
 STR_SELECT_FUNCTION
 Wybierz funkcjë do której potrzebujesz pomocy (ponownie HELP=poniechaj).
 ; Select function you need help with, or Help again to cancel.
-;
-;
-; Typical DOS errors
-;
-; They should match the error reports usually returned by AmigaDOS
-;
-STR_NOT_ENOUGH_MEMORY
-Zbyt maîo wolnej pamiëci
-; Not enough memory
-;
-STR_PROCESS_TABLE_FULL
-Tabela procesów peîna
-; Process table full
-;
-STR_BAD_TEMPLATE
-Zîa skîadnia
-; Bad template
-;
-STR_BAD_NUMBER
-Zîy numer
-; Bad number
-;
-STR_REQUIRED_ARG_MISSING
-Brak wymaganego argumentu
-; Required argument missing
-;
-STR_ARGUMENT_MISSING
-Brak argumentu po \"=\"
-; Argument after \"=\" missing
-;
-STR_TOO_MANY_ARGUMENTS
-Zbyt duûo argumentów
-; Too many arguments
-;
-STR_UNMATCHED_QUOTED
-Niepasujâce cudzysîowy
-; Unmatched quotes
-;
-STR_ARG_LINE_TOO_LONG
-Niewîaôciwa lub zbyt dîuga linia argumentów
-; Argument line invalid or too long
-;
-STR_FILE_NOT_EXECUTABLE
-Plik nie jest wykonywalny
-; File is not executable
-;
-STR_INVALID_LIBRARY
-Niewîaôciwa biblioteka
-; Invalid resident library
-;
-STR_OBJECT_IN_USE
-Obiekt jest w uûyciu
-; Object is in use
-;
-STR_OBJECT_EXISTS
-Obiekt juû istnieje
-; Object already exists
-;
-STR_DIR_NOT_FOUND
-Katalog nie znaleziony
-; Directory not found
-;
-STR_OBJECT_NOT_FOUND
-Obiekt nie znaleziony
-; Object not found
-;
-STR_INVALID_WINDOW
-Niewîaôciwy opis okna
-; Invalid window description
-;
-STR_UNKNOWN_PACKET
-Niezany typ ûâdania
-; Packet request type unknown
-;
-STR_OBJECT_NAME_INVALID
-Niewîaôciwa nazwa obiektu
-; Object name invalid
-;
-STR_INVALID_LOCK
-Niewîaôciwa blokada obiektu
-; Invalid object lock
-;
-STR_OBJECT_BAD_TYPE
-Obiekt nie jest wymaganego typu
-; Object not of required type
-;
-STR_DISK_NOT_VALIDATED
-Dysk nie jest zaktualizowany
-; Disk not validated
-;
-STR_DISK_WRITE_PROTECTED
-Dysk jest zabezpieczony przed zapisem
-; Disk is write-protected
-;
-STR_RENAME_DEVICES_ATTEMPTED
-Próba zmiany nazwy pomiëdzy urzâdzeniami
-; Rename across devices attempted
-;
-STR_DIRECTORY_NOT_EMPTY
-Katalog nie jest pusty
-; Directory not empty
-;
-STR_TOO_MANY_LEVELS
-Zbyt wiele poziomów
-; Too many levels
-;
-STR_SEEK_ERROR
-Bîâd wyszukiwania
-; Seek error
-;
-STR_COMMENT_TOO_LONG
-Komentarz jest zbyt dîugi
-; Comment is too long
-;
-STR_DISK_FULL
-Dysk jest peîny
-; Disk is full
-;
-STR_OBJECT_DELETE_PROTECTED
-Obiekt jest zabiezpieczony przed skasowaniem
-; Object is protected from deletion
-;
-STR_OBJECT_WRITE_PROTECTED
-Plik jest zabezpieczony przed zapisem
-; File is write protected
-;
-STR_OBJECT_READ_PROTECTED
-Plik jest zabezpieczony przed odczytem
-; File is read protected
-;
-STR_NOT_VALID_DOS_DISK
-Dysk nie jest w formacie AmigaDOS
-; Not a valid DOS disk
-;
-STR_NO_MORE_ENTRIES
-Nie ma wiëcej elementów w katalogu
-; No more entries in directory
-;
-STR_OBJECT_IS_SOFT_LINK
-Obiekt jest linkiem
-; Object is soft link
-;
-;
 ;
 STR_CONFIG_CHANGED_LOAD
 Zmieniîeô konfigurajë programu.\nCzy chcesz wczytaê nowâ konfiguracjë?
@@ -621,8 +462,8 @@ STR_FILE_ENCRYPTED
 ; \nFile is encrypted!\n\n
 ;
 STR_READING_FILE
-Czytam plik..
-; Reading file..
+Czytam plik...
+; Reading file...
 ;
 STR_NO_MEMORY_TO_DECRUNCH
 Zbyt maîo wolnej pamiëci do wczytania/rozpakowania pliku!
@@ -634,7 +475,7 @@ Podano zîe hasîo!
 ;
 STR_COUNTING_LINES
 Liczë linië...
-; Counting lines..
+; Counting lines...
 ;
 ;
 ; Built-in text viewer requesters
@@ -675,10 +516,6 @@ deszyfrujë
 STR_NEW_DISK_INSERTED
 Nowy dysk w urzâdzeniu DF%ld:\nCzy chcesz odczytaê zawartoôê tego dysku?
 ; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
-;
-STR_recremoved5
-
-; 
 ;
 STR_ENTER_DATE_1
 Podaj datë w formacie dd-mmm-rr
@@ -1106,7 +943,19 @@ Uruchamiam moduî drukarki...
 ; Starting print module...
 ;
 STR_ABOUT
-%s\nNa podstawie wersji GPL 4.12\nmodyfikacje: %s\n\nTen program jest darmowy; moûesz go rozpowszechniaê i/lub\nmodyfikowaê zgodnie z warunkami GNU General Public License\nopublikowanymi przez Free Software Foundation; w wersji 2\nlicencji, lub (jeôli wolisz) zgodnie z dowolnâ póúniejszâ wersjâ.\n\nProgram ten jest rozpowszechniany z nadziejâ, iû okaûe sië uûyteczny,\nale BEZ ÛADNYCH GWARANCJI; nawet bez sugerowanej gwarancji\nKUPIECKIEJ ani SPEÎNIENIA CZYICHKOLWIEK OCZEKIWAÏ.  Przeczytaj\nGNU General Public License w celu uzyskania bliûszych informacji.\n\nWszyscy uûytkownicy Directory Opus 4 (wîâczajâc wersjë objëtâ\nGPL) mogâ nabyê uaktualnienie do ostatniej wersji programu\nDirectory Opus 5 po obniûonej cenie. Odwiedú\nhttp://www.gpsoft.com.au po wiëcej informacji.
+%s\nNa podstawie wersji GPL 4.12\nmodyfikacje: %s\n\n\
+Ten program jest darmowy; moûesz go rozpowszechniaê i/lub\n\
+modyfikowaê zgodnie z warunkami GNU General Public License\n\
+opublikowanymi przez Free Software Foundation; w wersji 2\n\
+licencji, lub (jeôli wolisz) zgodnie z dowolnâ póúniejszâ wersjâ.\n\n\
+Program ten jest rozpowszechniany z nadziejâ, iû okaûe sië uûyteczny,\n\
+ale BEZ ÛADNYCH GWARANCJI; nawet bez sugerowanej gwarancji\n\
+KUPIECKIEJ ani SPEÎNIENIA CZYICHKOLWIEK OCZEKIWAÏ.  Przeczytaj\n\
+GNU General Public License w celu uzyskania bliûszych informacji.\n\n\
+Wszyscy uûytkownicy Directory Opus 4 (wîâczajâc wersjë objëtâ\n\
+GPL) mogâ nabyê uaktualnienie do ostatniej wersji programu\n\
+Directory Opus 5 po obniûonej cenie. Odwiedú\n\
+http://www.gpsoft.com.au po wiëcej informacji.
 ; %s\nBased on GPL release version 4.12\nmodified by %s\n\n\
 ; This program is free software; you can redistribute it and/or\n\
 ; modify it under the terms of the GNU General Public License\n\
@@ -1172,179 +1021,6 @@ PAM:
 STR_CLOCK_MEMORY
 PAMIËCI:
 ; MEMORY:
-;
-;
-; Locale names for weekdays and months
-;
-; Note: These are now ignored and taken instead from the .language file in use.
-;
-STR_MONTH_JANUARY
-
-; 
-;
-STR_MONTH_FEBRUARY
-
-; 
-;
-STR_MONTH_MARCH
-
-; 
-;
-STR_MONTH_APRIL
-
-; 
-;
-STR_MONTH_MAY_LONG
-
-; 
-;
-STR_MONTH_JUNE
-
-; 
-;
-STR_MONTH_JULY
-
-; 
-;
-STR_MONTH_AUGUST
-
-; 
-;
-STR_MONTH_SEPTEMBER
-
-; 
-;
-STR_MONTH_OCTOBER
-
-; 
-;
-STR_MONTH_NOVEMBER
-
-; 
-;
-STR_MONTH_DECEMBER
-
-; 
-;
-STR_MONTH_JAN
-
-; 
-;
-STR_MONTH_FEB
-
-; 
-;
-STR_MONTH_MAR
-
-; 
-;
-STR_MONTH_APR
-
-; 
-;
-STR_MONTH_MAY
-
-; 
-;
-STR_MONTH_JUN
-
-; 
-;
-STR_MONTH_JUL
-
-; 
-;
-STR_MONTH_AUG
-
-; 
-;
-STR_MONTH_SEP
-
-; 
-;
-STR_MONTH_OCT
-
-; 
-;
-STR_MONTH_NOV
-
-; 
-;
-STR_MONTH_DEC
-
-; 
-;
-STR_DAY_MONDAY
-
-; 
-;
-STR_DAY_TUESDAY
-
-; 
-;
-STR_DAY_WEDNESDAY
-
-; 
-;
-STR_DAY_THURSDAY
-
-; 
-;
-STR_DAY_FRIDAY
-
-; 
-;
-STR_DAY_SATURDAY
-
-; 
-;
-STR_DAY_SUNDAY
-
-; 
-;
-STR_DAY_MON
-
-; 
-;
-STR_DAY_TUE
-
-; 
-;
-STR_DAY_WED
-
-; 
-;
-STR_DAY_THU
-
-; 
-;
-STR_DAY_FRI
-
-; 
-;
-STR_DAY_SAT
-
-; 
-;
-STR_DAY_SUN
-
-; 
-;
-STR_DAY_YESTERDAY
-
-; 
-;
-STR_DAY_TODAY
-
-; 
-;
-STR_DAY_TOMORROW
-
-; 
-;
-STR_DAY_FUTURE
-
-; 
 ;
 ;
 ; Used to describe the keyboard shortcut for some function
@@ -1545,25 +1221,6 @@ STR_FTYPE_UNKNOWN
 Nie znany typ pliku
 ; Unknown file type
 ;
-;
-; Protection bits
-;
-; Note: These strings are now ignored, and hardcoded in DOpus.
-;
-STR_PROTBIT_HSPA
-
-; 
-;
-STR_PROTBIT_RWED
-
-; 
-;
-STR_PROTBIT_ALLBITS
-
-; 
-;
-;
-;
 STR_MULTI_DRAG
 Przeciâganie wielu plików - %ld plików zaznaczonych
 ; Multi-drag - %ld files selected
@@ -1691,7 +1348,17 @@ Czy chcesz usunâê przypisanie \"%s\"?
 ;
 STR_VERSION_CONTENTS
 %-42s\n\n\
-  Directory Opus%24s  \n  DOpus.Library%25s  \n  Godzina kompilacji%20s  \n  Data kompilacji%23s  \n  Nazwa portu/ekranu%20s  \n\n  Kickstart%29s  \n  Workbench%29s  \n  Procesor%30s  \n  Koprocesor matematyczny%15s  \n  Ukîad graficzny%23s  \n  System obsîugi grafiki%16s  \n
+  Directory Opus%24s  \n\
+  DOpus.Library%25s  \n\
+  Godzina kompilacji%20s  \n\
+  Data kompilacji%23s  \n\
+  Nazwa portu/ekranu%20s  \n\n\
+  Kickstart%29s  \n\
+  Workbench%29s  \n\
+  Procesor%30s  \n\
+  Koprocesor matematyczny%15s  \n\
+  Ukîad graficzny%23s  \n\
+  System obsîugi grafiki%16s  \n
 ; %-42s\n\n\
 ;   Directory Opus%24s  \n\
 ;   DOpus Library%25s  \n\
@@ -1743,3 +1410,7 @@ Sortuj wedîug
 STR_NAMESORT_MENU
 Sortowanie nazw plików
 ; Filename sorting
+;
+STR_FILE_EXTENSION
+Rozszerzenia
+; Extension
