@@ -1,0 +1,143 @@
+## chunk AUTH Massimo Mascia & Francesco Mancuso
+## language italiano
+## version $VER: DOpus4_Icon.catalog 1.2 (05.06.2001)
+STR_REMAP_COLORS
+_Rimappa col.
+;#DEF Rema_p colors
+;#SET (//)
+STR_SAVE
+Sal_va
+;#DEF Sa_ve
+;#SET (//)
+STR_SKIP
+Sal_ta
+;#DEF S_kip
+;#SET (//)
+STR_CANCEL
+Ann_ulla
+;#DEF _Cancel
+;#SET (//)
+STR_DELETE
+Cance_lla
+;#DEF De_lete
+;#SET (//)
+STR_NEW
+_Nuovo
+;#DEF _New
+;#SET (//)
+STR_TOOLTYPES
+Parametri:
+;#DEF Tool types:
+;#SET (//)
+STR_COMMENT
+Co_mmento:
+;#DEF Co_mment:
+;#SET (//)
+STR_DEFAULT_TOOL
+A_pri con:
+;#DEF De_fault tool:
+;#SET (//)
+STR_VALIDATING
+Convalida
+;#DEF Validating
+;#SET (//)
+STR_WRITE_PROTECTED
+Protetto da scrittura
+;#DEF Write protected
+;#SET (//)
+STR_READ_WRITE
+Lettura/Scrittura
+;#DEF Read/Write
+;#SET (//)
+STR_SCRIPT
+_File script
+;#DEF _Script
+;#SET (//)
+STR_ARCHIVED
+_Archivia
+;#DEF _Archived
+;#SET (//)
+STR_READABLE
+Le_ggi
+;#DEF _Readable
+;#SET (//)
+STR_WRITABLE
+_Scrivi
+;#DEF _Writable
+;#SET (//)
+STR_EXECUTABLE
+_Esegui
+;#DEF _Executable
+;#SET (//)
+STR_DELETABLE
+_Cancella
+;#DEF _Deletable
+;#SET (//)
+STR_BLOCKS
+Blocchi
+;#DEF Blocks
+;#SET (//)
+STR_USED
+In uso
+;#DEF Used
+;#SET (//)
+STR_FREE
+Liberi
+;#DEF Free
+;#SET (//)
+STR_BLOCK_SIZE
+Dim. blocco
+;#DEF Block size
+;#SET (//)
+STR_CREATED
+Creato
+;#DEF Created
+;#SET (//)
+STR_LAST_CHANGED
+Data modif.
+;#DEF Last changed
+;#SET (//)
+STR_BYTES
+Byte
+;#DEF Bytes
+;#SET (//)
+STR_STACK
+Stac_k
+;#DEF S_tack
+;#SET (//)
+STR_DISK
+Disco
+;#DEF Disk
+;#SET (//)
+STR_DRAWER
+Cassetto
+;#DEF Drawer
+;#SET (//)
+STR_TOOL
+Strumento
+;#DEF Tool
+;#SET (//)
+STR_PROJECT
+Progetto
+;#DEF Project
+;#SET (//)
+STR_TRASH
+Cestino
+;#DEF Trash
+;#SET (//)
+STR_DEVICE
+Dispositivo
+;#DEF Device
+;#SET (//)
+STR_KICK
+Kickstart
+;#DEF Kick
+;#SET (//)
+STR_APPICON
+AppIcon
+;#DEF AppIcon
+;#SET (//)
+STR_ICON
+Icona
+;#DEF Icon
+;#SET (//)

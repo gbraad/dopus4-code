@@ -1,0 +1,2463 @@
+## chunk AUTH Christoph Gutjahr
+## language deutsch
+## version $VER: DOpus4_Config.ct 1.0 (09.06.01)
+STR_REALLY_DISCARD_CONFIG
+Möchten Sie die aktuelle Konfiguration\nwirklich verwerfen?
+;#DEF Do you really want to discard the\ncurrent configuration settings?
+;#SET (//)
+STR_EXIT_WITHOUT_SAVING
+Die Konfiguration wurde geändert.\nWenn Sie fortfahren, gehen die Änderungen verloren!
+;#DEF Do you really want to exit without\nsaving the current configuration settings?
+;#SET (//)
+STR_CONFIGURATION_MAIN_SCREEN
+Konfigurations-Hauptsektion
+;#DEF Configuration main screen
+;#SET (//)
+STR_OPERATION_SCREEN
+Sektion Funktion
+;#DEF Operation configuration screen
+;#SET (//)
+STR_MENU_SCREEN
+Sektion Menüs
+;#DEF Menu configuration screen
+;#SET (//)
+STR_DRIVE_SCREEN
+Sektion Laufwerke
+;#DEF Drive button configuration screen
+;#SET (//)
+STR_FILETYPE_SCREEN
+Sektion Dateitypen
+;#DEF Filetype configuration screen
+;#SET (//)
+STR_SCREEN_SCREEN
+Sektion Bildschirm
+;#DEF Screen configuration screen
+;#SET (//)
+STR_SYSTEM_SCREEN
+Sektion System
+;#DEF System configuration screen
+;#SET (//)
+STR_HOTKEYS_SCREEN
+Sektion Hotkeys
+;#DEF Global hotkeys configuration screen
+;#SET (//)
+STR_MAIN_MENU
+Hauptsektion
+;#DEF Main Menu
+;#SET (//)
+STR_LEFT_MOUSE_BUTTON
+Linke Maustaste
+;#DEF Left mouse button
+;#SET (//)
+STR_RIGHT_MOUSE_BUTTON
+  Rechte Maustaste
+;#DEF Right mouse button
+;#SET (//)
+STR_OKAY
+Weiter
+;#DEF Okay
+;#SET (//)
+STR_CANCEL
+Abbrechen
+;#DEF Cancel
+;#SET (//)
+STR_AVAILABLE_DISPLAY_ITEMS
+Verfügbare Dateiattribute...
+;#DEF Available display items...
+;#SET (//)
+STR_SELECTED_DISPLAY_ITEMS
+Angezeigte Dateiattribute...
+;#DEF Selected display items...
+;#SET (//)
+STR_DISPLAYED_LENGTHS
+Angezeigte Länge...
+;#DEF Displayed lengths...
+;#SET (//)
+STR_CHECK_INDICATES_SORT
+(  zeigt Sortierattribut an)
+;#DEF (  Check indicates sort item)
+;#SET (//)
+STR_ENTRY_SEPARATION
+Reihenfolge...
+;#DEF Entry separation...
+;#SET (//)
+STR_UNICONIFY_HOTKEY
+Directory Opus-Tastenkürzel
+;#DEF Uniconify/activate hotkey
+;#SET (//)
+STR_PROJECTS_DEFAULT_TOOL
+Standardprogramm...
+;#DEF Project's Default Tool...
+;#SET (//)
+STR_SELECT_DESIRED_FILE
+Wähle eine Datei aus!
+;#DEF Select the desired file
+;#SET (//)
+STR_SELECT_DESIRED_DIRECTORY
+Wähle ein Verzeichnis aus!
+;#DEF Select the desired directory
+;#SET (//)
+STR_SELECT_DESIRED_FONT
+Wähle eine Schrift aus!
+;#DEF Select the desired font and size
+;#SET (//)
+STR_HOTKEY_USCORE
+Tasten_kürzel
+;#DEF _Hotkey
+;#SET (//)
+STR_NEW_GADGET_BANKS_APPENDED
+Neue Knopfbänke wurden angehängt.
+;#DEF New button banks appended to existing ones.
+;#SET (//)
+STR_DEFAULT_GADGET_BANKS_APPENDED
+Standard Knopfbänke wurden angehängt.
+;#DEF Default button banks appended to existing ones.
+;#SET (//)
+STR_NO_GADGET_BANKS_CONFIGURED
+Es sind keine Knopfbänke definiert!
+;#DEF There are no button banks configured!
+;#SET (//)
+STR_GADGET_DELETED
+Knopf-Definition gelöscht.
+;#DEF Button deleted.
+;#SET (//)
+STR_SELECT_GADGET_TO_COPY
+Wähle den Zielknopf für die Kopie aus!
+;#DEF Select the button position to copy the original button to.
+;#SET (//)
+STR_SELECT_GADGET_TO_SWAP
+Wähle den zweiten Knopf für die Vertauschung!
+;#DEF Select the button to swap with the first button.
+;#SET (//)
+STR_SELECT_A_GADGET_TO_COPY
+Wähle einen Knopf der kopiert werden soll!
+;#DEF Select a button to copy.
+;#SET (//)
+STR_SELECT_FIRST_GADGET_TO_SWAP
+Wähle den ersten Knopf für die Vertauschung!
+;#DEF Select the first button to swap.
+;#SET (//)
+STR_GADGET_EDIT_SCREEN
+Knopf-Funktionseditor
+;#DEF Button edit screen
+;#SET (//)
+STR_ENTER_BANK_TO_COPY
+Gib die Bank an, auf die kopiert werden soll!\nExistiert diese nicht, so wird eine neue Bank erzeugt.
+;#DEF Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
+;#SET (//)
+STR_BANK_ALREADY_EXISTS
+Die angegebene Bank existiert bereits!\nSoll sie wirklich überschrieben werden?
+;#DEF Selected bank already exists! Do you really\nwant to overwrite this bank?
+;#SET (//)
+STR_GADGET_BANK_COPIED
+Knopf-Bank wurde kopiert.
+;#DEF Button bank copied.
+;#SET (//)
+STR_ENTER_BANK_TO_SWAP
+Gib die Nummer der Bank an, die mit der\naktuellen Bank vertauscht werden soll.
+;#DEF Enter bank number to swap this bank with.
+;#SET (//)
+STR_BANK_DOES_NOT_EXIST
+Die angegebene Bank existiert nicht!
+;#DEF Selected button bank does not exist.
+;#SET (//)
+STR_BANKS_SWAPPED
+Knopf-Bänke wurden vertauscht.
+;#DEF Button banks swapped.
+;#SET (//)
+STR_ONLY_BANK_CONFIGURED
+Dies ist die einzige Knopf-Bank.\nMöchten Sie diese Bank wirklich löschen?
+;#DEF This is the only button bank configured!\nDo you really want to delete this button bank?
+;#SET (//)
+STR_REALLY_DELETE_BANK
+Möchten Sie diese Knopf-Bank wirklich löschen?
+;#DEF Do you really want to delete this button bank?
+;#SET (//)
+STR_BANK_DELETED
+Die Knopf-Bank wurde gelöscht.
+;#DEF Button bank deleted.
+;#SET (//)
+STR_SELECT_GADGET_TO_DELETE
+Bitte einen Knopf angeben, der gelöscht werden soll.
+;#DEF Select a button to delete.
+;#SET (//)
+STR_GADGET_BANK_NUMBER
+Knopf-Bank Nummer
+;#DEF Button bank number
+;#SET (//)
+STR_GADGET_SCREEN_NO_BANKS
+Sektion Knöpfe - Keine Knopfbänke definiert
+;#DEF Button configuration screen - no banks configured
+;#SET (//)
+STR_NO_MEMORY_FOR_NEW_BANK
+Kein RAM für neue Bank verfügbar!
+;#DEF Unable to allocate memory for new bank!
+;#SET (//)
+STR_NEW_BANK_CREATED
+Neue Bank wurde erzeugt.
+;#DEF New button bank created.
+;#SET (//)
+STR_NEW_MENUS_LOADED
+Neue Menüs wurden geladen.
+;#DEF New menus loaded.
+;#SET (//)
+STR_DEFAULT_MENUS_LOADED
+Standard-Menüs wurden geladen.
+;#DEF Default menus loaded.
+;#SET (//)
+STR_ENTER_MENU_TITLE
+Bitte Menütitel eingeben!
+;#DEF Enter menu title.
+;#SET (//)
+STR_MENU_ITEM_DELETED
+Der Menüeintrag wurde gelöscht.
+;#DEF Menu item deleted.
+;#SET (//)
+STR_MENU_ITEM_INSERTED
+Neuer Menüeintrag wurde eingefügt.
+;#DEF Menu item inserted.
+;#SET (//)
+STR_REALLY_DELETE_THIS_MENU
+Soll dieses Menü wirklich gelöscht werden?
+;#DEF Do you really want to delete this menu?
+;#SET (//)
+STR_MENU_DELETED
+Das Menü wurde gelöscht.
+;#DEF Menu deleted.
+;#SET (//)
+STR_MENU_SORTED
+Das Menü wurde sortiert.
+;#DEF Menu sorted.
+;#SET (//)
+STR_SELECT_MENU_TO_COPY
+Wähle ein Zielmenü für die Kopie!
+;#DEF Select an item in the menu to copy the original menu to.
+;#SET (//)
+STR_SELECT_MENU_TO_SWAP
+Wähle ein zweites Menü für die Vertauschung!
+;#DEF Select an item in the menu to swap with the first.
+;#SET (//)
+STR_SELECT_ITEM_TO_COPY
+Wähle einen Menüeintrag als Ziel für die Kopie!
+;#DEF Select item position to copy the original menu item to.
+;#SET (//)
+STR_SELECT_ITEM_TO_SWAP
+Wähle einen zweiten Menüeintrag für die Vertauschung!
+;#DEF Select menu item to swap with the first item.
+;#SET (//)
+STR_MENU_ITEM_EDIT_SCREEN
+Menüeintrag-Funktionseditor
+;#DEF Menu item edit screen
+;#SET (//)
+STR_SELECT_ITEM_IN_MENU_TO_COPY
+Wähle ein Menü das kopiert werden soll!
+;#DEF Select an item in the menu to copy.
+;#SET (//)
+STR_SELECT_ITEM_IN_MENU_TO_SWAP
+Wähle das erste Menü für die Vertauschung!
+;#DEF Select an item in the first menu to swap.
+;#SET (//)
+STR_SELECT_ITEM_IN_MENU_TO_DELETE
+Wähle ein Menü, das gelöscht werden soll!
+;#DEF Select an item in the menu to delete.
+;#SET (//)
+STR_SELECT_ITEM_IN_MENU_TO_SORT
+Wähle ein Menü, das sortiert werden soll!
+;#DEF Select an item in the menu to sort.
+;#SET (//)
+STR_SELECT_ITEM_TO_INSERT_BEFORE
+Wähle den Eintrag VOR dem der neue Eintrag stehen soll.
+;#DEF Select the menu item to insert the new item BEFORE.
+;#SET (//)
+STR_SELECT_MENU_ITEM_TO_COPY
+Wähle den Menüeintrag der kopiert werden soll!
+;#DEF Select a menu item to copy.
+;#SET (//)
+STR_SELECT_MENU_ITEM_TO_SWAP
+Wähle den ersten Menüeintrag für die Vertauschung!
+;#DEF Select the first menu item to swap.
+;#SET (//)
+STR_SELECT_MENU_ITEM_TO_DELETE
+Wähle den Menüeintrag, der gelöscht werden soll!
+;#DEF Select a menu item to delete.
+;#SET (//)
+STR_EDIT
+Edit
+;#DEF Edit
+;#SET (//)
+STR_SHORTCUT_KEY
+Tasten_kürzel
+;#DEF Shortcut _key
+;#SET (//)
+STR_HOTKEY
+DOpus-Hotkey
+;#DEF Hotkey
+;#SET (//)
+STR_ARGUMENT_CONTROL_SEQUENCES
+Verfügbare Argumentfunktionen...
+;#DEF List of available functions...
+;#SET (//)
+STR_AVAILABLE_COMMANDS
+Interne Befehle...
+;#DEF List of available commands...
+;#SET (//)
+STR_FOREGROUND
+Vordergrund
+;#DEF Foreground
+;#SET (//)
+STR_BACKGROUND
+Hintergrund
+;#DEF Background
+;#SET (//)
+STR_DROP_A_TOOL_HERE
+Piktogramm hier ablegen!
+;#DEF Drop a tool here!
+;#SET (//)
+STR_NEW_DRIVE_BANKS_LOADED
+Neue Laufwerksbänke wurden geladen.
+;#DEF New drive banks loaded.
+;#SET (//)
+STR_DEFAULT_DRIVE_BANKS_RESET
+Laufwerksbänke wurden auf Standardwerte gesetzt.
+;#DEF Default drive banks reset.
+;#SET (//)
+STR_DRIVE_GADGET_DELETED
+Der Laufwerksknopf wurde gelöscht.
+;#DEF Drive button deleted.
+;#SET (//)
+STR_SELECT_DRIVE_TO_COPY_TO
+Bitte Ziel für die Kopie des Knopfes anwählen!
+;#DEF Select the drive position to copy the original drive button to.
+;#SET (//)
+STR_SELECT_DRIVE_TO_SWAP_WITH_FIRST
+Wähle den zweiten Knopf für die Vertauschung!
+;#DEF Select the drive button to swap with the first button.
+;#SET (//)
+STR_SELECT_DRIVE_BANK_TO_COPY_TO
+Bitte Ziel für die Kopie der Bank angeben.
+;#DEF Select a drive button in the bank to copy the original bank to.
+;#SET (//)
+STR_SELECT_DRIVE_BANK_TO_SWAP_WITH_FIRST
+Wähle die zweite Bank für die Vertauschung!
+;#DEF Select a drive button in the bank to swap with the first bank.
+;#SET (//)
+STR_REALLY_DELETE_DRIVE_BANK
+Soll die Bank wirklich gelöscht werden?
+;#DEF Do you really want to delete this drive bank?
+;#SET (//)
+STR_PATH
+_Pfad
+;#DEF _Path
+;#SET (//)
+STR_SYSTEM_DEVICES_LISTED
+Liste der Systemlaufwerke wurde eingelesen.
+;#DEF System devices listed.
+;#SET (//)
+STR_SELECT_DRIVE_BANK_TO_COPY
+Wähle eine Bank aus, die kopiert werden soll.
+;#DEF Select a drive button in the bank to copy.
+;#SET (//)
+STR_SELECT_DRIVE_BANK_TO_SWAP
+Wähle die erste Bank für die Vertauschung!
+;#DEF Select a drive button in the first bank to swap.
+;#SET (//)
+STR_SELECT_DRIVE_BANK_TO_DELETE
+Wähle eine Bank, die gelöscht werden soll.
+;#DEF Select a drive button in the bank to delete.
+;#SET (//)
+STR_SELECT_DRIVE_BANK_TO_SORT
+Wähle eine Bank, die sortiert werden soll.
+;#DEF Select a drive button in the bank to sort.
+;#SET (//)
+STR_SELECT_DRIVE_GADGET_TO_COPY
+Wähle einen Knopf der kopiert werden soll!
+;#DEF Select a drive button to copy.
+;#SET (//)
+STR_SELECT_DRIVE_GADGET_TO_SWAP
+Wähle den ersten Knopf für die Vertauschung!
+;#DEF Select the first drive button to swap.
+;#SET (//)
+STR_SELECT_DRIVE_GADGET_TO_DELETE
+Wähle einen Knopf der gelöscht werden soll!
+;#DEF Select a drive button to delete.
+;#SET (//)
+STR_NEW_FILETYPES_MERGED
+Neue Dateitypen wurden angehängt.
+;#DEF New filetypes merged with existing ones.
+;#SET (//)
+STR_DEFAULT_FILETYPES_MERGED
+Standard-Dateitypen wurden angehängt.
+;#DEF Default filetypes merged with existing ones.
+;#SET (//)
+STR_REALLY_DELETE_THIS_CLASS
+Soll diese Klasse wirklich gelöscht werden?
+;#DEF Do you really want to delete this class?
+;#SET (//)
+STR_FILE_CLASS_DELETED
+Die Dateiklasse wurde gelöscht.
+;#DEF File class deleted.
+;#SET (//)
+STR_SELECT_CLASS_FILE_TO_LOAD
+Dateiklassen laden...
+;#DEF Select the class file to load
+;#SET (//)
+STR_ENTER_NAME_TO_SAVE_CLASSES
+Dateiklassen speichern...
+;#DEF Enter a name to save the file classes
+;#SET (//)
+STR_SELECT_CLASSES_TO_IMPORT
+Welche Dateiklassen importieren?
+;#DEF Select file classes to import
+;#SET (//)
+STR_ERASE_ALL_CLASSES
+Sollen wirklich alle Dateiklassen gelöscht werden?
+;#DEF Do you really wish to erase all file classes?
+;#SET (//)
+STR_EXIT_WITHOUT_SAVING_CLASSES
+Wollen Sie diese Sektion wirklich verlassen,\nohne die geänderten Dateiklassen zu speichern?
+;#DEF Do you really wish to exit this section without\nsaving changes made to the file classes?
+;#SET (//)
+STR_REDEFINE_EXISTING_CLASS_ACTION
+Für diese Klasse existiert bereits ein Dateityp.\nWollen Sie trotzdem fortfahren?
+;#DEF That file class already has an action defined\nfor it. Do you wish to continue?
+;#SET (//)
+STR_DEFAULT_ACTION_CAN_NOT_BE_MOVED
+Der Dateityp DEFAULT muß am Ende stehen.
+;#DEF The default action can not be moved.
+;#SET (//)
+STR_CLASS_ACTIONS_SWAPPED
+Die Einträge wurden vertauscht.
+;#DEF Class actions swapped.
+;#SET (//)
+STR_SELECT_ACTION_TO_SWAP
+Wähle den ersten Eintrag für die Vertauschung!
+;#DEF Select the first action to swap.
+;#SET (//)
+STR_SELECT_ACTION_TO_SWAP_WITH_FIRST
+Wähle nun den zweiten Eintrag für die Vertauschung!
+;#DEF Select the second action to swap with the first.
+;#SET (//)
+STR_SELECT_ACTION_TO_DELETE
+Wähle einen Eintrag der gelöscht werden soll!
+;#DEF Select an action to delete.
+;#SET (//)
+STR_REALLY_DELETE_THIS_ACTION
+Soll dieser Dateityp wirklich gelöscht werden?
+;#DEF Do you really want to delete this action?
+;#SET (//)
+STR_ACTION_DELETED
+Der Dateityp wurde gelöscht.
+;#DEF Action deleted.
+;#SET (//)
+STR_FILETYPE_CLASS
+Klasse des Dateityps
+;#DEF Filetype class
+;#SET (//)
+STR_EDIT_CLASS
+Klasse ändern
+;#DEF Edit class
+;#SET (//)
+STR_FILE_CLASS_EDIT_SCREEN
+Dateiklassen Editor
+;#DEF File class edit screen
+;#SET (//)
+STR_OPEN_FAILED
+Laden fehlgeschlagen - Fehler %ld\nNochmal versuchen?
+;#DEF Open failed - DOS error code %ld\nTry again?
+;#SET (//)
+STR_SAVE_FAILED
+Speichern fehlgeschlagen - Fehler %ld\nNochmal versuchen?
+;#DEF Save failed - DOS error code %ld\nTry again?
+;#SET (//)
+STR_LIST_OF_FILETYPE_COMMANDS
+Identifikations-Funktionen...
+;#DEF List of file identification commands...
+;#SET (//)
+STR_POSITION
+Position
+;#DEF Position
+;#SET (//)
+STR_OFFSET
+Abstand
+;#DEF Offset
+;#SET (//)
+STR_FILE_NOT_FOUND
+Datei nicht gefunden!
+;#DEF File not found!
+;#SET (//)
+STR_EXAMPLE
+Beispiel
+;#DEF Example
+;#SET (//)
+STR_DISPLAY_MODE_DESCRIPTION
+Moduseigenschaften...
+;#DEF Display mode description...
+;#SET (//)
+STR_DISPLAY_ITEM
+Bildschirm-Element...
+;#DEF Display item...
+;#SET (//)
+STR_FONT
+Schriftart...
+;#DEF Font...
+;#SET (//)
+STR_FONT_SIZE
+Größe
+;#DEF Size...
+;#SET (//)
+STR_MODIFY_SIZE
+Größe ändern:
+;#DEF Adjust size...
+;#SET (//)
+STR_USE_MMB
+Mittlere Maustaste abfragen.
+;#DEF Use middle mouse button
+;#SET (//)
+STR_MINIMUM_SIZE
+Minimale Größe
+;#DEF Minimum size
+;#SET (//)
+STR_MAXIMUM_SIZE
+Maximale Größe
+;#DEF Maximum size
+;#SET (//)
+STR_DEFAULT_SIZE
+Normale Größe
+;#DEF Default size
+;#SET (//)
+STR_MAXIMUM_COLORS
+Max Anz. Farben
+;#DEF Maximum colors
+;#SET (//)
+STR_LOADING_FONT
+Moment bitte...
+;#DEF Loading font...
+;#SET (//)
+STR_FONT_COULD_NOT_BE_LOADED
+Schrift nicht verfügbar!
+;#DEF Font could not be loaded!
+;#SET (//)
+STR_ENTER_CONFIGURATION_FILENAME
+Konfiguration speichern...
+;#DEF Enter configuration filename
+;#SET (//)
+STR_SELECT_CONFIGURATION_TO_LOAD
+Konfigurationsdatei laden...
+;#DEF Select configuration file to load
+;#SET (//)
+STR_FILE_NOT_VALID_CONFIGURATION
+Diese Datei ist keine DirOpus 4 Konfiguration!\nNochmal versuchen?
+;#DEF File is not a valid configuration file!\nTry again?
+;#SET (//)
+STR_SELECT_MENUS_TO_IMPORT
+Welche Menüs importieren?
+;#DEF Select menus to import
+;#SET (//)
+STR_SELECT_FILETYPES_TO_IMPORT
+Welche Dateitypen importieren?
+;#DEF Select filetypes to import
+;#SET (//)
+STR_SELECT_HOTKEYS_TO_IMPORT
+Welche Kurzbefehle importieren?
+;#DEF Select hotkeys to import
+;#SET (//)
+STR_SELECT_FUNCTION_TO_PASTE
+Welche Funktion einfügen..
+;#DEF Select function to paste
+;#SET (//)
+STR_NEW_HOTKEYS_MERGED
+Neue Kurzbefehle wurden angehängt.
+;#DEF New hotkeys merged with existing ones.
+;#SET (//)
+STR_DEFAULT_HOTKEYS_MERGED
+Standard Kurzbefehle wurden angehängt.
+;#DEF Default hotkeys merged with existing ones.
+;#SET (//)
+STR_SELECT_HOTKEY_TO_DELETE
+Wähle einen Eintrag, der gelöscht werden soll.
+;#DEF Select hotkey to delete.
+;#SET (//)
+STR_SELECT_HOTKEY_TO_DUPLICATE
+Wähle einen Eintrag, der kopiert werden soll.
+;#DEF Select hotkey to duplicate.
+;#SET (//)
+STR_REALLY_DELETE_HOTKEY
+Soll dieser Kurzbefehl wirklich gelöscht werden?
+;#DEF Do you really want to delete this hotkey?
+;#SET (//)
+STR_HOTKEY_DELETED
+Der Eintrag wurde gelöscht.
+;#DEF Hotkey deleted.
+;#SET (//)
+STR_HOTKEY_EDIT_SCREEN
+Hotkey-Funktionseditor
+;#DEF Hotkey edit screen
+;#SET (//)
+STR_NEW_BANK
+Neue Bank
+;#DEF New bank
+;#SET (//)
+STR_INSERT_BANK
+Bank einfüg.
+;#DEF Insert bank
+;#SET (//)
+STR_NEXT_BANK
+Nächste Bank
+;#DEF Next bank
+;#SET (//)
+STR_LAST_BANK
+Vorige Bank
+;#DEF Prev bank
+;#SET (//)
+STR_CLEAR
+Löschen
+;#DEF Clear
+;#SET (//)
+STR_CLEAR_LAST
+Letztes
+;#DEF Clear last
+;#SET (//)
+STR_MENU_DEFAULT
+Standardwerte
+;#DEF Default
+;#SET (//)
+STR_MENU_OPEN
+Import...
+;#DEF Open...
+;#SET (//)
+STR_MENU_SAVE
+Speichern
+;#DEF Save
+;#SET (//)
+STR_MENU_SAVE_AS
+Speichern als...
+;#DEF Save As...
+;#SET (//)
+STR_MENU_CUT
+Ausschneiden
+;#DEF Cut
+;#SET (//)
+STR_MENU_COPY
+Kopieren
+;#DEF Copy
+;#SET (//)
+STR_MENU_PASTE
+Einfügen...
+;#DEF Paste...
+;#SET (//)
+STR_MENU_ERASE
+Löschen
+;#DEF Erase
+;#SET (//)
+STR_MENU_NEW
+Neue Klasse
+;#DEF New...
+;#SET (//)
+STR_MENU_EDIT
+Klasse ändern...
+;#DEF Edit...
+;#SET (//)
+STR_MENU_DELETE
+Klasse löschen...
+;#DEF Delete...
+;#SET (//)
+STR_GADGETROWS_NONE
+   Keine Knöpfe
+;#DEF No buttons
+;#SET (//)
+STR_GADGETROWS_ONE
+   Eine Reihe
+;#DEF One row
+;#SET (//)
+STR_GADGETROWS_TWO
+   Zwei Reihen
+;#DEF Two rows
+;#SET (//)
+STR_GADGETROWS_THREE
+   Drei Reihen
+;#DEF Three rows
+;#SET (//)
+STR_GADGETROWS_SIX
+   Sechs Reihen
+;#DEF Six rows
+;#SET (//)
+STR_MENUNAME_CONFIGURE
+Konfiguration
+;#DEF Configure
+;#SET (//)
+STR_MENUNAME_GADGETROWS
+Knopfreihen
+;#DEF Button rows
+;#SET (//)
+STR_MENUNAME_CLASSES
+Klassen
+;#DEF Classes
+;#SET (//)
+STR_FILECLASS_DEFINE
+Wähle die Klasse des Dateityps...
+;#DEF Define an action for class...
+;#SET (//)
+STR_FILECLASS_EDIT
+Welche Klasse ändern...
+;#DEF Select class to edit...
+;#SET (//)
+STR_FILECLASS_DELETE
+Welche Klasse löschen...
+;#DEF Select class to delete...
+;#SET (//)
+STR_FONTPLACE_CLOCK
+Fußzeile (Uhr/RAM)
+;#DEF Clock/Memory
+;#SET (//)
+STR_FONTPLACE_GADGETS
+Knöpfe
+;#DEF Custom buttons
+;#SET (//)
+STR_FONTPLACE_MENUS
+Menüs
+;#DEF Custom menus
+;#SET (//)
+STR_FONTPLACE_DISKNAMES
+Disknamen
+;#DEF Disk names
+;#SET (//)
+STR_FONTPLACE_WINDOW
+Verzeichnisfenster
+;#DEF Directory window
+;#SET (//)
+STR_FONTPLACE_GENERAL
+Allgemein (8 pt)
+;#DEF General (8 point)
+;#SET (//)
+STR_FONTPLACE_ICONIFY
+Wenn Knopfleiste
+;#DEF Iconify to buttons
+;#SET (//)
+STR_FONTPLACE_PATHS
+Pfadfelder
+;#DEF Path names
+;#SET (//)
+STR_FONTPLACE_REQUESTERS
+Dialogfenster
+;#DEF Requesters
+;#SET (//)
+STR_FONTPLACE_STATUS
+Titelzeile
+;#DEF Status bar
+;#SET (//)
+STR_FONTPLACE_TEXTVIEWER
+Textanzeiger
+;#DEF Text viewer
+;#SET (//)
+STR_PALETTE_PRESETS
+Vorgaben..
+;#DEF Presets...
+;#SET (//)
+STR_ICONLIST_TITLE
+Standard-Piktogramme
+;#DEF AddIcon's icons...
+;#SET (//)
+STR_FORMAT_NAME
+Dateiname
+;#DEF File name
+;#SET (//)
+STR_FORMAT_SIZE
+Größe
+;#DEF File size
+;#SET (//)
+STR_FORMAT_BITS
+Schutzbits
+;#DEF Protection bits
+;#SET (//)
+STR_FORMAT_DATE
+Datumsstempel
+;#DEF Creation date
+;#SET (//)
+STR_FORMAT_COMMENT
+Kommentar
+;#DEF File comment
+;#SET (//)
+STR_FORMAT_TYPE
+Dateityp
+;#DEF File type
+;#SET (//)
+STR_ICONS_DRAWER
+   Schublade
+;#DEF    Drawer icon
+;#SET (//)
+STR_ICONS_TOOL
+   Programm
+;#DEF    Default Tool icon
+;#SET (//)
+STR_ICONS_PROJECT
+   Projekt
+;#DEF    Default Project icon
+;#SET (//)
+STR_MAINMENU_GADGETS
+Knöpfe
+;#DEF Buttons
+;#SET (//)
+STR_MAINMENU_DRIVES
+Laufwerke
+;#DEF Drives
+;#SET (//)
+STR_MAINMENU_FILETYPES
+Dateitypen
+;#DEF Filetypes
+;#SET (//)
+STR_MAINMENU_HOTKEYS
+Hotkeys
+;#DEF Hotkeys
+;#SET (//)
+STR_MAINMENU_MENUS
+Menüs
+;#DEF Menus
+;#SET (//)
+STR_MAINMENU_OPERATION
+Funktion
+;#DEF Operation
+;#SET (//)
+STR_MAINMENU_SCREEN
+Bildschirm
+;#DEF Screen
+;#SET (//)
+STR_MAINMENU_SYSTEM
+System
+;#DEF System
+;#SET (//)
+STR_ALL
+Alle
+;#DEF All
+;#SET (//)
+STR_OPERATION_DATEFORMAT
+Datumsformat
+;#DEF Date format
+;#SET (//)
+STR_OPERATION_DELETE
+Löschen
+;#DEF Delete
+;#SET (//)
+STR_OPERATION_ERRORCHECK
+Dialogfenster
+;#DEF Error check
+;#SET (//)
+STR_OPERATION_GENERAL
+Handhabung
+;#DEF General
+;#SET (//)
+STR_OPERATION_ICONS
+Piktogramme
+;#DEF Icons
+;#SET (//)
+STR_OPERATION_LISTFORMAT
+List-Format
+;#DEF List format
+;#SET (//)
+STR_OPERATION_UPDATE
+Refresh
+;#DEF Update
+;#SET (//)
+STR_SYSTEM_AMIGADOS
+AmigaDOS
+;#DEF AmigaDOS
+;#SET (//)
+STR_SYSTEM_CLOCKS
+Uhren
+;#DEF Clocks
+;#SET (//)
+STR_SYSTEM_DIRECTORIES
+Verzeichnisse
+;#DEF Directories
+;#SET (//)
+STR_SYSTEM_ICONS
+Piktogramme
+;#DEF Icons
+;#SET (//)
+STR_SYSTEM_MODULES
+Module
+;#DEF Modules
+;#SET (//)
+STR_SYSTEM_SHOWPATTERN
+Muster
+;#DEF Show pattern
+;#SET (//)
+STR_SYSTEM_STARTUP
+Startwerte
+;#DEF Startup
+;#SET (//)
+STR_SYSTEM_VIEWPLAY
+Bilder,Sounds
+;#DEF View & Play
+;#SET (//)
+STR_GADGET_COPYBANK
+Kopiere Bank
+;#DEF Copy bank
+;#SET (//)
+STR_GADGET_SWAPBANK
+Tausche Bank
+;#DEF Swap bank
+;#SET (//)
+STR_GADGET_DELETEBANK
+Lösche Bank
+;#DEF Delete bank
+;#SET (//)
+STR_GADGET_COPYGADGET
+Kopieren
+;#DEF Copy button
+;#SET (//)
+STR_GADGET_SWAPGADGET
+Vertauschen
+;#DEF Swap button
+;#SET (//)
+STR_GADGET_DELETEGADGET
+Löschen
+;#DEF Del. button
+;#SET (//)
+STR_FLAG_AUTOICONIFY
+Automatisch verbergen
+;#DEF Auto iconify
+;#SET (//)
+STR_FLAG_CDDESTINATION
+CD Ziel
+;#DEF CD destination
+;#SET (//)
+STR_FLAG_CDSOURCE
+CD Quelle
+;#DEF CD source
+;#SET (//)
+STR_FLAG_DOPUSTOFRONT
+Directory Opus nach vorn
+;#DEF Directory Opus to front
+;#SET (//)
+STR_FLAG_DOALLFILES
+Mit allen Dateien
+;#DEF Do all files
+;#SET (//)
+STR_FLAG_INCLUDEDOPUS
+Mit DOpus-Startup
+;#DEF Include DOpus-Startup
+;#SET (//)
+STR_FLAG_INCLUDESHELL
+Mit Shell-Startup
+;#DEF Include Shell-Startup
+;#SET (//)
+STR_FLAG_NOQUOTE
+Keine Anführungszeichen
+;#DEF No filename quote
+;#SET (//)
+STR_FLAG_OUTPUTFILE
+Ausgabe in eine Datei
+;#DEF Output to file
+;#SET (//)
+STR_FLAG_OUTPUTWINDOW
+Ausgabe in ein Fenster
+;#DEF Output window
+;#SET (//)
+STR_FLAG_RECURSIVE
+Rekursiv in Verzeichnisse
+;#DEF Recursive directories
+;#SET (//)
+STR_FLAG_RELOAD
+Änderungen scannen
+;#DEF Reload each file
+;#SET (//)
+STR_FLAG_RESCANDEST
+Ziel neu einlesen
+;#DEF Rescan destination
+;#SET (//)
+STR_FLAG_RESCANSOURCE
+Quelle neu einlesen
+;#DEF Rescan source
+;#SET (//)
+STR_FLAG_RUNASYNC
+Asynchron starten
+;#DEF Run asynchronously
+;#SET (//)
+STR_FLAG_WORKBENCHTOFRONT
+Workbench nach vorn
+;#DEF Workbench to front
+;#SET (//)
+STR_EDIT_NAME
+_Name
+;#DEF _Name
+;#SET (//)
+STR_EDIT_SAMPLE
+Aufnehmen
+;#DEF Sample
+;#SET (//)
+STR_EDIT_NEWENTRY
+Neue Zeile
+;#DEF New entry
+;#SET (//)
+STR_EDIT_DUPLICATE
+Kopieren
+;#DEF Duplicate
+;#SET (//)
+STR_EDIT_SWAP
+Tauschen
+;#DEF Swap
+;#SET (//)
+STR_EDIT_STACKSIZE
+Stackgröße
+;#DEF _Stack size
+;#SET (//)
+STR_EDIT_PRIORITY
+_Priorität
+;#DEF _Priority
+;#SET (//)
+STR_EDIT_CLOSEDELAY
+Pause
+;#DEF _Close delay
+;#SET (//)
+STR_EDIT_ACTION
+Titelzeile
+;#DEF _Event description
+;#SET (//)
+STR_EDITCLASS_FILECLASS
+Klasse
+;#DEF _File class
+;#SET (//)
+STR_EDITCLASS_CLASSID
+_ID-Code
+;#DEF Class _ID
+;#SET (//)
+STR_EDITCLASS_FILEVIEWER
+ Hex-_Viewer
+;#DEF File _viewer
+;#SET (//)
+STR_MENU_COPYMENU
+Kopiere Menü
+;#DEF Copy menu
+;#SET (//)
+STR_MENU_SWAPMENU
+Tausche Menü
+;#DEF Swap menu
+;#SET (//)
+STR_MENU_DELETEMENU
+Lösche Menü
+;#DEF Delete menu
+;#SET (//)
+STR_MENU_SORTMENU
+Sortieren
+;#DEF Sort menu
+;#SET (//)
+STR_MENU_INSERTITEM
+Einfügen
+;#DEF Insert item
+;#SET (//)
+STR_MENU_COPYITEM
+Kopieren
+;#DEF Copy item
+;#SET (//)
+STR_MENU_SWAPITEM
+Vertauschen
+;#DEF Swap item
+;#SET (//)
+STR_MENU_DELETEITEM
+Löschen
+;#DEF Delete item
+;#SET (//)
+STR_DRIVES_GETDRIVES
+Alle Geräte
+;#DEF Get drives
+;#SET (//)
+STR_DRIVES_SORTBANK
+Sortieren
+;#DEF Sort bank
+;#SET (//)
+STR_DRIVES_COPYDRIVE
+Kopieren
+;#DEF Copy drive
+;#SET (//)
+STR_DRIVES_SWAPDRIVE
+Vertauschen
+;#DEF Swap drive
+;#SET (//)
+STR_DRIVES_DELETEDRIVE
+Löschen
+;#DEF Delete drive
+;#SET (//)
+STR_HOTKEYS_NEWHOTKEY
+Neu
+;#DEF New hotkey
+;#SET (//)
+STR_SCREEN_COLORS
+Farben
+;#DEF Colors
+;#SET (//)
+STR_SCREEN_FONTS
+Schriftart
+;#DEF Fonts
+;#SET (//)
+STR_SCREEN_PALETTE
+Palette
+;#DEF Palette
+;#SET (//)
+STR_SCREEN_SCREENMODE
+Modus
+;#DEF Screen mode
+;#SET (//)
+STR_PALETTE_RED
+_Rot
+;#DEF _Red
+;#SET (//)
+STR_PALETTE_GREEN
+_Grün
+;#DEF _Green
+;#SET (//)
+STR_PALETTE_BLUE
+_Blau
+;#DEF _Blue
+;#SET (//)
+STR_COLOR_STATUS
+Titelzeile
+;#DEF Status bar
+;#SET (//)
+STR_COLOR_SELDISK
+Angewählte Disk
+;#DEF Selected disk name
+;#SET (//)
+STR_COLOR_UNSELDISK
+Nicht angewählte Disk
+;#DEF Unselected disk name
+;#SET (//)
+STR_COLOR_SELDIR
+Angewähltes Verzeichnis
+;#DEF Selected directory
+;#SET (//)
+STR_COLOR_UNSELDIR
+Verzeichnis
+;#DEF Unselected directory
+;#SET (//)
+STR_COLOR_SELFILE
+Angewählte Datei
+;#DEF Selected file
+;#SET (//)
+STR_COLOR_UNSELFILE
+Datei
+;#DEF Unselected file
+;#SET (//)
+STR_COLOR_SLIDERS
+Rollbalken
+;#DEF Sliders
+;#SET (//)
+STR_COLOR_ARROWS
+Pfeile
+;#DEF Arrows
+;#SET (//)
+STR_COLOR_TINY
+Kleine Knöpfe
+;#DEF Tiny buttons
+;#SET (//)
+STR_COLOR_CLOCK
+Fußzeile
+;#DEF Clock/memory bar
+;#SET (//)
+STR_COLOR_REQUESTER
+Dialogfenster
+;#DEF Requester text
+;#SET (//)
+STR_COLOR_BOXES
+3D Boxen
+;#DEF 3D boxes
+;#SET (//)
+STR_COLOR_PATHNAME
+Pfadname
+;#DEF Path name
+;#SET (//)
+STR_COLOR_SELPATHNAME
+Angewählter Pfadname
+;#DEF Selected path name
+;#SET (//)
+STR_SCREENMODE_WIDTH
+Breite
+;#DEF _Width
+;#SET (//)
+STR_SCREENMODE_HEIGHT
+Höhe
+;#DEF _Height
+;#SET (//)
+STR_SCREENMODE_COLORS
+Farben
+;#DEF _Colors
+;#SET (//)
+STR_SCREENMODE_DEFAULT
+Standardwert
+;#DEF Use default
+;#SET (//)
+STR_SCREENMODE_HALFHEIGHT
+halbhoher Bildschirm
+;#DEF Half-height screen
+;#SET (//)
+STR_LISTFORMAT_TITLE
+           List-Format im
+;#DEF Format of the list in the
+;#SET (//)
+STR_LISTFORMAT_RESET
+Standard
+;#DEF Reset
+;#SET (//)
+STR_LISTFORMAT_NAME
+Dateiname
+;#DEF File name
+;#SET (//)
+STR_LISTFORMAT_COMMENT
+Dateikommentar
+;#DEF File comment
+;#SET (//)
+STR_LISTFORMAT_REVERSE
+umgekehrt sortieren
+;#DEF Reverse sorting
+;#SET (//)
+STR_ARROWS_INSIDE
+Pfeile auf der Innenseite
+;#DEF Arrows on the inside
+;#SET (//)
+STR_ARROWS_OUTSIDE
+Pfeile auf der Außenseite
+;#DEF Arrows on the outside
+;#SET (//)
+STR_ARROWS_EACH
+Pfeile auf beiden Seiten
+;#DEF One arrow at each end of the button
+;#SET (//)
+STR_ARROWTYPE_UPDOWN
+Hoch/runter rollen
+;#DEF Scroll up/down
+;#SET (//)
+STR_ARROWTYPE_LEFTRIGHT
+Links/rechts rollen
+;#DEF Scroll left/right
+;#SET (//)
+STR_ARROWTYPE_PREVNEXT
+Nächster/voriger Puffer
+;#DEF Buffer previous/next
+;#SET (//)
+STR_NEW
+Neu
+;#DEF New
+;#SET (//)
+STR_MISC_FLAGS
+Sonstige Optionen...
+;#DEF Misc. flags...
+;#SET (//)
+STR_OP_COPY_WHENCOPYING
+Beim Kopieren von Dateien und Verzeichnissen...
+;#DEF When copying files and directories...
+;#SET (//)
+STR_OP_COPY_CHECKDEST
+Platzbedarf auf dem Ziellaufwerk prüfen.
+;#DEF Check destination's free space before starting
+;#SET (//)
+STR_OP_COPY_SETARCHIVE
+Archivbit bei Quelldateien setzen.
+;#DEF Set archive bit of source after finishing
+;#SET (//)
+STR_OP_COPY_ALSOCOPY
+Von der Quelle Übernehmen...
+;#DEF Also copy source's...
+;#SET (//)
+STR_OP_COPY_DATESTAMP
+Datumsstempel
+;#DEF datestamp
+;#SET (//)
+STR_OP_COPY_BITS
+Schutzbits
+;#DEF protection bits
+;#SET (//)
+STR_OP_COPY_COMMENT
+Kommentar
+;#DEF comment
+;#SET (//)
+STR_OP_COPY_IFFILEEXISTS
+Wenn eine Datei bereits existiert...
+;#DEF What to do when a file already exists...
+;#SET (//)
+STR_OP_COPY_ALWAYSREPLACE
+Datei immer ersetzen.
+;#DEF Always replace files
+;#SET (//)
+STR_OP_COPY_NEVERREPLACE
+Datei nicht ersetzen.
+;#DEF Never replace files
+;#SET (//)
+STR_OP_COPY_ONLYOLDER
+Nur ältere Dateien ersetzen.
+;#DEF Replace only older files
+;#SET (//)
+STR_OP_COPY_ASKBEFORE
+Dialogfenster anzeigen.
+;#DEF Ask before replacing
+;#SET (//)
+STR_OP_DATE_DATEFORMAT
+Datumsformat...
+;#DEF Date format...
+;#SET (//)
+STR_OP_DATE_DDMMMYY
+TT-MMM-JJ   (23-Jan-93)
+;#DEF DD-MMM-YY   (22-Sep-92)
+;#SET (//)
+STR_OP_DATE_YYMMDD
+JJ-MM-TT    (93-01-23)
+;#DEF YY-MM-DD    (92-09-22)
+;#SET (//)
+STR_OP_DATE_MMDDYY
+MM-TT-JJ    (01-23-93)
+;#DEF MM-DD-YY    (09-22-92)
+;#SET (//)
+STR_OP_DATE_DDMMYY
+TT-MM-JJ    (23-01-93)
+;#DEF DD-MM-YY    (22-09-92)
+;#SET (//)
+STR_OP_DATE_NAMESUB
+Namen einsetzen (Heute, Gestern, etc.)
+;#DEF Name substitution (Today, Tomorrow, etc)
+;#SET (//)
+STR_OP_DATE_12HOUR
+12 Stunden Anzeige
+;#DEF 12 hour clock
+;#SET (//)
+STR_OP_DEL_ASKBEFORE
+Dialogfenster beim Löschen...
+;#DEF Ask before...
+;#SET (//)
+STR_OP_DEL_COMMENCING
+zu Anfang.
+;#DEF Commencing delete
+;#SET (//)
+STR_OP_DEL_DELETEFILES
+beim Löschen von Dateien.
+;#DEF Deleting files
+;#SET (//)
+STR_OP_DEL_DELETEDIRS
+beim Löschen nichtleerer Verzeichnisse.
+;#DEF Deleting non-empty directories
+;#SET (//)
+STR_OP_DEL_IGNOREPROT
+Schutzbit gegen Löschen ignorieren.
+;#DEF Ignore the delete protection bit
+;#SET (//)
+STR_OP_ERROR_ENABLE
+Anzeigen von...
+;#DEF Enable...
+;#SET (//)
+STR_OP_ERROR_DOSREQ
+AmigaDOS-Dialogfenstern.
+;#DEF DOS requesters
+;#SET (//)
+STR_OP_ERROR_OPUSREQ
+DirOpus Fehler-Dialogfenstern.
+;#DEF Opus error requesters
+;#SET (//)
+STR_OP_GENERAL_DRAG
+Ziehen statt Click-M-Click.
+;#DEF Click-M-Click drag
+;#SET (//)
+STR_OP_GENERAL_DISPLAYINFO
+Dateiattribute anzeigen.
+;#DEF Display info
+;#SET (//)
+STR_OP_GENERAL_DOUBLECLICK
+Datei Doppelklicks.
+;#DEF File double-click
+;#SET (//)
+STR_OP_GENERAL_SLIDERACTIVE
+Aktivieren durch Rollbalken.
+;#DEF Window slider activate
+;#SET (//)
+STR_OP_ICON_CREATEWITHDIR
+Piktogramme für Verzeichnisse erzeugen.
+;#DEF Create icon with directories
+;#SET (//)
+STR_OP_ICON_DOUNTOICONS
+Alle Operationen auch auf Piktogramme.
+;#DEF Perform all actions on icons as well
+;#SET (//)
+STR_OP_ICON_SELECTAUTO
+Piktogramme automatisch anwählen.
+;#DEF Select icons automatically
+;#SET (//)
+STR_OP_UPDATE_WHENPROCESSING
+Beim Bearbeiten von Dateien...
+;#DEF When processing files...
+;#SET (//)
+STR_OP_UPDATE_PROGRESSIND
+Prozentanzeige einschalten.
+;#DEF Operation progress indicator
+;#SET (//)
+STR_OP_UPDATE_LEFTJUSTIFY
+Dateinamen in der Titelzeile linksjustieren.
+;#DEF Left-justify filename in status bar
+;#SET (//)
+STR_OP_UPDATE_SCROLLTOFOLLOW
+Verzeichnisfenster mitrollen.
+;#DEF Scroll directory window to follow operations
+;#SET (//)
+STR_OP_UPDATE_UPDATEFREE
+freien Diskspeicher refreshen.
+;#DEF Update free disk space
+;#SET (//)
+STR_OP_UPDATE_STARTNOTIFY
+Verzeichnis-Refresh mit StartNotify().
+;#DEF Directory refresh using StartNotify()
+;#SET (//)
+STR_OP_UPDATE_REDRAWMORE
+Mehr als eine Viertelseite neuzeichnen.
+;#DEF Redraw more than a quarter of a page
+;#SET (//)
+STR_OP_UPDATE_QUIETGETDIR,
+Rollbalken beim Scannen refreshen
+;#DEF Update listview slider while scanning
+;#SET (//)
+STR_SYS_AMIGADOS_TITLE
+Starten von AmigaDOS Programmen...
+;#DEF Running AmigaDOS applications...
+;#SET (//)
+STR_SYS_AMIGADOS_SHELL
+Shell-Befehl
+;#DEF Shell
+;#SET (//)
+STR_SYS_AMIGADOS_CONSOLE
+Fenster
+;#DEF Console
+;#SET (//)
+STR_SYS_AMIGADOS_STARTUP
+Start-Skript
+;#DEF Startup script
+;#SET (//)
+STR_SYS_AMIGADOS_PRIORITY
+Opus-Priorität
+;#DEF Priority
+;#SET (//)
+STR_SYS_CLOCK_TITLE
+DirOpus Fußzeile...
+;#DEF Clock/memory bar...
+;#SET (//)
+STR_SYS_CLOCK_MEMORY
+Speicher-Monitor
+;#DEF Memory monitor
+;#SET (//)
+STR_SYS_CLOCK_CPUMONITOR
+CPU-Monitor
+;#DEF CPU monitor
+;#SET (//)
+STR_SYS_CLOCK_DATE
+Datum
+;#DEF Date
+;#SET (//)
+STR_SYS_CLOCK_TIME
+Uhrzeit
+;#DEF Time
+;#SET (//)
+STR_SYS_CLOCK_WHENICONIFIED
+Im ikonifizierten Zustand...
+;#DEF When iconified...
+;#SET (//)
+STR_SYS_CLOCK_WINDOW
+Fenster
+;#DEF Window
+;#SET (//)
+STR_SYS_CLOCK_NOWINDOW
+Kein Fenster
+;#DEF No window
+;#SET (//)
+STR_SYS_CLOCK_APPICON
+AppIcon
+;#DEF An AppIcon
+;#SET (//)
+STR_SYS_CLOCK_SHOWFREEAS
+Speicher anzeigen als...
+;#DEF Show free space as...
+;#SET (//)
+STR_SYS_CLOCK_BYTES
+freie Bytes
+;#DEF Bytes free
+;#SET (//)
+STR_SYS_CLOCK_KILOBYTES
+frei Kilo/Megabytes
+;#DEF Kilo/Megabytes free
+;#SET (//)
+STR_SYS_CLOCK_TEXTFORMAT
+Anzeigeformat...
+;#DEF Text format...
+;#SET (//)
+STR_SYS_CLOCK_CHIPANDFAST
+CHIP: und FAST:
+;#DEF CHIP: and FAST:
+;#SET (//)
+STR_SYS_CLOCK_CANDF
+C: und F:
+;#DEF C: and F:
+;#SET (//)
+STR_SYS_DIR_CACHES
+Puffer für die Verzeichnisfenster...
+;#DEF Directory caches...
+;#SET (//)
+STR_SYS_DIR_NUMBUFFERS
+Puffer pro Seite
+;#DEF Buffers per window
+;#SET (//)
+STR_SYS_DIR_ALWAYSEMPTY
+Immer einen leeren Puffer nehmen.
+;#DEF Always move to an empty buffer
+;#SET (//)
+STR_SYS_DIR_REREADINCOMPLETE
+Geänderte Puffer neu einlesen.
+;#DEF Re-read changed buffers
+;#SET (//)
+STR_SYS_DIR_SEARCHBUFFERS
+Puffer benutzen bei...
+;#DEF Search buffers on...
+;#SET (//)
+STR_SYS_DIR_SEARCHPARENT
+Sprüngen ins Mutter-/Hauptverzeichnis.
+;#DEF Parent/Root operation
+;#SET (//)
+STR_SYS_DIR_DIRREAD
+Sprüngen mit Doppelklick/Click-M-Click.
+;#DEF Double-click/Click-m-click directory read
+;#SET (//)
+STR_SYS_DIR_AUTODISKCHANGE
+Auto-Diskwechsler
+;#DEF Auto diskchange
+;#SET (//)
+STR_SYS_DIR_AUTODISKLOAD
+Auto-Disklader
+;#DEF Auto disk load
+;#SET (//)
+STR_SYS_DIR_EXPANDPATHS
+Pfade ausschreiben
+;#DEF Expand pathnames
+;#SET (//)
+STR_SYS_DIR_USEEXALL
+ExAll() benutzen
+;#DEF Use ExAll()
+;#SET (//)
+STR_FILEVIEW_HEX
+Hex
+;#DEF Hex
+;#SET (//)
+STR_SYS_DIR_BLOCKSFREE
+freie Blöcke
+;#DEF Blocks free
+;#SET (//)
+STR_SYS_DIR_PERCENTAGE
+% frei
+;#DEF Percentage of space free
+;#SET (//)
+STR_PALETTE_RESET
+Zurücksetzen
+;#DEF Reset
+;#SET (//)
+STR_PALETTE_DOPUS_DEFAULT
+Directory Opus-Standard
+;#DEF Directory Opus default
+;#SET (//)
+STR_PALETTE_WB_DEFAULT
+Workbench-Standard
+;#DEF Workbench default
+;#SET (//)
+STR_PALETTE_WB_CURRENT
+Workbench aktuelle Werte
+;#DEF Workbench current
+;#SET (//)
+STR_OKAY_TO_QUIT
+Weiter
+;#DEF Okay
+;#SET (//)
+STR_SCREEN_GENERAL
+Aussehen
+;#DEF General
+;#SET (//)
+STR_FTYPE_ACTION
+Aktion
+;#DEF Action
+;#SET (//)
+STR_FTYPE_COMMAND
+Befehl
+;#DEF Command
+;#SET (//)
+STR_FILEVIEW_DEC
+Dezimal
+;#DEF Decimal
+;#SET (//)
+STR_EDIT_MENU
+Operation
+;#DEF Edit
+;#SET (//)
+STR_SYS_SHOWPATTERN_TITLE
+Muster für die Verzeichnisfenster...
+;#DEF Directory list pattern...
+;#SET (//)
+STR_SYS_SHOWPATTERN_HIDDENBIT
+Dateien mit H-Flag verstecken.
+;#DEF Hide files with hidden bit set
+;#SET (//)
+STR_SYS_SHOWPATTERN_SHOW
+Anzeigen
+;#DEF Show
+;#SET (//)
+STR_SYS_SHOWPATTERN_HIDE
+Verstecken
+;#DEF Hide
+;#SET (//)
+STR_SYS_STARTUP_TITLE
+Verzeichnisse die beim Starten eingelesen werden...
+;#DEF Directories to read on startup...
+;#SET (//)
+STR_SYS_STARTUP_LEFT
+Links
+;#DEF Left
+;#SET (//)
+STR_SYS_STARTUP_RIGHT
+Rechts
+;#DEF Right
+;#SET (//)
+STR_SYS_STARTUP_AREXX
+ARexx-Skripte die ausgeführt werden nach dem...
+;#DEF ARexx scripts to execute on...
+;#SET (//)
+STR_SYS_STARTUP_STARTUP
+Starten
+;#DEF Startup
+;#SET (//)
+STR_SYS_STARTUP_UNICONIFY
+Aufklappen
+;#DEF Uniconify
+;#SET (//)
+STR_SYS_VIEWPLAY_TITLE
+Anzeigen von Bildern/Animationen (ILBM/ANIM)...
+;#DEF Picture/animation viewer (IFF ILBM/ANIM)...
+;#SET (//)
+STR_SYS_VIEWPLAY_BLACK
+Bildschirm schwarz zwischen Bildern.
+;#DEF Black background between pictures
+;#SET (//)
+STR_SYS_VIEWPLAY_PAUSED
+Animationen nicht sofort starten.
+;#DEF Start animation paused
+;#SET (//)
+STR_SYS_VIEWPLAY_8BITCOL
+24-Bit Farbwerte
+;#DEF 8-bits per gun color
+;#SET (//)
+STR_SYS_VIEWPLAY_SHOWDELAY
+Bildpause
+;#DEF Show delay
+;#SET (//)
+STR_SYS_VIEWPLAY_FADEDELAY
+Einblenddauer
+;#DEF Fade delay
+;#SET (//)
+STR_SYS_VIEWPLAY_SOUNDPLAYER
+Abspielen von Sounds (8SVX)...
+;#DEF Sound player (IFF 8SVX)...
+;#SET (//)
+STR_SYS_VIEWPLAY_FILTER
+Audiofilter ausschalten.
+;#DEF Turn audio filter off for play
+;#SET (//)
+STR_SYS_VIEWPLAY_LOOP
+Bei Doppelklick endlos spielen.
+;#DEF Loop on double-click
+;#SET (//)
+STR_SYS_VIEWPLAY_TEXTVIEW
+Anzeigen von Texten...
+;#DEF Text viewer...
+;#SET (//)
+STR_SYS_VIEWPLAY_BORDERS
+mit Rollbalken
+;#DEF Text viewer borders
+;#SET (//)
+STR_SYS_VIEWPLAY_TABSIZE
+Tabweite
+;#DEF Tab size
+;#SET (//)
+STR_removed_0
+
+;#DEF 
+;#SET (//)
+STR_SCREEN_GENERAL_TINYGADS
+Kleine Knöpfe unten rechts
+;#DEF Bottom-right tiny buttons
+;#SET (//)
+STR_SCREEN_GENERAL_GADGETSLIDERS
+Rollbalken für Knopfbänke
+;#DEF Button banks sliders
+;#SET (//)
+STR_SCREEN_GENERAL_INDICATERMB
+Eselsohren für Knöpfe mit RMB Funktion
+;#DEF Indicate button has RMB function
+;#SET (//)
+STR_SCREEN_GENERAL_NEWLOOKSLIDERS
+OS2.0-Rollbalken
+;#DEF New-look sliders
+;#SET (//)
+STR_EDITLIST_TITLE1
+Optionen...
+;#DEF Flags...
+;#SET (//)
+STR_EDITLIST_TITLE2
+Ereignisse...
+;#DEF Events...
+;#SET (//)
+STR_FILETYPEACTIONLIST_TITLE
+Bekannte Dateitypen...
+;#DEF Defined filetype actions...
+;#SET (//)
+STR_HOTKEYSLIST_TITLE
+Globale Tastatur-Kurzbefehle...
+;#DEF Global hotkeys defined...
+;#SET (//)
+STR_SCREENMODELIST_TITLE
+Anzeigemodus...
+;#DEF Display mode...
+;#SET (//)
+STR_LEFT_WINDOW
+linken Fenster
+;#DEF Left window
+;#SET (//)
+STR_RIGHT_WINDOW
+rechten Fenster
+;#DEF Right window
+;#SET (//)
+STR_SEP_MIX_FILES
+Dateien/Verz. mischen
+;#DEF Mix files/directories
+;#SET (//)
+STR_SEP_DIRS_FIRST
+Verzeichnisse zuerst
+;#DEF Directories first
+;#SET (//)
+STR_SEP_FILES_FIRST
+Dateien zuerst
+;#DEF Files first
+;#SET (//)
+STR_FUNCTIONLIST_ABOUT
+About         -    Zeigt Programminfos an
+;#DEF About         -      Display program info
+;#SET (//)
+STR_FUNCTIONLIST_ADDICON
+AddIcon       -       Erzeugt Piktogramme
+;#DEF AddIcon       -      Add icons to entries
+;#SET (//)
+STR_FUNCTIONLIST_ALARM
+Alarm         -    Gibt einen Warnton aus
+;#DEF Alarm         -            Sound an alarm
+;#SET (//)
+STR_FUNCTIONLIST_ALL
+All           -    Alle Einträge anwählen
+;#DEF All           -        Select all entries
+;#SET (//)
+STR_FUNCTIONLIST_ANSIREAD
+AnsiRead      -        ANSI-Text anzeigen
+;#DEF AnsiRead      -          ANSI text viewer
+;#SET (//)
+STR_FUNCTIONLIST_AREXX
+ARexx         - Starte einen ARexx-Befehl
+;#DEF ARexx         -      Run an ARexx command
+;#SET (//)
+STR_FUNCTIONLIST_ASSIGN
+Assign        -       Erzeugt Zuweisungen
+;#DEF Assign        -    Assign logical devices
+;#SET (//)
+STR_FUNCTIONLIST_BEEP
+Beep          -       Gibt einen Piep aus
+;#DEF Beep          -              Sound a beep
+;#SET (//)
+STR_FUNCTIONLIST_BUFFERLIST
+BufferList    -         Listet die Puffer
+;#DEF BufferList    - List buffered directories
+;#SET (//)
+STR_FUNCTIONLIST_BUTTONICONIFY
+ButtonIconify -  Verbergen zu Knopfleiste
+;#DEF ButtonIconify -   Iconify to button strip
+;#SET (//)
+STR_FUNCTIONLIST_CD
+CD            -  Wechselt aktuelles Verz.
+;#DEF CD            -  Change current directory
+;#SET (//)
+STR_FUNCTIONLIST_CHECKFIT
+CheckFit      -     Überprüft Platzbedarf
+;#DEF CheckFit      - Check if entries will fit
+;#SET (//)
+STR_FUNCTIONLIST_CLEARBUFFERS
+ClearBuffers  -        Löscht alle Puffer
+;#DEF ClearBuffers  -       Clear buffered dirs
+;#SET (//)
+STR_FUNCTIONLIST_CLEARSIZES
+ClearSizes    -  Löscht Platzbedarfswerte
+;#DEF ClearSizes    -    Remove dir byte counts
+;#SET (//)
+STR_FUNCTIONLIST_CLEARWIN
+ClearWin      - Löscht das aktive Fenster
+;#DEF ClearWin      -  Clear the current window
+;#SET (//)
+STR_FUNCTIONLIST_CLONE
+Clone         -     Klont angew. Einträge
+;#DEF Clone         -    Clone selected entries
+;#SET (//)
+STR_FUNCTIONLIST_COMMENT
+Comment       -      Kommentiert Einträge
+;#DEF Comment       - Give filenotes to entries
+;#SET (//)
+STR_FUNCTIONLIST_CONFIGURE
+Configure     -   Startet das Konfig-Prg.
+;#DEF Configure     -      Launch config editor
+;#SET (//)
+STR_FUNCTIONLIST_CONTST
+ContST        -    Setzt Musik-Modul fort
+;#DEF ContST        -  Restart paused ST module
+;#SET (//)
+STR_FUNCTIONLIST_COPY
+Copy          -   Kopiert angew. Einträge
+;#DEF Copy          -     Copy selected entries
+;#SET (//)
+STR_FUNCTIONLIST_COPYAS
+CopyAs        -   Kopiert mit neuen Namen
+;#DEF CopyAs        -       Copy with new names
+;#SET (//)
+STR_FUNCTIONLIST_COPYWINDOW
+CopyWindow    -  Kopiert das akt. Fenster
+;#DEF CopyWindow    -  Copy one window to other
+;#SET (//)
+STR_removed_1
+
+;#DEF 
+;#SET (//)
+STR_FUNCTIONLIST_DATESTAMP
+DateStamp     -      Datumsstempel ändern
+;#DEF DateStamp     -    Modify file datestamps
+;#SET (//)
+STR_FUNCTIONLIST_DEFAULTS
+Defaults      -      Standardwerte setzen
+;#DEF Defaults      - Set default configuration
+;#SET (//)
+STR_FUNCTIONLIST_DELETE
+Delete        -    Löscht angew. Einträge
+;#DEF Delete        -   Delete selected entries
+;#SET (//)
+STR_FUNCTIONLIST_DIRTREE
+DirTree       -   Erzeugt Verzeichnisbaum
+;#DEF DirTree       -     Create directory tree
+;#SET (//)
+STR_FUNCTIONLIST_DISKCOPY
+Diskcopy      -         Kopiert Disketten
+;#DEF Diskcopy      -         Copy floppy disks
+;#SET (//)
+STR_FUNCTIONLIST_DISKCOPYBG
+DiskCopyBG    -   Kopiert Disks asynchron
+;#DEF DiskcopyBG    -    Diskcopy in background
+;#SET (//)
+STR_FUNCTIONLIST_DISKINFO
+DiskInfo      -      Zeigt Infos zur Disk
+;#DEF DiskInfo      -    Display info on a disk
+;#SET (//)
+STR_FUNCTIONLIST_DISPLAYDIR
+DisplayDir    -   Liest Verz.-Fenster ein
+;#DEF DisplayDir    -  Update directory display
+;#SET (//)
+STR_FUNCTIONLIST_DOPUSTOBACK
+DopusToBack   - DirOpus-Bildschirm hinten
+;#DEF DopusToBack   -   Move screen to the back
+;#SET (//)
+STR_FUNCTIONLIST_DOPUSTOFRONT
+DOpusToFront  -   DirOpus-Bildschirm vorn
+;#DEF DopusToFront  -  Move screen to the front
+;#SET (//)
+STR_FUNCTIONLIST_ENCRYPT
+Encrypt       -    Verschlüsselt Einträge
+;#DEF Encrypt       -    Encrypt selected files
+;#SET (//)
+STR_FUNCTIONLIST_ENDFUNCTION
+FinishSection -  Wartet auf ext. Prgramme
+;#DEF FinishSection -     Finish above commands
+;#SET (//)
+STR_FUNCTIONLIST_ERRORHELP
+ErrorHelp     - Hilfe für AmigaDOS-Fehler
+;#DEF ErrorHelp     -      Help with DOS errors
+;#SET (//)
+STR_FUNCTIONLIST_EXECUTE
+Execute       -  Startet eine Scriptdatei
+;#DEF Execute       -       Execute batch files
+;#SET (//)
+STR_FUNCTIONLIST_FORMAT
+Format        -          Formatiert Disks
+;#DEF Format        -       Format floppy disks
+;#SET (//)
+STR_FUNCTIONLIST_FORMATBG
+FormatBG      -      Formatiert asynchron
+;#DEF FormatBG      -      Format in background
+;#SET (//)
+STR_FUNCTIONLIST_GETDEVICES
+GetDevices    -        Zeigt Laufwerke an
+;#DEF GetDevices    -       Display device list
+;#SET (//)
+STR_FUNCTIONLIST_GETSIZES
+GetSizes      -     Ermittelt Platzbedarf
+;#DEF GetSizes      - Calculate total dir sizes
+;#SET (//)
+STR_FUNCTIONLIST_HELP
+Help          -         Hilfsmodus an/aus
+;#DEF Help          -  Turn help mode on or off
+;#SET (//)
+STR_FUNCTIONLIST_HEXREAD
+HexRead       -      Zeigt Hex-Dateien an
+;#DEF HexRead       -   Hexadecimal text viewer
+;#SET (//)
+STR_FUNCTIONLIST_HUNT
+Hunt          -          Sucht eine Datei
+;#DEF Hunt          -      Search for filenames
+;#SET (//)
+STR_FUNCTIONLIST_ICONIFY
+Iconify       -         DirOpus verbergen
+;#DEF Iconify       -           Iconify program
+;#SET (//)
+STR_FUNCTIONLIST_ICONINFO
+IconInfo      - Gibt Piktogramm-Infos aus
+;#DEF IconInfo      - Give information on icons
+;#SET (//)
+STR_FUNCTIONLIST_INSTALL
+Install       - Macht Disketten bootfähig
+;#DEF Install       -       Make disks bootable
+;#SET (//)
+STR_FUNCTIONLIST_INSTALLBG
+InstallBG     -            dito asynchron
+;#DEF InstallBG     -     Install in background
+;#SET (//)
+STR_FUNCTIONLIST_LASTSAVED
+LastSaved     -  Liest alte Konfiguration
+;#DEF LastSaved     -    Read last-saved config
+;#SET (//)
+STR_FUNCTIONLIST_LOADCONFIG
+LoadConfig    -      dito mit Dateiangabe
+;#DEF LoadConfig    -     Load nominated config
+;#SET (//)
+STR_FUNCTIONLIST_LOADSTRINGS
+LoadStrings   -      Lädt eine .str Datei
+;#DEF LoadStrings   -    Load a new string file
+;#SET (//)
+STR_FUNCTIONLIST_LOOPPLAY
+LoopPlay      -      Spielt Sounds endlos
+;#DEF LoopPlay      -     Loop-play sound files
+;#SET (//)
+STR_FUNCTIONLIST_MAKEDIR
+Makedir       - Erzeugt neues Verzeichnis
+;#DEF Makedir       -    Create a new directory
+;#SET (//)
+STR_FUNCTIONLIST_MODIFY
+Modify        -      Ändert Konfiguration
+;#DEF Modify        -      Change configuration
+;#SET (//)
+STR_FUNCTIONLIST_MOVE
+Move          -  Verschiebt angew. Eintr.
+;#DEF Move          -     Move selected entries
+;#SET (//)
+STR_FUNCTIONLIST_MOVEAS
+MoveAs        -      dito mit neuen Namen
+;#DEF MoveAs        -       Move with new names
+;#SET (//)
+STR_FUNCTIONLIST_NEWCLI
+NewCLI        -    Öffnet ein CLI-Fenster
+;#DEF NewCLI        -     Open a new CLI window
+;#SET (//)
+STR_FUNCTIONLIST_NONE
+None          -   Keine Einträge anwählen
+;#DEF None          -      Deselect all entries
+;#SET (//)
+STR_FUNCTIONLIST_OTHERWINDOW
+OtherWindow   - Aktiviert anderes Fenster
+;#DEF OtherWindow   -     Activate other window
+;#SET (//)
+STR_FUNCTIONLIST_PARENT
+Parent        -   Springt ins Mutterverz.
+;#DEF Parent        -     Read parent directory
+;#SET (//)
+STR_FUNCTIONLIST_PLAY
+Play          -    Spielt eine Sounddatei
+;#DEF Play          - Play selected sound files
+;#SET (//)
+STR_FUNCTIONLIST_PLAYST
+PlayST        -    Spielt ein Musik-Modul
+;#DEF PlayST        -      Play ST modules only
+;#SET (//)
+STR_FUNCTIONLIST_PRINT
+Print         -    Druckt angew. Einträge
+;#DEF Print         -      Print selected files
+;#SET (//)
+STR_FUNCTIONLIST_PRINTDIR
+PrintDir      - Druckt Verzeichniskatalog
+;#DEF PrintDir      - Print displayed directory
+;#SET (//)
+STR_FUNCTIONLIST_PROTECT
+Protect       -   Setzt Datei-Schutzflags
+;#DEF Protect       -    Modify protection bits
+;#SET (//)
+STR_FUNCTIONLIST_QUIT
+Quit          -           DirOpus beenden
+;#DEF Quit          -       Quit Directory Opus
+;#SET (//)
+STR_FUNCTIONLIST_READ
+Read          -       ASCII-Text anzeigen
+;#DEF Read          -         Plain text viewer
+;#SET (//)
+STR_FUNCTIONLIST_REDRAW
+Redraw        -      Bildschirm refreshen
+;#DEF Redraw        -        Redraw main screen
+;#SET (//)
+STR_FUNCTIONLIST_RELABEL
+Relabel       -      Disketten umbenennen
+;#DEF Relabel       -         Change disk names
+;#SET (//)
+STR_FUNCTIONLIST_REMEMBER
+Remember      - akt. Konfiguration merken
+;#DEF Remember      -     Remember config state
+;#SET (//)
+STR_FUNCTIONLIST_RENAME
+Rename        -       Einträge umbenennen
+;#DEF Rename        -   Rename selected entries
+;#SET (//)
+STR_FUNCTIONLIST_RESCAN
+Rescan        -     Lädt akt. Verzeichnis
+;#DEF Rescan        -  Reload current directory
+;#SET (//)
+STR_FUNCTIONLIST_RESELECT
+Reselect      -  Wählt Einträge wieder an
+;#DEF Reselect      -          Reselect entries
+;#SET (//)
+STR_FUNCTIONLIST_RESTORE
+Restore       - Restauriert Konfiguration
+;#DEF Restore       -   Restore remembered cfg.
+;#SET (//)
+STR_FUNCTIONLIST_ROOT
+Root          -    Springt zum Hauptverz.
+;#DEF Root          -       Read root directory
+;#SET (//)
+STR_FUNCTIONLIST_RUN
+Run           -      Startet ein Programm
+;#DEF Run           -             Run a program
+;#SET (//)
+STR_FUNCTIONLIST_SAVECONFIG
+SaveConfig    -   Speichert Konfiguration
+;#DEF SaveConfig    -       Save current config
+;#SET (//)
+STR_FUNCTIONLIST_SCANDIR
+ScanDir       -    Lädt angegebenes Verz.
+;#DEF ScanDir       -  Load nominated directory
+;#SET (//)
+STR_FUNCTIONLIST_SEARCH
+Search        -   Sucht eine Zeichenkette
+;#DEF Search        - Search files for a string
+;#SET (//)
+STR_FUNCTIONLIST_SELECT
+Select        -     Selektiert mit Jokern
+;#DEF Select        -   Wildcard-select entries
+;#SET (//)
+STR_FUNCTIONLIST_SHOW
+Show          -         Zeigt Grafiken an
+;#DEF Show          -    Display graphic images
+;#SET (//)
+STR_FUNCTIONLIST_SMARTREAD
+SmartRead     - Anzeigen von allen Texten
+;#DEF SmartRead     -   Auto Hex or Text viewer
+;#SET (//)
+STR_FUNCTIONLIST_STOPST
+StopST        -    Stoppt ein Musik-Modul
+;#DEF StopST        -    Stop ST module playing
+;#SET (//)
+STR_FUNCTIONLIST_SWAPWINDOW
+SwapWindow    -     Tauscht Verz.-Fenster
+;#DEF SwapWindow    -  Swap contents of windows
+;#SET (//)
+STR_FUNCTIONLIST_TOGGLE
+Toggle        -    Invertiert Selektionen
+;#DEF Toggle        -     Toggle all selections
+;#SET (//)
+STR_FUNCTIONLIST_UNICONIFY
+UnIconify     -     Bildschirm aufklappen
+;#DEF UnIconify     -        Un-iconify program
+;#SET (//)
+STR_FUNCTIONLIST_USER_FTYPE1
+User1         -  Dateityp Operation User1
+;#DEF User1         -  Custom filetype action 1
+;#SET (//)
+STR_FUNCTIONLIST_USER_FTYPE2
+User2         -  Dateityp Operation User2
+;#DEF User2         -  Custom filetype action 2
+;#SET (//)
+STR_FUNCTIONLIST_USER_FTYPE3
+User3         -  Dateityp Operation User3
+;#DEF User3         -  Custom filetype action 3
+;#SET (//)
+STR_FUNCTIONLIST_USER_FTYPE4
+User4         -  Dateityp Operation User4
+;#DEF User4         -  Custom filetype action 4
+;#SET (//)
+STR_FUNCTIONLIST_VERIFY
+Verify        -     Ja/Nein Dialogfenster
+;#DEF Verify        -           Verify function
+;#SET (//)
+STR_FUNCTIONLIST_VERSION
+Version       -  Versionsnummern anzeigen
+;#DEF Version       -   Display version numbers
+;#SET (//)
+STR_COMMANDSEQ_DESTINATION
+{d}  -                    Zielverzeichnis
+;#DEF {d}  -         Destination directory name
+;#SET (//)
+STR_COMMANDSEQ_FIRSTFILE
+{f}  -   Erster angew. Eintrag (mit Pfad)
+;#DEF {f}  -   First selected entry (with path)
+;#SET (//)
+STR_COMMANDSEQ_ALLFILES
+{F}  -    Alle angew. Einträge (mit Pfad)
+;#DEF {F}  -  All selected entries (with paths)
+;#SET (//)
+STR_COMMANDSEQ_FIRSTFILEUNSEL
+{fu} -    wie {f} bleibt jedoch angewählt
+;#DEF {fu} -   First entry (path ; no unselect)
+;#SET (//)
+STR_COMMANDSEQ_ALLFILESUNSEL
+{Fu} -    Wie {F} bleibt jedoch angewählt
+;#DEF {Fu} -   All entries (path ; no unselect)
+;#SET (//)
+STR_COMMANDSEQ_FIRSTFILENOPATH
+{o}  -   Erster angew. Eintrag (nur Name)
+;#DEF {o}  -   First selected entry (name only)
+;#SET (//)
+STR_COMMANDSEQ_ALLFILESNOPATH
+{O}  -   Alle angew. Einträge (nur Namen)
+;#DEF {O}  -  All selected entries (names only)
+;#SET (//)
+STR_COMMANDSEQ_FIRSTFILENOPATHUNSEL
+{ou} -    wie {o} bleibt jedoch angewählt
+;#DEF {ou} -   First entry (name ; no unselect)
+;#SET (//)
+STR_COMMANDSEQ_ALLFILESNOPATHUNSEL
+{Ou} -    Wie {O} bleibt jedoch angewählt
+;#DEF {Ou} -   All entries (name ; no unselect)
+;#SET (//)
+STR_COMMANDSEQ_PORTNAME
+{p}  -   Name des ARexx Ports/Bildschirms
+;#DEF {Q}  -       Query the value of something
+;#SET (//)
+STR_COMMANDSEQ_DIRREQ
+{Rd} -          Verzeichnisauswahlfenster
+;#DEF {Rd} -                Directory requester
+;#SET (//)
+STR_COMMANDSEQ_FILEREQ
+{Rf} -                Dateiauswahlfenster
+;#DEF {Rf} -                     File requester
+;#SET (//)
+STR_COMMANDSEQ_MULTIFILEREQ
+{RF} -  wie {Rf} aber für mehrere Dateien
+;#DEF {RF} -        Multi-select file requester
+;#SET (//)
+STR_COMMANDSEQ_FONTREQ
+{Ro} -              Schriftauswahlfenster
+;#DEF {Ro} -                     Font requester
+;#SET (//)
+STR_COMMANDSEQ_ARGUMENTS
+{Rs} -              Texteingabe-Dialogbox
+;#DEF {Rs} -                   String requester
+;#SET (//)
+STR_COMMANDSEQ_SOURCE
+{s}  -       Name des Quellverzeichnisses
+;#DEF {s}  -              Source directory name
+;#SET (//)
+STR_CLASSOPS_AND
+And          - Start einer neuen Gruppe
+;#DEF And          - start of another group
+;#SET (//)
+STR_CLASSOPS_MATCH
+Match        - Text oder $Hexcode
+;#DEF Match        - text or $hex
+;#SET (//)
+STR_CLASSOPS_MATCHBITS
+MatchBits    - HSPARWED mit + oder -
+;#DEF MatchBits    - HSPARWED with + and -
+;#SET (//)
+STR_CLASSOPS_MATCHCOMMENT
+MatchComment - Kommentartext
+;#DEF MatchComment - text
+;#SET (//)
+STR_CLASSOPS_MATCHDATE
+MatchDate    - Datum oder Bereich
+;#DEF MatchDate    - date string or range
+;#SET (//)
+STR_CLASSOPS_MATCHNAME
+MatchName    - Dateiname
+;#DEF MatchName    - filename
+;#SET (//)
+STR_CLASSOPS_MATCHSIZE
+MatchSize    - Dateigröße >,< oder =
+;#DEF MatchSize    - value with >, < and =
+;#SET (//)
+STR_CLASSOPS_MOVE
+Move         - Abstand von akt. Position
+;#DEF Move         - byte offset from here
+;#SET (//)
+STR_CLASSOPS_MOVETO
+MoveTo       - Absolute Position
+;#DEF MoveTo       - absolute location
+;#SET (//)
+STR_CLASSOPS_OR
+Or           - Start einer neuen Gruppe
+;#DEF Or           - start of another group
+;#SET (//)
+STR_CLASSOPS_SEARCHFOR
+SearchFor    - Text oder $Hexcode
+;#DEF SearchFor    - text or $hex
+;#SET (//)
+STR_BY
+x
+;#DEF by
+;#SET (//)
+STR_SELECT_HOTKEY_TO_SWAP
+Wähle ersten Eintrag für die Vertauschung!
+;#DEF Select hotkey to swap.
+;#SET (//)
+STR_SELECT_SECOND_HOTKEY_TO_SWAP
+Wähle nun den zweiten Eintrag für die Vertauschung!
+;#DEF Select second hotkey to swap with first.
+;#SET (//)
+STR_MODULE_LIST_TITLE
+Externe Programm-Module...
+;#DEF External support modules...
+;#SET (//)
+STR_removed_2
+
+;#DEF 
+;#SET (//)
+STR_MODULE_LIST_CHECK_STRING
+(  zeigt an, daß das Modul immer geladen wird)
+;#DEF (  Check indicates a module to be pre-loaded)
+;#SET (//)
+STR_removed_3
+
+;#DEF 
+;#SET (//)
+STR_SYS_CLOCK_KILOBYTES_FREE
+freie Kilobytes
+;#DEF Kilobytes free
+;#SET (//)
+STR_SYS_STARTUP_CONFIG
+Konfig.
+;#DEF Cfg return
+;#SET (//)
+STR_MENU_DUPLICATE
+Klasse kopieren...
+;#DEF Duplicate...
+;#SET (//)
+STR_FILECLASS_DUPLICATE
+Welche Klasse duplizieren...
+;#DEF Select class to duplicate...
+;#SET (//)
+STR_MENU_CLEARCLIPS
+Puffer löschen
+;#DEF Clear clips
+;#SET (//)
+STR_REALLY_CLEAR_CLIPS
+Sollen wirklich alle kopierten Funktionen gelöscht werden?
+;#DEF Really clear all clipped functions?
+;#SET (//)
+STR_SCREEN_GENERAL_DRAGREQUESTERS
+Verschiebbare Dialogfenster
+;#DEF Draggable requesters
+;#SET (//)
+STR_FORMAT_OWNER
+Besitzer
+;#DEF Owner
+;#SET (//)
+STR_FORMAT_GROUP
+Gruppe
+;#DEF Group
+;#SET (//)
+STR_PALETTE_TINT
+Gedeckt
+;#DEF Tint
+;#SET (//)
+STR_PALETTE_PHARAOH
+Pharao
+;#DEF Pharaoh
+;#SET (//)
+STR_PALETTE_SUNSET
+Sonnenuntergang
+;#DEF Sunset
+;#SET (//)
+STR_PALETTE_OCEAN
+Ozean
+;#DEF Ocean
+;#SET (//)
+STR_PALETTE_STEEL
+Stahl
+;#DEF Steel
+;#SET (//)
+STR_PALETTE_CHOCOLATE
+Schokolade
+;#DEF Chocolate
+;#SET (//)
+STR_PALETTE_PEWTER
+Zinn
+;#DEF Pewter
+;#SET (//)
+STR_PALETTE_WINE
+Wein
+;#DEF Wine
+;#SET (//)
+STR_PALETTE_A2024
+A2024
+;#DEF A2024
+;#SET (//)
+STR_FTYPE_CLICKMCLICK
+Click-M-Click
+;#DEF Click-m-click
+;#SET (//)
+STR_FTYPE_DOUBLECLICK
+Doppelklick
+;#DEF Double-click
+;#SET (//)
+STR_FUNCTION_COMMAND
+Befehl
+;#DEF Command
+;#SET (//)
+STR_FUNCTION_AMIGADOS
+AmigaDOS
+;#DEF AmigaDOS
+;#SET (//)
+STR_FUNCTION_WORKBENCH
+Workbench
+;#DEF Workbench
+;#SET (//)
+STR_FUNCTION_BATCH
+Skriptdatei
+;#DEF Batch
+;#SET (//)
+STR_FUNCTION_AREXX
+ARexx
+;#DEF ARexx
+;#SET (//)
+STR_removed_tech
+
+;#DEF 
+;#SET (//)
+STR_MODE_WORKBENCH_CLONE
+Workbench:Klonen        
+;#DEF Workbench:Clone
+;#SET (//)
+STR_MODE_WORKBENCH_USE
+Workbench:Benutzen
+;#DEF Workbench:Use
+;#SET (//)
+STR_COLOURS_TINY_GADS
+PRSA?DFKIQ
+;#DEF BRSA?EFCIQ
+;#SET (//)
+STR_FORMAT_GROUPBITS
+Netzwerk Schutzbits
+;#DEF Net protection bits
+;#SET (//)
+STR_MENUNAME_NEATSTUFF
+Hilfsmittel
+;#DEF Tools
+;#SET (//)
+STR_NEAT_PAINT_MODE
+Einfärben
+;#DEF Paint mode
+;#SET (//)
+STR_PAINT_SELECT_COLOURS
+Bitte Farben auswählen
+;#DEF Select paint colors
+;#SET (//)
+STR_PAINT_STATE
+ (Einfärbemodus aktiv)
+;#DEF   (Paint mode active)
+;#SET (//)
+STR_removed_4
+
+;#DEF 
+;#SET (//)
+STR_SCREEN_GENERAL_TITLEBARSTATUS
+Statustext in Titlezeile anzeigen
+;#DEF Display status text in title bar
+;#SET (//)
+STR_OP_UPDATE_PROGRESSIND_COPY
+Prozentanzeige für jedes File (Copy)
+;#DEF Current file progress indicator (Copy)
+;#SET (//)
+STR_SCREEN_MODE_USE
+Benutzen
+;#DEF Use
+;#SET (//)
+STR_SCREEN_GENERAL_WINDOWBORDERS
+OS2.0-Rahmen, wenn auf eigenem Bildschirm
+;#DEF Custom screen window borders
+;#SET (//)
+STR_SCREEN_MODE_CLONE
+Klonen
+;#DEF Clone
+;#SET (//)
+STR_SCREEN_SLIDERS
+Rollbalken
+;#DEF Sliders
+;#SET (//)
+STR_OP_UPDATE_PROGRESS
+Fortschrittsanzeige...
+;#DEF Progress indicator...
+;#SET (//)
+STR_FONTPLACE_SCREEN
+Bildschirmzeichensatz
+;#DEF Screen font
+;#SET (//)
+STR_FUNCTIONLIST_SETVAR
+SetVar        -   Interne Variable setzen
+;#DEF SetVar        -  Set an internal variable
+;#SET (//)
+STR_COMMANDSEQ_VARIABLE
+{v} -          vorher definierte Variable
+;#DEF {v}  -               Pre-defined variable
+;#SET (//)
+STR_SYS_VIEWPLAY_BESTMODEID
+Besten Anzeige-Modus wählen
+;#DEF Pick best screen-mode
+;#SET (//)
+STR_FUNCTIONLIST_NOTIFY
+Notify        -     Informationsrequester
+;#DEF Notify        -    Notification requester
+;#SET (//)
+STR_FUNCTIONLIST_PARENTLIST
+ParentList    -     überg. Verz. anzeigen
+;#DEF ParentList    -   List parent directories
+;#SET (//)
+STR_SIZE_KMGMODE
+Größe als K/M/G
+;#DEF Show entries as K/M/G
+;#SET (//)
+STR_SYS_VIEWPLAY_INWINDOW
+Anzeige im Fenster
+;#DEF View in window
+;#SET (//)
+STR_SYS_TOP_Y
+Oben Y
+;#DEF Top Y
+;#SET (//)
+STR_SYS_LEFT_X
+Links X
+;#DEF Left X
+;#SET (//)
+STR_SYS_WIDTH
+Breite
+;#DEF Width
+;#SET (//)
+STR_SYS_HEIGHT
+Höhe
+;#DEF Height
+;#SET (//)
+STR_CLASSOPS_MATCHI
+MatchI       - Text (ohne Groß/Klein)
+;#DEF MatchI       - text (case-insensitive)
+;#SET (//)
+STR_MENU_MAX_REACHED
+Achtung: Menü(s) aufgrund von Platzmangel nicht importiert!
+;#DEF Warning! Some menus were not imported due to lack of free space.
+;#SET (//)

@@ -1,0 +1,290 @@
+## version $VER: DOpus4_Print.catalog 1.2 (12.06.2001)
+## language español
+## codeset 0
+;
+; ------------------------------------------------------------------------
+; History:
+;
+; 1.0 (5.3.2001)
+;
+; - Initial version, translated by Javier de las Rivas <javierdlr@jazzfree.com>
+;
+;
+; 1.1 (28.5.2001)
+;
+; - First version proofread by David Rey <david@saug.org>
+;
+; - Cleaned up this source to make it more readable, added the missing
+;   'codeset' command
+;
+; - Changed the wording of
+;
+;   STR_ABORT
+;   STR_OK
+;   STR_CANCEL
+;   STR_RIGHT_MARGIN
+;   STR_TAB_SIZE
+;   STR_PAGE_NUMBER
+;   STR_TEXT_STYLE
+;   STR_OUTPUT_TO
+;   STR_FINE
+;   STR_DOUBLESTRIKE
+;   STR_HEADER
+;   STR_PROTECTION
+;   STR_FILETYPE
+;   STR_PRINTDIR
+;   STR_UNABLE_TO_OPEN_FILE
+;   STR_UNABLE_TO_OPEN_OUTPUT
+;   STR_UNABLE_TO_OPEN_PRINTER
+;   STR_ERROR_PRINTING_DIR
+;   STR_INCORRECT_PASSWORD
+;   STR_REALLY_ABORT
+;   STR_PRESS_ESCAPE
+;   STR_PAGE
+;   STR_COMPLETE
+;
+; - Fixed a typo in STR_ELITE
+;
+; - Added a \n wrapper to STR_PRINT_ERROR to make it look nicer
+;
+;
+; 1.2 (12.6.2001)
+;
+; - *New strings*:
+;
+;   STR_TOFILE
+;   STR_PRINTWIN
+;
+; ------------------------------------------------------------------------
+;
+STR_SELECT_FILE
+Elija fichero...
+; Select file
+;
+STR_ABORT
+Interrumpir
+; Abort
+;
+STR_CONTINUE
+Continuar
+; Continue
+;
+STR_OKAY
+Ok
+; Okay
+;
+STR_CANCEL
+Cancelar
+; Cancel
+;
+STR_FILE
+Fich.
+; File
+;
+STR_TOP_MARGIN
+Margen sup.:
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Margen inf.:
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Margen izq.:
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Margen derecho
+; Right Margin
+;
+STR_TAB_SIZE
+Tabulador:
+; Tab size
+;
+STR_PRINT_PITCH
+Separación
+; Print pitch
+;
+STR_QUALITY
+Calidad
+; Density
+;
+STR_EJECT
+Expulsar página
+; Eject final page
+;
+STR_CONFIGURATION
+configuración...
+; configuration...
+;
+STR_TITLE
+Título
+; Title
+;
+STR_DATE
+Fecha
+; Date
+;
+STR_PAGE_NUMBER
+Nº pág.
+; Page no.
+;
+STR_TEXT_STYLE
+Estilo
+; Text style
+;
+STR_PRINTER
+Impresora
+; Printer
+;
+STR_PRINT
+Imprimir
+; Print
+;
+STR_EXIT
+Salir
+; Exit
+;
+STR_OUTPUT_TO
+Enviar a...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Élite
+; Elite
+;
+STR_FINE
+Fina
+; Fine
+;
+STR_NORMAL
+Normal
+; Normal
+;
+STR_BOLD
+Negrita
+; Bold
+;
+STR_ITALICS
+Cursiva
+; Italics
+;
+STR_UNDERLINED
+Subrayada
+; UnLined
+;
+STR_DOUBLESTRIKE
+Doble an.
+; DbStrik
+;
+STR_SHADOW
+Sombreado
+; Shadow
+;
+STR_DRAFT
+Borrador
+; Draft
+;
+STR_LETTER
+Carta
+; Letter
+;
+STR_HEADER
+Cabecera
+; Header
+;
+STR_FOOTER
+Pie pág.
+; Footer
+;
+STR_SIZE
+Tamaño
+; Size
+;
+STR_PROTECTION
+Banderas
+; Protection
+;
+STR_COMMENT
+Comentario
+; Comment
+;
+STR_FILETYPE
+Tipo de fichero
+; File type
+;
+STR_PRINT_DOT
+Imprimir...
+; Print...
+;
+STR_PRINTDIR
+Imprimir directorio
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+No se ha podido abrir el fichero.\n\n¿Reintentarlo?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+No se ha podido abrir el fichero de salida.\n\n¿Reintentarlo?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+No se ha podido inicializar la impresora.\n\n¿Reintentarlo?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+No se ha podido imprimir el directorio.\n\n¿Reintentarlo?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+La contraseña introducida no es correcta.\n\n¿Reintentarlo?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+¡Error al imprimir!\n\n¿Reintentarlo?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+¿De verdad desea interrumpir la impresión?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Creando fichero...
+; Creating file
+;
+STR_OPENING_PRINTER
+Inicializando impresora...
+; Opening printer
+;
+STR_LOADING_FILE
+Cargando fichero...
+; Loading file..
+;
+STR_PRINTING_FILE
+Imprimiendo...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+<ESC> = interrumpir
+; Press ESC to abort
+;
+STR_PAGE
+Página
+; Page
+;
+STR_COMPLETE
+hecho
+; complete
+;
+STR_TOFILE
+Fichero
+; File
+;
+STR_PRINTWIN
+Imprimir
+; Print

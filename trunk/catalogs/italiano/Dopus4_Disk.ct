@@ -1,0 +1,239 @@
+## chunk AUTH Massimo Mascia & Francesco Mancuso
+## language italiano
+## version $VER: DOpus4_Disk.catalog 1.2 (05.06.2001)
+STR_FORMAT_NAME
+_Nome
+;#DEF _Name
+;#SET (//)
+STR_FORMAT_FFS
+_Fast file system
+;#DEF _Fast File System
+;#SET (//)
+STR_FORMAT_INTERNATIONAL
+Modo _internazionale
+;#DEF _International Mode
+;#SET (//)
+STR_FORMAT_CACHING
+_Directory cache
+;#DEF _Directory Caching
+;#SET (//)
+STR_FORMAT_TRASHCAN
+_Con cestino
+;#DEF _Put Trashcan
+;#SET (//)
+STR_FORMAT_VERIFY
+_Verifica
+;#DEF _Verify
+;#SET (//)
+STR_FORMAT_FORMAT
+Formatta
+;#DEF Format
+;#SET (//)
+STR_FORMAT_QUICKFORMAT
+Veloce
+;#DEF Quick Format
+;#SET (//)
+STR_FORMAT_EXIT
+Annulla
+;#DEF Exit
+;#SET (//)
+STR_FORMAT_EMPTY
+Vuoto
+;#DEF Empty
+;#SET (//)
+STR_FORMAT_INFODISPLAY
+%ld tracce, %ld byte/tr., %s
+;#DEF %ld tracks, %ld bytes/trk, %s
+;#SET (//)
+STR_FORMAT_FORMATTING
+Formatto %ld, %ld alla fine
+;#DEF Formatting %ld, %ld to go
+;#SET (//)
+STR_FORMAT_VERIFYING
+Verifico %ld, %ld alla fine
+;#DEF Verifying  %ld, %ld to go
+;#SET (//)
+STR_FORMAT_INITIALISING
+Inizializzazione disco...
+;#DEF Initialising disk...
+;#SET (//)
+STR_FORMAT_FORMATERROR
+Errore di formattazione - traccia %ld
+;#DEF Format error on track %ld
+;#SET (//)
+STR_FORMAT_ERRORVERIFYING
+Errore durante verifica - traccia %ld
+;#DEF Error verifying track %ld
+;#SET (//)
+STR_FORMAT_VERIFYERROR
+Errore di verifica - traccia %ld
+;#DEF Verify error on track %ld
+;#SET (//)
+STR_SUCCESS
+Operazione riuscita
+;#DEF Operation successful
+;#SET (//)
+STR_FAILED_ERROR
+Operazione non riuscita
+;#DEF Operation failed
+;#SET (//)
+STR_MEMORY_ERROR
+Memoria insufficiente
+;#DEF Not enough memory
+;#SET (//)
+STR_BITMAP_ERROR
+Errore di bitmap
+;#DEF Bitmap error
+;#SET (//)
+STR_DEVICE_ERROR
+Errore dispositivo
+;#DEF Device error
+;#SET (//)
+STR_NODEVICE_ERROR
+Non posso aprire il dispositivo
+;#DEF Couldn't open device
+;#SET (//)
+STR_RETRY
+Ritenta
+;#DEF Retry
+;#SET (//)
+STR_NODISKPRESENT
+Nessun disco in %s
+;#DEF No disk present in %s
+;#SET (//)
+STR_DISKWRITEPROTECTED
+Il disco in %s è protetto da scrittura
+;#DEF Disk in %s is write protected
+;#SET (//)
+STR_ABORTED
+Interrotto...
+;#DEF Aborted...
+;#SET (//)
+STR_FORMAT_MAKINGTRASHCAN
+Creo il cestino...
+;#DEF Creating Trashcan...
+;#SET (//)
+STR_DISK_NOT_BLANK
+Il disco in %s non è vuoto!\n\nIl volume \"%s\" contiene %s.\n\nTutti i dati saranno cancellati.\nScegli "Procedi" per continuare\ncon la formattazione.
+;#DEF Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\nAll data will be erased.\nChoose Proceed to continue the %s.
+;#SET (//)
+STR_PROCEED
+Procedi
+;#DEF Proceed
+;#SET (//)
+STR_CHECKING_DESTINATION
+Controllo il disco destinazione...
+;#DEF Checking destination disk...
+;#SET (//)
+STR_DISKCOPY_DISKCOPY
+Copia disco
+;#DEF Diskcopy
+;#SET (//)
+STR_DISKCOPY_FROM
+Da...
+;#DEF From...
+;#SET (//)
+STR_DISKCOPY_TO
+A...
+;#DEF To...
+;#SET (//)
+STR_DISKCOPY_INFODISPLAY
+%s, %s in uso
+;#DEF %s, %s used
+;#SET (//)
+STR_DISKCOPY_NODISK
+Informazioni disco non disponibili
+;#DEF No disk info available
+;#SET (//)
+STR_CHECKING_DISKS
+Controllo il disco...
+;#DEF Checking disk(s)...
+;#SET (//)
+STR_DISKCOPY_READING
+Leggo   %ld, %ld alla fine
+;#DEF Reading    %ld, %ld to go
+;#SET (//)
+STR_DISKCOPY_WRITING
+Scrivo    %ld, %ld alla fine
+;#DEF Writing    %ld, %ld to go
+;#SET (//)
+STR_DISKCOPY_READERROR
+Errore di lettura - traccia %ld
+;#DEF Read error on track %ld
+;#SET (//)
+STR_DISKCOPY_WRITEERROR
+Errore di scrittura - traccia %ld
+;#DEF Write error on track %ld
+;#SET (//)
+STR_DISKCOPY_INSERTSOURCE
+Inserisci disco sorgente in %s
+;#DEF Insert source disk in %s
+;#SET (//)
+STR_DISKCOPY_INSERTDEST
+Inserisci disco destinazione in %s
+;#DEF Insert destination disk in %s
+;#SET (//)
+STR_INSTALL_INSTALL
+Installa
+;#DEF Install
+;#SET (//)
+STR_INSTALL_NOBOOT
+Nessun avvio
+;#DEF No Boot
+;#SET (//)
+STR_INSTALL_NOINFO
+Info blocco d'avvio non disponibili
+;#DEF Bootblock info unavailable
+;#SET (//)
+STR_INSTALL_NOTBOOTABLE
+Il disco non è avviabile
+;#DEF Disk is not bootable
+;#SET (//)
+STR_INSTALL_NORMAL
+Blocco d'avvio %s %s normale
+;#DEF Normal %s %s bootblock
+;#SET (//)
+STR_INSTALL_NONSTANDARD
+Blocco d'avvio non standard
+;#DEF Non-standard bootblock
+;#SET (//)
+STR_INSTALL_ERRORWRITING
+Errore di scrittura del blocco d'avvio!
+;#DEF Error writing bootblock!
+;#SET (//)
+STR_INVALID_DISK
+Il disco non è adatto all'installazione
+;#DEF Disk is unsuitable for installing
+;#SET (//)
+STR_INSTALL_INSTALLINGDISK
+Installazione disco...
+;#DEF Installing disk...
+;#SET (//)
+STR_CANCEL
+Annulla
+;#DEF Cancel
+;#SET (//)
+STR_BUMP_NAMES
+Cam_bia nome
+;#DEF _Bump name
+;#SET (//)
+STR_BUMPING_NAME
+Cambio il nome del disco...
+;#DEF Bumping disk name...
+;#SET (//)
+STR_DISKCOPY_CHECK
+Controlla
+;#DEF Check
+;#SET (//)
+STR_WINDOW_FORMAT
+Formatta
+;#DEF Format
+;#SET (//)
+STR_WINDOW_DISKCOPY
+Copia disco
+;#DEF Diskcopy
+;#SET (//)
+STR_WINDOW_INSTALL
+Installa
+;#DEF Install
+;#SET (//)

@@ -1,0 +1,1192 @@
+## version $VER: DOpus4.catalog 1.1 (15.06.2001)
+## language suomi
+## codeset 0
+;## chunk AUTH Jari Komulainen & Sami Raunio
+;
+STR_DIRS_FILES_BYTES_COUNT
+Hakemistoja : %03ld/%03ld  Tiedostoja : %03ld/%03ld  Tavuja : %7ld/%7ld
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7ld/%7ld
+STR_DOPUS_ALREADY_RUNNING
+Directory Opus on jo käynnissä.\nHaluatko käynnistää uuden kopion?
+; Directory Opus is already resident in memory.\nDo you want to run another copy?
+STR_UNABLE_TO_OPEN_WINDOW
+Ruutua/ikkunaa ei voitu avata!
+; Unable to open screen/window!
+STR_WELCOME_TO_DOPUS
+Tervetuloa Directory Opukseen!
+; Welcome to Directory Opus!
+STR_WELCOME_BACK_TO_DOPUS
+Tervetuloa takaisin Directory Opukseen!
+; Welcome back to Directory Opus!
+STR_INTERROGATING_FILE
+Tutkin tiedostoa...
+; Interrogating file...
+STR_READING_DIRECTORY
+Luen hakemistoa...
+; Reading directory...
+STR_ENTER_ARGUMENTS_FOR
+Anna määritteet kohteelle \"%s\"
+; Enter arguments for \"%s\"
+STR_ENTER_DIRECTORY_NAME
+Anna hakemistonimi
+; Enter directory name
+STR_FILE_ALREADY_EXISTS
+Tiedosto tai hakemisto on jo olemassa!
+; File or directory already exists! *
+STR_DIRECTORY_CREATED
+Hakemisto luotu.
+; Directory created.
+STR_PRINTING_DIRECTORY
+Tulostan hakemistoa...
+; Printing directory..
+STR_DIRECTORY
+Hakemisto 
+; Directory
+STR_DEVICE_LIST
+Laitelista\n\n
+; Device list\n\n
+STR_NO_CHIP_FOR_ICON
+Grafiikkamuistia ei ole tarpeeksi ikonin näyttämiseen
+; Not enough chip memory to display icon *
+STR_FILE_NOT_ILBM
+Ei ole ILBM tiedosto
+; File is not ILBM *
+STR_ERROR_IN_IFF
+Virhe IFF-rakenteessa
+; Error in IFF structure
+STR_NO_CHIP_FOR_PICTURE
+Grafiikkamuistia ei ole tarpeeksi kuvan näyttämiseen
+; Not enough chip memory to display picture *
+STR_CANT_ALLOCATE_AUDIO
+Äänikanavien varaus epäonnistui
+; Can't allocate audio channels
+STR_NOT_ST_MOD
+Tiedosto ei ole tuettu musiikkimoduli
+; File is not a supported music module
+STR_FILE_EXISTS_REPLACE
+\"%s\" on jo olemassa! Korvataanko?
+; \"%s\" already exists! Replace? *
+STR_SELECT_UNPROTECT
+\nValitse Poista suojaus asettaaksesi poisto bitin.
+; \nSelect Unprotect to set the deletion bit. *
+STR_ENTER_TIME
+Anna aika muodossa TT:MM:SS
+; Enter time in the form HH:MM:SS
+STR_AREXX_NOT_RUNNING
+ARexx-palvelinta ei löydy!
+; ARexx server not found! *
+STR_ENTER_AREXX_COMMAND
+Anna ARexx-käsky
+; Enter ARexx command
+STR_ENTER_NEW_CD
+Mihin hakemistoon siirrytään
+; Enter new current directory *
+STR_SCANNING_DEVICE_LIST
+Luen laitelistaa...
+; Scanning device list... * ; Tutkaan, luotaan, ei kovin sujuvaa suomea. ;-)
+STR_FOUND_A_MATCH
+Löysin tiedoston \"%s\" hakemistosta\n\"%s\"\nSiirrynkö sinne?
+; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+STR_BUFFERS_CLEARED
+Tällä hetkellä käyttämättömät puskurit tyhjenetty.
+; Buffers not currently displayed have been cleared. * ; Helmi: Tyhjennetty puskurit, jotka eivät ole nyt näytössä. 
+STR_UNREADABLE_DISK
+Lukukelvoton levy
+; Unreadable disk *
+STR_NOT_A_DOS_DISK
+Ei DOS-levy
+; Not a DOS disk
+STR_KICKSTART_DISK
+Kickstart-levy
+; Kickstart disk
+STR_VALIDATING
+Selvitän
+; Validating
+STR_WRITE_PROTECTED
+Kirjoitussuojattu
+; Write protected
+STR_READ_WRITE
+Lue/Kirjoita
+; Read/Write
+STR_DEVICE_NOT_MOUNTED
+Laitetta ei ole otettu käyttöön
+; Device or volume not mounted *
+STR_NO_DISK_IN_DRIVE
+Asemassa ei ole levyä
+; No disk in drive *
+STR_DOS_ERROR_CODE
+DOS-virhekoodi %ld
+; DOS error code %ld
+STR_ENTER_NEW_DISK_NAME
+Anna levylle uusi nimi
+; Enter new disk name *
+STR_ENTER_ASSIGN_NAME
+Mihin hakemistoon levy siiretään
+; Enter directory to re-assign device *
+STR_CANT_CANCEL_ASSIGN
+Oikopolkua ei voi poistaa
+; Can't cancel assign. * ; Määritettä ei voitu perua. (assign = oikopolku, uusi keksintö)
+STR_ENTER_DEVICE_NAME
+Anna hakemiston laitenimi
+; Enter device name for this directory *
+STR_ASSIGN_FAILED
+Oikopolun luonti ei onnistu.
+; Assign failed  * ; Määritys epäonnistui
+STR_NO_DESTINATION_SELECTED
+Kohdehakemistoa ei valittu!
+; No destination directory selected! *
+STR_CANT_COPY_DIR_TO_ITSELF
+Hakemistoa ei voida kopioida itsensä päälle!
+; You can't copy a directory into itself! *
+STR_SHOWING_FONT
+Näytän kirjasinta...
+; Showing selected font... *
+STR_RUNNING_FILE
+Ajan tiedostoa...
+; Running selected file... *
+STR_PLAYING_FILE
+Soitan tiedostoa...
+; Playing selected file... *
+STR_SHOWING_FILE
+Näytän tiedostoa...
+; Showing selected file... *
+STR_PLAYING_ST_MOD
+Soitan musiikkimodulia...
+; Playing music module...
+STR_READING_SELECTED_FILE
+Luen tiedostoa...
+; Reading selected file... *
+STR_FOUND_A_MATCH_READ
+Löysin vastaavan tiedostosta\n\"%s\"\nLuenko tiedoston?
+; Found a match in the file\n\"%s\"\nShall I read the file?
+STR_CONFIG_CHANGED_QUIT
+Olet muuttanut asetuksia.\nHaluatko todella lopettaa?
+; You have modified the configuration.\nDo you really want to quit?
+STR_SAVING_CONFIG
+Tallennan asetuksia...
+; Saving configuration.. *
+STR_READING_CONFIG
+Luen asetuksia...
+; Reading configuration..
+STR_CONFIG_CHANGED_LASTSAVED
+Olet muuttanut asetuksia.\nLadataanko varmasti viimeksi tallennetut asetukset?
+; You have modified the configuration.\nReally load the last-saved settings? *
+STR_CONFIG_CHANGED_DEFAULTs
+Olet muuttanut asetuksia.\nTalletetaanko ennen kuin palautan oletukset?
+; You have modified the configuration.\nSave before restoring defaults?
+STR_HELP_NOT_AVAILABLE
+Toiminnolle ei ole apua saatavilla!
+; Help not available for that function! *
+STR_SCANNING_TREE
+Luen hakemistopuuta...
+; Scanning directory tree... * ; tutkaan on tönkkö suomea. ;-)
+STR_ENTER_A_STRING
+Anna merkkijono
+; Enter a string
+STR_PLEASE_CHOOSE
+Valitse, ole hyvä
+; Please choose
+STR_COMMENTING
+kommentoin
+; commenting
+STR_PROTECTING
+suojaan
+; protecting
+STR_DATESTAMPING
+päivitän
+; datestamping
+STR_DELETING
+poistan
+; deleting
+STR_COPYING
+kopioin
+; copying
+STR_CREATING
+luon
+; creating
+STR_CANT_OVERCOPY_FILES
+Et voi kopioida itsensä päälle näitä tiedostoja!
+; You can't copy these files over themselves!
+STR_INTERROGATING_FILES
+Tutkin tiedostoja...
+; Interrogating files...
+STR_NOT_IDENTIFIED
+%s ei voi tunnistaa.
+; %s could not be identified.
+STR_LOADING_CONFIG
+Lataa asetusohjelmaa...
+; Loading configuration program...
+STR_WAITING_FOR_PORT
+Odotan asetusporttia...
+; Waiting for configuration port...
+STR_CONFIG_NOT_FOUND
+Asetusohjelmaa ei löytynyt tai ei voitu ladata.
+; Configuration program not found/could not be loaded.
+STR_ALIEN_WINDOWS
+Directory Opuksen ruudulla on vieraita ikkunoita avoinna.\nValitse Peru ja sulje ne itse, tai valitse Sulje\nniin Directory Opus sulkee ne puolestasi (VAARA!)
+; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+STR_REALLY_DELETE
+Haluatko todella poistaa valitut kohteet?
+; Do you really wish to delete selected entries? *
+STR_WISH_TO_DELETE
+Haluatko todella poistaa \"%s\"?
+; Do you really wish to delete \"%s\"?
+STR_NOT_EMPTY
+\"%s\" ei ole tyhjä! Poistetaanko?
+; \"%s\" is not empty! Delete?
+STR_ENTER_NEW_NAME
+Anna uusi nimi
+; Enter new name
+STR_RENAMING
+uudelleennimeän
+; renaming
+STR_ENTER_NEW_NAME_MOVE
+Anna uusi nimi siirretylle tiedostolle
+; Enter new name for moved file
+STR_MOVING
+siirrän
+; moving
+STR_ENTER_NEW_NAME_CLONE
+Anna uusi nimi kloonatulle kohteelle
+; Enter name for cloned entry *
+STR_CLONING
+kloonaan
+; cloning
+STR_SIZE_IS_NOT_KNOWN
+Valitun hakemiston kokoa ei tiedetä.\nLaskenko hakemiston koon?
+; Size is not known for the selected directory.\nPerform a byte count on this directory? *
+STR_FILE_MAY_NOT_FIT
+Valittu tiedosto ei luultavasti mahdu kohteseen.\nJatkanko kopiointia?
+; Selected file will probably not fit in destination.\nContinue with the copy?
+STR_SIZES_NOT_KNOWN
+Valittuna on hakemistoja joiden kokoa ei tiedetä.\nLaskenko näiden hakemistojen koon?
+; Sizes are not known for some selected directories.\nPerform a byte count on these directories? *
+STR_ENTRIES_MAY_NOT_FIT
+Valitut tiedostot eivät luultavasti mahdu kohteeseen.\nJatkanko kopiointia?
+; Selected entries will probably not fit in destination.\nContinue with the copy? *
+STR_ENTER_NEW_NAME_COPY
+Anna uusi nimi kopioidulle tiedostolle
+; Enter new name for copied file
+STR_ENTER_HUNT_PATTERN
+Anna tiedostosovite etsittäväksi
+; Enter file pattern to hunt ; tiedostosovite on kauhea sana.
+STR_COULD_NOT_FIND_FILE
+Valitan! Tiedostoa ei löytynyt!
+; Sorry! File could not be found!
+STR_FOUND_MATCHING_FILES
+Löysin %ld täsmäävää tiedostoa.
+; Found %ld matching files. *
+STR_ADDING_ICON
+lisään ikonin kohteeseen
+; adding an icon to
+STR_recremoved1
+
+; 
+STR_ENTER_COMMENT
+Anna kommentti
+; Enter comment
+STR_recremoved2
+
+; 
+STR_ENTER_PASSWORD
+Anna salasana
+; Enter password
+STR_recremoved3
+
+; 
+STR_ENTER_DATE_AND_TIME
+Anna päiväys ja aika (tyhjä = nykyinen)
+; Enter date and time (blank for current)
+STR_ENTER_SEARCH_STRING
+Anna etsintä merkkijono
+; Enter search string *
+STR_recremoved4
+
+; 
+STR_STRING_NOT_FOUND
+Valitan! Merkkijonoa ei löytynyt!
+; Sorry! String could not be found!
+STR_MATCHED_FILES
+Osumia %ld tiedostossa.
+; Matched in %ld files.
+STR_NO_SOURCE_SELECTED
+Lähdehakemistoa ei ole valittu!
+; No source directory selected! *
+STR_TEMPORARY_OUTPUT_FILE
+Tilapäinen tulostustiedosto
+; Temporary output file
+STR_ENTER_ARGUMENTS
+Anna määritteet
+; Enter arguments
+STR_SELECT_FUNCTION
+Valitse toiminto josta haluat apua, tai Apua uudestaan palataksesi takaisin.
+; Select function you need help with, or Help again to cancel. *
+STR_NOT_ENOUGH_MEMORY
+Muistia ei ole tarpeeksi
+; Not enough memory *
+STR_PROCESS_TABLE_FULL
+Prosessitaulukko täynnä
+; Process table full
+STR_BAD_TEMPLATE
+Epäkelpo malli
+; Bad template
+STR_BAD_NUMBER
+Epäkelpo numero
+; Bad number
+STR_REQUIRED_ARG_MISSING
+Vaadittu määrite puuttuu
+; Required argument missing
+STR_ARGUMENT_MISSING
+\"=\"-merkin jälkeinen määrite puuttuu
+; Argument after \"=\" missing
+STR_TOO_MANY_ARGUMENTS
+Liian monta määritettä
+; Too many arguments
+STR_UNMATCHED_QUOTED
+Lainausmerkit eivät täsmää
+; Unmatched quotes
+STR_ARG_LINE_TOO_LONG
+Määriterivi epäkelpo tai liian pitkä
+; Argument line invalid or too long
+STR_FILE_NOT_EXECUTABLE
+Tiedosto ei ole ohjelma
+; File is not executable *
+STR_INVALID_LIBRARY
+Epäkelpo pysyväkirjasto
+; Invalid resident library
+STR_OBJECT_IN_USE
+Kohde on käytössä
+; Object is in use
+STR_OBJECT_EXISTS
+Kohde on jo olemassa
+; Object already exists *
+STR_DIR_NOT_FOUND
+Hakemistoa ei löytynyt
+; Directory not found
+STR_OBJECT_NOT_FOUND
+Kohdetta ei löytynyt
+; Object not found
+STR_INVALID_WINDOW
+Ikkuna määreet eivät ole sopivia
+; Invalid window description *
+STR_UNKNOWN_PACKET
+Tuntematon pakettipyynnön tyyppi
+; Packet request type unknown *
+STR_OBJECT_NAME_INVALID
+Kohteen nimi epäkelpo
+; Object name invalid
+STR_INVALID_LOCK
+Kohdelukitus epäkelpo
+; Invalid object lock
+STR_OBJECT_BAD_TYPE
+Kohde ei ole vaadittua tyyppiä
+; Object not of required type
+STR_DISK_NOT_VALIDATED
+Levyä ei ole selvitetty
+; Disk not validated
+STR_DISK_WRITE_PROTECTED
+Levy on kirjoitussuojattu
+; Disk is write-protected
+STR_RENAME_DEVICES_ATTEMPTED
+Laitteidenvälistä uudelleennimeämistä yritetty
+; Rename across devices attempted *
+STR_DIRECTORY_NOT_EMPTY
+Hakemisto ei ole tyhjä
+; Directory not empty
+STR_TOO_MANY_LEVELS
+Lian monta tasoa
+; Too many levels
+STR_SEEK_ERROR
+Hakuvirhe
+; Seek error
+STR_COMMENT_TOO_LONG
+Kommentti on liian pitkä
+; Comment is too long
+STR_DISK_FULL
+Levy on täynnä
+; Disk is full
+STR_OBJECT_DELETE_PROTECTED
+Kohde on suojattu poistamiselta
+; Object is protected from deletion *
+STR_OBJECT_WRITE_PROTECTED
+Tiedosto on kirjoitussuojattu
+; File is write protected
+STR_OBJECT_READ_PROTECTED
+Tiedosto on lukusuojattu
+; File is read protected
+STR_NOT_VALID_DOS_DISK
+Epäkelpo DOS-levy
+; Not a valid DOS disk *
+STR_NO_MORE_ENTRIES
+Hakemistossa ei ole valittavia kohteita
+; No more entries in directory *
+STR_OBJECT_IS_SOFT_LINK
+Kohde on pehmo-linkki
+; Object is soft link *
+STR_CONFIG_CHANGED_LOAD
+Olet muuttanut nykyisiä asetuksia.\nLadataanko varmasti uudet asetustuket?
+; You have modified the configuration.\nReally load a new configuration file? *
+STR_ABORTED
+Keskeytetty...
+; Aborted...
+STR_ENTER_DOS_ERROR_CODE
+Anna DOS-virhekoodi
+; Enter DOS error code
+STR_NO_HELP_FOR_ERROR
+Virhekoodista ei ole lisätietoja!
+; Help not available for that error code! *
+STR_ERROR_OCCURED
+Ilmeni virhe %s \"%s\"\n%s
+; An error occured %s \"%s\"\n%s
+STR_RENAME
+Uudelleennimeä
+; Rename
+STR_AS
+Nimellä
+; As
+STR_ENTER_SELECT_PATTERN
+Anna valintasovite
+; Enter select pattern ; sovite on hirveä sana.
+STR_FILE_ENCRYPTED
+\nTiedosto on salakirjoitettu!\n\n
+; \nFile is encrypted!\n\n *
+STR_READING_FILE
+Luen tiedostoa...
+; Reading file..
+STR_NO_MEMORY_TO_DECRUNCH
+Tiedoston lukemista/purkamista varten ei ole tarpeeksi muistia!
+; Not enough memory to load/decrunch complete file! *
+STR_BAD_PASSWORD
+Virheellinen salasana!
+; Incorrect password given!
+STR_COUNTING_LINES
+Lasken rivejä...
+; Counting lines..
+STR_JUMP_TO_LINE
+Siirry riville numero?
+; Jump to which line?
+STR_JUMP_TO_PERCENTAGE
+Siirry prosentille?
+; Jump to what percentage? *
+STR_CANT_OPEN_PRINTER
+Tulostinta ei voitu avata!
+; Can't open printer!
+STR_ERROR_PRINTING_FILE
+Tiedostoa tulostettaessa sattui virhe! IoErr = %ld\n
+; Error printing file! IoErr = %ld\n *
+STR_READY_PRINTER
+Laita tulostin valmiiksi ja valitse Selvä
+; Ready printer, and choose OKAY to continue
+STR_CANT_FIND_ICON
+Tiedostolle ei löytynyt tai sille ei voitu ladata ikonia.
+; Unable to find or load an icon for that file.
+STR_ENCRYPTING
+salaan
+; encrypting
+STR_NEW_DISK_INSERTED
+Asemassa DF%ld: on uusi levy\nHaluatko lukea sen sisällön?
+; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk? *
+STR_recremoved5
+
+; 
+STR_ENTER_DATE_1
+Anna päiväys muodossa PP-KKK-VV
+; Enter date in the form DD-MMM-YY
+STR_ENTER_DATE_2
+Anna päiväys muodossa VV-KK-PP
+; Enter date in the form YY-MM-DD
+STR_ENTER_DATE_3
+Anna päiväys muodossa KK-PP-VV
+; Enter date in the form MM-DD-YY
+STR_ENTER_DATE_4
+Anna päiväys muodossa PP-KK-VV
+; Enter date in the form DD-MM-YY
+STR_CONTINUE_WITH_SEARCH
+Haluatko jatkaa etsintää?
+; Do you wish to continue with the search?
+STR_REALLY_QUIT
+Haluatko todella lopettaa Directory Opuksen?
+; Do you really want to quit Directory Opus?
+STR_REALLY_PROCEED
+Haluatko todella jatkaa tätä toimintoa?
+; Do you really wish to proceed with this operation? *
+STR_SCREEN_MODE_UNAVAILABLE
+Näyttötila ei saatavilla.
+; Screen mode not available.
+STR_ERROR_INITIALISING_PRINTER
+Tulostinta alustettaessa sattui virhe.\nTarkasta kaapeli ja kytkennät.
+; Error initialising printer.\nCheck cable and connections. *
+STR_REALLY_ABORT_PRINT
+Keskeytetäänkö tulostus?
+; Really abort the print?
+STR_SELECT_SOURCE_DIR
+Valitse lähdehakemisto
+; Select the source directory
+STR_SELECT_DESTINATION_DIR
+Valitse kohdehakemisto
+; Select the destination directory
+STR_SELECT_A_FILE
+Valitse tiedosto
+; Select a file
+STR_SELECT_A_DIRECTORY
+Valitse hakemisto
+; Select a directory
+STR_LEFT_WINDOW
+Vasen ikkuna
+; Left window
+STR_RIGHT_WINDOW
+Oikea ikkuna
+; Right window
+STR_DEVICE_LIST_TITLE
+<Laitelista>
+; <Device list>
+STR_DIR_NOT_AVAILABLE_TITLE
+<Ei hakemistoa saatavilla>
+; <Directory not available> *
+STR_BUFFER_LIST_TITLE
+<Lista puskurissa>
+; <Buffer list> *
+STR_UNPROTECT
+Poista suojaus
+; Unprotect *
+STR_RUN
+Käynnistä
+; Run
+STR_TRY_AGAIN
+Yritä uudestaan
+; Try Again *
+STR_RETRY
+Yritä vielä
+; Retry *
+STR_ABORT
+Keskeytä
+; Abort
+STR_REPLACE
+Korvaa
+; Replace
+STR_SKIP
+Ohita
+; Skip
+STR_ALL
+Kaikki
+; All
+STR_REMOVE
+Poista
+; Remove
+STR_QUIT
+Lopeta
+; Quit
+STR_SAVE_QUIT
+Tallenna ja lopeta
+; Save & quit *
+STR_LOAD
+Lataa
+; Load
+STR_SAVE
+Tallenna
+; Save *
+STR_DEFAULTS
+Oletukset
+; Defaults
+STR_CLOSE
+Sulje
+; Close
+STR_DELETE
+Poista
+; Delete
+STR_LEAVE
+Jätä
+; Leave
+STR_YES
+Kyllä
+; Yes
+STR_NO
+Ei
+; No
+STR_ICONIFY
+Ikonisoi
+; Iconify
+STR_CONTINUE
+Jatka
+; Continue
+STR_OKAY
+Selvä
+; Okay
+STR_CANCEL
+Peru
+; Cancel *
+STR_OKAY_TITLE
+Selvä
+; OK
+STR_DESCRIPTION
+Kuvaus
+; Description
+STR_PRINT_CONTROL
+Tulostuksen hallinta
+; Print control *
+STR_FILE
+Tiedosto
+; File
+STR_IMAGE_SIZE
+Kuvan koko
+; Image size
+STR_PAGE_SIZE
+Sivun koko
+; Page size
+STR_SCREEN_SIZE
+Ruudun koko
+; Screen size
+STR_DEPTH
+Syvyys
+; Depth
+STR_COLOURS
+Värejä
+; Colors
+STR_SCREEN_MODES
+Näyttötilat
+; Screen modes
+STR_ASPECT
+_Sijainti:
+; _Aspect:
+STR_IMAGE
+_Kuva:
+; _Image:
+STR_SHADE
+_Varjo:
+; _Shade:
+STR_PLACEMENT
+_Asettelu:
+; _Placement:
+STR_FORMFEED
+A_rkkisyöttö
+; _Form feed
+STR_PRINT
+Tulosta
+; Print
+STR_ABORT_PRINT
+Keskeytä tulostus
+; Abort print
+STR_PORTRAIT
+Muotokuva
+; Portrait
+STR_LANDSCAPE
+Maisemakuva
+; Landscape
+STR_POSITIVE
+Positiivi
+; Positive
+STR_NEGATIVE
+Negatiivi
+; Negative
+STR_BLACK_WHITE
+Mustavalko
+; Black&White
+STR_GRAY_SCALE
+Harmaasävy
+; Gray scale
+STR_COLOUR
+Väri
+; Color
+STR_CENTER
+Keskitä
+; Center
+STR_FULL_LEFT
+Täysi vasen
+; Full left
+STR_FONT
+Kirjasin
+; Font
+STR_FONT_SIZE
+Kirjasinkoko
+; Font size
+STR_NUM_CHARS
+Merkistöt
+; Characters
+STR_FONT_STYLE
+Kirjasintyyli
+; Font style
+STR_FONT_FLAGS
+Kirjasinliput
+; Font flags
+STR_ICON
+Ikoni
+; Icon
+STR_ICON_TYPE
+Ikonityyppi
+; Icon type
+STR_ICON_ALTERNATE
+Vaihtokuva
+; Alt. image
+STR_ICON_DEFAULTTOOL
+Oletus työkalu
+; Default tool
+STR_NUM_FRAMES
+Ruutu
+; Frame
+STR_PLAYING_ANIM
+Näytän valittua animaatiota...
+; Playing selected animation...
+STR_OLD_NEW_FILE_REPLACE
+"\"%s\" on jo olemassa! Korvataanko?\n\nUusi  -  koko : %7ld  päiväys : %19s\nvanha -  koko : %7ld  päiväys : %19s
+; "\"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -  Size : %7ld  Date : %19s *
+STR_REMAINING
+%ld jäljellä %ld kohteesta
+; %ld of %ld items
+STR_CUSTOM_LIST
+Muokattu lista
+; Custom list *
+STR_ENTRIES_IN_TREE
+%ld valintaa hakemistopuussa
+; %ld entries in tree
+STR_DIRS_IN_BUFFERS
+%ld hakemistoa puskureissa
+; %ld directories in buffers
+STR_USER_ENTRIES
+%ld käyttäjän määrittämää valintaa
+; %ld user-defined entries
+STR_COMPLETED
+Valmiina
+; Completed
+STR_UNICONIFY
+Palauta
+; Uniconify
+STR_CUSTPORT_NOT_FOUND
+Käyttäjän määrittämää käsittelijäporttia\n\"%s\"ei löytynyt!
+; User-specified custom handler port\n\"%s\"\ncould not be found!
+STR_CHECKFIT_STRING
+Tarvitaan tavuja: %11ld  vapaana tavuja : %11ld   sopii : %s%%
+; Bytes needed : %11ld   Bytes free : %11ld   Fit : %s%% *
+STR_DIR_TREE
+<Hakemistopuu>
+; <Directory tree>
+STR_BUILDING_TREE
+Luon hakemistorakennetta...
+; Generating tree structure...
+STR_UNPROTECT_ALL
+Poista suojaus kaikista
+; Unprotect all
+STR_READING_CHANGED_DIRECTORY
+Puskuroitu hakemisto muuttui - luen uudelleen
+; Buffered directory changed - re-reading *
+STR_CREATING_DIRECTORY
+luon hakemistoa
+; creating directory
+STR_STARTING_DISK_MODULE
+Käynnistää levyosaa...
+; Starting disk module... *
+STR_UNABLE_TO_LOAD_MODULE
+Ulkoisen osan lataus ei onnistunut
+; Unable to load external module *
+STR_SELECT_ALL_ENTRIES
+Kaikki
+; All entries
+STR_SELECT_ONLY_FILES
+Tiedostot
+; Only files
+STR_SELECT_ONLY_DIRS
+Hakemistot
+; Only dirs
+STR_SELECT_NAME
+Nimi
+; Name
+STR_SELECT_DATE
+Päivä
+; Date
+STR_SELECT_BITS
+Bitit
+; Bits
+STR_STARTING_PRINT_MODULE
+Käynnistää tulostusosaa...
+; Starting print module... *
+STR_ABOUT
+%s\nGPL julkaisu, versio 4.12\nmuuttelema: %s\n\nTämä ohjelma on vapaasti levitettävissä; voit välittää sitä eteenpäin ja/tai\n muutella sitä GNU yleisen julkisen lisenssin määreiden mukaan.\nLisenssin julkaisija on Free Software Foundation;\nvoit käyttää joko versio 2:ta lisenssistä tai myöhempää versiota.\n\nTätä ohjelmaa levitetään toivoen, että siitä on hyötyä,\nmutta ILMAN MITÄÄN TAKUITA; ei edes KAUPALLISESSA merkityksessä\ntai TIETTYYN ASIAAN SOPIVUUDEN suhteen. Katso lisätietoja GNU\nyleisestä julkisesta lisenssistä.\n\nKaikki Directory Opus 4:n (mukaanlukien GPL:n jakamien\nversioiden) käyttäjät saavat päivityksen viimeisimpään\nDirectory Opuksen versio 5:een alennetulla hinnalla.\nOle hyvä ja katso lisätietoja osoitteesta\nhttp://www.gpsoft.com.au.
+; %s\nBased on GPL release version 4.12\nmodified by %s\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nAll users of Directory Opus 4 (including versions distributed\nunder the GPL) are entitled to upgrade to the latest version of\nDirectory Opus version 5 at a reduced price. Please see\nhttp://www.gpsoft.com.au for more information.
+STR_PRINTTITLE
+Tulosta _nimi
+; Print _Title
+STR_SEARCH_NO_CASE
+Kohtele isoja ja pieniä kirjaimia samoin
+; Treat upper and lower case as the same *
+STR_SEARCH_WILD
+Käytä ? täsmäys merkkinä
+; Recognise ? as a wildcard character *
+STR_SEARCH_ONLYWORD
+Sovita vain kokonaisiin, ehjiin sanoihin
+; Only match on whole, unbroken words
+STR_ENTER_FILTER
+Anna tiedostosuodatin
+; Enter file filter
+STR_SELECT_PROTECTION_BITS
+Valitse suojausbitit
+; Select new protection bits
+STR_DIRECTORY_OPUS_REQUEST
+Directory Opus
+; Directory Opus Request *
+STR_CLOCK_CHIP
+CHIP:
+; CHIP:
+STR_CLOCK_FAST
+FAST:
+; FAST:
+STR_CLOCK_TOTAL
+YHTEENSÄ:
+; TOTAL:
+STR_CLOCK_MEM
+M:
+; MEM:
+STR_CLOCK_MEMORY
+MUISTIA:
+; MEMORY:
+STR_MONTH_JANUARY
+Tammikuu
+; January
+STR_MONTH_FEBRUARY
+Helmikuu
+; February
+STR_MONTH_MARCH
+Maaliskuu
+; March
+STR_MONTH_APRIL
+Huhtikuu
+; April
+STR_MONTH_MAY_LONG
+Toukokuu
+; May
+STR_MONTH_JUNE
+Kesäkuu
+; June
+STR_MONTH_JULY
+Heinäkuu
+; July
+STR_MONTH_AUGUST
+Elokuu
+; August
+STR_MONTH_SEPTEMBER
+Syyskuu
+; September
+STR_MONTH_OCTOBER
+Lokakuu
+; October
+STR_MONTH_NOVEMBER
+Marraskuu
+; November
+STR_MONTH_DECEMBER
+Joulukuu
+; December
+STR_MONTH_JAN
+Tam
+; Jan
+STR_MONTH_FEB
+Hel
+; Feb
+STR_MONTH_MAR
+Maa
+; Mar
+STR_MONTH_APR
+Huh
+; Apr
+STR_MONTH_MAY
+Tou
+; May
+STR_MONTH_JUN
+Kes
+; Jun
+STR_MONTH_JUL
+Hei
+; Jul
+STR_MONTH_AUG
+Elo
+; Aug
+STR_MONTH_SEP
+Syy
+; Sep
+STR_MONTH_OCT
+Lok
+; Oct
+STR_MONTH_NOV
+Mar
+; Nov
+STR_MONTH_DEC
+Jou
+; Dec
+STR_DAY_MONDAY
+Maanantai
+; Monday
+STR_DAY_TUESDAY
+Tiistai
+; Tuesday
+STR_DAY_WEDNESDAY
+Keskiviikko
+; Wednesday
+STR_DAY_THURSDAY
+Torstai
+; Thursday
+STR_DAY_FRIDAY
+Perjantai
+; Friday
+STR_DAY_SATURDAY
+Lauantai
+; Saturday
+STR_DAY_SUNDAY
+Sunnuntai
+; Sunday
+STR_DAY_MON
+Ma
+; Mon
+STR_DAY_TUE
+Ti
+; Tue
+STR_DAY_WED
+Ke
+; Wed
+STR_DAY_THU
+To
+; Thu
+STR_DAY_FRI
+Pe
+; Fri
+STR_DAY_SAT
+La
+; Sat
+STR_DAY_SUN
+Su
+; Sun
+STR_DAY_YESTERDAY
+Eilen
+; Yesterday
+STR_DAY_TODAY
+Tänään
+; Today
+STR_DAY_TOMORROW
+Huomenna
+; Tomorrow
+STR_DAY_FUTURE
+Tulevaisuudessa
+; Future *
+STR_KEY
+Avain :
+; Key :
+STR_TINY_BUTTONS
+BRSA?EFCIQ
+; BRSA?EFCIQ                !!!!!! Öh, mitähän näihin laittais, testaa ja vaihda !!!!
+STR_VIEW_BUTTONS
+UDTBSPQ
+; UDTBSPQ
+STR_DISKINFO_DEVICE
+Laite
+; Device
+STR_DISKINFO_NAME
+Nimi
+; Name
+STR_DISKINFO_SIZE
+Koko
+; Size
+STR_DISKINFO_USED
+Käytössä
+; Used
+STR_DISKINFO_FREE
+Vapaana
+; Free
+STR_DISKINFO_PERCENT
+Prosenttia
+; Percent
+STR_DISKINFO_DENSITY
+Tiheys
+; Density
+STR_DISKINFO_ERRORS
+Virheitä
+; Errors
+STR_DISKINFO_STATUS
+Tila
+; Status
+STR_DISKINFO_DATE
+Päiväys
+; Date
+STR_DISKINFO_BYTES
+tavua
+; bytes
+STR_DISKINFO_BLOCKS
+lohkoa
+; blocks *
+STR_DISKINFO_FULL
+täynnä
+; full
+STR_DISKINFO_SFREE
+vapaana
+; free
+STR_DISKINFO_BYTESPERBLOCK
+tavua/lohko
+; bytes/block
+STR_TEXT_VIEWER_TITLE
+Directory Opus tekstin näyttäjä
+; Directory Opus Text Viewer *
+STR_PROTECT_ALL_BITS
+Kaikki
+; All bits
+STR_PROTECT_NONE
+Ei mitään
+; None
+STR_PROTECT_TOGGLE
+Vaihda
+; Toggle
+STR_PROTECT_REVERT
+Palauta
+; Revert
+STR_PROTECT_OLD
+Vanha:
+; Old :
+STR_PROTECT_NEW
+Uusi:
+; New :
+STR_PROTECT_MASK
+Maski:
+; Mask:
+STR_PROTECT_HIDDEN
+Piilotettu
+; _Hidden
+STR_PROTECT_SCRIPT
+Komentotiedosto
+; _Script
+STR_PROTECT_PURE
+Pure
+; _Pure * ; tuo tarkoittaa että ohjelman voi laittaa muistiin resident käskyllä, puhas ei ole oikein hyvä suomennos
+STR_PROTECT_ARCHIVE
+Arkisto
+; _Archive
+STR_PROTECT_READ
+Luku
+; _Read
+STR_PROTECT_WRITE
+Kirjoitus
+; _Write
+STR_PROTECT_EXECUTED
+Suorita
+; _Execute
+STR_PROTECT_DELETED
+Poista
+; _Delete
+STR_FILE_REQUEST
+Tiedosto valitsin
+; File request *
+STR_OF
+/
+; of
+STR_FRAME
+Ruutu
+; Frame
+STR_DISK_OP_TITLE
+Directory Opus levy toiminnot
+; Directory Opus Disk Operations *
+STR_BUTTON_STRIP
+Directory Opus painikerivi
+; Directory Opus Button Strip *
+STR_NO_FIT
+E
+;  N
+STR_YES_FIT
+K
+;  Y
+STR_FTYPE_DEFAULT
+Oletus
+; Default
+STR_FTYPE_UNKNOWN
+Tuntematon tiedostotyyppi
+; Unknown file type
+STR_PROTBIT_HSPA
+HSPA----
+; HSPA----
+STR_PROTBIT_RWED
+----RWED
+; ----RWED
+STR_PROTBIT_ALLBITS
+hsparwed
+; hsparwed
+STR_MULTI_DRAG
+Moni-vedä - %ld tiedostoa valittuna
+; Multi-drag - %ld files selected
+STR_PRESS_MOUSE_BUTTON
+Paina vasenta hiirennappia jatkaaksesi...
+; Press left mouse button to continue...
+STR_NETWORK_NO_OWNER
+Ei omistajaa
+; No owner
+STR_NETWORK_NO_GROUP
+Ei ryhmää
+; No group
+STR_ERROR_ERROR_HELP
+Virheapu
+; Error help
+STR_SKIP_ALL
+O_hita kaikki
+; S_kip all
+STR_PARENT_MULTI
+Ylemmät ja Moni-oikopolut...
+; Parents and Multi-Assigns... *
+STR_DISKINFO_FILESYSTEM
+Tied.Sys
+; F.System
+STR_ANIM_TYPE
+Anim-tyyppi
+; Anim type
+STR_GFX_NATIVE
+Alkuperäinen
+; Native
+STR_OPENING_ARCHIVE
+Avaan tiedostoa...
+; Opening archive...
+STR_SORT_BY
+Lajitteluperuste
+; Sort by
+STR_FILE_NAME
+Tiedoston nimi
+; File name *
+STR_FILE_SIZE
+Tiedoston koko
+; File size *
+STR_PROTECTION_BITS
+Suojausbitit
+; Protection bits
+STR_CREATION_DATE
+Luontipäivä
+; Creation date
+STR_FILE_COMMENT
+Tiedoston kommentti
+; File comment *
+STR_FILE_TYPE
+Tiedoston tyyppi
+; File type *
+STR_OWNER
+Omistaja
+; Owner
+STR_GROUP
+Ryhmä
+; Group
+STR_NET_PROTECTION_BITS
+Verkkosuojausbitit
+; Net protection bits           !!!!!  siis?? !!!!!!
+STR_REVERSE_ORDER
+Käänteinen järjestys
+; Reverse order
+STR_SIZE_AS_KMG
+Koon tyyli K/M/G
+; Size as K/M/G
+STR_BRING_TO_FRONT
+Tuo eteen
+; Bring to front
+STR_REPLACE_DIR_WITH_FILE
+\"%s\" on jo olemassa! Korvataanko?\n\nUusi  - koko : %7ld päiväys : %19s\nvanha -                  päiväys : %19s
+; \"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -                  Date : %19s *
+STR_REPLACE_FILE_WITH_DIR
+\"%s\" on jo olemassa! Korvataanko?\n\nUusi  -                  päiväys : %19s\nvanha -  koko : %7ld  päiväys : %19s
+; \"%s\" already exists! Replace?\n\nNew  -                  Date : %19s\nOld  -  Size : %7ld  Date : %19s
+STR_OPERATION_NOT_SUPPORTED
+Toimintoa ei tueta
+; Operation not supported *
+STR_QUERY_REMOVE_ASSIGN
+Haluatko todella poistaa oikopolun \"%s\"?
+; Do you really wish to remove \"%s\" assign? *
+STR_VERSION_CONTENTS
+%-42s\n\n  Directory Opus%24s  \n  DOpus kirjasto%25s  \n  Käännösaika%26s  \n  Käännöspäivä%26s  \n  Portti/ruudun nimi%22s  \n\n  Kickstart%29s  \n  Workbench%29s  \n Prosessori%29s  \n  Matematiikkaprosessori%21s  \n   Grafiikkapiirit%22s  \n  Videojärjestelmä %26s
+; %-42s\n\n  Directory Opus%24s  \n  DOpus Library%25s  \n  Compile time%26s  \n  Compile date%26s  \n  Port/screen name%22s  \n\n  Kickstart%29s  \n  Workbench%29s  \n  Processor%29s  \n  Math co-processor%21s  \n  Graphics chipset%22s  \n  Video system%26s
+STR_VERSION_HEADER
+Versiotietoa...

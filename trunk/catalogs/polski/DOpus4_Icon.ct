@@ -1,0 +1,143 @@
+## chunk AUTH Mariusz Danilewicz
+## language polski
+## version $VER: DOpus4_Icon.ct 1.0 (28.04.01)
+STR_REMAP_COLORS
+Przeko_loruj
+;#DEF 
+;#SET (//)
+STR_SAVE
+_Zapisz
+;#DEF 
+;#SET (//)
+STR_SKIP
+_Pomiï
+;#DEF 
+;#SET (//)
+STR_CANCEL
+P_oniechaj
+;#DEF 
+;#SET (//)
+STR_DELETE
+Skasu_j
+;#DEF 
+;#SET (//)
+STR_NEW
+_Nowy
+;#DEF 
+;#SET (//)
+STR_TOOLTYPES
+Parametry:
+;#DEF 
+;#SET (//)
+STR_COMMENT
+_Komentarz:
+;#DEF 
+;#SET (//)
+STR_DEFAULT_TOOL
+Program:
+;#DEF 
+;#SET (//)
+STR_VALIDATING
+Aktualizujë
+;#DEF 
+;#SET (//)
+STR_WRITE_PROTECTED
+Zabezp. przed zapisem
+;#DEF 
+;#SET (//)
+STR_READ_WRITE
+Do odczytu/zapisu
+;#DEF 
+;#SET (//)
+STR_SCRIPT
+_Skrypt
+;#DEF 
+;#SET (//)
+STR_ARCHIVED
+Z_archiwizowany
+;#DEF 
+;#SET (//)
+STR_READABLE
+O_dczytywalny
+;#DEF 
+;#SET (//)
+STR_WRITABLE
+Zap_isywalny
+;#DEF 
+;#SET (//)
+STR_EXECUTABLE
+_Wykonywalny
+;#DEF 
+;#SET (//)
+STR_DELETABLE
+_Usuwalny
+;#DEF 
+;#SET (//)
+STR_BLOCKS
+Bloków
+;#DEF 
+;#SET (//)
+STR_USED
+Uûywanych
+;#DEF 
+;#SET (//)
+STR_FREE
+Wolnych
+;#DEF 
+;#SET (//)
+STR_BLOCK_SIZE
+Rozmiar bl.
+;#DEF 
+;#SET (//)
+STR_CREATED
+Utworzony
+;#DEF 
+;#SET (//)
+STR_LAST_CHANGED
+Zmieniony
+;#DEF 
+;#SET (//)
+STR_BYTES
+Bajtów
+;#DEF 
+;#SET (//)
+STR_STACK
+Stos
+;#DEF 
+;#SET (//)
+STR_DISK
+Dysk
+;#DEF 
+;#SET (//)
+STR_DRAWER
+Katalog
+;#DEF 
+;#SET (//)
+STR_TOOL
+Narzëdzie
+;#DEF 
+;#SET (//)
+STR_PROJECT
+Projekt
+;#DEF 
+;#SET (//)
+STR_TRASH
+Ômietnik
+;#DEF 
+;#SET (//)
+STR_DEVICE
+Urzâdzenie
+;#DEF 
+;#SET (//)
+STR_KICK
+Kick
+;#DEF 
+;#SET (//)
+STR_APPICON
+AppIkona
+;#DEF 
+;#SET (//)
+STR_ICON
+Ikona
+;#DEF 
+;#SET (//)

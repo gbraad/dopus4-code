@@ -1,0 +1,179 @@
+## version $VER: DOpus4_Print.catalog 1.1 (15.06.2001)
+## language suomi
+## codeset 0
+;## chunk AUTH Jari Komulainen & Sami Raunio
+;
+STR_SELECT_FILE
+Valitse tiedosto
+; Select file
+STR_ABORT
+Keskeytä
+; Abort
+STR_CONTINUE
+Jatka
+; Continue
+STR_OKAY
+Selvä
+; Okay
+STR_CANCEL
+Peru
+; Cancel
+STR_FILE
+Tied.
+; File
+STR_TOP_MARGIN
+Yläreuna
+; Top Margin
+STR_BOTTOM_MARGIN
+Alareuna
+; Bottom Margin
+STR_LEFT_MARGIN
+Vasen reuna
+; Left Margin
+STR_RIGHT_MARGIN
+Oikea reuna
+; Right Margin
+STR_TAB_SIZE
+TAB-koko
+; Tab size
+STR_PRINT_PITCH
+Tulostustaso
+; Print pitch
+STR_QUALITY
+Tiheys
+; Density
+STR_EJECT
+Ulos viimeinen sivu
+; Eject final page
+STR_CONFIGURATION
+asetukset...
+; configuration...
+STR_TITLE
+Otsikko
+; Title
+STR_DATE
+Päiväys
+; Date
+STR_PAGE_NUMBER
+Sivu Nro
+; Page no.
+STR_TEXT_STYLE
+Tekstityyli
+; Text style
+STR_PRINTER
+Tulostin
+; Printer
+STR_PRINT
+Tulosta
+; Print
+STR_EXIT
+Lopeta
+; Exit *
+STR_OUTPUT_TO
+Tulostuskohde...
+; Output to...
+STR_PICA
+Pica
+; Pica
+STR_ELITE
+Elite
+; Elite
+STR_FINE
+Hieno
+; Fine *
+STR_NORMAL
+Normaali
+; Normal
+STR_BOLD
+Lihavoitu
+; Bold
+STR_ITALICS
+Kursiivi
+; Italics
+STR_UNDERLINED
+Alleviiv
+; UnLined
+STR_DOUBLESTRIKE
+Kaksois
+; DbStrik
+STR_SHADOW
+Varjo
+; Shadow
+STR_DRAFT
+Vedos
+; Draft
+STR_LETTER
+Kirje
+; Letter
+STR_HEADER
+Yläotsak
+; Header
+STR_FOOTER
+Alaotsak
+; Footer
+STR_SIZE
+Koko
+; Size
+STR_PROTECTION
+Suojaus
+; Protection
+STR_COMMENT
+Kommentti
+; Comment
+STR_FILETYPE
+Tiedostotyyppi
+; File type
+STR_PRINT_DOT
+Tulosta...
+; Print...
+STR_PRINTDIR
+Hakemistotulostus
+; Printdir
+STR_UNABLE_TO_OPEN_FILE
+Tiedostoa ei voi avata. Yritätkö uudelleen?
+; Unable to open file. Try again? *
+STR_UNABLE_TO_OPEN_OUTPUT
+Tulostustiedostoa ei voi avata. Yritätkö uudelleen?
+; Unable to open output file. Try again? *
+STR_UNABLE_TO_OPEN_PRINTER
+Tulostinta ei voi avata. Yritätkö uudelleen?
+; Unable to open printer. Try again? *
+STR_ERROR_PRINTING_DIR
+Virhe tulostaessa hakemistoa. Yritätkö uudelleen?
+; Error printing directory. Try again?
+STR_INCORRECT_PASSWORD
+Väärä salasana annettu. Yritätkö uudelleen?
+; Incorrect password entered. Try again?
+STR_PRINT_ERROR
+Tulostusvirhe! Yritätkö uudelleen?
+; Print error! Try again?
+STR_REALLY_ABORT
+Keskeytätkö tulostustyön?
+; Really abort print operation?
+STR_CREATING_FILE
+Luon tiedostoa
+; Creating file
+STR_OPENING_PRINTER
+Avaan tulostinta
+; Opening printer
+STR_LOADING_FILE
+Lataan tiedostoa...
+; Loading file..
+STR_PRINTING_FILE
+Tulostan tiedostoa...
+; Printing file...
+STR_PRESS_ESCAPE
+ESC keskeyttää
+; Press ESC to abort
+STR_PAGE
+Sivu
+; Page
+STR_COMPLETE
+valmis
+; complete
+STR_TOFILE
+Tiedosto
+; File
+STR_PRINTWIN
+Tulosta
+; Print

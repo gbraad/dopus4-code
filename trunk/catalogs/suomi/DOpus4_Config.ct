@@ -1,0 +1,1850 @@
+## version $VER: DOpus4_Config.catalog 1.1 (15.06.2001)
+## language suomi
+## codeset 0
+;## chunk AUTH Sami Raunio & Jari Komulainen
+;
+STR_REALLY_DISCARD_CONFIG
+Haluatko todella hylätä \nnykyiset asetukset?
+; Do you really want to discard the\ncurrent configuration settings?
+STR_EXIT_WITHOUT_SAVING
+Haluatko todella poistua tallentamatta\nnykyisiä asetuksia?
+; Do you really want to exit without\nsaving the current configuration settings?
+STR_CONFIGURATION_MAIN_SCREEN
+Asetusten päänäyttö
+; Configuration main screen
+STR_OPERATION_SCREEN
+Toimintoasetusten näyttö
+; Operation configuration screen
+STR_MENU_SCREEN
+Valikkoasetusten näyttö
+; Menu configuration screen
+STR_DRIVE_SCREEN
+Asemanäppäiten asetusnäyttö
+; Drive button configuration screen
+STR_FILETYPE_SCREEN
+Tiedostotyypin asetusnäyttö
+; Filetype configuration screen
+STR_SCREEN_SCREEN
+Näyttöasetusten näyttö
+; Screen configuration screen
+STR_SYSTEM_SCREEN
+Järjestelmäasetusten näyttö
+; System configuration screen
+STR_HOTKEYS_SCREEN
+Yleisten oikonäppäinten asetusten näyttö
+; Global hotkeys configuration screen
+STR_MAIN_MENU
+Päävalikko
+; Main Menu
+STR_LEFT_MOUSE_BUTTON
+Vasen hiirennäppäin
+; Left mouse button
+STR_RIGHT_MOUSE_BUTTON
+Oikea hiirennäppäin
+; Right mouse button
+STR_OKAY
+Selvä
+; Okay
+STR_CANCEL
+Peru
+; Cancel
+STR_AVAILABLE_DISPLAY_ITEMS
+Saatavilla olevat esitystavat...
+; Available display items...
+STR_SELECTED_DISPLAY_ITEMS
+Valitut esitystavat...
+; Selected display items...
+STR_DISPLAYED_LENGTHS
+Näytetyt pituudet...
+; Displayed lengths...
+STR_CHECK_INDICATES_SORT
+(  Merkki takoittaa valittua)
+; (  Check indicates sort item)
+STR_ENTRY_SEPARATION
+Luettelon järjestys
+; Entry separation...
+STR_UNICONIFY_HOTKEY
+Poista ikonointi/käynnistä oikonäppäin
+; Uniconify/activate hotkey
+STR_PROJECTS_DEFAULT_TOOL
+Projektin oletustyökalu...
+; Project's Default Tool...
+STR_SELECT_DESIRED_FILE
+Valitse haluttu tiedosto
+; Select the desired file
+STR_SELECT_DESIRED_DIRECTORY
+Valitse haluttu hakemisto
+; Select the desired directory
+STR_SELECT_DESIRED_FONT
+Valitse haluttu kirjasin ja sen koko
+; Select the desired font and size
+STR_HOTKEY_USCORE
+_Oikonäppäin
+; _Hotkey
+STR_NEW_GADGET_BANKS_APPENDED
+Uusia näppäinpankkeja liitetty olemassaoleviin.
+; New button banks appended to existing ones.
+STR_DEFAULT_GADGET_BANKS_APPENDED
+Oletusnäppäinpankit liitetty olemassaoleviin.
+; Default button banks appended to existing ones.
+STR_NO_GADGET_BANKS_CONFIGURED
+Näppäinpankkeja ei ole asetettu!
+; There are no button banks configured!
+STR_GADGET_DELETED
+Näppäin poistettu.
+; Button deleted.
+STR_SELECT_GADGET_TO_COPY
+Valitse näppäinpaikka mihin alkuperäinen näppäin kopioidaan.
+; Select the button position to copy the original button to.
+STR_SELECT_GADGET_TO_SWAP
+Valitse näppäin, jonka vaihdat ensimmäisen näppäimen kanssa.
+; Select the button to swap with the first button.
+STR_SELECT_A_GADGET_TO_COPY
+Valitse kopioitava näppäin.
+; Select a button to copy.
+STR_SELECT_FIRST_GADGET_TO_SWAP
+Valitse ensimmäinen vaihdettava näppäin.
+; Select the first button to swap.
+STR_GADGET_EDIT_SCREEN
+Näppäimen muokkausnäyttö
+; Button edit screen
+STR_ENTER_BANK_TO_COPY
+Anna pankin numero, johon tämä pankki kopioidaan.\n Jos tätä pankkia ei ole, luodaan uusi.
+; Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
+STR_BANK_ALREADY_EXISTS
+Valittu pankki on ennestään! Haluatko\n todella kirjoittaa tämän pankin päälle?
+; Selected bank already exists! Do you really\nwant to overwrite this bank?
+STR_GADGET_BANK_COPIED
+Näppäinpankki kopioitu.
+; Button bank copied.
+STR_ENTER_BANK_TO_SWAP
+Anna tähän pankkiin vaihdettavan pankin numero.
+; Enter bank number to swap this bank with.
+STR_BANK_DOES_NOT_EXIST
+Valittua näppäinpankkia ei ole.
+; Selected button bank does not exist.
+STR_BANKS_SWAPPED
+Näppäinpankit vaihdettu.
+; Button banks swapped.
+STR_ONLY_BANK_CONFIGURED
+Tämä on ainoa asetettu pankki! Haluatko\ntodella poistaa tämän näppäinpankin?
+; This is the only button bank configured!\nDo you really want to delete this button bank?
+STR_REALLY_DELETE_BANK
+Haluatko todella poistaa tämän näppäinpankin?
+; Do you really want to delete this button bank?
+STR_BANK_DELETED
+Näppäinpankki poistettu.
+; Button bank deleted.
+STR_SELECT_GADGET_TO_DELETE
+Valitse poistettava näppäin.
+; Select a button to delete.
+STR_GADGET_BANK_NUMBER
+Näppäinpankki
+; Button bank number
+STR_GADGET_SCREEN_NO_BANKS
+Näppäinasetusten näyttö - pankkeja ei ole asetettu
+; Button configuration screen - no banks configured
+STR_NO_MEMORY_FOR_NEW_BANK
+Muistin jakaminen uudelle pankille epäonnistui!
+; Unable to allocate memory for new bank!
+STR_NEW_BANK_CREATED
+Uusi näppäinpankki luotu.
+; New button bank created.
+STR_NEW_MENUS_LOADED
+Uusia valikoita ladattu.
+; New menus loaded.
+STR_DEFAULT_MENUS_LOADED
+Oletusvalikot ladattu.
+; Default menus loaded.
+STR_ENTER_MENU_TITLE
+Anna valikon otsikko.
+; Enter menu title.
+STR_MENU_ITEM_DELETED
+Valikon osa poistettu.
+; Menu item deleted.
+STR_MENU_ITEM_INSERTED
+Valikon osa laitettu.
+; Menu item inserted.
+STR_REALLY_DELETE_THIS_MENU
+Haluatko todella poistaa tämän valikon?
+; Do you really want to delete this menu?
+STR_MENU_DELETED
+Valikko poistettu.
+; Menu deleted.
+STR_MENU_SORTED
+Valikko järjestelty.
+; Menu sorted.
+STR_SELECT_MENU_TO_COPY
+Valitse valikon osa, johon alkuperäinen valikko kopioidaan.
+; Select an item in the menu to copy the original menu to.
+STR_SELECT_MENU_TO_SWAP
+Valitse valikon osa, joka vaihdetaan ensimmäisen osan kanssa.
+; Select an item in the menu to swap with the first.
+STR_SELECT_ITEM_TO_COPY
+Valitse osan paikka, johon alkuperäinen valikon osa kopioidaan.
+; Select item position to copy the original menu item to.
+STR_SELECT_ITEM_TO_SWAP
+Valitse valikon osa, johon alkuperäinen osa vaihdetaan.
+; Select menu item to swap with the first item.
+STR_MENU_ITEM_EDIT_SCREEN
+Valikon osien muokkausnäyttö
+; Menu item edit screen
+STR_SELECT_ITEM_IN_MENU_TO_COPY
+Valitse kopioitava valikon osa.
+; Select an item in the menu to copy.
+STR_SELECT_ITEM_IN_MENU_TO_SWAP
+Valitse vaihdettava osa ensimmäisestä valikosta.
+; Select an item in the first menu to swap.
+STR_SELECT_ITEM_IN_MENU_TO_DELETE
+Valitse poistettava valikon osa.
+; Select an item in the menu to delete.
+STR_SELECT_ITEM_IN_MENU_TO_SORT
+Valitse järjesteltävä valikko.
+; Select an item in the menu to sort.
+STR_SELECT_ITEM_TO_INSERT_BEFORE
+Valitse mitä valikon osaa ENNEN uusi osa laitetaan.
+; Select the menu item to insert the new item BEFORE.
+STR_SELECT_MENU_ITEM_TO_COPY
+Valitse kopioitava valikon osa.
+; Select a menu item to copy.
+STR_SELECT_MENU_ITEM_TO_SWAP
+Valitse ensimmäinen vaihdettava valikon osa.
+; Select the first menu item to swap.
+STR_SELECT_MENU_ITEM_TO_DELETE
+Valitse poistettava valikon osa.
+; Select a menu item to delete.
+STR_EDIT
+Muokkaa
+; Edit
+STR_SHORTCUT_KEY
+Oiko _näppäin_
+; Shortcut _key
+STR_HOTKEY
+Oikonäppäin
+; Hotkey
+STR_ARGUMENT_CONTROL_SEQUENCES
+Käytössä olevat toiminnot...
+; List of available functions...
+STR_AVAILABLE_COMMANDS
+Käytössä olevat komennot...
+; List of available commands...
+STR_FOREGROUND
+Edusta
+; Foreground *
+STR_BACKGROUND
+Tausta
+; Background
+STR_DROP_A_TOOL_HERE
+Tipauta tähän työkalu!
+; Drop a tool here!
+STR_NEW_DRIVE_BANKS_LOADED
+Uusia asemapankkeja ladattu.
+; New drive banks loaded.
+STR_DEFAULT_DRIVE_BANKS_RESET
+Oletusasemapankit palautettu.
+; Default drive banks reset.
+STR_DRIVE_GADGET_DELETED
+Asemanäppäin poistettu.
+; Drive button deleted.
+STR_SELECT_DRIVE_TO_COPY_TO
+Valitse asemapaikka, johon alkuperäinen asemanäppäin kopioidaan.
+; Select the drive position to copy the original drive button to.
+STR_SELECT_DRIVE_TO_SWAP_WITH_FIRST
+Valitse ensimmäisen näppäimen kanssa vaihdettava asemanäppäin.
+; Select the drive button to swap with the first button.
+STR_SELECT_DRIVE_BANK_TO_COPY_TO
+Valitse asemanäppäin pankista, johon alkuperäinen pankki kopioidaan.
+; Select a drive button in the bank to copy the original bank to.
+STR_SELECT_DRIVE_BANK_TO_SWAP_WITH_FIRST
+Valitse asemanäppäin pankissa, johon ensimmäinen pankki vaihdetaan.
+; Select a drive button in the bank to swap with the first bank.
+STR_REALLY_DELETE_DRIVE_BANK
+Haluatko todella poistaa tämän asemapankin?
+; Do you really want to delete this drive bank?
+STR_PATH
+Polku
+; _Path
+STR_SYSTEM_DEVICES_LISTED
+Järjestelmän laitteet luetteloitu.
+; System devices listed.
+STR_SELECT_DRIVE_BANK_TO_COPY
+Valitse kopioitava asemanäppäin pankista.
+; Select a drive button in the bank to copy.
+STR_SELECT_DRIVE_BANK_TO_SWAP
+Valitse ensimmäinen vaihdettava asemanäppäin pankista.
+; Select a drive button in the first bank to swap.
+STR_SELECT_DRIVE_BANK_TO_DELETE
+Valitse poistettava näppäin pankista.
+; Select a drive button in the bank to delete.
+STR_SELECT_DRIVE_BANK_TO_SORT
+Valitse järjestettävä pankki.
+; Select a drive button in the bank to sort.
+STR_SELECT_DRIVE_GADGET_TO_COPY
+Valitse kopioitava asemanäppäin.
+; Select a drive button to copy.
+STR_SELECT_DRIVE_GADGET_TO_SWAP
+Valitse ensimmäinen vaihdettava asemanäppäin.
+; Select the first drive button to swap.
+STR_SELECT_DRIVE_GADGET_TO_DELETE
+Valitse poistettava asemanäppäin.
+; Select a drive button to delete.
+STR_NEW_FILETYPES_MERGED
+Uusia tiedostotyyppejä liitetty olemassaoleviin.
+; New filetypes merged with existing ones.
+STR_DEFAULT_FILETYPES_MERGED
+Oletustiedostotyypit liitetty olemassaoleviin.
+; Default filetypes merged with existing ones.
+STR_REALLY_DELETE_THIS_CLASS
+Haluatko todella poistaa tämän luokan?
+; Do you really want to delete this class?
+STR_FILE_CLASS_DELETED
+Tiedostoluokka poistettu.
+; File class deleted.
+STR_SELECT_CLASS_FILE_TO_LOAD
+Valitse ladattava luokkatiedosto
+; Select the class file to load
+STR_ENTER_NAME_TO_SAVE_CLASSES
+Anna nimi tallennettavalle tiedostoluokalle
+; Enter a name to save the file classes
+STR_SELECT_CLASSES_TO_IMPORT
+Valitse tuotavat tiedostoluokat
+; Select file classes to import
+STR_ERASE_ALL_CLASSES
+Haluatko todella poistaa kaikki tiedostoluokat?
+; Do you really wish to erase all file classes?
+STR_EXIT_WITHOUT_SAVING_CLASSES
+Haluatko todella poistua tästä osiosta tallentamatta\n tiedostoluokkiin tehtyjä muutoksia?
+; Do you really wish to exit this section without\nsaving changes made to the file classes?
+STR_REDEFINE_EXISTING_CLASS_ACTION
+Tiedostoluokalla on jo toiminta. Haluatko jatkaa?
+; That file class already has an action defined\nfor it. Do you wish to continue?
+STR_DEFAULT_ACTION_CAN_NOT_BE_MOVED
+Oletustoimintaa ei voi siirtää.
+; The default action can not be moved.
+STR_CLASS_ACTIONS_SWAPPED
+Luokkatoiminnat vaihdettu.
+; Class actions swapped.
+STR_SELECT_ACTION_TO_SWAP
+Valitse ensimmäinen vaihdettava toiminta.
+; Select the first action to swap.
+STR_SELECT_ACTION_TO_SWAP_WITH_FIRST
+Valitse toinen ensimmäisen kanssa vaihdettava toiminta.
+; Select the second action to swap with the first.
+STR_SELECT_ACTION_TO_DELETE
+Valitse poistettava toiminta.
+; Select an action to delete.
+STR_REALLY_DELETE_THIS_ACTION
+Haluatko todella poistaa tämän toiminnan?
+; Do you really want to delete this action?
+STR_ACTION_DELETED
+Toiminta poistettu.
+; Action deleted.
+STR_FILETYPE_CLASS
+Tiedostotyyppiluokka
+; Filetype class
+STR_EDIT_CLASS
+Muokkaa luokkaa
+; Edit class
+STR_FILE_CLASS_EDIT_SCREEN
+Tiedostoluokan muokkausnäyttö
+; File class edit screen
+STR_OPEN_FAILED
+Avaus epäonnistui - DOS virhekoodi %ld\n Yritätkö uudelleen?
+; Open failed - DOS error code %ld\nTry again?
+STR_SAVE_FAILED
+Tallennus epäonnistui - Dos virhekoodi %ld\n Yritätkö uudelleen?
+; Save failed - DOS error code %ld\nTry again?
+STR_LIST_OF_FILETYPE_COMMANDS
+Luettelo tiedoston tunnistuskomennoista...
+; List of file identification commands...
+STR_POSITION
+Sijainti
+; Position
+STR_OFFSET
+Siirtymä
+; Offset
+STR_FILE_NOT_FOUND
+Tiedostoa ei löydy!
+; File not found!
+STR_EXAMPLE
+Esimerkki
+; Example
+STR_DISPLAY_MODE_DESCRIPTION
+Näyttötilan kuvaus...
+; Display mode description... *
+STR_DISPLAY_ITEM
+Näytä osa...
+; Display item...
+STR_FONT
+Kirjasin...
+; Font...
+STR_FONT_SIZE
+Koko...
+; Size...
+STR_MODIFY_SIZE
+Säädä kokoa...
+; Adjust size...
+STR_USE_MMB
+Käytä keskimmäistä hiirennäppäintä
+; Use middle mouse button
+STR_MINIMUM_SIZE
+Minimikoko
+; Minimum size
+STR_MAXIMUM_SIZE
+Maksimikoko
+; Maximum size
+STR_DEFAULT_SIZE
+Oletuskoko
+; Default size
+STR_MAXIMUM_COLORS
+Maksimivärit
+; Maximum colors
+STR_LOADING_FONT
+Lataa kirjasinta...
+; Loading font...
+STR_FONT_COULD_NOT_BE_LOADED
+Kirjasinta ei voitu ladata!
+; Font could not be loaded!
+STR_ENTER_CONFIGURATION_FILENAME
+Anna asetusten tiedostonimi
+; Enter configuration filename
+STR_SELECT_CONFIGURATION_TO_LOAD
+Valitse ladattava asetustiedosto
+; Select configuration file to load
+STR_FILE_NOT_VALID_CONFIGURATION
+Tiedosto ei kelpaa asetustiedostoksi!\n Yritätkö uudelleen?
+; File is not a valid configuration file!\nTry again? *
+STR_SELECT_MENUS_TO_IMPORT
+Valitse tuotavat valikot
+; Select menus to import *
+STR_SELECT_FILETYPES_TO_IMPORT
+Valitse tuotavat tiedostotyypit
+; Select filetypes to import
+STR_SELECT_HOTKEYS_TO_IMPORT
+Valitse tuotavat oikonäppäimet
+; Select hotkeys to import
+STR_SELECT_FUNCTION_TO_PASTE
+Valitse liitettävä toiminto
+; Select function to paste
+STR_NEW_HOTKEYS_MERGED
+Uusia oikonäppäimiä liitetty olemassaoleviin.
+; New hotkeys merged with existing ones.
+STR_DEFAULT_HOTKEYS_MERGED
+Oletusoikonäppäimet liitetty olemassaoleviin.
+; Default hotkeys merged with existing ones.
+STR_SELECT_HOTKEY_TO_DELETE
+Valitse poistettava oikonäppäin.
+; Select hotkey to delete.
+STR_SELECT_HOTKEY_TO_DUPLICATE
+Valitse monistettava oikonäppäin.
+; Select hotkey to duplicate.
+STR_REALLY_DELETE_HOTKEY
+Haluatko todella poistaa tämän oikonäppäimen?
+; Do you really want to delete this hotkey?
+STR_HOTKEY_DELETED
+Oikonäppäin poistettu.
+; Hotkey deleted.
+STR_HOTKEY_EDIT_SCREEN
+Oikonäppäinten muokkausnäyttö
+; Hotkey edit screen
+STR_NEW_BANK
+Uusi pankki
+; New bank
+STR_INSERT_BANK
+Lisää pankki
+; Insert bank *
+STR_NEXT_BANK
+Seuraava
+; Next bank
+STR_LAST_BANK
+Edellinen
+; Prev bank
+STR_CLEAR
+Tyhjennä
+; Clear *
+STR_CLEAR_LAST
+Tyhjennä viimeisin
+; Clear last *
+STR_MENU_DEFAULT
+Oletus
+; Default
+STR_MENU_OPEN
+Avaa...
+; Open...
+STR_MENU_SAVE
+Tallenna
+; Save
+STR_MENU_SAVE_AS
+Tallenna nimellä...
+; Save As...
+STR_MENU_CUT
+Leikkaa
+; Cut
+STR_MENU_COPY
+Kopioi
+; Copy
+STR_MENU_PASTE
+Liitä...
+; Paste...
+STR_MENU_ERASE
+Poista
+; Erase
+STR_MENU_NEW
+Uusi...
+; New...
+STR_MENU_EDIT
+Muokkaa...
+; Edit...
+STR_MENU_DELETE
+Poista...
+; Delete...
+STR_GADGETROWS_NONE
+Ei näppäimiä
+; No buttons
+STR_GADGETROWS_ONE
+Yksi rivi
+; One row
+STR_GADGETROWS_TWO
+Kaksi riviä
+; Two rows
+STR_GADGETROWS_THREE
+Kolme riviä
+; Three rows
+STR_GADGETROWS_SIX
+Kuusi riviä
+; Six rows
+STR_MENUNAME_CONFIGURE
+Asetukset
+; Configure
+STR_MENUNAME_GADGETROWS
+Näppäinrivit
+; Button rows
+STR_MENUNAME_CLASSES
+Luokat
+; Classes
+STR_FILECLASS_DEFINE
+Määritä toiminta luokalle...
+; Define an action for class...
+STR_FILECLASS_EDIT
+Valitse muokattava luokka...
+; Select class to edit...
+STR_FILECLASS_DELETE
+Valitse poistettava luokkaa...
+; Select class to delete...
+STR_FONTPLACE_CLOCK
+Kello/Muisti
+; Clock/Memory
+STR_FONTPLACE_GADGETS
+Muokatut näppäimet
+; Custom buttons *
+STR_FONTPLACE_MENUS
+Muokatut valikot
+; Custom menus *
+STR_FONTPLACE_DISKNAMES
+Levyn nimet
+; Disk names
+STR_FONTPLACE_WINDOW
+Hakemistoikkuna
+; Directory window
+STR_FONTPLACE_GENERAL
+Yleinen (8 pistettä)
+; General (8 point)
+STR_FONTPLACE_ICONIFY
+Ikonoi napeiksi
+; Iconify to buttons *
+STR_FONTPLACE_PATHS
+Polun nimet
+; Path names
+STR_FONTPLACE_REQUESTERS
+Valitsimet
+; Requesters
+STR_FONTPLACE_STATUS
+Tilannepalkki
+; Status bar
+STR_FONTPLACE_TEXTVIEWER
+Tekstin näyttäjä
+; Text viewer *
+STR_PALETTE_PRESETS
+Esiasetukset...
+; Presets...
+STR_ICONLIST_TITLE
+Lisää ikonit...
+; AddIcon's icons...
+STR_FORMAT_NAME
+Tiedoston nimi
+; File name
+STR_FORMAT_SIZE
+Tiedoston koko
+; File size
+STR_FORMAT_BITS
+Suojausbitit
+; Protection bits
+STR_FORMAT_DATE
+Luontipäivä
+; Creation date
+STR_FORMAT_COMMENT
+Tiedoston kommentti
+; File comment
+STR_FORMAT_TYPE
+Tiedoston tyyppi
+; File type
+STR_ICONS_DRAWER
+   Hakemisto
+;    Drawer icon
+STR_ICONS_TOOL
+   Oletustyökalu
+;    Default Tool icon
+STR_ICONS_PROJECT
+   Oletusprojekti
+;    Default Project icon
+STR_MAINMENU_GADGETS
+Näppäimet
+; Buttons
+STR_MAINMENU_DRIVES
+Asemat
+; Drives
+STR_MAINMENU_FILETYPES
+Tiedostotyypit
+; Filetypes
+STR_MAINMENU_HOTKEYS
+Oikonäppäimet
+; Hotkeys
+STR_MAINMENU_MENUS
+Valikot
+; Menus
+STR_MAINMENU_OPERATION
+Toiminta
+; Operation
+STR_MAINMENU_SCREEN
+Näyttö
+; Screen
+STR_MAINMENU_SYSTEM
+Järjestelmä
+; System
+STR_ALL
+Kaikki
+; All
+STR_OPERATION_DATEFORMAT
+Päiväys
+; Date format *
+STR_OPERATION_DELETE
+Poista
+; Delete
+STR_OPERATION_ERRORCHECK
+Virhetarkistus
+; Error check
+STR_OPERATION_GENERAL
+Yleinen
+; General
+STR_OPERATION_ICONS
+Ikonit
+; Icons
+STR_OPERATION_LISTFORMAT
+Luettelomuoto
+; List format
+STR_OPERATION_UPDATE
+Päivitä
+; Update
+STR_SYSTEM_AMIGADOS
+AmigaDOS
+; AmigaDOS
+STR_SYSTEM_CLOCKS
+Kellot
+; Clocks
+STR_SYSTEM_DIRECTORIES
+Hakemistot
+; Directories
+STR_SYSTEM_ICONS
+Ikonit
+; Icons
+STR_SYSTEM_MODULES
+Osat
+; Modules *
+STR_SYSTEM_SHOWPATTERN
+Näytä malli
+; Show pattern
+STR_SYSTEM_STARTUP
+Aloitus
+; Startup
+STR_SYSTEM_VIEWPLAY
+Näytä & soita
+; View & Play *
+STR_GADGET_COPYBANK
+Kopioi
+; Copy bank
+STR_GADGET_SWAPBANK
+Vaihda
+; Swap bank
+STR_GADGET_DELETEBANK
+Poista
+; Delete bank
+STR_GADGET_COPYGADGET
+Kopioi
+; Copy button
+STR_GADGET_SWAPGADGET
+Vaihda
+; Swap button
+STR_GADGET_DELETEGADGET
+Poista
+; Del. button
+STR_FLAG_AUTOICONIFY
+Ikonoi automaattisesti
+; Auto iconify
+STR_FLAG_CDDESTINATION
+Vaihda kohdehakemistoon
+; CD destination
+STR_FLAG_CDSOURCE
+Vaihda lähdehakemistoon
+; CD source
+STR_FLAG_DOPUSTOFRONT
+Directory Opus eteen
+; Directory Opus to front
+STR_FLAG_DOALLFILES
+Suorita kaikki tiedostot
+; Do all files *
+STR_FLAG_INCLUDEDOPUS
+Liitä Dopus-Startup
+; Include DOpus-Startup
+STR_FLAG_INCLUDESHELL
+Liitä Shell-Startup
+; Include Shell-Startup
+STR_FLAG_NOQUOTE
+Ei viite tiedostonimeen
+; No filename quote *
+STR_FLAG_OUTPUTFILE
+Tulostus tiedostoon
+; Output to file
+STR_FLAG_OUTPUTWINDOW
+Tulostusikkuna
+; Output window
+STR_FLAG_RECURSIVE
+Rekursivoivat hakemistot
+; Recursive directories * ; tää on vaikea käännös, siis käydään läpi kaikki hakemiston alta ja jos siellä on hakemistoja niin niiden alta jne.
+STR_FLAG_RELOAD
+Lataa jokainen tiedosto
+; Reload each file
+STR_FLAG_RESCANDEST
+Lue kohde uudelleen
+; Rescan destination * ; tutkaa on tönkkö suomea
+STR_FLAG_RESCANSOURCE
+Lue lähde uudelleen
+; Rescan source *
+STR_FLAG_RUNASYNC
+Aja taustalla
+; Run asynchronously * ; toivottavasti meni oikein päin 
+STR_FLAG_WORKBENCHTOFRONT
+Workbench eteen
+; Workbench to front
+STR_EDIT_NAME
+Nimi
+; _Name
+STR_EDIT_SAMPLE
+Esimerkki
+; Sample
+STR_EDIT_NEWENTRY
+Uusi jäsen
+; New entry ; jäsen ja jäsen... hmm... tähän vois keksiä jotain
+STR_EDIT_DUPLICATE
+Monista
+; Duplicate
+STR_EDIT_SWAP
+Vaihda
+; Swap
+STR_EDIT_STACKSIZE
+Pinon koko
+; _Stack size
+STR_EDIT_PRIORITY
+Prioriteetti
+; _Priority
+STR_EDIT_CLOSEDELAY
+Sulkuviive
+; _Close delay
+STR_EDIT_ACTION
+Tapahtuman kuvaus
+; _Event description
+STR_EDITCLASS_FILECLASS
+Luokka
+; _File class
+STR_EDITCLASS_CLASSID
+Luokka ID
+; Class _ID *
+STR_EDITCLASS_FILEVIEWER
+Näyttäjä
+; File _viewer
+STR_MENU_COPYMENU
+Kopioi
+; Copy menu
+STR_MENU_SWAPMENU
+Vaihda
+; Swap menu
+STR_MENU_DELETEMENU
+Poista
+; Delete menu
+STR_MENU_SORTMENU
+Järjestä
+; Sort menu
+STR_MENU_INSERTITEM
+Lisää osa
+; Insert item *
+STR_MENU_COPYITEM
+Kopioi osa
+; Copy item
+STR_MENU_SWAPITEM
+Vaihda osa
+; Swap item
+STR_MENU_DELETEITEM
+Poista osa
+; Delete item
+STR_DRIVES_GETDRIVES
+Hae asemat
+; Get drives
+STR_DRIVES_SORTBANK
+Järjestä
+; Sort bank
+STR_DRIVES_COPYDRIVE
+Kopioi asema
+; Copy drive
+STR_DRIVES_SWAPDRIVE
+Vaihda asema
+; Swap drive
+STR_DRIVES_DELETEDRIVE
+Poista asema
+; Delete drive
+STR_HOTKEYS_NEWHOTKEY
+Uusi
+; New hotkey
+STR_SCREEN_COLORS
+Värit
+; Colors
+STR_SCREEN_FONTS
+Kirjasimet
+; Fonts
+STR_SCREEN_PALETTE
+Väripaletti
+; Palette
+STR_SCREEN_SCREENMODE
+Näyttötila
+; Screen mode *
+STR_PALETTE_RED
+Punainen
+; _Red
+STR_PALETTE_GREEN
+Vihreä
+; _Green
+STR_PALETTE_BLUE
+Sininen
+; _Blue
+STR_COLOR_STATUS
+Tilapalkki
+; Status bar
+STR_COLOR_SELDISK
+Valittu levynimi
+; Selected disk name
+STR_COLOR_UNSELDISK
+Valitsematon levynimi
+; Unselected disk name
+STR_COLOR_SELDIR
+Valittu hakemisto
+; Selected directory
+STR_COLOR_UNSELDIR
+Valitsematon hakemisto
+; Unselected directory
+STR_COLOR_SELFILE
+Valittu tiedosto
+; Selected file
+STR_COLOR_UNSELFILE
+Valitsematon tiedosto
+; Unselected file
+STR_COLOR_SLIDERS
+Liukusäätimet
+; Sliders
+STR_COLOR_ARROWS
+Nuolet
+; Arrows
+STR_COLOR_TINY
+Pienet näppäimet
+; Tiny buttons
+STR_COLOR_CLOCK
+Kello/Muistipalkki
+; Clock/memory bar
+STR_COLOR_REQUESTER
+Valitsimen teksti
+; Requester text
+STR_COLOR_BOXES
+3D-laatikot
+; 3D boxes
+STR_COLOR_PATHNAME
+Polun nimi
+; Path name
+STR_COLOR_SELPATHNAME
+Valittu polkunimi
+; Selected path name
+STR_SCREENMODE_WIDTH
+Leveys
+; _Width
+STR_SCREENMODE_HEIGHT
+Korkeus
+; _Height
+STR_SCREENMODE_COLORS
+Värit
+; _Colors
+STR_SCREENMODE_DEFAULT
+Käytä oletusarvoa
+; Use default
+STR_SCREENMODE_HALFHEIGHT
+Puolikorkuinen näyttö
+; Half-height screen
+STR_LISTFORMAT_TITLE
+Listan muoto
+; Format of the list in the
+STR_LISTFORMAT_RESET
+Nollaa
+; Reset
+STR_LISTFORMAT_NAME
+Tiedostonimi
+; File name
+STR_LISTFORMAT_COMMENT
+Tiedostokommentti
+; File comment
+STR_LISTFORMAT_REVERSE
+Käänteinen järjestys
+; Reverse sorting
+STR_ARROWS_INSIDE
+Nuolet sisäpinnalla
+; Arrows on the inside
+STR_ARROWS_OUTSIDE
+Nuolet ulkopinnalla
+; Arrows on the outside
+STR_ARROWS_EACH
+Yksi nuoli palkin molemmissa päissä
+; One arrow at each end of the button
+STR_ARROWTYPE_UPDOWN
+Vieritä ylös/alas
+; Scroll up/down
+STR_ARROWTYPE_LEFTRIGHT
+Vieritä vasemmalle/oikealle
+; Scroll left/right
+STR_ARROWTYPE_PREVNEXT
+Edellinen/seuraava puskuri
+; Buffer previous/next
+STR_NEW
+Uusi
+; New
+STR_MISC_FLAGS
+Sekalaisia lippuja...
+; Misc. flags...
+STR_OP_COPY_WHENCOPYING
+Kopioitaessa tiedostoja ja hakemistoja...
+; When copying files and directories...
+STR_OP_COPY_CHECKDEST
+Tarkista kohteen vapaa tila ennen aloittamista
+; Check destination's free space before starting
+STR_OP_COPY_SETARCHIVE
+Aseta arkistobitti kohteelle toiminnon loputtua
+; Set archive bit of source after finishing *
+STR_OP_COPY_ALSOCOPY
+Kopioi myös lähteen...
+; Also copy source's...
+STR_OP_COPY_DATESTAMP
+päivämäärä
+; datestamp
+STR_OP_COPY_BITS
+suojausbitit
+; protection bits
+STR_OP_COPY_COMMENT
+kommentti
+; comment
+STR_OP_COPY_IFFILEEXISTS
+Mitä tehdä kun tiedosto on jo olemassa...
+; What to do when a file already exists... *
+STR_OP_COPY_ALWAYSREPLACE
+Korvaa aina tiedostot
+; Always replace files
+STR_OP_COPY_NEVERREPLACE
+Älä koskaan korvaa tiedostoja
+; Never replace files
+STR_OP_COPY_ONLYOLDER
+Korvaa ainoastaan vanhemmat tiedostot
+; Replace only older files
+STR_OP_COPY_ASKBEFORE
+Kysy ennen korvausta
+; Ask before replacing
+STR_OP_DATE_DATEFORMAT
+Päiväyksen muoto...
+; Date format... *
+STR_OP_DATE_DDMMMYY
+PP-KKK-VV (22-Lok-92)
+; DD-MMM-YY   (22-Sep-92)
+STR_OP_DATE_YYMMDD
+VV-KK-PP (92-09-22)
+; YY-MM-DD    (92-09-22)
+STR_OP_DATE_MMDDYY
+KK-PP-VV (09-22-92)
+; MM-DD-YY    (09-22-92)
+STR_OP_DATE_DDMMYY
+PP-KK-VV (22-09-92)
+; DD-MM-YY    (22-09-92)
+STR_OP_DATE_NAMESUB
+Korvaava nimi (tänään, huomenna, jne)
+; Name substitution (Today, Tomorrow, etc) *
+STR_OP_DATE_12HOUR
+12 tunnin kello
+; 12 hour clock
+STR_OP_DEL_ASKBEFORE
+Kysy ennen...
+; Ask before...
+STR_OP_DEL_COMMENCING
+Poiston aloittamista
+; Commencing delete
+STR_OP_DEL_DELETEFILES
+Tiedostoja poistettaessa
+; Deleting files
+STR_OP_DEL_DELETEDIRS
+Poistettaessa ei tyhjiä hakemistoja
+; Deleting non-empty directories *
+STR_OP_DEL_IGNOREPROT
+Älä huomioi poiston suojausbittiä
+; Ignore the delete protection bit
+STR_OP_ERROR_ENABLE
+Mahdollista...
+; Enable...
+STR_OP_ERROR_DOSREQ
+DOS-valitsimet
+; DOS requesters
+STR_OP_ERROR_OPUSREQ
+Opuksen virhevalitsimet
+; Opus error requesters
+STR_OP_GENERAL_DRAG
+Osoita-S-Osoita -vetäminen
+; Click-M-Click drag			; HÄH?
+STR_OP_GENERAL_DISPLAYINFO
+Näytä yleistiedot
+; Display info
+STR_OP_GENERAL_DOUBLECLICK
+Tiedostokaksoisosoitus
+; File double-click
+STR_OP_GENERAL_SLIDERACTIVE
+Ikkunan aktivoiminen liukupalkista
+; Window slider activate
+STR_OP_ICON_CREATEWITHDIR
+Luo ikoni hakemiston kanssa
+; Create icon with directories
+STR_OP_ICON_DOUNTOICONS
+Tee kaikki toiminnot myös ikoneille
+; Perform all actions on icons as well
+STR_OP_ICON_SELECTAUTO
+Valitse ikonit automaattisesti
+; Select icons automatically
+STR_OP_UPDATE_WHENPROCESSING
+Kun käsittelee tiedostoja...
+; When processing files...
+STR_OP_UPDATE_PROGRESSIND
+Toiminnan etenemisilmaisin
+; Operation progress indicator
+STR_OP_UPDATE_LEFTJUSTIFY
+Tasaa tiedostonimi vasemmalle tilapalkissa
+; Left-justify filename in status bar
+STR_OP_UPDATE_SCROLLTOFOLLOW
+Vieritä hakemistoikkunaa toiminnan mukana
+; Scroll directory window to follow operations
+STR_OP_UPDATE_UPDATEFREE
+Päivitä vapaa levytila
+; Update free disk space
+STR_OP_UPDATE_STARTNOTIFY
+Hakemiston virkistys StartNotify()-funktiolla
+; Directory refresh using StartNotify()
+STR_OP_UPDATE_REDRAWMORE
+Piirrä uudelleen enemmän kuin neljäsosasivu
+; Redraw more than a quarter of a page
+STR_OP_UPDATE_QUIETGETDIR
+Päivitä listan liukusäädintä luettaessa
+; Update listview slider while scanning *
+STR_SYS_AMIGADOS_TITLE
+Suoritettavat AmigaDOS-sovellukset...
+; Running AmigaDOS applications... *
+STR_SYS_AMIGADOS_SHELL
+Shell
+; Shell
+STR_SYS_AMIGADOS_CONSOLE
+Konsoli
+; Console
+STR_SYS_AMIGADOS_STARTUP
+Käynnistystied
+; Startup script ; ?
+STR_SYS_AMIGADOS_PRIORITY
+Prioriteetti
+; Priority
+STR_SYS_CLOCK_TITLE
+Kello/Muistipalkki...
+; Clock/memory bar...
+STR_SYS_CLOCK_MEMORY
+Muistimonitori
+; Memory monitor
+STR_SYS_CLOCK_CPUMONITOR
+CPU-monitori
+; CPU monitor
+STR_SYS_CLOCK_DATE
+Päivä
+; Date
+STR_SYS_CLOCK_TIME
+Aika
+; Time
+STR_SYS_CLOCK_WHENICONIFIED
+Kun ikonoidaan...
+; When iconified...
+STR_SYS_CLOCK_WINDOW
+Ikkuna
+; Window
+STR_SYS_CLOCK_NOWINDOW
+Ei ikkunaa
+; No window
+STR_SYS_CLOCK_APPICON
+Sovellusikoni
+; An AppIcon
+STR_SYS_CLOCK_SHOWFREEAS
+Näytä vapaa tila...
+; Show free space as...
+STR_SYS_CLOCK_BYTES
+Tavuina
+; Bytes free * ; Herranjumala: tavu = byte, bitti = bit
+STR_SYS_CLOCK_KILOBYTES
+Kilo/Megatavuina
+; Kilo/Megabytes free *
+STR_SYS_CLOCK_TEXTFORMAT
+Tekstin muoto...
+; Text format...
+STR_SYS_CLOCK_CHIPANDFAST
+CHIP: ja FAST:
+; CHIP: and FAST:
+STR_SYS_CLOCK_CANDF
+C: ja F:
+; C: and F:
+STR_SYS_DIR_CACHES
+Hakemistovälimuisti...
+; Directory caches...
+STR_SYS_DIR_NUMBUFFERS
+Puskureita ikkunaa kohti
+; Buffers per window *
+STR_SYS_DIR_ALWAYSEMPTY
+Siirrä aina tyhjään puskuriin
+; Always move to an empty buffer
+STR_SYS_DIR_REREADINCOMPLETE
+Lue muuttuneet puskurit uudelleen
+; Re-read changed buffers *
+STR_SYS_DIR_SEARCHBUFFERS
+Etsi puskurista...
+; Search buffers on...
+STR_SYS_DIR_SEARCHPARENT
+Tyvi/Juuri -toimintaa
+; Parent/Root operation ; ai parent on tyvi... kaikkea sitä oppiii...
+STR_SYS_DIR_DIRREAD
+Kaksoisosoita/Osoita-S-Osoita hakemistoluku
+; Double-click/Click-m-click directory read ; ei tajuu Osoita-S-Osoita
+STR_SYS_DIR_AUTODISKCHANGE
+Levynvaihto
+; Auto diskchange ; mihins noi autot jäi
+STR_SYS_DIR_AUTODISKLOAD
+Levyn lataus
+; Auto disk load
+STR_SYS_DIR_EXPANDPATHS
+Laajenna polunnimet
+; Expand pathnames
+STR_SYS_DIR_USEEXALL
+ExAll()-funktio
+; Use ExAll()
+STR_FILEVIEW_HEX
+Heksa
+; Hex *
+STR_SYS_DIR_BLOCKSFREE
+Lohkoina
+; Blocks free
+STR_SYS_DIR_PERCENTAGE
+Prosenttiosuutena
+; Percentage of space free
+STR_PALETTE_RESET
+Nollaa
+; Reset
+STR_PALETTE_DOPUS_DEFAULT
+Directory Opus -oletusarvo
+; Directory Opus default
+STR_PALETTE_WB_DEFAULT
+Workbench oletusarvo
+; Workbench default
+STR_PALETTE_WB_CURRENT
+Workbench nykyinen
+; Workbench current
+STR_OKAY_TO_QUIT
+Selvä
+; Okay
+STR_SCREEN_GENERAL
+Yleinen
+; General
+STR_FTYPE_ACTION
+Toiminta
+; Action
+STR_FTYPE_COMMAND
+Komento
+; Command
+STR_FILEVIEW_DEC
+Desimaali
+; Decimal
+STR_EDIT_MENU
+Muokkaa
+; Edit
+STR_SYS_SHOWPATTERN_TITLE
+Hakemistolistausmalli...
+; Directory list pattern...
+STR_SYS_SHOWPATTERN_HIDDENBIT
+Piilota piilotusbitilliset tiedostot
+; Hide files with hidden bit set
+STR_SYS_SHOWPATTERN_SHOW
+Näytä
+; Show
+STR_SYS_SHOWPATTERN_HIDE
+Piilota
+; Hide
+STR_SYS_STARTUP_TITLE
+Käynnistyksessä luettavat hakemistot...
+; Directories to read on startup...
+STR_SYS_STARTUP_LEFT
+Vasen
+; Left
+STR_SYS_STARTUP_RIGHT
+Oikea
+; Right
+STR_SYS_STARTUP_AREXX
+Ajettavat ARexx-komentotiedostot...
+; ARexx scripts to execute on...
+STR_SYS_STARTUP_STARTUP
+Aloitus
+; Startup
+STR_SYS_STARTUP_UNICONIFY
+Ei-ikonointi
+; Uniconify
+STR_SYS_VIEWPLAY_TITLE
+Kuvan/Animaation näyttäjä (IFF ILBM/ANIM)...
+; Picture/animation viewer (IFF ILBM/ANIM)...
+STR_SYS_VIEWPLAY_BLACK
+Musta tausta kuvien välillä
+; Black background between pictures
+STR_SYS_VIEWPLAY_PAUSED
+Aloita animaatio tauossa
+; Start animation paused
+STR_SYS_VIEWPLAY_8BITCOL
+8 bittiä väritykkiä kohti
+; 8-bits per gun color *
+STR_SYS_VIEWPLAY_SHOWDELAY
+Näyttö viive
+; Show delay *
+STR_SYS_VIEWPLAY_FADEDELAY
+Häivytys viive
+; Fade delay *
+STR_SYS_VIEWPLAY_SOUNDPLAYER
+Äänensoittaja (IFF 8SVX)...
+; Sound player (IFF 8SVX)... *
+STR_SYS_VIEWPLAY_FILTER
+Käännä audiosuodatin pois soiton ajaksi
+; Turn audio filter off for play *
+STR_SYS_VIEWPLAY_LOOP
+Silmukoi kaksoisosoituksella
+; Loop on double-click
+STR_SYS_VIEWPLAY_TEXTVIEW
+Tekstin näyttäjä...
+; Text viewer... *
+STR_SYS_VIEWPLAY_BORDERS
+Reunat
+; Text viewer borders
+STR_SYS_VIEWPLAY_TABSIZE
+Sarkaimen koko
+; Tab size
+STR_removed_0
+
+; 
+STR_SCREEN_GENERAL_TINYGADS
+Alaoikean pienet näppäimet
+; Bottom-right tiny buttons
+STR_SCREEN_GENERAL_GADGETSLIDERS
+Näppäinpankkiliukusäätimet
+; Button banks sliders
+STR_SCREEN_GENERAL_INDICATERMB
+Osoitusnäppäimellä on oikean hiirennäppäin -toiminto
+; Indicate button has RMB function
+STR_SCREEN_GENERAL_NEWLOOKSLIDERS
+Uudennäköiset liukusäätimet
+; New-look sliders
+STR_EDITLIST_TITLE1
+Liput...
+; Flags...
+STR_EDITLIST_TITLE2
+Tapahtumat...
+; Events...
+STR_FILETYPEACTIONLIST_TITLE
+Määritetyt tiedostotyypit...
+; Defined filetype actions...
+STR_HOTKEYSLIST_TITLE
+Yleiset määritetyt oikonäppäimet...
+; Global hotkeys defined...
+STR_SCREENMODELIST_TITLE
+Näyttötila...
+; Display mode... *
+STR_LEFT_WINDOW
+Vasen ikkuna
+; Left window
+STR_RIGHT_WINDOW
+Oikea ikkuna
+; Right window
+STR_SEP_MIX_FILES
+Sekoita
+; Mix files/directories
+STR_SEP_DIRS_FIRST
+Hakemistot ensin
+; Directories first
+STR_SEP_FILES_FIRST
+Tiedostot ensin
+; Files first
+STR_FUNCTIONLIST_ABOUT
+Tietoa        -   Näytä tietoa ohjelmasta
+; About         -      Display program info
+STR_FUNCTIONLIST_ADDICON
+Lisää ikoni   -     Lisää ikoni jäsenille
+; AddIcon       -      Add icons to entries
+STR_FUNCTIONLIST_ALARM
+Hälytys       -         Soita hälytysääni
+; Alarm         -            Sound an alarm
+STR_FUNCTIONLIST_ALL
+Kaikki        -    Valitse kaikki jäsenet
+; All           -        Select all entries
+STR_FUNCTIONLIST_ANSIREAD
+Lue Ansi      -      ANSI-tekstinnäyttäjä
+; AnsiRead      -          ANSI text viewer *
+STR_FUNCTIONLIST_AREXX
+ARexx         -         Aja ARexx-komento
+; ARexx         -      Run an ARexx command
+STR_FUNCTIONLIST_ASSIGN
+Oikopolku - Viittaa loogiseen laitteeseen
+; Assign        -    Assign logical devices *
+STR_FUNCTIONLIST_BEEP
+Piip          -           Soita piip-ääni
+; Beep          -              Sound a beep
+STR_FUNCTIONLIST_BUFFERLIST
+Puskurilista-Listaa puskuroidut tiedostot
+; BufferList    - List buffered directories
+STR_FUNCTIONLIST_BUTTONICONIFY
+Ikonoi näppäin  -  Ikonoi näppäinliuskaan
+; ButtonIconify -   Iconify to button strip
+STR_FUNCTIONLIST_CD
+CD           - Vaihda nykyistä hakemistoa
+; CD            -  Change current directory
+STR_FUNCTIONLIST_CHECKFIT
+Tarkista tila-Tarkista jäsenten mahtuvuus
+; CheckFit      - Check if entries will fit
+STR_FUNCTIONLIST_CLEARBUFFERS
+Tyhjää puskurit -Tyhjää puskurihakemistot
+; ClearBuffers  -       Clear buffered dirs
+STR_FUNCTIONLIST_CLEARSIZES
+Tyhjää koot   -      Poista hakemistokoot
+; ClearSizes    -    Remove dir byte counts
+STR_FUNCTIONLIST_CLEARWIN
+Tyhjää ikkuna  -   Tyhjää nykyinen ikkuna
+; ClearWin      -  Clear the current window
+STR_FUNCTIONLIST_CLONE
+Kloonaa      -    Kloonaa valitut jäsenet
+; Clone         -    Clone selected entries
+STR_FUNCTIONLIST_COMMENT
+Kommentti   -  Anna kommentti tiedostolle
+; Comment       - Give filenotes to entries
+STR_FUNCTIONLIST_CONFIGURE
+Asetukset    -    Käynnistä asetuseditori
+; Configure     -      Launch config editor
+STR_FUNCTIONLIST_CONTST
+Jatka ST - Käynnistä tauotettu ST-moduuli
+; ContST        -  Restart paused ST module
+STR_FUNCTIONLIST_COPY
+Kopioi      -      Kopioi valitut jäsenet
+; Copy          -     Copy selected entries ; jäsenet... hmm...
+STR_FUNCTIONLIST_COPYAS
+Kopioi nimellä  -  Kopioi uusilla nimillä
+; CopyAs        -       Copy with new names
+STR_FUNCTIONLIST_COPYWINDOW
+Kopioi ikkuna   -   Kopioi ikkuna toiseen
+; CopyWindow    -  Copy one window to other
+STR_removed_1
+
+; 
+STR_FUNCTIONLIST_DATESTAMP
+Päiväys   - Muunna tiedoston päivämerkkiä
+; DateStamp     -    Modify file datestamps
+STR_FUNCTIONLIST_DEFAULTS
+Oletukset    -    Palauta oletusasetukset
+; Defaults      - Set default configuration
+STR_FUNCTIONLIST_DELETE
+Poista        -    Poista valitut jäsenet
+; Delete        -   Delete selected entries
+STR_FUNCTIONLIST_DIRTREE
+Hakemistopuu      -      Luo hakemistopuu
+; DirTree       -     Create directory tree
+STR_FUNCTIONLIST_DISKCOPY
+Kopioi levy      -      Kopioi levykkeitä
+; Diskcopy      -         Copy floppy disks
+STR_FUNCTIONLIST_DISKCOPYBG
+Kopioi taustalla  - Levykekopio taustalla
+; DiskcopyBG    -    Diskcopy in background
+STR_FUNCTIONLIST_DISKINFO
+Levytiedot   -  Näytä yleistiedot levystä
+; DiskInfo      -    Display info on a disk
+STR_FUNCTIONLIST_DISPLAYDIR
+Näytä hakemisto    -    Päivitä hakemisto
+; DisplayDir    -  Update directory display
+STR_FUNCTIONLIST_DOPUSTOBACK
+DOpus taustalle - Siirrä näyttö taustalle
+; DopusToBack   -   Move screen to the back
+STR_FUNCTIONLIST_DOPUSTOFRONT
+DOpus eteen     -     Siirrä näyttö eteen
+; DopusToFront  -  Move screen to the front
+STR_FUNCTIONLIST_ENCRYPT
+Salaa       -     Salaa valitut tiedostot
+; Encrypt       -    Encrypt selected files
+STR_FUNCTIONLIST_ENDFUNCTION
+Lopeta valinta-Lopeta ylläolevat komennot
+; FinishSection -     Finish above commands
+STR_FUNCTIONLIST_ERRORHELP
+Virheapu       -      Apua DOS-virheisiin
+; ErrorHelp     -      Help with DOS errors
+STR_FUNCTIONLIST_EXECUTE
+Aja          -       Aja eräajotiedostoja
+; Execute       -       Execute batch files
+STR_FUNCTIONLIST_FORMAT
+Alusta         -        Alusta levykkeitä
+; Format        -       Format floppy disks
+STR_FUNCTIONLIST_FORMATBG
+Alusta taustalla     -  Alustus taustalla
+; FormatBG      -      Format in background
+STR_FUNCTIONLIST_GETDEVICES
+Hae asemat        -      Näytä asemalista
+; GetDevices    -       Display device list *
+STR_FUNCTIONLIST_GETSIZES
+Hae koot       -      Laske hakemistokoot
+; GetSizes      - Calculate total dir sizes
+STR_FUNCTIONLIST_HELP
+Apua       -   Käännä aputila päälle/pois
+; Help          -  Turn help mode on or off *
+STR_FUNCTIONLIST_HEXREAD
+Hex luku  -  Hexadesimaalitekstinnäyttäjä
+; HexRead       -   Hexadecimal text viewer
+STR_FUNCTIONLIST_HUNT
+Etsi           -       Etsi tiedostonimiä
+; Hunt          -      Search for filenames *
+STR_FUNCTIONLIST_ICONIFY
+Ikonoi           -         Ikonoi ohjelma
+; Iconify       -           Iconify program
+STR_FUNCTIONLIST_ICONINFO
+Tietoa ikonista   -  Anna tietoa ikonista
+; IconInfo      - Give information on icons
+STR_FUNCTIONLIST_INSTALL
+Asenna    -  Tee levyistä käynnistettäviä
+; Install       -       Make disks bootable
+STR_FUNCTIONLIST_INSTALLBG
+Asenna taustalla  - Levyasennus taustalla
+; InstallBG     -     Install in background
+STR_FUNCTIONLIST_LASTSAVED
+Viime tallennus  - Lue tallennettu asetus
+; LastSaved     -    Read last-saved config
+STR_FUNCTIONLIST_LOADCONFIG
+Lataa asetukset - Lataa nimetyt asetukset
+; LoadConfig    -     Load nominated config
+STR_FUNCTIONLIST_LOADSTRINGS
+Lataa merkkijono-Lataa merkkijonotiedosto
+; LoadStrings   -    Load a new string file
+STR_FUNCTIONLIST_LOOPPLAY
+Silmukkasoitto  -  Soita äänet silmukkana
+; LoopPlay      -     Loop-play sound files
+STR_FUNCTIONLIST_MAKEDIR
+Tee hakemisto     -    Luo uusi hakemisto
+; Makedir       -    Create a new directory
+STR_FUNCTIONLIST_MODIFY
+Muunna           -        Muuta asetuksia
+; Modify        -      Change configuration
+STR_FUNCTIONLIST_MOVE
+Siirrä       -     Siirrä valitut jäsenet
+; Move          -     Move selected entries
+STR_FUNCTIONLIST_MOVEAS
+Siirrä nimellä  -  Siirrä uusilla nimillä
+; MoveAs        -       Move with new names
+STR_FUNCTIONLIST_NEWCLI
+Uusi CLI      -      Avaa uusi CLI-ikkuna
+; NewCLI        -     Open a new CLI window
+STR_FUNCTIONLIST_NONE
+Ei mitään    -  Jätä jäsenet valitsematta
+; None          -      Deselect all entries
+STR_FUNCTIONLIST_OTHERWINDOW
+Toinen ikkuna   -   Aktivoi toinen ikkuna
+; OtherWindow   -     Activate other window
+STR_FUNCTIONLIST_PARENT
+Tyvi          -         Lue tyvihakemisto
+; Parent        -     Read parent directory ; vai että tyvi...
+STR_FUNCTIONLIST_PLAY
+Soita     -   Soita valitut äänitiedostot
+; Play          - Play selected sound files
+STR_FUNCTIONLIST_PLAYST
+Soita ST  - Soita ainoastaan ST-moduuleja
+; PlayST        -      Play ST modules only
+STR_FUNCTIONLIST_PRINT
+Tulosta    -    Tulosta valitut tiedostot
+; Print         -      Print selected files
+STR_FUNCTIONLIST_PRINTDIR
+Tulosta hak  - Tulosta näytetty hakemisto
+; PrintDir      - Print displayed directory
+STR_FUNCTIONLIST_PROTECT
+Suojaa        -     Muunna suojausbittejä
+; Protect       -    Modify protection bits
+STR_FUNCTIONLIST_QUIT
+Lopeta       -      Lopeta Directory Opus
+; Quit          -       Quit Directory Opus
+STR_FUNCTIONLIST_READ
+Lue        -   Tavallisen tekstinnäyttäjä
+; Read          -         Plain text viewer
+STR_FUNCTIONLIST_REDRAW
+Uudelleenpiirrä-Uudelleenpiirrä päänäyttö
+; Redraw        -        Redraw main screen
+STR_FUNCTIONLIST_RELABEL
+Nimeä levy      -      Vaihda levyn nimeä
+; Relabel       -         Change disk names
+STR_FUNCTIONLIST_REMEMBER
+Muista        -      Muista asetustilanne
+; Remember      -     Remember config state
+STR_FUNCTIONLIST_RENAME
+Nimeä    - Uudelleennimeä valitut jäsenet
+; Rename        -   Rename selected entries
+STR_FUNCTIONLIST_RESCAN
+Uudelleen lue - Lataa hakemisto uudelleen
+; Rescan        -  Reload current directory *
+STR_FUNCTIONLIST_RESELECT
+Uudelleenvalitse-Uudelleenvalitse jäsenet
+; Reselect      -          Reselect entries
+STR_FUNCTIONLIST_RESTORE
+Palauta   -   Palauta muistetut asetukset
+; Restore       -   Restore remembered cfg.
+STR_FUNCTIONLIST_ROOT
+Juuri         -        Lue juurihakemisto
+; Root          -       Read root directory
+STR_FUNCTIONLIST_RUN
+Suorita          -            Aja ohjelma
+; Run           -             Run a program *
+STR_FUNCTIONLIST_SAVECONFIG
+Talleta asetukset - Talleta nykyasetukset
+; SaveConfig    -       Save current config
+STR_FUNCTIONLIST_SCANDIR
+Lue hakemisto -   Lataa nimetty hakemisto
+; ScanDir       -  Load nominated directory *
+STR_FUNCTIONLIST_SEARCH
+Etsi     -  Etsi merkkijonoa tiedostoista
+; Search        - Search files for a string
+STR_FUNCTIONLIST_SELECT
+Valitse     -  Yleismerkkivalitse jäsenet
+; Select        -   Wildcard-select entries
+STR_FUNCTIONLIST_SHOW
+Näytä        -      Näytä graafisia kuvia
+; Show          -    Display graphic images
+STR_FUNCTIONLIST_SMARTREAD
+Älyluku -Automaattinen Hex/tekstinäyttäjä
+; SmartRead     -   Auto Hex or Text viewer
+STR_FUNCTIONLIST_STOPST
+Pysäytä ST   - Pysäytä ST-moduulin soitto
+; StopST        -    Stop ST module playing
+STR_FUNCTIONLIST_SWAPWINDOW
+Vaihda ikkunaa-Vaihda ikkunoiden sisällöt
+; SwapWindow    -  Swap contents of windows
+STR_FUNCTIONLIST_TOGGLE
+Vaihda      -      Vaihda kaikki valinnat
+; Toggle        -     Toggle all selections
+STR_FUNCTIONLIST_UNICONIFY
+Poista ikonointi -Poista ikonoitu ohjelma
+; UnIconify     -        Un-iconify program
+STR_FUNCTIONLIST_USER_FTYPE1
+Käyttäjä1  - Räätälöity tiedostotoiminta1
+; User1         -  Custom filetype action 1
+STR_FUNCTIONLIST_USER_FTYPE2
+Käyttäjä2  - Räätälöity tiedostotoiminta2
+; User2         -  Custom filetype action 2
+STR_FUNCTIONLIST_USER_FTYPE3
+Käyttäjä3  - Räätälöity tiedostotoiminta3
+; User3         -  Custom filetype action 3
+STR_FUNCTIONLIST_USER_FTYPE4
+Käyttäjä4  - Räätälöity tiedostotoiminta4
+; User4         -  Custom filetype action 4
+STR_FUNCTIONLIST_VERIFY
+Varmista        -       Varmista toiminto
+; Verify        -           Verify function
+STR_FUNCTIONLIST_VERSION
+Versio        -       Näytä versionumerot
+; Version       -   Display version numbers
+STR_COMMANDSEQ_DESTINATION
+{d}  -               Kohdehakemiston nimi
+; {d}  -         Destination directory name
+STR_COMMANDSEQ_FIRSTFILE
+{f}  -         1. valittu jäsen (polulla)
+; {f}  -   First selected entry (with path)
+STR_COMMANDSEQ_ALLFILES
+{F}  -   Kaikki valitut jäsenet (polulla)
+; {F}  -  All selected entries (with paths)
+STR_COMMANDSEQ_FIRSTFILEUNSEL
+{fu} -      1. jäsen (polku;valitsematon)
+; {fu} -   First entry (path ; no unselect)
+STR_COMMANDSEQ_ALLFILESUNSEL
+{Fu} -Kaikki jäsenet (polku;valitsematon)
+; {Fu} -   All entries (path ; no unselect)
+STR_COMMANDSEQ_FIRSTFILENOPATH
+{o}  -       1. valittu jäsen (vain nimi)
+; {o}  -   First selected entry (name only)
+STR_COMMANDSEQ_ALLFILESNOPATH
+{O}  -Kaikki valitut jäsenet (vain nimet)
+; {O}  -  All selected entries (names only)
+STR_COMMANDSEQ_FIRSTFILENOPATHUNSEL
+{ou} -       1. jäsen (nimi;valitsematon)
+; {ou} -   First entry (name ; no unselect)
+STR_COMMANDSEQ_ALLFILESNOPATHUNSEL
+{Ou} - Kaikki jäsenet (nimi;valitsematon)
+; {Ou} -   All entries (name ; no unselect)
+STR_COMMANDSEQ_PORTNAME
+{Q}  -                Kysele jonkin arvoa
+; {Q}  -       Query the value of something
+STR_COMMANDSEQ_DIRREQ
+{Rd} -                  Hakemistovalitsin
+; {Rd} -                Directory requester
+STR_COMMANDSEQ_FILEREQ
+{Rf} -                   Tiedostovalitsin
+; {Rf} -                     File requester
+STR_COMMANDSEQ_MULTIFILEREQ
+{RF} -     Monivalittava tiedostovalitsin
+; {RF} -        Multi-select file requester
+STR_COMMANDSEQ_FONTREQ
+{Ro} -                   Kirjasinvalitsin
+; {Ro} -                     Font requester
+STR_COMMANDSEQ_ARGUMENTS
+{Rs} -                 Merkkijonovalitsin
+; {Rs} -                   String requester
+STR_COMMANDSEQ_SOURCE
+{s}  -               Lähdehakemiston nimi
+; {s}  -              Source directory name
+STR_CLASSOPS_AND
+Ja                -    toisen ryhmän alku
+; And          - start of another group
+STR_CLASSOPS_MATCH
+Vertaa            -       teksti tai $hex
+; Match        - text or $hex
+STR_CLASSOPS_MATCHBITS
+Vertaa bitit      -          HSPARWED +/-
+; MatchBits    - HSPARWED with + and -
+STR_CLASSOPS_MATCHCOMMENT
+Vertaa kommenttia -                teksti
+; MatchComment - text
+STR_CLASSOPS_MATCHDATE
+Vertaa päivää     - päivän merkkijono/ala
+; MatchDate    - date string or range
+STR_CLASSOPS_MATCHNAME
+Vertaa nimeä      -          tiedostonimi
+; MatchName    - filename *
+STR_CLASSOPS_MATCHSIZE
+Vertaa kokoa      -        Arvo >, < ja =
+; MatchSize    - value with >, < and = *
+STR_CLASSOPS_MOVE
+Siirrä            -  bittisiirtymä täältä
+; Move         - byte offset from here
+STR_CLASSOPS_MOVETO
+Siirrä kohteeseen -absoluuttinen sijainti
+; MoveTo       - absolute location
+STR_CLASSOPS_OR
+Tai               -    toisen ryhmän alku
+; Or           - start of another group
+STR_CLASSOPS_SEARCHFOR
+Etsi              -       teksti tai $hex
+; SearchFor    - text or $hex
+STR_BY
+X
+; by
+STR_SELECT_HOTKEY_TO_SWAP
+Valitse vaihdettava oikonäppäin.
+; Select hotkey to swap.
+STR_SELECT_SECOND_HOTKEY_TO_SWAP
+Valitse toinen vaihdettava oikonäppäin.
+; Select second hotkey to swap with first.
+STR_MODULE_LIST_TITLE
+Tuetut ulkoiset osat...
+; External support modules... *
+STR_removed_2
+
+; 
+STR_MODULE_LIST_CHECK_STRING
+(  Merkki tarkoittaa osan esilatausta)
+; (  Check indicates a module to be pre-loaded) *
+STR_removed_3
+
+; 
+STR_SYS_CLOCK_KILOBYTES_FREE
+Kilotavuina
+; Kilobytes free ; tavuina herranjestas
+STR_SYS_STARTUP_CONFIG
+Asetukset
+; Cfg return
+STR_MENU_DUPLICATE
+Monista...
+; Duplicate...
+STR_FILECLASS_DUPLICATE
+Toinen monistettava luokka...
+; Select class to duplicate...
+STR_MENU_CLEARCLIPS
+Tyhjennä leikkeet
+; Clear clips *
+STR_REALLY_CLEAR_CLIPS
+Haluatko todella tyhjentää kaikki leikepöydän\ntoiminnot?
+; Really clear all clipped functions? *
+STR_SCREEN_GENERAL_DRAGREQUESTERS
+Vedettävät valitsimet
+; Draggable requesters
+STR_FORMAT_OWNER
+Omistaja
+; Owner
+STR_FORMAT_GROUP
+Ryhmä
+; Group
+STR_PALETTE_TINT
+Tint
+; Tint
+STR_PALETTE_PHARAOH
+Faarao
+; Pharaoh
+STR_PALETTE_SUNSET
+Auringonlasku
+; Sunset
+STR_PALETTE_OCEAN
+Meri
+; Ocean
+STR_PALETTE_STEEL
+Teräs
+; Steel
+STR_PALETTE_CHOCOLATE
+Suklaa
+; Chocolate
+STR_PALETTE_PEWTER
+Tina
+; Pewter
+STR_PALETTE_WINE
+Viini
+; Wine
+STR_PALETTE_A2024
+A2024
+; A2024
+STR_FTYPE_CLICKMCLICK
+Osoita-S-Osoita
+; Click-m-click ; jaa tää taas
+STR_FTYPE_DOUBLECLICK
+Kaksoisosoita
+; Double-click ; click on sitten vai osoittamista?
+STR_FUNCTION_COMMAND
+Komento
+; Command
+STR_FUNCTION_AMIGADOS
+AmigaDOS
+; AmigaDOS
+STR_FUNCTION_WORKBENCH
+Workbench
+; Workbench
+STR_FUNCTION_BATCH
+Eräajo
+; Batch
+STR_FUNCTION_AREXX
+ARexx
+; ARexx
+STR_removed_tech
+
+; 
+STR_MODE_WORKBENCH_CLONE
+Workbench:Klooni
+; Workbench:Clone
+STR_MODE_WORKBENCH_USE
+Workbench:Käytössä
+; Workbench:Use *
+STR_COLOURS_TINY_GADS
+BRSA?EFCIQ
+; BRSA?EFCIQ
+STR_FORMAT_GROUPBITS
+Verkkosuojausbitit
+; Net protection bits
+STR_MENUNAME_NEATSTUFF
+Työkalut
+; Tools
+STR_NEAT_PAINT_MODE
+Piirtotapa
+; Paint mode *
+STR_PAINT_SELECT_COLOURS
+Valitse piirtovärit
+; Select paint colors
+STR_PAINT_STATE
+  (Piirtotapa aktivoitu)
+;   (Paint mode active) *
+STR_removed_4
+
+; New-look menus
+STR_SCREEN_GENERAL_TITLEBARSTATUS
+Näytä tilateksti otsikkopalkissa
+; Display status text in title bar
+STR_OP_UPDATE_PROGRESSIND_COPY
+Toiminnon etenemisen ilmaisin (Kopioi)
+; Current file progress indicator (Copy) *
+STR_SCREEN_MODE_USE
+Käytä
+; Use
+STR_SCREEN_GENERAL_WINDOWBORDERS
+Omitun näytön ikkunareunat
+; Custom screen window borders ; omittu?
+STR_SCREEN_MODE_CLONE
+Klooni
+; Clone
+STR_SCREEN_SLIDERS
+Liukusäätimet
+; Sliders
+STR_OP_UPDATE_PROGRESS
+Etenemisilmaisin...
+; Progress indicator...
+STR_FONTPLACE_SCREEN
+Näytön kirjasin
+; Screen font
+STR_FUNCTIONLIST_SETVAR
+Aseta muuttuja  - Aseta sisäinen muuttuja
+; SetVar        -  Set an internal variable
+STR_COMMANDSEQ_VARIABLE
+{v}  -           Ennaltamäärätty muuttuja
+; {v}  -               Pre-defined variable
+STR_SYS_VIEWPLAY_BESTMODEID
+Valitse paras näyttötila
+; Pick best screen-mode *
+STR_FUNCTIONLIST_NOTIFY
+Huomauta        -       Huomautusvalitsin
+; Notify        -    Notification requester
+STR_FUNCTIONLIST_PARENTLIST
+Tyvilista      -    Listaa tyvihakemistot
+; ParentList    -   List parent directories
+STR_SIZE_KMGMODE
+Näytä koko K/M/G
+; Show entries as K/M/G
+STR_SYS_VIEWPLAY_INWINDOW
+Näytä ikkunassa
+; View in window
+STR_SYS_TOP_Y
+Ylä Y
+; Top Y
+STR_SYS_LEFT_X
+Vasen X
+; Left X
+STR_SYS_WIDTH
+Leveys
+; Width
+STR_SYS_HEIGHT
+Korkeus
+; Height
+STR_CLASSOPS_MATCHI
+VertaaI           - teksti(kokosamaistus)
+; MatchI       - text (case-insensitive)
+STR_MENU_MAX_REACHED
+Varoitus! Joitakin valikoita jätettiin tilanpuutteen vuoksi pois.
+; Warning! Some menus were not imported due to lack of free space.
