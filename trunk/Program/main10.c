@@ -88,7 +88,7 @@ int rexx;
 void setcurdir(rexx)
 int rexx;
 {
-    static int time_through=0;
+    static int time_through;
     char dir[256];
     BPTR lock;
 
@@ -101,7 +101,7 @@ int rexx;
     }
     else strcpy(dir,rexx_args[0]);
     if (!(lock=Lock(dir,ACCESS_READ))) {
-        doerror(IoErr());
+        doerror(-1);
         return;
     }
     if (lock=CurrentDir(lock)) {
@@ -344,7 +344,7 @@ struct DateStamp *source,*dest;
     dest->ds_Minute=source->ds_Minute;
     dest->ds_Tick=source->ds_Tick;
 }
-
+/*
 void readkeys(keys)
 APTR keys;
 {
@@ -353,7 +353,7 @@ APTR keys;
     keyboard_req->io_Command=KBD_READMATRIX;
     DoIO((struct IORequest *)keyboard_req);
 }
-
+*/
 ULONG clone_screen(original,clone)
 struct Screen *original;
 struct ExtNewScreen *clone;

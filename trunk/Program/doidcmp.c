@@ -275,13 +275,17 @@ void doidcmp()
                     break;
 
                 case IDCMP_RAWKEY:
+/*
                     code&=0x7f;
                     readkeys(var_key_matrix);
-                    a=code/8; b=code%8/*-(a*8)*/;
-                    if (!(var_key_matrix[a]&(1<<b))) {
-                        flushidcmp();
-                        break;
-                    }
+                    a=code/8; b=code%8;
+                    if (!(var_key_matrix[a]&(1<<b)))
+*/
+                    if (code & IECODE_UP_PREFIX)
+                     {
+                      flushidcmp();
+                      break;
+                     }
                     qual&=VALID_QUALIFIERS;
                     bank=dopus_firstgadbank;
                     while (bank) {

@@ -6,8 +6,20 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (27.01.2002):
+4.17 (24.02.2002):
 - few hits removed
+- Parent on directory tree retrun to previous lister display
+- Query/Modify OutputCmd/OutputWindow Arexx commands work now
+- select pattern window allows selecting by file comment too.
+- viewer window will open even if it's coordinates do not match the screen
+- preliminary support for AmigaGuide help
+- it will quietly wait for all alien windows to close before closing its
+screen and terminating
+- preliminary datatypes support for Show function
+- cleaned up input handling code
+- 8SVX PAN chunk support added
+- AHI support for samples (modules are still played by inovamusic.library
+on audio.device). Put USEAHI tooltype in program's icon to enable it.
 - MODIFY SORTMETHOD and MODIFY SORTFLAGS perform the change without calling
 RESCAN (DISPLAYDIR is enough)
 - built-in function should work on double-clicked archive entries (were

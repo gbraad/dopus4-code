@@ -44,11 +44,12 @@ void quit()
     remclock();
     removehotkeys();
     endnotifies();
-
+/*
     if (keyboard_req) {
         CloseDevice((struct IORequest *)keyboard_req);
         LDeleteExtIO((struct IORequest *)keyboard_req);
     }
+*/
     if (input_req) {
         CloseDevice((struct IORequest *)input_req);
         LDeleteExtIO((struct IORequest *)input_req);
@@ -129,6 +130,8 @@ D(bug("Freeing special dirs\n"));
     }
     CloseLocale(locale);
     CloseLibrary(LocaleBase);
+    CloseLibrary(DatatypesBase);
+    CloseLibrary(AmigaGuideBase);
 
     /*if (DOpusBase)*/ CloseLibrary((struct Library *) DOpusBase);
 
@@ -261,7 +264,7 @@ void closedisplay()
             Window=NULL;
         }
         if (MainScreen) {
-            CloseScreen(MainScreen);
+            while(!(CloseScreen(MainScreen))) Delay(50);
             MainScreen=NULL;
         }
         Permit();

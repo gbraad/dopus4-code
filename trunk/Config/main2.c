@@ -405,10 +405,11 @@ void showgadgetname(gad,gadget)
 struct newdopusfunction *gad;
 struct Gadget *gadget;
 {
-    int a,x,y;
+    int a,x,y,l;
 
     x=gadget->LeftEdge;
     y=gadget->TopEdge;
+    l=(80-8)/rp->Font->tf_XSize;
     if (gad) SetAPen(rp,screen_pens[gad->bpen].pen);
     else SetAPen(rp,screen_pens[0].pen);
     RectFill(rp,x+2,y+1,x+77,y+8);
@@ -416,7 +417,7 @@ struct Gadget *gadget;
         SetAPen(rp,screen_pens[gad->fpen].pen);
         SetBPen(rp,screen_pens[gad->bpen].pen);
         if (gad->name && gad->name[0]) {
-            Move(rp,x+((80-(((a=strlen(gad->name))>9?(a=9):a)*8))/2),y+7);
+            Move(rp,x+((80-(((a=strlen(gad->name))>l?(a=l):a)*rp->Font->tf_XSize))/2),y+7);
             Text(rp,gad->name,a);
         }
     }
@@ -908,19 +909,22 @@ void showmenutext(txt,x,y,fp,bp)
 char *txt;
 int x,y,fp,bp;
 {
-    int a;
+    int a,l;
 
+    l = (14*8)/rp->Font->tf_XSize;
     SetAPen(rp,screen_pens[fp].pen);
     SetBPen(rp,screen_pens[bp].pen);
     Move(rp,x,y+6);
     if (txt) {
         if ((a=strlen(txt))>0) {
-            if (a>14) a=14;
+            if (a>l) a=l;
             Text(rp,txt,a);
         }
     }
     else a=0;
-    if (a<14) Text(rp,spacestring,14-a);
+    if (a<l) Text(rp,spacestring,l-a);
+    SetAPen(rp,screen_pens[bp].pen);
+    RectFill(rp,x+(l*rp->Font->tf_XSize),y,x+111,y+7);
     SetBPen(rp,screen_pens[0].pen);
 }
 

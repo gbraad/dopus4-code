@@ -64,6 +64,8 @@ struct xadMasterBase *xadMasterBase = NULL; /* xadmaster.library */
 struct Library *SysInfoBase = NULL;         /* sysinfo.library */
 struct Library *LocaleBase = NULL;          /* locale.library */
 struct muBase *muBase = NULL;               /* multiuser.library */
+struct Library *DatatypesBase=NULL;         /* datatypes.library */
+struct Library *AmigaGuideBase=NULL;        /* amigaguide.library */
 
 /* Intuition objects */
 
@@ -103,7 +105,7 @@ struct MsgPort *snm_port=NULL;            /* ScreenNotify Port */
 struct MsgPort *hotkeymsg_port=NULL;      /* Messages to the hotkey task */
 struct MsgPort *clockmsg_port=NULL;       /* Messages to the clock task */
 
-struct IOStdReq *keyboard_req=NULL;       /* Keyboard IO Request block */
+//struct IOStdReq *keyboard_req=NULL;       /* Keyboard IO Request block */
 struct IOStdReq *input_req=NULL;          /* Input IO Request block */
 
 /* DOS objects */
@@ -166,7 +168,7 @@ char str_config_file[256]={0};            /* Configuration file */
 char str_dopusrt_path[256]={0};           /* DOpusRT path name */
 
 char str_select_info[128]={0};            /* Status bar text for selection info */
-char *str_select_pattern[3]={0};          /* Three different Select patterns */
+char *str_select_pattern[4]={0};          /* Four different Select patterns */
 char *str_arexx_command=NULL;             /* Entered ARexx command string */
 char *str_space_string=NULL;              /* 255 spaces in a string */
 char str_hunt_name[80]={0};               /* File name to hunt for */
@@ -277,8 +279,6 @@ char *icon_type_names[]={                 /* Names of different icon types */
 struct DOpusRemember *recurse_dir_key=NULL;    /* Memory key for RecursiveDirectory's */
 struct RecursiveDirectory *first_recurse=NULL; /* First recursive directory pointer */
 int recurse_max_depth=0   ;                    /* Maximum depth reached */
-struct RecursiveDirectory
-    **recurse_parent_array=NULL;                  /* Array of parent directories */
 
 struct path_complete completion[2]={{0},{0}};  /* Path-name completion data */
 

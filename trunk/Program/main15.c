@@ -50,7 +50,7 @@ D(bug("ftype_doubleclick() on %s\n",buf));
     threelongs[0]=0;
 
     if (CheckExist(buf,&size)>=0) {
-        doerror(205);
+        doerror(ERROR_OBJECT_NOT_FOUND);
         return;
     }
     if (!size) {
@@ -133,7 +133,7 @@ D(bug("Archive recognized: %s\n",cl->xc_ArchiverName));
         return;
     }
     if (!(in=Open(buf,MODE_OLDFILE))) {
-        doerror(IoErr());
+        doerror(-1);
         return;
     }
     Read(in,(char *)threelongs,sizeof(threelongs));
@@ -382,7 +382,7 @@ char *source,*dest;
                     dostatustext(globstring[STR_SAVING_CONFIG]);
                     busy();
                     if (!(savesetup(NULL))) {
-                        doerror(IoErr());
+                        doerror(-1);
                         unbusy();
                         break;
                     }
@@ -391,7 +391,7 @@ char *source,*dest;
                 quit();
             case FUNC_SAVECONFIG:
                 dostatustext(globstring[STR_SAVING_CONFIG]);
-                if (!(savesetup((rexx && rexx_args[0][0])?rexx_args[0]:NULL))) doerror(IoErr());
+                if (!(savesetup((rexx && rexx_args[0][0])?rexx_args[0]:NULL))) doerror(-1);
                 else okay();
                 break;
             case FUNC_LASTSAVEDCONFIG:
@@ -409,7 +409,7 @@ char *source,*dest;
                 if (a==1) {
                     dostatustext(globstring[STR_SAVING_CONFIG]);
                     if (!(savesetup(NULL))) {
-                        doerror(IoErr());
+                        doerror(-1);
                         break;
                     }
                 }
@@ -442,6 +442,14 @@ char *source,*dest;
             case FUNC_PARENT:
                 if (!rexx || !rexx_argcount>0 ||
                     (a=atoi(rexx_args[0]))<0 || a>1) a=data_active_window;
+                if (dopus_curwin[a]->firstentry &&
+                   (dopus_curwin[a]->firstentry->type==ENTRY_CUSTOM) &&
+                   (dopus_curwin[a]->firstentry->subtype==CUSTOMENTRY_DIRTREE))
+                 {
+                  advancebuf(a,-1);
+                  refreshwindow(a,3);
+                  break;
+                 }
                 if (doparent(str_pathbuffer[a])) do_parent_root(a);
                 else dodevicelist(a);
                 break;

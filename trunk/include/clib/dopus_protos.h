@@ -101,7 +101,7 @@ int TackOn(char *,char *,int);
 void UScoreText(struct RastPort *,char *,int,int,int);
 struct Image *GetButtonImage(int,int,int,int,int,int,struct DOpusRemember **);
 void DrawRadioButton(struct RastPort *,int,int,int,int,int,int);
-struct Image *GetCheckImage(int,int,int,struct DOpusRemember **);
+struct Image *GetCheckImage(UBYTE,UBYTE,int,struct DOpusRemember **);
 struct Window *OpenRequester(struct RequesterBase *);
 void CloseRequester(struct RequesterBase *);
 APTR AddRequesterObject(struct RequesterBase *,struct TagItem *);

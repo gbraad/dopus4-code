@@ -37,23 +37,23 @@ the existing commercial status of Directory Opus 5.
 #define RAWKEY_Q   0x10
 #define RAWKEY_X   0x32
 
-struct DOpusRemember *audio_key=NULL;     /* Memory key for 8SVX player */
+static struct DOpusRemember *audio_key;      /* Memory key for 8SVX player */
 
-struct MsgPort *audio_port[2]={0};        /* 8SVX Sound player Ports */
+static struct MsgPort *audio_port[2];        /* 8SVX Sound player Ports */
 
-struct IOAudio *audio_req1[2]={0};        /* Audio IO Request block #1 */
-struct IOAudio *audio_req2[2]={0};        /* Audio IO Request block #2 */
+static struct IOAudio *audio_req1[2];        /* Audio IO Request block #1 */
+static struct IOAudio *audio_req2[2];        /* Audio IO Request block #2 */
 
-UBYTE *audiodata=NULL;                    /* Audio data to play */
-ULONG audio_size=0;                       /* Size of audio data */
+static UBYTE *audiodata;                     /* Audio data to play */
+static ULONG audio_size;                     /* Size of audio data */
 
-struct Library      *AHIBase   = NULL;
-struct MsgPort      *AHImp     = NULL;
-struct AHIRequest   *AHIio     = NULL;
-BYTE                 AHIDevice = -1;
-struct AHIAudioCtrl *actrl     = NULL;
+static struct Library      *AHIBase;
+static struct MsgPort      *AHImp;
+static struct AHIRequest   *AHIio;
+static BYTE                 AHIDevice = -1;
+static struct AHIAudioCtrl *actrl;
 
-BOOL useAHI = TRUE;
+BOOL useAHI = FALSE;
 
 int showpic(fullname,np)
 char *fullname;
@@ -69,7 +69,7 @@ int np;
     if (a>5 && Stricmp(&fullname[a-5],".info")==0) {
         if ((res=readicon(fullname,np))==0) return(1);
         if (res==-2) {
-            doerror(IoErr());
+            doerror(-1);
             return(0);
         }
         if (res==-3) {
@@ -79,7 +79,7 @@ int np;
         return(res);
     }
 
-    if (!(res=LoadPic(fullname))) doerror(IoErr());
+    if (!(res=LoadPic(fullname))) doerror(-1);
     else if (res==IFFERR_NOTILBM) dostatustext(globstring[STR_FILE_NOT_ILBM]);
     else if (res==IFFERR_BADIFF) dostatustext(globstring[STR_ERROR_IN_IFF]);
     else if (res==IFFERR_NOMEMORY) dostatustext(globstring[STR_NO_CHIP_FOR_PICTURE]);
@@ -192,7 +192,7 @@ D(bug("icon depth: %ld\n",icon_image[0]->Depth));
             x1=x+icon_image[imagenum]->Width;
             y1=y+icon_image[imagenum]->Height;
             DrawImage(font_rp,icon_image[imagenum],x,y);
-            drawrecaround(font_rp,0,0,x,y,x1,y1,width,height);
+            drawrecaround(font_rp,/*0,0,*/x,y,x1,y1,width,height);
         }
         else {
             if (fred==0 || fred==-3) ret=TRUE;
@@ -208,17 +208,17 @@ D(bug("icon depth: %ld\n",icon_image[0]->Depth));
     return(ret);
 }
 
-void drawrecaround(r,l,t,x,y,x1,y1,width,height)
+void drawrecaround(r,/*l,t,*/x,y,x1,y1,width,height)
 struct RastPort *r;
-int l,t,x,y,x1,y1,width,height;
+int /*l,t,*/x,y,x1,y1,width,height;
 {
-    char o;
+    UBYTE o;
 
-    o=r->FgPen; SetAPen(r,0);
-    if (x>0) RectFill(r,l,t,l+x-1,t+height-1);
-    if (y>0) RectFill(r,l,t,l+width-1,t+y-1);
-    if (x1<l+width) RectFill(r,l+x1,t,l+width-1,t+height-1);
-    if (y1<t+height) RectFill(r,l,t+y1,l+width-1,t+height-1);
+    o=GetAPen(r); SetAPen(r,0);
+    if (x>0) RectFill(r,/*l*/0,/*t*/0,/*l+*/x-1,/*t+*/height-1);
+    if (x1 < /*l+*/width) RectFill(r,/*l+*/x1,/*t*/0,/*l+*/width-1,/*t+*/height-1);
+    if (y>0) RectFill(r,/*l*/0,/*t*/0,/*l+*/width-1,/*t+*/y-1);
+    if (y1 < /*t+*/height) RectFill(r,/*l*/0,/*t+*/y1,/*l+*/width-1,/*t+*/height-1);
     SetAPen(r,o);
 }
 
@@ -251,7 +251,8 @@ BOOL OpenAHI(void)
 
 void CloseAHI(void)
 {
-
+  AHI_FreeAudio(actrl);
+  actrl = NULL;
   if(! AHIDevice) CloseDevice((struct IORequest *)AHIio);
   AHIDevice=-1;
   DeleteIORequest((struct IORequest *)AHIio);
@@ -261,11 +262,11 @@ void CloseAHI(void)
 }
 
 BYTE AHIsignal = -1;
-int AHIloops = 0;
+static int AHIloops;
 
 __saveds ULONG AHISoundFunc(register struct AHIAudioCtrl *actrl __asm("a2"), register struct AHISoundMessage *smsg __asm("a1"))
 {
-    if (AHIloops)  // Will it work for stereo sounds?
+    if (AHIloops)  // Will it work for stereo sounds too?
      {
       AHI_SetSound(smsg->ahism_Channel,AHI_NOSOUND,0,0,actrl,NULL);
       Signal(actrl->ahiac_UserData,1L<<AHIsignal);
@@ -275,28 +276,28 @@ __saveds ULONG AHISoundFunc(register struct AHIAudioCtrl *actrl __asm("a2"), reg
     return 0;
 }
 
-struct Hook AHISoundHook = { {NULL,NULL},AHISoundFunc,NULL,NULL };
+static struct Hook AHISoundHook;
 
 int doplay8svx(fname,loop)
 char *fname;
 int loop;
 {
-    Voice8Header *pvoice8header=NULL;
+    struct VoiceHeader *vhdr=NULL;
     UBYTE *p8data;
-    ULONG speed,size,class,rsize,chan=0,waitbits,sigs;
+    ULONG size,class,rsize,chan=0,pan=Unity/2,waitbits,sigs;
     USHORT code;
     char *psample,*ry,*compressbuf;
     ChunkHeader *p8chunk;
     int a,b,stereo,*vxcheck,finish,playsize;
     struct IOAudio *audioptr[2];
     UBYTE *playdata[2];
-    static UBYTE audiochannels[2][4]={{9,1,8,4},{6,2,4,8}};
-
+/*
     for (a=0;a<2;a++) {
         audio_port[a]=NULL;
         audio_req1[a]=audio_req2[a]=NULL;
     }
     audiodata=NULL;
+*/
     status_flags&=~STATUS_AUDIOLED;
 
     if ((a=readfile(fname,(char **)&audiodata,(int *)&audio_size))) {
@@ -304,11 +305,11 @@ int loop;
         return(-2);
     }
     vxcheck=(int *)audiodata;
-    if (audio_size<12 || vxcheck[0]!=ID_FORM || vxcheck[2]!=ID_8SVX) {
+    if (audio_size<12 || vxcheck[0]!=ID_FORM || vxcheck[2]!=ID_8SVX) { // Raw data
         size=audio_size;
         psample=p8data=audiodata;
     }
-    else {
+    else {                                                             // 8SVX sample
         p8data=audiodata+12;
         size=0;
         while (p8data<audiodata+vxcheck[1]) {
@@ -316,14 +317,17 @@ int loop;
             p8data+=sizeof(ChunkHeader);
             switch (p8chunk->ckID) {
                 case ID_VHDR:
-                    pvoice8header=(Voice8Header *)p8data;
+                    vhdr=(struct VoiceHeader *)p8data;
                     break;
                 case ID_BODY:
                     psample=p8data;
                     size=p8chunk->ckSize;
                     break;
                 case ID_CHAN:
-                    CopyMem((char *)p8data,(char *)&chan,4);
+                    chan = *((ULONG *)p8data);
+                    break;
+                case ID_PAN:
+                    pan = *((ULONG *)p8data);
                     break;
             }
             p8data+=p8chunk->ckSize;
@@ -335,18 +339,16 @@ int loop;
         size/=2; chan=0;
     }
 
-    if (pvoice8header) {
-        if (pvoice8header->sCompression==1) {
+    if (vhdr) {
+        if (vhdr->vh_Compression==CMP_FIBDELTA) {
             size-=2;
             if (!(compressbuf=LAllocRemember(&audio_key,size*2,MEMF_ANY))) return(-2);
             DUnpack(psample+2,size,compressbuf,psample[1]);
             psample=compressbuf; size*=2;
         }
-        speed=data_colorclock/pvoice8header->samplesPerSec;
     }
-    else speed=data_colorclock/10000;
 
-    if (chan==6) {
+    if (chan==SAMPLETYPE_Stereo) {
         size/=2;
         stereo=size;
     }
@@ -358,6 +360,7 @@ D(bug("Trying to play through AHI\n"));
       if (OpenAHI())
        {
 D(bug("AHI opened\n"));
+        AHISoundHook.h_Entry = AHISoundFunc;
         if ((actrl = AHI_AllocAudio(AHIA_AudioID,         AHI_DEFAULT_ID,
                                     AHIA_MixFreq,         AHI_DEFAULT_FREQ,
                                     AHIA_Channels,        stereo?2:1,
@@ -366,13 +369,10 @@ D(bug("AHI opened\n"));
                                     AHIA_UserData,        (Tag)FindTask(NULL),
                                     TAG_DONE)))
          {
-          struct AHISampleInfo sample;
+          struct AHISampleInfo sample = { AHIST_M8S, psample, size /*/ AHI_SampleFrameSize(AHIST_M8S)*/ };
           UWORD snd0,snd1=1;
 
 D(bug("AHI_AllocAudio() succeeded\n"));
-          sample.ahisi_Type = AHIST_M8S;
-          sample.ahisi_Length = size /*/ AHI_SampleFrameSize(AHIST_M8S)*/;
-          sample.ahisi_Address = psample;
           snd0 = AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl);
           if (stereo)
            {
@@ -387,8 +387,8 @@ D(bug("LoadSound(0)=%ld, LoadSound(1)=%ld\n",snd0,snd1));
               struct TagItem ahitags2[] =
               {
                 { AHIP_BeginChannel, 1 },
-                { AHIP_Freq        , pvoice8header->samplesPerSec },
-                { AHIP_Vol         , pvoice8header->volume },
+                { AHIP_Freq        , vhdr?vhdr->vh_SamplesPerSec:10000 },
+                { AHIP_Vol         , vhdr?vhdr->vh_Volume:Unity },
                 { AHIP_Pan         , 0L },
                 { AHIP_Sound       , 1 },
                 { AHIP_EndChannel  , NULL },
@@ -399,27 +399,17 @@ D(bug("LoadSound(0)=%ld, LoadSound(1)=%ld\n",snd0,snd1));
 
               AHI_Play(actrl,
                 AHIP_BeginChannel, 0,
-                AHIP_Freq        , pvoice8header->samplesPerSec,
-                AHIP_Vol         , pvoice8header->volume,
-                AHIP_Pan         , stereo?0x10000L:0x8000L,
+                AHIP_Freq        , vhdr?vhdr->vh_SamplesPerSec:10000,
+                AHIP_Vol         , vhdr?vhdr->vh_Volume:Unity,
+                AHIP_Pan         , stereo?Unity:pan,
                 AHIP_Sound       , 0,
                 AHIP_EndChannel  , NULL,
                 stereo?TAG_MORE:TAG_END, (Tag)ahitags2);
 D(bug("Playing through AHI\n"));
              }
-            else
-             {
-              AHI_FreeAudio(actrl);
-              actrl = NULL;
-              CloseAHI();
-             }
+            else CloseAHI();
            }
-          else
-           {
-            AHI_FreeAudio(actrl);
-            actrl = NULL;
-            CloseAHI();
-           }
+          else CloseAHI();
          }
         else CloseAHI();
        }
@@ -427,6 +417,8 @@ D(bug("Playing through AHI\n"));
      }
     if (actrl == NULL)
      {
+      static UBYTE audiochannels[2][4]={{8+1,1,8,4},{4+2,2,4,8}};
+
 D(bug("Trying to play through audio.device\n"));
       for (a=0;a<2;a++) {
           if (!(audio_req1[a]=LAllocRemember(&audio_key,sizeof(struct IOAudio),MEMF_CLEAR)) ||
@@ -451,8 +443,8 @@ D(bug("Trying to play through audio.device\n"));
       for (a=0;a<2;a++) {
           audio_req1[a]->ioa_Request.io_Command=CMD_WRITE;
           audio_req1[a]->ioa_Request.io_Flags=ADIOF_PERVOL;
-          audio_req1[a]->ioa_Volume=64;
-          audio_req1[a]->ioa_Period=(UWORD)speed;
+          audio_req1[a]->ioa_Volume=64*(a?Unity-pan:pan)/Unity;
+          audio_req1[a]->ioa_Period=data_colorclock/(vhdr?vhdr->vh_SamplesPerSec:10000);
           audio_req1[a]->ioa_Cycles=1;
           CopyMem((char *)audio_req1[a],(char *)audio_req2[a],sizeof(struct IOAudio));
           audio_req1[a]->ioa_Data=(UBYTE *)playdata[a];
@@ -579,17 +571,10 @@ void kill8svx()
 {
     int a;
 
-    if (useAHI)
+    if (actrl)
      {
-      if (actrl)
-       {
-        AHI_ControlAudio(actrl, AHIC_Play, FALSE, TAG_DONE);
-//        AHI_UnloadSound(0,actrl);
-//        AHI_UnloadSound(1,actrl);
-       }
+      AHI_ControlAudio(actrl, AHIC_Play, FALSE, TAG_DONE);
       FreeSignal(AHIsignal);
-      AHI_FreeAudio(actrl);
-      actrl = NULL;
       CloseAHI();
      }
     else
@@ -628,12 +613,92 @@ void handle8svxerror(res)
 int res;
 {
     switch (res) {
-        case 0: doerror(IoErr()); break;
+        case 0: doerror(-1); break;
         case -2: doerror(ERROR_NO_FREE_STORE); break;
         case -3:
         case -4: dostatustext(globstring[STR_ERROR_IN_IFF]); break;
         case -6: dostatustext(globstring[STR_CANT_ALLOCATE_AUDIO]); break;
     }
+}
+
+void dosound(type)
+int type;
+{
+    if (type) {
+      struct IOAudio audio;
+      static UBYTE achannels[8]={1+2,1+4,2+8,4+8,1,2,4,8};
+      int a;
+
+D(bug("beepwave at %lx\n",beepwave));
+      if (useAHI)
+       {
+D(bug("Trying to play through AHI\n"));
+        if (OpenAHI())
+         {
+D(bug("AHI opened\n"));
+          if ((actrl = AHI_AllocAudio(AHIA_AudioID,  AHI_DEFAULT_ID,
+                                      AHIA_MixFreq,  AHI_DEFAULT_FREQ,
+                                      AHIA_Channels, 1,
+                                      AHIA_Sounds,   1,
+                                      TAG_DONE)))
+           {
+            struct AHISampleInfo sample = { AHIST_M8S, beepwave, 16 };
+
+D(bug("AHI_AllocAudio() succeeded\n"));
+            if (AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl) != AHI_NOSOUND)
+             {
+D(bug("Playing through AHI\n"));
+              AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
+
+              for (a=0;a<11;a++)
+               {
+                AHI_Play(actrl,
+                    AHIP_BeginChannel, 0,
+                    AHIP_Freq        , (a%2)?6000:9000,
+                    AHIP_Vol         , 0x10000L,
+                    AHIP_Pan         , 0x8000L,
+                    AHIP_Sound       , 0,
+                    AHIP_EndChannel  , NULL,
+                    TAG_END);
+                Delay(6);
+               }
+
+              AHI_ControlAudio(actrl, AHIC_Play, FALSE, TAG_DONE);
+
+              CloseAHI();
+
+              return;
+             }
+            else CloseAHI();
+           }
+          else CloseAHI();
+         }
+        else CloseAHI();
+       }
+D(bug("Trying to play through audio.device\n"));
+      audio.ioa_Request.io_Message.mn_ReplyPort=general_port;
+      audio.ioa_Request.io_Message.mn_Node.ln_Pri=90;
+      audio.ioa_Data=achannels;
+      audio.ioa_Length=sizeof(achannels);
+      if (OpenDevice("audio.device",0,(struct IORequest *)&audio,0)==0) {
+          audio.ioa_Request.io_Command=CMD_WRITE;
+          audio.ioa_Request.io_Flags=ADIOF_PERVOL;
+          audio.ioa_Volume=64;
+          audio.ioa_Data=(UBYTE *)beepwave;
+          audio.ioa_Length=16;
+          audio.ioa_Cycles=60;
+
+          for (a=0;a<11;a++) {
+              audio.ioa_Period=(a%2)?600:400;
+              BeginIO((struct IORequest *)&audio);
+              WaitIO((struct IORequest *)&audio);
+          }
+
+          CloseDevice((struct IORequest *)&audio);
+      }
+      else dostatustext(globstring[STR_CANT_ALLOCATE_AUDIO]);
+    }
+    else DisplayBeep(NULL);
 }
 
 int playmod(name)
@@ -643,14 +708,16 @@ char *name;
 
     if ((a=PlayModule(name,1))) {
         switch (a) {
-            case ML_NOMEM: doerror(103); break;
+            case ML_NOMEM: doerror(ERROR_NO_FREE_STORE); break;
             case ML_BADMOD:
                 dostatustext(globstring[STR_NOT_ST_MOD]);
                 break;
-            case ML_NOMOD: doerror(205); break;
+            case ML_NOMOD: doerror(ERROR_OBJECT_NOT_FOUND); break;
+/*
             default:
                 doerror(0);
                 break;
+*/
         }
         FlushModule();
         return(0);
@@ -711,27 +778,24 @@ APTR buffer;
     return(0);
 }
 
-int filteroff(void)             //_filteroff:   ;int
+int filteroff(void)                          //_filteroff:   ;int
 {
   char *filter_register = (char *)0xBFE001L;
 
-  if( (*filter_register) & 2 )            //  btst.b #1,$bfe001
-    return(0);              //  bne alreadyon
-
-  (*filter_register) |= 2;            //  bset.b #1,$bfe001
-  return(1);                    //  moveq.l #1,d0
-                            //  rts
-                        //alreadyon:
-                            //  moveq.l #0,d0
-                        //  rts
+  if( (*filter_register) & 2 )               //  btst.b #1,$bfe001
+                                             //  bne alreadyon
+    return(0);                               //alreadyon:
+                                             //  moveq.l #0,d0
+                                             //  rts
+  (*filter_register) |= 2;                   //  bset.b #1,$bfe001
+  return(1);                                 //  moveq.l #1,d0
+                                             //  rts
 }
 
-void filteron(void)                //  XDEF _filteron
-{                       //_filteron:    ;void
-
+void filteron(void)                          //_filteron:    ;void
+{
   char *filter_register = (char *)0xBFE001L;
 
-  (*filter_register) &= (~2);           //  bclr.b #1,$bfe001
-
-  return;                   //  rts
+  (*filter_register) &= (~2);                //  bclr.b #1,$bfe001
+                                             //  rts
 }

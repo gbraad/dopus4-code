@@ -68,7 +68,7 @@ extern const struct DefaultString default_strings[];
 
 #define DOPUSNAME "dopus.library"
 #define VERSION 22
-#define REVISION 20
+#define REVISION 21
 
 int Lib_Ext(void)
 {
@@ -91,7 +91,7 @@ static const struct Resident romtag = {
 };
 
 const char dopusname[] = DOPUSNAME;
-const char idstring[] = DOPUSNAME " 22.20 (" __DATE__ ") made under GPL license by Jacek Rzeuski\r\n";
+const char idstring[] = DOPUSNAME " 22.21 (" __DATE__ ") made under GPL license by Jacek Rzeuski\r\n";
 
 static const APTR functable[] = {
     Lib_Open,

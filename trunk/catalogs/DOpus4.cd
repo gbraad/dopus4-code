@@ -281,7 +281,10 @@ Found %ld matching files.
 STR_ADDING_ICON (//)
 adding an icon to
 ;
-STR_ENTER_COMMENT (+1//)
+STR_SELECT_COMMENT (//)
+Comment
+;
+STR_ENTER_COMMENT (//)
 Enter comment
 ;
 STR_ENTER_PASSWORD (+1//)
@@ -1032,7 +1035,7 @@ STR_VERSION_CONTENTS (//)
   Processor%29s  \n\
   Math co-processor%21s  \n\
   Graphics chipset%22s  \n\
-  Video system%26s
+  Video system%26s  \0
 ;
 STR_VERSION_HEADER (//)
 Version information...

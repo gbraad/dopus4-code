@@ -32,6 +32,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/locale.h>
 
 #define EXALL_NUM 2
+#define EXALL_BUFSIZE ((sizeof(struct ExAllData)+160)*EXALL_NUM)
 
 void freedir(dir,win)
 struct DirectoryWindow *dir;
@@ -55,16 +56,26 @@ D(bug("freedir: %lx (directory: %s\tflags: %lx)\n",dir,dir->directory?dir->direc
                                 }
                         }
                 }
-                dir->firstentry=dir->firstfile=dir->firstdir=NULL;
-                dir->oldoff=dir->oldhoff=-1;
-                dir->offset=dir->total=dir->filesel=
-                        dir->dirsel=
-                        dir->dirtot=dir->filetot=dir->hoffset=0;
-                                dir->bytessel = 0;
-                                dir->bytestot = 0;
-                dir->custhandler[0]=0;
-                dir->realdevice[0]=0;
-                dir->volumename[0]=0;
+                dir->firstentry =
+                dir->firstfile =
+                dir->firstdir = NULL;
+
+                dir->offset =
+                dir->total =
+                dir->filesel =
+                dir->dirsel=
+                dir->dirtot =
+                dir->filetot =
+                dir->hoffset =
+                dir->bytessel =
+                dir->bytestot =
+                dir->custhandler[0] =
+                dir->realdevice[0] =
+                dir->volumename[0] = 0;
+
+                dir->oldoff =
+                dir->oldhoff = -1;
+
                 if ((!(dir->flags & DWF_ARCHIVE)) || (win == -1))
                  {
                   dir->flags=0;
@@ -82,7 +93,7 @@ struct DirectoryWindow *dir;
 int win,incmess;
 {
         struct FileInfoBlock __aligned fileinfo;
-        int tot=1,a,use_exall=0,exall_entry,exall_continue,exall_bufsize,subtype,exall_type=ED_OWNER;
+        int tot=1,a,use_exall=0,exall_entry,exall_continue,/*exall_bufsize,*/subtype,exall_type=ED_OWNER;
         BPTR mylock;
         char buf[256];
         struct ExAllControl *exall_control;
@@ -96,9 +107,7 @@ D(bug("dir: %lx\tDWF_ARCHIVE flag: %ld\n",dir,dir->flags&DWF_ARCHIVE));
         vert_propinfo[win].VertPot=0;
         if (Window && !status_iconified) {
                 refreshwindow(win,1);
-                if (win==data_active_window)
-                        SetAPen(main_rp,screen_pens[config->disknameselbg].pen);
-                else SetAPen(main_rp,screen_pens[config->disknamebg].pen);
+                SetAPen(main_rp,screen_pens[(win==data_active_window)?config->disknameselbg:config->disknamebg].pen);
                 rectfill(main_rp,
                         scrdata_diskname_xpos[win]+2,
                         scrdata_diskname_ypos,
@@ -116,7 +125,7 @@ D(bug("dir: %lx\tDWF_ARCHIVE flag: %ld\n",dir,dir->flags&DWF_ARCHIVE));
                   startnotify(win);
                   return(1);
                  }
-                if (Window) doerror(IoErr());
+                if (Window) doerror(-1);
                 for (a=0;a<30;a++) {
                         if (str_pathbuffer[win][a]==':' || str_pathbuffer[win][a]==0) break;
                 }
@@ -128,15 +137,14 @@ D(bug("dir: %lx\tDWF_ARCHIVE flag: %ld\n",dir,dir->flags&DWF_ARCHIVE));
         if (getroot(buf,NULL)) {
                 strcpy(dir->volumename,buf);
                 strcat(buf,":");
-                if (deviceport=(struct MsgPort *)DeviceProc(buf))
+                if ((deviceport=(struct MsgPort *)DeviceProc(buf)))
                         get_device_task(mylock,dir->realdevice,deviceport);
         }
 
         if (config->dirflags&DIRFLAGS_EXPANDPATHS) {
                 PathName(mylock,buf,256);
                 strcpy(str_pathbuffer[win],buf);
-                if (Window) checkdir(str_pathbuffer[win],&path_strgadget[win]);
-                else checkdir(str_pathbuffer[win],NULL);
+                checkdir(str_pathbuffer[win],Window?&path_strgadget[win]:NULL);
                 strcpy(dir->directory,str_pathbuffer[win]);
         }
 
@@ -166,9 +174,8 @@ D(bug("dir: %lx\tDWF_ARCHIVE flag: %ld\n",dir,dir->flags&DWF_ARCHIVE));
         copy_datestamp(&fileinfo.fib_Date,&dir->dirstamp);
 
         if (config->dirflags&DIRFLAGS_EXALL && system_version2>=OSVER_40) {
-                if (exall_control=AllocDosObject(DOS_EXALLCONTROL,NULL)) {
-                        if (exall_buffer=(struct ExAllData *)
-                                AllocMem((exall_bufsize=((sizeof(struct ExAllData)+160)*EXALL_NUM)),MEMF_CLEAR)) {
+                if ((exall_control=AllocDosObject(DOS_EXALLCONTROL,NULL))) {
+                        if ((exall_buffer=(struct ExAllData *) AllocMem(EXALL_BUFSIZE,MEMF_CLEAR))) {
                                 use_exall=1;
                                 exall_entry=0;
                                 exall_continue=1;
@@ -190,11 +197,11 @@ D(bug("dir: %lx\tDWF_ARCHIVE flag: %ld\n",dir,dir->flags&DWF_ARCHIVE));
                 if (use_exall) {
                         if (exall_entry>=exall_control->eac_Entries || !exall_current) {
                                 if (!exall_continue) break;
-                                exall_continue=ExAll(mylock,exall_buffer,exall_bufsize,exall_type,exall_control);
+                                exall_continue=ExAll(mylock,exall_buffer,EXALL_BUFSIZE,exall_type,exall_control);
                                 if (!exall_continue)
                                  {
                                   if (IoErr() == ERROR_BAD_NUMBER)
-                                    exall_continue=ExAll(mylock,exall_buffer,exall_bufsize,exall_type=ED_COMMENT,exall_control);
+                                    exall_continue=ExAll(mylock,exall_buffer,EXALL_BUFSIZE,exall_type=ED_COMMENT,exall_control);
                                  }
                                 exall_entry=0;
                                 exall_current=exall_buffer;
@@ -239,14 +246,14 @@ D(bug("dir: %lx\tDWF_ARCHIVE flag: %ld\n",dir,dir->flags&DWF_ARCHIVE));
                    {
 D(bug("SoftLink! path: %s/%s\n",linkbuf,fib.fib_FileName));
                     ld = Lock(linkbuf,ACCESS_READ);
-                    if (dp = GetDeviceProc(linkbuf,NULL))
+                    if ((dp = GetDeviceProc(linkbuf,NULL)))
                      {
 //D(bug("DeviceProc: %lX\n",dp));
                       if (ReadLink(dp->dvp_Port,ld,fib.fib_FileName,buf,256))
                        {
                         AddPart(linkbuf,buf,512);
 D(bug("Resolved: %s\n",linkbuf));
-                        if (lf = Lock(linkbuf,ACCESS_READ))
+                        if ((lf = Lock(linkbuf,ACCESS_READ)))
                          {
                           if (Examine(lf,&fib))
                            {
@@ -292,7 +299,7 @@ D(bug("Resolved: %s\n",linkbuf));
                         fileinfo.fib_DirEntryType,
                         &fileinfo.fib_Date,fileinfo.fib_Comment,fileinfo.fib_Protection,subtype,
                         FALSE,NULL,NULL,fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID))) {
-                        if (Window) doerror(IoErr());
+                        if (Window) doerror(-1);
                         tot=0;
                         break;
                 }
@@ -318,7 +325,7 @@ D(bug("Resolved: %s\n",linkbuf));
         }
         if (use_exall) {
                 if (exall_control) FreeDosObject(DOS_EXALLCONTROL,exall_control);
-                if (exall_buffer) FreeMem(exall_buffer,exall_bufsize);
+                if (exall_buffer) FreeMem(exall_buffer,EXALL_BUFSIZE);
         }
         startnotify(win);
         return(1);
@@ -658,7 +665,7 @@ int win;
   }
 */
   if (tl<bl) {
-    if (newreg = NewRegion())
+    if ((newreg = NewRegion()))
      {
       rect.MinX=scrdata_dirwin_xpos[win]+1;
       rect.MinY=scrdata_dirwin_ypos[win];
@@ -678,7 +685,7 @@ int win;
                             scrdata_dirwin_xpos[win],scrdata_font_ysize+scrdata_dirwin_ypos[win],scrdata_dirwin_width[win],lpst8,0xc0);
             }
             else my+=scrdata_font_ysize;
-            setdispcol(entry,win);
+            //setdispcol(entry,win);
 /*
             if (entry->type == ENTRY_CUSTOM)
              {
@@ -713,64 +720,6 @@ D(bug("Initializing entry->dispstr\n"));
   dopus_curwin[win]->oldhoff=dopus_curwin[win]->hoffset;
 }
 
-struct TextCode
- {
-  UWORD code;
-  WORD  data;
- };
-#define TEXT_END  0x0000
-#define TEXT_MOVE 0x0001
-void inline PUTCODE(char **c, UWORD x, WORD y)
- {
-  ((struct TextCode *)*c)->code=x;
-  ((struct TextCode *)*c)->data=y;
-  *c+=sizeof(struct TextCode);
- }
-
-void drawentry(char *text, int win)
-{
-  struct RastPort *rp = &dir_rp[win];
-  int len,/*x0=rp->cp_x,*/x,y0,y1,fg=GetAPen(rp),bg=GetBPen(rp);
-  char *c;
-  WORD skip;
-
-  y0=rp->cp_y-scrdata_font_baseline;
-  y1=y0+rp->Font->tf_YSize-1;
-
-  while(1)
-   {
-    for(len = 0, c = text; *c; c++, len++);
-//D(bug("len = %ld, text = %s\n",len,text));
-    if (len) Text(rp,text,len);
-    SetAPen(rp,bg);
-    c++;
-    if (*c == TEXT_END)
-     {
-      len = 1;
-      x = scrdata_dirwin_xpos[win]+scrdata_dispwin_width[win]-1;
-     }
-    else
-     {
-      c++;
-      skip = *((WORD *)c);
-//D(bug("skip = %ld\n",skip));
-      x=rp->cp_x+skip;
-      if (skip < 0)
-       {
-        RectFill(rp,x,y0,x+scrdata_font_xsize,y1);
-        x+=scrdata_font_xsize;
-       }
-      len = 0;
-     }
-    if (rp->cp_x < x) RectFill(rp,rp->cp_x,y0,x,y1);
-    SetAPen(rp,fg);
-    Move(rp,x,rp->cp_y);
-    if (len) break;
-//D(bug("x0=%ld,x=%ld,w=%ld\n",x0,rp->cp_x,scrdata_dispwin_width[win]));
-    text = c+2;
-   }
-}
-
 void display_entry(entry,win,x,y)
 struct Directory *entry;
 int win,x,y;
@@ -779,9 +728,9 @@ int win,x,y;
   struct Region *oldreg,*newreg;
   struct Rectangle rect;
 
-  setdispcol(entry,win);
+  //setdispcol(entry,win);
   builddisplaystring(entry,dispbuf,win);
-  if (newreg = NewRegion())
+  if ((newreg = NewRegion()))
    {
     rect.MinX=scrdata_dirwin_xpos[win];
     rect.MinY=y-scrdata_font_baseline;
@@ -799,6 +748,99 @@ int win,x,y;
    }
 }
 
+#define TEXT_END  0x00 // End of TextCoded string
+#define TEXT_MOVE 0x01 // Move cursor
+#define TEXT_PENS 0x02 // Text pens (fgpen<<8 | bgpen)
+#define TEXT_STYL 0x03 // Font style
+
+struct TextCode
+ {
+  char  type; // 0 = control code
+  UBYTE code; // TEXT_xxxx defined above
+  union
+   {
+    WORD skip;       // TEXT_MOVE
+    struct
+     {
+      UBYTE fg, bg;
+     } tc_pens;      // TEXT_PENS
+    struct
+     {
+      UBYTE style,stylemask;
+     } tc_style;     // TEXT_STYL
+   } mode;
+ };
+static void inline PUTCODE(char **c, UWORD x, WORD y)
+ {
+  ULONG *tc = (ULONG *)(*c);
+
+  *tc = (x<<16)|(y/*&0xFFFF*/);
+  *c += sizeof(struct TextCode);
+ }
+
+void drawentry(char *text, int win) // text should start with TEXT_PENS!
+{
+  struct RastPort *rp = &dir_rp[win];
+  int len=0,/*x0=rp->cp_x,*/x,y0,y1,fg/*=GetAPen(rp)*/,bg/*=GetBPen(rp)*/;
+  char *t=NULL;
+  struct TextCode *c=(struct TextCode *)text;
+  WORD skip;
+  BOOL quit=FALSE;
+
+//D(KDump(text,32));
+  y0=rp->cp_y-scrdata_font_baseline;
+  y1=y0+rp->Font->tf_YSize-1;
+
+  while(!quit)
+   {
+    switch(c->type)
+     {
+      case 0: // control code - flush string and perfrom action
+        if (len) Text(rp,t,len);
+        t = NULL;
+        len = 0;
+
+        switch(c->code) // action code
+         {
+          case TEXT_PENS:
+            SetABPenDrMd(rp,fg=screen_pens[c->mode.tc_pens.fg].pen,bg=screen_pens[c->mode.tc_pens.bg].pen,JAM2);
+            break;
+          case TEXT_STYL:
+            SetSoftStyle(rp,c->mode.tc_style.style,c->mode.tc_style.stylemask);
+            break;
+          case TEXT_END:
+            x = scrdata_dirwin_xpos[win]+scrdata_dispwin_width[win]-1;
+            SetAPen(rp,bg);
+            if (rp->cp_x < x) RectFill(rp,rp->cp_x,y0,x,y1);
+            SetAPen(rp,fg);
+            Move(rp,x,rp->cp_y);
+            quit = TRUE;
+            break;
+          case TEXT_MOVE:
+            SetAPen(rp,bg);
+            skip = c->mode.skip;
+            x=rp->cp_x+skip;
+            if (skip < 0)
+             {
+              RectFill(rp,x,y0,x+scrdata_font_xsize,y1);
+              x+=scrdata_font_xsize;
+             }
+            if (rp->cp_x < x) RectFill(rp,rp->cp_x,y0,x,y1);
+            SetAPen(rp,fg);
+            Move(rp,x,rp->cp_y);
+            break;
+         }
+        c++;
+        break;
+      default:
+        if (!t) t = &(c->type);
+        len++;
+        c=(struct TextMode *)(&(c->code));
+        break;
+     }
+   }
+}
+
 void entry_text(win,entry,buf,len,x,y)
 int win;
 struct Directory *entry;
@@ -812,17 +854,19 @@ int len,x,y;
         if (entry && entry->type==ENTRY_CUSTOM && entry->subtype==CUSTOMENTRY_DIRTREE) {
                 char pbuf[MAXDISPLAYLENGTH],*c=pbuf;
 
-                for (a=0;buf[a];a++) if (strchr("+-| ",buf[a])==NULL) break;
-                PUTCODE(&c,TEXT_MOVE,a*scrdata_font_xsize);
+                //SetAPen(rp,screen_pens[config->dirsselfg].pen);
+                //SetAPen(rp,screen_pens[config->dirsfg].pen);
+                PUTCODE(&c,((struct TextCode *)buf)->code,((struct TextCode *)buf)->mode.skip);
+
+                for (a=sizeof(struct TextCode);buf[a];a++) if (strchr("+-| ",buf[a])==NULL) break;
+                PUTCODE(&c,TEXT_MOVE,(a-sizeof(struct TextCode))*scrdata_font_xsize);
                 while(buf[a]) *c++=buf[a++];
                 *c++=0;*c++=TEXT_END;
 
-                if (entry->selected) SetAPen(rp,screen_pens[config->dirsselfg].pen);
-                else SetAPen(rp,screen_pens[config->dirsfg].pen);
                 drawentry(pbuf,win);
 
                 y-=scrdata_font_baseline;
-                for (a=0;buf[a];a++) {
+                for (a=sizeof(struct TextCode);buf[a];a++) {
                         if (buf[a]=='|') {
                                 if (buf[a+1]=='-') draw_dirtree_gfx(rp,x,y,DIRTREEGFX_VERTCROSS);
                                 else draw_dirtree_gfx(rp,x,y,DIRTREEGFX_VERT);
@@ -836,25 +880,7 @@ int len,x,y;
                         x+=scrdata_font_xsize;
                 }
         }
-        else
-         {
-          if (entry) switch (entry->subtype)
-           {
-            case ST_SOFTLINK:
-            case ST_LINKDIR:
-            case ST_LINKFILE:
-              a = 1;
-              break;
-            default:
-              a = 0;
-           }
-          else a = 0;
-          if (a) SetSoftStyle(rp,FSF_UNDERLINED,FSF_UNDERLINED);
-//          Text(rp,buf,len);
-//D(bug("len = %ld, buf = %s\n",len,buf));
-          drawentry(buf,win);
-          if (a) SetSoftStyle(rp,FS_NORMAL,FSF_UNDERLINED);
-         }
+        else drawentry(buf,win);
 }
 
 //#define DISPLAYSIZELENGTH     10
@@ -867,46 +893,36 @@ void buildkmgstring(char *buf, unsigned long long size, int lister)
   {
    if (size > 1024)
     {
-     char tmp[116],c;
+     char tmp[16],c;
+     float div;
 
      if (size > 1024*1024)
       {
        if (size > 1024*1024*1024)
         {
-         sprintf(tmp,"%.1f",size/(float)(1024*1024*1024));
+         div = 1024*1024*1024;
          c = 'G';
-//         if (tmp[3] == '.') tmp[3] = 0;
-//         else if (tmp[4] == '.') tmp[4] = 0;
-//         lsprintf(buf,"%4sG ",tmp);
         }
        else
         {
-         sprintf(tmp,"%.1f",size/(float)(1024*1024));
+         div = 1024*1024;
          c = 'M';
-//         if (tmp[3] == '.') tmp[3] = 0;
-//         else if (tmp[4] == '.') tmp[4] = 0;
-//         lsprintf(buf,"%4sM ",tmp);
         }
       }
      else
       {
-       sprintf(tmp,"%.1f",size/(float)1024);
+       div = 1024;
        c = 'K';
-//       if (tmp[3] == '.') tmp[3] = 0;
-//       else if (tmp[4] == '.') tmp[4] = 0;
-//       lsprintf(buf,"%4sK ",tmp);
       }
+     sprintf(tmp,"%.1f",size/div);
      if (tmp[3] == '.') tmp[3] = 0;
      else if (tmp[4] == '.') tmp[4] = 0;
-//     lsprintf(buf,"%4s%lc ",tmp,c);
      lsprintf(buf,"%4s%lc",tmp,c);
     }
-//   else sprintf(buf,"%4qd  ",size);
    else sprintf(buf,"%4qd",size);
   }
  else sprintf(buf, DISPLAYSIZEFORMAT,size);
 }
-//extern int column[9];
 
 void builddisplaystring(display,sbuf,win)
  struct Directory *display;
@@ -914,6 +930,7 @@ void builddisplaystring(display,sbuf,win)
  int win;
  {
   char sizebuf[20];
+  int fg,bg;
   char *sptr,*c;
   int  a,b,w,l,w1;
   struct TextExtent te;
@@ -922,9 +939,57 @@ void builddisplaystring(display,sbuf,win)
   if (display) switch (ENTRYTYPE(display->type)) {
     case ENTRY_CUSTOM:
       if (display->comment)
+       {
+        if (display->subtype==CUSTOMENTRY_USER) {
+                if (display->selected) {
+                        fg=config->filesselfg;
+                        bg=config->filesselbg;
+                }
+                else {
+                        if ((((int)display->size)&0xff)==0xff) fg=config->filesfg;
+                        else fg=((int)display->size)&0xff;
+                        if ((((int)display->size)&0xff00)==0xff00) bg=config->filesbg;
+                        else bg=(((int)display->size)&0xff00)>>8;
+                }
+        }
+        else {
+                if (display->selected) {
+                        fg=config->dirsselfg;
+                        bg=config->dirsselbg;
+                }
+                else {
+                        fg=config->dirsfg;
+                        bg=config->dirsbg;
+                }
+        }
+        PUTCODE(&sbuf,TEXT_PENS,fg<<8|bg);
+
         for (sptr=display->comment; *sptr;) *sbuf++=*sptr++;
+       }
       break;
     case ENTRY_DEVICE:
+      if (display->size==DLT_DEVICE || display->size==DLT_VOLUME) {
+              if (display->selected) {
+                      fg=config->filesselfg;
+                      bg=config->filesselbg;
+              }
+              else {
+                      fg=config->filesfg;
+                      bg=config->filesbg;
+              }
+      }
+      else {
+              if (display->selected) {
+                      fg=config->dirsselfg;
+                      bg=config->dirsselbg;
+              }
+              else {
+                      fg=config->dirsfg;
+                      bg=config->dirsbg;
+              }
+      }
+      PUTCODE(&sbuf,TEXT_PENS,fg<<8|bg);
+
       sptr=display->name;
       w=TextLength(&dir_rp[win],sptr,b=strlen(sptr))+scrdata_font_xsize;
       if (w > config->displaylength[win][DISPLAY_NAME])
@@ -944,6 +1009,29 @@ void builddisplaystring(display,sbuf,win)
       for (;*sptr && b; b--) *sbuf++=*sptr++;
       break;
     default:
+      if (ENTRYTYPE(display->type)==ENTRY_FILE) {
+        if (display->selected) {
+                fg=config->filesselfg;
+                bg=config->filesselbg;
+        }
+        else {
+                fg=config->filesfg;
+                bg=config->filesbg;
+        }
+      }
+      else {
+        if (display->selected) {
+                fg=config->dirsselfg;
+                bg=config->dirsselbg;
+        }
+        else {
+                fg=config->dirsfg;
+                bg=config->dirsbg;
+        }
+      }
+//D(bug("builddisplaystring: fg=%ld,bg=%ld\n",fg,bg));
+      PUTCODE(&sbuf,TEXT_PENS,fg<<8|bg);
+
       if (display->type<ENTRY_DEVICE || (display->type>ENTRY_DEVICE && display->size>=0))
         buildkmgstring(sizebuf,display->size,win);
       else
@@ -953,7 +1041,19 @@ void builddisplaystring(display,sbuf,win)
         w=0;
         switch (config->displaypos[win][a]) {
           case DISPLAY_NAME:
-            if (sptr=display->name) {
+            if ((sptr=display->name)) {
+              switch (display->subtype)
+               {
+                case ST_SOFTLINK:
+                case ST_LINKDIR:
+                case ST_LINKFILE:
+                  l = 1;
+                  break;
+                default:
+                  l = 0;
+               }
+              if (l) PUTCODE(&sbuf,TEXT_STYL,FSF_UNDERLINED<<8|FSF_UNDERLINED);
+
               w=TextLength(&dir_rp[win],sptr,b=strlen(sptr));
               if (w > (config->displaylength[win][DISPLAY_NAME]-scrdata_font_xsize))
                {
@@ -963,6 +1063,7 @@ void builddisplaystring(display,sbuf,win)
                }
               for (;*sptr && b; b--) *sbuf++=*sptr++;
   //                          if (l==-1) *sbuf++=0xBB;
+              if (l) PUTCODE(&sbuf,TEXT_STYL,FS_NORMAL<<8|FSF_UNDERLINED);
             }
             PUTCODE(&sbuf,TEXT_MOVE,config->displaylength[win][DISPLAY_NAME]-w);
             break;
@@ -984,14 +1085,15 @@ void builddisplaystring(display,sbuf,win)
             PUTCODE(&sbuf,TEXT_MOVE,scrdata_font_xsize);
             break;
           case DISPLAY_PROTECT:
-            if (sptr=display->protbuf) {
+            w=0;
+            if ((sptr=display->protbuf)) {
               w=TextLength(&dir_rp[win],sptr,b=8/*strlen(sptr)*/);
               for (;*sptr/* && b*/; /*b--*/) *sbuf++=*sptr++;
             }
             PUTCODE(&sbuf,TEXT_MOVE,config->displaylength[win][DISPLAY_PROTECT]-w+scrdata_font_xsize);
             break;
           case DISPLAY_DATE:
-            if (sptr=display->datebuf) {
+            if ((sptr=display->datebuf)) {
               for(c=sptr;*c;c++) if (*c==' ') break;
               w=TextLength(&dir_rp[win],sptr,b=(int)c-(int)sptr)+scrdata_font_xsize;
   /*
@@ -1023,7 +1125,7 @@ void builddisplaystring(display,sbuf,win)
             else PUTCODE(&sbuf,TEXT_MOVE,config->displaylength[win][DISPLAY_DATE]-w+scrdata_font_xsize);
             break;
           case DISPLAY_COMMENT:
-            if (sptr=display->comment) {
+            if ((sptr=display->comment)) {
               w=TextLength(&dir_rp[win],sptr,b=strlen(sptr));
               if (w > (config->displaylength[win][DISPLAY_COMMENT]-scrdata_font_xsize))
                {
@@ -1035,7 +1137,7 @@ void builddisplaystring(display,sbuf,win)
             PUTCODE(&sbuf,TEXT_MOVE,config->displaylength[win][DISPLAY_COMMENT]-w);
             break;
           case DISPLAY_FILETYPE:
-            if (sptr=display->description) {
+            if ((sptr=display->description)) {
               w=TextLength(&dir_rp[win],sptr,b=strlen(sptr));
               if (w > (config->displaylength[win][DISPLAY_FILETYPE]-scrdata_font_xsize))
                {
@@ -1084,10 +1186,11 @@ void builddisplaystring(display,sbuf,win)
       }
       break;
   }
+  else PUTCODE(&sbuf,TEXT_PENS,config->filesbg<<8|config->filesbg);
   *sbuf++=0;*sbuf++=TEXT_END;
 //D(KDump(dbg,64);)
  }
-
+/*
 void setdispcol(display,win)
 struct Directory *display;
 int win;
@@ -1160,8 +1263,8 @@ int win;
         SetAPen(&dir_rp[win],screen_pens[fg].pen);
         SetBPen(&dir_rp[win],screen_pens[bg].pen);
 }
-
-const UWORD testdays[] = {7695,7726,7754,7785,7815,7846,7876,7907,7938,7968,7999,8029};
+*/
+static const UWORD testdays[] = {7695,7726,7754,7785,7815,7846,7876,7907,7938,7968,7999,8029};
 
 void getprotdatelengths(struct RastPort *rp)
  {

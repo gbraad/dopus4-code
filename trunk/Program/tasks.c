@@ -37,12 +37,12 @@ the existing commercial status of Directory Opus 5.
 #define HOTKEY_HOTKEY    10
 
 #ifdef __MORPHOS__
-struct InputEvent *keyhandler(void);
+static struct InputEvent *keyhandler(void);
 
-struct EmulLibEntry GATE_keyhandler = { TRAP_LIB, 0, (void (*)(void))keyhandler };
+static struct EmulLibEntry GATE_keyhandler = { TRAP_LIB, 0, (void (*)(void))keyhandler };
 #endif
 
-struct Gadget
+static struct Gadget
   abortopgad={
     NULL,0,0,104,0,GFLG_GADGHCOMP,GACT_RELVERIFY,GTYP_BOOLGADGET,
     NULL,NULL,NULL,NULL,NULL,0,NULL};

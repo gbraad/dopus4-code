@@ -6,6 +6,7 @@
    Do NOT edit by hand!
 
 ****************************************************************/
+
 /*
 
 Directory Opus 4
@@ -213,8 +214,8 @@ struct Image * __saveds DoGetButtonImage(register int __asm("d0"),
     register int __asm("d5"),
     register struct DOpusRemember ** __asm("a0"));
 
-struct Image *__saveds DoGetCheckImage(register int fg __asm("d0"),
-    register int bg __asm("d1"),
+struct Image *__saveds DoGetCheckImage(register UBYTE fg __asm("d0"),
+    register UBYTE bg __asm("d1"),
     register int pen __asm("d2"),
     register struct DOpusRemember **key __asm("a0"));
 

@@ -327,7 +327,7 @@ char *path;
     else strcpy(buf,path);
 D(bug("relabel(%ld,%s)\n",rexx,buf));
     if (!(getroot(buf,NULL))) {
-        doerror(IoErr());
+        doerror(-1);
         return;
     }
     strcat(buf,":");
@@ -342,14 +342,14 @@ D(bug("relabel(%ld,%s)\n",rexx,buf));
 
     strcat(buf,":");
 D(bug("Relabel(%s,%s)\n",buf,name));
-    if (! Relabel(buf,name)) doerror(IoErr());
+    if (! Relabel(buf,name)) doerror(-1);
 /*
     a=strlen(name);
     bstr=(char *) AllocMem(a+2,MEMF_CLEAR))
     bstr[0]=(char)a;
     strcpy(bstr+1,name);
     arg=(ULONG)bstr>>2;
-    if (!(SendPacket(port,ACTION_RENAME_DISK,&arg,1))) doerror(IoErr());
+    if (!(SendPacket(port,ACTION_RENAME_DISK,&arg,1))) doerror(-1);
 */
     else if ((!status_iconified) && (dopus_curwin[data_active_window] != dopus_specialwin[data_active_window])) {
         if ((Strnicmp(str_pathbuffer[data_active_window],oldname,strlen(oldname)))==0 &&

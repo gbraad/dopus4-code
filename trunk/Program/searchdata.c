@@ -39,7 +39,7 @@ enum {
     SEARCH_OKAY,
     SEARCH_CANCEL};
 
-struct TagItem
+static struct TagItem
     search_title[]={
         {RO_Type,OBJECT_BORDER},
         {RO_BorderType,BORDER_NONE},

@@ -211,6 +211,28 @@ int getpal()
     return(p);
 }
 
+void sendmouseevent(UBYTE class, UWORD code/*, int x, int y*/)
+{
+    struct InputEvent inputev;
+
+    inputev.ie_NextEvent=NULL;
+    inputev.ie_Class=class;
+    inputev.ie_Code=code;
+    inputev.ie_Qualifier=0;
+    inputev.ie_X=0/*x*/;
+    inputev.ie_Y=0/*y*/;
+
+    if (CxBase) AddIEvents(&inputev);
+    else
+     {
+      input_req->io_Command=IND_WRITEEVENT;
+      input_req->io_Flags=0;
+      input_req->io_Length=sizeof(struct InputEvent);
+      input_req->io_Data=(APTR)&inputev;
+      DoIO((struct IORequest *)input_req);
+     }
+}
+
 void quickfixmenus()
 {
     int a;
@@ -229,32 +251,13 @@ void quickfixmenus()
             }
         }
         if (!a) {
+D(bug("Simulating RMB click"));
             Window->Flags&=~RMBTRAP;
-            sendmouseevent(IECLASS_RAWMOUSE,IECODE_RBUTTON|IECODE_UP_PREFIX,0,0);
-            sendmouseevent(IECLASS_RAWMOUSE,IECODE_RBUTTON,0,0);
+            sendmouseevent(IECLASS_RAWMOUSE,IECODE_RBUTTON|IECODE_UP_PREFIX/*,0,0*/);
+            sendmouseevent(IECLASS_RAWMOUSE,IECODE_RBUTTON/*,0,0*/);
         }
         Permit();
     }
-}
-
-void sendmouseevent(class,code,x,y)
-UBYTE class;
-UWORD code;
-int x,y;
-{
-    struct InputEvent inputev;
-
-    input_req->io_Command=IND_WRITEEVENT;
-    input_req->io_Flags=0;
-    input_req->io_Length=sizeof(struct InputEvent);
-    input_req->io_Data=(APTR)&inputev;
-    inputev.ie_NextEvent=NULL;
-    inputev.ie_Class=class;
-    inputev.ie_Code=code;
-    inputev.ie_Qualifier=0;
-    inputev.ie_X=x;
-    inputev.ie_Y=y;
-    DoIO((struct IORequest *)input_req);
 }
 
 char *getfiledescription(name,win)

@@ -30,6 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+static struct RecursiveDirectory **recurse_parent_array; /* Array of parent directories */
 static char *tree_buffer,*tree_path_buffer;
 
 void dotree(win)
@@ -67,7 +68,7 @@ int win;
 
     if (first_recurse) {
         recurse_parent_array=LAllocRemember(&recurse_dir_key,(recurse_max_depth+1)*4,MEMF_CLEAR);
-        if (tree_buffer=LAllocRemember(&recurse_dir_key,1024,MEMF_CLEAR)) {
+        if ((tree_buffer=LAllocRemember(&recurse_dir_key,1024,MEMF_CLEAR))) {
             tree_path_buffer=LAllocRemember(&recurse_dir_key,1024,MEMF_CLEAR);
             dostatustext(globstring[STR_BUILDING_TREE]);
             ret=1;

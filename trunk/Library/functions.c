@@ -114,25 +114,25 @@ void __saveds __stdargs LSprintf(char *buf, char *fmt, ...)
 
 unsigned char __saveds LToUpper(register unsigned char c __asm("d0"))
 {
-D(bug("LToUpper()\n");/*Delay(50);*/)
+//D(bug("LToUpper()\n");/*Delay(50);*/)
     return ToUpper(c);
 }
 
 unsigned char __saveds LToLower(register unsigned char c __asm("d0"))
 {
-D(bug("LToLower()\n");/*Delay(50);*/)
+//D(bug("LToLower()\n");/*Delay(50);*/)
     return ToLower(c);
 }
 
 void __saveds StrToUpper(register unsigned char *src __asm("a0"), register unsigned char *dst __asm("a1"))
 {
-D(bug("LStrToUpper()\n");/*Delay(50);*/)
+//D(bug("LStrToUpper()\n");/*Delay(50);*/)
     while((*dst++ = ToUpper(*src++)));
 }
 
 void __saveds StrToLower(register unsigned char *src __asm("a0"), register unsigned char *dst __asm("a1"))
 {
-D(bug("LStrToLower()\n");/*Delay(50);*/)
+//D(bug("LStrToLower()\n");/*Delay(50);*/)
     while((*dst++ = ToLower(*src++)));
 }
 

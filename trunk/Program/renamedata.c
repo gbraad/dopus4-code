@@ -45,7 +45,7 @@ struct RequesterBase rename_req={
     NULL,NULL,NULL,
     0,0,NULL,0,NULL};
 
-char oldname_buffer[FILEBUF_SIZE],newname_buffer[FILEBUF_SIZE];
+static char oldname_buffer[FILEBUF_SIZE],newname_buffer[FILEBUF_SIZE];
 
 struct TagItem
     rename_oldname_gadget[]={

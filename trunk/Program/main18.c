@@ -96,13 +96,13 @@ int dowhat,fdata;
     else
      {
       if (!(mylock=Lock(fdir,ACCESS_READ))) {
-          doerror(IoErr());
+          doerror(-1);
           return(-1);
       }
       Examine(mylock,&myfinfo);
      }
     if (!(name=LAllocRemember(&recurserem,2560,MEMF_CLEAR))) {
-        doerror(IoErr());
+        doerror(-1);
         ret=-1;
         goto goaway;
     }

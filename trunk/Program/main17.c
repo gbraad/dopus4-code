@@ -1101,6 +1101,14 @@ doentryselection:
                     case MOD_PORTNAME:
                         retbuf=str_arexx_portname;
                         break;
+
+                    case MOD_OUTPUTCMD:
+                        retbuf=config->outputcmd;
+                        break;
+
+                    case MOD_OUTPUTWINDOW:
+                        retbuf=config->output;
+                        break;
                 }
 
                 if (retbuf) rexx_set_return(msg,0,retbuf);
@@ -1390,6 +1398,14 @@ doentryselection:
 
                 case MOD_PORTNAME:
                     change_port_name(rexx_args[1]);
+                    break;
+
+                case MOD_OUTPUTCMD:
+                    strcpy(config->outputcmd,rexx_args[1]);
+                    break;
+
+                case MOD_OUTPUTWINDOW:
+                    strcpy(config->output,rexx_args[1]);
                     break;
             }
             break;

@@ -36,7 +36,7 @@ static CRange *cy_Range;
 static LONG cy_RangeNum,cy_ColNum;
 static UWORD cy_ColMap[64],cy_TempCol,cy_UndoBuffer[64];
 static short cy_TicksPassed[16],cy_WeAreWaiting,cy_Command;
-static BOOL cy_CodeRun=FALSE;
+static BOOL cy_CodeRun;
 
 void __saveds colourcycle()
 {
@@ -126,7 +126,7 @@ void stopcycle()
 
 void togglecycle()
 {
-    static short Mode=FALSE;
+    static short Mode;
 
     Mode^=TRUE;
     cy_Command=(Mode)?CY_CYCL:CY_WAIT;

@@ -50,13 +50,14 @@ const char nullstring[]="                                                       
 
 void __regargs dohilite(struct DOpusListView *view,int a)
 {
-  int x,mode;
+  int x,y,mode;
 
   mode=view->window->RPort->DrawMode;
   SetDrMd(view->window->RPort,COMPLEMENT);
   if (view->flags&DLVF_CHECK) x=view->xo-22;
   else x=view->xo;
-  RectFill(view->window->RPort,x,view->yo+(view->fh*a),view->mx,view->yo+(view->fh*(a+1))-1);
+  y = view->yo+(view->fh*a);
+  RectFill(view->window->RPort,x,y,view->mx,y+view->fh-1);
   SetDrMd(view->window->RPort,mode);
 }
 

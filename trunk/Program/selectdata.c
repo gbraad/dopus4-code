@@ -38,26 +38,27 @@ enum {
 
 static char sel_patternbuf[80];
 
-struct RequesterBase select_req={
+static struct RequesterBase select_req={
     36,3,50,27,
     8,6,
     0,0,0,0,NULL,NULL,NULL,NULL,
     NULL,NULL,NULL,
-    0,0,NULL,0,NULL};
+    0,0,NULL,IDCMP_MOUSEBUTTONS|IDCMP_GADGETUP,NULL};
 
-struct TagItem
+static struct TagItem
     select_base_gadget[]={
         {RO_Type,OBJECT_GADGET},
         {RO_GadgetType,GADGET_CYCLE},
         {RO_GadgetID,SELECT_SELECTBASE},
         {RO_Top,1},
         {RO_TopFine,2},
-        {RO_Width,6},
+        {RO_Width,8},
         {RO_WidthFine,24},
         {RO_Height,1},
         {RO_HeightFine,6},
         {RO_HighRecess,TRUE},
         {TAG_END,0}},
+
     select_pattern_gadget[]={
         {RO_Type,OBJECT_GADGET},
         {RO_GadgetType,GADGET_STRING},
@@ -66,9 +67,9 @@ struct TagItem
         {RO_TopFine,4},
         {RO_Height,1},
         {RO_HeightFine,2},
-        {RO_Left,6},
-        {RO_LeftFine,30},
-        {RO_Width,30},
+        {RO_Left,8},
+        {RO_LeftFine,28},
+        {RO_Width,28},
         {RO_StringBuf,(ULONG)sel_patternbuf},
         {RO_StringLen,79},
         {RO_StringUndo,(ULONG)str_undobuffer},
@@ -138,17 +139,17 @@ struct TagItem
         select_cancel_gadget,
         NULL};
 
-int select_base=0,select_type=0;
+static int select_base,select_type;
 
 int getselectdata(buffer,selbase)
 char **buffer;
 int *selbase;
 {
     ULONG class;
-    USHORT gadgetid;
+    USHORT gadgetid,code;
     struct Window *swindow;
     struct Gadget *gadlist,*sel_type_gad;
-    char *select_base_array[3],*select_type_array[3];
+    char *select_base_array[4],*select_type_array[3];
     int a,ret=0;
 
     fix_requester(&select_req,globstring[STR_ENTER_SELECT_PATTERN]);
@@ -157,6 +158,7 @@ int *selbase;
         select_type_array[a]=globstring[STR_SELECT_ALL_ENTRIES+a];
         select_base_array[a]=globstring[STR_SELECT_NAME+a]; 
     }
+    select_base_array[3]=globstring[STR_SELECT_COMMENT];
     strcpy(sel_patternbuf,buffer[select_base]);
 
     if (!(swindow=OpenRequester(&select_req)) ||
@@ -174,10 +176,16 @@ int *selbase;
     ActivateStrGad(gadlist->NextGadget,swindow);
 
     FOREVER {
-        while (IMsg=(struct IntuiMessage *)GetMsg(swindow->UserPort)) {
+        Wait(1<<swindow->UserPort->mp_SigBit);
+        while ((IMsg=(struct IntuiMessage *)GetMsg(swindow->UserPort))) {
             class=IMsg->Class;
-            if (class==IDCMP_GADGETUP)
+            code=IMsg->Code;
+            switch (class)
+             {
+              case IDCMP_GADGETUP:
                 gadgetid=((struct Gadget *) IMsg->IAddress)->GadgetID;
+                break;
+             }
             ReplyMsg((struct Message *) IMsg);
 
             switch (class) {
@@ -189,7 +197,7 @@ int *selbase;
                     switch (gadgetid) {
                         case SELECT_SELECTBASE:
                             strcpy(buffer[select_base],sel_patternbuf);
-                            if (++select_base>2) select_base=0;
+                            if (++select_base>3) select_base=0;
                             DoCycleGadget(gadlist,swindow,select_base_array,select_base);
                             strcpy(sel_patternbuf,buffer[select_base]);
                             RefreshStrGad(gadlist->NextGadget,swindow);
@@ -201,7 +209,10 @@ int *selbase;
                             ActivateStrGad(gadlist->NextGadget,swindow);
                             break;
                         case SELECT_OKAY:
-                            ret=select_type+1;
+                            if (code==0) // RETURN
+                              ret=select_type+1;
+                            else if (code!=0xFFFF) // ESC
+                              break;
                         case SELECT_CANCEL:
                             CloseRequester(&select_req);
                             strcpy(buffer[select_base],sel_patternbuf);
@@ -211,6 +222,5 @@ int *selbase;
                     break;
             }
         }
-        Wait(1<<swindow->UserPort->mp_SigBit);
     }
 }

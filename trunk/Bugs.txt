@@ -10,24 +10,11 @@ contents but they doesn't. Maybe in Envoy V3 that was fixed.
 
 - Copy progress indicator lost some of its accuracy because of speed-up.
 
-- GURUes after exiting from file viewer if search function was in use (same
-happens in original version). It happens when some other program keeps lock
-on viewed file.
-
 - After reopening window due to message from screennotify.library displayed
 directories aren't preserved. This is some kind of magic :(
 
 - Clashes with Birdie when opened on own screen. You have to set Birdie to
 ignore DOpus screen to avoid that bug. I don't know yet what's causing it.
-
-- Problems with returning from configuration window. It happens when you
-open another DOpus or configuration window in meanwhile. Just avoid it to
-avoid that bug :)
-
-- If DOpus is opened on own hi/truecolor screen it's window gets trashed
-after returning from WB screen. Either use DOpus on WB screen or select
-only upto 8bit screens for it until that bug is fixed. Resizing the window
-also removes trashed parts.
 
 - If you rename directory to an already existing name the old directory
 will be deleted. Needs fixing ASAP.
@@ -38,9 +25,6 @@ Unconfirmed:
 
 - problems with MagicMenu - could be related to some very old version as
 2.29 works fine here.
-
-- can crash after deleting files. Could be caused by other
-program trashing memory.
 
 - ConfigOpus crashes with some fonts (in Screen/Fonts).
 

@@ -2,8 +2,7 @@
 #include <exec/execbase.h>
 
 
-ULONG oldidle = 0;
-ULONG olddisp = 0;
+static ULONG oldidle,olddisp;
 
 int getusage(void)
 {

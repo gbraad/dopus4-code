@@ -686,7 +686,7 @@ editfileclass(fclass,new)
 struct fileclass *fclass;
 int new;
 {
-    int a,b,old,selitem,lasta=-1,x,y,mx,my,off,temp,waitbits,remapp=0;
+    int a,b,old,selitem,lasta=-1,x,y,mx,my,off,temp,waitbits,remapp=0,char_w;
     ULONG class,sec,mic,oldsec,oldmic;
     USHORT code,gadgetid,qual;
     struct Gadget *gad;
@@ -741,6 +741,7 @@ int new;
         screen_pens[config->gadgetbotcol].pen,screen_pens[config->gadgettopcol].pen);
 
     fileview_buf=NULL; fileview_lines=fileview_topline=0; fileview_type=1;
+    char_w = rp->Font->tf_XSize;
     draw_file_view();
 
     showclassop(0);
@@ -799,10 +800,9 @@ int new;
                         oldsec=sec; oldmic=mic;
                         FOREVER {
                             if (my>y_off+20 && my<y_off+69) {
-                                x=((mx-x_off-11)/8)-10;
+
+                                x=((mx-x_off-11)/char_w)-10;
                                 if (x<0) x=0;
-                                y=((my-y_off-21)/8)+fileview_topline;
-                                if (y<fileview_topline) y=fileview_topline;
                                 if (x<36) {
                                     if ((x%9)==8) --x;
                                     a=x/9; x=(a*4)+((x%9)/2);
@@ -811,6 +811,10 @@ int new;
                                     x-=36;
                                     if (x>15) x=15;
                                 }
+
+                                y=((my-y_off-21)/8)+fileview_topline;
+                                if (y<fileview_topline) y=fileview_topline;
+
                                 if (off) {
                                     a=(y*16)+x;
                                     if (a==fileview_position) {
@@ -1379,7 +1383,7 @@ int line;
 
 void show_file_view(void)
 {
-    int line,a,off,old,top,bottom,scroll,ox,px,aox,apx;
+    int line,a,off,old,top,bottom,scroll,ox,px,aox,apx,char_w;
     char buf[80],buf2[30];
 
     top=0; bottom=5; scroll=0;
@@ -1393,6 +1397,7 @@ void show_file_view(void)
             scroll=a*8;
         }
     }
+    char_w = rp->Font->tf_XSize;
     SetDrMd(rp,JAM2);
 
     for (line=0;line<6;line++) {
@@ -1431,20 +1436,20 @@ void show_file_view(void)
                 if (px>-1 && px!=ox) {
                     SetDrMd(rp,COMPLEMENT);
                     RectFill(rp,
-                        x_off+89+(px*8),y_off+21+(line*8),
-                        x_off+104+(px*8),y_off+28+(line*8));
+                        x_off+9+(10+px)*char_w,y_off+21+(line*8),
+                        x_off+8+(12+px)*char_w,y_off+28+(line*8));
                     RectFill(rp,
-                        x_off+89+(apx*8),y_off+21+(line*8),
-                        x_off+96+(apx*8),y_off+28+(line*8));
+                        x_off+9+(10+apx)*char_w,y_off+21+(line*8),
+                        x_off+8+(11+apx)*char_w,y_off+28+(line*8));
                     SetDrMd(rp,JAM2);
                 }
                 if (ox>-1) {
                     SetAPen(rp,screen_pens[2].pen);
                     lsprintf(buf2,"%02lx",fileview_buf[fileview_offset]);
-                    Move(rp,x_off+89+(ox*8),y_off+27+(line*8));
+                    Move(rp,x_off+9+(10+ox)*char_w,y_off+27+(line*8));
                     Text(rp,buf2,2);
                     buf2[0]=(isprint(fileview_buf[fileview_offset])?fileview_buf[fileview_offset]:'.');
-                    Move(rp,x_off+89+(aox*8),y_off+27+(line*8));
+                    Move(rp,x_off+9+(10+aox)*char_w,y_off+27+(line*8));
                     Text(rp,buf2,1);
                     SetAPen(rp,screen_pens[1].pen);
                 }

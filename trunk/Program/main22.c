@@ -1097,7 +1097,7 @@ D(bug("recursedir returned %ld\n",a));
                     break;
                 }
                 if ((a=recursedir(sourcename,NULL,R_HUNT,0))==-3) {
-                    wildselect(buf2,2,0);
+                    wildselect(buf2,2,0,WILDSELECT_NAME);
                     findfirstsel(act,-2);
                     okayflag=breakout=noshow=1; count=-1;
                     break;
@@ -1134,7 +1134,7 @@ D(bug("recursedir returned %ld\n",a));
                     else okayflag=1;
                 }
                 else {
-                    if (!count && !(doerror(IoErr()))) okayflag=1;
+                    if (!count && !(doerror(-1))) okayflag=1;
                 }
                 break;
 
@@ -1577,7 +1577,7 @@ D(bug("recursedir returned %ld\n",a));
                                 askeach=0;
                             }
                         }
-                        else doerror(IoErr());
+                        else doerror(-1);
                     }
                     else {
                         if (!(a=recursedir(sourcename,NULL,R_SEARCH,0))) {
@@ -1669,7 +1669,7 @@ D(bug("recursedir returned %ld\n",a));
             if (act>-1) refreshwindow(act,0);
             if (viewdata) cleanupviewfile(viewdata);
             if (status_justabort) myabort();
-            else if (!okayflag && !(doerror(IoErr()))) okayflag=1;
+            else if (!okayflag && !(doerror(-1))) okayflag=1;
             break;
 
         case FUNC_SHOW:

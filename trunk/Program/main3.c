@@ -638,7 +638,10 @@ char *str1,*str2;
 {
     int n1,n2;
 
-    if ((!(SORT_ISALPHA(config->sortflags))) && _isdigit(str1[0]) && _isdigit(str2[0])) {
+    if (SORT_ISALPHA(config->sortflags)) return Stricmp(str1,str2);
+
+    if (((SORT_ISDEC(config->sortflags)) && _isdigit(str1[0]) && _isdigit(str2[0])) ||
+        ((SORT_ISHEX(config->sortflags)) && _isxdigit(str1[0]) && _isxdigit(str2[0]))) {
 /*        if ((str1[0] == '0') || (str2[0] == '0'))
          {
 */

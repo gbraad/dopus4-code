@@ -91,7 +91,7 @@ void __saveds Do3DBox(register struct RastPort *rp __asm("a0"),register int x __
 
 void __saveds Do3DStringBox(register struct RastPort *rp __asm("a0"),register int x __asm("d0"),register int y __asm("d1"),register int w __asm("d2"),register int h __asm("d3"),register int tp __asm("d4"),register int bp __asm("d5"))
 {
-D(bug("Do3DStringBox()\n"));
+//D(bug("Do3DStringBox()\n"));
     Do3DBox(rp,x-2,y-1,w+4,h+2,tp,bp);
 
     SetAPen(rp,bp);
@@ -112,7 +112,7 @@ void __saveds Do3DCycleBox(register struct RastPort *rp __asm("a0"),register int
 {
     UBYTE old_drmd;
 
-D(bug("Do3DCycleBox(%lx,%lx)\n",pdb_cycletop,pdb_cyclebot));
+//D(bug("Do3DCycleBox(%lx,%lx)\n",pdb_cycletop,pdb_cyclebot));
     Do3DBox(rp,x,y,w,h,tp,bp);
 
     old_drmd = GetDrMd(rp);
@@ -164,14 +164,7 @@ D(bug("DrawCheckMark(%lx)\n",pdb_check));
     SetDrMd(rp,old_drmd);
 }
 
-void __saveds DoDoArrow(register struct RastPort *p __asm("a0"),
-    register int x __asm("d0"),
-    register int y __asm("d1"),
-    register int w __asm("d2"),
-    register int h __asm("d3"),
-    register int fg __asm("d4"),
-    register int bg __asm("d5"),
-    register int d __asm("d6"))
+void __saveds DoDoArrow(register struct RastPort *p __asm("a0"), register int x __asm("d0"), register int y __asm("d1"), register int w __asm("d2"), register int h __asm("d3"), register int fg __asm("d4"), register int bg __asm("d5"), register int d __asm("d6"))
 {
     int x1,y1,x2,y2,x3,y3,x4,y4,xb;
 
@@ -220,13 +213,7 @@ sameleftright:
     drawline(p,x2,y2,x4,y4);
 }
 
-void __saveds DoDrawRadioButton(register struct RastPort *rp __asm("a0"),
-    register int x __asm("d0"),
-    register int y __asm("d1"),
-    register int w __asm("d2"),
-    register int h __asm("d3"),
-    register int hi __asm("d4"),
-    register int lo __asm("d5"))
+void __saveds DoDrawRadioButton(register struct RastPort *rp __asm("a0"), register int x __asm("d0"), register int y __asm("d1"), register int w __asm("d2"), register int h __asm("d3"), register int hi __asm("d4"), register int lo __asm("d5"))
 {
     SetAPen(rp,hi);
     drawline(rp,x,y-1,x+w-3,y-1);
@@ -242,13 +229,7 @@ void __saveds DoDrawRadioButton(register struct RastPort *rp __asm("a0"),
     drawline(rp,x+w-3,y,x+w-2,y);
 }
 
-struct Image * __saveds DoGetButtonImage(register int w __asm("d0"),
-    register int h __asm("d1"),
-    register int fg __asm("d2"),
-    register int bg __asm("d3"),
-    register int fpen __asm("d4"),
-    register int bpen __asm("d5"),
-    register struct DOpusRemember **key __asm("a0"))
+__saveds struct Image *DoGetButtonImage(register int w __asm("d0"), register int h __asm("d1"), register int fg __asm("d2"), register int bg __asm("d3"), register int fpen __asm("d4"), register int bpen __asm("d5"), register struct DOpusRemember **key __asm("a0"))
 {
     struct Image *image;
     short a,b,depth;
@@ -282,16 +263,14 @@ struct Image * __saveds DoGetButtonImage(register int w __asm("d0"),
     return(image);
 }
 
-struct Image * __saveds DoGetCheckImage(register int fg __asm("d0"),
-    register int bg __asm("d1"),
-    register int pen __asm("d2"),
-    register struct DOpusRemember **key __asm("a0"))
+__saveds struct Image *DoGetCheckImage(register UBYTE fg __asm("d0"), register UBYTE bg __asm("d1"), register int pen __asm("d2"), register struct DOpusRemember **key __asm("a0"))
 {
     struct Image *image;
     int a,b,depth;
     struct BitMap tbm;
     struct RastPort trp;
 
+D(bug("DoGetCheckImage: fg = %ld, bg = %ld\n",fg,bg));
     b=(fg>bg)?fg:bg;
     depth=2;
     for (a=0;a<8;a++) if (b&(1<<a)) depth=a+1;
@@ -311,14 +290,7 @@ struct Image * __saveds DoGetCheckImage(register int fg __asm("d0"),
     return(image);
 }
 
-void __saveds DoDo3DFrame(register struct RastPort *rp __asm("a0"),
-    register int x __asm("d0"),
-    register int y __asm("d1"),
-    register int w __asm("d2"),
-    register int h __asm("d3"),
-    register char *title __asm("a1"),
-    register int hi __asm("d4"),
-    register int lo __asm("d5"))
+void __saveds DoDo3DFrame(register struct RastPort *rp __asm("a0"), register int x __asm("d0"), register int y __asm("d1"), register int w __asm("d2"), register int h __asm("d3"), register char *title __asm("a1"), register int hi __asm("d4"), register int lo __asm("d5"))
 {
     char of,ob;
     int a,l;
@@ -342,11 +314,7 @@ void __saveds DoDo3DFrame(register struct RastPort *rp __asm("a0"),
 extern USHORT __chip glass_image1[];
 extern USHORT __chip glass_image2[];
 
-void __saveds DoDoGlassImage(register struct RastPort *rp __asm("a0"),
-    register struct Gadget *gadget __asm("a1"),
-    register int shine __asm("d0"),
-    register int shadow __asm("d1"),
-    register int type __asm("d2"))
+void __saveds DoDoGlassImage(register struct RastPort *rp __asm("a0"), register struct Gadget *gadget __asm("a1"), register int shine __asm("d0"), register int shadow __asm("d1"), register int type __asm("d2"))
 {
     int x,y;
     char op,om;

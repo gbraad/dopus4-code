@@ -73,6 +73,7 @@ int err;
 {
     char buf[80];
 
+    if (err == -1) err = IoErr();
 //    if (err && geterrorstring(buf,err)) {
     if (err) {
         geterrorstring(buf,err);

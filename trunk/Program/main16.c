@@ -49,7 +49,7 @@ int size,np;
     if (DiskfontBase) font=OpenDiskFont(&sfattr);
     else font=OpenFont(&sfattr);
     if (!font || !(setupfontdisplay(1,NULL))) {
-        doerror(IoErr());
+        doerror(-1);
         return(0);
     }
 
@@ -226,6 +226,129 @@ char *file;
     FreeVec(helpbuf);
 }
 
+static char *helpcontext[] = {
+    "Main",
+    "About",
+    "AddCustEntry",
+    "AddCustHandler",
+    "AddFile",
+    "AddIcon",
+    "Alarm",
+    "All",
+    "AnsiRead",
+    "ARexx",
+    "Assign",
+    "Beep",
+    "BufferList",
+    "Busy",
+    "ButtonIconify",
+    "CD",
+    "CheckAbort",
+    "CheckFit",
+    "ClearBuffers",
+    "ClearSizes",
+    "ClearWin",
+    "Clone",
+    "Comment",
+    "Configure",
+    "ContST",
+    "Copy",
+    "CopyAs",
+    "CopyWindow",
+    "DateStamp",
+    "Defaults",
+    "Delete",
+    "DirTree",
+    "DiskCopy",
+    "DiskCopyBG",
+    "DiskInfo",
+    "DisplayDir",
+    "DOpusToBack",
+    "DOpusToFront",
+    "Encrypt",
+    "ErrorHelp",
+    "Execute",
+    "FileInfo",
+    "FinishSection",
+    "Format",
+    "FormatBG",
+    "GetAll",
+    "GetDevices",
+    "GetDirs",
+    "GetEntry",
+    "GetFileType",
+    "GetFiles",
+    "GetNextSelected",
+    "GetSelectedAll",
+    "GetSelectedDirs",
+    "GetSelectedFiles",
+    "GetSizes",
+    "GetString",
+    "HexRead",
+    "Hunt",
+    "Iconify",
+    "IconInfo",
+    "Install",
+    "InstallBG",
+    "LastSaved",
+    "LoadConfig",
+    "LoopPlay",
+    "MakeDir",
+    "Modify",
+    "Move",
+    "MoveAs",
+    "NewCLI",
+    "NextDrives",
+    "None",
+    "notify",
+    "OtherWindow",
+    "Parent",
+    "ParentList",
+    "PatternMatch",
+    "Play",
+    "PlayST",
+    "Print",
+    "PrintDir",
+    "Protect",
+    "Query",
+    "Quit",
+    "Read",
+    "Redraw",
+    "Relabel",
+    "Remember",
+    "RemoveEntry",
+    "RemoveFile",
+    "Rename",
+    "Request",
+    "Rescan",
+    "Reselect",
+    "Restore",
+    "Root",
+    "Run",
+    "SaveConfig",
+    "ScanDir",
+    "ScrollH",
+    "ScrollToShow",
+    "ScrollV",
+    "Search",
+    "Select",
+    "SelectEntry",
+    "SelectFile",
+    "SetVar",
+    "SetWinTitle",
+    "Show",
+    "SmartRead",
+    "Status",
+    "StopST",
+    "SwapWindow",
+    "Toggle",
+    "TopText",
+    "Uniconify",
+    "User1",
+    "Verify",
+    "Version",
+     NULL };
+
 void dohelp(name,func,key,qual,defmsg)
 char *name,*func;
 int key,qual;
@@ -271,8 +394,25 @@ char *defmsg;
         }
     }
     simplerequest(msg,globstring[STR_CONTINUE],NULL);
-    unbusy();
     if (buf) FreeMem(buf,s);
+
+    if (AmigaGuideBase)
+     {
+      struct NewAmigaGuide nag = {0};
+      AMIGAGUIDECONTEXT agc;
+
+      nag.nag_Name = "DirectoryOpus.guide";
+      nag.nag_Screen = Window->WScreen;
+      nag.nag_Flags = HTF_NOACTIVATE;
+      nag.nag_Context = helpcontext;
+      nag.nag_Node = func[0]=='*'?func+1:func;
+
+      if (agc = OpenAmigaGuide(&nag,NULL))
+       {
+        CloseAmigaGuide(agc);
+       }
+     }
+    unbusy();
     return;
 }
 

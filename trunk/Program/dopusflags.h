@@ -146,4 +146,9 @@ enum {
 #define SGDFLAGS_CANCHECKBUFS 2
 #define SGDFLAGS_REREADINGOLD 4
 
+/* Flags for wildselect() */
+
+#define WILDSELECT_NAME    0
+#define WILDSELECT_COMMENT 1
+
 #endif

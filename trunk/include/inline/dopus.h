@@ -334,7 +334,7 @@
 	, DOPUS_BASE_NAME)
 
 #define GetCheckImage(fg, bg, pen, key) \
-	LP4(0x20A, struct Image *, GetCheckImage, int, fg, d0, int, bg, d1, int, pen, d2, struct DOpusRemember **, key, a0, \
+	LP4(0x20A, struct Image *, GetCheckImage, UBYTE, fg, d0, UBYTE, bg, d1, int, pen, d2, struct DOpusRemember **, key, a0, \
 	, DOPUS_BASE_NAME)
 
 #define OpenRequester(reqbase) \

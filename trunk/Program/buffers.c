@@ -478,7 +478,7 @@ int type;
     /* If we failed to create the message properly, release it and return */
     if (fail) {
         if (msg) DeleteRexxMsg(msg);
-        doerror(103);
+        doerror(ERROR_NO_FREE_STORE);
         return;
     }
 

@@ -356,55 +356,6 @@ int flag;
     return(a);
 }
 
-void dosound(type)
-int type;
-{
-    struct IOAudio audio;
-    static UBYTE achannels[8]={3,5,10,12,1,2,4,8};
-    int a;
-
-#ifdef DEBUG
-KPrintF("beepwave at %lx\n",beepwave);
-#endif
-    if (type==0 /*&& system_version2>=OSVER_38*/) DisplayBeep(NULL);
-    else {
-        audio.ioa_Request.io_Message.mn_ReplyPort=general_port;
-        audio.ioa_Request.io_Message.mn_Node.ln_Pri=90;
-        audio.ioa_Data=achannels;
-        audio.ioa_Length=sizeof(achannels);
-        if (!(a=OpenDevice("audio.device",0,(struct IORequest *)&audio,0))) {
-            audio.ioa_Request.io_Command=CMD_WRITE;
-            audio.ioa_Request.io_Flags=ADIOF_PERVOL;
-            audio.ioa_Volume=64;
-            audio.ioa_Data=(UBYTE *)beepwave;
-            audio.ioa_Length=8;
-            switch (type) {
-                case 0:
-                    audio.ioa_Period=500;
-                    audio.ioa_Cycles=100;
-                    BeginIO((struct IORequest *)&audio);
-                    WaitIO((struct IORequest *)&audio);
-                    break;
-                case 1:
-                    audio.ioa_Cycles=60;
-                    for (a=0;a<5;a++) {
-                        audio.ioa_Period=800;
-                        BeginIO((struct IORequest *)&audio);
-                        WaitIO((struct IORequest *)&audio);
-                        audio.ioa_Period=1200;
-                        BeginIO((struct IORequest *)&audio);
-                        WaitIO((struct IORequest *)&audio);
-                    }
-                    audio.ioa_Period=800;
-                    BeginIO((struct IORequest *)&audio);
-                    WaitIO((struct IORequest *)&audio);
-                    break;
-            }
-            CloseDevice((struct IORequest *)&audio);
-        }
-    }
-}
-
 int checkscreenmode(mode)
 int mode;
 {
@@ -548,6 +499,11 @@ int win;
 int _isdigit (unsigned char c)
 {
  return locale?IsDigit(locale,c):isdigit(c);
+}
+
+int _isxdigit (unsigned char c)
+{
+ return locale?IsXDigit(locale,c):isxdigit(c);
 }
 
 int _isprint (unsigned char c)

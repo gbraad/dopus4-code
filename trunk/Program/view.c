@@ -149,7 +149,7 @@ void __saveds view_file_process()
   struct ViewData *viewdata;
   struct MsgPort *view_port;
   struct IOStdReq *view_req=NULL;
-  UBYTE key_matrix[13];
+//  UBYTE key_matrix[13];
   char portname[20],titlebuf[300];
 
   my_process=(struct Process *)FindTask(NULL);
@@ -294,7 +294,7 @@ D(bug("internal vdata: %lX (%ld bytes)\n",vdata,sizeof(struct ViewData)));
 
     if (!(vdata->view_gadgets=LAllocRemember(&vdata->view_memory,
         sizeof(struct Gadget)*VIEW_GADGET_COUNT,MEMF_CLEAR)) ||
-      !(vdata->view_window=OpenWindow(&viewwin))) {
+      !(vdata->view_window=OpenWindowTags(&viewwin,WA_AutoAdjust,TRUE,TAG_END))) {
 //      if (viewonwb) /*if (!(vdata->view_vis_info.vi_flags&VISF_WINDOW))*/ UnlockPubScreen(NULL,viewwin.Screen);
 //      else CloseScreen(vdata->view_screen);
       if ( !( config->viewbits & VIEWBITS_INWINDOW ) ) CloseScreen(vdata->view_screen); //HUX
@@ -997,9 +997,9 @@ D(bug("VANILLAKEY: %lx,%lx\n",code,qual));
             break;
                 case '8': // CrsrUp
             if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
-            view_readkeys(view_req,key_matrix);
+/*            view_readkeys(view_req,key_matrix);
             if (!(qual&IEQUALIFIER_REPEAT) ||
-              key_matrix[9]&16 || key_matrix[7]&64) {
+              key_matrix[9]&16 || key_matrix[7]&64)*/ {                             // 9,4 = 4C = UP_ARROW; 7,6 = 3E = NUM-8
               if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pageup(vdata);
               else if (qual&IEQUALIFIER_CONTROL) view_gotop(vdata);
               else view_lineup(vdata);
@@ -1007,9 +1007,9 @@ D(bug("VANILLAKEY: %lx,%lx\n",code,qual));
             break;
                 case '2': // CrsrDown
             if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
-            view_readkeys(view_req,key_matrix);
+/*            view_readkeys(view_req,key_matrix);
             if (!(qual&IEQUALIFIER_REPEAT) ||
-              key_matrix[9]&32 || key_matrix[3]&64) {
+              key_matrix[9]&32 || key_matrix[3]&64)*/ {                             // 9,5 = 4D = DOWN_ARROW; 3,6 = 1E = NUM-2
               if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pagedown(vdata);
               else if (qual&IEQUALIFIER_CONTROL) view_gobottom(vdata);
               else view_linedown(vdata);
@@ -1037,9 +1037,9 @@ D(bug("RAWKEY: %lx,%lx\n",code,qual));
             case NM_WHEEL_UP:
             case NM_WHEEL_LEFT:
               if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
-              view_readkeys(view_req,key_matrix);
-              if (!(qual&IEQUALIFIER_REPEAT) ||
-                key_matrix[9]&16 || key_matrix[7]&64) {
+/*              view_readkeys(view_req,key_matrix);
+              if (!(qual&IEQUALIFIER_REPEAT/ ||
+                key_matrix[9]&16 || key_matrix[7]&64)*/ {                             // 9,4 = 4C = UP_ARROW; 7,6 = 3E = NUM-8
                 if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pageup(vdata);
                 else if (qual&IEQUALIFIER_CONTROL) view_gotop(vdata);
                 else view_lineup(vdata);
@@ -1049,9 +1049,9 @@ D(bug("RAWKEY: %lx,%lx\n",code,qual));
             case NM_WHEEL_DOWN:
             case NM_WHEEL_RIGHT:
               if (vdata->view_line_count<=vdata->view_lines_per_screen) break;
-              view_readkeys(view_req,key_matrix);
+/*              view_readkeys(view_req,key_matrix);
               if (!(qual&IEQUALIFIER_REPEAT) ||
-                key_matrix[9]&32 || key_matrix[3]&64) {
+                key_matrix[9]&32 || key_matrix[3]&64)*/ {                             // 9,5 = 4D = DOWN_ARROW; 3,6 = 1E = NUM-2
                 if (qual&(IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)) view_pagedown(vdata);
                 else if (qual&IEQUALIFIER_CONTROL) view_gobottom(vdata);
                 else view_linedown(vdata);
@@ -2079,7 +2079,7 @@ struct ViewData *vdata;
     vdata->view_pick_offset=
     vdata->view_pick_charoffset=-1;
 }
-
+/*
 void view_readkeys(req,keys)
 struct IOStdReq *req;
 APTR keys;
@@ -2091,7 +2091,7 @@ APTR keys;
     DoIO((struct IORequest *)req);
   }
 }
-
+*/
 int view_simplerequest(struct ViewData *vdata,char *txt,...)
 {
   char *gads[4],*cancelgad=NULL,*gad;

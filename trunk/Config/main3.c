@@ -29,6 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "config.h"
+#define MAXFUNCLISTLEN 100
 
 #define NUM_TYPES 5
 
@@ -66,9 +67,9 @@ APTR data;
     }
 
     selitem=-1;
-    displist[0]=LAllocRemember(&key,60*(MAXFUNCS+1),MEMF_CLEAR);
+    displist[0]=LAllocRemember(&key,MAXFUNCLISTLEN*(MAXFUNCS+1),MEMF_CLEAR);
     for (a=1;a<=MAXFUNCS;a++) {
-        if (displist[0]) displist[a]=displist[a-1]+60;
+        if (displist[0]) displist[a]=displist[a-1]+MAXFUNCLISTLEN;
         else displist[a]=NULL;
     }
     ofp=func->fpen; obp=func->bpen;
@@ -605,7 +606,7 @@ char *func,type,*disp;
     else {
         strcpy(disp,functypestr[type]);
         StrConcat(disp,spacestring,13);
-        StrConcat(disp,func,58);
+        StrConcat(disp,func,MAXFUNCLISTLEN-2);
     }
 }
 
@@ -761,7 +762,7 @@ struct RastPort *r;
 char *name;
 int fp,bp,type,x,y;
 {
-    int a,op;
+    int a,op,l;
 
     op=r->FgPen;
     if (type==CFG_GADGET || type==CFG_DRIVE)
@@ -769,9 +770,10 @@ int fp,bp,type,x,y;
     SetAPen(r,screen_pens[bp].pen);
     a=strlen(name);
     if (type==CFG_GADGET || type==CFG_DRIVE) {
-        if (a>15) a=15;
+        l = 120/rp->Font->tf_XSize;
+        if (a>l) a=l;
         RectFill(r,x+10,y+12,x+133,y+19);
-        x+=8+((128-(a*8))/2);
+        x+=8+((128-(a*rp->Font->tf_XSize))/2);
     }
     else {
         if (a>14) a=14;

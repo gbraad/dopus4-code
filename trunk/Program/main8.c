@@ -46,7 +46,7 @@ void newcli(char *spec)
     char buf[200];
 
     lsprintf(buf,"%s \"%s\"",config->outputcmd,spec?spec:config->output);
-    if (!(Execute(buf,0,nil_file_handle))) doerror(IoErr());
+    if (!(Execute(buf,0,nil_file_handle))) doerror(-1);
     else {
         WBenchToFront();
         okay();

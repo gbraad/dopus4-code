@@ -280,7 +280,7 @@ D(bug("dodiskinfo: devicename=%s\n",disktxt[0]));
 
     if (config->errorflags&ERROR_ENABLE_DOS) main_proc->pr_WindowPtr=(APTR)Window;
     if (fail) {
-        doerror(IoErr());
+        doerror(-1);
         return;
     }
 

@@ -46,6 +46,8 @@ struct RequesterBase protect_req={
     NULL,NULL,NULL,
     0,0,NULL,IDCMP_GADGETUP|IDCMP_VANILLAKEY|IDCMP_MOUSEBUTTONS,NULL};
 
+static struct TagItem protect_bits[8][9];
+
 struct TagItem
     protect_bit_template[]={
         {RO_Type,OBJECT_GADGET},
@@ -57,8 +59,6 @@ struct TagItem
         {RO_TextPos,TEXTPOS_RIGHT},
         {RO_ChkCenter,TRUE},
         {TAG_END,0}},
-
-    protect_bits[8][9],
 
     protect_set_all[]={
         {RO_Type,OBJECT_GADGET},
@@ -220,7 +220,7 @@ struct TagItem
         protect_cancel_gadget,
         NULL};
 
-char prot_template[9];
+static char prot_template[9];
 
 int getprotectdata(prot,mask)
 int *prot,*mask;

@@ -40,8 +40,7 @@ extern USHORT __chip uniconifydata[2][20];
 extern USHORT __chip appicon_data[];
 #endif
 
-int CXBRK(void);
-void chkabort(void);
+extern BOOL useAHI;
 
 int  CXBRK(void) { return(0); }  /* Disable Lattice CTRL/C handling */
 void chkabort(void) { return; }
@@ -182,6 +181,8 @@ char *argv[];
     MUSICBase=(struct MusicBase *)open_dopus_library("inovamusic.library",0);
     ScreenNotifyBase=OpenLibrary("screennotify.library",0);
     LocaleBase = OpenLibrary("locale.library",38);
+    DatatypesBase = OpenLibrary("datatypes.library",39);
+    AmigaGuideBase = OpenLibrary("amigaguide.library",39);
 
     /* Restore window pointer now that we've got our libraries */
 
@@ -282,6 +283,7 @@ D(bug("beepwave: %lx\n",beepwave));
             if ((s=(char *)FindToolType(toolarray,"BUTTONSTART"))) iconstart=atoi(s)?2:iconstart;
             if ((s=(char *)FindToolType(toolarray,"CONFIGFILE")))  LStrnCpy(str_config_basename,s,256);
             if ((s=(char *)FindToolType(toolarray,"CHECK")))       ck=atoi(s);
+            if (FindToolType((STRPTR *)toolarray,"USEAHI"))        useAHI=TRUE;
             if (FindToolType((STRPTR *)toolarray,"FORCEOPENXFD"))  xfdMasterBase = (struct xfdMasterBase *)OpenLibrary("xfdmaster.library",38);
             if (FindToolType((STRPTR *)toolarray,"FORCEOPENXAD"))  xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4);
             if (FindToolType((STRPTR *)toolarray,"USESYSINFO"))
@@ -376,23 +378,28 @@ D(bug("beepwave: %lx\n",beepwave));
                 dos_notify_req[a]->nr_Name=dos_notify_names[a];
         }
 //    }
-
+/*
     if (!(keyboard_req=(struct IOStdReq *)
         LCreateExtIO(general_port,sizeof(struct IOStdReq)))) quit();
     if ((OpenDevice("keyboard.device",0,(struct IORequest *)keyboard_req,0))!=0) {
         LDeleteExtIO((struct IORequest *)keyboard_req); keyboard_req=NULL;
         quit();
     }
-    if (!(input_req=(struct IOStdReq *)
-        LCreateExtIO(general_port,sizeof(struct IOStdReq)))) quit();
-    if ((OpenDevice("input.device",0,(struct IORequest *)input_req,0))!=0) {
+*/
+    if (! CxBase)
+     {
+      if (!(input_req=(struct IOStdReq *)LCreateExtIO(general_port,sizeof(struct IOStdReq))))
+        quit();
+      if ((OpenDevice("input.device",0,(struct IORequest *)input_req,0))!=0)
+       {
         LDeleteExtIO((struct IORequest *)input_req); input_req=NULL;
         quit();
-    }
-
+       }
+     }
     ramdisk_lock=Lock("RAM:",ACCESS_READ);
 
     strcpy(str_select_pattern[0],"*");
+    strcpy(str_select_pattern[3],"*");
      {
       struct DOpusDateTime dt;
 
@@ -1384,7 +1391,7 @@ void allocstrings()
 
     for (a=0;a<16;a++) rexx_args[a]=astring(256);
     str_arexx_command=astring(256);
-    for (a=0;a<3;a++) str_select_pattern[a]=astring(80);
+    for (a=0;a<4;a++) str_select_pattern[a]=astring(80);
     for (a=0;a<2;a++) {
         rexx_pathbuffer[a]=astring(256);
         dopus_specialwin[a]=(struct DirectoryWindow *)astring(sizeof(struct DirectoryWindow));

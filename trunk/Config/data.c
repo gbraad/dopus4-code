@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "config.h"
-#define VERSION "4.16"
+#define VERSION "4.17"
 
 char *version="$VER: ConfigOpus " VERSION " (" __DATE__ ") by Jacek Rzeuski";
 

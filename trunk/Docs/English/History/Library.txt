@@ -1,3 +1,6 @@
+22.21 (24.02.2002):
+- checkmark image background colors problem fixed.
+
 22.20 (27.10.2001):
 - minor fixes
 - localization added

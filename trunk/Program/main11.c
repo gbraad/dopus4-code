@@ -35,14 +35,14 @@ the existing commercial status of Directory Opus 5.
 #define BUTPROP 1
 #define BUTEXIT 2
 
+extern USHORT __chip uniconifydata[2][20];
+
 static struct AppIcon *appicon;
 static struct AppMenuItem *appmenu;
 static struct Image iconbutpropimage;
 static struct PropInfo
     iconbutpropinfo={
         AUTOKNOB|FREEVERT|PROPNEWLOOK|PROPBORDERLESS,0,0,0,0x3000};
-
-extern USHORT __chip uniconifydata[2][20];
 
 struct Image
     uniconifyimage[2]={

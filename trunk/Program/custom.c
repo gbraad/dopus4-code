@@ -1130,7 +1130,7 @@ struct function_data *funcdata;
         if (funcdata->output_file=Open(funcdata->scriptname,MODE_NEWFILE)) break;
     }
     if (!funcdata->output_file) {
-        doerror(IoErr());
+        doerror(-1);
         return(0);
     }
 

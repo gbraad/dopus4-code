@@ -135,6 +135,7 @@ static const struct DefaultString
     	{STR_COULD_NOT_FIND_FILE,"Sorry! File could not be found!"},
     	{STR_FOUND_MATCHING_FILES,"Found %ld matching files."},
     	{STR_ADDING_ICON,"adding an icon to"},
+    	{STR_SELECT_COMMENT,"Comment"},
     	{STR_ENTER_COMMENT,"Enter comment"},
     	{STR_ENTER_PASSWORD,"Enter password"},
     	{STR_ENTER_DATE_AND_TIME,"Enter date and time (blank for current)"},
@@ -382,7 +383,7 @@ static const struct DefaultString
 	"  Processor%29s  \n"\
 	"  Math co-processor%21s  \n"\
 	"  Graphics chipset%22s  \n"\
-	"  Video system%26s"},
+	"  Video system%26s  \000"},
     	{STR_VERSION_HEADER,"Version information..."},
     	{STR_DIRSFIRST,"Show dirs first"},
     	{STR_FILESFIRST,"Show files first"},

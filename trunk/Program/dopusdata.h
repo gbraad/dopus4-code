@@ -60,6 +60,8 @@ extern struct xadMasterBase *xadMasterBase;      /* xadmaster.library */
 extern struct Library *SysInfoBase;              /* sysinfo.library */
 extern struct Library *LocaleBase;               /* locale.library */
 extern struct muBase *muBase;                    /* multiuser.library */
+extern struct Library *DatatypesBase;            /* datatypes.library */
+extern struct Library *AmigaGuideBase;           /* amigaguide.library */
 
 extern struct DosLibrary *DOSBase;               /* dos.library */
 extern struct ExecBase *SysBase;                 /* exec.library */
@@ -109,7 +111,7 @@ extern struct MsgPort *snm_port;                 /* ScreenNotify Port */
 extern struct MsgPort *hotkeymsg_port;           /* Messages to the hotkey task */
 extern struct MsgPort *clockmsg_port;            /* Messages to the clock task */
 
-extern struct IOStdReq *keyboard_req;            /* Keyboard IO Request block */
+//extern struct IOStdReq *keyboard_req;            /* Keyboard IO Request block */
 extern struct IOStdReq *input_req;               /* Input IO Request block */
 
 extern struct SysInfo *sysinfo;                  /* SysInfo.library */
@@ -172,7 +174,7 @@ extern char str_config_file[256];                /* Configuration file */
 extern char str_dopusrt_path[256];               /* DOpusRT path name */
 
 extern char str_select_info[128];                /* Status bar text for selection info */
-extern char *str_select_pattern[3];              /* Three different Select patterns */
+extern char *str_select_pattern[4];              /* Four different Select patterns */
 extern char *str_arexx_command;                  /* Entered ARexx command string */
 extern char *str_space_string;                   /* 255 spaces in a string */
 extern char str_hunt_name[80];                   /* File name to hunt for */
@@ -272,8 +274,6 @@ extern char *icon_type_names[];                  /* Names of different icon type
 extern struct DOpusRemember *recurse_dir_key;    /* Memory key for RecursiveDirectory's */
 extern struct RecursiveDirectory *first_recurse; /* First recursive directory pointer */
 extern int recurse_max_depth;                    /* Maximum depth reached */
-extern struct RecursiveDirectory
-    **recurse_parent_array;                        /* Array of parent directories */
 
 extern struct path_complete completion[2];       /* Path-name completion data */
 

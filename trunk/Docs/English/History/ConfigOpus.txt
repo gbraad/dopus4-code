@@ -1,4 +1,7 @@
-4.16 (27.10.2001):
+4.17 (18.02.2002):
+- display fixes for fonts with width other than 8 (ie. XEN)
+
+4.16 (18.02.2002):
 - uses ConfigOpus.info as an icon for "Drop a tool here" icon (if
 available)
 - Gadget "Okay" renamed to "Use" on main page

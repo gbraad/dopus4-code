@@ -22,7 +22,7 @@ dopuslib.h: ../catalogs/dopus4_lib.cd dopuslib_h.sd
 language.c: ../catalogs/dopus4_lib.cd dopuslib.h language_c.sd
 	$(FLEXCAT) /catalogs/dopus4_lib.cd language.c=language_c.sd
 
-.c.o:
+.c.o: dopuslib.h
 	$(CC) -c $*.c $(CCOPTS) -I../include -Os -fomit-frame-pointer -msmall-code -Wall -DDEBUG
 
 data.o: data.a

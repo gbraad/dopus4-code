@@ -427,7 +427,7 @@ void showdrivename(drive,gadget)
 struct dopusfunction *drive;
 struct Gadget *gadget;
 {
-    int a,x,y;
+    int a,x,y,l;
     char showname[16];
 
     x=gadget->LeftEdge;
@@ -439,8 +439,10 @@ struct Gadget *gadget;
     if (drive) {
         SetAPen(rp,screen_pens[drive->fpen].pen);
         SetBPen(rp,screen_pens[drive->bpen].pen);
-        strcpy(showname,drive->name); showname[9]=0;
-        UScoreText(rp,showname,x+((80-((a=strlen(showname))*8))/2),y+7,-1);
+        strcpy(showname,drive->name);
+        l = (80-8)/rp->Font->tf_XSize;
+        showname[l]=0;
+        UScoreText(rp,showname,x+((80-((a=strlen(showname))*rp->Font->tf_XSize))/2),y+7,-1);
         SetBPen(rp,screen_pens[0].pen);
         if (seldrive==drive) select_gadget(seligad,1);
     }

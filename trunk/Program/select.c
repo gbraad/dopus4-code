@@ -720,7 +720,7 @@ int rexx;
         switch (selecttype) {
             case 0:
                 LParsePatternI(str_select_pattern[0],buf);
-                wildselect(buf,boobs,1);
+                wildselect(buf,boobs,1,WILDSELECT_NAME);
                 findfirstsel(data_active_window,-2);
                 break;
             case 1:
@@ -733,6 +733,11 @@ int rexx;
                 if (str_select_pattern[2][0]==0) break;
                 getprotselvals(str_select_pattern[2],prot);
                 protselect(prot[0],prot[1],boobs,1);
+                findfirstsel(data_active_window,-2);
+                break;
+            case 3:
+                LParsePatternI(str_select_pattern[3],buf);
+                wildselect(buf,boobs,1,WILDSELECT_COMMENT);
                 findfirstsel(data_active_window,-2);
                 break;
         }
@@ -794,7 +799,7 @@ int *prot;
     }
 }
 
-void wildselect(wild,boobs,and)
+void wildselect(wild,boobs,and,mode)
 char *wild;
 int boobs,and;
 {
@@ -823,7 +828,7 @@ int boobs,and;
             }
             else {
                 if (!temp->selected) {
-                    StrToUpper(temp->name,buf);
+                    StrToUpper((mode==WILDSELECT_NAME)?temp->name:temp->comment,buf);
                     if (LMatchPatternI(wild,buf)) wildselectthisone(temp,data_active_window,boobs);
                 }
             }

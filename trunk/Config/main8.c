@@ -327,6 +327,7 @@ void doradiobuttons()
         CopyMem((char *)checkonimage,(char *)&copy_checkonimage,sizeof(struct Image));
     else copy_checkonimage.ImageData=NULL;
 
+    stringex.Font=tfont;
     stringex.Pens[0]=screen_pens[config->stringfgcol].pen;
     stringex.Pens[1]=screen_pens[config->stringbgcol].pen;
     stringex.ActivePens[0]=screen_pens[config->stringselfgcol].pen;
