@@ -7,6 +7,33 @@ mientras que otros no tienen en mi opinión demasiado sentido. Utilice
 la versión que más le guste.
 
 
+4.17 (26.5.2002)
+
+- Las nuevas funciones ligadas al botón central del ratón no funcionan
+  si está activada la tecla de invocación homónima.
+
+- Una pulsación del botón central del ratón elige la ventana de directorio
+  origen.
+
+- Nueva operación para tipos de ficheros: doble pulsación del botón
+  central del ratón (requiere nuevo ConfigOpus para su configuración)
+
+- La ventana de directorio ya no se lee de nuevo tras usar CLONE.
+
+- Los ficheros y directorios copiados desde el interior de un archivo
+  conservan su comentario, fecha de última modificación y banderas de
+  protección originales.
+  
+- Soporte para archivos encriptados.
+
+- Disponible un pequeño interfaz CLI por medio del parámetro "?" o "HELP"
+  al arrancar desde el CLI.
+
+- El filtro funciona ahora también con los ficheros seleccionados.
+
+- El visor de ficheros usa Gadtools para generar su interfaz gráfico.
+
+
 4.17 (24.2.2002)
 
 - El comando "Parent" sobre el árbol de directorios devuelve ahora la

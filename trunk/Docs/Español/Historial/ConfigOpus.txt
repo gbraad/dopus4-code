@@ -1,3 +1,9 @@
+4.17 (19.5.2002)
+
+- Añadido soporte para la nueva operación para tipos de fichero "Doble pulsación
+  del botón central del ratón".
+
+
 4.17 (24.2.2002)
 
 - Correcciones gráficas para tipos de letra con una anchura distinta de 8
