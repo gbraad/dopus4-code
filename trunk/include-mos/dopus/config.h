@@ -70,7 +70,8 @@
 #define DISPLAY_OWNER    6
 #define DISPLAY_GROUP    7
 #define DISPLAY_NETPROT  8
-#define DISPLAY_LAST 8
+#define DISPLAY_EXT 9
+#define DISPLAY_LAST 9
 
 #define FLAG_OUTWIND      1
 #define FLAG_OUTFILE      2
@@ -111,6 +112,8 @@
 #define FTFUNC_AUTOFUNC4   9
 #define FTFUNC_READ        10
 #define FTFUNC_SHOW        11
+#define FTFUNC_MMBCLICK    12
+
 
 #define MAX_DISPLAYLENGTH 4096
 struct olddopusgadget {

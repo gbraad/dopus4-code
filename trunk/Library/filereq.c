@@ -366,7 +366,7 @@ int __regargs get_filenames(struct FileReqData *freqdata)
         while (getintuimsg(freqdata->fr_Window,&class,&code,&qual,&gadgetid)) {
             ret=gettingdirmsg(freqdata,class,code,qual,gadgetid);
             if (ret==OKAY || ret==CANCEL || ret==INTERRUPT) {
-                if (lock) UnLock(lock);
+                UnLock(lock);
                 return(ret);
             }
         }
@@ -383,7 +383,7 @@ int __regargs get_filenames(struct FileReqData *freqdata)
         fixprop(freqdata);
         doposprop(freqdata);
     }
-    if (lock) UnLock(lock);
+    UnLock(lock);
     freqdata->oldfileoffset=-1;
     displayfiles(freqdata);
     return(ret);

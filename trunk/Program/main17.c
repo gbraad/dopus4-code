@@ -385,8 +385,7 @@ char *command;
                 case RXSTATUS_CURRENT_DIRECTORY:
                     if (f) {
                         if (!(lock=Lock(buf3,ACCESS_READ))) break;
-                        lock=CurrentDir(lock);
-                        UnLock(lock);
+                        UnLock(CurrentDir(lock));
                         break;
                     }
                     if (expand_path("",buf)) buf1=buf;

@@ -322,6 +322,7 @@ D(bug("str_arcorgname cleared\n"));
 
 void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 {
+  if (entry == NULL) return;
 D(bug("arcfillfib: %s (%s)\n",entry->name?entry->name:"<NULL>",entry->comment?entry->comment:"<NULL>"));
   fib->fib_DirEntryType = entry->/*sub*/type;
   strcpy(fib->fib_FileName,entry->name);

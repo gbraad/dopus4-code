@@ -176,7 +176,7 @@ D(bug("icon depth: %ld\n",icon_image[0]->Depth));
     width=fontscreen->Width;
     height=fontscreen->Height;
 
-    DrawImage(font_rp,icon_image[0],
+    DrawImage(fontwindow->RPort,icon_image[0],
         ((width-icon_image[0]->Width)/2),
         ((height-icon_image[0]->Height)/2));
 
@@ -191,8 +191,8 @@ D(bug("icon depth: %ld\n",icon_image[0]->Depth));
             y=(height-icon_image[imagenum]->Height)/2;
             x1=x+icon_image[imagenum]->Width;
             y1=y+icon_image[imagenum]->Height;
-            DrawImage(font_rp,icon_image[imagenum],x,y);
-            drawrecaround(font_rp,/*0,0,*/x,y,x1,y1,width,height);
+            DrawImage(fontwindow->RPort,icon_image[imagenum],x,y);
+            drawrecaround(fontwindow->RPort,/*0,0,*/x,y,x1,y1,width,height);
         }
         else {
             if (fred==0 || fred==-3) ret=TRUE;
@@ -264,8 +264,21 @@ void CloseAHI(void)
 BYTE AHIsignal = -1;
 static int AHIloops;
 
-__saveds ULONG AHISoundFunc(register struct AHIAudioCtrl *actrl __asm("a2"), register struct AHISoundMessage *smsg __asm("a1"))
+#ifdef __MORPHOS__
+ULONG AHISoundFunc(void);
+
+struct EmulLibEntry GATE_AHISoundFunc = { TRAP_LIB, 0, (void (*)(void))AHISoundFunc };
+
+ULONG AHISoundFunc(void)
+ {
+  struct AHIAudioCtrl *actrl = (struct AHIAudioCtrl *)REG_A2;
+  struct AHISoundMessage *smsg = (struct AHISoundMessage *)REG_A1;
+#else
+__saveds ULONG AHISoundFunc(
+                   register struct AHIAudioCtrl *actrl __asm("a2"),
+                   register struct AHISoundMessage *smsg __asm("a1"))
 {
+#endif
     if (AHIloops)  // Will it work for stereo sounds too?
      {
       AHI_SetSound(smsg->ahism_Channel,AHI_NOSOUND,0,0,actrl,NULL);
@@ -360,7 +373,11 @@ D(bug("Trying to play through AHI\n"));
       if (OpenAHI())
        {
 D(bug("AHI opened\n"));
+#ifdef __MORPHOS__
+        AHISoundHook.h_Entry = &GATE_AHISoundFunc;
+#else
         AHISoundHook.h_Entry = AHISoundFunc;
+#endif
         if ((actrl = AHI_AllocAudio(AHIA_AudioID,         AHI_DEFAULT_ID,
                                     AHIA_MixFreq,         AHI_DEFAULT_FREQ,
                                     AHIA_Channels,        stereo?2:1,

@@ -28,8 +28,8 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
 #include <newmouse.h>
+#include "dopus.h"
 #include <libraries/screennotify.h>
 
 void doidcmp()

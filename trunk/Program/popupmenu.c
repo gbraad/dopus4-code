@@ -30,6 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 #define NO_INLINE_STDARG
+#define _NO_PPCINLINE
 #include <proto/pm.h>
 
 enum SortBy {

@@ -252,8 +252,7 @@ D(bug("\tfile: %lx\n",file));
 //        case FUNC_CLONE:
         case FUNC_COPYAS:
             if (!(checkdest(inact))) goto endfunction;
-            if (!(config->existflags&REPLACE_ALWAYS)) askeach=1;
-            else askeach = 0;
+            askeach = (config->existflags&REPLACE_ALWAYS) ? 0 : 1;
             progress_copy=1;
             if (!(specflags&FUNCFLAGS_COPYISCLONE) && config->copyflags&COPY_CHECK) {
                 old=scrdata_old_offset_store;

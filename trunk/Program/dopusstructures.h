@@ -214,11 +214,6 @@ struct ColourTable {
     char alloc;
 };
 
-struct makedirlist {
-    struct makedirlist *last,*next;
-    char *path;
-};
-
 #include <dopus/dopusmessage.h>
 
 #endif

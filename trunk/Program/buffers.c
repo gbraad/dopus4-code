@@ -341,7 +341,7 @@ int win,canchecklocks,onlyreturn;
         if (canchecklocks) checklocks=1;
         else break;
     }
-    if (lock) UnLock(lock);
+    UnLock(lock);
     if (config->errorflags&ERROR_ENABLE_DOS) main_proc->pr_WindowPtr=(APTR)Window;
     return((ret)?dir:NULL);
 }

@@ -29,16 +29,15 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include "stabs.h"
 
 #define DOPUS_VERSION  "4"
 #define DOPUS_REV      "17"
-#define DOPUS_BETAREV  "pre16"
+#define DOPUS_BETAREV  "pre18"
 
 #define DOPUS_REVISION DOPUS_REV
 
 #ifdef __MORPHOS__
-char _ProgramName[] = "DirectoryOpus";
+//extern char _ProgramName[] = "DirectoryOpus";
 #endif
 
 char *version="$VER: Directory Opus " DOPUS_VERSION "." DOPUS_REVISION DOPUS_BETAREV " (" __DATE__ ")";
@@ -50,6 +49,8 @@ void about()
     lsprintf(buf,globstring[STR_ABOUT],"Directory Opus " DOPUS_VERSION "." DOPUS_REVISION DOPUS_BETAREV ,"Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
     simplerequest(buf,globstring[STR_CONTINUE],NULL);
 }
+#ifndef __MORPHOS__
+#include "stabs.h"
 
 static char *clihelp = "%s by %s\n\n"\
            "Usage: DirectoryOpus [?/-opt1] [-opt2] ... [optN] [dir]\n\n"\
@@ -96,7 +97,7 @@ void printtemplate(void)
 }
 
 ADD2INIT(printtemplate,-75); /* between cpucheck and detach functions */
-
+#endif
 char *comp_date=__DATE__,*comp_time=__TIME__;
 
 void give_version_info()

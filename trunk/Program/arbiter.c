@@ -192,6 +192,9 @@ void __saveds arbiter_process()
 
                         if ((launch->seglist=LAllocRemember(&launch->memory,
                             sizeof(struct ProcessStart),MEMF_PUBLIC|MEMF_CLEAR))) {
+#ifdef __MORPHOS__
+                            struct EmulLibEntry GATE_arbiterlaunch_process = { TRAP_LIB, 0, (void (*)(void))&arbiter_process };
+#endif
 
                             launch->seglist->ps_JMP=0x4ef9;
                             launch->seglist->ps_EntryPoint=arb_launch->launch_code;
@@ -205,22 +208,18 @@ void __saveds arbiter_process()
                             launch->launch_msg.flags=arb_msg->flags;
 
 D(bug("ARBITER_LAUNCH: %s, flags: %lx\n",arb_launch->launch_name,arb_msg->flags));
-#ifdef __MORPHOS__
-                            struct EmulLibEntry GATE_arbiterlaunch_process = { TRAP_LIB, 0, (void (*)(void))&arbiter_process };
-
-                            struct TagItem arbiterlaunch_tags[] = {
-                              { NP_Entry, (Tag)&GATE_arbiterlaunch_process },
-//                              {  NP_Seglist,     (long)launch->seglist>>2 },
-                              { NP_Name,  (Tag)arb_launch->launch_name },
-                              { NP_Priority, 0 },
-                              { NP_StackSize,8192 },
-                              { NP_FreeSeglist, FALSE },
-                              { NP_CloseInput,  FALSE },
-                              { NP_CloseOutput, FALSE },
-                              { TAG_END } };
-#else
                             if ((port=(struct MsgPort *)
 //                                CreateProc(arb_launch->launch_name,0,(long)launch->seglist>>2,4000))) {
+#ifdef __MORPHOS__
+                                &CreateNewProcTags(NP_Name,        (Tag)arb_launch->launch_name,
+                                                   NP_Priority,    0,
+                                                   NP_Entry, (Tag)&GATE_arbiterlaunch_process,
+                                                   NP_StackSize,   8192,
+                                                   NP_FreeSeglist, FALSE,
+                                                   NP_CloseInput,  FALSE,
+                                                   NP_CloseOutput, FALSE,
+                                                   TAG_END)->pr_MsgPort)) {
+#else
                                 &CreateNewProcTags(NP_Name,        (Tag)arb_launch->launch_name,
                                                    NP_Priority,    0,
                                                    NP_Seglist,     (long)launch->seglist>>2,

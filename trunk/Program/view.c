@@ -887,8 +887,8 @@ D(bug("RAWKEY: %lx,%lx\n",code,qual));
 
 int view_setupdisplay(struct ViewData *vdata)
 {
-  static struct TextAttr viewGta;
   static char            viewGNames[7*2];
+  static struct TextAttr viewGta;
   static ULONG           viewGTags[] = {
   	  GTSC_Arrows, 12, PGA_Freedom, LORIENT_VERT, GA_RelVerify, TRUE, GA_Immediate, TRUE, TAG_DONE,
   	  GTNM_FrontPen, 0, GTNM_BackPen, 0, GTNM_Justification, GTJ_RIGHT, GTNM_Format, (ULONG)"%3ld%%", TAG_DONE,

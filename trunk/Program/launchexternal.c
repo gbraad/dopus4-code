@@ -32,6 +32,8 @@ the existing commercial status of Directory Opus 5.
 #include "view.h"
 #include <dos/dostags.h>
 
+static ULONG data_window_refresh;              /* Windows that need refreshing */
+
 int start_external(func)
 struct dopus_func_start *func;
 {

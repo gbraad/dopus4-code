@@ -25,6 +25,7 @@ struct Directory {
     struct DateStamp __attribute__((aligned(2))) date;
     UWORD __attribute__((aligned(2))) owner_id,group_id;
     struct NetworkStuff* __attribute__((aligned(2))) network;
+    char * __attribute__((aligned(2))) extension;
 } __attribute__((packed));
 
 #define DOPUSMSG_GETVIS         1

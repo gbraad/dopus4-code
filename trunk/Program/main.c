@@ -428,13 +428,13 @@ else D(bug("FAILED!\n"));
     }
     hotkey_task = NULL;
 
-    if (scrdata_is_pal) data_colorclock=3546895;
-    else data_colorclock=3579545;
+    data_colorclock = (scrdata_is_pal ? 3546895 : 3579545);
 
     setup_externals();
 
     setupchangestate();
-    do_remember_config(remember_data);
+
+do_remember_config(remember_data);
 
     if (!(dir_memory_pool=LibCreatePool(MEMF_ANY|MEMF_CLEAR,16384,1024)))
         quit();
@@ -651,7 +651,7 @@ tryfonts:
                     if (pubscr) UnlockPubScreen(NULL,pubscr);
                     return(SetUp(tit));
                 }
-                main_vp=&(MainScreen->ViewPort);
+//                main_vp=&(MainScreen->ViewPort);
                 load_palette(MainScreen,config->new_palette);
 
                 main_win.Screen=MainScreen;
@@ -1488,8 +1488,8 @@ int fb;
 {
     char buf[256];
 
-    if (get_data_file(buf,"HLP",fb))
-        readhelp(buf);
+    if (get_data_file(buf,"HLP",fb)) readhelp(buf);
+    else if (get_data_file(buf,"guide",fb)) readhelp(NULL);
 
 //    get_data_file(buf,"STR",fb);
 //    readstrings(buf);

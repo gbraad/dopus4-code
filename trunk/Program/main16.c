@@ -40,21 +40,17 @@ int size,np;
     struct TextFont *font;
     char fontbuf[256],*fontptr;
     static UWORD fcols[2]={0xfff,0};
-    struct TextAttr sfattr;
+    struct TextAttr sfattr = { (STRPTR)name, size, 0, 0 };
+    struct RastPort *font_rp;
 
-    sfattr.ta_Name=(STRPTR)name;
-    sfattr.ta_Style=sfattr.ta_Flags=0;
-    sfattr.ta_YSize=size;
-
-    if (DiskfontBase) font=OpenDiskFont(&sfattr);
-    else font=OpenFont(&sfattr);
+    font = DiskfontBase ? OpenDiskFont(&sfattr) : OpenFont(&sfattr);
     if (!font || !(setupfontdisplay(1,NULL))) {
         doerror(-1);
         return(0);
     }
 
     base=font->tf_Baseline;
-    SetFont(font_rp,font);
+    SetFont(font_rp=fontwindow->RPort,font);
     SetAPen(font_rp,1);
     SetDrMd(font_rp,JAM1);
 
@@ -99,6 +95,7 @@ int depth;
 UWORD *coltab;
 {
     struct DimensionInfo dims;
+    struct RastPort *font_rp;
 
     font_scr.Width=GfxBase->NormalDisplayColumns;
     font_scr.Height=STDSCREENHEIGHT;
@@ -141,8 +138,7 @@ D(bug("Font screen ModeID: %lx\n",font_scr.Extension[0].ti_Data));
 
 void cleanup_fontdisplay()
 {
-    if (blankscreen) ScreenToFront(blankscreen);
-    else ScreenToFront(Window->WScreen);
+    ScreenToFront(blankscreen ? blankscreen : Window->WScreen);
     if (fontwindow) {
         CloseWindow(fontwindow);
         fontwindow=NULL;
@@ -158,7 +154,7 @@ void readhelp(file)
 char *file;
 {
 //D(bug("readhelp(%s)\n",file);Delay(50));
-    doreadhelp(file);
+    if (file) doreadhelp(file);
     if (dopus_firsthelp) screen_gadgets[SCRGAD_TINYHELP].Flags&=~GFLG_DISABLED;
     else screen_gadgets[SCRGAD_TINYHELP].Flags|=GFLG_DISABLED;
     if (Window && config->generalscreenflags&SCR_GENERAL_TINYGADS)
@@ -347,67 +343,83 @@ static STRPTR helpcontext[] = {
     "Version",
      NULL };
 
+char *getAGnode(char *buf,char *func)
+ {
+  int i;
+
+  for (i = 0; func[i] && func[i] != ' '; i++) buf[i] = func[i];
+  buf[i] = 0;
+
+  for(i = 0; helpcontext[i]; i++) if (stricmp(buf,helpcontext[i])==0) break;
+
+  if (helpcontext[i] == NULL) strcpy(buf,"Main");
+
+  return buf;
+ }
+
 void dohelp(name,func,key,qual,defmsg)
 char *name,*func;
 int key,qual;
 char *defmsg;
 {
-    char *msg=NULL,*buf=NULL,buf1[40],buf2[30];
-    struct Help *help;
-    int s,s1;
+    if (dopus_firsthelp)
+     {
+      char *msg=NULL,*buf=NULL,buf1[40],buf2[30];
+      struct Help *help=dopus_firsthelp;
+      int s,s1;
 
-    if (!dopus_firsthelp) return;
-    help=dopus_firsthelp;
-    while (help) {
-        if (help->lookup) {
-            if (help->lookup[0]=='*' && func) {
-                if (Stricmp(help->lookup,func)==0) {
-                    msg=help->message;
-                    break;
-                }
-            }
-            else if (name) {
-                if (Stricmp(help->lookup,name)==0) {
-                    msg=help->message;
-                    break;
-                }
-            }
-        }
-        help=help->next;
-    }
-    if (!msg) msg = (defmsg ? defmsg : globstring[STR_HELP_NOT_AVAILABLE]);
+      while (help) {
+          if (help->lookup) {
+              if (help->lookup[0]=='*' && func) {
+                  if (Stricmp(help->lookup,func)==0) {
+                      msg=help->message;
+                      break;
+                  }
+              }
+              else if (name) {
+                  if (Stricmp(help->lookup,name)==0) {
+                      msg=help->message;
+                      break;
+                  }
+              }
+          }
+          help=help->next;
+      }
+      if (!msg) msg = (defmsg ? defmsg : globstring[STR_HELP_NOT_AVAILABLE]);
 
-    if (key>0) {
-        RawkeyToStr(key,qual,buf2,NULL,30);
-        strcpy(buf1,globstring[STR_KEY]); strcat(buf1,buf2); strcat(buf1,"\n\n");
-        s1=strlen(buf1);
-        s=strlen(msg)+1;
-        if ((buf=AllocMem(s+s1,MEMF_CLEAR))) {
-            CopyMem(buf1,buf,s1);
-            CopyMem(msg,&buf[s1],s);
-            s+=s1;
-            msg=buf;
-        }
-    }
-    simplerequest(msg,globstring[STR_CONTINUE],NULL);
-    if (buf) FreeMem(buf,s);
-
-    if (AmigaGuideBase && func)
+      if (key>0) {
+          RawkeyToStr(key,qual,buf2,NULL,30);
+          strcpy(buf1,globstring[STR_KEY]); strcat(buf1,buf2); strcat(buf1,"\n\n");
+          s1=strlen(buf1);
+          s=strlen(msg)+1;
+          if ((buf=AllocMem(s+s1,MEMF_CLEAR))) {
+              CopyMem(buf1,buf,s1);
+              CopyMem(msg,&buf[s1],s);
+              s+=s1;
+              msg=buf;
+          }
+      }
+      simplerequest(msg,globstring[STR_CONTINUE],NULL);
+      if (buf) FreeMem(buf,s);
+     }
+    else if (AmigaGuideBase && func)
      {
       struct NewAmigaGuide nag = {0};
       AMIGAGUIDECONTEXT agc;
+      char buf[32];
 
       nag.nag_Name = "DirectoryOpus.guide";
       nag.nag_Screen = Window->WScreen;
-      nag.nag_Flags = HTF_NOACTIVATE;
+      nag.nag_Flags = 0 /*HTF_NOACTIVATE*/;
       nag.nag_Context = helpcontext;
-      nag.nag_Node = func[0]=='*'?func+1:func;
+      nag.nag_Node = getAGnode(buf,func[0]=='*'?func+1:func);
 
 D(bug("Trying to display Amigaguide node \"%s\"\n",nag.nag_Node));
       if ((agc = OpenAmigaGuide(&nag,NULL)))
        {
         CloseAmigaGuide(agc);
        }
+      else simplerequest(defmsg ? defmsg : globstring[STR_HELP_NOT_AVAILABLE],globstring[STR_CONTINUE],NULL);
      }
     unbusy();
     return;

@@ -9,7 +9,7 @@ main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o
 
-OBJS_DEBUG = $(patsubst %.o,%.odebug, $(OBJS))
+OBJS_DEBUG = $(patsubst %.o,%DBG.o, $(OBJS))
 
 CCOPTS = -m68020 -fbaserel
 INC = -I../include
@@ -39,11 +39,11 @@ dopusstrings.h: ../catalogs/DOpus4.cd dopusstrings_h.sd
 	@touch about.c
 	$(CC) -c $*.c $(CCOPTS) -O3 -fomit-frame-pointer $(INC) -DWITHPCHG -Wall
 
-%.odebug: %.c
-	$(CC) -o $*.odebug -c $*.c $(CCOPTS) -O3 -fomit-frame-pointer $(INC) -DWITHPCHG -DDEBUG -Wall
+%DBG.o: %.c
+	$(CC) -o $*DBG.o -c $*.c $(CCOPTS) -O3 -fomit-frame-pointer $(INC) -DWITHPCHG -DDEBUG -Wall
 
 chipimage.o: chipimage.asm
 	$(ASM) $*.asm $(ASMOPTS)
 
-chipimage.odebug: chipimage.o
-	cp chipimage.o chipimage.odebug
+chipimageDBG.o: chipimage.o
+	cp chipimage.o chipimageDBG.o

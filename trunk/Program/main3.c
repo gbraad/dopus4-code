@@ -41,6 +41,8 @@ the existing commercial status of Directory Opus 5.
 #define ACTION_UID_TO_USERINFO      1037
 #define ACTION_GID_TO_GROUPINFO     1038
 
+static struct Requester dopus_busy_requester;    /* Busy requester */
+
 int doparent(str)
 char *str;
 {

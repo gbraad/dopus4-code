@@ -187,6 +187,7 @@ void __saveds hotkeytaskcode()
   while(run) {
     sig=Wait(waitbits);
     command=0;
+//D(bug("signal received\n"));
 /*
     while ((dummymsg=(struct IntuiMessage *)GetMsg(idcmpport)))
       FreeMem(dummymsg,sizeof(struct IntuiMessage));
@@ -509,7 +510,7 @@ void set_hotkey(filter,code,qual)
 CxObj *filter;
 USHORT code,qual;
 {
-  if (filter) {
+if (filter) {
     hotkey_ix.ix_Class=IECLASS_RAWKEY;
     if (qual==0 && code==(USHORT)~0) {
       hotkey_ix.ix_Code=0xffff;
@@ -699,6 +700,7 @@ D(bug("progresstext() ends here\n"));
 void progressbar(struct ProgressBar *bar)
 {
   int w;
+  BOOL draw;
 
   if (bar->hide) return;
 D(bug("progressbar(Y=%ld,V=%ld,Vmax=%ld)\n",bar->barY,bar->curr,bar->max));
@@ -707,13 +709,15 @@ D(bug("progressbar(Y=%ld,V=%ld,Vmax=%ld)\n",bar->barY,bar->curr,bar->max));
 
     if ((w=(int)(300*f))>300) w=300;
     else if (w<1) w=1;
+    draw = (w != bar->last_w);
     SetAPen(prp,screen_pens[3].pen);
   }
   else {
+    draw=TRUE;
     w=300;
     SetAPen(prp,screen_pens[0].pen);
   }
-  if (w != bar->last_w)
+  if (draw)
    {
     RectFill(prp,bar->barX,bar->barY,bar->barX+w-1,bar->barY+prp->Font->tf_YSize-1);
     bar->last_w = w;

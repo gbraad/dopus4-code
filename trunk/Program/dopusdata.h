@@ -46,13 +46,13 @@ extern struct GfxBase *GfxBase;                  /* graphics.library */
 extern struct Library *IconBase;                 /* icon.library */
 extern struct Library *DiskfontBase;             /* diskfont.library */
 extern struct PPBase *PPBase;                    /* powerpacker.library */
-extern struct LayersBase *LayersBase;            /* layers.library */
+extern struct Library *LayersBase;               /* layers.library */
 extern struct Library *WorkbenchBase;            /* workbench.library */
 extern struct MusicBase *MUSICBase;              /* music.library */
 extern struct Library *CxBase;                   /* commodities.library */
-extern struct RxsLib *RexxSysBase;               /* rexxsyslib.library */
+extern struct Library *RexxSysBase;              /* rexxsyslib.library */
 extern struct Library *AccountsBase;             /* accounts.library */
-extern struct UtilityBase *UtilityBase;          /* utility.library */
+extern struct Library *UtilityBase;              /* utility.library */
 extern struct Library *CyberGfxBase;             /* cybergraphics.library */
 extern struct PopupMenuBase *PopupMenuBase;      /* popupmenu.library */
 extern struct xfdMasterBase *xfdMasterBase;      /* xfdmaster.library */
@@ -82,10 +82,8 @@ extern struct PopupMenu *sortmenu;               /* Sort pop-up menu */
 
 /* Graphics objects */
 
-extern struct ViewPort *main_vp;                 /* Main screen ViewPort */
-
+//extern struct ViewPort *main_vp;                 /* Main screen ViewPort */
 extern struct RastPort *main_rp;                 /* Main window RastPort */
-extern struct RastPort *font_rp;                 /* Font window RastPort */
 extern struct RastPort *bar_rp;                  /* Screen BarLayer RastPort */
 extern struct RastPort dir_rp[2];                /* Directory window RastPorts */
 
@@ -188,7 +186,7 @@ extern char str_arcorgname[FILEBUF_SIZE];
 extern char str_version_string[30];              /* Current version string */
 extern char str_arexx_portname[30];              /* ARexx Port name */
 
-extern UBYTE var_key_matrix[13];                 /* Keyboard matrix data area */
+//extern UBYTE var_key_matrix[13];                 /* Keyboard matrix data area */
 extern char *str_last_statustext;                /* Last status text displayed */
 
 extern char *str_last_rexx_result;               /* Last ARexx result */
@@ -219,8 +217,6 @@ extern ULONG time_previous_micro;                /* Previous Micro (from Intuiti
 
 extern UBYTE system_version2;                    /* OS version 2 or greater */
 extern int system_dopus_runcount;                /* Run count of this copy */
-
-extern ULONG data_window_refresh;                /* Windows that need refreshing */
 
 extern USHORT scr_gadget_rows;                   /* Number of button rows */
 extern USHORT scr_gadget_bank_count;             /* Number of button banks */
@@ -270,8 +266,6 @@ extern char dos_notify_names[2][256];            /* Notify requests name buffers
 
 extern struct recpath *rec_firstpath;            /* Directory path list pointer */
 extern struct DOpusRemember *rec_pathkey;        /* Memory key for dir list */
-
-extern struct Requester dopus_busy_requester;    /* Busy requester */
 
 extern char *icon_type_names[];                  /* Names of different icon types */
 

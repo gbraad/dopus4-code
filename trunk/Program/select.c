@@ -443,7 +443,7 @@ int win,o;
                               }
                             }
                            FreeDeviceProc(dp);
-                           if (ld) UnLock(ld);
+                           UnLock(ld);
                           }
                         } while (fib.fib_DirEntryType == ST_SOFTLINK);
                        strcpy(str_pathbuffer[win],linkbuf);

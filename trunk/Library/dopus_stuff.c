@@ -167,7 +167,7 @@ int __saveds DoReadConfig(register char *name __asm("a0"),register struct Config
         for (a=0;a<2;a++) {
             for (b=0;b<8;b++) {
                 config->displaypos[a][b]=config->old_displaypos[a][b];
-                config->displaylength[a][b]=config->old2_displaylength[a][b]*8;
+                config->displaylength[a][b]=(config->old2_displaylength[a][b])*8;
                 config->old_displaypos[a][b]=0;
                 config->old2_displaylength[a][b]=0;
             }
@@ -180,7 +180,7 @@ int __saveds DoReadConfig(register char *name __asm("a0"),register struct Config
     else if (config->version<CONFIG_BIG_DISPLEN) {
         for (a=0;a<2;a++) {
             for (b=0;b<16;b++) {
-                config->displaylength[a][b]=config->old_displaylength[a][b]*8;
+                config->displaylength[a][b]=(config->old_displaylength[a][b])*8;
                 config->old_displaylength[a][b]=0;
             }
         }

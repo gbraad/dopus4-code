@@ -284,7 +284,7 @@ D(bug("Resolved: %s\n",linkbuf));
                          }
                        }
                       FreeDeviceProc(dp);
-                      if (ld) UnLock(ld);
+                      UnLock(ld);
                      }
                    } while (fib.fib_DirEntryType == ST_SOFTLINK);
                  }
@@ -481,10 +481,10 @@ int win;
 char c;
 {
         struct Directory *sel;
-        int a=0,b=0,file=0,rev;
+        int a=0,b=0,file=1,rev;
         char d;
 
-        if (_isupper(c)) { file=1; c=ToLower(c); }
+        if (_isupper(c)) { file=0; c=ToLower(c); }
         if (dopus_curwin[win]->total<=scrdata_dispwin_lines) return;
         rev = (config->sortflags&(win?SORT_RREVERSE:SORT_LREVERSE))?1:0;
         sel=dopus_curwin[win]->firstentry;

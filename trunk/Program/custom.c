@@ -352,18 +352,18 @@ D(bug("customthing(): buf2 = %s\n",buf2));
 
             lsprintf(tbuf,"%s\n",buf2);
             Write(funcdata->output_file,tbuf,strlen(tbuf));
+//D(bug("customthing: moretodo=%ld, funcdata: entry_first=%lx, file_request.filearray=%lx\n",moretodo,funcdata->entry_first,funcdata->file_request.filearray));
             if (moretodo &&
                 (funcdata->entry_first || funcdata->file_request.filearray)) goto domorestuff;
             if (!funcdata->recursive_path) break;
 domorestuff:
+//D(bug("customthing: domorestuff\n"));
             funcdata->function_count=-1;
             endarg=funcdata->arg_use;
             if (usearg) funcdata->arg_use=usearg->next;
-            if (!funcdata->arg_use) {
-                if (usearg) funcdata->arg_use=usearg;
-                else funcdata->arg_use=funcdata->arg_first;
-            }
+            if (!funcdata->arg_use) funcdata->arg_use = usearg ? usearg : funcdata->arg_first;
         }
+//D(bug("customthing: end loop\n"));
         funcdata->function_count=count;
         funcdata->arg_use=endarg;
         if (funcdata->activewin>-1)
@@ -398,6 +398,7 @@ struct function_data *funcdata;
 
     sblen=strlen(funcdata->source_path);
 
+//D(bug("buildcustfunc: function = %s\n",function));
     for (pos=0;pos<line_len;pos++) {
         switch (function[pos]) {
             case FUNC_ONEFILE:
@@ -407,7 +408,7 @@ struct function_data *funcdata;
                         if (getdummyfile(&dummy,dirbuf,&funcdata->file_request)) cust=&dummy;
                         else return(0);
                     }
-                    else if (!funcdata->recursive_path) cust=custgetfirst(funcdata);
+                    else /*if (!funcdata->recursive_path)*/ cust=custgetfirst(funcdata);
                     if (cust) {
                         strcpy(funcdata->last_file,funcdata->source_path);
                         TackOn(funcdata->last_file,cust->name,256);
@@ -526,7 +527,7 @@ addfile2:
 
             case FUNC_ONEPATH:
             case FUNC_ONEPATH_NO:
-D(bug("buildcustfunc(): %lx\n",func_single_file));
+//D(bug("buildcustfunc(): func_single_file=\"%s\"\n",func_single_file));
                 if (!func_single_file[0]) {
                     if (status_iconified || status_flags&STATUS_FROMHOTKEY) {
                         if (getdummyfile(&dummy,dirbuf,&funcdata->file_request)) cust=&dummy;
@@ -535,23 +536,28 @@ D(bug("buildcustfunc(): %lx\n",func_single_file));
                         spath=dirbuf;
                     }
                     else {
-                        if (!funcdata->recursive_path) cust=custgetfirst(funcdata);
+                        /*if (!funcdata->recursive_path)*/ cust=custgetfirst(funcdata);
                         spath=funcdata->source_path;
                     }
+//D(bug("cust = %lx\n",cust));
                     if (cust) {
                         strcpy(funcdata->last_file,spath);
                         TackOn(funcdata->last_file,cust->name,256);
+//D(bug("funcdata->last_file = %s\n",funcdata->last_file));
                         if (!funcdata->recursive_path && cust->type>0) {
                             if (star) {
                                 LFreeRemember(&rec_pathkey);
                                 funcdata->entry_current=cust;
                                 StrCombine(buf3,spath,cust->name,256);
+//D(bug("recurse -> calling recursedir(%s)\n",buf3));
                                 if (recursedir(buf3,NULL,R_STARDIR,0)) return(0);
                                 setdirsize(cust,dos_global_bytecount,funcdata->activewin);
                                 funcdata->recursive_path=rec_firstpath;
+//D(bug("recursive_path = %s,%lx\n",funcdata->recursive_path->path,funcdata->recursive_path->next));
                                 goto addfile3;
                             }
                             else {
+//D(bug("no recurse\n"));
                                 bufpos+=addfilename(buffer,spath,cust->name,quote);
                                 if (function[pos]!=FUNC_ONEPATH_NO) {
                                     custunselect(cust,reload,funcdata);
@@ -563,7 +569,8 @@ D(bug("buildcustfunc(): %lx\n",func_single_file));
 addfile3:
                             if (funcdata->recursive_path) {
                                 bufpos+=addfilename(buffer,funcdata->recursive_path->path,NULL,quote);
-                                if (!(funcdata->recursive_path=funcdata->recursive_path->next) && function[pos]!=FUNC_ONEPATH_NO)
+                                funcdata->recursive_path=funcdata->recursive_path->next;
+                                if ((funcdata->recursive_path==NULL) && (function[pos]!=FUNC_ONEPATH_NO))
                                     custunselect(funcdata->entry_current,reload,funcdata);
                             }
                             else {
@@ -892,6 +899,7 @@ int quote;
 {
     int c=0,d;
 
+//D(bug("addfilename(%s,%s,%s,%ld\n",buf,part1,part2,quote));
     d=strlen(buf);
     if (d>0 && !(_isspace(buf[d-1]))) quote=0;
 
@@ -1342,7 +1350,7 @@ freeargs:
 
     LFreeRemember(&funcdata->arg_memkey);
     if (otemp) {
-        viewfile(funcdata->tempfile,globstring[STR_TEMPORARY_OUTPUT_FILE],FUNC_READ,NULL,NULL,1,0);
+        viewfile(funcdata->tempfile,globstring[STR_TEMPORARY_OUTPUT_FILE],FUNC_SMARTREAD,NULL,NULL,1,0);
         DeleteFile(funcdata->tempfile);
     }
     LFreeRemember(&rec_pathkey);

@@ -8,6 +8,9 @@ like more.
 
 4.17 (04.12.2002):
 - few hits removed
+- scrolling lister by character keys changed: now shifted keys are used to
+jump to a directory starting with the pressed key instead of jumping to a
+file
 - new tooltype BEHINDWB (and -B CLI option) to prevent DOpus to popping up
 its screen. This allows to start it from WBStartup ready to use by just
 a screen switch.

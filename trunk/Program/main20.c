@@ -89,7 +89,7 @@ D(bug("Freeing special dirs\n"));
         if ( user_appicon ) FreeDiskObject ( user_appicon ); // HUX
 
     if (nil_file_handle) Close(nil_file_handle);
-    if (ramdisk_lock) UnLock(ramdisk_lock);
+    UnLock(ramdisk_lock);
     if (func_reselection.reselection_list)
         FreeMem(func_reselection.reselection_list,func_reselection.reselection_size);
     if (count_port) LDeletePort(count_port);
