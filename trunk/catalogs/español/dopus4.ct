@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.13 (05.02.2002)
+## version $VER: DOpus4.catalog 1.14 (09.02.2002)
 ## codeset 0
 ## language español
 ;
@@ -229,7 +229,7 @@ STR_CONFIG_CHANGED_LASTSAVED
 Ha modificado la configuración.\n\n¿De verdad desea cargar la config. anterior?
 ; You have modified the configuration.\nReally load the last-saved settings?
 ;
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Ha modificado la configuración.\n\n¿Guardarla antes de recuperar los valores por omisión?
 ; You have modified the configuration.\nSave before restoring defaults?
 ;
@@ -821,7 +821,7 @@ Reproduciendo animación...
 STR_OLD_NEW_FILE_REPLACE
 El fichero \"%s\" ya existe.\n\
 ¿Desea sustituirlo?\n\n  NUEVO: %7ld bytes  Fecha: %19s\nANTIGUO: %7ld bytes  Fecha: %19s
-; "\"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -  Size : %7ld  Date : %19s
+; \"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -  Size : %7ld  Date : %19s
 ;
 STR_REMAINING
 %ld de %ld
