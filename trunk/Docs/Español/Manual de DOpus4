@@ -1,7 +1,7 @@
 @DATABASE "DOpusV4.guide"
-@(C) "Copyright 1994-2000 GPSoftware, Copyright 2000-2001 Directory Opus Research Project"
+@(C) "Copyright 1994-2000 GPSoftware, Copyright 2000-2002 Directory Opus Research Project"
 @AUTHOR "Christoph Gutjahr, Jonathan Potter"
-@$VER: DOpus4Manual_Español 1.9 (08.12.2001)
+@$VER: DOpus4Manual_Español 1.9 (13.01.2002)
 
 @REMARK Spanish translation by David Rey <david@saug.org> on behalf of ATO
 
@@ -14,7 +14,7 @@
 
 Escrito por Christoph Gutjahr y Jonathan Potter@{PAR}
 
-Copyright 2000-2001 del Proyecto de Investigación Directory Opus 4@{PAR}
+Copyright 2000-2002 del Proyecto de Investigación Directory Opus 4@{PAR}
 Copyright 1994-2000 de GPSoftware@{PAR}
 
 @{LINDENT 4}
@@ -11919,6 +11919,7 @@ Italiano:@{PAR}
 
 Massimo Mascia      <mashi\@tiscalinet.it>@{PAR}
 Francesco Mancuso   <mcfrank\@mediatel.it>@{PAR}
+Stefano Guidetti    <essegi\@libero.it>@{PAR}
 @{LINDENT 1}
 
 Noruego:@{PAR}
