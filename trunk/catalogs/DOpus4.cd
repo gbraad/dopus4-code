@@ -1,6 +1,6 @@
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 1.9 (09.02.2002)
+; $VER: DOpus4.cd 1.10 (27.05.2002)
 ;
 ;
 ; General
@@ -1081,6 +1081,9 @@ _Okay
 ;
 STR_PROTECT_ALL (//)
 A_ll
+;
+;
+; Experimental (enter "Makelink" in the ARexx window to see these)
 ;
 STR_ENTER_MAKELINK_PARAMS (//)
 Enter link parameters
