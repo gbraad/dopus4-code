@@ -1143,6 +1143,8 @@ doentryselection:
 
                 case MOD_SORTFLAGS:
                     modify(&config->sortflags);
+                    sortdir(dopus_curwin[0],0);
+                    sortdir(dopus_curwin[1],1);
                     break;
 
                 case MOD_UPDATEFLAGS:
@@ -1270,6 +1272,7 @@ doentryselection:
                 case MOD_SORTMETHOD:
                     if (b<0 || b>1) b=data_active_window;
                     config->sortmethod[b]=atoi(rexx_args[2]);
+                    sortdir(dopus_curwin[b],b);
                     break;
 
                 case MOD_SEPARATEMETHOD:

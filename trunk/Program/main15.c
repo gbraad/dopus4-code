@@ -46,7 +46,7 @@ int state;
     if (status_flags&STATUS_IANSCRAP) state=1-state;
     strcpy(buf,path);
     TackOn(buf,name,256);
-
+D(bug("ftype_doubleclick() on %s\n",buf));
     threelongs[0]=0;
 
     if (CheckExist(buf,&size)>=0) {

@@ -256,18 +256,29 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
 */
      AddPart(arcdir,file,256);
      strcpy(namebuf,"dopustmp");
-     lsprintf(arcname,"%08lx",GetUniqueID());
+     lsprintf(arcname,"%04lx",GetUniqueID());
      strcat(namebuf,arcname);
      c = strchr(file,'.');
      if (c) strcat(namebuf,c);
      strcpy(arcname,path);
      strcat(arcname,namebuf);
      for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next) if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0) break;
-     if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER,xfi->xfi_EntryNumber,XAD_OUTFILENAME,(ULONG)arcname,TAG_END))) return TRUE;
+     if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER,xfi->xfi_EntryNumber,XAD_OUTFILENAME,(ULONG)arcname,TAG_END)))
+      {
+       strcpy(str_arcorgname,file);
+       return TRUE;
+      }
     }
   }
  return FALSE;
 }
+
+void removetemparcfile(const char *name)
+ {
+D(bug("removetemparcfile(%s)\n",name));
+  DeleteFile(name);
+  str_arcorgname[0]=0;
+ }
 
 void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 {

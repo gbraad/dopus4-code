@@ -1,3 +1,12 @@
+/****************************************************************
+
+   This file was created automatically by `FlexCat 2.4'
+   from "../catalogs/DOpus4_Icon.cd".
+
+   Do NOT edit by hand!
+
+****************************************************************/
+
 /*
 
 Directory Opus 4
@@ -32,41 +41,41 @@ the existing commercial status of Directory Opus 5.
 #define ICON_STRINGS
 
 enum {
-    STR_REMAP_COLORS,
-    STR_SAVE,
-    STR_SKIP,
-    STR_CANCEL,
-    STR_DELETE,
-    STR_NEW,
-    STR_TOOLTYPES,
-    STR_COMMENT,
-    STR_DEFAULT_TOOL,
-    STR_VALIDATING,
-    STR_WRITE_PROTECTED,
-    STR_READ_WRITE,
-    STR_SCRIPT,
-    STR_ARCHIVED,
-    STR_READABLE,
-    STR_WRITABLE,
-    STR_EXECUTABLE,
-    STR_DELETABLE,
-    STR_BLOCKS,
-    STR_USED,
-    STR_FREE,
-    STR_BLOCK_SIZE,
-    STR_CREATED,
-    STR_LAST_CHANGED,
-    STR_BYTES,
-    STR_STACK,
-    STR_DISK,
-    STR_DRAWER,
-    STR_TOOL,
-    STR_PROJECT,
-    STR_TRASH,
-    STR_DEVICE,
-    STR_KICK,
-    STR_APPICON,
-    STR_ICON,
+    STR_REMAP_COLORS=0,
+    STR_SAVE=1,
+    STR_SKIP=2,
+    STR_CANCEL=3,
+    STR_DELETE=4,
+    STR_NEW=5,
+    STR_TOOLTYPES=6,
+    STR_COMMENT=7,
+    STR_DEFAULT_TOOL=8,
+    STR_VALIDATING=9,
+    STR_WRITE_PROTECTED=10,
+    STR_READ_WRITE=11,
+    STR_SCRIPT=12,
+    STR_ARCHIVED=13,
+    STR_READABLE=14,
+    STR_WRITABLE=15,
+    STR_EXECUTABLE=16,
+    STR_DELETABLE=17,
+    STR_BLOCKS=18,
+    STR_USED=19,
+    STR_FREE=20,
+    STR_BLOCK_SIZE=21,
+    STR_CREATED=22,
+    STR_LAST_CHANGED=23,
+    STR_BYTES=24,
+    STR_STACK=25,
+    STR_DISK=26,
+    STR_DRAWER=27,
+    STR_TOOL=28,
+    STR_PROJECT=29,
+    STR_TRASH=30,
+    STR_DEVICE=31,
+    STR_KICK=32,
+    STR_APPICON=33,
+    STR_ICON=34,
 
     STR_STRING_COUNT};
 

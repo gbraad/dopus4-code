@@ -1,5 +1,13 @@
 Confirmed:
 
+- crashes when starting without startup-sequence on 68040/68060. It requires 
+SetPatch to be run first because it uses instructions not-existing on those CPU 
+which are normally emulated by 68040.library.
+
+- crashes if Envoy is installed. I found out that Enovy V2 has a bug in 
+AllocUserInfo or AllocGroupInfo functions. They should preserve A2 register 
+contents but they doesn't. Maybe in Envoy V3 that was fixed.
+
 - Copy progress indicator lost some of its accuracy because of speed-up.
 
 - GURUes after exiting from file viewer if search function was in use (same
@@ -27,10 +35,6 @@ will be deleted. Needs fixing ASAP.
 
 
 Unconfirmed:
-
-- Support for dynamic-palette IFFs (SHAM, DHiRes) is reverse-engineered
-(sources for pchg.lib weren't provided) and untested as I don't have such
-pictures.
 
 - problems with MagicMenu - could be related to some very old version as
 2.29 works fine here.

@@ -1,3 +1,15 @@
+##rem $Id: iconstrings_h.sd,v 1.1 2002-01-28 11:35:07 jrzeuski Exp $
+##stringtype C
+##shortstrings
+/****************************************************************
+
+   This file was created automatically by `%fv'
+   from "..%f0".
+
+   Do NOT edit by hand!
+
+****************************************************************/
+
 /*
 
 Directory Opus 4
@@ -28,26 +40,20 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "iconinfo.h"
+#ifndef ICON_STRINGS
+#define ICON_STRINGS
 
-char *version="$VER: DOpus_Icon 1.8 (" __DATE__ ") made under GPL license by Jacek Rzeuski";
+enum {
+    %i=%d,
 
-struct DOpusBase *DOpusBase;
-struct IntuitionBase *IntuitionBase;
-struct GfxBase *GfxBase = NULL;
-struct LayersBase *LayersBase = NULL;
-struct Library *IconBase = NULL;
+    STR_STRING_COUNT};
 
-char protect_flags[6]={          /* The protection bits we understand */
-    FIBF_SCRIPT,
-    FIBF_ARCHIVE,
-    FIBF_READ,
-    FIBF_WRITE,
-    FIBF_EXECUTE,
-    FIBF_DELETE};
+enum {
+  PROTECT_S = 0, PROTECT_A, PROTECT_R, PROTECT_W, PROTECT_E, PROTECT_D,
+  KEY_SKIP, KEY_CANCEL, KEY_SAVE, KEY_NEW, KEY_DELETE, KEY_COMMENT,
+  KEY_REMAP, KEY_STACK, KEY_DEFTOOL
+};
 
-char
-    *specific_gadtext[5][6],       /* Icon-specific gadget labels */
-    *icon_type_names[8];           /* Names of different icon types */
+extern char **string_table;
 
-unsigned char keys[16];  /* Key equivalents */
+#endif

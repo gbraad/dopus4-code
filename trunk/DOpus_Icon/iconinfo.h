@@ -65,7 +65,7 @@ extern struct DOpusBase *DOpusBase;
 extern struct IntuitionBase *IntuitionBase;
 extern struct GfxBase *GfxBase;
 extern struct Library *IconBase;
-extern struct Library *LayersBase;
+extern struct LayersBase *LayersBase;
 extern struct ExecBase *SysBase;
 
 extern char protect_flags[6];

@@ -173,7 +173,7 @@ Reading configuration...
 STR_CONFIG_CHANGED_LASTSAVED (//)
 You have modified the configuration.\nReally load the last-saved settings?
 ;
-STR_CONFIG_CHANGED_DEFAULTs (//)
+STR_CONFIG_CHANGED_DEFAULTS (//)
 You have modified the configuration.\nSave before restoring defaults?
 ;
 STR_HELP_NOT_AVAILABLE (//)
@@ -635,7 +635,7 @@ STR_PLAYING_ANIM (//)
 Playing selected animation...
 ;
 STR_OLD_NEW_FILE_REPLACE (//)
-"\"%s\" already exists! Replace?\n\n\
+\"%s\" already exists! Replace?\n\n\
 New  -  Size : %7ld  Date : %19s\n\
 Old  -  Size : %7ld  Date : %19s
 ;

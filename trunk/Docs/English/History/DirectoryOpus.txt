@@ -6,8 +6,15 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (23.01.2002):
+4.17 (27.01.2002):
 - few hits removed
+- MODIFY SORTMETHOD and MODIFY SORTFLAGS perform the change without calling
+RESCAN (DISPLAYDIR is enough)
+- built-in function should work on double-clicked archive entries (were
+possible)
+- archive support added for functions: Show, IconInfo, Play, PlayST and
+LoopPlay
+- aborting file loading in HEX mode of the file viewer fixed.
 - QUERY/MODIFY functions fixed for some parameters
 - jumping to entry name starting with pressed key works for reverse sorted
 lister too

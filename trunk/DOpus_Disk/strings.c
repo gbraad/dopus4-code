@@ -1,3 +1,12 @@
+/****************************************************************
+
+   This file was created automatically by `FlexCat 2.4'
+   from "../catalogs/DOpus4_Disk.cd".
+
+   Do NOT edit by hand!
+
+****************************************************************/
+
 /*
 
 Directory Opus 4
@@ -34,193 +43,67 @@ char **string_table;
 
 struct DefaultString
     default_strings[]={
-        {STR_FORMAT_NAME,
-        "_Name"},
-
-        {STR_FORMAT_FFS,
-        "_Fast File System"},
-
-        {STR_FORMAT_INTERNATIONAL,
-        "_International Mode"},
-
-        {STR_FORMAT_CACHING,
-        "_Directory Caching"},
-
-        {STR_FORMAT_TRASHCAN,
-        "_Put Trashcan"},
-
-        {STR_FORMAT_VERIFY,
-        "_Verify"},
-
-        {STR_FORMAT_FORMAT,
-        "Format"},
-
-        {STR_FORMAT_QUICKFORMAT,
-        "Quick Format"},
-
-        {STR_FORMAT_EXIT,
-        "E_xit"},
-
-        {STR_FORMAT_EMPTY,
-        "Empty"},
-
-        {STR_FORMAT_INFODISPLAY,
-        "%ld tracks, %ld bytes/trk, %s"},
-
-        {STR_FORMAT_FORMATTING,
-        "Formatting %ld, %ld to go"},
-
-        {STR_FORMAT_VERIFYING,
-        "Verifying  %ld, %ld to go"},
-
-        {STR_FORMAT_INITIALISING,
-        "Initialising disk..."},
-
-        {STR_FORMAT_FORMATERROR,
-        "Format error on track %ld"},
-
-        {STR_FORMAT_ERRORVERIFYING,
-        "Error verifying track %ld"},
-
-        {STR_FORMAT_VERIFYERROR,
-        "Verify error on track %ld"},
-
-        {STR_SUCCESS,
-        "Operation successful"},
-
-        {STR_FAILED_ERROR,
-        "Operation failed"},
-
-        {STR_MEMORY_ERROR,
-        "Not enough memory"},
-
-        {STR_BITMAP_ERROR,
-        "Bitmap error"},
-
-        {STR_DEVICE_ERROR,
-        "Device error"},
-
-        {STR_NODEVICE_ERROR,
-        "Couldn't open device"},
-
-        {STR_RETRY,
-        "Retry"},
-
-        {STR_NODISKPRESENT,
-        "No disk present in %s"},
-
-        {STR_DISKWRITEPROTECTED,
-        "Disk in %s is write protected"},
-
-        {STR_ABORTED,
-        "Aborted."},
-
-        {STR_FORMAT_MAKINGTRASHCAN,
-        "Creating Trashcan..."},
-
-        {STR_DISK_NOT_BLANK,
-        "Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n"
-        "All data will be erased.\nChoose Proceed to continue the %s."},
-
-        {STR_PROCEED,
-        "Proceed"},
-
-        {STR_CHECKING_DESTINATION,
-        "Checking destination disk..."},
-
-        {STR_DISKCOPY_DISKCOPY,
-        "_Diskcopy"},
-
-        {STR_DISKCOPY_FROM,
-        "From..."},
-
-        {STR_DISKCOPY_TO,
-        "To..."},
-
-        {STR_DISKCOPY_INFODISPLAY,
-        "%s, %s used"},
-
-        {STR_DISKCOPY_NODISK,
-        "No disk info available"},
-
-        {STR_CHECKING_DISKS,
-        "Checking disk(s)..."},
-
-        {STR_DISKCOPY_READING,
-        "Reading    %ld, %ld to go"},
-
-        {STR_DISKCOPY_WRITING,
-        "Writing    %ld, %ld to go"},
-
-        {STR_DISKCOPY_READERROR,
-        "Read error on track %ld"},
-
-        {STR_DISKCOPY_WRITEERROR,
-        "Write error on track %ld"},
-
-        {STR_DISKCOPY_INSERTSOURCE,
-        "Insert source disk in %s"},
-
-        {STR_DISKCOPY_INSERTDEST,
-        "Insert destination disk in %s"},
-
-        {STR_INSTALL_INSTALL,
-        "Install"},
-
-        {STR_INSTALL_NOBOOT,
-        "No Boot"},
-
-        {STR_INSTALL_NOINFO,
-        "Bootblock info unavailable"},
-
-        {STR_INSTALL_NOTBOOTABLE,
-        "Disk is not bootable"},
-
-        {STR_INSTALL_NORMAL,
-        "Normal %s %s bootblock"},
-
-        {STR_INSTALL_NONSTANDARD,
-        "Non-standard bootblock"},
-
-        {STR_INSTALL_ERRORWRITING,
-        "Error writing bootblock!"},
-
-        {STR_INVALID_DISK,
-        "Disk is unsuitable for installing"},
-
-        {STR_INSTALL_INSTALLINGDISK,
-        "Installing disk..."},
-
-        {STR_CANCEL,
-        "Cancel"},
-
-        {STR_BUMP_NAMES,
-        "_Bump name"},
-
-        {STR_BUMPING_NAME,
-        "Bumping disk name..."},
-
-        {STR_DISKCOPY_CHECK,
-        "_Check"},
-
-        {STR_WINDOW_FORMAT,
-        "Format"},
-
-        {STR_WINDOW_DISKCOPY,
-        "Diskcopy"},
-
-        {STR_WINDOW_INSTALL,
-        "Install"},
-
-        {STR_DISK_NOT_BLANK_FORMAT,
-        "Format"},
-
-        {STR_DISK_NOT_BLANK_DISKCOPY,
-        "Diskcopy"},
+        {STR_FORMAT_NAME,"_Name"},
+        {STR_FORMAT_FFS,"_Fast File System"},
+        {STR_FORMAT_INTERNATIONAL,"_International Mode"},
+        {STR_FORMAT_CACHING,"_Directory Caching"},
+        {STR_FORMAT_TRASHCAN,"_Put Trashcan"},
+        {STR_FORMAT_VERIFY,"_Verify"},
+        {STR_FORMAT_FORMAT,"Format"},
+        {STR_FORMAT_QUICKFORMAT,"Quick Format"},
+        {STR_FORMAT_EXIT,"E_xit"},
+        {STR_FORMAT_EMPTY,"Empty"},
+        {STR_FORMAT_INFODISPLAY,"%ld tracks, %ld bytes/trk, %s"},
+        {STR_FORMAT_FORMATTING,"Formatting %ld, %ld to go"},
+        {STR_FORMAT_VERIFYING,"Verifying  %ld, %ld to go"},
+        {STR_FORMAT_INITIALISING,"Initialising disk..."},
+        {STR_FORMAT_FORMATERROR,"Format error on track %ld"},
+        {STR_FORMAT_ERRORVERIFYING,"Error verifying track %ld"},
+        {STR_FORMAT_VERIFYERROR,"Verify error on track %ld"},
+        {STR_SUCCESS,"Operation successful"},
+        {STR_FAILED_ERROR,"Operation failed"},
+        {STR_MEMORY_ERROR,"Not enough memory"},
+        {STR_BITMAP_ERROR,"Bitmap error"},
+        {STR_DEVICE_ERROR,"Device error"},
+        {STR_NODEVICE_ERROR,"Couldn't open device"},
+        {STR_RETRY,"Retry"},
+        {STR_NODISKPRESENT,"No disk present in %s"},
+        {STR_DISKWRITEPROTECTED,"Disk in %s is write protected"},
+        {STR_ABORTED,"Aborted."},
+        {STR_FORMAT_MAKINGTRASHCAN,"Creating Trashcan..."},
+        {STR_DISK_NOT_BLANK,"Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n"\
+	"All data will be erased.\nChoose Proceed to continue the %s."},
+        {STR_PROCEED,"Proceed"},
+        {STR_CHECKING_DESTINATION,"Checking destination disk..."},
+        {STR_DISKCOPY_DISKCOPY,"_Diskcopy"},
+        {STR_DISKCOPY_FROM,"From..."},
+        {STR_DISKCOPY_TO,"To..."},
+        {STR_DISKCOPY_INFODISPLAY,"%s, %s used"},
+        {STR_DISKCOPY_NODISK,"No disk info available"},
+        {STR_CHECKING_DISKS,"Checking disk(s)..."},
+        {STR_DISKCOPY_READING,"Reading    %ld, %ld to go"},
+        {STR_DISKCOPY_WRITING,"Writing    %ld, %ld to go"},
+        {STR_DISKCOPY_READERROR,"Read error on track %ld"},
+        {STR_DISKCOPY_WRITEERROR,"Write error on track %ld"},
+        {STR_DISKCOPY_INSERTSOURCE,"Insert source disk in %s"},
+        {STR_DISKCOPY_INSERTDEST,"Insert destination disk in %s"},
+        {STR_INSTALL_INSTALL,"Install"},
+        {STR_INSTALL_NOBOOT,"No Boot"},
+        {STR_INSTALL_NOINFO,"Bootblock info unavailable"},
+        {STR_INSTALL_NOTBOOTABLE,"Disk is not bootable"},
+        {STR_INSTALL_NORMAL,"Normal %s %s bootblock"},
+        {STR_INSTALL_NONSTANDARD,"Non-standard bootblock"},
+        {STR_INSTALL_ERRORWRITING,"Error writing bootblock!"},
+        {STR_INVALID_DISK,"Disk is unsuitable for installing"},
+        {STR_INSTALL_INSTALLINGDISK,"Installing disk..."},
+        {STR_CANCEL,"Cancel"},
+        {STR_BUMP_NAMES,"_Bump name"},
+        {STR_BUMPING_NAME,"Bumping disk name..."},
+        {STR_DISKCOPY_CHECK,"_Check"},
+        {STR_WINDOW_FORMAT,"Format"},
+        {STR_WINDOW_DISKCOPY,"Diskcopy"},
+        {STR_WINDOW_INSTALL,"Install"},
+        {STR_DISK_NOT_BLANK_FORMAT,"Format"},
+        {STR_DISK_NOT_BLANK_DISKCOPY,"Diskcopy"},
 
         {STR_STRING_COUNT,NULL}};
-
-#ifdef STRINGS_ONLY
-char string_type[]="DOpus_Disk strings";
-char *string_save="DM_Disk_%s.STR";
-#endif

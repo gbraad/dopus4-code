@@ -1,11 +1,15 @@
+##rem $Id: dopuslib_h.sd,v 1.1 2002-01-28 11:35:07 jrzeuski Exp $
+##stringtype C
+##shortstrings
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.4'
-   from "../catalogs/dopus4_lib.cd".
+   This file was created automatically by `%fv'
+   from "..%f0".
 
    Do NOT edit by hand!
 
 ****************************************************************/
+
 /*
 
 Directory Opus 4
@@ -427,26 +431,7 @@ void DoDeletePort(register struct MsgPort *port __asm("a0"));
 #define STRING_VERSION 1
 
 enum {
-    STR_CONFIG_TOO_OLD=0,
-    STR_CONTINUE=1,
-    STR_REQUEST=2,
-    STR_TRY_AGAIN=3,
-    STR_CANCEL=4,
-    STR_CANNOT_FIND_FILE_REQ=5,
-    STR_FILEREQ_FILE=6,
-    STR_FILEREQ_DRAWER=7,
-    STR_FILEREQ_ACCEPT=8,
-    STR_FILEREQ_PARENT=9,
-    STR_FILEREQ_DRIVES=10,
-    STR_FILEREQ_DIR=11,
-    STR_FILEREQ_NAME=12,
-    STR_DEV_DEV=13,
-    STR_DEV_ASN=14,
-    STR_DEV_VOL=15,
-    STR_DEV_DFR=16,
-    STR_DEV_NBD=17,
-    STR_SELECT_DIR=18,
-    STR_SELECT_FILE=19,
+    %i=%d,
 
     STR_STRING_COUNT
 };

@@ -185,6 +185,7 @@ extern char str_hunt_name_parsed[164];           /* Hunt file parsed */
 extern char str_search_string[80];               /* String to search for */
 extern char str_filter[40];                      /* File filter for searching */
 extern char str_filter_parsed[84];               /* File filter parsed */
+extern char str_arcorgname[FILEBUF_SIZE];
 
 extern char str_version_string[30];              /* Current version string */
 extern char str_arexx_portname[30];              /* ARexx Port name */

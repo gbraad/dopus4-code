@@ -327,6 +327,7 @@ int *count;
 */
 
     if (dir) {
+        if (dir->flags & DWF_ARCHIVE) name=str_arcorgname;
         find=dir->firstentry;
         if (count) *count=0;
         while (find) {

@@ -3,6 +3,7 @@ ASMOPTS = M=68020 SYMDEBUG SC SD 4
 
 CC = m68k-amigaos-gcc
 CCOPTS = -m68020 -resident
+FLEXCAT = Work:Dev/FlexCat/FlexCat
 
 OBJS = main.o main1.o main2.o main3.o main4.o main5.o\
 screen.o screen_arrows.o screen_colors.o screen_fonts.o screen_palette.o \
@@ -14,6 +15,12 @@ All : ../../ConfigOpus
 
 ../../ConfigOpus : $(OBJS)
 	$(CC) -o ../../ConfigOpus *.o -noixemul $(CCOPTS) -ldebug -s
+
+configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
+	$(FLEXCAT) /catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd
+
+strings.c: ../catalogs/DOpus4_Config.cd configstrings.h strings_c.sd
+	$(FLEXCAT) /catalogs/DOpus4_Config.cd strings.c=strings_c.sd
 
 .c.o:
 	$(CC) -c $*.c $(CCOPTS) -I../include -msmall-code -fomit-frame-pointer -O3 -Wall

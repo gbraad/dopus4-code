@@ -508,7 +508,7 @@ D(bug("view textbuf: %lX (%ld bytes)\n",vdata->view_text_buffer,vdata->view_buff
           ReplyMsg((struct Message *)imsg);
           if ((class == IDCMP_MOUSEBUTTONS) && (code == MENUDOWN))
            {
-D(bug("*** USER BREAK ***\n"));
+D(bug("*** USER BREAK ***\t%ld (0x%lx) bytes read\n",done+fsize,done+fsize));
 //      Close(in);
 //      goto cleanup;
       stop = 1;
@@ -520,9 +520,10 @@ D(bug("*** USER BREAK ***\n"));
         fsize = done;
        }
      }
-     if (vdata->view_buffer_size!=vdata->view_file_size &&
-       fsize>-1 && fsize!=vdata->view_file_size) vdata->view_file_size=fsize;
+     if ((vdata->view_buffer_size!=vdata->view_file_size) ||
+       ((fsize>-1) && (fsize!=vdata->view_file_size))) vdata->view_file_size=fsize;
      Close(in);
+D(bug("view_file_size=%ld\n",fsize));
      if (fsize==-1) goto cleanup;
      view_busy(vdata);
      if (OpenXFDlib())
@@ -617,7 +618,8 @@ readnormal:
           (vdata->view_last_char-vdata->view_text_buffer);
       }
     }
-*/  }
+*/
+  }
   else {
     vdata->view_buffer_size=16;
     if (!(in=Open(filename,MODE_OLDFILE))) goto cleanup;
@@ -656,7 +658,7 @@ readnormal:
   }
   else {
     if (vdata->view_display_as_hex) {
-      vdata->view_file_size=vdata->view_buffer_size;
+//      vdata->view_file_size=vdata->view_buffer_size;
       vdata->view_line_count=vdata->view_file_size/16;
       if (vdata->view_file_size<16) {
         vdata->view_line_count=1;

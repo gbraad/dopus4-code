@@ -144,6 +144,9 @@ int act,inact,rexx;
             globflag=1;
         }
     }
+//D(bug("dofilefunction(%ld,%lx,%s,%s,%ld,%ld,%ld)\n",function,flags,sourcedir,destdir,act,inact,rexx));
+//D(bug("func_single_entry: %lx\n",func_single_entry));
+
     if (!file) return(0);            /* No files selected, return */
 
     if (!(database=LAllocRemember(&funckey,3000,MEMF_CLEAR))) return(0);
@@ -1141,6 +1144,7 @@ D(bug("recursedir returned %ld\n",a));
                     file=NULL;
                     break;
                 }
+                arcfile = getsourcefromarc(swindow,sourcename,file->name);
                 if (entry_depth<2 &&
                     checkfiletypefunc(sourcename,FTFUNC_SHOW)) okayflag=1;
                 else {
@@ -1166,6 +1170,7 @@ D(bug("recursedir returned %ld\n",a));
                 break;
 
             case FUNC_ICONINFO:
+                arcfile = getsourcefromarc(swindow,sourcename,file->name);
                 if (Stricmp(file->name,".info")==0) okayflag=1;
                 else {
                     if ((ptr=isicon(sourcename))) *ptr=0;
@@ -1203,6 +1208,7 @@ D(bug("recursedir returned %ld\n",a));
                             show=act;
                             break;
                     }
+                    if (ptr) *ptr='.';
                 }
                 break;
 
@@ -1215,6 +1221,7 @@ D(bug("recursedir returned %ld\n",a));
                     file=NULL;
                     break;
                 }
+                arcfile = getsourcefromarc(swindow,sourcename,file->name);
                 if (entry_depth<2 &&
                     checkfiletypefunc(sourcename,(function==FUNC_PLAY)?FTFUNC_PLAY:FTFUNC_LOOPPLAY))
                     okayflag=1;
@@ -1595,7 +1602,7 @@ D(bug("recursedir returned %ld\n",a));
                 }
                 break;
         }
-        if (arcfile) DeleteFile(sourcename);
+        if (arcfile) removetemparcfile(sourcename);
 
         if (config->dynamicflags&UPDATE_FREE && show>-1) seename(show);
         if (breakout==1) break;

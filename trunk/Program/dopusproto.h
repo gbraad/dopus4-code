@@ -82,6 +82,7 @@ void freearchive(struct DirectoryWindow *);
 BOOL unarcfiledir(const struct DirectoryWindow *, const char *, char *, const char *);
 BOOL getsourcefromarc(struct DirectoryWindow *, char *, char *);
 void arcfillfib(struct FileInfoBlock *, struct Directory *);
+void removetemparcfile(const char *);
 
 /* buffers.c */
 
@@ -640,7 +641,7 @@ int dopus_iconinfo(char *);
 void setup_externals(void);
 void fill_out_visinfo(struct VisInfo *,struct Screen *);
 
-/* strings.c */
+/* localefunc.c */
 
 void readstrings(char *);
 int getkeyshortcut(const char *);

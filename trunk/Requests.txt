@@ -1,50 +1,6 @@
-- 040/060/PPC version
-
-It doesn't have much sense (especially PPC version). I an recompile
-sources in C but most CPU-demanding parts are in assembler and they should
-be recoded for maximum performance under 040/060. I can't do that just
-because I don't know m68k ASM. If somebody optimizes them for 040/060 I can
-insert them and produce 040/060 version then. PPC version doesn't have any
-sense until PPC-native cards appear. If I get PPC-only card with m68k
-emulation I'll try to make PPC version and check its performance.
-
-- General speedup
-
-I can't do much in that area because sources are quite messy and
-uncommented so any optimizations are hard to do. I can only rely on
-optimizations done by compiler.
-
-- Faster dir scanning
-
-Impossible without very deep changes in source tree. Probably never
-happens (I think I know why they decided to write DOpus 5 from scratch).
-
-- Faster copying/deleting
-
-Copying is already speeded-up. Currently is almost as fast as in Opus5.
-Maybe there's still something to improve but don't expect miracles.
-Deleting isn't noticeably slower than in other programs or WB. Best method
-of making deleting faster is replacing FFS with another filesystem like PFS
-or SFS.
-
-- Gadtools/MUI support for GUI
-
-Forget about MUI. It's too difficult to do. But I'll try to make Gadtools
-GUI wherever possible starting from DOpus modules.
-
-- Hiding status bar at the bottom of the window
-
-Can't say now as I haven't checked the sources. It depends on required
-changes.
-
-- Font sensitive configuration window
-
-Will be achieved through Gadtools GUI
-
 - Fixing number of items in progress indicator to real value
 
-It will be done. But I'll add special switch to activate it as browsing
-directories can take some time (especially on slow disks/FFS partitions).
+Partially done but doesn't work perfectly.
 
 - Pattern for user-defined gadgets' background
 
@@ -75,10 +31,6 @@ easily (if ever).
 I won't to that. It's practically impossible and I like typical 2-window
 filemanagers. If you need DOpus5 functionality just go and but it!
 
-- WheelMouse support
-
-I'm thinking about it :)
-
 - Warning requester when renaming directory to already existing name
 
 Will be fixed soon
@@ -87,10 +39,6 @@ Will be fixed soon
 
 I've checked the sources and it's not easy to do. Anyway I'll try to add
 this feature.
-
-- Option to turn quit-requester off
-
-Will be done
 
 - Selecting the size of copy buffer in Prefs
 
@@ -118,17 +66,9 @@ This is a must!
 
 It probably won't be done. Use another viewer for that.
 
-- Reducing program size
-
-Compiler does its best. However I'll be removing pre-3.0 code gradually.
-
 - Iconify gadget in window dragbar (VisualPrefs compatible)
 
 I like that idea :)
-
-- Progressbar for deleting files
-
-Why not? :)
 
 - 'Add icon' checkmark for MakeDir requester
 

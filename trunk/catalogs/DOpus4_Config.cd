@@ -1490,13 +1490,11 @@ Tab size
 ;
 ;
 ;
-STR_removed_0 (//)
-
 ;
 ;
 ;*** Screen/General (1/4)
 ;
-STR_SCREEN_GENERAL_TINYGADS (//)
+STR_SCREEN_GENERAL_TINYGADS (+1//)
 Bottom-right tiny buttons
 ;
 STR_SCREEN_GENERAL_GADGETSLIDERS (//)
@@ -1624,10 +1622,8 @@ CopyAs        -       Copy with new names
 STR_FUNCTIONLIST_COPYWINDOW (//)
 CopyWindow    -  Copy one window to other
 ;
-STR_removed_1 (//)
-
 ;
-STR_FUNCTIONLIST_DATESTAMP (//)
+STR_FUNCTIONLIST_DATESTAMP (+1//)
 DateStamp     -    Modify file datestamps
 ;
 STR_FUNCTIONLIST_DEFAULTS (//)
@@ -1946,19 +1942,15 @@ Select second hotkey to swap with first.
 STR_MODULE_LIST_TITLE (//)
 External support modules...
 ;
-STR_removed_2 (//)
-
 ;
-STR_MODULE_LIST_CHECK_STRING (//)
+STR_MODULE_LIST_CHECK_STRING (+1//)
 (  Check indicates a module to be pre-loaded)
 ;
-STR_removed_3 (//)
-
 ;
 ;
 ;*** System/Clocks (2/2)
 ;
-STR_SYS_CLOCK_KILOBYTES_FREE (//)
+STR_SYS_CLOCK_KILOBYTES_FREE (+1//)
 Kilobytes free
 ;
 ;
@@ -2061,13 +2053,11 @@ Batch
 STR_FUNCTION_AREXX (//)
 ARexx
 ;
-STR_removed_tech (//)
-
 ;
 ;
 ;*** Screen/Screen mode (5/7)
 ;
-STR_MODE_WORKBENCH_CLONE (//)
+STR_MODE_WORKBENCH_CLONE (+1//)
 Workbench:Clone
 ;
 STR_MODE_WORKBENCH_USE (//)
@@ -2102,13 +2092,11 @@ Select paint colors
 STR_PAINT_STATE (//)
   (Paint mode active)
 ;
-STR_removed_4 (//)
-
 ;
 ;
 ;*** Screen/General (3/4)
 ;
-STR_SCREEN_GENERAL_TITLEBARSTATUS (//)
+STR_SCREEN_GENERAL_TITLEBARSTATUS (+1//)
 Display status text in title bar
 ;
 ;

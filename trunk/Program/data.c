@@ -179,7 +179,7 @@ char str_hunt_name_parsed[164]={0};       /* Hunt file parsed */
 char str_search_string[80]={0};           /* String to search for */
 char str_filter[40]={0};                  /* File filter for recursive ops */
 char str_filter_parsed[84]={0};           /* File filter parsed */
-
+char str_arcorgname[FILEBUF_SIZE]={0};    /* Original name of temporarily unarchived file */
 char str_version_string[30]={0};          /* Current version string */
 char str_arexx_portname[30]={0};          /* ARexx Port name */
 

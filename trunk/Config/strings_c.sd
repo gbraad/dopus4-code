@@ -1,7 +1,10 @@
+##rem $Id: strings_c.sd,v 1.1 2002-01-28 11:35:07 jrzeuski Exp $
+##stringtype C
+##shortstrings
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.4'
-   from "../catalogs/DOpus4_Icon.cd".
+   This file was created automatically by `%fv'
+   from "..%f0".
 
    Do NOT edit by hand!
 
@@ -37,46 +40,35 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "iconinfo.h"
+#include "config.h"
+#include "dopusiff.h"
 
-char **string_table;
+#define STRING_VERSION 1
+
+char **cfg_string;
 
 struct DefaultString
     default_strings[]={
-        {STR_REMAP_COLORS,"Rema_p colors"},
-        {STR_SAVE,"Sa_ve"},
-        {STR_SKIP,"S_kip"},
-        {STR_CANCEL,"_Cancel"},
-        {STR_DELETE,"De_lete"},
-        {STR_NEW,"_New"},
-        {STR_TOOLTYPES,"Tool types:"},
-        {STR_COMMENT,"Co_mment:"},
-        {STR_DEFAULT_TOOL,"De_fault tool:"},
-        {STR_VALIDATING,"Validating"},
-        {STR_WRITE_PROTECTED,"Write protected"},
-        {STR_READ_WRITE,"Read/Write"},
-        {STR_SCRIPT,"_Script"},
-        {STR_ARCHIVED,"_Archived"},
-        {STR_READABLE,"_Readable"},
-        {STR_WRITABLE,"_Writable"},
-        {STR_EXECUTABLE,"_Executable"},
-        {STR_DELETABLE,"_Deletable"},
-        {STR_BLOCKS,"Blocks"},
-        {STR_USED,"Used"},
-        {STR_FREE,"Free"},
-        {STR_BLOCK_SIZE,"Block size"},
-        {STR_CREATED,"Created"},
-        {STR_LAST_CHANGED,"Last changed"},
-        {STR_BYTES,"Bytes"},
-        {STR_STACK,"S_tack"},
-        {STR_DISK,"Disk"},
-        {STR_DRAWER,"Drawer"},
-        {STR_TOOL,"Tool"},
-        {STR_PROJECT,"Project"},
-        {STR_TRASH,"Trash"},
-        {STR_DEVICE,"Device"},
-        {STR_KICK,"Kick"},
-        {STR_APPICON,"AppIcon"},
-        {STR_ICON,"Icon"},
+        {%i,%s},
 
         {STR_STRING_COUNT,NULL}};
+
+void read_strings()
+{
+/*
+    char stringfile[80],buf[40];
+
+    lsprintf(buf,"CO_\%%%s.STR",config->language);
+    if (((!config->language[0] ||
+      !(FindSystemFile(buf,stringfile,80,SYSFILE_DATA))) &&
+      !(FindSystemFile("ConfigOpus.STR",stringfile,80,SYSFILE_DATA))))
+        stringfile[0]=0;
+*/
+    stringdata.default_table=default_strings;
+    stringdata.string_count=STR_STRING_COUNT;
+    stringdata.min_version=STRING_VERSION;
+//    if (!(ReadStringFile(&stringdata,stringfile))) quit();
+    if (!(ReadStringFile(&stringdata,"dopus4_config.catalog"))) quit();
+    cfg_string=stringdata.string_table;
+    init_strings();
+}

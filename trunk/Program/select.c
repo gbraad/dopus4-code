@@ -496,7 +496,7 @@ D(bug("Get dir: %s\n",str_pathbuffer[win]));
                            {
                             ftype_doubleclick(path,tempname,1);
                             AddPart(path,tempname,256);
-                            DeleteFile(path);
+                            removetemparcfile(path);
                            }
                          }
                         else ftype_doubleclick(str_pathbuffer[win],temp->name,1);

@@ -432,7 +432,7 @@ if (entry)
                         break;
                     }
                     dotaskmsg(hotkeymsg_port,PROGRESS_INCREASE,1,0,NULL,0);
-if (entry) DeleteFile(name);
+if (entry) removetemparcfile(name);
                     if (a==3) {
                         ret=-10;
                         break;
@@ -525,7 +525,7 @@ if (entry)
   AddPart(name,tempname,256);
 }
                     suc=filesearch(name,&a,0);
-if (entry) DeleteFile(name);
+if (entry) removetemparcfile(name);
                     ret+=a;
                     busy();
                     if (suc==2) {
