@@ -166,7 +166,7 @@ struct TagItem
         {RO_Width,12},
         {RO_Height,1},
         {RO_HeightFine,4},
-        {RO_TextNum,STR_OKAY},
+        {RO_TextNum,STR_PROTECT_OKAY},
         {RO_TextPos,TEXTPOS_CENTER},
         {RO_HighRecess,TRUE},
         {TAG_END,0}},
@@ -181,7 +181,7 @@ struct TagItem
         {RO_Width,12},
         {RO_Height,1},
         {RO_HeightFine,4},
-        {RO_TextNum,STR_ALL},
+        {RO_TextNum,STR_PROTECT_ALL},
         {RO_TextPos,TEXTPOS_CENTER},
         {RO_HighRecess,TRUE},
         {TAG_END,0}},
@@ -298,9 +298,9 @@ int *prot,*mask;
                     }
                     gadgetid=0;
                     code = ToLower(code);
-                    if (code == getkeyshortcut(globstring[STR_ALL]))
+                    if (code == getkeyshortcut(globstring[STR_PROTECT_ALL]))
                       gadgetid=PROTECT_ALL;
-                    else if ((code == getkeyshortcut(globstring[STR_OKAY])) ||
+                    else if ((code == getkeyshortcut(globstring[STR_PROTECT_OKAY])) ||
                              (code == '\r'))
                       gadgetid=PROTECT_OKAY;
                     else if ((code == getkeyshortcut(globstring[STR_CANCEL])) ||

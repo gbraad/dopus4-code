@@ -846,6 +846,7 @@ functionloop:
                     else {
                         if (file->type>=ENTRY_DIRECTORY) {
                             a=recursedir(sourcename,destname,R_COPY|R_DELETE,0);
+D(bug("recursedir returned %ld\n",a));
                             if (a==0) {
                                 if (!func_external_file[0])
                                     setdirsize(file,dos_global_bytecount-dos_global_deletedbytes,act);

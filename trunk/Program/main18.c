@@ -84,7 +84,7 @@ int dowhat,fdata;
     dos_global_blocksneeded=0;
     dos_global_files=0;
 
-D(bug("recursedir: %s\n",fdir));
+//D(bug("recursedir: %s\n",fdir));
     if (dopus_curwin[data_active_window]->xai)
      {
       lister = *(dopus_curwin[data_active_window]);
@@ -152,9 +152,9 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                   for (cont = lister.total, t_entry = lister.firstentry; t_entry != entry; cont--, t_entry = t_entry->next);
                  }
                 myfinfo=current_recurse->info;
-D(bug("current_recurse->dir=%lx\n",current_recurse->dir));
+//D(bug("current_recurse->dir=%lx\n",current_recurse->dir));
                 strcpy(dir,current_recurse->dir);
-D(bug("current_recurse->dest=%lx\n",current_recurse->dest));
+//D(bug("current_recurse->dest=%lx\n",current_recurse->dest));
                 strcpy(dest,current_recurse->dest);
                 data=current_recurse->data;
                 data2=current_recurse->data2;
@@ -296,7 +296,7 @@ D(bug("current_recurse->dest=%lx\n",current_recurse->dest));
                     adata3=(APTR)cur_lastparent;
                     addparent_recurse=cur_parent;
                 }
-D(bug("recursedir_1: %lx\n",dest));
+//D(bug("recursedir_1: %lx\n",dest));
                 strcpy(dname,dest);
                 if (dowhat&R_COPY) {
 
@@ -337,9 +337,9 @@ delloop:
                         if (mylock) cont=0;
                         continue;
                     }
-D(bug("recursedir_2: %lx\n",ndir));
+//D(bug("recursedir_2: %lx\n",ndir));
                     strcpy(dir,ndir);
-D(bug("recursedir_3: %lx\n",ndest));
+//D(bug("recursedir_3: %lx\n",ndest));
                     strcpy(dest,ndest);
                     if (entry)
                      {
@@ -385,7 +385,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 if ((trec=LAllocRemember(&rec_pathkey,sizeof(struct recpath),MEMF_CLEAR)) &&
                     (trec->path=LAllocRemember(&rec_pathkey,(strlen(name)+1)-data,MEMF_CLEAR))) {
                     trec->next=NULL;
-D(bug("recursedir_4: %lx\n",name+data));
+//D(bug("recursedir_4: %lx\n",name+data));
                     strcpy(trec->path,&name[data]);
                     if (crec) crec->next=trec;
                     crec=trec;
@@ -442,15 +442,18 @@ if (entry) DeleteFile(name);
                     }
                 }
                 if (dowhat&R_DELETE) {
-                    if ((a=delfile(name,enfinfo.fib_FileName,globstring[STR_DELETING],
-                        glob_unprotect_all,1))==-1) {
-                        myabort();
-                        ret=-10;
-                        break;
-                    }
-                    if (a==2) glob_unprotect_all=1;
-                    if (config->dynamicflags&1) seename(data_active_window);
-                    dos_global_deletedbytes+=enfinfo.fib_Size;
+                    if (!((dowhat&R_COPY) && (a==2)))
+                     {
+                      if ((a=delfile(name,enfinfo.fib_FileName,globstring[STR_DELETING],
+                          glob_unprotect_all,1))==-1) {
+                          myabort();
+                          ret=-10;
+                          break;
+                      }
+                      if (a==2) glob_unprotect_all=1;
+                      if (config->dynamicflags&1) seename(data_active_window);
+                      dos_global_deletedbytes+=enfinfo.fib_Size;
+                     }
                 }
                 if (dowhat&R_COMMENT) {
                     FOREVER {

@@ -1285,6 +1285,12 @@ Old  -  Size : %7ld  Date : %19s"},
         {STR_FILE_EXTENSION,
         "Extension"},
 
+        {STR_PROTECT_OKAY,
+        "Okay"},
+
+        {STR_PROTECT_ALL,
+        "All"},
+
         {STR_STRING_COUNT,NULL}};
 
 char str_okaystring[30];

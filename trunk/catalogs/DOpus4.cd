@@ -1337,3 +1337,8 @@ Filename sorting
 ;
 STR_FILE_EXTENSION (//)
 Extension
+STR_PROTECT_OKAY (//)
+Okay
+;
+STR_PROTECT_ALL (//)
+All
