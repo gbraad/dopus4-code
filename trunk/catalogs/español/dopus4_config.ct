@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Config.catalog 1.7 (11.12.2001)
+## version $VER: DOpus4_Config.catalog 1.8 (09.02.2002)
 ## language español
 ## codeset 0
 ;
@@ -1674,10 +1674,6 @@ STR_SYS_VIEWPLAY_TABSIZE
 Tabulador:
 ; Tab size
 ;
-STR_removed_0
-
-;
-;
 STR_SCREEN_GENERAL_TINYGADS
 Botones pequeños abajo a la derecha
 ; Bottom-right tiny buttons
@@ -1821,10 +1817,6 @@ CopyAs        -   Copiar con nuevo nombre
 STR_FUNCTIONLIST_COPYWINDOW
 CopyWindow    -         Duplicar la lista
 ; CopyWindow    -  Copy one window to other
-;
-STR_removed_1
-
-;
 ;
 STR_FUNCTIONLIST_DATESTAMP
 DateStamp     -           Modificar fecha
@@ -2226,17 +2218,9 @@ STR_MODULE_LIST_TITLE
 Módulos externos de soporte...
 ; External support modules...
 ;
-STR_removed_2
-
-;
-;
 STR_MODULE_LIST_CHECK_STRING
 (  = el módulo se pre-carga)
 ; (  Check indicates a module to be pre-loaded)
-;
-STR_removed_3
-
-;
 ;
 STR_SYS_CLOCK_KILOBYTES_FREE
 Kilobytes
@@ -2338,10 +2322,6 @@ STR_FUNCTION_AREXX
 ARexx
 ; ARexx
 ;
-STR_removed_tech
-
-;
-;
 STR_MODE_WORKBENCH_CLONE
 Workbench: Clonar
 ; Workbench:Clone
@@ -2373,10 +2353,6 @@ Elija colores...
 STR_PAINT_STATE
  (Modo de dibujo activado)
 ;   (Paint mode active)
-;
-STR_removed_4
-
-;
 ;
 STR_SCREEN_GENERAL_TITLEBARSTATUS
 Mostrar estado en la barra de título
