@@ -1,6 +1,6 @@
 ; DOpus4_Config.cd - ConfigOpus catalog description file
 ;
-; $VER: DOpus4_Config.cd 1.5 (27.05.2002)
+; $VER: DOpus4_Config.cd 1.6 (13.06.2002)
 ;
 ;
 ;*** Messages on quit
@@ -51,7 +51,7 @@ STR_RIGHT_MOUSE_BUTTON (//)
 Right mouse button
 ;
 ;
-;*** General usage buttons
+;*** General usage buttons (1/2)
 ;
 STR_OKAY (//)
 Okay
@@ -1195,7 +1195,7 @@ STR_OP_ERROR_OPUSREQ (//)
 Opus error requesters
 ;
 ;
-;*** Operation/General (1/2)
+;*** Operation/General (1/4)
 ;
 STR_OP_GENERAL_DRAG (//)
 Click-M-Click drag
@@ -1552,7 +1552,7 @@ STR_SEP_FILES_FIRST (//)
 Files first
 ;
 ;
-;*** List - ARexx commands (1/3)
+;*** List - ARexx commands (1/4)
 ;
 ; Note: these should be *exactly* 41 characters long!
 ;
@@ -2145,7 +2145,7 @@ STR_FONTPLACE_SCREEN (//)
 Screen font
 ;
 ;
-;*** List - ARexx commands (2/3)
+;*** List - ARexx commands (2/4)
 ;
 STR_FUNCTIONLIST_SETVAR (//)
 SetVar        -  Set an internal variable
@@ -2163,7 +2163,7 @@ STR_SYS_VIEWPLAY_BESTMODEID (//)
 Pick best screen-mode
 ;
 ;
-;*** List - ARexx commands (3/3)
+;*** List - ARexx commands (3/4)
 ;
 STR_FUNCTIONLIST_NOTIFY (//)
 Notify        -    Notification requester
@@ -2208,7 +2208,7 @@ STR_MENU_MAX_REACHED (//)
 Warning! Some menus were not imported due to lack of free space.
 ;
 ;
-;*** Operation/General (2/2)
+;*** Operation/General (2/4)
 ;
 STR_OP_GENERAL_FMPARENTMODE (//)
 FileMaster-like Parent
@@ -2220,14 +2220,25 @@ STR_OP_COPY_COPYARCHIVE (//)
 Copy archive bit too
 ;
 ;
+;*** Operation/General (3/4)
+;
 STR_OP_GENERAL_FORCEQUIT (//)
 Don't ask before quit
+;
+;
+;*** General usage buttons (2/2)
 ;
 STR_USE (//)
 Use
 ;
+;
+;*** List - ARexx commands (4/4)
+;
 STR_FUNCTIONLIST_MAKELINK (//)
 MakeLink      -  Create soft or hard link
+;
+;
+;*** Operation/General (4/4)
 ;
 STR_OP_GENERAL_MMBSELECTS (//)
 Single MMB click selects lister
