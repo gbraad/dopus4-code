@@ -1,3 +1,7 @@
+4.17a (11.06.2002):
+- "Operation/General/Single MMB click selects lister" option
+- support for MakeLink command
+
 4.17 (19.05.2002):
 - support for MMB-click filetype action
 

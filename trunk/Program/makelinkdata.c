@@ -70,7 +70,7 @@ static struct TagItem
         {RO_Left,8},
         {RO_LeftFine,28},
         {RO_Width,38},
-//        {RO_StringBuf,0},
+        {RO_StringBuf,0},
         {RO_StringLen,107},
         {RO_StringUndo,(ULONG)str_undobuffer},
         {TAG_END,0}},
@@ -87,7 +87,7 @@ static struct TagItem
         {RO_LeftFine,4},
         {RO_Width,46},
         {RO_WidthFine,2},
-//        {RO_StringBuf,0},
+        {RO_StringBuf,0},
         {RO_StringLen,255},
         {RO_StringUndo,(ULONG)str_undobuffer},
         {TAG_END,0}},
@@ -186,20 +186,23 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
     ULONG class;
     USHORT gadgetid,code;
     struct Window *swindow;
-    struct Gadget *gadlist,*makelink_type_gad;
+    struct Gadget *name_gad,*makelink_type_gad, *makelink_destname_gad;
     char *makelink_type_array[3] = {globstring[STR_MAKELINK_TYPE_SOFT], globstring[STR_MAKELINK_TYPE_HARD], NULL};
     char makelink_namebuf[108], makelink_destbuf[256];
-    int makelink_type=0;
+    int makelink_type;
     int ret=0;
 
-    makelink_namebuf[0] = makelink_destbuf[0] = 0;
+    strcpy(makelink_namebuf,namebuf);
+    strcpy(makelink_destbuf,destbuf);
+    makelink_type = type ? 1: 0;
+
     fix_requester(&makelink_req,globstring[STR_ENTER_MAKELINK_PARAMS]);
 
     set_reqobject(makelink_name_gadget,RO_StringBuf,(ULONG)makelink_namebuf);
     set_reqobject(makelink_destname_gadget,RO_StringBuf,(ULONG)makelink_destbuf);
 
     if (!(swindow=OpenRequester(&makelink_req)) ||
-        !(gadlist=addreqgadgets(&makelink_req,makelink_gadgets,0,NULL)) ||
+        !(name_gad=addreqgadgets(&makelink_req,makelink_gadgets,0,NULL)) ||
         !(AddRequesterObject(&makelink_req,makelink_type_text)) ||
         !(AddRequesterObject(&makelink_req,makelink_name_text)) ||
         !(AddRequesterObject(&makelink_req,makelink_dest_text))) {
@@ -208,10 +211,11 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
     }
     RefreshRequesterObject(&makelink_req,NULL);
 
-    makelink_type_gad=gadlist->NextGadget;
+    makelink_type_gad=name_gad->NextGadget;
+    makelink_destname_gad=makelink_type_gad->NextGadget;
     DoCycleGadget(makelink_type_gad,swindow,makelink_type_array,makelink_type);
 
-    ActivateStrGad(gadlist,swindow);
+    ActivateStrGad(name_gad,swindow);
 
     FOREVER {
         Wait(1<<swindow->UserPort->mp_SigBit);
@@ -228,7 +232,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 
             switch (class) {
                 case IDCMP_MOUSEBUTTONS:
-                    ActivateStrGad(gadlist,swindow);
+                    ActivateStrGad(name_gad,swindow);
                     break;
 
                 case IDCMP_GADGETUP:
@@ -251,11 +255,45 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
                         case MAKELINK_TYPE:
                             if (++makelink_type>1) makelink_type=0;
                             DoCycleGadget(makelink_type_gad,swindow,makelink_type_array,makelink_type);
-                            ActivateStrGad(gadlist,swindow);
+                            ActivateStrGad(name_gad,swindow);
                             break;
+                        case MAKELINK_DESTSELECT:
+                          {
+                            struct DOpusFileReq filereq;
+                            char dirbuf[256],filebuf[FILEBUF_SIZE],*ptr;
+
+                            filereq.dirbuf=dirbuf;
+                            filereq.filebuf=filebuf;
+                            filereq.window=swindow;
+                            filereq.x=-2;
+                            filereq.y=-2;
+                            filereq.lines=15;
+                            filereq.flags=0;
+                            filereq.title=globstring[STR_FILE_REQUEST];
+                            filereq.filearraykey=NULL;
+
+                            LStrCpy(dirbuf,makelink_destbuf);
+                            if ((ptr=BaseName(dirbuf))>dirbuf) {
+                                LStrCpy(filebuf,ptr);
+                                *ptr=0;
+                            }
+                            else if (CheckExist(dirbuf,NULL)<1) {
+                                dirbuf[0]=0;
+                                LStrCpy(filebuf,makelink_destbuf);
+                            }
+                            else filebuf[0]=0;
+                            if (FileRequest(&filereq)) {
+                                LStrCpy(makelink_destbuf,dirbuf);
+                                TackOn(makelink_destbuf,filebuf,256);
+                            }
+                            RefreshStrGad(makelink_destname_gad,swindow);
+                            ActivateStrGad(makelink_destname_gad,swindow);
+                            break;
+                          }
                         case MAKELINK_OKAY:
                             ret=1;
-                            strcpy(namebuf,makelink_namebuf);
+                            strcpy(namebuf,str_pathbuffer[data_active_window]);
+                            TackOn(namebuf,makelink_namebuf,256);
                             strcpy(destbuf,makelink_destbuf);
                             *type=makelink_type;
                         case MAKELINK_CANCEL:
@@ -266,4 +304,51 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
             }
         }
     }
+}
+
+int makelink(int rexx)
+{
+  char name[256], path[256];
+  int mode;
+
+  name[0]=path[0]=mode=0;
+
+  if (rexx)
+   {
+    strcpy(name,rexx_args[0]);
+    strcpy(path,rexx_args[1]);
+    if (atoi(rexx_args[2])) mode = 1;
+   }
+  else if (!(getmakelinkdata(name,path,&mode))) return 0;
+
+  if (name[0] && path[0])
+   {
+    BPTR lock;
+
+    if (mode)
+     {
+      if ((lock = Lock(path,ACCESS_READ)))
+       {
+        if (MakeLink(name,lock,FALSE))
+         {
+          dostatustext(str_okaystring);
+          return 1;
+         }
+       }
+      doerror(-1);
+      return 0;
+     }
+    else
+     {
+      if (MakeLink(name,path,TRUE))
+       {
+        dostatustext(str_okaystring);
+        return 1;
+       }
+      doerror(-1);
+      return 0;
+     }
+   }
+  doerror(ERROR_REQUIRED_ARG_MISSING);
+  return 0;
 }

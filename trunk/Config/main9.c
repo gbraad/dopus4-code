@@ -605,8 +605,8 @@ void init_strings()
 
     for (a=0;a<3;a++) separatenames[a]=cfg_string[STR_SEP_MIX_FILES+a];
 
-    for (a=0;a<93;a++) commandlist[a]=cfg_string[func_list_items[a]];
-    commandlist[93]=NULL;
+    for (a=0;a<94;a++) commandlist[a]=cfg_string[func_list_items[a]];
+    commandlist[94]=NULL;
 
     for (a=0;a<16;a++) arglist[a]=cfg_string[STR_COMMANDSEQ_DESTINATION+a];
     arglist[16]=cfg_string[STR_COMMANDSEQ_VARIABLE];

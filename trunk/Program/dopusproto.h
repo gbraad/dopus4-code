@@ -630,5 +630,5 @@ void initlistermenu(void);
 
 /* makelinkdata.c */
 
-int getmakelinkdata(char *, char *, int *);
+int makelink(int);
 

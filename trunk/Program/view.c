@@ -1040,6 +1040,8 @@ D(KDump(vdata->view_window->UserData,SEARCH_COLOURS));
     vdata->view_display_right,
     vdata->view_display_bottom);
 
+  g = CreateContext(&vdata->view_gadgets);
+
   if (config->viewbits & VIEWBITS_TEXTBORDERS)
    {
     /* text display border */
@@ -1065,8 +1067,6 @@ D(KDump(vdata->view_window->UserData,SEARCH_COLOURS));
       vdata->view_window->Height-2-((config->viewbits & VIEWBITS_INWINDOW) ? vdata->view_window->BorderBottom : 0)); //HUX
 
     if (config->viewbits & VIEWBITS_INWINDOW) width += vdata->view_window->BorderLeft;
-
-    g = CreateContext(&vdata->view_gadgets);
 
     vdata->view_GTvi = GetVisualInfoA(vdata->view_screen,NULL);
 
@@ -1164,11 +1164,11 @@ D(KDump(vdata->view_window->UserData,SEARCH_COLOURS));
     ng.ng_GadgetID = VIEW_FILENAME;
 
     viewGadgets[VIEW_FILENAME] = g = CreateGadgetA(TEXT_KIND, g, &ng, (struct TagItem *)&viewGTags[tc]);
-
-    AddGList(vdata->view_window,vdata->view_gadgets,-1,-1,NULL);
-    RefreshGList(vdata->view_gadgets,vdata->view_window,NULL,-1);
-    GT_RefreshWindow(vdata->view_window,NULL);
    }
+
+  AddGList(vdata->view_window,vdata->view_gadgets,-1,-1,NULL);
+  RefreshGList(vdata->view_gadgets,vdata->view_window,NULL,-1);
+  GT_RefreshWindow(vdata->view_window,NULL);
 //D(for(g=vdata->view_gadgets;g;g=g->NextGadget) KDump(g,sizeof(*g)));
 
   vdata->view_vis_info.vi_font=vdata->view_font;

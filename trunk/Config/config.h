@@ -518,7 +518,7 @@ extern char
     *arrowtypetxt[3],
     *filetypeactiongadgets[11],
 
-    *commandlist[94],
+    *commandlist[95],
     *arglist[18],
     *classopslist[], // JRZ: was 12
 

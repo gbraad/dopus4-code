@@ -1683,7 +1683,7 @@ D(bug("recursedir returned %ld\n",a));
                 ClearPointer(Window);
             }
             break;
-
+#ifdef _USE_SMALL_Q
         case FUNC_COMMENT:
             if (status_flags&STATUS_IANSCRAP && okayflag) {
                 dostatustext(buf2);
@@ -1706,7 +1706,7 @@ D(bug("recursedir returned %ld\n",a));
                 okayflag=0;
             }
             break;
-
+#endif
         case FUNC_SEARCH:
             if (count>-1) {
                 if (count==0) simplerequest(globstring[STR_STRING_NOT_FOUND],

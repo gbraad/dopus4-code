@@ -396,7 +396,7 @@ char *defmsg;
     simplerequest(msg,globstring[STR_CONTINUE],NULL);
     if (buf) FreeMem(buf,s);
 
-    if (AmigaGuideBase)
+    if (AmigaGuideBase && func)
      {
       struct NewAmigaGuide nag = {0};
       AMIGAGUIDECONTEXT agc;

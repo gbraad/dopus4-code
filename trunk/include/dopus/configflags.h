@@ -56,12 +56,13 @@ the existing commercial status of Directory Opus 5.
 
 /* GeneralFlags */
 
-#define GENERAL_DISPLAYINFO 2
-#define GENERAL_DOUBLECLICK 8
-#define GENERAL_FMPARENT    16
-#define GENERAL_FORCEQUIT   32
-#define GENERAL_ACTIVATE    64
-#define GENERAL_DRAG        128
+#define GENERAL_DISPLAYINFO (1<<1)
+#define GENERAL_MMBSELECTS  (1<<2)
+#define GENERAL_DOUBLECLICK (1<<3)
+#define GENERAL_FMPARENT    (1<<4)
+#define GENERAL_FORCEQUIT   (1<<5)
+#define GENERAL_ACTIVATE    (1<<6)
+#define GENERAL_DRAG        (1<<7)
 
 /* IconFlags */
 

@@ -43,7 +43,9 @@ int state;
     struct dopusfuncpar par;
     struct Directory *file;
 
+#ifdef _USE_SMALL_Q
     if (status_flags&STATUS_IANSCRAP) state=1-state;
+#endif
     strcpy(buf,path);
     TackOn(buf,name,256);
 D(bug("ftype_doubleclick() on %s\n",buf));
@@ -340,12 +342,8 @@ char *source,*dest;
                 makedir(rexx);
                 break;
             case FUNC_MAKELINK:
-             {
-                char name[108], path[256];
-                int mode;
-                getmakelinkdata(name,path,mode);
+                makelink(rexx);
                 break;
-             }
             case FUNC_RESCAN:
                 if (rexx) a=atoi(rexx_args[0]);
                 else a=data_active_window;

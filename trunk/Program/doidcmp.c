@@ -240,7 +240,11 @@ D(bug("DOS notification message\n"));
                     old_change_state=disk_change_state;
                     setupchangestate();
                     if (config->dirflags&DIRFLAGS_AUTODISKC) {
-                        if (IntuitionBase->ActiveWindow==Window || !(status_flags&STATUS_IANSCRAP)) {
+                        if (IntuitionBase->ActiveWindow==Window
+#ifdef _USE_SMALL_Q
+                             || !(status_flags&STATUS_IANSCRAP)
+#endif
+                           ) {
                             c=0;
                             for (a=0;a<4;a++) {
                                 if ((old_change_state&(1<<a))!=(disk_change_state&(1<<a))) {
@@ -338,79 +342,86 @@ D(bug("DOS notification message\n"));
                         }
                     }
                     else {
+                        win = -1;
                         switch (code) {
+                            case NM_WHEEL_UP: win=isinwindow(x,y);
                             case CURSOR_UP:
-                            case NM_WHEEL_UP:
-                                if (dopus_curwin[data_active_window]->total<scrdata_dispwin_lines) break;
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total<scrdata_dispwin_lines) break;
                                 if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
-                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[data_active_window]->offset=0;
+                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[win]->offset=0;
                                     else {
-                                        dopus_curwin[data_active_window]->offset-=scrdata_dispwin_lines;
-                                        if (dopus_curwin[data_active_window]->offset<0)
-                                            dopus_curwin[data_active_window]->offset=0;
+                                        dopus_curwin[win]->offset-=scrdata_dispwin_lines;
+                                        if (dopus_curwin[win]->offset<0)
+                                            dopus_curwin[win]->offset=0;
                                     }
-                                    fixvertprop(data_active_window);
-                                    displaydir(data_active_window);
+                                    fixvertprop(win);
+                                    displaydir(win);
                                     break;
                                 }
-                                verticalscroll(data_active_window,-1);
+                                verticalscroll(win,-1);
                                 break;
+                            case NM_WHEEL_DOWN: win=isinwindow(x,y);
                             case CURSOR_DOWN:
-                            case NM_WHEEL_DOWN:
-                                if (dopus_curwin[data_active_window]->total<scrdata_dispwin_lines) break;
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total<scrdata_dispwin_lines) break;
                                 if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
                                     if (qual&IEQUALIFIER_CONTROL)
-                                        dopus_curwin[data_active_window]->offset=dopus_curwin[data_active_window]->total-scrdata_dispwin_lines;
+                                        dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;
                                     else {
-                                        dopus_curwin[data_active_window]->offset+=scrdata_dispwin_lines;
-                                        if (dopus_curwin[data_active_window]->offset>dopus_curwin[data_active_window]->total-scrdata_dispwin_lines)
-                                            dopus_curwin[data_active_window]->offset=dopus_curwin[data_active_window]->total-scrdata_dispwin_lines;
+                                        dopus_curwin[win]->offset+=scrdata_dispwin_lines;
+                                        if (dopus_curwin[win]->offset>dopus_curwin[win]->total-scrdata_dispwin_lines)
+                                            dopus_curwin[win]->offset=dopus_curwin[win]->total-scrdata_dispwin_lines;
                                     }
-                                    fixvertprop(data_active_window);
-                                    displaydir(data_active_window);
+                                    fixvertprop(win);
+                                    displaydir(win);
                                     break;
                                 }
-                                verticalscroll(data_active_window,1);
+                                verticalscroll(win,1);
                                 break;
                             case CURSOR_LEFT:
-                            case NM_WHEEL_LEFT:
                                 if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) {
                                     incrementbuf(data_active_window,-1,1);
                                     break;
                                 }
-                                if (dopus_curwin[data_active_window]->total==0) break;
+                            case NM_WHEEL_LEFT:
+                                if (code == NM_WHEEL_LEFT) win = isinwindow(x,y);
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total==0) break;
                                 if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
-                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[data_active_window]->hoffset=0;
+                                    if (qual&IEQUALIFIER_CONTROL) dopus_curwin[win]->hoffset=0;
                                     else {
-                                        dopus_curwin[data_active_window]->hoffset-=scrdata_dispwin_nchars[data_active_window];
-                                        if (dopus_curwin[data_active_window]->hoffset<0) dopus_curwin[data_active_window]->hoffset=0;
+                                        dopus_curwin[win]->hoffset-=scrdata_dispwin_nchars[win];
+                                        if (dopus_curwin[win]->hoffset<0) dopus_curwin[win]->hoffset=0;
                                     }
-                                    refreshwindow(data_active_window,1);
+                                    refreshwindow(win,1);
                                     break;
                                 }
-                                horizontalscroll(data_active_window,-1);
+                                horizontalscroll(win,-1);
                                 break;
                             case CURSOR_RIGHT:
-                            case NM_WHEEL_RIGHT:
                                 if (qual&(IEQUALIFIER_LALT|IEQUALIFIER_RALT)) {
                                     incrementbuf(data_active_window,1,1);
                                     break;
                                 }
-                                if (dopus_curwin[data_active_window]->total==0) break;
+                            case NM_WHEEL_RIGHT:
+                                if (code == NM_WHEEL_RIGHT) win = isinwindow(x,y);
+                                if (win == -1) win = data_active_window;
+                                if (dopus_curwin[win]->total==0) break;
                                 if (qual&(IEQUALIFIER_CONTROL|IEQUALIFIER_ANYSHIFT)) {
                                     if (qual&IEQUALIFIER_CONTROL) {
-                                        dopus_curwin[data_active_window]->hoffset=dopus_curwin[data_active_window]->hlen-scrdata_dispwin_nchars[data_active_window];
-                                        if (dopus_curwin[data_active_window]->hoffset<0) dopus_curwin[data_active_window]->hoffset=0;
+                                        dopus_curwin[win]->hoffset=dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win];
+                                        if (dopus_curwin[win]->hoffset<0) dopus_curwin[win]->hoffset=0;
                                     }
                                     else {
-                                        dopus_curwin[data_active_window]->hoffset+=scrdata_dispwin_nchars[data_active_window];
-                                        if (dopus_curwin[data_active_window]->hoffset>=(dopus_curwin[data_active_window]->hlen-scrdata_dispwin_nchars[data_active_window]))
-                                            dopus_curwin[data_active_window]->hoffset=dopus_curwin[data_active_window]->hlen-scrdata_dispwin_nchars[data_active_window];
+                                        dopus_curwin[win]->hoffset+=scrdata_dispwin_nchars[win];
+                                        if (dopus_curwin[win]->hoffset>=(dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win]))
+                                            dopus_curwin[win]->hoffset=dopus_curwin[win]->hlen-scrdata_dispwin_nchars[win];
                                     }
-                                    refreshwindow(data_active_window,1);
+                                    refreshwindow(win,1);
                                     break;
                                 }
-                                horizontalscroll(data_active_window,1);
+                                horizontalscroll(win,1);
                                 break;
                         }
                         switch (code) {
@@ -669,10 +680,12 @@ D(bug("doidcmp: a = %ld\n",a);KDump(&dopus_curgadbank->gadgets[a],sizeof(struct 
 
                         default:
                             function=gadgetid;
+#ifdef _USE_SMALL_Q
                             if (function==FUNC_QUIT && status_flags&STATUS_IANSCRAP) {
                                 rexx_argcount=1;
                                 strcpy(rexx_args[0],"force");
                             }
+#endif
                             break;
                     }
                     break;
@@ -896,7 +909,7 @@ prevgadgetbank:
                          }
                         else
                          {
-                          makeactive(win,0);
+                          if (config->generalflags & GENERAL_MMBSELECTS) makeactive(win,0);
                           time_previous_sec=time_current_sec;
                           time_previous_micro=time_current_micro;
                          }

@@ -289,7 +289,7 @@ int win;
         makeactive(win,0);
         ret=1;
     }
-
+#ifdef _USE_SMALL_Q
     if (dopus_curwin[win]->total>0 && status_flags&STATUS_IANSCRAP) {
         CurrentTime(&time_current_sec,&time_current_micro);
         y=Window->MouseY;
@@ -314,7 +314,7 @@ int win;
         }
         if (ret) return;
     }
-
+#endif
     FOREVER {
         while (!getintuimsg()) {
             x=Window->MouseX; y=Window->MouseY;

@@ -246,8 +246,12 @@ D(bug("beepwave: %lx\n",beepwave));
                     case 'b': iconstart=2; break;
                     case 'c': LStrnCpy(str_config_basename,&argv[a][2],256); break;
                     case 'g': ck=0; break;
+#ifdef _USE_SMALL_Q
                     case 'q': status_flags|=STATUS_IANSCRAP; break;
+#endif
+#ifdef _USE_CAPITAL_Q
                     case 'Q': status_flags|=STATUS_IANSCRAP2; break;
+#endif
                     case 'x': xfdMasterBase = (struct xfdMasterBase *)OpenLibrary("xfdmaster.library",38); break;
                     case 'X': xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4); break;
                 }
@@ -541,11 +545,12 @@ int tit;
     main_win.Flags=WFLG_NW_EXTENDED|WFLG_NEWLOOKMENUS;
     mainwindow_tags[0].ti_Tag=TAG_SKIP;
     mainwindow_tags[0].ti_Data=0;
+#ifdef _USE_CAPITAL_Q
     if (status_flags&STATUS_IANSCRAP2) {
         mainwindow_tags[2].ti_Tag=TAG_SKIP;
         mainwindow_tags[2].ti_Data=0;
     }
-
+#endif
     if (config->screenmode==MODE_PUBLICSCREEN && /*system_version2 &&*/
         (pubscr=LockPubScreen(config->pubscreen_name))) {
         CopyMem((char *)pubscr,(char *)&scrbuf,sizeof(struct Screen));
@@ -692,7 +697,9 @@ tryfonts:
 
                 main_win.Screen=MainScreen;
                 /*if (system_version2)*/ PubScreenStatus(MainScreen,0);
+#ifdef _USE_CAPITAL_Q
                 if (status_flags&STATUS_IANSCRAP2) ShowTitle(MainScreen,FALSE);
+#endif
                 CopyMem((char *)MainScreen,(char *)&scrbuf,sizeof(struct Screen));
             }
         }
@@ -736,9 +743,12 @@ tryfonts:
     }
     else {
         scrdata_xoffset=0;
+#ifdef _USE_CAPITAL_Q
         if (status_flags&STATUS_IANSCRAP2) scrdata_yoffset=0;
-        else if (MainScreen) scrdata_yoffset=MainScreen->BarHeight+1;
-        else scrdata_yoffset=GfxBase->DefaultFont->tf_YSize+3;
+        else
+#endif
+          if (MainScreen) scrdata_yoffset=MainScreen->BarHeight+1;
+          else scrdata_yoffset=GfxBase->DefaultFont->tf_YSize+3;
     }
 
     /* Calculcate minimum window width and height */

@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 
 #define DOPUS_VERSION  "4"
 #define DOPUS_REV      "17"
-#define DOPUS_BETAREV  "pre10"
+#define DOPUS_BETAREV  "pre12"
 
 #define DOPUS_REVISION DOPUS_REV
 
@@ -60,8 +60,10 @@ static char *clihelp = "%s by %s\n\n"\
            "\t-b  Start iconified to buttons\n"\
            "\t-c  Load configuration from file, ie. -cENV:DO.CFG\n"\
            "\t-g  Do not check for other copies running\n"\
+/*
            "\t-q  ???\n"\
            "\t-Q  ???\n"\
+*/
            "\t-x  Forces opening xfdmaster.library (XPK support)\n"\
            "\t-X  Forces opening xadmaster.library (XAD support)\n"\
            "dir\tDirectory to display in left lister on startup\n\n";

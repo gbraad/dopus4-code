@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "config.h"
-#define VERSION "4.17"
+#define VERSION "4.17a"
 
 char *version="$VER: ConfigOpus " VERSION " (" __DATE__ ") by Jacek Rzeuski";
 
@@ -137,7 +137,7 @@ struct RMBGadget
         {{NULL,2,1,100,10,1,0},{NULL,2,1,100,10,1,0}}};
 
 char
-    *commandlist[94],
+    *commandlist[95],
     *arglist[18],
     *classopslist[13];
 
@@ -506,6 +506,7 @@ short func_list_items[]={
     STR_FUNCTIONLIST_LOADSTRINGS,
     STR_FUNCTIONLIST_LOOPPLAY,
     STR_FUNCTIONLIST_MAKEDIR,
+    STR_FUNCTIONLIST_MAKELINK,
     STR_FUNCTIONLIST_MODIFY,
     STR_FUNCTIONLIST_MOVE,
     STR_FUNCTIONLIST_MOVEAS,

@@ -15,11 +15,7 @@ void lsprintf(char *str, char *fmt, ...)
 }
 #endif
 
-#ifdef __PPC__
 int countlines(struct ViewData *vd)
-#else
-int countlines(register struct ViewData *vd __asm("a0"))
-#endif
 {
     register char *buf;
     register char *lws; // Last whitespace character (for wordwrap)
@@ -101,11 +97,7 @@ D(bug("countlines() = %ld\n",linecount));
     return linecount;
 }
 
-#ifdef __PPC__
 int ansicountlines(struct ViewData *viewdata)
-#else
-int ansicountlines( register struct ViewData *viewdata __asm("a0") )
-#endif
 {
   register char *a0_buf, *a1_lws;
   int d0_linecount, d1_size, d2_mll, d3_charcount;
@@ -205,11 +197,7 @@ notnexttab:
   return(d0_linecount);
 }
 
-#ifdef __PPC__
 int smartcountlines(struct ViewData *vd)
-#else
-int smartcountlines(register struct ViewData *vd __asm("a0"))
-#endif
 {
     register unsigned int size, sizebak;
 

@@ -35,7 +35,7 @@ void __saveds GetWBScreen(register struct Screen *screen __asm("a0"))
     struct Screen *scr;
 
 D(bug("GetWBScreen()\n");/*Delay(50);*/)
-    if (scr = LockPubScreen("Workbench"))
+    if (scr = LockPubScreen(NULL/*"Workbench"*/))
      {
       CopyMem(scr,screen,sizeof(struct Screen));
       UnlockPubScreen(NULL,scr);

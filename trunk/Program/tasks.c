@@ -97,7 +97,11 @@ void __saveds hotkeytaskcode()
   inputport=LCreatePort(NULL,0);
   idcmpport=LCreatePort(NULL,0);
 
-  if (CxBase && !(status_flags&STATUS_IANSCRAP)) {
+  if (CxBase
+#ifdef _USE_SMALL_Q
+      && !(status_flags&STATUS_IANSCRAP)
+#endif
+     ) {
     hotkey_broker.nb_Port=inputport;
     if ((broker=CxBroker(&hotkey_broker,NULL))) {
 
@@ -310,6 +314,7 @@ void __saveds hotkeytaskcode()
                 if (prog_val[hmsg->flag] > prog_tot[hmsg->flag]) prog_val[hmsg->flag]=prog_tot[hmsg->flag];
 
                 progressbar(prog_barx[hmsg->flag],prog_bary[hmsg->flag],prog_val[hmsg->flag],prog_tot[hmsg->flag]);
+                progresstext(prog_texty[hmsg->flag],prog_val[hmsg->flag],prog_tot[hmsg->flag],hmsg->data);
                }
             }
           }
@@ -728,7 +733,7 @@ struct InputEvent * __saveds keyhandler(register struct InputEvent *oldevent __a
 
 void __saveds clocktask()
 {
-  ULONG chipc,fast,wmes,h,m,s,secs,micro,cx,sig,cy,len,ct,chipnum,fastnum,a,active=1,usage;
+  ULONG chipc,fast,wmes,h,m,s,/*secs,micro,*/cx,sig,cy,len,ct,chipnum,fastnum,a,active=1,usage;
   USHORT clock_width,clock_height,scr_height;
   char buf[160],date[20],time[20],formstring[160],memstring[160],ampm;
   struct MsgPort *clock_time_port;
@@ -816,8 +821,9 @@ void __saveds clocktask()
         ReplyMsg((struct Message *)cmsg);
       }
     }
-    if (CheckIO((struct IORequest *)&ctimereq.tr_node)) {
-      WaitIO((struct IORequest *)&ctimereq.tr_node);
+    if (wmes&1<<clock_time_port->mp_SigBit) {
+//    if (CheckIO((struct IORequest *)&ctimereq.tr_node)) {
+//      WaitIO((struct IORequest *)&ctimereq.tr_node);
       if (active && !(Window->Flags&WFLG_MENUSTATE)) {
         if (!(config->scrclktype&(SCRCLOCK_MEMORY|SCRCLOCK_CPU|SCRCLOCK_DATE|SCRCLOCK_TIME)))
           lsprintf(formstring,"Directory Opus  Version %s  Compiled %s  %s",
@@ -846,10 +852,13 @@ void __saveds clocktask()
             strcat(formstring,buf);
           }
           if (config->scrclktype&(SCRCLOCK_DATE|SCRCLOCK_TIME)) {
+/*
             CurrentTime(&secs,&micro);
             datetime.dat_Stamp.ds_Days=secs/86400; secs-=(datetime.dat_Stamp.ds_Days*86400);
             datetime.dat_Stamp.ds_Minute=secs/60; secs-=(datetime.dat_Stamp.ds_Minute*60);
             datetime.dat_Stamp.ds_Tick=secs*50;
+*/
+            DateStamp(&(datetime.dat_Stamp));
             initdatetime(&datetime,date,time,0);
 
             if (config->scrclktype&SCRCLOCK_DATE) {

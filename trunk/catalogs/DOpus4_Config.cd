@@ -2225,3 +2225,9 @@ Don't ask before quit
 ;
 STR_USE (//)
 Use
+;
+STR_FUNCTIONLIST_MAKELINK (//)
+MakeLink      -  Create soft or hard link
+;
+STR_OP_GENERAL_MMBSELECTS (//)
+Single MMB click selects lister

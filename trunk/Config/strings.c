@@ -660,6 +660,8 @@ struct DefaultString
         {STR_OP_COPY_COPYARCHIVE,"Copy archive bit too"},
         {STR_OP_GENERAL_FORCEQUIT,"Don't ask before quit"},
         {STR_USE,"Use"},
+        {STR_FUNCTIONLIST_MAKELINK,"MakeLink      -  Create soft or hard link"},
+        {STR_OP_GENERAL_MMBSELECTS,"Single MMB click selects lister"},
 
         {STR_STRING_COUNT,NULL}};
 

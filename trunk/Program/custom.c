@@ -36,11 +36,14 @@ the existing commercial status of Directory Opus 5.
 void defaultpar(par)
 struct dopusfuncpar *par;
 {
+#ifdef _USE_SMALL_Q
     if (status_flags&STATUS_IANSCRAP) {
         par->which=FLAG_OUTWIND;
         par->delay=-1;
     }
-    else {
+    else
+#endif
+    {
         par->which=FLAG_OUTWIND|FLAG_WB2F|FLAG_DOPUSF|FLAG_CDSOURCE;
         par->delay=2;
     }
@@ -1250,7 +1253,11 @@ struct function_data *funcdata;
 //        Execute(buf2,0,(BPTR)tnil);
         SystemTags(buf2,SYS_Input,Open("NIL:",MODE_OLDFILE),SYS_Output,tnil,SYS_Asynch,flags&FLAG_ASYNC,TAG_END);
 
-        if (flags&FLAG_OUTWIND && !wb2f && !(status_flags&STATUS_IANSCRAP) && MainScreen) {
+        if (flags&FLAG_OUTWIND && !wb2f &&
+#ifdef _USE_SMALL_Q
+            !(status_flags&STATUS_IANSCRAP) &&
+#endif
+            MainScreen) {
 //            if (system_version2) {
                 SetDefaultPubScreen(pubname);
                 SetPubScreenModes(oldmodes);
