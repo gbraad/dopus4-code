@@ -1,10 +1,10 @@
-## version $VER: DOpus4.catalog 1.8 (24.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4.catalog 1.9 (09.02.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 1.8 (23.01.2002)
+; $VER: DOpus4.cd 1.9 (09.02.2002)
 ;
 ;
 ; General
@@ -233,7 +233,7 @@ STR_CONFIG_CHANGED_LASTSAVED
 Zmieniîeô konfiguracjë.\nCzy chcesz wczytaê ostatnio zapisane ustawienia?
 ; You have modified the configuration.\nReally load the last-saved settings?
 ;
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Zmieniîeô konfiguracjë.\nZapisaê przed przywróceniem ustawieï domyôlnych?
 ; You have modified the configuration.\nSave before restoring defaults?
 ;
@@ -841,8 +841,8 @@ Odtwarzam wybranâ animacjë...
 ; Playing selected animation...
 ;
 STR_OLD_NEW_FILE_REPLACE
-"\"%s\" juû istnieje! Zastâpiê?\n\nNowy  - Rozmiar : %7ld Data : %19s\nStary - Rozmiar : %7ld Data : %19s
-; "\"%s\" already exists! Replace?\n\n\
+\"%s\" juû istnieje! Zastâpiê?\n\nNowy  - Rozmiar : %7ld Data : %19s\nStary - Rozmiar : %7ld Data : %19s
+; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %7ld  Date : %19s\n\
 ; Old  -  Size : %7ld  Date : %19s
 ;
