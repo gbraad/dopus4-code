@@ -158,17 +158,19 @@ sortname:
           return 1;
         break;
 
-    case DISPLAY_PROTECT:
-        a=(entry1->protection&255)^15;
-        b=(entry2->protection&255)^15;
-        if (a==b) goto sortname;
-        if ((reverse && b>a) || (!reverse && b<a)) return 1;
-        break;
-
     case DISPLAY_DATE:
         a=CompareDate(&entry2->date,&entry1->date);
         if (a==0) goto sortname;
 //D(bug("addfile: sortdate: a=%ld\n",a));
+        if ((reverse && a>0) || (!reverse && a<0)) return 1;
+        break;
+
+    case DISPLAY_FILETYPE:
+        if (entry2->description && entry1->description) a=Stricmp(entry2->description,entry1->description);
+        else if (entry2->description) a=1;
+        else if (entry1->description) a=-1;
+        else a=0;
+        if (a==0) goto sortname;
         if ((reverse && a>0) || (!reverse && a<0)) return 1;
         break;
 
@@ -181,13 +183,11 @@ sortname:
         if ((reverse && a>0) || (!reverse && a<0)) return 1;
         break;
 
-    case DISPLAY_FILETYPE:
-        if (entry2->description && entry1->description) a=Stricmp(entry2->description,entry1->description);
-        else if (entry2->description) a=1;
-        else if (entry1->description) a=-1;
-        else a=0;
-        if (a==0) goto sortname;
-        if ((reverse && a>0) || (!reverse && a<0)) return 1;
+    case DISPLAY_PROTECT:
+        a=(entry1->protection&255)^15;
+        b=(entry2->protection&255)^15;
+        if (a==b) goto sortname;
+        if ((reverse && b>a) || (!reverse && b<a)) return 1;
         break;
 
     case DISPLAY_OWNER:
@@ -218,7 +218,7 @@ sortname:
         break;
 
     default: /* dead code? */
-D(bug("main3.c: unknown lister sort column!\n"));
+D(bug("main3.c: unknown sort mode!\n"));
 /*
         if (!entry->next) {
             addposition=entry;
@@ -506,81 +506,8 @@ UWORD ownerid,groupid;
                           break;
                   }
               }
-              if (!endwhile) endwhile = entryorder(sortmethod,reverse,entry,newentry);
-/*
-              switch (sortmethod) {
-                  case DISPLAY_NAME:
- sortname:
-                      a = namesort(name,entry->name);
-                      if ((reverse && (a>=0)) || (!reverse && (a<=0))) endwhile=1;
-                      break;
+              if (!endwhile) endwhile = entryorder(sortmethod,reverse,newentry,entry);
 
-                  case DISPLAY_SIZE:
-                      if (size==entry->size) goto sortname;
-                      if ((reverse && (size>=entry->size)) || ((!reverse) && (size<=entry->size)))
-                          endwhile=1;
-                      break;
-
-                  case DISPLAY_PROTECT:
-                      a=(entry->protection&255)^15;
-                      b=(protection&255)^15;
-                      if (a==b) goto sortname;
-                      if ((reverse && b>=a) || (!reverse && b<=a)) endwhile=1;
-                      break;
-
-                  case DISPLAY_DATE:
-                      a=CompareDate(date,&entry->date);
-                      if (a==0) goto sortname;
- //D(bug("addfile: sortdate: a=%ld\n",a));
-                      if ((reverse && a>=0) || (!reverse && a<=0)) endwhile=1;
-                      break;
-
-                  case DISPLAY_COMMENT:
-                      if (comment && entry->comment) a=Stricmp(comment,entry->comment);
-                      else if (comment) a=1;
-                      else if (entry->comment) a=-1;
-                      else a=0;
-                      if (a==0) goto sortname;
-                      if ((reverse && a>=0) || (!reverse && a<=0)) endwhile=1;
-                      break;
-
-                  case DISPLAY_FILETYPE:
-                      if (description && entry->description) a=Stricmp(description,entry->description);
-                      else if (description) a=1;
-                      else if (entry->description) a=-1;
-                      else a=0;
-                      if (a==0) goto sortname;
-                      if ((reverse && a>=0) || (!reverse && a<=0)) endwhile=1;
-                      break;
-
-                  case DISPLAY_OWNER:
-                      if (owner && entry->network && entry->network->owner) a=Stricmp(owner,entry->network->owner);
-                      else if (owner) a=1;
-                      else if (entry->network && entry->network->owner) a=-1;
-                      else a=0;
-                      if (a==0) goto sortname;
-                      if ((reverse && a>=0) || (!reverse && a<=0)) endwhile=1;
-                      break;
-
-                  case DISPLAY_GROUP:
-                      if (group && entry->network && entry->network->group) a=Stricmp(group,entry->network->group);
-                      else if (group) a=1;
-                      else if (entry->network && entry->network->group) a=-1;
-                      else a=0;
-                      if (a==0) goto sortname;
-                      if ((reverse && a>=0) || (!reverse && a<=0)) endwhile=1;
-                      break;
-
-                  case DISPLAY_NETPROT:
-                      a=entry->protection&(~255);
-                      b=protection&(~255);
-                      if (a==b) goto sortname;
-                      if ((reverse && b>=a) || (!reverse && b<=a)) endwhile=1;
-                      break;
-
-
-              }
-*/
               if (endwhile) {
                   if (endwhile==1) {
                       if (entry->last) addposition=entry->last;
@@ -660,6 +587,7 @@ UWORD ownerid,groupid;
     /* remove duplicates */
 
     if (newentry->next) {
+D(bug("addfile: newentry(%s), nextentry(%s)\n",newentry->name,newentry->next->name));
         if (newentry->name[0] && (Stricmp(newentry->name,newentry->next->name))==0)
             removefile(newentry->next,dir,win,0);
         else if (type==ENTRY_CUSTOM && subtype==CUSTOMENTRY_BUFFERLIST &&

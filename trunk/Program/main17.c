@@ -332,21 +332,22 @@ char *command;
             a=atoi(rexx_args[0]);
             if (rexx_argcount<2 || (win=atoi(rexx_args[1]))<0 || win>1)
                 win=data_active_window;
+            ptr=NULL;
             entry=dopus_curwin[win]->firstentry;
             while (a && entry) {
                 if (a==1) {
-                    ptr=NULL;
                     if (entry->type==ENTRY_CUSTOM) {
                         if (entry->dispstr) ptr=entry->dispstr;
                         else ptr=entry->comment;
                     }
                     if (!ptr) ptr=entry->name;
-                    rexx_set_return(msg,0,ptr);
-                    return(1);
+                    break;
                 }
                 --a;
                 entry=entry->next;
             }
+            rexx_set_return(msg,0,ptr?ptr:"");
+            return(1);
             break;
 
         case FUNC_GETFILETYPE:

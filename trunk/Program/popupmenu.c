@@ -108,8 +108,14 @@ void handlelistermenu(int a)
  struct Hook MenuHandler;
  ULONG sortorder;         // Holds the current sort order
  long r;
- BOOL changed = FALSE,devlist = (ENTRYTYPE(dopus_curwin[a]->firstentry->type) == ENTRY_DEVICE);
+ BOOL changed = FALSE;
  char oldsort,newsort,sortbit;
+
+ if (!sortmenu ||
+     !dopus_curwin[a]->firstentry ||
+     (ENTRYTYPE(dopus_curwin[a]->firstentry->type) == ENTRY_CUSTOM) ||
+     (ENTRYTYPE(dopus_curwin[a]->firstentry->type) == ENTRY_DEVICE))
+   return;
 
  sortbit = a?SORT_RREVERSE:SORT_LREVERSE;
  oldsort = config->sortflags & sortbit;
@@ -123,7 +129,6 @@ void handlelistermenu(int a)
  for (r = DISPLAY_NAME; r <= DISPLAY_NETPROT; r++)
    PM_SetItemAttrs(PM_FindItem(sortmenu,1+r),
      PM_Checked,config->sortmethod[a] == r,
-     PM_Disabled, devlist ? TRUE : (/*(r > DISPLAY_FILETYPE) ? ((AccountsBase || muBase) ? FALSE : TRUE) :*/ FALSE),
      TAG_END);
 
  PM_SetItemAttrs(PM_FindItem(sortmenu,sbReverse),PM_Checked,oldsort,TAG_END);
@@ -131,18 +136,15 @@ void handlelistermenu(int a)
  for (r = 0; r < 3; r++)
    PM_SetItemAttrs(PM_FindItem(sortmenu,(r+1)*0x00010000),
      PM_Checked,config->separatemethod[a] == r,
-     PM_Disabled, devlist ? TRUE : FALSE,
      TAG_END);
 
  for (r = 0; r < 3; r++)
    PM_SetItemAttrs(PM_FindItem(sortmenu,(r+1)*0x01000000),
      PM_Checked, SORT_NAMEMODE(config->sortflags)==r,
-     PM_Disabled, devlist ? TRUE : FALSE,
      TAG_END);
 
  PM_SetItemAttrs(PM_FindItem(sortmenu,sbKMG),
    PM_Checked,(config->listerdisplayflags[a] & SIZE_KMG) == SIZE_KMG,
-   PM_Disabled, devlist ? TRUE : FALSE,
    TAG_END); // HUX
 
  sortorder = (config->sortmethod[a] + 1) + (oldsort ? sbReverse : 0) + (config->separatemethod[a]+1)*0x00010000 + (SORT_NAMEMODE(config->sortflags)+1)*0x01000000;

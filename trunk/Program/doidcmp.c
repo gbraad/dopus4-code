@@ -764,12 +764,8 @@ nextgadgetbank:
                             else {
                                 time_previous_sec=time_current_sec;
                                 time_previous_micro=time_current_micro;
-                                a = 1-a;
-                                if (sortmenu && dopus_curwin[a]->firstentry && (ENTRYTYPE(dopus_curwin[a]->firstentry->type) != ENTRY_CUSTOM))
-                                 {
-                                  handlelistermenu(a);
-                                 }
-                                a = 1-a;
+
+                                handlelistermenu(1-a);
                             }
                             checksize(1-a);
                         }
