@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.12 (22.01.2002)
+## version $VER: DOpus4.catalog 1.13 (05.02.2002)
 ## codeset 0
 ## language español
 ;
@@ -48,11 +48,11 @@ Directorio creado.
 ;
 STR_PRINTING_DIRECTORY
 Imprimiendo directorio...
-; Printing directory..
+; Printing directory...
 ;
 STR_DIRECTORY
 Directorio 
-; Directory
+; Directory 
 ;
 STR_DEVICE_LIST
 Lista de unidades\n\n
@@ -219,11 +219,11 @@ Ha modificado la configuración.\n\n¿De verdad desea salir?
 ;
 STR_SAVING_CONFIG
 Guardando configuración...
-; Saving configuration..
+; Saving configuration...
 ;
 STR_READING_CONFIG
 Leyendo configuración...
-; Reading configuration..
+; Reading configuration...
 ;
 STR_CONFIG_CHANGED_LASTSAVED
 Ha modificado la configuración.\n\n¿De verdad desea cargar la config. anterior?
@@ -377,25 +377,13 @@ STR_ADDING_ICON
 añadiendo icono a
 ; adding an icon to
 ;
-STR_recremoved1
-
-;
-;
 STR_ENTER_COMMENT
 Introduzca comentario
 ; Enter comment
 ;
-STR_recremoved2
-
-;
-;
 STR_ENTER_PASSWORD
 Introduzca contraseña
 ; Enter password
-;
-STR_recremoved3
-
-;
 ;
 STR_ENTER_DATE_AND_TIME
 Introduzca fecha y hora (o nada para usar los valores actuales)
@@ -404,10 +392,6 @@ Introduzca fecha y hora (o nada para usar los valores actuales)
 STR_ENTER_SEARCH_STRING
 Introduzca cadena a buscar
 ; Enter search string
-;
-STR_recremoved4
-
-;
 ;
 STR_STRING_NOT_FOUND
 No se ha encontrado la cadena.
@@ -432,142 +416,6 @@ Introduzca argumentos
 STR_SELECT_FUNCTION
 Seleccione función de la que desea ayuda o pulse <Help> para cancelar.
 ; Select function you need help with, or Help again to cancel.
-;
-STR_NOT_ENOUGH_MEMORY
-Memoria insuficiente.
-; Not enough memory
-;
-STR_PROCESS_TABLE_FULL
-Tabla de proceso llena.
-; Process table full
-;
-STR_BAD_TEMPLATE
-Plantilla no válida.
-; Bad template
-;
-STR_BAD_NUMBER
-Número erróneo.
-; Bad number
-;
-STR_REQUIRED_ARG_MISSING
-Falta el argumento requerido.
-; Required argument missing
-;
-STR_ARGUMENT_MISSING
-Falta el argumento después de \"=\"
-; Argument after \"=\" missing
-;
-STR_TOO_MANY_ARGUMENTS
-Demasiados argumentos.
-; Too many arguments
-;
-STR_UNMATCHED_QUOTED
-Faltan o sobran comillas.
-; Unmatched quotes
-;
-STR_ARG_LINE_TOO_LONG
-Argumento no válido o muy largo.
-; Argument line invalid or too long
-;
-STR_FILE_NOT_EXECUTABLE
-El fichero no es ejecutable.
-; File is not executable
-;
-STR_INVALID_LIBRARY
-Librería residente no válida.
-; Invalid resident library
-;
-STR_OBJECT_IN_USE
-El objeto está siendo usado.
-; Object is in use
-;
-STR_OBJECT_EXISTS
-El objeto ya existe.
-; Object already exists
-;
-STR_DIR_NOT_FOUND
-No se ha encontrado el directorio.
-; Directory not found;
-;
-STR_OBJECT_NOT_FOUND
-No se ha encontrado el objeto.
-; Object not found
-;
-STR_INVALID_WINDOW
-Descripción de ventana no válida.
-; Invalid window description
-;
-STR_UNKNOWN_PACKET
-Petición de paquete de tipo desconocido.
-; Packet request type unknown
-;
-STR_OBJECT_NAME_INVALID
-Nombre de objeto no válido.
-; Object name invalid
-;
-STR_INVALID_LOCK
-Bloqueo de objeto no válido.
-; Invalid object lock
-;
-STR_OBJECT_BAD_TYPE
-El objeto no es del tipo requerido.
-; Object not of required type
-;
-STR_DISK_NOT_VALIDATED
-Disco no validado.
-; Disk not validated;
-;
-STR_DISK_WRITE_PROTECTED
-Disco protegido contra escritura.
-; Disk is write-protected
-;
-STR_RENAME_DEVICES_ATTEMPTED
-Se ha intentado renombrar entre unidades.
-; Rename across devices attempted
-;
-STR_DIRECTORY_NOT_EMPTY
-El directorio no está vacío.
-; Directory not empty
-;
-STR_TOO_MANY_LEVELS
-Hay demasiados niveles.
-; Too many levels
-;
-STR_SEEK_ERROR
-Fallo de búsqueda
-; Seek error
-;
-STR_COMMENT_TOO_LONG
-El comentario es demasiado largo.
-; Comment is too long
-;
-STR_DISK_FULL
-El disco está lleno.
-; Disk is full
-;
-STR_OBJECT_DELETE_PROTECTED
-Objeto protegido contra el borrado.
-; Object is protected from deletion
-;
-STR_OBJECT_WRITE_PROTECTED
-Fichero protegido contra escritura.
-; File is write protected
-;
-STR_OBJECT_READ_PROTECTED
-Fichero protegido contra lectura.
-; File is read protected
-;
-STR_NOT_VALID_DOS_DISK
-No es un disco DOS válido.
-; Not a valid DOS disk
-;
-STR_NO_MORE_ENTRIES
-No hay más objetos en el directorio.
-; No more entries in directory
-;
-STR_OBJECT_IS_SOFT_LINK
-El objeto es un enlace blando.
-; Object is soft link
 ;
 STR_CONFIG_CHANGED_LOAD
 Ha modificado la configuración.\n\n¿De verdad desea cargar una nueva?
@@ -607,7 +455,7 @@ STR_FILE_ENCRYPTED
 ;
 STR_READING_FILE
 Leyendo fichero...
-; Reading file..
+; Reading file...
 ;
 STR_NO_MEMORY_TO_DECRUNCH
 Memoria insuficiente para cargar/descomprimir el fichero completo.
@@ -619,7 +467,7 @@ La contraseña introducida no es correcta.
 ;
 STR_COUNTING_LINES
 Contando líneas...
-; Counting lines..
+; Counting lines...
 ;
 STR_JUMP_TO_LINE
 Saltar a la línea...
@@ -653,10 +501,6 @@ STR_NEW_DISK_INSERTED
 Se ha insertado un disco en DF%ld:\n\n\
 ¿De verdad desea leer este disco?
 ; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
-;
-STR_recremoved5
-
-;
 ;
 STR_ENTER_DATE_1
 Introduzca fecha en el formato DD-MMM-AA
@@ -1159,175 +1003,6 @@ STR_CLOCK_MEMORY
 MEMORIA:
 ; MEMORY:
 ;
-STR_MONTH_JANUARY
-Enero
-;
-;
-STR_MONTH_FEBRUARY
-Febrero
-;
-;
-STR_MONTH_MARCH
-Marzo
-;
-;
-STR_MONTH_APRIL
-Abril
-;
-;
-STR_MONTH_MAY_LONG
-Mayo
-;
-;
-STR_MONTH_JUNE
-Junio
-;
-;
-STR_MONTH_JULY
-Julio
-;
-;
-STR_MONTH_AUGUST
-Agosto
-;
-;
-STR_MONTH_SEPTEMBER
-Septiembre
-;
-;
-STR_MONTH_OCTOBER
-Octubre
-;
-;
-STR_MONTH_NOVEMBER
-Noviembre
-;
-;
-STR_MONTH_DECEMBER
-Diciembre
-;
-;
-STR_MONTH_JAN
-Ene
-;
-;
-STR_MONTH_FEB
-Feb
-;
-;
-STR_MONTH_MAR
-Mar
-;
-;
-STR_MONTH_APR
-Abr
-;
-;
-STR_MONTH_MAY
-May
-;
-;
-STR_MONTH_JUN
-Jun
-;
-;
-STR_MONTH_JUL
-Jul
-;
-;
-STR_MONTH_AUG
-Ago
-;
-;
-STR_MONTH_SEP
-Sep
-;
-;
-;
-STR_MONTH_OCT
-Oct
-;
-;
-STR_MONTH_NOV
-Nov
-;
-;
-STR_MONTH_DEC
-Dic
-;
-;
-STR_DAY_MONDAY
-Lunes
-;
-;
-STR_DAY_TUESDAY
-Martes
-;
-;
-STR_DAY_WEDNESDAY
-Miércoles
-;
-;
-STR_DAY_THURSDAY
-Jueves
-;
-;
-STR_DAY_FRIDAY
-Viernes
-;
-;
-STR_DAY_SATURDAY
-Sábado
-;
-;
-STR_DAY_SUNDAY
-Domingo
-;
-;
-STR_DAY_MON
-Lun
-;
-;
-STR_DAY_TUE
-Mar
-;
-;
-STR_DAY_WED
-Mié
-;
-;
-STR_DAY_THU
-Jue
-;
-;
-STR_DAY_FRI
-Vie
-;
-;
-STR_DAY_SAT
-Sáb
-;
-;
-STR_DAY_SUN
-Dom
-;
-;
-STR_DAY_YESTERDAY
-Ayer
-;
-;
-STR_DAY_TODAY
-Hoy
-;
-;
-STR_DAY_TOMORROW
-Mañana
-;
-;
-STR_DAY_FUTURE
-Futuro
-;
-;
 STR_KEY
 Tecla:
 ; Key :
@@ -1499,18 +1174,6 @@ Por omisión
 STR_FTYPE_UNKNOWN
 Desconocido
 ; Unknown file type
-;
-STR_PROTBIT_HSPA
-HSPA----
-; HSPA----
-;
-STR_PROTBIT_RWED
-----RWED
-; ----RWED
-;
-STR_PROTBIT_ALLBITS
-hsparwed
-; hsparwed
 ;
 STR_MULTI_DRAG
 Arrastrando - %ld ficheros
@@ -1691,9 +1354,9 @@ Extensión
 ; Extension
 ;
 STR_PROTECT_OKAY
-Aceptar
-; Okay
+Acep_tar
+; _Okay
 ;
 STR_PROTECT_ALL
-Todos
-; All
+T_odos
+; A_ll
