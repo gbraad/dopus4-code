@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.15 (24.08.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4.catalog 1.20 (04.02.2003) (c) Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
@@ -11,7 +11,7 @@ Directory Opus jest juû uruchomiony.\nCzy uruchomiê kolejnâ kopië?
 ; Directory Opus is already resident in memory.\nDo you want to run another copy?
 ;
 STR_UNABLE_TO_OPEN_WINDOW
-Nie mogë otworzyê ekranu/okna!
+Nie moûna otworzyê ekranu/okna!
 ; Unable to open screen/window!
 ;
 STR_WELCOME_TO_DOPUS
@@ -52,7 +52,7 @@ Drukujë zawartoôê katalogu...
 ;
 STR_DIRECTORY
 Katalog 
-; Directory 
+; Directory
 ;
 STR_DEVICE_LIST
 Lista urzâdzeï\n\n
@@ -75,11 +75,11 @@ Zbyt maîo wolnej pamiëci chip do wyôwietlenia obrazka
 ; Not enough chip memory to display picture
 ;
 STR_CANT_ALLOCATE_AUDIO
-Nie mogë zaalokowac kanîów audio
+Nie moûna zaalokowac kanîów audio
 ; Can't allocate audio channels
 ;
 STR_NOT_ST_MOD
-Ten format muzyczny nie jest obsîugiwany
+Ten format muzyczny jest nieobsîugiwany
 ; File is not a supported music module
 ;
 STR_FILE_EXISTS_REPLACE
@@ -87,7 +87,7 @@ STR_FILE_EXISTS_REPLACE
 ; \"%s\" already exists! Replace?
 ;
 STR_SELECT_UNPROTECT
-\nWybierz Odbezpiecz aby ustawiê bit kasowania.
+\nWybierz \"Odbezpiecz\" aby ustawiê bit kasowania.
 ; \nSelect Unprotect to set the deletion bit.
 ;
 STR_ENTER_TIME
@@ -163,7 +163,7 @@ Podaj katalog do ponownego przypisania dla urzâdzenia
 ; Enter directory to re-assign device
 ;
 STR_CANT_CANCEL_ASSIGN
-Nie mogë usunâê przypisania.
+Nie moûna usunâê przypisania.
 ; Can't cancel assign.
 ;
 STR_ENTER_DEVICE_NAME
@@ -171,7 +171,7 @@ Podaj nazwë urzâdzenia dla tego katalogu
 ; Enter device name for this directory
 ;
 STR_ASSIGN_FAILED
-Próba stworzenia przypisania nie powiodîa sië
+Próba utworzenia przypisania zakoïczona niepowodzeniem
 ; Assign failed
 ;
 STR_NO_DESTINATION_SELECTED
@@ -335,7 +335,7 @@ klonowania
 ; cloning
 ;
 STR_SIZE_IS_NOT_KNOWN
-Rozmiar wybranego katalogu jest nieznany.\nObliczyê wielkoôê tego katalogu?
+Wielkoôê wybranego katalogu jest nieznana.\nObliczyê wielkoôê tego katalogu?
 ; Size is not known for the selected directory.\nPerform a byte count on this directory?
 ;
 STR_FILE_MAY_NOT_FIT
@@ -343,7 +343,7 @@ Wybrany plik prawdopodobnie nie zmieôci sië w miejscu przeznaczenia.\nKontynuowa
 ; Selected file will probably not fit in destination.\nContinue with the copy?
 ;
 STR_SIZES_NOT_KNOWN
-Rozmiary wybranych katalogów sâ nieznane.\nObliczyê wielkoôci tych katalogów?
+Wielkoôci wybranych katalogów sâ nieznane.\nObliczyê wielkoôci tych katalogów?
 ; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
 ;
 STR_ENTRIES_MAY_NOT_FIT
@@ -379,7 +379,7 @@ Podaj komentarz
 ; Enter comment
 ;
 STR_CANNOT_CLOSE_SCREEN
-Nie mogë zamknâê ekranu poniewaû\nsâ na nim otwarte obce okna.\nPoczekam aû zostanâ one zamkniëte.
+Nie moûna zamknâê ekranu poniewaû\nsâ na nim otwarte obce okna.\nPoczekam aû zostanâ one zamkniëte.
 ; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
 ;
 STR_ENTER_PASSWORD
@@ -491,11 +491,11 @@ Bîâd podczas drukowania pliku! IoErr = %ld\n
 ; Error printing file! IoErr = %ld\n
 ;
 STR_READY_PRINTER
-Drukarka gotowa, wybierz W porzâdku aby kontynuowaê
+Drukarka gotowa, aby kontynuowaê wybierz \"OK\"
 ; Ready printer, and choose OKAY to continue
 ;
 STR_CANT_FIND_ICON
-Nie mogë znaleúê lub wczytaê ikonki dla tego pliku.
+Nie moûna znaleúê lub wczytaê ikonki dla tego pliku.
 ; Unable to find or load an icon for that file.
 ;
 STR_ENCRYPTING
@@ -555,7 +555,7 @@ Wybierz katalog úródîowy
 ; Select the source directory
 ;
 STR_SELECT_DESTINATION_DIR
-Wubierz katalog docelowy
+Wybierz katalog docelowy
 ; Select the destination directory
 ;
 STR_SELECT_A_FILE
@@ -695,15 +695,15 @@ Plik
 ; File
 ;
 STR_IMAGE_SIZE
-Rozmiar obrazka
+Wielkoôê obrazka
 ; Image size
 ;
 STR_PAGE_SIZE
-Rozmiar strony
+Wielkoôê strony
 ; Page size
 ;
 STR_SCREEN_SIZE
-Rozmiar ekranu
+Wielkoôê ekranu
 ; Screen size
 ;
 STR_DEPTH
@@ -747,31 +747,31 @@ Przerwij drukowanie
 ; Abort print
 ;
 STR_PORTRAIT
-Pionowo
+pionowo
 ; Portrait
 ;
 STR_LANDSCAPE
-Poziomo
+poziomo
 ; Landscape
 ;
 STR_POSITIVE
-Pozytyw
+pozytyw
 ; Positive
 ;
 STR_NEGATIVE
-Negatyw
+negatyw
 ; Negative
 ;
 STR_BLACK_WHITE
-Czarno-biaîy
+czarno-biaîy
 ; Black&White
 ;
 STR_GRAY_SCALE
-Odcienie szaroôci
+odcienie szaroôci
 ; Gray scale
 ;
 STR_COLOUR
-Kolorowy
+kolorowy
 ; Color
 ;
 STR_CENTER
@@ -787,7 +787,7 @@ Czcionka
 ; Font
 ;
 STR_FONT_SIZE
-Rozmiar czcionki
+Wielkoôê czcionki
 ; Font size
 ;
 STR_NUM_CHARS
@@ -815,7 +815,7 @@ Alt. obrazek
 ; Alt. image
 ;
 STR_ICON_DEFAULTTOOL
-Domuôlne narzëdzie
+Domyôlne narzëdzie
 ; Default tool
 ;
 STR_NUM_FRAMES
@@ -828,14 +828,14 @@ Odtwarzam wybranâ animacjë...
 ;
 STR_OLD_NEW_FILE_REPLACE
 \"%s\" juû istnieje! Zastâpiê?\n\n\
-Nowy  - Rozmiar : %7ld Data : %19s\n\
-Stary - Rozmiar : %7ld Data : %19s
+Nowy  - wielkoôê: %7ld  data: %19s\n\
+Stary - wielkoôê: %7ld  data: %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %7ld  Date : %19s\n\
 ; Old  -  Size : %7ld  Date : %19s
 ;
 STR_REMAINING
-%ld z %ld elementów
+Element: %ld z %ld
 ; %ld of %ld items
 ;
 STR_CUSTOM_LIST
@@ -863,7 +863,7 @@ Deikonifikuj
 ; Uniconify
 ;
 STR_CUSTPORT_NOT_FOUND
-Podany przez uûytkownika wlasny plik obsîugi\n\"%s\"\nnie zostaî znaleziony!
+Podany przez uûytkownika wîasny plik obsîugi\n\"%s\"\nnie zostaî znaleziony!
 ; User-specified custom handler port\n\"%s\"\ncould not be found!
 ;
 STR_CHECKFIT_STRING
@@ -895,7 +895,7 @@ Uruchamiam moduî obsîugi dysku...
 ; Starting disk module...
 ;
 STR_UNABLE_TO_LOAD_MODULE
-Nie mogë wczytaê zewnëtrznego moduîu
+Nie moûna wczytaê zewnëtrznego moduîu
 ; Unable to load external module
 ;
 STR_SELECT_ALL_ENTRIES
@@ -921,6 +921,7 @@ Data
 STR_SELECT_BITS
 Bity
 ; Bits
+;
 ;
 STR_STARTING_PRINT_MODULE
 Uruchamiam moduî drukarki...
@@ -963,7 +964,7 @@ Traktuj maîe i wielkie litery tak samo
 ; Treat upper and lower case as the same
 ;
 STR_SEARCH_WILD
-Uûywaj ? jako znaku zastëpczego
+Uûywaj \"?\" jako znaku zastëpczego
 ; Recognise ? as a wildcard character
 ;
 STR_SEARCH_ONLYWORD
@@ -999,7 +1000,7 @@ PAM:
 ; MEM:
 ;
 STR_KEY
-Wywoîanie :
+Wywoîanie:
 ; Key :
 ;
 STR_TINY_BUTTONS
@@ -1019,7 +1020,7 @@ Nazwa
 ; Name
 ;
 STR_DISKINFO_SIZE
-Rozmiar
+Wielkoôê
 ; Size
 ;
 STR_DISKINFO_USED
@@ -1070,6 +1071,7 @@ STR_DISKINFO_BYTESPERBLOCK
 bajtów/blok
 ; bytes/block
 ;
+;
 STR_TEXT_VIEWER_TITLE
 Directory Opus - przeglâdarka tekstu
 ; Directory Opus Text Viewer
@@ -1091,11 +1093,11 @@ Przywróê
 ; Revert
 ;
 STR_PROTECT_OLD
-Stare :
+Stare:
 ; Old :
 ;
 STR_PROTECT_NEW
-Nowe :
+ Nowe:
 ; New :
 ;
 STR_PROTECT_MASK
@@ -1167,7 +1169,7 @@ Domyôlny
 ; Default
 ;
 STR_FTYPE_UNKNOWN
-Nie znany typ pliku
+Nieznany typ pliku
 ; Unknown file type
 ;
 STR_MULTI_DRAG
@@ -1223,7 +1225,7 @@ Nazwy
 ; Name
 ;
 STR_FILE_SIZE
-Rozmiaru
+Wielkoôci
 ; Size
 ;
 STR_PROTECTION_BITS
@@ -1259,7 +1261,7 @@ Porzâdek odwrotny
 ; Reverse order
 ;
 STR_SIZE_AS_KMG
-Rozmiar w formacie K/M/G
+Wielkoôci w formacie K/M/G
 ; Sizes in K/M/G format
 ;
 STR_BRING_TO_FRONT
@@ -1267,19 +1269,23 @@ _Przenieô na wierzch
 ; _Bring to front
 ;
 STR_REPLACE_DIR_WITH_FILE
-\"%s\" juû istnieje! Zastâpiê?\n\nNowy - Rozmiar : %7ld Data : %19s\nStary -                  Data : %19s
+\"%s\" juû istnieje! Zastâpiê?\n\n\
+Nowy  - wielkoôê: %7ld  data: %19s\n\
+Stary -                    data : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %7ld  Date : %19s\n\
 ; Old  -                  Date : %19s
 ;
 STR_REPLACE_FILE_WITH_DIR
-\"%s\" juû istnieje! Zastâpiê?\n\nNowy -                   Data : %19s\nStary - Rozmiar : %7ld  Data : %19s
+\"%s\" juû istnieje! Zastâpiê?\n\n\
+Nowy  -                    data: %19s\n\
+Stary - wielkoôê: %7ld  data: %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -                  Date : %19s\n\
 ; Old  -  Size : %7ld  Date : %19s
 ;
 STR_OPERATION_NOT_SUPPORTED
-Operacja nie obsîugiwana
+Nieobsîugiwana operacja
 ; Operation not supported
 ;
 STR_QUERY_REMOVE_ASSIGN
@@ -1387,4 +1393,3 @@ Katalog docelowy odnoônika
 STR_PROTECT_CANCEL
 Ponie_chaj
 ; _Cancel
-;

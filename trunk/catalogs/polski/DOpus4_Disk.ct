@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Disk.catalog 1.4 (04.12.2001) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4_Disk.catalog 1.5 (04.02.2003) (c) Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
@@ -83,7 +83,7 @@ Zbyt maîo wolnej pamiëci
 ; Not enough memory
 ;
 STR_BITMAP_ERROR
-Bîâd bitmapy
+Bîâd mapy bitowej
 ; Bitmap error
 ;
 STR_DEVICE_ERROR
@@ -91,7 +91,7 @@ Bîâd urzâdzenia
 ; Device error
 ;
 STR_NODEVICE_ERROR
-Nie mogë otworzyê urzâdzenia
+Nie moûna otworzyë urzâdzenia
 ; Couldn't open device
 ;
 STR_RETRY
@@ -115,7 +115,7 @@ Tworzë ômietnik...
 ; Creating Trashcan...
 ;
 STR_DISK_NOT_BLANK
-Dysk w napëdzie %s nie jest pusty!\n\nWolumen \"%s\" zawiera %s.\n\nWszystkie dane zostanâ utracone.\nWybierz koontynuuj, aby kontynuowaê %s.
+Dysk w napëdzie %s nie jest pusty!\n\nWolumen \"%s\" zawiera %s.\n\nWszystkie dane zostanâ utracone.\nWybierz koontynuuj, aby kontynuowaë %s.
 ; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n\
 ; All data will be erased.\nChoose Proceed to continue the %s.
 ;
@@ -246,3 +246,23 @@ Formatuj
 STR_DISK_NOT_BLANK_DISKCOPY
 Kopuj
 ; Diskcopy
+;
+STR_FORMAT_SFS_CASE
+Rozr. wielkoôë zn.
+; Case-sensitive
+;
+STR_FORMAT_SFS_SHOWREC
+Pokazuj \"Recycled\"
+; Show 'Recycled'
+;
+STR_FORMAT_SFS_NOREC
+Bez \"Recycled\"
+; No 'Recycled'
+;
+STR_FORMAT_PFS_DELDIR
+Iloôê bloków DelDir
+; DelDir blocks
+;
+STR_FORMAT_PFS_FNSIZE
+Dîugoôê nazw plików
+; Filename size

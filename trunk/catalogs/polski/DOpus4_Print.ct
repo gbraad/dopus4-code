@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Print.catalog 1.2 (07.11.2001) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4_Print.catalog 1.5 (04.02.2003) (c) Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
@@ -171,15 +171,15 @@ Drukowanie katalogu
 ; Printdir
 ;
 STR_UNABLE_TO_OPEN_FILE
-Nie mogë otworzyê pliku. Spróbowaê ponownie?
+Nie moûna otworzyê pliku. Spróbowaê ponownie?
 ; Unable to open file. Try again?
 ;
 STR_UNABLE_TO_OPEN_OUTPUT
-Nie mogë otworzyê pliku wyjôciowego. Spróbowaê ponownie?
+Nie moûna otworzyê pliku wyjôciowego. Spróbowaê ponownie?
 ; Unable to open output file. Try again?
 ;
 STR_UNABLE_TO_OPEN_PRINTER
-Nie mogë otworzyê drukarki. Spróbowaê ponownie?
+Nie moûna otworzyê drukarki. Spróbowaê ponownie?
 ; Unable to open printer. Try again?
 ;
 STR_ERROR_PRINTING_DIR

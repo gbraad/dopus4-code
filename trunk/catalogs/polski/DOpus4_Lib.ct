@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Lib.catalog 1.2 (11.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: DOpus4_Lib.catalog 1.2 (04.02.2003) (c) Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
@@ -23,7 +23,11 @@ Poniechaj
 ; Cancel
 ;
 STR_CANNOT_FIND_FILE_REQ
-Nie mogë znaleúê pliku \"%s\" ani w katalogu C: ani w katalogach\nModules/ czy teû DOpus:Modules/.\nJeôli to konieczne wîóû dysk DOpus i wybierz\n%s, lub %s aby przerwaê operacjë
+Nie moûna znaleúê pliku \"%s\"\n\
+ani w katalogu C: ani w katalogach\n\
+Modules/ czy teû DOpus:Modules/.\n\
+Jeôli to konieczne, wîóû dysk DOpus i wybierz\n\
+\"%s\", lub \"%s\" aby przerwaê operacjë
 ; Unable to find the file \"%s\"\n\
 ; in either the C: directory or the\n\
 ; Modules/ or the DOPUS:Modules/ directory.\n\

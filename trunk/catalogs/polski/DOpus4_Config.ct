@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Config.catalog 1.7 (18.06.2002) © Mariusz Danilewicz <mandi@interia.pl>
+## version $VER: Dopus4_Config.catalog 1.8 (04.02.2003) (c) Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
 ## codeset 0
 ;
@@ -143,7 +143,7 @@ Edycja przycisków
 ; Button edit screen
 ;
 STR_ENTER_BANK_TO_COPY
-Podaj numer banku do którego chcesz skopiowaê aktualny bank.\nJeôli podany bank nie istnieje, nowy zostanie stworzony.
+Podaj numer banku do którego chcesz skopiowaê aktualny bank.\nJeôli podany bank nie istnieje, nowy zostanie utworzony.
 ; Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
 ;
 STR_BANK_ALREADY_EXISTS
@@ -191,7 +191,7 @@ Konfiguracja przycisków - brak skonfigurowanego banku
 ; Button configuration screen - no banks configured
 ;
 STR_NO_MEMORY_FOR_NEW_BANK
-Nie mogë przydzieliê pamiëci dla nowego banku!
+Nie moûna przydzieliê pamiëci dla nowego banku!
 ; Unable to allocate memory for new bank!
 ;
 STR_NEW_BANK_CREATED
@@ -461,7 +461,7 @@ Edycja klasy
 STR_FILE_CLASS_EDIT_SCREEN
 Edycja klas plików
 ; File class edit screen
-; 
+;
 STR_OPEN_FAILED
 Otwieranie nie powiodîo sië - bîâd DOSu nr. %ld\nPonowiê próbë?
 ; Open failed - DOS error code %ld\nTry again?
@@ -503,11 +503,11 @@ Czcionka...
 ; Font...
 ;
 STR_FONT_SIZE
-Rozmiar...
+Wielkoôê...
 ; Size...
 ;
 STR_MODIFY_SIZE
-Dopasuj rozmiar...
+Dopasuj wielkoôê...
 ; Adjust size...
 ;
 STR_USE_MMB
@@ -515,15 +515,15 @@ Uûyj ôrodkowego przycisku myszki
 ; Use middle mouse button
 ;
 STR_MINIMUM_SIZE
-Minimalny rozmiar
+Wielkoôê minimalna
 ; Minimum size
 ;
 STR_MAXIMUM_SIZE
-Maksymalny rozmiar
+Wielkoôê maksymalna
 ; Maximum size
 ;
 STR_DEFAULT_SIZE
-Domyôlny rozmiar
+Wielkoôê domyôlna
 ; Default size
 ;
 STR_MAXIMUM_COLORS
@@ -535,7 +535,7 @@ Wczytujë czcionkë...
 ; Loading font...
 ;
 STR_FONT_COULD_NOT_BE_LOADED
-Nie mogë wczytaê czcionki!
+Nie moûna wczytaê czcionki!
 ; Font could not be loaded!
 ;
 STR_ENTER_CONFIGURATION_FILENAME
@@ -763,7 +763,7 @@ Nazwa pliku
 ; File name
 ;
 STR_FORMAT_SIZE
-Rozmiar pliku
+Wielkoôê pliku
 ; File size
 ;
 STR_FORMAT_BITS
@@ -771,7 +771,7 @@ Bity protekcji
 ; Protection bits
 ;
 STR_FORMAT_DATE
-Data stworzenia
+Data utworzenia
 ; Creation date
 ;
 STR_FORMAT_COMMENT
@@ -1200,11 +1200,11 @@ Skasuj
 ;
 STR_LISTFORMAT_NAME
 
-; 
+;
 ;
 STR_LISTFORMAT_COMMENT
 
-; 
+;
 ;
 STR_LISTFORMAT_REVERSE
 Porzâdek odwrotny
@@ -1671,7 +1671,7 @@ Ramki w przeglâdarce
 ; Text viewer borders
 ;
 STR_SYS_VIEWPLAY_TABSIZE
-Rozmiar tabulatora
+Wielkoôê tabulatora
 ; Tab size
 ;
 STR_SCREEN_GENERAL_TINYGADS
@@ -1783,7 +1783,7 @@ ClearBuffers  -   Czyôci bufory katalogów
 ; ClearBuffers  -       Clear buffered dirs
 ;
 STR_FUNCTIONLIST_CLEARSIZES
-ClearSizes    -  Usuwa rozmiary katalogów
+ClearSizes    -  Usuwa wielkoôci katalogów
 ; ClearSizes    -    Remove dir byte counts
 ;
 STR_FUNCTIONLIST_CLEARWIN
@@ -2202,7 +2202,7 @@ Or           - poczâtek innej grupy
 STR_CLASSOPS_SEARCHFOR
 SearchFor    - tekst lub $hex
 ; SearchFor    - text or $hex
-; 
+;
 STR_BY
 na
 ; by
@@ -2412,7 +2412,7 @@ ParentList    -    Lista nadrzëdnych kat.
 ; ParentList    -   List parent directories
 ;
 STR_SIZE_KMGMODE
-Pokazuj rozmiary w K/M/G
+Pokazuj wielkoôci w K/M/G
 ; Show size in K/M/G
 ;
 STR_SYS_VIEWPLAY_INWINDOW
