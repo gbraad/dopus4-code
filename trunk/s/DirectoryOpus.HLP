@@ -1,5 +1,5 @@
 **Versionstring
-$VER: DOpus4_English.HLP 1.1 (27.09.01)
+$VER: DOpus4_English.HLP 1.1 (20.01.2002)
 ^
 **Assign
 This function allows you to assign a logical device name to the
@@ -10,7 +10,7 @@ assigned to a long and complicated pathname such as:
 
    DH0:Projects/Work/1989/April/Bits&Pieces/Text
 
->From then on, whenever you enter Text: into a directory string gadget
+From then on, whenever you enter Text: into a directory string gadget
 you will go straight to the directory at the end of the assigned path,
 instead of having to go through all the sub-directories on the way.
 You can use the assignment in any other program as well. Logical
@@ -76,30 +76,30 @@ When this function is chosen, a window appears containing two lists of
 devices. Select a source disk from the left hand list, and the destination
 disk from the right hand list.
 
-If Verify is selected, the copy will be verified after writing each track,
-to make sure it copied successfully. The Bump name option will modify the
-name of the disk copy, to prevent problems that can be caused by having
-identical disks present in the system.
+If "Verify" is selected, the copy will be verified after writing each track,
+to make sure it was copied successfully. The "Bump name" option will modify
+the name of the destination disk, to prevent problems that can be caused
+for having identical disks present in the system.
 
-The Check button at the bottom of the requester does not copy disks,
-instead it checks two disks if they are identical.^
+The [Check] button at the bottom of the requester does not copy disks,
+instead it will check two disks to find out if they are identical.^
 **Format
 This allows you to format a new disk. All new disks need to be formatted
 before the computer can write to them. This function is contained in the
 external DOpus_Disk module.
 
 When this is selected, a window appears containing a list of devices, and
-several options. Select the disk from the list that you wish to format.
-Depending on your OS version, several options will be available to select
-the type of format you wish (FFS, Dir Caching, etc).
+several options. Select in the list the disk you wish to format. Several
+options will be available to select the type of format you wish (FFS,
+Dir Caching, etc).
 
-If Verify is selected, the format will be verified after writing each track,
-to make sure it formatted successfully. The Put Trashcan option causes
-the Trashcan directory and icon to be created on the new disk.
+If "Verify" is selected, the format will be verified after writing each
+track, to make sure it was formatted successfully. The "Put Trashcan" option
+causes the Trashcan directory and icon to be created on the new disk.
 
-Format Quick allows you to initialise an already-formatted disk. This
-provides an extremely fast way to erase old disks. This will not work on new
-disks, however; you must use the Format option to format brand new disks.^
+[Quick format] allows you to initialise an already-formatted disk. This
+provides an extremely fast way of erasing old disks, but will not work on
+new disks - you must use [Format] to format brand new disks.^
 **Install
 This function allows you to make a disk bootable. All bootable disks have
 special information written on the first sector of the disk. Without this, the
@@ -108,15 +108,15 @@ module.
 
 This function opens a window with a list containing the available drives
 (note that you can only install floppy disks with this option). Select
-the device you wish to install from the list.^
+the drive you wish to install from the list.^
 **Relabel
-This allows you to change the name (label) of the disk that is open in the
+This allows you to change the name (label) of the disk that is opened in the
 active directory window.^
 **PrintDir
 This function allows you to print the contents of the active directory window
-You may elect which information to print, including file sizes, protection
-bits, dates and comments. You may also elect to send the output to a disk
-file instead of the printer.
+You may select which information to print, including file sizes, protection
+bits, dates, comments and filetypes. You may also choose to send the output
+to a disk file instead of the printer.
 
 This function is contained in the external DOpus_Print module.^
 **DiskInfo
@@ -179,30 +179,31 @@ This allows you to rename all selected files and directories. You may use a
 each individual file.
 
 To add a prefix or a suffix (or both) to all selected entries, use a * in the
-second string button. For example, to add HIRES as a prefix and .pic as a
-suffix to all selected entries, enter HIRES*.pic.
+second string button. For example, to add "HIRES" as a prefix and .pic as a
+suffix to all selected entries, enter "HIRES*.pic".
 
 To change a prefix or a suffix (or both) of all selected entries, use a * in
-the top string button. For example, to change HIRES to MEDRES as a prefix,
-and .pic to .iff as a suffix, enter HIRES*.pic in the top string button, and
-MEDRES*.iff in the bottom string button.^
+the top string button. For example, to change "HIRES" to "MEDRES" as a prefix,
+and ".pic" to ".iff" as a suffix, enter "HIRES*.pic" in the top string button,
+and "MEDRES*.iff" in the bottom string button.^
 **Clone
-This function makes an identical copy of selected files and directories, in
-the same directory, but with different names.^
+This function makes an identical copy of the selected files and directories,
+in the same directory, but with different names.^
 **Delete
 This function deletes all selected files and directories in the active
 directory window. CAREFUL!
 
 This function can also be used to remove assigns: Just display the device list
 (press the right mouse button over the tiny S button in the center of DirOpus'
-window), select the assign(s) you want to remove and invoke the delete command.^
+window), select the assign(s) you want to remove, and then invoke the "Delete"
+command.^
 **MakeDir
 This function allows you to create a directory in the active directory window.^
 **CheckFit
 Important Note!
 
-This command is heavily outdated. It only knowns about FFS partitions with
-512 Bytes per block. It will fail (in other words: report wrong results) on any
+This command is heavily outdated. It only knows about FFS partitions with
+512 Bytes per block. It will fail (in other words: report wrong values) on any
 partition that does not match these specs exactly. Avoid this command if you're
 not sure that all of your partitions are FFS, 512 Bytes/block!
 
@@ -213,24 +214,24 @@ selected would fit in the destination directory, were they to be copied
 there. It performs a similar function to the GetSizes command, except that
 it is far more accurate. The only disadvantage to this command is that
 even if the directories you have selected already have sizes displayed for
-them, they may have to be rescanned if the destination device has changed.^
+them, they may have to be rescanned if the destination drive has changed.^
 **GetSizes
-The function works in a similar way to CheckFit. It scans through all
+This function works in a similar way to "CheckFit". It scans through all
 selected directories, calculating the total number of bytes in each
 directory, and adds the directory sizes to the list. It then displays a
-Y or N character to indicate whether or not the selected entries would fit
-in the destination were they to be copied there. This is only a very rough
-indication; to be completely accurate you should use the CheckFit command
-instead of this one.^
+Y or N character to indicate whether the selected entries would fit in the
+destination were they to be copied there. This is only a very rough
+indication; to be completely accurate you should use the "CheckFit" command
+instead.^
 **ClearSizes
 This will remove the size displayed for all selected directories. You may
 wish to do this if you know the size of the directory has changed. You can
-then reselect the directory and use the GetSizes or CheckFit functions to
+then reselect the directory and use the "GetSizes" or "CheckFit" functions to
 get an accurate size.^
 **Hunt
 This function allows you to search through all selected directories and their
-sub-directories for a specified file, or for a group of files specified by
-wildcard. If the specified files are found, the directory containing them will
+sub-directories for a specified file, or for a group of files matching a given
+pattern. If the specified files are found, the directory containing them will
 be read, and the files will be selected.^
 **Search
 This function allows you to search all selected files for a specified string,
@@ -238,131 +239,132 @@ which can optionally contain wildcards. If a match is found, you are told
 which file contains the string, and given the option to enter the text viewer
 and read the file. If you opt to do this, a search for the string is
 automatically initiated once the file has been read by the text viewer.
-Check the manual fur further information (i.e. searching for ASCII codes).^
+Check the manual for more information (i.e. searching for ASCII codes).^
 **Run
 This function runs each selected file in turn. You are prompted for any
 arguments before each file is run. The file is run using default parameters
-that should be suitable for most programs. If the program does not seem to run
-this way, try running it from the Workbench instead.^
+that should be suitable for most programs - if the program does not seem to
+work this way, try running it from the Workbench instead.^
 **Execute
 This function executes each selected file in turn (it assumes that they are
-all batch files). Note: Only files with the 'S' protection bit set are
-recognised as Batch files!^
+all AmigaDOS scripts). Note: Only files with the 'S' protection bit set are
+recognised as script files!^
 **Comment
 This function allows you to change the comment, or filenote, of the selected
 files and directories in the active directory window. 
 
 For each entry, you are presented with a requester containing the current
 comment attached to that entry. To change the comment, simple edit it and
-press return. To keep the same comment, press return without editing.
+press <Return>. To keep the same comment, press <Return> without editing.
 
-To set the comment of all selected entries you should select the All button
-from the comment requester; choosing Okay or pressing return will set the
-comments a file at a time.^
+To set the comment of all the selected entries you should select the [All]
+button from the comment requester; choosing [Okay] or pressing <Return> will
+set the comment a file at a time.^
 **DateStamp
 This function allows you to change the datestamp of the selected files and
 directories in the active directory window. 
 
 For each entry, you are presented with a requester. If you wish the file
-to have its datestamp set to the current date and time, simply press return.
+to have its datestamp set to the current date and time, simply press <Return>.
 Otherwise, enter the desired date and time.
 
-To set the datestamp of all selected entries you should select the All button
-from the datestamp requester; choosing Okay or pressing return will set the
-datestamps a file at a time.^
+To set the datestamp of all selected entries you should select the [All]
+button from the datestamp requester; choosing [Okay] or pressing <Return>
+will set the datestamp a file at a time.^
 **Protect
 This function allows you to modify the protection bits of the selected files
 and directories in the active directory window.
 
 For each entry, you are presented with a requester displaying the protection
-bits currently set for that entry. The protection bits are H (hidden), S
+bits currently set for that entry. The protection bits are H (hold), S
 (script), P (pure), A (archived), R (readable), W (writeable), E (executable)
 and D (deleteable).
 
 To toggle bits on or off, click on the appropriate buttons, or press the
-appropriate keys. To set all bits, select the All bits button. To
-unset all bits, select the None button. To reverse the state of the bits,
-select the Toggle button. To revert to the bits that were set originally,
-select the Undo button.
+appropriate keys. To set all bits, select the [All bits] button. To
+unset all bits, select the [None] button. To reverse the state of the bits,
+select the [Toggle] button. To revert to the bits that were set originally,
+select the [Revert] button.
 
 The mask setting allows you to specify bits that are to be unaffected by this
-operation. This allows you, for instance, to set the RW bits in a files,
-leaving any other bits that might be set alone. To turn a bit on or off in
-the mask, click on the appropriate area or press the key with either
-SHIFT key held down.
+operation. This allows you, for instance, to set the RW bits in a file,
+leaving any other bits that should be left alone. To turn a bit on or off
+in the mask, click on the appropriate area or press the key while holding
+down any <Shift> key.
 
 To set the protection bits of all selected entries you should select the
-All button from the protection requester; choosing Okay will set the
-protection bits a file at a time.^
+[All] button from the protection requester; choosing [Okay] will set the
+protection bits one file at a time.^
 **IconInfo
 This allows you to modify the parameters of icons, much the same way
-as the Information command of Workbench does. You can modify protection
-bits, stack size, comments, default tools and tool types this way.^
+as the "Information" menu item of Workbench does. You can modify protection
+bits, stack size, comments, default tool and tooltypes this way.^
 **AddIcon
 This will add icons to all selected files and directories in the active
-directory window. Directory Opus automatically senses what sort of file it
-is (drawer, project or tool) and will add the appropriate icon. You may
+directory window. Directory Opus automatically senses what sort of object
+it is (drawer, project or tool) and will add the appropriate icon. You may
 specify your own icons in the configuration, if the default icons are
 not suitable.^
 **Encrypt
 This function allows you to keep important data secret by encrypting files
-with an entered password. All selected files in the active directory window
+with a given password. All selected files in the active directory window
 will be encrypted, and the encrypted files will be written to the destination
 window. If the password starts with a - (minus) character, the file will be
 decrypted instead.^
 *Arc Ext
-This button calls the filetype command User1 on the selected files. It is
-labelled Arc Ext as this is what the default filetypes are primarily set
-up to do; extract archives. You should consult the manual for more
-information on the filetype features.^
+This button calls the filetype command "User1" on the selected files. It is
+labelled "Arc Ext", as this is what the default filetypes are primarily set
+up to do - extract archives. You should read the manual for more information
+on the filetype features.^
 **Read
 This function allows you to read a text file using the mouse.
 
 To auto-scroll the file, press the left mouse button. The direction and
-speed can be specified by the Y-position of the mouse. You can also use
+speed are determined by the Y-position of the mouse. You can also use
 the cursor keys, the arrow buttons, and the slider (if enabled) to move
 around in the file.
 
-To jump to a specified line, click on the number immediately after Lines.
+To jump to a specified line, click on the number immediately after "Lines".
 To jump to a specified percentage, click on the percentage display.
 
-To move up or down a page, click on the U or D button, or press that key.
-You may also press Shift + CursorUp/CursorDown or Space/Backspace.
+To move up or down a page, click on the [U] or [D] buttons, or press that
+key. You can also press Shift + CursorUp/CursorDown or Space/Backspace.
 
-To move to the top or bottom, click on T or B, or press that key. You may
-also press Control + CursorUp/CursorDown.
+To move to the top or bottom, click on [T] or [B], or press that key.
+You can also press Control + CursorUp/CursorDown.
 
-To search for a string, press S or click on the S button. To continue a
-search, press N. To print the current page, press C. To print the whole file,
-press P. To exit, click on the X button, or press ESCape, X or Q.
+To search for a string, press <S> or click the [S] button; to look for
+the next instance of the string, press <N>. To print the current page,
+press <C>. To print the whole file, press <P>. To exit, click on the [X]
+button, or press <ESC>, <X> or <Q>.
 
 Note that this function does not display ANSI control sequences or tab
-characters; you must use the ANSIREAD function for that.^
+characters; you must use the "AnsiRead" function for that.^
 **AnsiRead
-This function operates in exactly the same way as the READ function, except
-that it displays ANSI control sequences (colours and typestyles) properly,
+This function operates in exactly the same way as the "Read" function, except
+that it displays ANSI control sequences (colours and text styles) properly,
 and also handles tab characters correctly.^
 **HexRead
-This function allows you to hex read a file, this is very useful for examing
-binary files. The file is displayed in hexadecimal, with 16 bytes per line.
-The text viewer operates the same way as when the file is being viewed as
-ASCII.^
+This function allows you to hex read a file, something very useful to
+examine binary files. The file is displayed in hexadecimal, with 16 bytes
+per line. The text viewer operates the same way as when the file is being
+viewed as ASCII.^
 **Show
 This function will show each selected file in turn, if the file is an
-IFF ILBM picture, ANIM animation, an icon, or a font. If it is an icon that is
-being shown, the alternate imagery (if any) can be displayed by pressing
-return. To leave a picture, press the left mouse button. If the picture has
-colour cycling defined, you can start and stop cycling with the TAB key.
+IFF ILBM picture, ANIM animation, an icon, or a font. If it is an icon that
+is being shown, the alternate imagery (if any) can be displayed by pressing
+<Return>. To leave a picture, press the left mouse button. If the picture has
+colour cycling defined, you can start and stop cycling with the <TAB> key.
 
-Pressing the P key, the HELP key or the SPACE bar take you to the Print
-control screen. This allows you to configure the printer and actually print
-the current picture. It also displays some important information about the
+Pressing <P>, <HELP> or the SPACE bar will take you to the Print control
+screen. This allows you to configure the printer and ultimately print the
+current picture. It also displays some important information about the
 current picture.
 
-If the picture is larger than the screen you are able to scroll around in
-it using the cursor keys, or by moving the mouse. This function will also
-show pictures crunched with PowerPacker or similar packers, provided you have
-the xfdmaster.library present (see manual).^
+If the picture is larger than the screen, you can scroll around in it by
+using the cursor keys, or by moving the mouse. This function will also show
+pictures crunched with PowerPacker or similar packers, provided you have
+the xfdmaster.library present (see the manual).^
 **Play
 This function allows you to play IFF 8SVX sampled sounds and other files.
 To stop a sound while it is playing, press the left mouse button.
@@ -374,16 +376,17 @@ Each sound is played continuously; to advance to the next sound, you must
 press the left mouse button.^
 *Edit
 This will invoke an editor to edit the selected files. This is not a built-in
-function, but is a button configured to call an editor called c:Ed. You
-may (and probably will) want to change this in the configuration.^
+function, but just a button configured to launch an external editor called
+"c:Ed". You may (and probably will) want to change this in the configuration.^
 *New File
-This will invoke an editor in the same was as the Edit button will. However,
+This will invoke an editor in the same way as the [Edit] button will. However,
 this function allows you to create a new file with the editor, and will
 ask you for a filename.^
 **Print
-This function will print all selected files. It is actually a powerful print
-formatter. There are several configuration items in the print requester.
-The Print routine is contained in the external DOpus_Print module.
+This function will print all selected files, and it is actually a powerful
+print formatter on its own. There are several configuration items in the
+print requester; the Print routine is contained in the external DOpus_Print
+module.
 
 You may configure the top and bottom margins (in lines), and the left and
 right margins (in characters). Tab size is the number of spaces a tab
@@ -392,33 +395,34 @@ print pitch, and either Draft or Letter as print quality.
 
 You can configure individually the contents of the header and footer by
 choosing to include the title, date and page number. If none of these are
-selected no header of footer will be produced. If title is selected and
-anything is entered in the field to the right of the title button, that
-string will be used as the title. If this field is left blank, the name
+selected, no header or footer will be created. If "Title" is selected and
+anything is entered in the field to the right of the "Title" button, that
+string will be used as the title; if this field is left blank, the name
 of the file will be used instead.
 
-You can select to output to the printer, or to a disk file. The Print button
-will start the print operation, and Exit will cancel it.^
+You can select to output to the printer, or to a disk file. The [Print] button
+will start the actual print operation, whereas [Exit] will cancel the requester
+completely.^
 **GetDevices
-This function displays a list of all devices, volumes and assigned directories
-present in the system. You may then read these devices in by double-clicking
-on them. You can also select entire devices for use with the hunt and search
-functions. Additionally, it is possible to select one or more assigned
+This function displays a list of all drives, volumes and assigned directories
+present in the system. You may then read these drives by double-clicking them
+in the list. You can also select entire drives for use with the "Hunt" and
+"Search" functions. Additionally, it is possible to select one or more assigned
 directories and cancel the assign(s) by invoking the "Delete" command.^
 **Select
 This allows you to select files and directories in the active directory
-window based upon name (using wildcards), creation date or protection
+window based upon name (using pattern matching), creation date or protection
 bits. For selection upon name, all standard wildcards are supported
-(*,~,? etc..) as well as the AmigaDOS wildcards #? and ?.
-Consult the manual for more information on using wildcards.
+(*,~,? etc..) as well as the AmigaDOS wildcards #? and ?. Please see the
+manual for more information on using wildcards.
 
 Selection upon date allows you to specify date ranges, in the form
 DD-MMM-YY > DD-MMM-YY. You can leave out either of the two dates to
 specify from the beginning of time, or until the current date. You may also
 enter times in the form HH:MM:SS as well as dates.
 
-To specify protection bits you use the character codes hsparwed. If you
-precede a bit with a - character, the bit must not be set for the file
+To specify protection bits, use the character codes "hsparwed". If you
+precede a bit with a "-" character, the bit must not be set for the file
 to be selected. Consult the manual for more information on file selection.^
 **Arexx
 This allows you to launch an ARexx script or execute an ARexx command from
@@ -432,9 +436,9 @@ traveling there via all the prior directories.^
 This function will reselect all entries that were selected before the last
 operation was initiated. The entries are reselected only if they still exist.^
 **Rescan
-This function will re-read the directory open in the active directory window.
+This function will re-read the directory opened in the active directory window.
 This has the same effect as activating the directory string button, and
-pressing RETURN without changing the path name.^
+pressing <Return> without changing the path name.^
 **BufferList
 This function displays a list of all the directories contained in Directory
 Opus' internal buffers. You may then double-click on one of the displayed
@@ -444,10 +448,10 @@ to cycle through the buffers one by one.^
 This function will clear the contents of all buffers other than the two that
 are currently displayed. All used memory will be deallocated; this is a good
 way to free up memory quickly if you have lots of used buffers and are
-running low.^
+running low on memory.^
 **DriveGadgets
 These are the drive buttons. Selecting these reads the
-given device or path into the active directory window.^
+given drive or path into the active directory window.^
 *!103
 Not enough memory
 
@@ -532,7 +536,7 @@ You misspelled the command name, or the file may not be a loadable
 
 Recovery suggestion:
 Retype the filename and make sure that the file is a program file.
-Remember, to execute a script, either the s bit must be set or the EXECUTE
+Remember, to execute a script, either the "s" bit must be set or the EXECUTE
 command must be used.^
 *!122
 Invalid resident library
@@ -575,11 +579,11 @@ Check the directory name and reissue the command.^
 Object not found
 
 Probable cause:
-AmigaDOS cannot find the file or device you specified. You may have
+AmigaDOS cannot find the file or drive you specified. You may have
 made a typing or spelling error.
 
 Recovery suggestion:
-Check the filename or the device name and reissue the command.^
+Check the filename or the drive name and reissue the command.^
 *!206
 Invalid window description
 
@@ -642,7 +646,7 @@ If you've just inserted the disk, wait for the validation process to
 finish. This may take less than a minute for a floppy disk or up to several
 minutes for a hard disk. If the disk is corrupt, it cannot be validated.
 In this case, try to retrieve the disk's files and copy them to another
-disk..^
+disk.^
 *!214
 Disk is write-protected
 
@@ -722,28 +726,28 @@ Delete some unnecessary files or directories, or use a different disk.^
 Object is protected from deletion
 
 Probable cause:
-The d (deleteable) protection bit of the file or directory is clear.
+The "d" (deleteable) protection bit of the file or directory is clear.
 
 Recovery suggestion:
 If you are certain that you want to delete the file or directory, use
-PROTECT to set the d bit.^
+PROTECT to set the "d" bit.^
 *!223
 File is write protected
 
 Probable cause:
-The w (writeable) protection bit of the file is clear.
+The "w" (writeable) protection bit of the file is clear.
 
 Recovery suggestion:
 If you are certain that you want to overwrite the file, use PROTECT to
-set the w bit.^
+set the "w" bit.^
 *!224
 File is read protected
 
 Probable cause:
-The r (readable) protection bit of the file is clear.
+The "r" (readable) protection bit of the file is clear.
 
 Recovery suggestion:
-Use PROTECT to set the r bit of the file.^
+Use PROTECT to set the "r" bit of the file.^
 *!225
 Not a valid DOS disk
 
@@ -752,9 +756,9 @@ The disk in the drive is not an AmigaDOS disk, it has not been formatted,
 or it is corrupt.
 
 Recovery suggestion:
-Check to make sure you are using the correct disk. If you know the disk
-worked before, use a disk recovery program to salvage its files. If the
-disk has not been formatted, use FORMAT to do so.^
+Make sure you are using the correct disk. If you know the disk worked
+before, use a disk recovery program to salvage its files. If the disk
+has not been formatted, use FORMAT to do so.^
 *!226
 No disk in drive
 
