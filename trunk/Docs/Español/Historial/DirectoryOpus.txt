@@ -7,9 +7,40 @@ mientras que otros no tienen en mi opinión demasiado sentido. Utilice
 la versión que más le guste.
 
 
-4.17 (20.1.2002)
+4.17 (27.1.2002)
 
 - Corregidos algunos impactos de Enforcer.
+
+- Los parámetros SORTMETHOD y SORTFLAGS del comando ARexx "Modify"
+  realizan ahora el cambio sin llamar a "Rescan" ("DisplayDir" es
+  suficiente).
+
+- Las funciones integradas deberían funcionar con los archivos sobre
+  los que se pulse dos veces, donde sea posible.
+
+- Añadido soporte para archivos a los comandos "Show", "IconInfo", "Play",
+  "PlayST" y "LoopPlay".
+
+- Corregida la interrupción de la carga de ficheros en modo hexadecimal en
+  el visor de ficheros.
+
+- Corregido el funcionamiento de algunos parámetros de los comandos "Query"
+  y "Modify".
+
+- Elegir un fichero de la lista pulsando la tecla correspondiente al
+  primer carácter de su nombre también funciona ahora al utilizar ordenación
+  inversa.
+
+- Sustituidos los mensajes de error integrados con los mensajes de error
+  estándar del sistema.
+
+- Ya no informa de la modificación de la configuración después de volver
+  de ConfigOpus.
+
+- Imprimir directorios vacíos ya no debería causar impactos de Enforcer.
+
+- No borra los ficheros de origen al emplear Move(As) estando lleno el
+  disco destino.
 
 - Añadida al menú instantáneo la ordenación por extensión.
 
