@@ -28,6 +28,8 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <rexx/storage.h>
+
 /* assembly.c */
 
 #ifdef __PPC__

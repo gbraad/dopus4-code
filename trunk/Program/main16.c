@@ -29,6 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
+#include <libraries/amigaguide.h>
 //#include <proto/powerpacker.h>
 
 int showfont(name,size,np)

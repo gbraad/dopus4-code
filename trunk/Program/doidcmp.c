@@ -28,7 +28,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include <newmouse.h>
+#include <devices/newmouse.h>
 #include "dopus.h"
 #include <libraries/screennotify.h>
 

@@ -28,6 +28,8 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <dos/filehandler.h>
+
 #include "dopus.h"
 
 #ifdef __SASC__
