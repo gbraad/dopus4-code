@@ -506,7 +506,7 @@ UWORD ownerid,groupid;
                           break;
                   }
               }
-              if (!endwhile) endwhile = entryorder(sortmethod,reverse,newentry,entry);
+              if (!endwhile) endwhile = entryorder(sortmethod,reverse,entry,newentry);
 
               if (endwhile) {
                   if (endwhile==1) {
