@@ -73,10 +73,10 @@ struct dopusfuncpar *pars;
     if (func_external_file[0]) {
 D(bug("file: %s\n",func_external_file));
         noloop=1;
-        if (ptr=BaseName(func_external_file))
+        if ((ptr=BaseName(func_external_file)))
             strcpy(func_single_file,ptr);
         strcpy(funcdata->source_path,func_external_file);
-        if (ptr=BaseName(funcdata->source_path)) *ptr=0;
+        if ((ptr=BaseName(funcdata->source_path))) *ptr=0;
         norm=0;
         if (!status_iconified)
             strcpy(funcdata->dest_path,str_pathbuffer[data_active_window]);
@@ -199,12 +199,7 @@ struct function_data *funcdata;
 
                 global_swap_window=FALSE;
 
-#ifdef DEBUG
-kprintf("funcbuf:\t%s\n",funcbuf);
-kprintf("name:\t%s\n",name);
-kprintf("title:\t%s\n",title);
-kprintf("funcptr:\t%s\n",funcptr);
-#endif
+D(bug("handlefunctionss():funcbuf:\t%s\n\tname:\t%s\n\ttitle:\t%s\n\tfuncptr:\t%s\n",funcbuf?funcbuf:"<NULL>",name?name:"<NULL>",title?title:"<NULL>",funcptr?funcptr:"<NULL>"));
                 if (funcptr) {
                     func_global_function=function;
                     rexxdisp(NULL,NULL,funcptr);
@@ -1109,7 +1104,7 @@ struct function_data *funcdata;
     if (CheckExist("T:",NULL)) strcpy(buf,"T:");
     else strcpy(buf,"RAM:");
 
-    if (lock=Lock(buf,ACCESS_READ)) {
+    if ((lock=Lock(buf,ACCESS_READ))) {
         Examine(lock,&fileinfo);
         if (ExNext(lock,&fileinfo)) {
             FOREVER {
@@ -1127,7 +1122,7 @@ struct function_data *funcdata;
 
     for (a=0;a<100;a++) {
         lsprintf(funcdata->scriptname,"%sdopustemp.tmp%ld",buf,a);
-        if (funcdata->output_file=Open(funcdata->scriptname,MODE_NEWFILE)) break;
+        if ((funcdata->output_file=Open(funcdata->scriptname,MODE_NEWFILE))) break;
     }
     if (!funcdata->output_file) {
         doerror(-1);
@@ -1525,7 +1520,7 @@ char *string,*buffer,*filename,*sourcepath,*destpath;
                     LStrnCpy(&buffer[pos],filename,255-pos);
                     break;
                 case 'o':
-                    if (ptr=BaseName(filename)) LStrnCpy(&buffer[pos],ptr,255-pos);
+                    if ((ptr=BaseName(filename))) LStrnCpy(&buffer[pos],ptr,255-pos);
                     break;
                 case 's':
                     LStrnCpy(&buffer[pos],sourcepath,255-pos);

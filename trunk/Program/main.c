@@ -181,7 +181,7 @@ char *argv[];
     MUSICBase=(struct MusicBase *)open_dopus_library("inovamusic.library",0);
     ScreenNotifyBase=OpenLibrary("screennotify.library",0);
     LocaleBase = OpenLibrary("locale.library",38);
-    DatatypesBase = OpenLibrary("datatypes.library",39);
+    DataTypesBase = OpenLibrary("datatypes.library",39);
     AmigaGuideBase = OpenLibrary("amigaguide.library",39);
 
     /* Restore window pointer now that we've got our libraries */

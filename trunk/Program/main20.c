@@ -130,7 +130,7 @@ D(bug("Freeing special dirs\n"));
     }
     CloseLocale(locale);
     CloseLibrary(LocaleBase);
-    CloseLibrary(DatatypesBase);
+    CloseLibrary(DataTypesBase);
     CloseLibrary(AmigaGuideBase);
 
     /*if (DOpusBase)*/ CloseLibrary((struct Library *) DOpusBase);
@@ -264,7 +264,11 @@ void closedisplay()
             Window=NULL;
         }
         if (MainScreen) {
-            while(!(CloseScreen(MainScreen))) Delay(50);
+            if (! CloseScreen(MainScreen))
+             {
+              simplerequest(globstring[STR_CANNOT_CLOSE_SCREEN],str_okaystring,NULL);
+              while(!(CloseScreen(MainScreen))) Delay(50);
+             }
             MainScreen=NULL;
         }
         Permit();

@@ -102,7 +102,7 @@ D(bug("filetype %s matched\n",type->type));
       APTR mem;
       struct xadClient *cl;
 
-      if (fh = Open(buf, MODE_OLDFILE))
+      if ((fh = Open(buf, MODE_OLDFILE)))
        {
         len = xadMasterBase->xmb_RecogSize;
         mem = AllocMem(len, MEMF_ANY);
@@ -507,6 +507,7 @@ char *source,*dest;
             default:
                 if (!command) return(0);
 D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
+D(bug("internal_function: func_external_file = %s\n",func_external_file));
                 if (func_external_file[0]) {
                     spath=source; dpath=dest;
                     if (!status_iconified) {
@@ -519,6 +520,7 @@ D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
                         str_pathbuffer[data_active_window])?-1:data_active_window;
                     inactwin=((dpath=getarexxpath(rexx,1-data_active_window,1,(actwin!=-1)))!=
                         str_pathbuffer[1-data_active_window])?-1:1-data_active_window;
+//                    if (str_arcorgname[0]) spath = "T:";
                 }
                 if (status_iconified) {
                     if (rexx &&
@@ -528,7 +530,7 @@ D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
 
                         strcpy(func_external_file,rexx_args[0]);
                         strcpy(buf2,func_external_file);
-                        if (ptr=BaseName(buf2)) {
+                        if ((ptr=BaseName(buf2))) {
                             strcpy(func_single_file,ptr);
                             *ptr=0;
                         }
@@ -567,7 +569,7 @@ D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
                 }
                 switch (function) {
                     case FUNC_RELABEL:
-D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
+//D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
                         if (dopus_curwin[actwin]==dopus_specialwin[actwin])
                          {
                           struct Directory *entry = dopus_curwin[actwin]->firstentry;
@@ -683,7 +685,7 @@ D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
     func_global_function=0; func_single_entry=NULL;
     func_single_file[0]=0; func_external_file[0]=0;
 
-D(bug("internalfunction: rexx=%ld\n",rexx));
+D(bug("internal_function: rexx=%ld\n",rexx));
     if ((!rexx) /*&& (function!=FUNC_READ) && (function!=FUNC_HEXREAD) &&
         (function!=FUNC_SMARTREAD) && (function!=FUNC_ANSIREAD)*/) unbusy();
     a=status_previousabort=status_justabort; status_justabort=0;

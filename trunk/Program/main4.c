@@ -202,7 +202,7 @@ int *err;
     strcpy(buf1,srce);
     if ((ptr=strstri(buf1,".info"))) *ptr=0;
 
-    if (diskobj=GetDiskObject(buf1)) {
+    if ((diskobj=GetDiskObject(buf1))) {
         suc=PutDiskObject(dest,diskobj);
         FreeDiskObject(diskobj);
         if (!suc || CheckExist(dest,NULL)>=0) *err=IoErr();
@@ -293,7 +293,7 @@ int *size;
     if (!loadpp)
 */
     if (CheckExist(name,size)>=0 || !(in=Open(name,MODE_OLDFILE))) return(-1);
-    if (*buf=AllocVec(*size,MEMF_ANY))
+    if ((*buf=AllocVec(*size,MEMF_ANY)))
      {
       Read(in,*buf,*size);
 
@@ -301,7 +301,7 @@ int *size;
        {
         struct xfdBufferInfo *xfdbi;
 
-        if (xfdbi = xfdAllocObject(XFDOBJ_BUFFERINFO))
+        if ((xfdbi = xfdAllocObject(XFDOBJ_BUFFERINFO)))
          {
           xfdbi->xfdbi_SourceBuffer = *buf;
           xfdbi->xfdbi_SourceBufLen = *size;
@@ -314,7 +314,7 @@ int *size;
               FreeVec(xfdbi->xfdbi_SourceBuffer);
 //              *size = xfdbi->xfdbi_TargetBufLen;
               *size   = xfdbi->xfdbi_TargetBufSaveLen;
-              if (*buf = AllocVec(*size, MEMF_ANY)) CopyMem(xfdbi->xfdbi_TargetBuffer,*buf,*size);
+              if ((*buf = AllocVec(*size, MEMF_ANY))) CopyMem(xfdbi->xfdbi_TargetBuffer,*buf,*size);
               else *buf = xfdbi->xfdbi_TargetBuffer;
              }
             else retval = -2;

@@ -136,12 +136,12 @@ void __saveds arbiter_process()
 
     wait_mask=1<<my_process->pr_MsgPort.mp_SigBit;
 
-    if (message_reply=LCreatePort(NULL,0))
+    if ((message_reply=LCreatePort(NULL,0)))
         wait_mask|=1<<message_reply->mp_SigBit;
 
     FOREVER {
         if (message_reply) {
-            while (arb_msg=(struct ArbiterMessage *)GetMsg(message_reply)) {
+            while ((arb_msg=(struct ArbiterMessage *)GetMsg(message_reply))) {
                 launch=first_launch;
                 launchpos=NULL;
                 while (launch) {
@@ -165,7 +165,7 @@ void __saveds arbiter_process()
                 break;
             }
         }
-        while (arb_msg=(struct ArbiterMessage *)GetMsg(&my_process->pr_MsgPort)) {
+        while ((arb_msg=(struct ArbiterMessage *)GetMsg(&my_process->pr_MsgPort))) {
             ret=0;
             switch (arb_msg->command) {
                 case ARBITER_REMOVE:
@@ -191,8 +191,8 @@ void __saveds arbiter_process()
 
                         launch->memory=arb_launch->launch_memory;
 
-                        if (launch->seglist=LAllocRemember(&launch->memory,
-                            sizeof(struct ProcessStart),MEMF_PUBLIC|MEMF_CLEAR)) {
+                        if ((launch->seglist=LAllocRemember(&launch->memory,
+                            sizeof(struct ProcessStart),MEMF_PUBLIC|MEMF_CLEAR))) {
 
                             launch->seglist->ps_JMP=0x4ef9;
                             launch->seglist->ps_EntryPoint=arb_launch->launch_code;
@@ -205,8 +205,8 @@ void __saveds arbiter_process()
                             launch->launch_msg.data=arb_launch->data;
                             launch->launch_msg.flags=arb_msg->flags;
 
-D(bug("ARBITER_LAUNCH: %s\n",arb_launch->launch_name));
-#ifdef 0
+D(bug("ARBITER_LAUNCH: %s, flags: %lx\n",arb_launch->launch_name,arb_msg->flags));
+#ifdef __MORPHOS__
 struct EmulLibEntry GATE_arbiterlaunch_process = { TRAP_LIB, 0, (void (*)(void))&arbiter_process };
 
 struct TagItem arbiterlaunch_tags[] = {

@@ -60,7 +60,7 @@ extern struct xadMasterBase *xadMasterBase;      /* xadmaster.library */
 extern struct Library *SysInfoBase;              /* sysinfo.library */
 extern struct Library *LocaleBase;               /* locale.library */
 extern struct muBase *muBase;                    /* multiuser.library */
-extern struct Library *DatatypesBase;            /* datatypes.library */
+extern struct Library *DataTypesBase;            /* datatypes.library */
 extern struct Library *AmigaGuideBase;           /* amigaguide.library */
 
 extern struct DosLibrary *DOSBase;               /* dos.library */

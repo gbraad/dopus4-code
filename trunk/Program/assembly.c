@@ -211,45 +211,45 @@ int smartcountlines(struct ViewData *vd)
 int smartcountlines(register struct ViewData *vd __asm("a0"))
 #endif
 {
-    register unsigned int d1_size, d7_sizebak;
+    register unsigned int size, sizebak;
 
-    register char *a0_buf, *a1_lws = NULL;
+    register char *buf, *lws = NULL;
 
-    register unsigned int d0_linecount, d4_hexcount;
-    register unsigned short int d3_charcount, d2_max_line_length/*, d5_mll_p*/;
-    register BOOL d6_last_was_escape;
+    register unsigned int linecount, hexcount;
+    register unsigned short int charcount, max_line_length/*, mll_p*/;
+    register BOOL last_was_escape;
 
-    d1_size = vd->view_file_size;
-    d7_sizebak = d1_size;
-    a0_buf = vd->view_text_buffer;
-    d2_max_line_length = vd->view_max_line_length;
+    size = vd->view_file_size;
+    sizebak = size;
+    buf = vd->view_text_buffer;
+    max_line_length = vd->view_max_line_length;
 
-    d0_linecount = 0;
-    d3_charcount = 0;
-    d4_hexcount = 0;
-//    d5_mll_p = d2_max_line_length - 10;
-    d6_last_was_escape = FALSE;
+    linecount = 0;
+    charcount = 0;
+    hexcount = 0;
+//    mll_p = max_line_length - 10;
+    last_was_escape = FALSE;
 
     D(bug("tabsize: %ld\n",vd->view_tab_size));
     do {
-        d3_charcount ++;
-        if (d2_max_line_length > d3_charcount) {
+        charcount ++;
+        if (max_line_length > charcount) {
             BOOL is_hex = TRUE;
             /* askip1 */
 
-            if (*a0_buf < -33) {
+            if (*buf < -33) {
                 is_hex = FALSE;
-            } else if (*a0_buf <= -1) {
+            } else if (*buf <= -1) {
                 is_hex = TRUE;
-            } else if (*a0_buf < '\t') {
+            } else if (*buf < '\t') {
                 is_hex = TRUE;
-            } else if (*a0_buf < 14) {
+            } else if (*buf < 14) {
                 is_hex = FALSE;
-            } else if (*a0_buf < ' ') {
+            } else if (*buf < ' ') {
                 is_hex = TRUE;
-            } else if (((unsigned char)*a0_buf) <= 127) {
+            } else if (((unsigned char)*buf) <= 127) {
                 is_hex = FALSE;
-            } else if (((unsigned char)*a0_buf) > 160) {
+            } else if (((unsigned char)*buf) > 160) {
                 is_hex = FALSE;
             }
 
@@ -257,70 +257,70 @@ int smartcountlines(register struct ViewData *vd __asm("a0"))
             {
                 /* aishex */
 
-                if (d7_sizebak < 6) return -1;
-                d4_hexcount++;
-                if (d4_hexcount >= 6) return -1;
-                if (*a0_buf == 27) d6_last_was_escape = TRUE;
+                if (sizebak < 6) return -1;
+                hexcount++;
+                if (hexcount >= 6) return -1;
+                if (*buf == 27) last_was_escape = TRUE;
             }
             else {
                 /* aokay */
-                d4_hexcount = 0;
+                hexcount = 0;
 
-                if (d6_last_was_escape)
+                if (last_was_escape)
                 {
-                    if (*a0_buf == '[') return -2; /* isansi */
-                    d6_last_was_escape = FALSE;
+                    if (*buf == '[') return -2; /* isansi */
+                    last_was_escape = FALSE;
                 }
             }
 
             /* aokay1 */
-            if (*a0_buf == '\n')
+            if (*buf == '\n')
             {
-                a1_lws = NULL;
-                d0_linecount++;
-                d3_charcount = 0;
+                lws = NULL;
+                linecount++;
+                charcount = 0;
             }
-            else if (*a0_buf == '\t')
+            else if (*buf == '\t')
             {
                 // TAB
 
-                d3_charcount += vd->view_tab_size - (d3_charcount % vd->view_tab_size);
-                a1_lws = a0_buf;
+                charcount += vd->view_tab_size - (charcount % vd->view_tab_size);
+                lws = buf;
             }
 
 
         } else  {
 
-            if (a1_lws) {
-                d1_size += (int)a0_buf - (int)a1_lws;
-                a0_buf = a1_lws;
+            if (lws) {
+                size += (int)buf - (int)lws;
+                buf = lws;
             }
 
             /* nolastspace1 */
-            *a0_buf = '\n';
+            *buf = '\n';
 
-            a1_lws = NULL;
-            d0_linecount ++;
-            d3_charcount = 0;
+            lws = NULL;
+            linecount ++;
+            charcount = 0;
 
         }
 
         /* askip2 */
-        if (*a0_buf == ' ')
+        if (*buf == ' ')
         {
-            a1_lws = a0_buf;
+            lws = buf;
         }
 
         /* notspace1 */
 
-        if (--d1_size) a0_buf++;
+        if (--size) buf++;
 
-    } while (d1_size);
+    } while (size);
 
-    if (*a0_buf != '\n') d0_linecount++;
+    if (*buf != '\n') linecount++;
 
-D(bug("smartcountlines() = %ld\n",d0_linecount));
-    return d0_linecount;
+D(bug("smartcountlines() = %ld\n",linecount));
+    return linecount;
 }
 
 /*
@@ -368,7 +368,7 @@ int filteroff(void)             //_filteroff:   ;int
 void filteron(void)                //  XDEF _filteron
 {                       //_filteron:    ;void
 
-  char *filter_register = (char *)0xBFE001L;
+	  char *filter_register = (char *)0xBFE001L;
 
   (*filter_register) &= (~2);           //  bclr.b #1,$bfe001
 

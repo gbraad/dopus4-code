@@ -33,6 +33,7 @@ the existing commercial status of Directory Opus 5.
 enum {
     SELECT_CANCEL,
     SELECT_OKAY,
+    SELECT_PATTERN,
     SELECT_SELECTBASE,
     SELECT_SELECTTYPE};
 
@@ -62,7 +63,7 @@ static struct TagItem
     select_pattern_gadget[]={
         {RO_Type,OBJECT_GADGET},
         {RO_GadgetType,GADGET_STRING},
-        {RO_GadgetID,SELECT_OKAY},
+        {RO_GadgetID,SELECT_PATTERN},
         {RO_Top,1},
         {RO_TopFine,4},
         {RO_Height,1},
@@ -208,11 +209,13 @@ int *selbase;
                             DoCycleGadget(sel_type_gad,swindow,select_type_array,select_type);
                             ActivateStrGad(gadlist->NextGadget,swindow);
                             break;
-                        case SELECT_OKAY:
+                        case SELECT_PATTERN:
                             if (code==0) // RETURN
                               ret=select_type+1;
                             else if (code!=0xFFFF) // ESC
                               break;
+                        case SELECT_OKAY:
+                              if (gadgetid == SELECT_OKAY) ret=select_type+1;
                         case SELECT_CANCEL:
                             CloseRequester(&select_req);
                             strcpy(buffer[select_base],sel_patternbuf);

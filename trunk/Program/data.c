@@ -64,7 +64,7 @@ struct xadMasterBase *xadMasterBase = NULL; /* xadmaster.library */
 struct Library *SysInfoBase = NULL;         /* sysinfo.library */
 struct Library *LocaleBase = NULL;          /* locale.library */
 struct muBase *muBase = NULL;               /* multiuser.library */
-struct Library *DatatypesBase=NULL;         /* datatypes.library */
+struct Library *DataTypesBase=NULL;         /* datatypes.library */
 struct Library *AmigaGuideBase=NULL;        /* amigaguide.library */
 
 /* Intuition objects */

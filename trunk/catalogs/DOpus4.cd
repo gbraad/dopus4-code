@@ -287,7 +287,10 @@ Comment
 STR_ENTER_COMMENT (//)
 Enter comment
 ;
-STR_ENTER_PASSWORD (+1//)
+STR_CANNOT_CLOSE_SCREEN (//)
+I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+;
+STR_ENTER_PASSWORD (//)
 Enter password
 ;
 STR_ENTER_DATE_AND_TIME (+1//)
@@ -477,7 +480,7 @@ STR_SKIP (//)
 _Skip
 ;
 STR_ALL (//)
-A_ll
+_All
 ;
 STR_REMOVE (//)
 Remove

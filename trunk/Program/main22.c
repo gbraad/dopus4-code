@@ -144,8 +144,9 @@ int act,inact,rexx;
             globflag=1;
         }
     }
-//D(bug("dofilefunction(%ld,%lx,%s,%s,%ld,%ld,%ld)\n",function,flags,sourcedir,destdir,act,inact,rexx));
-//D(bug("func_single_entry: %lx\n",func_single_entry));
+D(bug("dofilefunction(%ld,%lx,%s,%s,%ld,%ld,%ld)\n",function,flags,sourcedir?sourcedir:"<NULL>",destdir?destdir:"<NULL>",act,inact,rexx));
+D(bug("\tfunc_single_entry: %lx\n",func_single_entry));
+D(bug("\tfile: %lx\n",file));
 
     if (!file) return(0);            /* No files selected, return */
 
@@ -525,7 +526,7 @@ functionloop:
                 if (doicons && !(isicon(file->name))) {
                     StrCombine(oldiconname,file->name,".info",256);
                     bb=-1;
-                    if (file=findfile(swindow,oldiconname,NULL)) {
+                    if ((file=findfile(swindow,oldiconname,NULL))) {
                         if (!file->selected) bb=file->size;
                     }
                     else {
@@ -727,7 +728,6 @@ functionloop:
                                     else if (a==4) { // SKIP ALL
                                         askeach = 0;
                                         autoskip = 1;
-                                        break;
                                     }
                                 }
                             }
@@ -821,7 +821,6 @@ functionloop:
                         if (a==4) {    // SKIP ALL
                             askeach = 0;
                             autoskip = 1;
-                            break;
                         }
                     }
                     if (autoskip) break;
@@ -866,7 +865,7 @@ D(bug("recursedir returned %ld\n",a));
                                 }
                                 if (CheckExist(destname,NULL)) {
                                     if (exist) {
-                                        if (tempfile=findfile(dwindow,namebuf,NULL))
+                                        if ((tempfile=findfile(dwindow,namebuf,NULL)))
                                             removefile(tempfile,dwindow,inact,0);
                                     }
                                     addfile(dwindow,inact,namebuf,dos_global_copiedbytes,
@@ -984,24 +983,25 @@ D(bug("recursedir returned %ld\n",a));
                 }
                 arcfile = getsourcefromarc(swindow,sourcename,file->name);
                 if (!(checksame(destdir,sourcename,0))) break;
-                if ((exist=CheckExist(destname,NULL)) && askeach) {
-                    if ((a=checkexistreplace(sourcename,destname,&file->date,
-                        (function==FUNC_COPY),1))==0) { // ABORT
-                        myabort();
-                        break;
+                if ((exist=CheckExist(destname,NULL))) {
+                    if (askeach) {
+                        if ((a=checkexistreplace(sourcename,destname,&file->date,
+                            (function==FUNC_COPY),1))==0) { // ABORT
+                            myabort();
+                            break;
+                        }
+                        if (a==3) break; // SKIP
+                        else if (a==2) {
+                            if (function!=FUNC_COPY/*==FUNC_COPYAS*/) goto functionloop; // TRY AGAIN
+                            askeach=0;                                    // ALL
+                        }
+                        else if (a==4) {    // SKIP ALL
+                            askeach = 0;
+                            autoskip = 1;
+                        }
                     }
-                    if (a==3) break; // SKIP
-                    else if (a==2) {
-                        if (function!=FUNC_COPY/*==FUNC_COPYAS*/) goto functionloop; // TRY AGAIN
-                        askeach=0;                                    // ALL
-                    }
-                    else if (a==4) {    // SKIP ALL
-                        askeach = 0;
-                        autoskip = 1;
-                        break;
-                    }
+                    if (autoskip) break;
                 }
-                if (autoskip) break;
                 if (exist<0) {
                     if ((a=delfile(destname,file->name,globstring[STR_COPYING],1,1))==-1) {
                         myabort();
@@ -1150,7 +1150,7 @@ D(bug("recursedir returned %ld\n",a));
                 else {
                     if (data==0) {
                         if (swindow && swindow->filesel>1 && config->viewbits&VIEWBITS_SHOWBLACK) {
-                            if (blankscreen=OpenScreen((struct NewScreen *)&blank_scr))
+                            if ((blankscreen=OpenScreen((struct NewScreen *)&blank_scr)))
                                 SetRGB4(&blankscreen->ViewPort,0,0,0,0);
                             setnullpointer(Window);
                             pt=0;
@@ -1286,25 +1286,26 @@ D(bug("recursedir returned %ld\n",a));
                 if (a>0) data=ICONTYPE_DRAWER;
                 else if (checkexec(sourcename)) data=ICONTYPE_TOOL;
                 else data=ICONTYPE_PROJECT;
-                if (CheckExist(destname,NULL) && askeach) {
-                    doerror(ERROR_OBJECT_EXISTS);
-                    if (!(a=checkexistreplace(destname,destname,NULL,1,1))) { // ABORT
-                        myabort();
-                        break;
+                if (CheckExist(destname,NULL)) {
+                    if (askeach) {
+                        doerror(ERROR_OBJECT_EXISTS);
+                        if (!(a=checkexistreplace(destname,destname,NULL,1,1))) { // ABORT
+                            myabort();
+                            break;
+                        }
+                        else if (a==2) askeach=0; // ALL
+                        else if (a==3) {          // SKIP
+                            file=NULL;
+                            break;
+                        }
+                        else if (a==4) {          // SKIP ALL
+                            askeach = 0;
+                            autoskip = 1;
+                            file = NULL;
+                        }
                     }
-                    else if (a==2) askeach=0; // ALL
-                    else if (a==3) {          // SKIP
-                        file=NULL;
-                        break;
-                    }
-                    else if (a==4) {          // SKIP ALL
-                        askeach = 0;
-                        autoskip = 1;
-                        file = NULL;
-                        break;
-                    }
+                    if (autoskip) break;
                 }
-                if (autoskip) break;
                 if ((iconwrite(data,destname))!=-1) {
                     if (lockandexamine(destname,&fileinfo)) {
                         addfile(swindow,act,buf2,fileinfo.fib_Size,-1,&fileinfo.fib_Date,
@@ -1364,7 +1365,7 @@ D(bug("recursedir returned %ld\n",a));
                     else {
                         if (file->comment)
                             LibFreePooled(dir_memory_pool,file->comment,strlen(file->comment)+1);
-                        if (file->comment=LibAllocPooled(dir_memory_pool,strlen(buf2)+1))
+                        if ((file->comment=LibAllocPooled(dir_memory_pool,strlen(buf2)+1)))
                             strcpy(file->comment,buf2);
                     }
                 }
@@ -1430,7 +1431,6 @@ D(bug("recursedir returned %ld\n",a));
                                 askeach = 0;
                                 autoskip = 1;
                                 file = NULL;
-                                break;
                             }
                         }
                         else {          // ABORT
@@ -1613,7 +1613,7 @@ D(bug("recursedir returned %ld\n",a));
         if (status_justabort || breakout==2) break;
 
         if (doicons && !lastfile && okayflag && oldiconname[0]) {
-            if (file=findfile(swindow,oldiconname,NULL)) {
+            if ((file=findfile(swindow,oldiconname,NULL))) {
                 if (file==nextfile) nextfile=file->next;
                 lastfile=1;
                 if (file->selected && prog_indicator) {

@@ -101,7 +101,7 @@ int encryptstate;
     if (buffer_size>(128*1024)) buffer_size=128*1024;
 
     while (buffer_size>0) {
-        if (buffer=AllocMem(buffer_size,MEMF_ANY)) break;
+        if ((buffer=AllocMem(buffer_size,MEMF_ANY))) break;
         buffer_size/=2;
     }
     if (!buffer) goto failed;
@@ -280,8 +280,10 @@ int *count;
     LParsePatternI(name,parsebuf);
 */
 
+D(bug("findfile(%s)\n",name?name:"<NULL>"));
     if (dir) {
-        if (dir->flags & DWF_ARCHIVE) name=str_arcorgname;
+        if (dir->flags & DWF_ARCHIVE) name=str_arcorgname; /* required for double-click */
+
         find=dir->firstentry;
         if (count) *count=0;
         while (find) {

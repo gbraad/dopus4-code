@@ -774,11 +774,12 @@ static void inline PUTCODE(char **c, UWORD x, WORD y)
  {
   ULONG *tc = (ULONG *)(*c);
 
-  *tc = (x<<16)|(y/*&0xFFFF*/);
+  *tc = (x<<16)|(y&0xFFFF);
   *c += sizeof(struct TextCode);
  }
 
-void drawentry(char *text, int win) // text should start with TEXT_PENS!
+/* text should start with TEXT_PENS! */
+void drawentry(char *text, int win)
 {
   struct RastPort *rp = &dir_rp[win];
   int len=0,/*x0=rp->cp_x,*/x,y0,y1,fg/*=GetAPen(rp)*/,bg/*=GetBPen(rp)*/;
@@ -893,6 +894,28 @@ void buildkmgstring(char *buf, unsigned long long size, int lister)
   {
    if (size > 1024)
     {
+/*
+     char tmp[116],c;
+
+     if (size > 1024*1024)
+      {
+       if (size > 1024*1024*1024)
+        {
+         sprintf(tmp,"%.1f",size/(float)(1024*1024*1024));
+         c = 'G';
+        }
+       else
+        {
+         sprintf(tmp,"%.1f",size/(float)(1024*1024));
+         c = 'M';
+        }
+      }
+     else
+      {
+       sprintf(tmp,"%.1f",size/(float)1024);
+       c = 'K';
+      }
+*/
      char tmp[16],c;
      float div;
 
@@ -915,6 +938,7 @@ void buildkmgstring(char *buf, unsigned long long size, int lister)
        c = 'K';
       }
      sprintf(tmp,"%.1f",size/div);
+//D(bug("buildkmgstring: %s\n",tmp));
      if (tmp[3] == '.') tmp[3] = 0;
      else if (tmp[4] == '.') tmp[4] = 0;
      lsprintf(buf,"%4s%lc",tmp,c);

@@ -45,7 +45,7 @@ int readarchive(struct DirectoryWindow *dir,int win)
    strcpy(arcdir,"");
 D(bug("readarchive: %s\n",dir->directory)); //Delay(100);
    strcpy(arcname, dir->directory);
-   if (len = strlen(arcname)) if (arcname[len-1] == '/') arcname[len-1] = 0;
+   if ((len = strlen(arcname))) if (arcname[len-1] == '/') arcname[len-1] = 0;
 //D(bug("arcname: %s\n",arcname));
    while(!(lock = Lock(arcname, ACCESS_READ)))
     {
@@ -61,10 +61,10 @@ D(bug("readarchive: %s\n",dir->directory)); //Delay(100);
    if (! dir->xai)
     {
      dostatustext(globstring[STR_OPENING_ARCHIVE]);//HUX
-     if (dir->arcname = AllocVec(strlen(arcname)+1, MEMF_ANY))
+     if ((dir->arcname = AllocVec(strlen(arcname)+1, MEMF_ANY)))
       {
        strcpy(dir->arcname,arcname);
-       if (dir->xai = xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL))
+       if ((dir->xai = xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
         {
         struct TagItem ti[2];
 
@@ -81,7 +81,7 @@ D(bug("done\n"));
              struct xadArchiveInfo *xai2;
              int err;
 
-             if (xai2 = xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL))
+             if ((xai2 = xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
               {
                struct TagItem ti2[2];
 
@@ -129,7 +129,7 @@ D(bug("failed\n"));
     }
    else D(bug("dir->xai present: %lx\n",dir->xai));
 D(bug("archive: %s\tarcdir: %s\n",arcname,arcdir));
-   if (xfi = dir->xai->xai_FileInfo)
+   if ((xfi = dir->xai->xai_FileInfo))
     {
 //D(bug("xfi = %lx\n",xfi));
      while (xfi)
@@ -202,6 +202,7 @@ D(bug("Freeing dir->xai: %lx\n",dir->xai));
 
 BOOL getsourcefromarc(struct DirectoryWindow *dir, char *buf, char *file)
  {
+D(bug("getsourcefromarc(%s,%s)\n",buf?buf:"<NULL>",file?file:"<NULL>"));
   if (dir && (dir->flags & DWF_ARCHIVE))
    {
     char srcdir[256], tempname[FILEBUF_SIZE];
@@ -266,6 +267,7 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
      if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER,xfi->xfi_EntryNumber,XAD_OUTFILENAME,(ULONG)arcname,TAG_END)))
       {
        strcpy(str_arcorgname,file);
+D(bug("str_arcorgname set\n"));
        return TRUE;
       }
     }
@@ -278,6 +280,7 @@ void removetemparcfile(const char *name)
 D(bug("removetemparcfile(%s)\n",name));
   DeleteFile(name);
   str_arcorgname[0]=0;
+D(bug("str_arcorgname cleared\n"));
  }
 
 void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)

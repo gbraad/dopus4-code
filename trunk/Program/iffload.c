@@ -153,7 +153,7 @@ char *name;
     dbufinfo=NULL; dbufport=NULL;
 #endif
 
-    if (DatatypesBase)
+    if (DataTypesBase)
      {
       if ((dto = NewDTObject(name,DTA_GroupID,GID_PICTURE,
 //                                 PDTA_Remap, FALSE,

@@ -35,29 +35,21 @@ the existing commercial status of Directory Opus 5.
 //#include <proto/powerpacker.h>
 #include <proto/xfdmaster.h>
 
-static struct TagItem wintags[2] =
- {
-  { WA_AutoAdjust, TRUE },
-  { TAG_END }
- };
-
-static struct ExtNewWindow
+static struct NewWindow
   viewwin={
     0,0,0,0,
     255,255,
     IDCMP_RAWKEY|IDCMP_VANILLAKEY|IDCMP_MOUSEBUTTONS|IDCMP_GADGETUP|
       IDCMP_GADGETDOWN|IDCMP_INACTIVEWINDOW|IDCMP_ACTIVEWINDOW|IDCMP_MOUSEMOVE,
     WFLG_BORDERLESS|WFLG_RMBTRAP,
-    NULL,NULL,NULL,NULL,NULL,0,0,0,0,CUSTOMSCREEN,
-    wintags},
+    NULL,NULL,NULL,NULL,NULL,0,0,0,0,CUSTOMSCREEN},
   ansiread_win={
     0,0,0,0,
     255,255,
     0,
     WFLG_BORDERLESS|WFLG_BACKDROP,
     NULL,NULL,NULL,NULL,NULL,
-    0,0,0,0,CUSTOMSCREEN,
-    wintags};
+    0,0,0,0,CUSTOMSCREEN};
 
 struct ViewMessage {
   char *filename;
@@ -80,6 +72,7 @@ int wait,noftype;
   struct DOpusRemember *memkey=NULL;
   int flags;
 
+D(bug("viewfile(%s,%s,%ld,%s,%lx,%ld,%ld)\n",filename?filename:"<NULL>",name?name:"<NULL>",function,initialsearch,viewdata,wait,noftype));
   if (!noftype) {
     switch (function) {
       case FUNC_HEXREAD:
@@ -99,10 +92,6 @@ int wait,noftype;
     copy_string(name,&view_message->name,&memkey) &&
     copy_string(initialsearch,&view_message->initialsearch,&memkey)) {
 
-D(bug("view message:\t%lx (%ld bytes)\n",view_message,sizeof(struct ViewMessage)));
-D(bug("viewmsg filename: %lx (%s)\n",view_message->filename,filename?filename:"<NULL>"));
-D(bug("viewmsg name:\t%lx (%s)\n",view_message->name,name?name:"<NULL>"));
-D(bug("viewmsg initsearch:\t%lx (%s)\n",view_message->initialsearch,initialsearch?initialsearch:"<NULL>"));
     launch.launch_code=(void *)view_file_process;
     launch.launch_name="dopus_view";
     launch.launch_memory=memkey;
@@ -171,7 +160,7 @@ void __saveds view_file_process()
   Permit();
 
   if (!(view_port=LCreatePort(portname,0))) goto view_end;
-  if (view_req=(struct IOStdReq *)LCreateExtIO(view_port,sizeof(struct IOStdReq))) {
+  if ((view_req=(struct IOStdReq *)LCreateExtIO(view_port,sizeof(struct IOStdReq)))) {
     if (OpenDevice("keyboard.device",0,(struct IORequest *)view_req,0)) {
       LDeleteExtIO((struct IORequest *)view_req);
       view_req=NULL;
@@ -294,7 +283,7 @@ D(bug("internal vdata: %lX (%ld bytes)\n",vdata,sizeof(struct ViewData)));
 
     if (!(vdata->view_gadgets=LAllocRemember(&vdata->view_memory,
         sizeof(struct Gadget)*VIEW_GADGET_COUNT,MEMF_CLEAR)) ||
-      !(vdata->view_window=OpenWindowTags(&viewwin,WA_AutoAdjust,TRUE,TAG_END))) {
+      (!(vdata->view_window=OpenWindowTags(&viewwin,WA_AutoAdjust,TRUE,TAG_END)))) {
 //      if (viewonwb) /*if (!(vdata->view_vis_info.vi_flags&VISF_WINDOW))*/ UnlockPubScreen(NULL,viewwin.Screen);
 //      else CloseScreen(vdata->view_screen);
       if ( !( config->viewbits & VIEWBITS_INWINDOW ) ) CloseScreen(vdata->view_screen); //HUX
@@ -324,7 +313,7 @@ D(bug("view gads: %lX (%ld bytes)\n",vdata->view_gadgets,sizeof(struct Gadget)*V
     vdata->view_vis_info.vi_activestringcol[0]=vdata->view_colour_table[PEN_TEXT];
     vdata->view_vis_info.vi_activestringcol[1]=vdata->view_colour_table[PEN_TEXTBACKGROUND];
 
-    if (vdata->view_window->UserData=LAllocRemember(&vdata->view_memory,SEARCH_COLOURS,0)) {
+    if ((vdata->view_window->UserData=LAllocRemember(&vdata->view_memory,SEARCH_COLOURS,0))) {
 D(bug("view userdata: %lX (%ld bytes)\n",vdata->view_window->UserData,SEARCH_COLOURS));
       vdata->view_window->UserData[SEARCH_COL_FG]=
         vdata->view_colour_table[VIEWPEN_STATUSTEXT];
@@ -478,7 +467,7 @@ D(bug("charwidth: %ld\n",vdata->view_max_line_length));
      else vdata->view_buffer_size=((vdata->view_file_size>>4)+1)<<4;
 
      for (a=0;a<2;a++) {
-       if (vdata->view_text_buffer=AllocMem(vdata->view_buffer_size,MEMF_ANY))
+       if ((vdata->view_text_buffer=AllocMem(vdata->view_buffer_size,MEMF_ANY)))
          break;
        view_status_text(vdata,globstring[STR_NO_MEMORY_TO_DECRUNCH]);
        if ((vdata->view_buffer_size=AvailMem(MEMF_PUBLIC|MEMF_LARGEST))<16)
@@ -501,7 +490,7 @@ D(bug("view textbuf: %lX (%ld bytes)\n",vdata->view_text_buffer,vdata->view_buff
        {
         if ((done + chunk) > vdata->view_file_size) chunk = vdata->view_file_size - done;
         fsize=Read(in,bufpos,chunk);
-        while(imsg = (struct IntuiMessage *)GetMsg(vdata->view_window->UserPort))
+        while ((imsg = (struct IntuiMessage *)GetMsg(vdata->view_window->UserPort)))
          {
           class = imsg->Class;
           code = imsg->Code;
@@ -530,7 +519,7 @@ D(bug("view_file_size=%ld\n",fsize));
       {
        struct xfdBufferInfo *xfdbi;
 
-       if (xfdbi = xfdAllocObject(XFDOBJ_BUFFERINFO))
+       if ((xfdbi = xfdAllocObject(XFDOBJ_BUFFERINFO)))
         {
          xfdbi->xfdbi_SourceBuffer = vdata->view_text_buffer;
          xfdbi->xfdbi_SourceBufLen = vdata->view_file_size;
@@ -696,7 +685,7 @@ readnormal:
 */
     ansiread_win.Screen=vdata->view_screen;
 
-    if (!(vdata->view_ansiread_window=OpenWindow(&ansiread_win)))
+    if (!((vdata->view_ansiread_window=OpenWindowTags(&ansiread_win,WA_AutoAdjust,TRUE,TAG_END))))
       vdata->view_display_as_ansi=0;
     else {
       WindowToBack(vdata->view_ansiread_window);
@@ -753,7 +742,7 @@ readnormal:
   }
 
   FOREVER {
-    while (msg=(struct IntuiMessage *)GetMsg(vdata->view_window->UserPort)) {
+    while ((msg=(struct IntuiMessage *)GetMsg(vdata->view_window->UserPort))) {
       class=msg->Class; code=msg->Code; qual=msg->Qualifier;
       gadget=(struct Gadget *)msg->IAddress;
       ReplyMsg((struct Message *)msg);
@@ -790,7 +779,7 @@ readnormal:
               if (!a) break;
               Delay(5);
               FOREVER {
-                if (msg=(struct IntuiMessage *)GetMsg(vdata->view_window->UserPort)) {
+                if ((msg=(struct IntuiMessage *)GetMsg(vdata->view_window->UserPort))) {
                   if (msg->Class==IDCMP_GADGETUP ||
                     (msg->Class==IDCMP_MOUSEBUTTONS && msg->Code==SELECTUP))
                     break;
