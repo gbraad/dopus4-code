@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.10 (08.01.2002)
+## version $VER: DOpus4.catalog 1.11 (22.01.2002)
 ## codeset 0
 ## language español
 ;
@@ -815,7 +815,7 @@ _Iconificar
 ; _Iconify
 ;
 STR_CONTINUE
-_Continuar
+C_ontinuar
 ; C_ontinue
 ;
 STR_OKAY
@@ -827,7 +827,7 @@ _Cancelar
 ; _Cancel
 ;
 STR_OKAY_TITLE
-Aceptar
+OK
 ; OK
 ;
 STR_DESCRIPTION
