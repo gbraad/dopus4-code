@@ -427,12 +427,7 @@ int wind;
             return;
     }
 
-    if (pddata.entry) {
-        if (!(printdir_string(reqbase,out,pddata.titlebuf))) {
-            Close(out);
-            return;
-        }
-        
+    if (printdir_string(reqbase,out,pddata.titlebuf)) {
         while (pddata.entry) {
             if (check_print_abort(reqbase)) {
                 abort=1;
@@ -460,8 +455,8 @@ int wind;
                          }
                         while (a--) *d++=' ';
                         *d = 0;
-//                        lsprintf(pbuf,"%%-%lds",pddata.namelen);
-//                        lsprintf(buf,pbuf,pddata.entry->name);
+    //                        lsprintf(pbuf,"%%-%lds",pddata.namelen);
+    //                        lsprintf(buf,pbuf,pddata.entry->name);
                         if (flags&PD_SIZE) {
                             if (pddata.entry->type<=ENTRY_FILE) {
                                 sprintf(pbuf,"%9qd ",pddata.entry->size);

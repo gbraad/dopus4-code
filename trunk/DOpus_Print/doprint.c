@@ -85,6 +85,7 @@ struct Requester *requester;
 
     FOREVER {
         if (CheckExist(filename,&filesize)<0) break;
+        if (filesize==0) return 0;
         if (!(check_error(reqbase,string_table[STR_UNABLE_TO_OPEN_FILE],0)))
             return(0);
     }

@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-
+/*
 static short errcodes[36][2]={
     {103,STR_NOT_ENOUGH_MEMORY},
     {104,STR_PROCESS_TABLE_FULL},
@@ -67,13 +67,15 @@ static short errcodes[36][2]={
     {226,STR_DEVICE_NOT_MOUNTED},
     {232,STR_NO_MORE_ENTRIES},
     {233,STR_OBJECT_IS_SOFT_LINK}};
-
+*/
 int doerror(err)
 int err;
 {
     char buf[80];
 
-    if (err && geterrorstring(buf,err)) {
+//    if (err && geterrorstring(buf,err)) {
+    if (err) {
+        geterrorstring(buf,err);
         dostatustext(buf);
         rexx_result_code=err;
         return(1);
@@ -81,21 +83,22 @@ int err;
     return(0);
 }
 
-int geterrorstring(buf,err)
+void geterrorstring(buf,err)
 char *buf;
 int err;
 {
-    int a;
-
-    for (a=0;a<36;a++) {
-        if (errcodes[a][0]==err) {
+//    int a;
+    char buf2[80];
+//    for (a=0;a<36;a++) {
+//       if (errcodes[a][0]==err) {
+            Fault(err,NULL,buf2,80);
             lsprintf(buf,globstring[STR_DOS_ERROR_CODE],err);
             strcat(buf," - ");
-            strcat(buf,globstring[errcodes[a][1]]); 
-            return(1);
-        }
-    }
-    return(0);
+            strcat(buf,buf2/*globstring[errcodes[a][1]]*/);
+//            return(1);
+//        }
+//   }
+//    return(0);
 }
 
 void dostatustext(text)
@@ -118,8 +121,8 @@ char *text;
         l=dotextlength(r,text,&len,scrdata_status_width-4);
         switch (scrdata_statustext_pos) {
             case TOPTEXT_CENTER: x=((scrdata_status_width-l)/2)+scrdata_status_xpos; break;
-            case TOPTEXT_LEFT: x=scrdata_status_xpos+2; break;
             case TOPTEXT_RIGHT: x=(scrdata_status_width-l)+scrdata_status_xpos; break;
+            default/*case TOPTEXT_LEFT*/: x=scrdata_status_xpos+2; break;
         }
         if (x<scrdata_status_xpos) x=scrdata_status_xpos;
         Move(r,x,scr_font[FONT_STATUS]->tf_Baseline+2+scrdata_yoffset);
@@ -223,13 +226,15 @@ int err;
     }
     if (!(config->errorflags&ERROR_ENABLE_OPUS)) return((skip)?2:3);
 
-    if (geterrorstring(buf2,err))
+//    if (geterrorstring(buf2,err))
+    geterrorstring(buf2,err);
         lsprintf(buf,globstring[STR_ERROR_OCCURED],action,name,buf2);
+/*
     else {
         lsprintf(buf,globstring[STR_ERROR_OCCURED],action,name,"");
         erhelp=0;
     }
-
+*/
     FOREVER {
         a=simplerequest(buf,
             globstring[STR_TRY_AGAIN], /* 1 */

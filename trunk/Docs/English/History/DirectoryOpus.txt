@@ -6,8 +6,11 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (22.01.2002):
+4.17 (23.01.2002):
 - few hits removed
+- replaced built-in error messages with system ones
+- no longer warns about modified config after returning from ConfigOpus
+- printing empty directory should not cause Enforcer hits anymore
 - no source file is deleted on Move(As) operation when destination disk is
 full
 - Sort by extension option added to lister popup menu

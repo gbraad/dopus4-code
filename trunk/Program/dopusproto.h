@@ -481,7 +481,7 @@ int checkcycling(void);
 /* doerror.c */
 
 int doerror(int);
-int geterrorstring(char *,int);
+void geterrorstring(char *,int);
 void dostatustext(char *);
 void okay(void);
 void myabort(void);

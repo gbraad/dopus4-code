@@ -109,10 +109,9 @@ char *argv[];
                 do_print(&vis,port,arglist,argc-arg,&argv[arg]);
                 if (dirlocks[arg]) CurrentDir(oldcurdir);
             }
+            FreeStringFile(stringdata);
         }
-        FreeStringFile(stringdata);
-
-        if (WorkbenchBase) CloseLibrary(WorkbenchBase);
+        CloseLibrary(WorkbenchBase);
 // JRZ        if (PPBase) CloseLibrary(PPBase);
     }
     LFreeRemember(&memkey);

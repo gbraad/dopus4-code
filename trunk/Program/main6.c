@@ -46,7 +46,8 @@ struct PrintDirData *pddata;
         dopus_curwin[win]->dirsel)>0) pddata->onlysel=1;
     else pddata->onlysel=0;
 
-    switch (ENTRYTYPE(pddata->entry->type)) {
+    if (pddata->entry == NULL) goto printdiskname;
+    else switch (ENTRYTYPE(pddata->entry->type)) {
         case ENTRY_DEVICE:
             strcpy(pddata->titlebuf,globstring[STR_DEVICE_LIST]);
             break;

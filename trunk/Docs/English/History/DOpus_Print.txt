@@ -1,3 +1,6 @@
+1.31 (22.01.2002):
+- fixed printing zero-length files and empty directories
+
 1.30 (27.09.2001):
 - fixed directory printing introduced in DirOpus4.16b3
 

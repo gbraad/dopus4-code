@@ -313,31 +313,31 @@ const struct DefaultString
 
         {STR_ADDING_ICON,
         "adding an icon to"},
-
+/*
         {STR_recremoved1,
         ""},
-
+*/
         {STR_ENTER_COMMENT,
         "Enter comment"},
-
+/*
         {STR_recremoved2,
         ""},
-    
+*/
         {STR_ENTER_PASSWORD,
         "Enter password"},
-
+/*
         {STR_recremoved3,
         ""},
-
+*/
         {STR_ENTER_DATE_AND_TIME,
         "Enter date and time (blank for current)"},
 
         {STR_ENTER_SEARCH_STRING,
         "Enter search string"},
-
+/*
         {STR_recremoved4,
         ""},
-
+*/
         {STR_STRING_NOT_FOUND,
         "Sorry! String could not be found!"},
 
@@ -355,7 +355,7 @@ const struct DefaultString
 
         {STR_SELECT_FUNCTION,
         "Select function you need help with, or Help again to cancel."},
-
+/*
         {STR_NOT_ENOUGH_MEMORY,
         "Not enough memory"},
 
@@ -457,7 +457,7 @@ const struct DefaultString
 
         {STR_OBJECT_IS_SOFT_LINK,
         "Object is soft link"},
-
+*/
         {STR_CONFIG_CHANGED_LOAD,
         "You have modified the configuration.\nReally load a new configuration file?"},
 
