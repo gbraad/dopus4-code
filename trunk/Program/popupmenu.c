@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/pm.h>
 
 enum SortBy {
-        sbName=DISPLAY_NAME+1, sbSize, sbProt, sbDate, sbComment, sbType, sbOwner, sbGroup, sbNetprot,
+        sbName=DISPLAY_NAME+1, sbSize, sbProt, sbDate, sbComment, sbType, sbOwner, sbGroup, sbNetprot, sbExt,
         sbKMG=100,
         sbMix=0x00010000,sbDirF=0x00020000,sbFileF=0x00030000,
         sbSortA=0x01000000,sbSortD=0x02000000,sbSortH=0x03000000,
@@ -74,7 +74,7 @@ __saveds ULONG MenuHandlerFunc(register struct Hook *hook __asm("a0"),\
      *((ULONG *)hook->h_Data) &= ~sbReverse;   // Clear flag
     }
   }
- else if(id>=sbName && id<=sbType)
+ else if(id>=sbName && id<sbKMG)
   {
    if(on)
     {
@@ -126,7 +126,7 @@ void handlelistermenu(int a)
 #endif
  MenuHandler.h_Data  = &sortorder;
 
- for (r = DISPLAY_NAME; r <= DISPLAY_NETPROT; r++)
+ for (r = DISPLAY_NAME; r <= DISPLAY_LAST; r++)
    PM_SetItemAttrs(PM_FindItem(sortmenu,1+r),
      PM_Checked,config->sortmethod[a] == r,
      TAG_END);
@@ -213,33 +213,36 @@ void initlistermenu(void)
         PM_Center, TRUE,
         End,
       PMCheckItem(globstring[STR_FILE_NAME],sbName),
-      	PM_Exclude, PM_ExLst(sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,sbExt,0),
+        End,
+      PMCheckItem(globstring[STR_FILE_EXTENSION],sbExt),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,0),
         End,
       PMCheckItem(globstring[STR_FILE_SIZE],sbSize),
-      	PM_Exclude, PM_ExLst(sbName,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,sbExt,0),
         End,
       PMCheckItem(globstring[STR_PROTECTION_BITS],sbProt),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbDate,sbComment,sbType,sbOwner,sbGroup,sbNetprot,sbExt,0),
         End,
       PMCheckItem(globstring[STR_CREATION_DATE],sbDate),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbComment,sbType,sbOwner,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbComment,sbType,sbOwner,sbGroup,sbNetprot,sbExt,0),
         End,
       PMCheckItem(globstring[STR_FILE_COMMENT],sbComment),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbType,sbOwner,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbType,sbOwner,sbGroup,sbNetprot,sbExt,0),
         End,
       PMCheckItem(globstring[STR_FILE_TYPE],sbType),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbOwner,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbOwner,sbGroup,sbNetprot,sbExt,0),
         End,
       PMCheckItem(globstring[STR_OWNER],sbOwner),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbGroup,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbGroup,sbNetprot,sbExt,0),
         PM_Hidden, ! userinfo,
         End,
       PMCheckItem(globstring[STR_GROUP],sbGroup),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbNetprot,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbNetprot,sbExt,0),
         PM_Hidden, ! userinfo,
         End,
       PMCheckItem(globstring[STR_NET_PROTECTION_BITS],sbNetprot),
-      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,0),
+      	PM_Exclude, PM_ExLst(sbName,sbSize,sbProt,sbDate,sbComment,sbType,sbOwner,sbGroup,sbExt,0),
         PM_Hidden, ! userinfo,
         End,
       PMBar,

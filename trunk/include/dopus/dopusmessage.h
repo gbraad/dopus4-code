@@ -57,6 +57,7 @@ struct Directory {
     struct DateStamp date;
     UWORD owner_id,group_id;
     struct NetworkStuff *network;
+    char *extension;
 };
 
 #define DOPUSMSG_GETVIS         1

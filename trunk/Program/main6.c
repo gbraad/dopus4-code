@@ -316,7 +316,7 @@ int win;
                         dopus_curwin[win]->hlen+=config->displaylength[win][DISPLAY_GROUP];
                     else if (config->displaypos[win][a]==DISPLAY_NETPROT)
 //                        dopus_curwin[win]->hlen+=10;
-                    dopus_curwin[win]->hlen+=config->displaylength[win][DISPLAY_NETPROT]+scrdata_font_xsize;
+                        dopus_curwin[win]->hlen+=config->displaylength[win][DISPLAY_NETPROT]+scrdata_font_xsize;
                 }
             }
         }

@@ -183,6 +183,15 @@ sortname:
         if ((reverse && a>0) || (!reverse && a<0)) return 1;
         break;
 
+    case DISPLAY_EXT:
+        if (entry2->extension && entry1->extension) a=Stricmp(entry2->extension,entry1->extension);
+        else if (entry2->extension) a=1;
+        else if (entry1->extension) a=-1;
+        else a=0;
+        if (a==0) goto sortname;
+        if ((reverse && a>0) || (!reverse && a<0)) return 1;
+        break;
+
     case DISPLAY_PROTECT:
         a=(entry1->protection&255)^15;
         b=(entry2->protection&255)^15;
@@ -293,11 +302,30 @@ UWORD ownerid,groupid;
         lsprintf(newentry->name,"%ld",dir->total);
     }
     else {
+        LStrnCpy(newentry->name,name,FILEBUF_SIZE-2);
         if (type!=ENTRY_DEVICE)
          {
           /* get missing data for the new entry */
 
           int a;
+
+          if (type <= ENTRY_FILE)
+           {
+            char *c,*d=newentry->name;
+
+            while (c=strchr(d,'.')) d=c+1;
+            if ((d == newentry->name) || (d == (newentry->name+1))) c = NULL;
+            else c=d-1;
+            if (c)
+             {
+              if (c == name) c = NULL;
+              else c++;
+              newentry->extension = c;
+             }
+            else newentry->extension = NULL;
+//D(bug("file %s extension: %s\n",newentry->name,newentry->extension?newentry->extension:"<none>"));
+           }
+          else newentry->extension = NULL;
 
           for (a=0;a<DISPLAY_LAST+1;a++)
            {
@@ -353,7 +381,6 @@ UWORD ownerid,groupid;
              }
            }
          }
-        LStrnCpy(newentry->name,name,FILEBUF_SIZE-2);
         if (type!=ENTRY_DEVICE && description &&
             (newentry->description=LibAllocPooled(dir_memory_pool,strlen(description)+1))) {
             strcpy(newentry->description,description);
@@ -506,13 +533,14 @@ UWORD ownerid,groupid;
                           break;
                   }
               }
-              if (!endwhile) endwhile = entryorder(sortmethod,reverse,entry,newentry);
+              if (!endwhile) endwhile = !entryorder(sortmethod,reverse,newentry,entry);
 
               if (endwhile) {
-                  if (endwhile==1) {
+//                  if (endwhile==1)
+                   {
                       if (entry->last) addposition=entry->last;
                       else addposition=(struct Directory *)-1;
-                  }
+                   }
                   break;
               }
               entry=entry->next;
@@ -587,7 +615,7 @@ UWORD ownerid,groupid;
     /* remove duplicates */
 
     if (newentry->next) {
-D(bug("addfile: newentry(%s), nextentry(%s)\n",newentry->name,newentry->next->name));
+//D(bug("addfile: newentry(%s), nextentry(%s)\n",newentry->name,newentry->next->name));
         if (newentry->name[0] && (Stricmp(newentry->name,newentry->next->name))==0)
             removefile(newentry->next,dir,win,0);
         else if (type==ENTRY_CUSTOM && subtype==CUSTOMENTRY_BUFFERLIST &&

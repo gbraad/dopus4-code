@@ -1,5 +1,7 @@
 ASM = Work:Dev/PhxAss/PhxAss
 ASMOPTS = M=68020 SYMDEBUG SC SD 4
+
+CC = m68k-amigaos-gcc
 CCOPTS = -m68020 -resident
 
 OBJS = main.o main1.o main2.o main3.o main4.o main5.o\
@@ -11,10 +13,10 @@ chipdata.o
 All : ../../ConfigOpus
 
 ../../ConfigOpus : $(OBJS)
-	gcc -o ../../ConfigOpus *.o -noixemul $(CCOPTS) -ldebug -s
+	$(CC) -o ../../ConfigOpus *.o -noixemul $(CCOPTS) -ldebug -s
 
 .c.o:
-	gcc -c $*.c $(CCOPTS) -I../include -msmall-code -fomit-frame-pointer -O3 -Wall
+	$(CC) -c $*.c $(CCOPTS) -I../include -msmall-code -fomit-frame-pointer -O3 -Wall
 # -DDEBUG
 
 lsprintf.o: lsprintf.asm

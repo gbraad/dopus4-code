@@ -6,8 +6,9 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (13.01.2002):
+4.17 (20.01.2002):
 - few hits removed
+- Sort by extension option added to lister popup menu
 - GetEntry return code changed to empty string for incorrect parameters
 - lister popup menu removed for the DeviceList because of sorting problems
 - Relabel function fixed

@@ -98,7 +98,8 @@ the existing commercial status of Directory Opus 5.
 #define DISPLAY_OWNER    6
 #define DISPLAY_GROUP    7
 #define DISPLAY_NETPROT  8
-#define DISPLAY_LAST 8
+#define DISPLAY_EXT 9
+#define DISPLAY_LAST 9
 
 #define FLAG_OUTWIND      1
 #define FLAG_OUTFILE      2

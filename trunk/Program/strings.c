@@ -642,7 +642,7 @@ const struct DefaultString
         "_Iconify"},
 
         {STR_CONTINUE,
-        "_Continue"},
+        "C_ontinue"},
 
         {STR_OKAY,
         "_Okay"},
@@ -1281,6 +1281,9 @@ Old  -  Size : %7ld  Date : %19s"},
 
         {STR_NAMESORT_MENU,
         "Filename sorting"},
+
+        {STR_FILE_EXTENSION,
+        "Extension"},
 
         {STR_STRING_COUNT,NULL}};
 

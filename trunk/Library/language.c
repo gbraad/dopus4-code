@@ -276,7 +276,7 @@ void __saveds DoFreeStringFile(register struct StringData *stringdata __asm("a0"
           struct Library *LocaleBase = stringdata->LocaleBase;
 
 //D(bug("FreeStringFile:closing catalog\n",stringdata->catalog);Delay(50));
-          if (stringdata->catalog) CloseCatalog(stringdata->catalog);
+          /*if (stringdata->catalog)*/ CloseCatalog(stringdata->catalog);
           stringdata->catalog = NULL;
           stringdata->LocaleBase = NULL;
 //D(bug("FreeStringFile:closing library\n");Delay(50));

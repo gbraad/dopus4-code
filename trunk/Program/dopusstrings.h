@@ -438,6 +438,7 @@ enum {
     STR_SORTHEX,                 // JRZ
     STR_SORTBY,
     STR_NAMESORT_MENU,
+    STR_FILE_EXTENSION,
 
     STR_STRING_COUNT
 };
