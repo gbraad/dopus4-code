@@ -1,6 +1,6 @@
 ; DOpus4_Disk.cd - Directory Opus 4 Disk module catalog description file
 ;
-; $VER: DOpus4_Disk.cd 1.4 (11.12.2001)
+; $VER: DOpus4_Disk.cd 1.5 (04.02.2003)
 ;
 ;
 ;*** Format
@@ -215,3 +215,21 @@ Format
 ;
 STR_DISK_NOT_BLANK_DISKCOPY (//)
 Diskcopy
+;
+; SFS specific format flags
+;
+STR_FORMAT_SFS_CASE (//)
+Case-sensitive
+;
+STR_FORMAT_SFS_SHOWREC (//)
+Show 'Recycled'
+;
+STR_FORMAT_SFS_NOREC (//)
+No 'Recycled'
+;
+STR_FORMAT_PFS_DELDIR (//)
+DelDir blocks
+;
+STR_FORMAT_PFS_FNSIZE (//)
+Filename size
+;
