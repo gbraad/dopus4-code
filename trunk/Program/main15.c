@@ -496,8 +496,6 @@ char *source,*dest;
             case FUNC_ALARM:
                 dosound(1);
                 break;
-            case FUNC_RELABEL:
-                relabel_disk(1,NULL);
             default:
                 if (!command) return(0);
 D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
@@ -578,7 +576,7 @@ D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
                            }
                           dodevicelist(actwin);
                          }
-                        else if (!rexx) relabel_disk(0/*rexx*/,spath);
+                        else relabel_disk(rexx,spath);
                         break;
                     case FUNC_SEARCH:
                         dofilefunction(FUNC_SEARCH,FUNCFLAGS_ANYTHING,spath,NULL,actwin,-1,rexx);

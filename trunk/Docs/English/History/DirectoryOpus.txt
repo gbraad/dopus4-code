@@ -8,6 +8,7 @@ like more.
 
 4.17 (13.01.2002):
 - few hits removed
+- Relabel function fixed
 - Search function works on listed archives
 - name sorting mode can be selected in lister menu
 - archives should work on all filesystems again

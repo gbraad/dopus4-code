@@ -34,22 +34,22 @@ the existing commercial status of Directory Opus 5.
 #include <i64.h>
 #endif
 
-void setupchangestate()
+void setupchangestate(void)
 {
     int unit;
     struct IOStdReq *diskreq;
 
     disk_change_state=0;
-    for (unit=0;unit<4;unit++) {
-        if (diskreq=(struct IOStdReq *)LCreateExtIO(general_port,sizeof(struct IOStdReq))) {
+    if (diskreq=(struct IOStdReq *)LCreateExtIO(general_port,sizeof(struct IOStdReq))) {
+        for (unit=0;unit<4;unit++) {
             if (!(OpenDevice("trackdisk.device",unit,(struct IORequest *)diskreq,0))) {
                 diskreq->io_Command=TD_CHANGESTATE;
                 DoIO((struct IORequest *)diskreq);
                 if (!diskreq->io_Actual) disk_change_state|=1<<unit;
                 CloseDevice((struct IORequest *)diskreq);
             }
-            LDeleteExtIO((struct IORequest *)diskreq);
         }
+        LDeleteExtIO((struct IORequest *)diskreq);
     }
 }
 
