@@ -286,7 +286,7 @@ ULONG *sector;
     for (sum=0,i=0;i<(TD_SECTOR>>2);i++) sum+=sector[i];
     return(sum);
 }
-
+/*
 do_writeblock(device_req,buffer,offset)
 struct IOExtTD *device_req;
 APTR buffer;
@@ -298,7 +298,7 @@ ULONG offset;
     device_req->iotd_Req.io_Offset=offset*TD_SECTOR;
     return((int)DoIO((struct IORequest *)device_req));
 }
-
+*/
 void inhibit_drive(device,state)
 char *device;
 ULONG state;

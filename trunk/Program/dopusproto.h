@@ -81,6 +81,7 @@ int readarchive(struct DirectoryWindow *,int);
 void freearchive(struct DirectoryWindow *);
 BOOL unarcfiledir(const struct DirectoryWindow *, const char *, char *, const char *);
 BOOL getsourcefromarc(struct DirectoryWindow *, char *, char *);
+void arcfillfib(struct FileInfoBlock *, struct Directory *);
 
 /* buffers.c */
 

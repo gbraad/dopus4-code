@@ -269,3 +269,18 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
  return FALSE;
 }
 
+void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
+{
+D(bug("arcfillfib: %s (%s)\n",entry->name?entry->name:"<NULL>",entry->comment?entry->comment:"<NULL>"));
+  fib->fib_DirEntryType = entry->/*sub*/type;
+  strcpy(fib->fib_FileName,entry->name);
+  fib->fib_Protection = entry->protection;
+  fib->fib_Size = (int)entry->size;
+  fib->fib_Date = entry->date;
+  if (entry->comment) strcpy(fib->fib_Comment,entry->comment);
+  else fib->fib_Comment[0] = 0;
+  fib->fib_OwnerUID = entry->owner_id;
+  fib->fib_OwnerGID = entry->group_id;
+}
+
+

@@ -44,19 +44,6 @@ struct recurse {
 
 struct recurse *current_recurse;
 
-void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
-{
-D(bug("arcfillfib: %s\n",entry->name));
-  fib->fib_DirEntryType = entry->/*sub*/type;
-  strcpy(fib->fib_FileName,entry->name);
-  fib->fib_Protection = entry->protection;
-  fib->fib_Size = (int)entry->size;
-  fib->fib_Date = entry->date;
-  strcpy(fib->fib_Comment,entry->comment);
-  fib->fib_OwnerUID = entry->owner_id;
-  fib->fib_OwnerGID = entry->group_id;
-}
-
 int recursedir(fdir,fdest,dowhat,fdata)
 char *fdir,*fdest;
 int dowhat,fdata;
@@ -100,8 +87,8 @@ int dowhat,fdata;
 D(bug("recursedir: %s\n",fdir));
     if (dopus_curwin[data_active_window]->xai)
      {
-      lister = *dopus_curwin[data_active_window];
-      for(entry = lister.firstentry; entry && (!(entry->selected)); entry=entry->next);
+      lister = *(dopus_curwin[data_active_window]);
+      for(entry = lister.firstentry; entry && (!(entry->selected));) entry=entry->next;
       if (entry) arcfillfib(&myfinfo,entry);
 
       mylock = NULL;
@@ -525,7 +512,17 @@ if (entry) DeleteFile(name);
                     }
                 }
                 if (dowhat&R_SEARCH) {
+D(bug("file: %s\n",name));
+if (entry)
+ {
+  char tempname[FILEBUF_SIZE];
+
+  strcpy(name,"T:");
+  if (! unarcfiledir(&lister,name,tempname,enfinfo.fib_FileName)) continue;
+  AddPart(name,tempname,256);
+}
                     suc=filesearch(name,&a,0);
+if (entry) DeleteFile(name);
                     ret+=a;
                     busy();
                     if (suc==2) {

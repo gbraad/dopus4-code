@@ -1540,6 +1540,7 @@ functionloop:
                 }
                 else {
                     if (file->type<=ENTRY_FILE) {
+                        arcfile = getsourcefromarc(swindow,sourcename,file->name);
                         a=filesearch(sourcename,&b,(askeach)?1:-1);
                         count+=b;
                         if (a==2) {

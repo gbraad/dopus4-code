@@ -622,10 +622,12 @@ char quick;
                 if (!suc) {
                     border_text(reqbase,border,string_table[STR_FORMAT_INITIALISING]);
 
-                    if (DOSBase->dl_lib.lib_Version>36) {
+//                    if (DOSBase->dl_lib.lib_Version>36)
+                    {
                         if (Format(device,name,dostype)) suc=0;
                         else suc=ERROR_FAILED;
                     }
+/*
                     else {
                         suc=do_initialise(handle.device_req,name,dostype,
                             handle.dosenvec->de_LowCyl*
@@ -637,6 +639,7 @@ char quick;
                             handle.dosenvec->de_BufMemType,
                             flags);
                     }
+*/
                 }
 
                 drive_motor(handle.device_req,0);
@@ -670,7 +673,7 @@ char quick;
     if (txt>-1) border_text(reqbase,border,string_table[txt]);
     return((txt==STR_SUCCESS));
 }
-
+/*
 do_initialise(device_req,name,dostype,firstblock,numblocks,reserved,memtype,flags)
 struct IOExtTD *device_req;
 char *name;
@@ -802,7 +805,7 @@ ULONG flags;
     LFreeRemember(&key);
     return(0);
 }
-
+*/
 do_raw_format(reqbase,border,device_req,tracksize,lowtrack,numtracks,memtype,flags)
 struct RequesterBase *reqbase;
 Object_Border *border;
