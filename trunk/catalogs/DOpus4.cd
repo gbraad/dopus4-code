@@ -1,6 +1,6 @@
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 1.5 (08.01.2002)
+; $VER: DOpus4.cd 1.6 (22.01.2002)
 ;
 ;
 ; General
@@ -1094,7 +1094,7 @@ STR_TEXT_VIEWER_TITLE (//)
 Directory Opus Text Viewer
 ;
 ;
-; Protect window
+; Protect window (1/2)
 ;
 ; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
 ;       change them, but use something like this instead:
@@ -1337,7 +1337,11 @@ Filename sorting
 ;
 STR_FILE_EXTENSION (//)
 Extension
-STR_PROTECT_OKAY (//)
+;
+;
+; Protect window (2/2)
+;
+;STR_PROTECT_OKAY (//)
 Okay
 ;
 STR_PROTECT_ALL (//)
