@@ -115,7 +115,7 @@ Creo il cestino...
 ; Creating Trashcan...
 ;
 STR_DISK_NOT_BLANK
-Il disco in %s non è vuoto!\n\nIl volume \"%s\" contiene %s.\n\nTutti i dati saranno cancellati.\nScegli "Procedi" per continuare\ncon la %s.
+Il disco in %s non è vuoto!\n\nIl volume \"%s\" contiene %s.\n\nTutti i dati saranno cancellati.\nScegli "Procedi" per continuare\nla %s.
 ; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\nAll data will be erased.\nChoose Proceed to continue the %s.
 ;
 STR_PROCEED
@@ -239,10 +239,10 @@ Installa
 ; Install
 ;
 STR_DISK_NOT_BLANK_FORMAT
-Formatta
+formattazione
 ; Format
 ;
 STR_DISK_NOT_BLANK_DISKCOPY
-Copia disco
+copia del disco
 ; Diskcopy
 ;
