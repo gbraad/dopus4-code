@@ -1341,7 +1341,7 @@ Extension
 ;
 ; Protect window (2/2)
 ;
-;STR_PROTECT_OKAY (//)
+STR_PROTECT_OKAY (//)
 Okay
 ;
 STR_PROTECT_ALL (//)
