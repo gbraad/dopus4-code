@@ -6,8 +6,11 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (07.07.2002):
+4.17 (08.08.2002):
 - few hits removed
+- separate version with debug enabled (use it with Sushi/Sashimi tools to report
+bugs)
+- Rename function supports multiple asterisks
 - archive support improved
 - SkipAll/ReplaceAll refers to all selected directories
 - Rename button in the Replace requester

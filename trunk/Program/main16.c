@@ -112,7 +112,7 @@ UWORD *coltab;
                                                  TAG_END);
 D(bug("Font screen ModeID: %lx\n",font_scr.Extension[0].ti_Data));
       if (font_scr.Extension[0].ti_Data == INVALID_ID) font_scr.Extension[0].ti_Data = HIRES_KEY;
-      if (GetDisplayInfoData(NULL,&dims,sizeof(struct DimensionInfo),DTAG_DIMS,font_scr.Extension[0].ti_Data))
+      if (GetDisplayInfoData(NULL,(UBYTE *)&dims,sizeof(struct DimensionInfo),DTAG_DIMS,font_scr.Extension[0].ti_Data))
        {
         font_scr.Width = dims.Nominal.MaxX-dims.Nominal.MinX+1;
         font_scr.Height = dims.Nominal.MaxY-dims.Nominal.MinY+1;
@@ -224,7 +224,7 @@ char *file;
     FreeVec(helpbuf);
 }
 
-static char *helpcontext[] = {
+static STRPTR helpcontext[] = {
     "Main",
     "About",
     "AddCustEntry",
@@ -375,16 +375,14 @@ char *defmsg;
         }
         help=help->next;
     }
-    if (!msg) {
-        if (defmsg) msg=defmsg;
-        else msg=globstring[STR_HELP_NOT_AVAILABLE];
-    }
+    if (!msg) msg = (defmsg ? defmsg : globstring[STR_HELP_NOT_AVAILABLE]);
+
     if (key>0) {
         RawkeyToStr(key,qual,buf2,NULL,30);
         strcpy(buf1,globstring[STR_KEY]); strcat(buf1,buf2); strcat(buf1,"\n\n");
         s1=strlen(buf1);
         s=strlen(msg)+1;
-        if (buf=AllocMem(s+s1,MEMF_CLEAR)) {
+        if ((buf=AllocMem(s+s1,MEMF_CLEAR))) {
             CopyMem(buf1,buf,s1);
             CopyMem(msg,&buf[s1],s);
             s+=s1;
@@ -405,7 +403,8 @@ char *defmsg;
       nag.nag_Context = helpcontext;
       nag.nag_Node = func[0]=='*'?func+1:func;
 
-      if (agc = OpenAmigaGuide(&nag,NULL))
+D(bug("Trying to display Amigaguide node \"%s\"\n",nag.nag_Node));
+      if ((agc = OpenAmigaGuide(&nag,NULL)))
        {
         CloseAmigaGuide(agc);
        }

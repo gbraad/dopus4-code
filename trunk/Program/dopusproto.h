@@ -367,6 +367,7 @@ void rexx_return(struct RexxMsg *,long long);
 int recursedir(char *,char *,int,int);
 int addrecurse(struct DOpusRemember **,char *,char *,int,APTR,APTR,BPTR,struct FileInfoBlock *,struct Directory *,struct DirectoryWindow *);
 int copymakedir(struct DOpusRemember **,struct makedirlist **,char *,struct FileInfoBlock *);
+int getdircontentsinfo(char *, unsigned long long *, ULONG *);
 
 /* main19.c */
 
@@ -573,7 +574,6 @@ struct InputEvent *__saveds keyhandler(register struct InputEvent * __asm("a0"),
 #endif
 void openprogresswindow(char *,int,int,int);
 void progresstext(int,int,int,char *);
-void progressbar(int,int,int,int);
 
 /* view.c */
 

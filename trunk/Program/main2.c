@@ -613,7 +613,7 @@ int win;
   }
   else {
           b=ABSI(l);
-          if (config->dynamicflags&4 && b>(scrdata_dispwin_lines/4)) {
+          if (config->dynamicflags&UPDATE_NOTIFY && b>(scrdata_dispwin_lines/4)) {
                   tl=-1; bl=scrdata_dispwin_lines; ds=0; sc=0;
           }
           else {
@@ -732,9 +732,9 @@ int win,x,y;
   builddisplaystring(entry,dispbuf,win);
   if ((newreg = NewRegion()))
    {
-    rect.MinX=scrdata_dirwin_xpos[win];
+    rect.MinX=scrdata_dirwin_xpos[win]+1;
     rect.MinY=y-scrdata_font_baseline;
-    rect.MaxX=rect.MinX+scrdata_dispwin_width[win]-2;
+    rect.MaxX=rect.MinX+scrdata_dispwin_width[win]-3;
     rect.MaxY=rect.MinY+scrdata_font_ysize-1;
 
     OrRectRegion(newreg,&rect);
@@ -888,9 +888,9 @@ int len,x,y;
 //#define DISPLAYSIZEFORMAT     "%9qd "
 #define DISPLAYSIZEFORMAT     "%qd"
 
-void buildkmgstring(char *buf, unsigned long long size, int lister)
+void buildkmgstring(char *buf, unsigned long long size, int kmgmode)
 {
- if ( config->listerdisplayflags[ lister ] & SIZE_KMG ) // HUX
+ if (kmgmode)
   {
    if (size > 1024)
     {
@@ -1057,7 +1057,7 @@ void builddisplaystring(display,sbuf,win)
       PUTCODE(&sbuf,TEXT_PENS,fg<<8|bg);
 
       if (display->type<ENTRY_DEVICE || (display->type>ENTRY_DEVICE && display->size>=0))
-        buildkmgstring(sizebuf,display->size,win);
+        buildkmgstring(sizebuf,display->size,config->listerdisplayflags[win] & SIZE_KMG);
       else
         sizebuf[0]=0;
 

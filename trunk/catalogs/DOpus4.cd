@@ -299,7 +299,10 @@ Enter date and time (blank for current)
 STR_ENTER_SEARCH_STRING (//)
 Enter search string
 ;
-STR_STRING_NOT_FOUND (+1//)
+STR_RENAME_REQ (//)
+Rena_me
+;
+STR_STRING_NOT_FOUND (//)
 Sorry! String could not be found!
 ;
 STR_MATCHED_FILES (//)
@@ -773,13 +776,10 @@ TOTAL:
 STR_CLOCK_MEM (//)
 MEM:
 ;
-STR_CLOCK_MEMORY (//)
-MEMORY:
-;
 ;
 ; Used to describe the keyboard shortcut for some function
 ;
-STR_KEY (+42//)
+STR_KEY (+43//)
 Key :
 ;
 ;
@@ -982,7 +982,7 @@ STR_PROTECTION_BITS (//)
 Protection
 ;
 STR_CREATION_DATE (//)
-Timestamp
+Date
 ;
 STR_FILE_COMMENT (//)
 Comment
@@ -1105,4 +1105,7 @@ Link name
 ;
 STR_MAKELINK_DESTINATION (//)
 Link destination
+;
+STR_PROTECT_CANCEL (//)
+_Cancel
 ;

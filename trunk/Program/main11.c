@@ -734,7 +734,7 @@ ULONG type/*,nottype*/;
     }
     Permit();
 */
-    size=AvailMem(type);
+    size=AvailMem(type|MEMF_TOTAL);
     size=(size+1023)/1024;
     for (a=1;;a++) if (!(size/=10)) break;
     return(a);

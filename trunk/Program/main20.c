@@ -122,7 +122,7 @@ D(bug("Freeing special dirs\n"));
     if (muBase) {
         if (mu_userinfo) muFreeUserInfo(mu_userinfo);
         if (mu_groupinfo) muFreeGroupInfo(mu_groupinfo);
-        CloseLibrary(muBase);
+        CloseLibrary((struct Library *)muBase);
     }
     if (MUSICBase) {
         FlushModule();
@@ -151,7 +151,7 @@ void remclock()
 {
     if (clockmsg_port) {
         dotaskmsg(clockmsg_port,TASK_QUIT,0,0,NULL,0);
-        DeleteTask(clock_task); clock_task=NULL;
+        /*DeleteTask(clock_task);*/ clock_task=NULL;
     }
 }
 
@@ -188,32 +188,37 @@ void freedynamiccfg()
 int checkwindowquit()
 {
     struct Window *wind,*temp;
-    int a;
+//    int a;
 
-    a=1;
     if (!MainScreen) return(1);
-    wind=MainScreen->FirstWindow;
-    while (wind) {
-        if (wind!=Window) {
-            a=0;
-            break;
-        }
-        wind=wind->NextWindow;
-    }
+/*
+    for (a = 1, wind = MainScreen->FirstWindow; wind; wind = wind->NextWindow)
+     {
+      if (wind != Window)
+       {
+        a = 0;
+        break;
+       }
+     }
     if (a) return(1);
-    busy();
-    if (!(simplerequest(globstring[STR_ALIEN_WINDOWS],globstring[STR_CLOSE],
-        str_cancelstring,NULL))) {
-        unbusy();
-        return(0);
-    }
-    wind=MainScreen->FirstWindow;
-    while (wind) {
-        temp=wind->NextWindow;
-        if (wind!=Window) CloseWindow(wind);
-        wind=temp;
-    }
-    unbusy();
+*/
+    if ((PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
+     {
+      busy();
+      if (!(simplerequest(globstring[STR_ALIEN_WINDOWS],globstring[STR_CLOSE],
+          str_cancelstring,NULL))) {
+          unbusy();
+          PubScreenStatus(MainScreen, 0);
+          return(0);
+      }
+      for (wind = MainScreen->FirstWindow; wind; )
+       {
+        temp = wind->NextWindow;
+        if (wind != Window) CloseWindow(wind);
+        wind = temp;
+       }
+      unbusy();
+     }
     return(1);
 }
 

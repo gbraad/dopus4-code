@@ -346,9 +346,74 @@ loop:
 int getwildrename(sname,dname,name,newn)
 char *sname,*dname,*name,*newn;
 {
-    char sfirst[FILEBUF_SIZE],slast[FILEBUF_SIZE],dfirst[FILEBUF_SIZE],dlast[FILEBUF_SIZE],foon[FILEBUF_SIZE];
-    int a,b,c,flen,llen,d;
+//    char sfirst[FILEBUF_SIZE],slast[FILEBUF_SIZE],dfirst[FILEBUF_SIZE],dlast[FILEBUF_SIZE],foon[FILEBUF_SIZE];
+    int a,b,c/*,flen,llen,d*/;
 
+    char *spat = sname, *dpat = dname, *sn = name, *dn = newn;
+    char c1,c2;
+
+D(bug("getwildrename(%s,%s,%s,)\n",sname,dname,name));
+/* check if filename matches source pattern */
+    a=1; b=0;
+    while (*spat)
+     {
+      if (*spat == '*')
+       {
+        b++;
+        spat++;
+        if (*spat) for (c1=ToLower(*spat); c1 != ToLower(*sn); sn++);
+       }
+      else
+       {
+        c1 = ToLower(*spat);
+        c2 = ToLower(*sn);
+
+        if (c1 == c2)
+         {
+          spat++;
+          sn++;
+         }
+        else
+         {
+          a=0;
+          break;
+         }
+       }
+     }
+D(bug("getwildrename(): <%smatch>, %ld asterisks in source pattern\n",a?"":"no ",b));
+
+/* count asterisks in destination pattern */
+    for(c = 0; *dpat; dpat++) if (*dpat == '*') c++;
+D(bug("getwildrename(): %ld asterisks in destination pattern\n",c));
+
+    if (a && (b == c)) // try to build destination filename
+     {
+      spat = sname;
+      dpat = dname;
+      sn = name;
+
+      while (*spat || *dpat || *sn)
+       {
+        // skip to wildcard part of filename
+        if (*spat)
+         {
+          for (; *spat && (*spat != '*'); spat++, sn++);
+          if (*spat) spat++;
+         }
+        // copy replacement text
+        if (*dpat)
+         {
+          for (; *dpat && (*dpat != '*'); *dn++ = *dpat++);
+          if (*dpat) dpat++;
+         }
+        // copy wildcard part of source filename
+        if (*sn) for (c1=ToLower(*spat); c1 != ToLower(*sn); sn++) if (*spat != '*') *dn++ = *sn;
+        *dn = 0;
+D(bug("getwildrename(): spat = %s, dpat = %s, sn = %s, destination name: %s\n",spat,dpat,sn,newn));
+       }
+      return 1;
+     }
+/*
     b=strlen(sname); sfirst[0]=slast[0]=0;
     for (a=0;a<b;a++)
         if (sname[a]=='*') {
@@ -371,8 +436,10 @@ char *sname,*dname,*name,*newn;
         CopyMem((char *)&name[a],foon,c);
         foon[c]=0;
         strcpy(newn,dfirst); strcat(newn,foon); strcat(newn,dlast);
+D(bug("getwildrename(): newname = %s\n",newn));
         if (newn[0]!=0) return(1);
     }
+*/
     return(0);
 }
 

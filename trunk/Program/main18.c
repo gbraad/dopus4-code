@@ -324,7 +324,7 @@ delloop:
                         adir=dir; adest=dest; adata=data; ndir=name; ndest=dname;
                     }
                     else {
-                        if (config->dynamicflags&1) seename(data_active_window);
+                        if (config->dynamicflags&UPDATE_FREE) seename(data_active_window);
                         adir=NULL;
                     }
                 }
@@ -379,8 +379,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
             }
 
             if (dowhat&R_GETNAMES) goto skipgetnam;
-//            dofilename(name);
-            if (!(dowhat & (R_GETBYTES | R_HUNT))) dofilename(name);
+//            if (!(dowhat & (R_GETBYTES | R_DELETE | R_HUNT))) dofilename(name);
             if (dowhat&R_STARDIR) {
                 if ((trec=LAllocRemember(&rec_pathkey,sizeof(struct recpath),MEMF_CLEAR)) &&
                     (trec->path=LAllocRemember(&rec_pathkey,(strlen(name)+1)-data,MEMF_CLEAR))) {
@@ -446,7 +445,7 @@ if (entry)
                               }
                               dos_global_copiedbytes+=enfinfo.fib_Size;
                           }
-                          if (config->dynamicflags&1) seename(data_active_window);
+                          if (config->dynamicflags&UPDATE_FREE) seename(data_active_window);
                           break;
                       }
                       dotaskmsg(hotkeymsg_port,PROGRESS_INCREASE,1,0,NULL,0);
@@ -455,7 +454,7 @@ if (entry) removetemparcfile(name);
                           ret=-10;
                           break;
                       }
-                      else if (config->dynamicflags&1) {
+                      else if (config->dynamicflags&UPDATE_FREE) {
                           seename(data_active_window); seename(w1);
                       }
                     }
@@ -471,7 +470,7 @@ if (entry) removetemparcfile(name);
                           break;
                       }
                       if (a==2) glob_unprotect_all=1;
-                      if (config->dynamicflags&1) seename(data_active_window);
+                      if (config->dynamicflags&UPDATE_FREE) seename(data_active_window);
                       dos_global_deletedbytes+=enfinfo.fib_Size;
                      }
                 }
@@ -673,3 +672,64 @@ loop:
     }
     return(1);
 }
+
+int getdircontentsinfo(char *path, unsigned long long *size, ULONG *files)
+{
+  char *buf, *c;
+  struct ExAllControl *eac;
+  struct ExAllData *ead;
+  BPTR lock;
+  int more, ret = 1;
+
+D(bug("getdircontentsinfo(%s)\n",path));
+  if ((lock = Lock(path,ACCESS_READ)))
+   {
+    if ((buf = AllocMem(1024,MEMF_ANY)))
+     {
+      if ((eac = AllocDosObject(DOS_EXALLCONTROL,NULL)))
+       {
+        eac->eac_LastKey = NULL;
+
+        do
+         {
+          ead = (struct ExAllData *)buf;
+          more = ExAll(lock,ead,1024,ED_SIZE,eac);
+          if ((! more) && (IoErr() != ERROR_NO_MORE_ENTRIES))
+           {
+            ret = 0;
+            break;
+           }
+          if (eac->eac_Entries == 0) continue;
+
+          for (; ead; ead = ead->ed_Next)
+           {
+            if (ead->ed_Type > 0)
+             {
+              AddPart(path,ead->ed_Name,256);
+
+              ret = getdircontentsinfo(path,size,files);
+
+              c = PathPart(path);
+              if (c) *c = 0;
+             }
+            else
+             {
+              *size += ead->ed_Size;
+              (*files)++;
+             }
+           }
+         }
+        while (more);
+
+        FreeDosObject(DOS_EXALLCONTROL, eac);
+       }
+      else ret = 0;
+      FreeMem(buf,1024);
+     }
+    else ret = 0;
+    UnLock(lock);
+   }
+  else ret = 0;
+  return ret;
+}
+

@@ -251,7 +251,7 @@ void quickfixmenus()
             }
         }
         if (!a) {
-D(bug("Simulating RMB click"));
+D(bug("Simulating RMB click\n"));
             Window->Flags&=~RMBTRAP;
             sendmouseevent(IECLASS_RAWMOUSE,IECODE_RBUTTON|IECODE_UP_PREFIX/*,0,0*/);
             sendmouseevent(IECLASS_RAWMOUSE,IECODE_RBUTTON/*,0,0*/);

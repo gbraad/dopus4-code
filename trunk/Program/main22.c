@@ -419,7 +419,8 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
          }
         else strcpy(titlebuf,"Directory Opus");
 
-        /*if (total>1)*/ dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,(total>1)?value:1,(total>1)?total:1,titlebuf,progress_copy);
+D(bug("main22.c: total = %ld, dos_global_files = %ld\n",total, dos_global_files));
+        /*if (total>1)*/ dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,(total>1)?value:1,(total>1)?total:1,titlebuf,progress_copy|((swindow->dirsel&&(!dos_global_files))?0x80:0x00));
 //        else dotaskmsg(hotkeymsg_port,PROGRESS_OPEN,1,1,titlebuf,progress_copy);
         prog_indicator=1;
     }
@@ -450,9 +451,9 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
                (progtype==0 && file->type<=ENTRY_FILE) ||
                (progtype==2)) ++value;
 D(bug("main22.c: value = %ld\n",value));
-            if (total>1) dotaskmsg(hotkeymsg_port,PROGRESS_INCREASE,1,0,NULL,0);
-//            if (total>1) dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,value,total,NULL,0);
-            else dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,1,1,NULL,0);
+//            if (total) dotaskmsg(hotkeymsg_port,PROGRESS_INCREASE,1,0,NULL,0);
+            /*if (total>1)*/ dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,value,total,NULL,0);
+//            else dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,1,1,NULL,0);
             if (progress_copy) dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,-2,0,file->name,1);
         }
 
@@ -522,6 +523,7 @@ functionloop:
                     file->userdata2=blocksize;
                     setdirsize(file,dos_global_bytecount,act);
                     refreshwindow(act,0);
+D({char p[256]; unsigned long long s=0; ULONG f=0; strcpy(p,sourcename); getdircontentsinfo(p,&s,&f); sprintf(p,"size: %qd, files: %ld\n",s,f); bug("%s",p);})
                 }
                 if (file->type>=ENTRY_DIRECTORY) data+=file->userdata+1;
                 else {
@@ -716,6 +718,7 @@ functionloop:
                         StrCombine(newiconname,namebuf,".info",256);
                     }
 retry_rename:
+D(bug("Rename(%s,%s)\n",sourcename,destname));
                     if (!(Rename(sourcename,destname))) {
                         if ((a=IoErr())==ERROR_OBJECT_EXISTS) {
                             if (askeach) {
@@ -1497,7 +1500,7 @@ D(bug("viewfile() returned %ld\n",a));
                 if (askeach && !lastfile) {
                     if (rexx && rexx_argcount>0) strcpy(buf2,rexx_args[rexarg]);
                     else {
-                        buf2[0]=0;
+                        seedate(&(file->date),buf2,0);									// buf2[0]=0;
                         if (!(a=whatsit(globstring[STR_ENTER_DATE_AND_TIME],20,buf2,
                             globstring[STR_ALL]))) {
                             myabort();

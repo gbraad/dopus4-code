@@ -922,8 +922,9 @@ int win;
     char b1[24],b2[24];
 
     if (!dopus_curwin[win]->firstentry || dopus_curwin[win]->firstentry->type!=ENTRY_CUSTOM) {
-        buildkmgstring(b1,/*(long long)*/dopus_curwin[win]->bytessel,win);
-        buildkmgstring(b2,/*(long long)*/dopus_curwin[win]->bytestot,win);
+        buildkmgstring(b1,/*(long long)*/dopus_curwin[win]->bytessel,config->listerdisplayflags[win] & SIZE_KMG);
+        buildkmgstring(b2,/*(long long)*/dopus_curwin[win]->bytestot,config->listerdisplayflags[win] & SIZE_KMG);
+D(bug("doselinfo(): b1 = %s, b2 = %s\n",b1,b2));
         lsprintf(str_select_info,globstring[STR_DIRS_FILES_BYTES_COUNT],
             dopus_curwin[win]->dirsel,dopus_curwin[win]->dirtot,dopus_curwin[win]->filesel,
             dopus_curwin[win]->filetot,b1,b2);

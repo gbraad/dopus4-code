@@ -170,7 +170,7 @@ int allabort,all;
                                  globstring[STR_REPLACE],                        // REPLACE_OK
                                  globstring[STR_ABORT],                          // REPLACE_ABORT
                                  globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], // REPLACE_ALL/REPLACE_RETRY
-                                 globstring[STR_RENAME],
+                                 globstring[STR_RENAME_REQ],
                                  "\n",
                                  globstring[STR_SKIP],                           // REPLACE_SKIP
                                  globstring[STR_SKIP_ALL],                       // REPLACE_SKIPALL

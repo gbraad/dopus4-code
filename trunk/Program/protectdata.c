@@ -196,7 +196,7 @@ struct TagItem
         {RO_Width,12},
         {RO_Height,1},
         {RO_HeightFine,4},
-        {RO_TextNum,STR_CANCEL},
+        {RO_TextNum,STR_PROTECT_CANCEL},
         {RO_TextPos,TEXTPOS_CENTER},
         {RO_HighRecess,TRUE},
         {TAG_END,0}};

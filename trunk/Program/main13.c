@@ -406,7 +406,11 @@ char *date,*time;
 struct DateStamp *ds;
 {
     struct DOpusDateTime datetime;
-
+/*
+    datetime.dat_Stamp.ds_Days = 0;
+    datetime.dat_Stamp.ds_Minute = 0;
+    datetime.dat_Stamp.ds_Tick = 0;
+*/
     datetime.dat_Format=dateformat(config->dateformat);
     datetime.dat_Flags=DDTF_SUBST/*|DDTF_CUSTOM*/;
     datetime.dat_StrDate=date;

@@ -582,7 +582,7 @@ D(bug("extflag,viewmode(6) = %ld,%lx\n",extflag,viewmode));
     if (dt_ok)
      {
       SetDTAttrs(dto,NULL,NULL,PDTA_Screen,iffscreen,TAG_END);
-      DoMethod(dto, DTM_PROCLAYOUT,NULL,1);
+      DoDTMethod(dto, iffwindow, NULL, DTM_PROCLAYOUT, NULL, 1);
       GetDTAttrs(dto, PDTA_DestBitMap, (Tag)&iffbm[0],TAG_END);
 D(bug("PDTA_DestBitMap: %08lx\n",iffbm[0]));
       if (!(iffbm[0]))

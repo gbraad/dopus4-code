@@ -32,9 +32,6 @@ the existing commercial status of Directory Opus 5.
 #include <proto/cybergraphics.h>
 #include <cybergraphx/cybergraphics.h>
 
-/* Function prototypes */
-int DOPUS_IsCyberModeID( struct Library *cybergfxbase, ULONG modeid, struct DimensionInfo *dimension, int *minw );
-
 int initscreenmodes()
 {
     int pal,count,minw,minh,defw,depth,needdef=0,overx,overy,oldcount=0;
@@ -60,93 +57,81 @@ int initscreenmodes()
     }
     GetWBScreen(&scrbuf);
 
-    /*if (version2)*/ {
-        CyberGfxBase = OpenLibrary("cybergraphics.library",0);
-        modeid=INVALID_ID;
-        while ((modeid=NextDisplayInfo(modeid))!=INVALID_ID) {
-            if (!ModeNotAvailable(modeid) &&
-                (handle=FindDisplayInfo(modeid)) &&
-                (GetDisplayInfoData(handle,namebuf,128,DTAG_NAME,0)) &&
-                (GetDisplayInfoData(handle,buf,256,DTAG_DIMS,0)))
-               {
-                                //HUX Fixed this if else if else by introducing subroutine
-                                if ( DOPUS_IsCyberModeID( CyberGfxBase, modeid, dimension, &minw ) >0 )
-                                {
-                                }
-/*
-                if (CyberGfxBase)
-                 {
-                  if (IsCyberModeID(modeid))
-                   {
-                    minw = GetCyberIDAttr(CYBRIDATTR_WIDTH,modeid);
-                    dimension->MinRasterHeight = dimension->MaxRasterHeight = GetCyberIDAttr(CYBRIDATTR_HEIGHT,modeid);
-                    dimension->MaxDepth = GetCyberIDAttr(CYBRIDATTR_DEPTH,modeid);
-                    dimension->TxtOScan.MaxX = minw-1;
-                    dimension->TxtOScan.MinX = 0;
-                    dimension->TxtOScan.MaxY = dimension->MinRasterHeight-1;
-                    dimension->TxtOScan.MinY = 0;
-                   }
-                 }
-*/
-                else if (modeid&HIRES_KEY || modeid&HIRESLACE_KEY) minw=640;
-                else {
-                    minw=dimension->MinRasterWidth;
-                    if (minw<160) minw*=10;
-                }
-                minh=dimension->MinRasterHeight; if (minh<200) minh=200;
-                defw=(dimension->TxtOScan.MaxX-dimension->TxtOScan.MinX)+1;
-                if (minw>=640 && defw>=640) {
-                    count+=addscreenmode(((struct NameInfo *)namebuf)->Name,
-                        minw,minh,
-                        dimension->MaxRasterWidth,dimension->MaxRasterHeight,
-                        defw,(dimension->TxtOScan.MaxY-dimension->TxtOScan.MinY)+1,
-                        dimension->MaxDepth,modeid);
-                }
+    CyberGfxBase = OpenLibrary("cybergraphics.library",0);
+    modeid=INVALID_ID;
+    while ((modeid=NextDisplayInfo(modeid))!=INVALID_ID) {
+        if (!ModeNotAvailable(modeid) &&
+            (handle=FindDisplayInfo(modeid)) &&
+            (GetDisplayInfoData(handle,namebuf,128,DTAG_NAME,0)) &&
+            (GetDisplayInfoData(handle,buf,256,DTAG_DIMS,0)))
+           {
+            if (CyberGfxBase && IsCyberModeID(modeid))
+             {
+              minw = GetCyberIDAttr(CYBRIDATTR_WIDTH,modeid);
+              dimension->MinRasterHeight = dimension->MaxRasterHeight = GetCyberIDAttr(CYBRIDATTR_HEIGHT,modeid);
+              dimension->MaxDepth = GetCyberIDAttr(CYBRIDATTR_DEPTH,modeid);
+              dimension->TxtOScan.MaxX = minw-1;
+              dimension->TxtOScan.MinX = 0;
+              dimension->TxtOScan.MaxY = dimension->MinRasterHeight-1;
+              dimension->TxtOScan.MinY = 0;
+             }
+            else if (modeid & (HIRES_KEY | HIRESLACE_KEY)) minw=640;
+            else {
+                minw=dimension->MinRasterWidth;
+                if (minw<160) minw*=10;
+            }
+            minh=dimension->MinRasterHeight; if (minh<200) minh=200;
+            defw=(dimension->TxtOScan.MaxX-dimension->TxtOScan.MinX)+1;
+            if (minw>=640 && defw>=640) {
+                count+=addscreenmode(((struct NameInfo *)namebuf)->Name,
+                    minw,minh,
+                    dimension->MaxRasterWidth,dimension->MaxRasterHeight,
+                    defw,(dimension->TxtOScan.MaxY-dimension->TxtOScan.MinY)+1,
+                    dimension->MaxDepth,modeid);
             }
         }
-        if (count==0) needdef=1;
-        else {
-            sortscreenmodes(count,0);
-            oldcount=count;
-        }
-        if (pubscreenlist=LockPubScreenList()) {
-            pubscreen=(struct PubScreenNode *)pubscreenlist->lh_Head;
-            while (pubscreen->psn_Node.ln_Succ) {
-                if (strcmp(pubscreen->psn_Node.ln_Name,"Workbench")!=0 &&
-                    strncmp(pubscreen->psn_Node.ln_Name,"DOPUS.",6)!=0 &&
-                    pubscreen->psn_Screen->Width>=640 &&
-                    pubscreen->psn_Screen->Height>=200 &&
-                    pubscreen->psn_Screen->RastPort.BitMap->Depth>1) {
-
-                    lsprintf(namebuf,"%s:%s",pubscreen->psn_Node.ln_Name,cfg_string[STR_SCREEN_MODE_USE]);
-                    count+=addscreenmode(namebuf,
-                        640,200,
-                        pubscreen->psn_Screen->Width,pubscreen->psn_Screen->Height,
-                        pubscreen->psn_Screen->Width,pubscreen->psn_Screen->Height,
-                        pubscreen->psn_Screen->RastPort.BitMap->Depth,MODE_PUBLICSCREENUSE);
-/*
-                    modeid=GetVPModeID(&pubscreen->psn_Screen->ViewPort);
-                    if ((handle=FindDisplayInfo(modeid))) {
-                        GetDisplayInfoData(handle,buf,256,DTAG_DIMS,0);
-                        a=dimension->MaxDepth;
-                    }
-                    else a=4;
-
-                    lsprintf(namebuf,"%s:%s",pubscreen->psn_Node.ln_Name,cfg_string[STR_SCREEN_MODE_CLONE]);
-                    count+=addscreenmode(namebuf,
-                        pubscreen->psn_Screen->Width,pubscreen->psn_Screen->Height,
-                        0,0,
-                        0,0,
-                        a,MODE_PUBLICSCREENCLONE);
-*/
-                }
-                pubscreen=(struct PubScreenNode *)pubscreen->psn_Node.ln_Succ;
-            }
-            UnlockPubScreenList();
-        }
-     CloseLibrary(CyberGfxBase);
     }
-//    else needdef=1;
+    if (count==0) needdef=1;
+    else {
+        sortscreenmodes(count,0);
+        oldcount=count;
+    }
+    if ((pubscreenlist=LockPubScreenList())) {
+        pubscreen=(struct PubScreenNode *)pubscreenlist->lh_Head;
+        while (pubscreen->psn_Node.ln_Succ) {
+            if (strcmp(pubscreen->psn_Node.ln_Name,"Workbench")!=0 &&
+                strncmp(pubscreen->psn_Node.ln_Name,"DOPUS.",6)!=0 &&
+                pubscreen->psn_Screen->Width>=640 &&
+                pubscreen->psn_Screen->Height>=200 &&
+                pubscreen->psn_Screen->RastPort.BitMap->Depth>1) {
+
+                lsprintf(namebuf,"%s:%s",pubscreen->psn_Node.ln_Name,cfg_string[STR_SCREEN_MODE_USE]);
+                count+=addscreenmode(namebuf,
+                    640,200,
+                    pubscreen->psn_Screen->Width,pubscreen->psn_Screen->Height,
+                    pubscreen->psn_Screen->Width,pubscreen->psn_Screen->Height,
+                    pubscreen->psn_Screen->RastPort.BitMap->Depth,MODE_PUBLICSCREENUSE);
+/*
+                modeid=GetVPModeID(&pubscreen->psn_Screen->ViewPort);
+                if ((handle=FindDisplayInfo(modeid))) {
+                    GetDisplayInfoData(handle,buf,256,DTAG_DIMS,0);
+                    a=dimension->MaxDepth;
+                }
+                else a=4;
+
+                lsprintf(namebuf,"%s:%s",pubscreen->psn_Node.ln_Name,cfg_string[STR_SCREEN_MODE_CLONE]);
+                count+=addscreenmode(namebuf,
+                    pubscreen->psn_Screen->Width,pubscreen->psn_Screen->Height,
+                    0,0,
+                    0,0,
+                    a,MODE_PUBLICSCREENCLONE);
+*/
+            }
+            pubscreen=(struct PubScreenNode *)pubscreen->psn_Node.ln_Succ;
+        }
+        UnlockPubScreenList();
+    }
+    CloseLibrary(CyberGfxBase);
 
     if (needdef) {
         pal=GfxBase->DisplayFlags&PAL;
@@ -191,13 +176,13 @@ ULONG mode;
 
     screenmode=firstmode;
     while (screenmode) {
-D(bug("addscreenmode: %s,%s\n",screenmode->name?screenmode->name:"<NULL>",name?name:"<NULL>"));
+//D(bug("addscreenmode: %s\t%s\n",screenmode->name?screenmode->name:"<NULL>",name?name:"<NULL>"));
         if (LStrCmpI(screenmode->name,name)==0) return(0);
         if (!screenmode->next) break;
         screenmode=screenmode->next;
     }
 
-    if (scrmode=LAllocRemember(&screenkey,sizeof(struct ScreenMode),MEMF_CLEAR)) {
+    if ((scrmode=LAllocRemember(&screenkey,sizeof(struct ScreenMode),MEMF_CLEAR))) {
         if (screenmode) screenmode->next=scrmode;
         else firstmode=scrmode;
         strcpy(scrmode->name,name);
@@ -207,9 +192,7 @@ D(bug("addscreenmode: %s,%s\n",screenmode->name?screenmode->name:"<NULL>",name?n
         if (defw==0) scrmode->defw=minw; else scrmode->defw=defw;
         if (defh==0) scrmode->defh=minh; else scrmode->defh=defh;
         scrmode->maxdepth=(depth>8)?8:depth;
-#ifdef DEBUG
-kprintf("%s: %ld\n",name,depth);
-#endif
+D(bug("%s: %ld\n",name,depth);)
         scrmode->mode=mode;
         return(1);
     }
@@ -337,26 +320,3 @@ int m;
     return(mode);
 }
 
-//HUX Added this to fix not detecting screen modes
-int DOPUS_IsCyberModeID( struct Library *cybergfxbase, ULONG modeid, struct DimensionInfo *dimension, int *minw )
-{
-    struct Library *CyberGfxBase = cybergfxbase;
-
-    *minw = -1;
-
-    if ( CyberGfxBase )
-    {
-        if ( IsCyberModeID( modeid ) )
-        {
-            *minw = GetCyberIDAttr(CYBRIDATTR_WIDTH,modeid);
-            dimension->MinRasterHeight = dimension->MaxRasterHeight = GetCyberIDAttr(CYBRIDATTR_HEIGHT,modeid);
-            dimension->MaxDepth = GetCyberIDAttr(CYBRIDATTR_DEPTH,modeid);
-            dimension->TxtOScan.MaxX = *minw-1;
-            dimension->TxtOScan.MinX = 0;
-            dimension->TxtOScan.MaxY = dimension->MinRasterHeight-1;
-            dimension->TxtOScan.MinY = 0;
-        }
-    }
-
-    return *minw;
-}

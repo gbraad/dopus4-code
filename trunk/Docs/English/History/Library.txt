@@ -1,3 +1,7 @@
+22.21 (08.08.2002):
+- separate version with debug enabled (use it with Sushi/Sashimi tools to report
+bugs)
+
 22.21 (24.02.2002):
 - checkmark image background colors problem fixed.
 

@@ -141,6 +141,7 @@ static const struct DefaultString
     	{STR_ENTER_PASSWORD,"Enter password"},
     	{STR_ENTER_DATE_AND_TIME,"Enter date and time (blank for current)"},
     	{STR_ENTER_SEARCH_STRING,"Enter search string"},
+    	{STR_RENAME_REQ,"Rena_me"},
     	{STR_STRING_NOT_FOUND,"Sorry! String could not be found!"},
     	{STR_MATCHED_FILES,"Matched in %ld files."},
     	{STR_NO_SOURCE_SELECTED,"No source directory selected!"},
@@ -298,7 +299,6 @@ static const struct DefaultString
     	{STR_CLOCK_FAST,"FAST:"},
     	{STR_CLOCK_TOTAL,"TOTAL:"},
     	{STR_CLOCK_MEM,"MEM:"},
-    	{STR_CLOCK_MEMORY,"MEMORY:"},
     	{STR_KEY,"Key :"},
     	{STR_TINY_BUTTONS,"BRSA?EFCIQ"},
     	{STR_VIEW_BUTTONS,"UDTBSPQ"},
@@ -357,7 +357,7 @@ static const struct DefaultString
     	{STR_FILE_NAME,"Name"},
     	{STR_FILE_SIZE,"Size"},
     	{STR_PROTECTION_BITS,"Protection"},
-    	{STR_CREATION_DATE,"Timestamp"},
+    	{STR_CREATION_DATE,"Date"},
     	{STR_FILE_COMMENT,"Comment"},
     	{STR_FILE_TYPE,"File type"},
     	{STR_OWNER,"Owner"},
@@ -404,6 +404,7 @@ static const struct DefaultString
     	{STR_MAKELINK_TYPE,"Type"},
     	{STR_MAKELINK_NAME,"Link name"},
     	{STR_MAKELINK_DESTINATION,"Link destination"},
+    	{STR_PROTECT_CANCEL,"_Cancel"},
         {STR_STRING_COUNT,NULL}};
 
 char str_okaystring[30];
@@ -443,7 +444,7 @@ int getkeyshortcut(const char *str)
 {
     char *c;
 
-    if (c = strchr(str,'_')) return ToLower(c[1]);
+    if ((c = strchr(str,'_'))) return ToLower(c[1]);
     else return 0;
 }
 

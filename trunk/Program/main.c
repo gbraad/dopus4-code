@@ -273,16 +273,16 @@ D(bug("beepwave: %lx\n",beepwave));
             if (FindToolType((STRPTR *)toolarray,"FORCEOPENXAD"))  xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4);
             if (FindToolType((STRPTR *)toolarray,"USESYSINFO"))
               {
-//D(bug("Opening sysinfo.library v2..."));
+D(bug("Opening sysinfo.library v2..."));
                if (SysInfoBase = OpenLibrary(SYSINFONAME,2L))
                 {
-//D(bug("success\n"));
+D(bug("success\n"));
                  if (sysinfo = InitSysInfo())
                   {
-//D(bug("InitSysInfo() successful\n"));
+D(bug("InitSysInfo() successful\n"));
                    if (!(sysinfo->cpu_usage_implemented & CPU_USAGEF_LASTSEC_IMPLEMENTED))
                     {
-//D(bug("CPU_USAGEF_LASTSEC not implemented! Falling back to standard CPU meter\n"));
+D(bug("CPU_USAGEF_LASTSEC not implemented! Falling back to standard CPU meter\n"));
                      FreeSysInfo(sysinfo);
                      sysinfo = NULL;
                      CloseLibrary(SysInfoBase);
@@ -290,7 +290,7 @@ D(bug("beepwave: %lx\n",beepwave));
                   }
                  CloseLibrary(SysInfoBase);
                 }
-//else D(bug("FAILED!\n"));
+else D(bug("FAILED!\n"));
               }
         }
         if (WBmsg->sm_NumArgs > 1) for (a = 1; a < WBmsg->sm_NumArgs; a++)

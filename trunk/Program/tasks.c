@@ -36,6 +36,17 @@ the existing commercial status of Directory Opus 5.
 #define HOTKEY_MMB     5
 #define HOTKEY_HOTKEY    10
 
+struct ProgressBar
+ {
+  int barX, barY;
+  int descY;
+  int curr,max;
+  int last_w;
+  BOOL incignore;
+ };
+
+void progressbar(struct ProgressBar *bar);
+
 #ifdef INPUTDEV_HOTKEY
 #ifdef __MORPHOS__
 static struct InputEvent *keyhandler(void);
@@ -57,7 +68,8 @@ static struct NewWindow
 static struct Window *pwindow;
 static struct RastPort *prp;
 static struct DOpusRemember *prog_key;
-static int prog_barx[2],prog_bary[2],prog_texty[2],prog_val[2],prog_tot[2];
+static struct ProgressBar bar[2];
+//int prog_barx[2],prog_bary[2],prog_texty[2],prog_val[2],prog_tot[2];
 static int prog_xoff,prog_yoff,prog_xextra,prog_yextra,prog_areax;
 #ifdef INPUTDEV_HOTKEY
 static struct Interrupt
@@ -296,40 +308,37 @@ void __saveds hotkeytaskcode()
     while ((hmsg=(struct dopustaskmsg *)GetMsg(hotkeymsg_port))) {
       switch (hmsg->command) {
 
+#define BAR_ID (hmsg->flag)
+
         case PROGRESS_UPDATE:
           if (pwindow) {
-            if (hmsg->flag==0 || prog_yextra) {
-              if (hmsg->value>-1)
-               {
-                prog_val[hmsg->flag] = hmsg->value;
-                prog_tot[hmsg->flag] = hmsg->total;
+            if (hmsg->value>-1)
+             {
+              bar[BAR_ID].curr = hmsg->value;
+              bar[BAR_ID].max = hmsg->total;
 
-                progressbar(prog_barx[hmsg->flag],prog_bary[hmsg->flag],hmsg->value,hmsg->total);
-               }
-              if (!hmsg->flag || hmsg->data)
-                progresstext(prog_texty[hmsg->flag],hmsg->value,hmsg->total,hmsg->data);
-            }
+              progressbar(&bar[BAR_ID]);
+             }
+            if (BAR_ID==0 || hmsg->data)
+              progresstext(bar[BAR_ID].descY,hmsg->value,hmsg->total,hmsg->data);
           }
           break;
 
         case PROGRESS_INCREASE:
           if (pwindow) {
-            if (hmsg->flag==0 || prog_yextra) {
-              if (hmsg->value>-1)
-               {
-                prog_val[hmsg->flag] += hmsg->value;
-                if (prog_val[hmsg->flag] > prog_tot[hmsg->flag]) prog_val[hmsg->flag]=prog_tot[hmsg->flag];
+            if (bar[BAR_ID].incignore) break;
 
-                progressbar(prog_barx[hmsg->flag],prog_bary[hmsg->flag],prog_val[hmsg->flag],prog_tot[hmsg->flag]);
-                progresstext(prog_texty[hmsg->flag],prog_val[hmsg->flag],prog_tot[hmsg->flag],hmsg->data);
-               }
-            }
+            bar[BAR_ID].curr += hmsg->value;
+            if (bar[BAR_ID].curr > bar[BAR_ID].max) bar[BAR_ID].curr = bar[BAR_ID].max;
+
+            progressbar(&bar[BAR_ID]);
+            progresstext(bar[BAR_ID].descY,bar[BAR_ID].curr,bar[BAR_ID].max,NULL);
           }
           break;
 
         case PROGRESS_OPEN:
           if (!pwindow) {
-            openprogresswindow(hmsg->data,hmsg->value,hmsg->total,hmsg->flag);
+            openprogresswindow(hmsg->data,hmsg->value,hmsg->total,BAR_ID);
             if (pwindow)
              {
               SetBusyPointer(pwindow);
@@ -384,6 +393,7 @@ void __saveds hotkeytaskcode()
   }
 
  if (commodity) {
+D(bug("Removing commodity objects\n"));
    add_hotkey_objects(broker,inputport,0);
    DeleteCxObjAll(broker);
    while ((cxmsg=(CxMsg *)GetMsg(inputport)))
@@ -520,7 +530,14 @@ int value,total,flag;
 {
   struct TextFont *font;
   char *gadtxt[] = { globstring[STR_ABORT], NULL };
-  int a;
+  int a,incignore = 0;
+
+  if (flag & 0x80)
+   {
+    incignore = 1;
+    flag &= ~0x80;
+D(bug("PROGRESS_INCREASE commands will be ignored\n"));
+   }
 
   if (config->generalscreenflags&SCR_GENERAL_REQDRAG) {
     prog_xoff=Window->WScreen->WBorLeft+2;
@@ -597,25 +614,29 @@ int value,total,flag;
     prog_yoff+(font->tf_YSize*4)+prog_yextra+5);
 
   for (a=0;a<2;a++) {
-    prog_barx[a]=(((pwindow->Width-356)/2)+28)-font->tf_XSize;
-    prog_bary[a]=font->tf_YSize+3+prog_yoff;
-    if (a==0) prog_bary[a]+=prog_yextra+3;
+    bar[a].barX=(((pwindow->Width-356)/2)+28)-font->tf_XSize;
+    bar[a].barY=font->tf_YSize+3+prog_yoff;
+    if (a==0) bar[a].barY += prog_yextra+3;
 
     Do3DBox(prp,
-      prog_barx[a],prog_bary[a],
+      bar[a].barX,bar[a].barY,
       300,font->tf_YSize,
       screen_pens[config->gadgetbotcol].pen,
       screen_pens[config->gadgettopcol].pen);
     SetBPen(prp,screen_pens[0].pen);
 
-    prog_texty[a]=prog_bary[a]+font->tf_YSize+(font->tf_YSize/2)+font->tf_Baseline;
-    if (a==0) progresstext(prog_texty[a],value,total,NULL);
+    bar[a].descY=bar[a].barY+font->tf_YSize+(font->tf_YSize/2)+font->tf_Baseline;
+    if (a==0) progresstext(bar[a].descY,value,total,NULL);
     SetAPen(prp,screen_pens[1].pen);
-    Move(prp,prog_barx[a]-(TextLength(prp,"0% ",3))-4,prog_bary[a]+font->tf_Baseline);
+    Move(prp,bar[a].barX-(TextLength(prp,"0% ",3))-4,bar[a].barY+font->tf_Baseline);
     Text(prp,"0%",2);
-    Move(prp,prog_barx[a]+302+font->tf_XSize,prog_bary[a]+font->tf_Baseline);
+    Move(prp,bar[a].barX+302+font->tf_XSize,bar[a].barY+font->tf_Baseline);
     Text(prp,"100%",4);
-    progressbar(prog_barx[a],prog_bary[a],prog_val[a]=value,prog_tot[a]=total);
+    bar[a].last_w = 0;
+    bar[a].curr = value;
+    bar[a].max = total;
+    bar[a].incignore = incignore;
+    progressbar(&bar[a]);
     if (!flag) break;
   }
 }
@@ -627,7 +648,7 @@ char *text;
   char buf[80],*ptr;
   int x,y1,len;
 
-D(bug("progresstext(%ld,%ld,%ld,%s)\n",y,val,total,text?text:"<NULL>"));
+D(bug("progresstext(Y=%ld,V=%ld,Vmax=%ld,%s)\n",y,val,total,text?text:"<NULL>"));
   if (val==-1) ptr = globstring[total?STR_ABORTED:STR_COMPLETED];
   else {
     if (text) LStrnCpy(buf,text,(pwindow->Width-prog_xextra-56)/prp->Font->tf_XSize);
@@ -658,17 +679,16 @@ D(bug("progresstext(%ld,%ld,%ld,%s)\n",y,val,total,text?text:"<NULL>"));
       prog_areax-1,
       y1+prp->Font->tf_YSize);
   }
+D(bug("progresstext() ends here\n"));
 }
 
-void progressbar(x,y,val,total)
-int x,y,val,total;
+void progressbar(struct ProgressBar *bar)
 {
-  static int last_w;
   int w;
 
-D(bug("progressbar(%ld,%ld,%ld,%ld)\n",x,y,val,total));
-  if (val>0) {
-    float f=(float)val/(float)total;
+D(bug("progressbar(Y=%ld,V=%ld,Vmax=%ld)\n",bar->barY,bar->curr,bar->max));
+  if (bar->curr>0) {
+    float f=(float)(bar->curr)/(float)(bar->max);
 
     if ((w=(int)(300*f))>300) w=300;
     else if (w<1) w=1;
@@ -678,11 +698,12 @@ D(bug("progressbar(%ld,%ld,%ld,%ld)\n",x,y,val,total));
     w=300;
     SetAPen(prp,screen_pens[0].pen);
   }
-  if (w != last_w)
+  if (w != bar->last_w)
    {
-    RectFill(prp,x,y,x+w-1,y+prp->Font->tf_YSize-1);
-    last_w = w;
+    RectFill(prp,bar->barX,bar->barY,bar->barX+w-1,bar->barY+prp->Font->tf_YSize-1);
+    bar->last_w = w;
    }
+D(bug("progressbar() ends here\n"));
 }
 
 #ifdef INPUTDEV_HOTKEY
@@ -740,6 +761,9 @@ struct InputEvent * __saveds keyhandler(register struct InputEvent *oldevent __a
   return(oldevent);
 }
 #endif
+
+static char *Kstr = "K  ";
+
 void __saveds clocktask()
 {
   ULONG chipc,fast,wmes,h,m,s,/*secs,micro,*/cx,sig,cy,len,ct,chipnum,fastnum,a,active=1,usage;
@@ -752,7 +776,6 @@ void __saveds clocktask()
   struct RastPort clock_rp;
   struct SI_CpuUsage sicpu;
 
-  clockmsg_port=LCreatePort(NULL,0);
   Forbid();
   CopyMem((char *)main_rp,(char *)&clock_rp,sizeof(struct RastPort));
   SetDrawModes(&clock_rp,config->clockfg,config->clockbg,JAM2);
@@ -760,54 +783,48 @@ void __saveds clocktask()
   scr_height=scrdata_height+scrdata_yoffset;
   clock_width=scrdata_clock_width;
   clock_height=scrdata_clock_height;
+  ct=scr_height-(clock_height-1);
+  cy=scrdata_clock_ypos+scr_font[FONT_CLOCK]->tf_Baseline-1;
   Permit();
 
+  clockmsg_port=LCreatePort(NULL,0);
   clock_time_port=LCreatePort(0,0);
+
   OpenDevice(TIMERNAME,UNIT_VBLANK,(struct IORequest *)&ctimereq,0);
   ctimereq.tr_node.io_Message.mn_ReplyPort=clock_time_port;
   ctimereq.tr_node.io_Command=TR_ADDREQUEST;
   ctimereq.tr_node.io_Flags=0;
   ctimereq.tr_time.tv_secs=0;
   ctimereq.tr_time.tv_micro=2;
-  SendIO((struct IORequest *)&ctimereq.tr_node);
-  sig=1<<clock_time_port->mp_SigBit|1<<clockmsg_port->mp_SigBit;
-  cy=scrdata_clock_ypos+scr_font[FONT_CLOCK]->tf_Baseline-1;
-  ct=scr_height-(clock_height-1);
+  SendIO(&ctimereq.tr_node);
+
   chipnum=getmaxmem(MEMF_CHIP/*,MEMF_ANY*/);
   fastnum=getmaxmem(MEMF_FAST/*ANY,MEMF_CHIP*/);
   a=getmaxmem(MEMF_ANY/*,MEMF_ANY*/);
-  if (fastnum>1) {
-    if (config->scrclktype&SCRCLOCK_C_AND_F) {
-      lsprintf(memstring,"%lc:%%-%ldld%s %lc:%%-%ldld%s %lc:%%-%ldld%lc",
-        globstring[STR_CLOCK_CHIP][0],
-        chipnum+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?" ":"K ",
-        globstring[STR_CLOCK_FAST][0],
-        fastnum+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?" ":"K ",
-        globstring[STR_CLOCK_TOTAL][0],
-        a+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?0:'K');
-    }
-    else {
-      lsprintf(memstring,"%s%%-%ldld%s %s%%-%ldld%s %s%%-%ldld%lc",
-        globstring[STR_CLOCK_CHIP],
-        chipnum+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?" ":"K ",
-        globstring[STR_CLOCK_FAST],
-        fastnum+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?" ":"K ",
-        globstring[STR_CLOCK_TOTAL],
-        a+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?0:'K');
+
+  m = (config->scrclktype&SCRCLOCK_BYTES)?3:0;
+  s = (config->scrclktype&SCRCLOCK_BYTES)?1:0;
+
+  if (config->scrclktype&SCRCLOCK_C_AND_F) {
+    lsprintf(memstring,"%lc:%%-%ldld%s",globstring[STR_CLOCK_CHIP][0],chipnum+m,Kstr+s);
+    if (fastnum>1) {
+      lsprintf(memstring+strlen(memstring),"%lc:%%-%ldld%s",globstring[STR_CLOCK_FAST][0],fastnum+m,Kstr+s);
+      lsprintf(memstring+strlen(memstring),"%lc:%%-%ldld%s",globstring[STR_CLOCK_TOTAL][0],a+m,Kstr+s);
     }
   }
   else {
-    if (config->scrclktype&SCRCLOCK_C_AND_F) {
-      lsprintf(memstring,"%lc:%%-%ldld%lc",
-        globstring[STR_CLOCK_MEMORY][0],
-        chipnum+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?0:'K');
-    }
-    else {
-      lsprintf(memstring,"%s%%-%ldld%lc",
-        globstring[STR_CLOCK_MEMORY],
-        chipnum+(config->scrclktype&SCRCLOCK_BYTES)?3:0,(config->scrclktype&SCRCLOCK_BYTES)?0:'K');
+    lsprintf(memstring,"%s%%-%ldld%s",globstring[STR_CLOCK_CHIP],chipnum+m,Kstr+s);
+    if (fastnum>1) {
+      lsprintf(memstring+strlen(memstring),"%s%%-%ldld%s",globstring[STR_CLOCK_FAST],fastnum+m,Kstr+s);
+      lsprintf(memstring+strlen(memstring),"%s%%-%ldld%s",globstring[STR_CLOCK_TOTAL],a+m,Kstr+s);
     }
   }
+
+  if (!(config->scrclktype&(SCRCLOCK_MEMORY|SCRCLOCK_CPU|SCRCLOCK_DATE|SCRCLOCK_TIME)))
+    lsprintf(formstring,"Directory Opus  Version %s  Compiled %s  %s",
+      str_version_string,comp_time,comp_date);
+
+  sig = 1<<clock_time_port->mp_SigBit | 1<<clockmsg_port->mp_SigBit;
 
   FOREVER {
     wmes=Wait(sig);
@@ -815,14 +832,16 @@ void __saveds clocktask()
       while ((cmsg=(struct dopustaskmsg *)GetMsg(clockmsg_port))) {
         switch (cmsg->command) {
           case TASK_QUIT:
-            if (!(CheckIO((struct IORequest *)&ctimereq.tr_node)))
-              AbortIO((struct IORequest *)&ctimereq.tr_node);
-            WaitIO((struct IORequest *)&ctimereq.tr_node);
+            if (!(CheckIO(&ctimereq.tr_node)))
+              AbortIO(&ctimereq.tr_node);
+            WaitIO(&ctimereq.tr_node);
             CloseDevice((struct IORequest *)&ctimereq);
             LDeletePort(clock_time_port);
             LDeletePort(clockmsg_port); clockmsg_port=NULL;
             ReplyMsg((struct Message *)cmsg);
-            Wait(0);
+//            Wait(0);
+            Forbid();
+            return;
           case CLOCK_ACTIVE:
             active=cmsg->value;
             break;
@@ -834,76 +853,73 @@ void __saveds clocktask()
 //    if (CheckIO((struct IORequest *)&ctimereq.tr_node)) {
 //      WaitIO((struct IORequest *)&ctimereq.tr_node);
       if (active && !(Window->Flags&WFLG_MENUSTATE)) {
-        if (!(config->scrclktype&(SCRCLOCK_MEMORY|SCRCLOCK_CPU|SCRCLOCK_DATE|SCRCLOCK_TIME)))
-          lsprintf(formstring,"Directory Opus  Version %s  Compiled %s  %s",
-            str_version_string,comp_time,comp_date);
-        else {
-          formstring[0]=0;
-          if (config->scrclktype&SCRCLOCK_MEMORY) {
-            chipc=AvailMem(MEMF_CHIP);
-            fast=AvailMem(MEMF_FAST/*ANY*/)/*-chipc*/;
-            if (!(config->scrclktype&SCRCLOCK_BYTES)) chipc/=1024;
-            if (!(config->scrclktype&SCRCLOCK_BYTES)) fast/=1024;
-
-            if (fastnum>1) lsprintf(buf,memstring,chipc,fast,chipc+fast);
-            else lsprintf(buf,memstring,chipc);
-            strcat(formstring,buf); strcat(formstring,"  ");
-          }
-          if (config->scrclktype&SCRCLOCK_CPU) {
-            if (sysinfo)
-             {
-              GetCpuUsage(sysinfo,&sicpu);
-              usage = 100 * sicpu.used_cputime_lastsec / sicpu.used_cputime_lastsec_hz;
-             }
-            else usage = getusage()/*/10*/;
-
-            lsprintf(buf,"CPU:%3ld%%  ",usage);
-            strcat(formstring,buf);
-          }
-          if (config->scrclktype&(SCRCLOCK_DATE|SCRCLOCK_TIME)) {
-/*
-            CurrentTime(&secs,&micro);
-            datetime.dat_Stamp.ds_Days=secs/86400; secs-=(datetime.dat_Stamp.ds_Days*86400);
-            datetime.dat_Stamp.ds_Minute=secs/60; secs-=(datetime.dat_Stamp.ds_Minute*60);
-            datetime.dat_Stamp.ds_Tick=secs*50;
-*/
-            DateStamp(&(datetime.dat_Stamp));
-            initdatetime(&datetime,date,time,0);
-
-            if (config->scrclktype&SCRCLOCK_DATE) {
-              lsprintf(buf,"%-9s  ",date);
+        if (scr_height>ct+1) {
+          if (config->scrclktype&(SCRCLOCK_MEMORY|SCRCLOCK_CPU|SCRCLOCK_DATE|SCRCLOCK_TIME)) {
+            formstring[0]=0;
+            if (config->scrclktype&SCRCLOCK_MEMORY) {
+              chipc=AvailMem(MEMF_CHIP);
+              fast=AvailMem(MEMF_FAST/*ANY*/)/*-chipc*/;
+              if (!(config->scrclktype&SCRCLOCK_BYTES))
+               {
+                chipc/=1024;
+                fast/=1024;
+               }
+              /*if (fastnum>1)*/ lsprintf(buf,memstring,chipc,fast,chipc+fast);
+  //            else lsprintf(buf,memstring,chipc);
               strcat(formstring,buf);
             }
-            if (config->scrclktype&SCRCLOCK_TIME) {
-              if (config->dateformat&DATE_12HOUR) {
-                h=datetime.dat_Stamp.ds_Minute/60; m=datetime.dat_Stamp.ds_Minute%60;
-                s=datetime.dat_Stamp.ds_Tick/TICKS_PER_SECOND;
-                if (h>11) { ampm='P'; h-=12; }
-                else ampm='A';
-                if (h==0) h=12;
-                lsprintf(time,"%2ld:%02ld:%02ld%lc",h,m,s,ampm);
+            if (config->scrclktype&SCRCLOCK_CPU) {
+              if (sysinfo)
+               {
+                GetCpuUsage(sysinfo,&sicpu);
+                usage = 100 * sicpu.used_cputime_lastsec / sicpu.used_cputime_lastsec_hz;
+               }
+              else usage = getusage()/*/10*/;
+
+              lsprintf(buf,"CPU:%3ld%%  ",usage);
+              strcat(formstring,buf);
+            }
+            if (config->scrclktype&(SCRCLOCK_DATE|SCRCLOCK_TIME)) {
+              DateStamp(&(datetime.dat_Stamp));
+              initdatetime(&datetime,date,time,0);
+
+              if (config->scrclktype&SCRCLOCK_DATE) {
+                lsprintf(buf,"%-9s  ",date);
+                strcat(formstring,buf);
               }
-              strcat(formstring,time);
+              if (config->scrclktype&SCRCLOCK_TIME) {
+                if (config->dateformat&DATE_12HOUR) {
+                  h=datetime.dat_Stamp.ds_Minute/60; m=datetime.dat_Stamp.ds_Minute%60;
+                  s=datetime.dat_Stamp.ds_Tick/TICKS_PER_SECOND;
+                  if (h>11) { ampm='P'; h-=12; }
+                  else ampm='A';
+                  if (h==0) h=12;
+                  lsprintf(time,"%2ld:%02ld:%02ld%lc",h,m,s,ampm);
+                }
+                strcat(formstring,time);
+              }
             }
           }
-        }
-        len=strlen(formstring);
-        if (len>1 && formstring[len-2]==' ') len-=2;
-        cx=(clock_width-dotextlength(&clock_rp,formstring,(int *)&len,clock_width-4))/2;
-        cx+=scrdata_clock_xpos;
-        if (cx<scrdata_clock_xpos) cx=scrdata_clock_xpos;
-        Move(&clock_rp,cx,cy); Text(&clock_rp,formstring,len);
-        SetAPen(&clock_rp,screen_pens[config->clockbg].pen);
-        if (scr_height>ct+1) {
-          if (cx>scrdata_clock_xpos) RectFill(&clock_rp,scrdata_clock_xpos,ct,cx-1,scr_height-2);
+          len=strlen(formstring);
+          if (len>1 && formstring[len-2]==' ') len-=2;
+          cx=(clock_width-dotextlength(&clock_rp,formstring,(int *)&len,clock_width-4))/2;
+          cx+=scrdata_clock_xpos;
+          if (cx<scrdata_clock_xpos) cx=scrdata_clock_xpos;
+
+          SetAPen(&clock_rp,screen_pens[config->clockfg].pen);
+          Move(&clock_rp,cx,cy);
+          Text(&clock_rp,formstring,len);
+          SetAPen(&clock_rp,screen_pens[config->clockbg].pen);
+
+          if (cx>scrdata_clock_xpos)
+            RectFill(&clock_rp,scrdata_clock_xpos,ct,cx-1,scr_height-2);
           if (clock_rp.cp_x<clock_width-1)
             RectFill(&clock_rp,clock_rp.cp_x,ct,clock_width-2,scr_height-2);
         }
-        SetAPen(&clock_rp,screen_pens[config->clockfg].pen);
       }
       ctimereq.tr_time.tv_secs=1;
       ctimereq.tr_time.tv_micro=0;
-      SendIO((struct IORequest *)&ctimereq.tr_node);
+      SendIO(&ctimereq.tr_node);
     }
   }
 }
