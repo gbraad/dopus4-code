@@ -1,83 +1,87 @@
-## chunk AUTH Jacek Rzeuski
+## version $VER: DOpus4_Lib.catalog 1.2 (11.01.2002) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
-## version $VER: DOpus4_Lib.ct 1.0 (18.11.01)
+## codeset 0
+;
 STR_CONFIG_TOO_OLD
-Pliki konfiguracyjne sprzed wersji 3.32 nie sâ wczytywane
-;#DEF Pre-3.32 configuration files not recognised!
-;#SET (0//)
+Pliki konfiguracyjne z wersji starszych niû 3.32 nie sâ obsîugiwane!
+; Pre-3.32 configuration files not recognised!
+;
 STR_CONTINUE
 Kontynuuj
-;#DEF Continue
-;#SET (//)
+; Continue
+;
 STR_REQUEST
 Ûâdanie
-;#DEF Request
-;#SET (//)
+; Request
+;
 STR_TRY_AGAIN
 Ponów
-;#DEF Try Again
-;#SET (//)
+; Try Again
+;
 STR_CANCEL
-Anuluj
-;#DEF Cancel
-;#SET (//)
+Poniechaj
+; Cancel
+;
 STR_CANNOT_FIND_FILE_REQ
-Nie mogë znaleúê pliku \"%s\" \nani w katalogu C: ani w Modules/\nani w katalogu DOpus:Modules.\nWîóû dysk DOpus: i wybierz %s\n(lub %s aby anulowaê operacjë). 
-;#DEF Unable to find the file \"%s\"\nin either the C: directory or the\nModules/ or the DOPUS:Modules/ directory.\nInsert DOpus disk if necessary and select\n%s, or %s to abort the operation
-;#SET (//)
+Nie mogë znaleúê pliku \"%s\" ani w katalogu C: ani w katalogach\nModules/ czy teû DOpus:Modules/.\nJeôli to konieczne wîóû dysk DOpus i wybierz\n%s, lub %s aby przerwaê operacjë
+; Unable to find the file \"%s\"\n\
+; in either the C: directory or the\n\
+; Modules/ or the DOPUS:Modules/ directory.\n\
+; Insert DOpus disk if necessary and select\n\
+; %s, or %s to abort the operation
+;
 STR_FILEREQ_FILE
 Plik
-;#DEF File
-;#SET (//)
+; File
+;
 STR_FILEREQ_DRAWER
 Katalog
-;#DEF Drawer
-;#SET (//)
+; Drawer
+;
 STR_FILEREQ_ACCEPT
 Akceptuj
-;#DEF Accept"},
-;#SET (//)
+; Accept
+;
 STR_FILEREQ_PARENT
 Nadrzëdny
-;#DEF Parent
-;#SET (//)
+; Parent
+;
 STR_FILEREQ_DRIVES
 Napëdy
-;#DEF Drives
-;#SET (//)
+; Drives
+;
 STR_FILEREQ_DIR
     Kat
-;#DEF     Dir
-;#SET (//)
+;     Dir
+;
 STR_FILEREQ_NAME
-Wybierz plik
-;#DEF File request
-;#SET (//)
+Ûâdanie pliku
+; File request
+;
 STR_DEV_DEV
-  <NAP>
-;#DEF   <DEV>
-;#SET (//)
+  <DEV>
+;   <DEV>
+;
 STR_DEV_ASN
-  <PRZ>
-;#DEF   <ASN>
-;#SET (//)
+  <ASN>
+;   <ASN>
+;
 STR_DEV_VOL
-  <WOL>
-;#DEF   <VOL>
-;#SET (//)
+  <VOL>
+;   <VOL>
+;
 STR_DEV_DFR
-  <OPZ>
-;#DEF   <DFR>
-;#SET (//)
+  <DFR>
+;   <DFR>
+;
 STR_DEV_NBD
-  <NBD>
-;#DEF   <NBD>
-;#SET (//)
+  <NBR>
+;   <NBD>
+;
 STR_SELECT_DIR
 Wybierz katalog
-;#DEF Select directory
-;#SET (//)
+; Select directory
+;
 STR_SELECT_FILE
 Wybierz plik
-;#DEF Select file
-;#SET (//)
+; Select file
