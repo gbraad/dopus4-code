@@ -282,7 +282,7 @@ int *count;
 
 D(bug("findfile(%s)\n",name?name:"<NULL>"));
     if (dir) {
-        if (dir->flags & DWF_ARCHIVE) name=str_arcorgname; /* required for double-click */
+        if (str_arcorgname[0]) name=str_arcorgname; /* required for double-click */
 
         find=dir->firstentry;
         if (count) *count=0;

@@ -262,7 +262,7 @@ configdone:
     data_gadgetrow_offset=data_drive_offset=0;
     if (config_changed)
      {
-      config_changed=0;
+      if (config_changed==2) config_changed=0;
       closedisplay();
       status_configuring=-1;
   //    Window=NULL; MainScreen=NULL;

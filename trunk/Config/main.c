@@ -274,7 +274,7 @@ char *argv[];
                             break;
                         case CFG_SAVE:
                             dosave(0);
-                            lchanged=1;
+                            lchanged=2;
                             quit();
                             break;
                         case CFG_OKAY:
@@ -371,8 +371,8 @@ void giveconfig()
         cfg.firstbank=firstbank;
         cfg.firsthotkey=firsthotkey;
         cfg.typekey=typekey;
-        if (lchanged || changed) cfg.changed=1;
-        else cfg.changed=0;
+        cfg.changed=((lchanged || changed)?1:0);
+        if (lchanged==2) cfg.changed=2;
         strcpy(cfg.configname,configname);
         if (ptr=strstri(cfg.configname,".CFG")) *ptr=0;
         cfg.Window=Window;

@@ -109,6 +109,7 @@ struct CommandList commandlist[]={
     {"LoopPlay",FUNC_LOOPPLAY,0},
     {"LPlay",FUNC_LOOPPLAY,RCL_SYNONYM},
     {"MakeDir",FUNC_MAKEDIR,0},
+    {"MakeLink",FUNC_MAKELINK,RCL_NEEDDEST},
     {"Modify",FUNC_MODIFY,0},
     {"Move",FUNC_MOVE,RCL_NEEDDEST},
     {"MoveAs",FUNC_MOVEAS,RCL_NEEDDEST},

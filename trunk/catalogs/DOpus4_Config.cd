@@ -2036,10 +2036,10 @@ STR_FTYPE_CLICKMCLICK (//)
 Click-m-click
 ;
 STR_FTYPE_DOUBLECLICK (//)
-Double-click
+LMB Double-click
 ;
 STR_FTYPE_MMBCLICK (//)
-MMB-click
+MMB Double-click
 ;
 STR_FUNCTION_COMMAND (//)
 Command

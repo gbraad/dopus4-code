@@ -628,3 +628,7 @@ void draw_dirtree_gfx(struct RastPort *,int,int,int);
 void handlelistermenu(int);
 void initlistermenu(void);
 
+/* makelinkdata.c */
+
+int getmakelinkdata(char *, char *, int *);
+

@@ -191,6 +191,7 @@ ULONG mode;
 
     screenmode=firstmode;
     while (screenmode) {
+D(bug("addscreenmode: %s,%s\n",screenmode->name?screenmode->name:"<NULL>",name?name:"<NULL>"));
         if (LStrCmpI(screenmode->name,name)==0) return(0);
         if (!screenmode->next) break;
         screenmode=screenmode->next;

@@ -14,7 +14,8 @@ chipdata.o
 All : ../../ConfigOpus
 
 ../../ConfigOpus : $(OBJS)
-	$(CC) -o ../../ConfigOpus *.o -noixemul $(CCOPTS) -ldebug -s
+	$(CC) -o ../../ConfigOpus *.o -noixemul $(CCOPTS) -ldebug
+# -s
 
 configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
 	$(FLEXCAT) /catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd

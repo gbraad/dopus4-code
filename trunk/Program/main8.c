@@ -95,18 +95,18 @@ int allabort,all;
     int a,suc_dfib;
     struct DateStamp ds;
 
+//D(bug("checkexistreplace(%s,%s,...)\n",sourcename,destname));
     if (!(lockandexamine(sourcename,&s_fib))) return(1);
-    suc_dfib=lockandexamine(destname,&d_fib);
+    if (!(suc_dfib=lockandexamine(destname,&d_fib))) return(1);
 
 //HUX Prevent directories and files from being treated differently
-/*    if (suc_dfib && d_fib.fib_DirEntryType>0) {
+    if (suc_dfib && d_fib.fib_DirEntryType>0) {
         if (s_fib.fib_DirEntryType<0) {
             doerror(ERROR_OBJECT_EXISTS);
             return(0);
         }
         return(1);
     }
-*/
 //HUX
 
     if (config->existflags&REPLACE_ALWAYS) return(1);
@@ -135,29 +135,29 @@ int allabort,all;
             seedate(&d_fib.fib_Date,datebuf2,0);
 
 // HUX begin (Depends on what we're overwriting)
-                        if ( d_fib.fib_DirEntryType > 0 && s_fib.fib_DirEntryType > 0 )
-                        {
-                            /* Both entries are directories */
-                            lsprintf( buf, globstring[ STR_FILE_EXISTS_REPLACE ], BaseName( destname ) );
-                        }
-                        else if ( d_fib.fib_DirEntryType > 0 )
-                        {
-                            /* Destination is directory, source is file */
-                            lsprintf( buf, globstring[STR_REPLACE_DIR_WITH_FILE], BaseName( destname ),
-                            s_fib.fib_Size, datebuf1, datebuf2 );
-                        }
-                        else if ( s_fib.fib_DirEntryType > 0 )
-                        {
-                            /* Source is directory, destination is file */
-                            lsprintf( buf, globstring[STR_REPLACE_FILE_WITH_DIR], BaseName( destname ),
-                            datebuf1, d_fib.fib_Size, datebuf2 );
-                        }
-                        else
-                        {
-                            /* Both entries are files */
-                            lsprintf( buf, globstring[ STR_OLD_NEW_FILE_REPLACE ], BaseName( destname ),
-                            s_fib.fib_Size, datebuf1, d_fib.fib_Size, datebuf2 );
-                        }
+            if ( d_fib.fib_DirEntryType > 0 && s_fib.fib_DirEntryType > 0 )
+            {
+                /* Both entries are directories */
+                lsprintf( buf, globstring[ STR_FILE_EXISTS_REPLACE ], BaseName( destname ) );
+            }
+            else if ( d_fib.fib_DirEntryType > 0 )
+            {
+                /* Destination is directory, source is file */
+                lsprintf( buf, globstring[STR_REPLACE_DIR_WITH_FILE], BaseName( destname ),
+                s_fib.fib_Size, datebuf1, datebuf2 );
+            }
+            else if ( s_fib.fib_DirEntryType > 0 )
+            {
+                /* Source is directory, destination is file */
+                lsprintf( buf, globstring[STR_REPLACE_FILE_WITH_DIR], BaseName( destname ),
+                datebuf1, d_fib.fib_Size, datebuf2 );
+            }
+            else
+            {
+                /* Both entries are files */
+                lsprintf( buf, globstring[ STR_OLD_NEW_FILE_REPLACE ], BaseName( destname ),
+                s_fib.fib_Size, datebuf1, d_fib.fib_Size, datebuf2 );
+            }
 // HUX: end
 /*
             lsprintf(buf,globstring[STR_OLD_NEW_FILE_REPLACE],BaseName(destname),

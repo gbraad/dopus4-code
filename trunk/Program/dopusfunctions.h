@@ -179,7 +179,7 @@ enum functionnums {
     FUNC_SHOW,
     FUNC_READ,
     FUNC_HEXREAD,
-    FUNC_removed0,
+    FUNC_MAKELINK,
     FUNC_ADDICON,
     FUNC_ASSIGN,
     FUNC_COMMENT,

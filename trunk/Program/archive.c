@@ -66,21 +66,16 @@ D(bug("readarchive: %s\n",dir->directory)); //Delay(100);
        strcpy(dir->arcname,arcname);
        if ((dir->xai = xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
         {
-        struct TagItem ti[2];
+         struct TagItem ti[2];
 
-        ti[0].ti_Tag = XAD_INFILENAME;
-        ti[0].ti_Data = (Tag)arcname;
-        ti[1].ti_Tag = TAG_END;
+         ti[0].ti_Tag = XAD_INFILENAME;
+         ti[0].ti_Data = (Tag)arcname;
+         ti[1].ti_Tag = TAG_END;
 
 D(bug("Allocated dir->xai: %lx\nOpening the archive...\n",dir->xai));
          if(!(xadGetInfoA(dir->xai, ti)))
           {
 D(bug("done\n"));
-           if (dir->xai->xai_Flags & XADAIF_CRYPTED)
-            {
-D(bug("Encrypted archive!\n"));
-             whatsit(globstring[STR_ENTER_PASSWORD],32,dir->arcpassword,NULL);
-            }
            if (dir->xai->xai_DiskInfo)
             {
              struct xadArchiveInfo *xai2;
@@ -232,7 +227,13 @@ BOOL unarcfiledir(const struct DirectoryWindow *dir, const char *path, char *nam
     {
      struct xadFileInfo *xfi;
      char arcname[256], arcdir[256], *c;
-//     int i;
+     int err;
+
+     if (dir->xai->xai_Flags & XADAIF_CRYPTED)
+      {
+D(bug("Encrypted archive!\n"));
+        if (dir->arcpassword[0] == 0) whatsit(globstring[STR_ENTER_PASSWORD],32,dir->arcpassword,NULL);
+      }
 
      strcpy(arcname,dir->arcname);
 D(bug("unarcfiledir: arcname = %s\n",arcname));
@@ -269,22 +270,36 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
      if (c) strcat(namebuf,c);
      strcpy(arcname,path);
      strcat(arcname,namebuf);
-     for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next) if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0) break;
-     if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER, xfi->xfi_EntryNumber,
-                                          XAD_OUTFILENAME, (ULONG)arcname,
-                                          dir->arcpassword[0]?XAD_PASSWORD:TAG_IGNORE, dir->arcpassword,
-                                          TAG_END)))
+     for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next)
+       if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0)
+         break;
+
+     if (xfi) while(1)
       {
-       struct DateStamp ds;
+       err = xadFileUnArc(dir->xai,XAD_ENTRYNUMBER, xfi->xfi_EntryNumber,
+                                   XAD_OUTFILENAME, (ULONG)arcname,
+                                   dir->arcpassword[0]?XAD_PASSWORD:TAG_IGNORE, dir->arcpassword,
+                                   TAG_END);
+       switch (err)
+        {
+         case XADERR_OK:
+          {
+           struct DateStamp ds;
 
-       xadConvertDates(XAD_DATEXADDATE, (Tag)&xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag)&ds, TAG_END);
-       SetFileDate(arcname,&ds);
-       SetProtection(arcname,xfi->xfi_Protection);
-       if (xfi->xfi_Comment) SetComment(arcname,xfi->xfi_Comment);
+           xadConvertDates(XAD_DATEXADDATE, (Tag)&xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag)&ds, TAG_END);
+           SetFileDate(arcname,&ds);
+           SetProtection(arcname,xfi->xfi_Protection);
+           if (xfi->xfi_Comment) SetComment(arcname,xfi->xfi_Comment);
 
-       strcpy(str_arcorgname,file);
+           strcpy(str_arcorgname,file);
 D(bug("str_arcorgname set\n"));
-       return TRUE;
+           return TRUE;
+          }
+         case XADERR_PASSWORD:
+           if (!(whatsit(globstring[STR_ENTER_PASSWORD],32,dir->arcpassword,NULL)))
+             return FALSE;
+           break;
+        }
       }
     }
   }

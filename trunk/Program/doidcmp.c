@@ -686,8 +686,8 @@ D(bug("doidcmp: a = %ld\n",a);KDump(&dopus_curgadbank->gadgets[a],sizeof(struct 
                         if (y>=scrdata_diskname_ypos && y<scrdata_diskname_ypos+scrdata_diskname_height) {
                             a=(x<scrdata_dispwin_center)?0:1;
                             if (data_active_window==1-a) {
-                                if (DoubleClick(time_previous_sec,time_previous_micro,
-                                    time_current_sec,time_current_micro)) {
+                                 if (DoubleClick(time_previous_sec,time_previous_micro,
+                                     time_current_sec,time_current_micro)) {
                                     copydirwin(dopus_curwin[1-a],dopus_curwin[a],a);
                                 }
                                 makeactive(a,1);
@@ -844,48 +844,62 @@ prevgadgetbank:
                     }
                     else if (code == MIDDLEUP)
                      {
-                      int a,win,owin=data_active_window;
+                      int win;
+
+                      if (config->hotkeyflags & HOTKEY_USEMMB) break;
 
                       if ((win=isinwindow(x,y))!=-1)
                        {
-                        data_active_window = win;
-                        a = (y - scrdata_dirwin_ypos[win]) / scrdata_font_ysize;
-                        a += dopus_curwin[win]->offset;
-                        if (a < dopus_curwin[win]->total)
+                        if (DoubleClick(time_previous_sec,time_previous_micro,time_current_sec,time_current_micro))
                          {
-                          char buf[256];
-                          struct dopusfiletype *type;
-                          struct Directory *file;
-
-                          select(win,a - dopus_curwin[win]->offset);
-                          for (file = dopus_curwin[win]->firstentry; a--; file=file->next);
-                          strcpy(buf,str_pathbuffer[win]);
-                          TackOn(buf,file->name,256);
-D(bug("MMB click on \"%s\"\n",buf));
-
-                          if ((type=checkfiletype(buf,FTFUNC_MMBCLICK,0)))
+                          int a, owin;
+                          owin = data_active_window;
+                          data_active_window = win;
+                          a = (y - scrdata_dirwin_ypos[win]) / scrdata_font_ysize;
+                          a += dopus_curwin[win]->offset;
+                          if (a < dopus_curwin[win]->total)
                            {
-                            struct dopusfuncpar par;
+                            char buf[256];
+                            struct dopusfiletype *type;
+                            struct Directory *file;
 
-D(bug("filetype %s matched\n",type->type));
-                            par.which=type->which[FTFUNC_MMBCLICK];
-                            par.stack=type->stack[FTFUNC_MMBCLICK];
-                            par.pri=type->pri[FTFUNC_MMBCLICK];
-                            par.delay=type->delay[FTFUNC_MMBCLICK];
-                            par.key=par.qual=0; par.type=3;
+                            select(win,a - dopus_curwin[win]->offset);
+                            for (file = dopus_curwin[win]->firstentry; a--; file=file->next);
+                            strcpy(buf,str_pathbuffer[win]);
+                            TackOn(buf,file->name,256);
+  D(bug("MMB double click on \"%s\"\n",buf));
 
-                            if (type->actionstring[FTFUNC_MMBCLICK][0]) {
-                                do_title_string(type->actionstring[FTFUNC_MMBCLICK],buf,0,file->name);
-                                dostatustext(buf);
-                            }
-                            else buf[0]=0;
-                            strcpy(func_single_file,file->name);
-                            dofunctionstring(type->function[FTFUNC_MMBCLICK],file->name,buf,&par);
-                            func_single_file[0]=0;
+                            if ((type=checkfiletype(buf,FTFUNC_MMBCLICK,0)))
+                             {
+                              struct dopusfuncpar par;
+
+  D(bug("filetype %s matched\n",type->type));
+                              par.which=type->which[FTFUNC_MMBCLICK];
+                              par.stack=type->stack[FTFUNC_MMBCLICK];
+                              par.pri=type->pri[FTFUNC_MMBCLICK];
+                              par.delay=type->delay[FTFUNC_MMBCLICK];
+                              par.key=par.qual=0; par.type=3;
+
+                              if (type->actionstring[FTFUNC_MMBCLICK][0]) {
+                                  do_title_string(type->actionstring[FTFUNC_MMBCLICK],buf,0,file->name);
+                                  dostatustext(buf);
+                              }
+                              else buf[0]=0;
+                              strcpy(func_single_file,file->name);
+                              dofunctionstring(type->function[FTFUNC_MMBCLICK],file->name,buf,&par);
+                              func_single_file[0]=0;
+                             }
+                            unselect(win,file);
                            }
-                          unselect(win,file);
+                          data_active_window = owin;
+                          time_previous_sec=0;
                          }
-                        data_active_window = owin;
+                        else
+                         {
+                          makeactive(win,0);
+                          time_previous_sec=time_current_sec;
+                          time_previous_micro=time_current_micro;
+                         }
                        }
                      }
                     break;

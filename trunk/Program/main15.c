@@ -339,6 +339,13 @@ char *source,*dest;
             case FUNC_MAKEDIR:
                 makedir(rexx);
                 break;
+            case FUNC_MAKELINK:
+             {
+                char name[108], path[256];
+                int mode;
+                getmakelinkdata(name,path,mode);
+                break;
+             }
             case FUNC_RESCAN:
                 if (rexx) a=atoi(rexx_args[0]);
                 else a=data_active_window;

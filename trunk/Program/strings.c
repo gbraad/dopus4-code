@@ -397,6 +397,12 @@ static const struct DefaultString
     	{STR_FILE_EXTENSION,"Extension"},
     	{STR_PROTECT_OKAY,"_Okay"},
     	{STR_PROTECT_ALL,"A_ll"},
+    	{STR_ENTER_MAKELINK_PARAMS,"Enter link parameters"},
+    	{STR_MAKELINK_TYPE_SOFT,"Soft"},
+    	{STR_MAKELINK_TYPE_HARD,"Hard"},
+    	{STR_MAKELINK_TYPE,"Type"},
+    	{STR_MAKELINK_NAME,"Link name"},
+    	{STR_MAKELINK_DESTINATION,"Link destination"},
         {STR_STRING_COUNT,NULL}};
 
 char str_okaystring[30];
