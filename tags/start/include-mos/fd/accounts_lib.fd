@@ -1,0 +1,23 @@
+##base _AccountsBase
+##bias 30
+##public
+AllocUserInfo()()
+AllocGroupInfo()()
+*
+FreeUserInfo(user)(a0)
+FreeGroupInfo(group)(a0)
+*
+VerifyUser(uname,passwd,user)(a0/a1/a2)
+MemberOf(group,user)(a0/a1)
+*
+NameToUser(uname,user)(a0/a1)
+NameToGroup(gname,group)(a0/a1)
+IDToUser(uid,user)(d0,a0)
+IDToGroup(gid,group)(d0,a0)
+NextUser(user)(a0)
+NextGroup(group)(a0)
+NextMember(group,user)(a0/a1)
+*
+ECrypt(buff,passwd,uname)(a0/a1/a2)
+VerifyUserCrypt(uname,passwd,user)(a0/a1/a2)
+##end

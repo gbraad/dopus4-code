@@ -1,0 +1,83 @@
+## chunk AUTH Jacek Rzeuski
+## language polski
+## version $VER: DOpus4_Lib.ct 1.0 (18.11.01)
+STR_CONFIG_TOO_OLD
+Pliki konfiguracyjne sprzed wersji 3.32 nie sâ wczytywane
+;#DEF Pre-3.32 configuration files not recognised!
+;#SET (0//)
+STR_CONTINUE
+Kontynuuj
+;#DEF Continue
+;#SET (//)
+STR_REQUEST
+Ûâdanie
+;#DEF Request
+;#SET (//)
+STR_TRY_AGAIN
+Ponów
+;#DEF Try Again
+;#SET (//)
+STR_CANCEL
+Anuluj
+;#DEF Cancel
+;#SET (//)
+STR_CANNOT_FIND_FILE_REQ
+Nie mogë znaleúê pliku \"%s\" \nani w katalogu C: ani w Modules/\nani w katalogu DOpus:Modules.\nWîóû dysk DOpus: i wybierz %s\n(lub %s aby anulowaê operacjë). 
+;#DEF Unable to find the file \"%s\"\nin either the C: directory or the\nModules/ or the DOPUS:Modules/ directory.\nInsert DOpus disk if necessary and select\n%s, or %s to abort the operation
+;#SET (//)
+STR_FILEREQ_FILE
+Plik
+;#DEF File
+;#SET (//)
+STR_FILEREQ_DRAWER
+Katalog
+;#DEF Drawer
+;#SET (//)
+STR_FILEREQ_ACCEPT
+Akceptuj
+;#DEF Accept"},
+;#SET (//)
+STR_FILEREQ_PARENT
+Nadrzëdny
+;#DEF Parent
+;#SET (//)
+STR_FILEREQ_DRIVES
+Napëdy
+;#DEF Drives
+;#SET (//)
+STR_FILEREQ_DIR
+    Kat
+;#DEF     Dir
+;#SET (//)
+STR_FILEREQ_NAME
+Wybierz plik
+;#DEF File request
+;#SET (//)
+STR_DEV_DEV
+  <NAP>
+;#DEF   <DEV>
+;#SET (//)
+STR_DEV_ASN
+  <PRZ>
+;#DEF   <ASN>
+;#SET (//)
+STR_DEV_VOL
+  <WOL>
+;#DEF   <VOL>
+;#SET (//)
+STR_DEV_DFR
+  <OPZ>
+;#DEF   <DFR>
+;#SET (//)
+STR_DEV_NBD
+  <NBD>
+;#DEF   <NBD>
+;#SET (//)
+STR_SELECT_DIR
+Wybierz katalog
+;#DEF Select directory
+;#SET (//)
+STR_SELECT_FILE
+Wybierz plik
+;#DEF Select file
+;#SET (//)

@@ -1,0 +1,4 @@
+dokoïczyê screennotify support (dla wlasnych ekranow)
+usunâê ograniczenie do 16 kolorów
+RMB double-clik na liscie plikow wywoluje sortmenu
+w readerze mousepointer jest czarny

@@ -1,0 +1,141 @@
+## version $VER: DOpus4_Icon.ct 1.0 (06.06.01)
+STR_REMAP_COLORS
+Neue _Farben
+;#DEF Rema_p colors
+;#SET (//)
+STR_SAVE
+_Speichern
+;#DEF Sa_ve
+;#SET (//)
+STR_SKIP
+_Überspr.
+;#DEF S_kip
+;#SET (//)
+STR_CANCEL
+_Abbrechen
+;#DEF _Cancel
+;#SET (//)
+STR_DELETE
+Lösch_en
+;#DEF De_lete
+;#SET (//)
+STR_NEW
+_Neu
+;#DEF _New
+;#SET (//)
+STR_TOOLTYPES
+Merkmale:
+;#DEF Tool types:
+;#SET (//)
+STR_COMMENT
+_Kommentar:
+;#DEF Co_mment:
+;#SET (//)
+STR_DEFAULT_TOOL
+Standard_prg:
+;#DEF De_fault tool:
+;#SET (//)
+STR_VALIDATING
+Nicht Validiert
+;#DEF Validating
+;#SET (//)
+STR_WRITE_PROTECTED
+Schreibgeschützt
+;#DEF Write protected
+;#SET (//)
+STR_READ_WRITE
+Schreib-/Lesbar
+;#DEF Read/Write
+;#SET (//)
+STR_SCRIPT
+Skr_ipt
+;#DEF _Script
+;#SET (//)
+STR_ARCHIVED
+A_rchiviert
+;#DEF _Archived
+;#SET (//)
+STR_READABLE
+_Lesbar
+;#DEF _Readable
+;#SET (//)
+STR_WRITABLE
+S_chreibbar
+;#DEF _Writable
+;#SET (//)
+STR_EXECUTABLE
+A_usführbar
+;#DEF _Executable
+;#SET (//)
+STR_DELETABLE
+L_öschbar
+;#DEF _Deletable
+;#SET (//)
+STR_BLOCKS
+Blöcke
+;#DEF Blocks
+;#SET (//)
+STR_USED
+Belegt
+;#DEF Used
+;#SET (//)
+STR_FREE
+Frei
+;#DEF Free
+;#SET (//)
+STR_BLOCK_SIZE
+Blockgröße
+;#DEF Block size
+;#SET (//)
+STR_CREATED
+Erzeugt am
+;#DEF Created
+;#SET (//)
+STR_LAST_CHANGED
+Letzte Änd.
+;#DEF Last changed
+;#SET (//)
+STR_BYTES
+Bytes
+;#DEF Bytes
+;#SET (//)
+STR_STACK
+S_tack
+;#DEF S_tack
+;#SET (//)
+STR_DISK
+Datenträger
+;#DEF Disk
+;#SET (//)
+STR_DRAWER
+Schublade
+;#DEF Drawer
+;#SET (//)
+STR_TOOL
+Programm
+;#DEF Tool
+;#SET (//)
+STR_PROJECT
+Projekt
+;#DEF Project
+;#SET (//)
+STR_TRASH
+Papierkorb
+;#DEF Trash
+;#SET (//)
+STR_DEVICE
+Laufwerk
+;#DEF Device
+;#SET (//)
+STR_KICK
+Kickstart
+;#DEF Kick
+;#SET (//)
+STR_APPICON
+AppIcon
+;#DEF AppIcon
+;#SET (//)
+STR_ICON
+Piktogramm
+;#DEF Icon
+;#SET (//)

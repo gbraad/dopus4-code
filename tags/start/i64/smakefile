@@ -1,0 +1,43 @@
+# Directory Opus 4 released under the GNU GENERAL PUBLIC LICENSE
+#
+# use smake <option> for the following build options:
+#   clean - to delete built files
+#   all - to rebuild everything
+#
+NAME = /lib/i64.lib
+CPU = 68020
+MATH = STANDARD
+
+CFLG = NOSTACKCHECK PARMS=REGISTER
+CFLG = $(CFLG) MATH=$(MATH) CPU=$(CPU)
+CFLG = $(CFLG) #OPTIMIZE OPTGO OPTPEEP OPTSCHED OPTTIME
+LFLG = NOICONS STRIPDEBUG
+OBJS = i64.o
+
+# Build the library (default)
+$(NAME): $(OBJS) smakefile
+	oml -v $(NAME) $(OBJS)
+
+
+# Delete built files, ignoring any errors
+clean:
+	-Delete >NIL: $(OBJS)
+	-Delete >NIL: $(NAME)
+
+
+# Build everything
+all:
+	smake clean
+	smake
+
+
+# Smake default transform
+.c.o:
+	sc $(CFLG) CSOURCE=$*.c
+
+.a.o:
+	asm $*
+
+
+# Module dependencies
+i64.o: i64.c /include/i64.h

@@ -1,0 +1,110 @@
+## version $VER: DOpus4_Icon.catalog 1.1 (15.06.2001)
+## language suomi
+## codeset 0
+;## chunk AUTH Jari Komulainen & Sami Raunio
+;
+STR_REMAP_COLORS
+Vaihda värit
+; Rema_p colors
+STR_SAVE
+_Talleta
+; Sa_ve
+STR_SKIP
+_Ohita
+; S_kip
+STR_CANCEL
+_Peru
+; _Cancel
+STR_DELETE
+Poista
+; De_lete
+STR_NEW
+Uusi
+; _New
+STR_TOOLTYPES
+Työkalutyypit:
+; Tool types: *
+STR_COMMENT
+Kommentti:
+; Co_mment:
+STR_DEFAULT_TOOL
+Oletus työkalu:
+; De_fault tool: *
+STR_VALIDATING
+Selvitän
+; Validating
+STR_WRITE_PROTECTED
+Kirjoitussuojattu
+; Write protected
+STR_READ_WRITE
+Lue/kirjoita
+; Read/Write
+STR_SCRIPT
+Komento_jono
+; _Script * 		; vähän lyhempiä sanoja vaikka ei täysin uskollisia käänöksiä
+STR_ARCHIVED
+_Arkisto
+; _Archived *
+STR_READABLE
+_Luku
+; _Readable *
+STR_WRITABLE
+_Kirjoitus
+; _Writable *
+STR_EXECUTABLE
+_Suoritus
+; _Executable *
+STR_DELETABLE
+Po_isto
+; _Deletable *
+STR_BLOCKS
+Lohkoja
+; Blocks *
+STR_USED
+Käytetty
+; Used
+STR_FREE
+Vapaana
+; Free
+STR_BLOCK_SIZE
+Lohkokoko
+; Block size *
+STR_CREATED
+Luotu
+; Created
+STR_LAST_CHANGED
+Muutettu
+; Last changed *
+STR_BYTES
+Tavua
+; Bytes *
+STR_STACK
+Pino
+; S_tack
+STR_DISK
+Levy
+; Disk
+STR_DRAWER
+Hakemisto
+; Drawer
+STR_TOOL
+Työkalu
+; Tool
+STR_PROJECT
+Projekti
+; Project
+STR_TRASH
+Roska
+; Trash
+STR_DEVICE
+Laite
+; Device
+STR_KICK
+Kick
+; Kick
+STR_APPICON
+Ohjelma ikoni
+; AppIcon *
+STR_ICON
+Ikoni
+; Icon

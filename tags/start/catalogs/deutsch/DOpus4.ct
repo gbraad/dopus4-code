@@ -1,0 +1,1587 @@
+## chunk AUTH Christoph Gutjahr
+## language deutsch
+## version $VER: DOpus4.ct 1.1 (10.06.01)
+STR_DIRS_FILES_BYTES_COUNT
+Verz.: %03ld/%03ld  Dateien: %03ld/%03ld  Bytes: %07ld/%07ld
+;#DEF Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7ld/%7ld
+;#SET (//)
+STR_DOPUS_ALREADY_RUNNING
+Directory Opus befindet sich bereits im RAM.\nNoch einen Opus starten?
+;#DEF Directory Opus is already resident in memory.\nDo you want to run another copy?
+;#SET (//)
+STR_UNABLE_TO_OPEN_WINDOW
+Kann Opus Bildschirm/Fenster nicht öffnen!
+;#DEF Unable to open screen/window!
+;#SET (//)
+STR_WELCOME_TO_DOPUS
+Willkommen zu DirectoryOpus!
+;#DEF Welcome to Directory Opus!
+;#SET (//)
+STR_WELCOME_BACK_TO_DOPUS
+Willkommen!
+;#DEF Welcome back to Directory Opus!
+;#SET (//)
+STR_INTERROGATING_FILE
+Untersuche Datei...
+;#DEF Interrogating file...
+;#SET (//)
+STR_READING_DIRECTORY
+Verzeichnis wird eingelesen...
+;#DEF Reading directory...
+;#SET (//)
+STR_ENTER_ARGUMENTS_FOR
+Bitte Parameter für \"%s\" eingeben.
+;#DEF Enter arguments for \"%s\"
+;#SET (//)
+STR_ENTER_DIRECTORY_NAME
+Verzeichnisname eingeben
+;#DEF Enter directory name
+;#SET (//)
+STR_FILE_ALREADY_EXISTS
+Datei oder Verzeichnis existiert bereits!
+;#DEF File or directory already exists!
+;#SET (//)
+STR_DIRECTORY_CREATED
+Verzeichnis wurde erzeugt.
+;#DEF Directory created.
+;#SET (//)
+STR_PRINTING_DIRECTORY
+Drucke Verzeichnis...
+;#DEF Printing directory..
+;#SET (//)
+STR_DIRECTORY
+Verzeichnis 
+;#DEF Directory 
+;#SET (//)
+STR_DEVICE_LIST
+Laufwerke\n\n
+;#DEF Device list\n\n
+;#SET (//)
+STR_NO_CHIP_FOR_ICON
+Nicht genug CHIP-RAM zum Anzeigen des Piktogramms.
+;#DEF Not enough chip memory to display icon
+;#SET (//)
+STR_FILE_NOT_ILBM
+Keine ILBM-Datei!
+;#DEF File is not ILBM
+;#SET (//)
+STR_ERROR_IN_IFF
+Fehler in der IFF-Struktur.
+;#DEF Error in IFF structure
+;#SET (//)
+STR_NO_CHIP_FOR_PICTURE
+Nicht genug CHIP-RAM zum Anzeigen des Bildes.
+;#DEF Not enough chip memory to display picture
+;#SET (//)
+STR_CANT_ALLOCATE_AUDIO
+Kann die Tonkanäle nicht öffnen.
+;#DEF Can't allocate audio channels
+;#SET (//)
+STR_NOT_ST_MOD
+Datei besitzt kein unterstütztes Modul-Format.
+;#DEF File is not a supported music module
+;#SET (//)
+STR_FILE_EXISTS_REPLACE
+Datei \"%s\" existiert bereits! Ersetzen?
+;#DEF \"%s\" already exists! Replace?
+;#SET (//)
+STR_SELECT_UNPROTECT
+\nLösch-Bit setzen mit Knopf Entsichern.
+;#DEF \nSelect Unprotect to set the deletion bit.
+;#SET (//)
+STR_ENTER_TIME
+Zeit im Format HH:MM:SS eingeben.
+;#DEF Enter time in the form HH:MM:SS
+;#SET (//)
+STR_AREXX_NOT_RUNNING
+Kann ARexx-Server nicht finden!
+;#DEF ARexx server not found!
+;#SET (//)
+STR_ENTER_AREXX_COMMAND
+ARexx-Befehl eingeben
+;#DEF Enter ARexx command
+;#SET (//)
+STR_ENTER_NEW_CD
+Neues aktuelles Verzeichnis eingeben
+;#DEF Enter new current directory
+;#SET (//)
+STR_SCANNING_DEVICE_LIST
+Durchsuche Geräte-Liste...
+;#DEF Scanning device list...
+;#SET (//)
+STR_FOUND_A_MATCH
+Habe die Datei \"%s\" gefunden.\nVerzeichnis \"%s\"\nDorthin springen?
+;#DEF Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+;#SET (//)
+STR_BUFFERS_CLEARED
+Nicht angezeigte Verzeichnis-Puffer wurden gelöscht.
+;#DEF Buffers not currently displayed have been cleared.
+;#SET (//)
+STR_UNREADABLE_DISK
+Disk unlesbar
+;#DEF Unreadable disk
+;#SET (//)
+STR_NOT_A_DOS_DISK
+Keine AmigaDOS-Diskette
+;#DEF Not a DOS disk
+;#SET (//)
+STR_KICKSTART_DISK
+Kickstart Diskette
+;#DEF Kickstart disk
+;#SET (//)
+STR_VALIDATING
+Validiere
+;#DEF Validating
+;#SET (//)
+STR_WRITE_PROTECTED
+Schreibgeschützt
+;#DEF Write protected
+;#SET (//)
+STR_READ_WRITE
+Lesen/Schreiben
+;#DEF Read/Write
+;#SET (//)
+STR_DEVICE_NOT_MOUNTED
+Laufwerk oder Disk nicht angemeldet
+;#DEF Device or volume not mounted
+;#SET (//)
+STR_NO_DISK_IN_DRIVE
+Keine Diskette im Laufwerk
+;#DEF No disk in drive
+;#SET (//)
+STR_DOS_ERROR_CODE
+AmigaDOS-Fehler %ld
+;#DEF DOS error code %ld
+;#SET (//)
+STR_ENTER_NEW_DISK_NAME
+Neuen Disknamen eingeben
+;#DEF Enter new disk name
+;#SET (//)
+STR_ENTER_ASSIGN_NAME
+Neues Verzeichnis für die Zuweisung eingeben
+;#DEF Enter directory to re-assign device
+;#SET (//)
+STR_CANT_CANCEL_ASSIGN
+Kann existierende Zuweisung nicht löschen.
+;#DEF Can't cancel assign.
+;#SET (//)
+STR_ENTER_DEVICE_NAME
+Welchen Laufwerksnamen soll das Verzeichnis tragen?
+;#DEF Enter device name for this directory
+;#SET (//)
+STR_ASSIGN_FAILED
+Zuweisung fehlgeschlagen
+;#DEF Assign failed
+;#SET (//)
+STR_NO_DESTINATION_SELECTED
+Kein Zielverzeichnis angewählt!
+;#DEF No destination directory selected!
+;#SET (//)
+STR_CANT_COPY_DIR_TO_ITSELF
+Du kannst ein Verzeichnis nicht in sich selbst kopieren!
+;#DEF You can't copy a directory into itself!
+;#SET (//)
+STR_SHOWING_FONT
+Zeige Schriftart an...
+;#DEF Showing selected font...
+;#SET (//)
+STR_RUNNING_FILE
+Starte Programm-Datei...
+;#DEF Running selected file...
+;#SET (//)
+STR_PLAYING_FILE
+Spiele Ton-Datei ab...
+;#DEF Playing selected file...
+;#SET (//)
+STR_SHOWING_FILE
+Zeige Bild-Datei an...
+;#DEF Showing selected file...
+;#SET (//)
+STR_PLAYING_ST_MOD
+Spiele Module-Datei ab...
+;#DEF Playing music module...
+;#SET (//)
+STR_READING_SELECTED_FILE
+Zeige Text-Datei an...
+;#DEF Reading selected file...
+;#SET (//)
+STR_FOUND_A_MATCH_READ
+Zeichenkette gefunden in Datei\n\"%s\"\nDatei anzeigen?
+;#DEF Found a match in the file\n\"%s\"\nShall I read the file?
+;#SET (//)
+STR_CONFIG_CHANGED_QUIT
+Die Konfiguration wurde geändert.\nDirOpus wirklich beenden?
+;#DEF You have modified the configuration.\nDo you really want to quit?
+;#SET (//)
+STR_SAVING_CONFIG
+Speichere Konfiguration...
+;#DEF Saving configuration..
+;#SET (//)
+STR_READING_CONFIG
+Lade Konfiguration...
+;#DEF Reading configuration..
+;#SET (//)
+STR_CONFIG_CHANGED_LASTSAVED
+Die Konfiguration wurde geändert.\nWirklich auf zuletzt gespeicherte Werte rücksetzen?
+;#DEF You have modified the configuration.\nReally load the last-saved settings?
+;#SET (//)
+STR_CONFIG_CHANGED_DEFAULTs
+Die Konfiguration wurde geändert.\nVor dem Rücksetzen abspeichern?
+;#DEF You have modified the configuration.\nSave before restoring defaults?
+;#SET (//)
+STR_HELP_NOT_AVAILABLE
+Keine Hilfe zu dieser Funktion verfügbar!
+;#DEF Help not available for that function!
+;#SET (//)
+STR_SCANNING_TREE
+Lade Konfigurations-Programm...
+;#DEF Scanning directory tree...
+;#SET (//)
+STR_ENTER_A_STRING
+Zeichenkette eingeben
+;#DEF Enter a string
+;#SET (//)
+STR_PLEASE_CHOOSE
+Bitte auswählen...
+;#DEF Please choose
+;#SET (//)
+STR_COMMENTING
+Schreibe Kommentar...
+;#DEF commenting
+;#SET (//)
+STR_PROTECTING
+Setze Schutzbits...
+;#DEF protecting
+;#SET (//)
+STR_DATESTAMPING
+Setze Datumsstempel...
+;#DEF datestamping
+;#SET (//)
+STR_DELETING
+Lösche...
+;#DEF deleting
+;#SET (//)
+STR_COPYING
+Kopiere...
+;#DEF copying
+;#SET (//)
+STR_CREATING
+Erzeuge...
+;#DEF creating
+;#SET (//)
+STR_CANT_OVERCOPY_FILES
+Du kannst Dateien nicht über sich selbst kopieren!
+;#DEF You can't copy these files over themselves!
+;#SET (//)
+STR_INTERROGATING_FILES
+Untersuche Dateien...
+;#DEF Interrogating files...
+;#SET (//)
+STR_NOT_IDENTIFIED
+%s konnte nicht identifiziert werden.
+;#DEF %s could not be identified.
+;#SET (//)
+STR_LOADING_CONFIG
+Lade Konfigurations-Programm...
+;#DEF Loading configuration program...
+;#SET (//)
+STR_WAITING_FOR_PORT
+Warte auf Konfigurations-Port...
+;#DEF Waiting for configuration port...
+;#SET (//)
+STR_CONFIG_NOT_FOUND
+Konfigurations-Programm konnte nicht gefunden/geladen werden.
+;#DEF Configuration program not found/could not be loaded.
+;#SET (//)
+STR_ALIEN_WINDOWS
+Auf dem Opus-Bildschirm sind fremde Fenster geöffnet.\nWähle 'Abbrechen' und schließe Sie oder wähle Schließen\ndann schließt Opus sie (Absturz-Gefahr!)
+;#DEF There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+;#SET (//)
+STR_REALLY_DELETE
+Angewählte Einträge wirklich löschen?
+;#DEF Do you really wish to delete selected entries?
+;#SET (//)
+STR_WISH_TO_DELETE
+Datei \"%s\" wirklich löschen?
+;#DEF Do you really wish to delete \"%s\"?
+;#SET (//)
+STR_NOT_EMPTY
+Verzeichnis \"%s\" ist nicht leer! Löschen?
+;#DEF \"%s\" is not empty! Delete?
+;#SET (//)
+STR_ENTER_NEW_NAME
+Neuen Namen eingeben für
+;#DEF Enter new name
+;#SET (//)
+STR_RENAMING
+Bennene um...
+;#DEF renaming
+;#SET (//)
+STR_ENTER_NEW_NAME_MOVE
+Name für verschobene Datei eingeben
+;#DEF Enter new name for moved file
+;#SET (//)
+STR_MOVING
+Verschiebe...
+;#DEF moving
+;#SET (//)
+STR_ENTER_NEW_NAME_CLONE
+Name für geklonte Kopie eingeben
+;#DEF Enter name for cloned entry
+;#SET (//)
+STR_CLONING
+Erzeuge Kopie...
+;#DEF cloning
+;#SET (//)
+STR_SIZE_IS_NOT_KNOWN
+Größe des angewählten Verzeichnisses unbekannt.\nGröße ermitteln?
+;#DEF Size is not known for the selected directory.\nPerform a byte count on this directory?
+;#SET (//)
+STR_FILE_MAY_NOT_FIT
+Vermutlich nicht genug Platz auf dem Ziellaufwerk.\nAngewählte Datei trotzdem kopieren?
+;#DEF Selected file will probably not fit in destination.\nContinue with the copy?
+;#SET (//)
+STR_SIZES_NOT_KNOWN
+Größe der angewählten Verzeichnisse unbekannt.\nGröße ermitteln?
+;#DEF Sizes are not known for some selected directories.\nPerform a byte count on these directories?
+;#SET (//)
+STR_ENTRIES_MAY_NOT_FIT
+Vermutlich zu wenig Platz auf dem Ziellaufwerk.\nAngewählte Einträge trotzdem kopieren?
+;#DEF Selected entries will probably not fit in destination.\nContinue with the copy?
+;#SET (//)
+STR_ENTER_NEW_NAME_COPY
+Neuen Namen für kopierte Datei eingeben
+;#DEF Enter new name for copied file
+;#SET (//)
+STR_ENTER_HUNT_PATTERN
+Muster für gesuchten Dateinamen eingeben
+;#DEF Enter file pattern to hunt
+;#SET (//)
+STR_COULD_NOT_FIND_FILE
+Datei leider nicht gefunden!
+;#DEF Sorry! File could not be found!
+;#SET (//)
+STR_FOUND_MATCHING_FILES
+Muster past auf %ld Dateien.
+;#DEF Found %ld matching files.
+;#SET (//)
+STR_ADDING_ICON
+Erzeuge ein Piktogramm für
+;#DEF adding an icon to
+;#SET (//)
+STR_recremoved
+STR_recremoved (//)
+;#DEF 
+;#SET (//)
+STR_ENTER_COMMENT
+Kommentar eingeben
+;#DEF Enter comment
+;#SET (//)
+STR_recremoved
+STR_recremoved (//)
+;#DEF 
+;#SET (//)
+STR_ENTER_PASSWORD
+Passwort eingeben
+;#DEF Enter password
+;#SET (//)
+STR_recremoved
+STR_recremoved (//)
+;#DEF 
+;#SET (//)
+STR_ENTER_DATE_AND_TIME
+Datum und Zeit eingeben (leer für aktuelles Datum)
+;#DEF Enter date and time (blank for current)
+;#SET (//)
+STR_ENTER_SEARCH_STRING
+Suchzeichenkette eingeben
+;#DEF Enter search string
+;#SET (//)
+STR_recremoved
+STR_recremoved (//)
+;#DEF 
+;#SET (//)
+STR_STRING_NOT_FOUND
+Zeichenkette konnte leider nicht gefunden werden!
+;#DEF Sorry! String could not be found!
+;#SET (//)
+STR_MATCHED_FILES
+Zeichenkette in %ld Dateien gefunden.
+;#DEF Matched in %ld files.
+;#SET (//)
+STR_NO_SOURCE_SELECTED
+Kein Quellverzeichnis angegeben!
+;#DEF No source directory selected!
+;#SET (//)
+STR_TEMPORARY_OUTPUT_FILE
+Temporäre Ausgabedatei
+;#DEF Temporary output file
+;#SET (//)
+STR_ENTER_ARGUMENTS
+Parameter eingeben
+;#DEF Enter arguments
+;#SET (//)
+STR_SELECT_FUNCTION
+Funktion anwählen zu der du Hilfe benötigst.  Nochmals Hilfe zum Abbrechen.
+;#DEF Select function you need help with, or Help again to cancel.
+;#SET (//)
+STR_NOT_ENOUGH_MEMORY
+Speicherplatzmangel
+;#DEF Not enough memory
+;#SET (//)
+STR_PROCESS_TABLE_FULL
+Prozeßtabelle ist voll
+;#DEF Process table full
+;#SET (//)
+STR_BAD_TEMPLATE
+Falsches Namensmuster
+;#DEF Bad template
+;#SET (//)
+STR_BAD_NUMBER
+Ungültiger Zahlenwert
+;#DEF Bad number
+;#SET (//)
+STR_REQUIRED_ARG_MISSING
+Gefordertes Argument fehlt
+;#DEF Required argument missing
+;#SET (//)
+STR_ARGUMENT_MISSING
+Argument nach Schlüsselwort fehlt
+;#DEF Argument after \"=\" missing
+;#SET (//)
+STR_TOO_MANY_ARGUMENTS
+Falsche Anzahl an Argumenten
+;#DEF Too many arguments
+;#SET (//)
+STR_UNMATCHED_QUOTED
+Ungerade Anzahl von Anführungszeichen
+;#DEF Unmatched quotes
+;#SET (//)
+STR_ARG_LINE_TOO_LONG
+Argumentzeile ungültig oder zu lang
+;#DEF Argument line invalid or too long
+;#SET (//)
+STR_FILE_NOT_EXECUTABLE
+Datei ist nicht ausführbar
+;#DEF File is not executable
+;#SET (//)
+STR_INVALID_LIBRARY
+Ungültige residente Library
+;#DEF Invalid resident library
+;#SET (//)
+STR_OBJECT_IN_USE
+Objekt ist in Gebrauch
+;#DEF Object is in use
+;#SET (//)
+STR_OBJECT_EXISTS
+Objekt existiert bereits
+;#DEF Object already exists
+;#SET (//)
+STR_DIR_NOT_FOUND
+Verzeichnis nicht gefunden
+;#DEF Directory not found
+;#SET (//)
+STR_OBJECT_NOT_FOUND
+Objekt nicht gefunden
+;#DEF Object not found
+;#SET (//)
+STR_INVALID_WINDOW
+Ungültige Fensterparameter
+;#DEF Invalid window description
+;#SET (//)
+STR_UNKNOWN_PACKET
+Unbekannter DOS-Packet-Request-Typ
+;#DEF Packet request type unknown
+;#SET (//)
+STR_OBJECT_NAME_INVALID
+Ungültiger Objektname
+;#DEF Object name invalid
+;#SET (//)
+STR_INVALID_LOCK
+Ungültiger Lock-Zugriff auf Objekt
+;#DEF Invalid object lock
+;#SET (//)
+STR_OBJECT_BAD_TYPE
+Objekt ist nicht vom geforderten Typ
+;#DEF Object not of required type
+;#SET (//)
+STR_DISK_NOT_VALIDATED
+Disk ist nicht gültig
+;#DEF Disk not validated
+;#SET (//)
+STR_DISK_WRITE_PROTECTED
+Disk ist schreibgeschützt
+;#DEF Disk is write-protected
+;#SET (//)
+STR_RENAME_DEVICES_ATTEMPTED
+Umbenennen auf anderes Laufwerk versucht
+;#DEF Rename across devices attempted
+;#SET (//)
+STR_DIRECTORY_NOT_EMPTY
+Verzeichnis ist nicht leer
+;#DEF Directory not empty
+;#SET (//)
+STR_TOO_MANY_LEVELS
+Zu tiefe Schachtelung
+;#DEF Too many levels
+;#SET (//)
+STR_SEEK_ERROR
+Fehler beim Suchlesen
+;#DEF Seek error
+;#SET (//)
+STR_COMMENT_TOO_LONG
+Kommentar ist zu lang
+;#DEF Comment is too long
+;#SET (//)
+STR_DISK_FULL
+Disk ist voll
+;#DEF Disk is full
+;#SET (//)
+STR_OBJECT_DELETE_PROTECTED
+Objekt ist löschgeschützt
+;#DEF Object is protected from deletion
+;#SET (//)
+STR_OBJECT_WRITE_PROTECTED
+Datei ist schreibgeschützt
+;#DEF File is write protected
+;#SET (//)
+STR_OBJECT_READ_PROTECTED
+Datei ist lesegeschützt
+;#DEF File is read protected
+;#SET (//)
+STR_NOT_VALID_DOS_DISK
+Keine gültige DOS-Disk
+;#DEF Not a valid DOS disk
+;#SET (//)
+STR_NO_MORE_ENTRIES
+Keine weiteren Verzeichniseinträge
+;#DEF No more entries in directory
+;#SET (//)
+STR_OBJECT_IS_SOFT_LINK
+Objekt ist ein Softlink
+;#DEF Object is soft link
+;#SET (//)
+STR_CONFIG_CHANGED_LOAD
+Die Konfiguration wurde geändert.\nNeue Konfiguration trotzdem laden?
+;#DEF You have modified the configuration.\nReally load a new configuration file?
+;#SET (//)
+STR_ABORTED
+Abgebrochen...
+;#DEF Aborted...
+;#SET (//)
+STR_ENTER_DOS_ERROR_CODE
+AmigaDOS-Fehlernummer eingeben
+;#DEF Enter DOS error code
+;#SET (//)
+STR_NO_HELP_FOR_ERROR
+Keine Hilfe zu diesem Fehlercode verfügbar!
+;#DEF Help not available for that error code!
+;#SET (//)
+STR_ERROR_OCCURED
+Operation %s \"%s\" ist fehlgeschlagen.\n%s
+;#DEF An error occured %s \"%s\"\n%s
+;#SET (//)
+STR_RENAME
+Der Neue Name für
+;#DEF Rename
+;#SET (//)
+STR_AS
+ist
+;#DEF As
+;#SET (//)
+STR_ENTER_SELECT_PATTERN
+Selektions-Muster eingeben
+;#DEF Enter select pattern
+;#SET (//)
+STR_FILE_ENCRYPTED
+\nDatei ist verschlüsselt!\n\n
+;#DEF \nFile is encrypted!\n\n
+;#SET (//)
+STR_READING_FILE
+Lese Datei...
+;#DEF Reading file..
+;#SET (//)
+STR_NO_MEMORY_TO_DECRUNCH
+Nicht genug Speicher um die komplette Datei zu lesen/entpacken!
+;#DEF Not enough memory to load/decrunch complete file!
+;#SET (//)
+STR_BAD_PASSWORD
+Falsches Passwort eingegeben!
+;#DEF Incorrect password given!
+;#SET (//)
+STR_COUNTING_LINES
+Zähle Zeilen...
+;#DEF Counting lines..
+;#SET (//)
+STR_JUMP_TO_LINE
+In welche Zeile springen:
+;#DEF Jump to which line?
+;#SET (//)
+STR_JUMP_TO_PERCENTAGE
+Bis zu welchem Prozentsatz springen?
+;#DEF Jump to what percentage?
+;#SET (//)
+STR_CANT_OPEN_PRINTER
+Drucker nicht ansprechbar!
+;#DEF Can't open printer!
+;#SET (//)
+STR_ERROR_PRINTING_FILE
+EA-Fehler %ld beim Ausdruck!\n
+;#DEF Error printing file! IoErr = %ld\n
+;#SET (//)
+STR_READY_PRINTER
+Bitte Drucker bereitmachen und WEITER anklicken.
+;#DEF Ready printer, and choose OKAY to continue
+;#SET (//)
+STR_CANT_FIND_ICON
+Kann das Piktogramm für diesen Dateityp nicht finden/laden.
+;#DEF Unable to find or load an icon for that file.
+;#SET (//)
+STR_ENCRYPTING
+Kodiere...
+;#DEF encrypting
+;#SET (//)
+STR_NEW_DISK_INSERTED
+Neue Diskette im Laufwerk DF%ld:\nHauptverzeichnis einlesen?
+;#DEF A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
+;#SET (//)
+STR_recremoved
+STR_recremoved (//)
+;#DEF 
+;#SET (//)
+STR_ENTER_DATE_1
+Datum im Format TT-MMM-JJ eingeben
+;#DEF Enter date in the form DD-MMM-YY
+;#SET (//)
+STR_ENTER_DATE_2
+Datum im Format JJ-MM-TT eingeben
+;#DEF Enter date in the form YY-MM-DD
+;#SET (//)
+STR_ENTER_DATE_3
+Datum im Format MM-TT-JJ eingeben
+;#DEF Enter date in the form MM-DD-YY
+;#SET (//)
+STR_ENTER_DATE_4
+Datum im Format TT-MM-JJ eingeben
+;#DEF Enter date in the form DD-MM-YY
+;#SET (//)
+STR_CONTINUE_WITH_SEARCH
+Suche fortsetzen?
+;#DEF Do you wish to continue with the search?
+;#SET (//)
+STR_REALLY_QUIT
+DirectoryOpus wirklich verlassen?
+;#DEF Do you really want to quit Directory Opus?
+;#SET (//)
+STR_REALLY_PROCEED
+Soll diese Operation wirklich ausgeführt werden?
+;#DEF Do you really wish to proceed with this operation?
+;#SET (//)
+STR_SCREEN_MODE_UNAVAILABLE
+Bildschirmmodus nicht verfügbar.
+;#DEF Screen mode not available.
+;#SET (//)
+STR_ERROR_INITIALISING_PRINTER
+Druckerfehler:\nBitte Drucker und Kabel überprüfen.
+;#DEF Error initialising printer.\nCheck cable and connections.
+;#SET (//)
+STR_REALLY_ABORT_PRINT
+Druck wirklich abbrechen?
+;#DEF Really abort the print?
+;#SET (//)
+STR_SELECT_SOURCE_DIR
+Bitte Quellverzeichnis auswählen
+;#DEF Select the source directory
+;#SET (//)
+STR_SELECT_DESTINATION_DIR
+Bitte Zielverzeichnis auswählen
+;#DEF Select the destination directory
+;#SET (//)
+STR_SELECT_A_FILE
+Bitte Datei auswählen
+;#DEF Select a file
+;#SET (//)
+STR_SELECT_A_DIRECTORY
+Bitte Verzeichnis auswählen
+;#DEF Select a directory
+;#SET (//)
+STR_LEFT_WINDOW
+_Linkes Fenster
+;#DEF Left window
+;#SET (//)
+STR_RIGHT_WINDOW
+_Rechtes Fenster
+;#DEF Right window
+;#SET (//)
+STR_DEVICE_LIST_TITLE
+<Laufwerke>
+;#DEF <Device list>
+;#SET (//)
+STR_DIR_NOT_AVAILABLE_TITLE
+<Verzeichnis nicht existent>
+;#DEF <Directory not available>
+;#SET (//)
+STR_BUFFER_LIST_TITLE
+<Verzeichnis-Puffer>
+;#DEF <Buffer list>
+;#SET (//)
+STR_UNPROTECT
+_Entsichern
+;#DEF Unprotect
+;#SET (//)
+STR_RUN
+_Starten
+;#DEF Run
+;#SET (//)
+STR_TRY_AGAIN
+_Nochmal
+;#DEF Try Again
+;#SET (//)
+STR_RETRY
+_Nochmal
+;#DEF Retry
+;#SET (//)
+STR_ABORT
+_Abbrechen
+;#DEF Abort
+;#SET (//)
+STR_REPLACE
+_Ersetzen
+;#DEF Replace
+;#SET (//)
+STR_SKIP
+_überspr.
+;#DEF Skip
+;#SET (//)
+STR_ALL
+A_lle
+;#DEF All
+;#SET (//)
+STR_REMOVE
+_Entfernen
+;#DEF Remove
+;#SET (//)
+STR_QUIT
+_Quit
+;#DEF Quit
+;#SET (//)
+STR_SAVE_QUIT
+_Speichern & Quit
+;#DEF Save & quit
+;#SET (//)
+STR_LOAD
+_Laden
+;#DEF Load
+;#SET (//)
+STR_SAVE
+_Speichern
+;#DEF Save
+;#SET (//)
+STR_DEFAULTS
+_Standardwerte
+;#DEF Defaults
+;#SET (//)
+STR_CLOSE
+_Schliessen
+;#DEF Close
+;#SET (//)
+STR_DELETE
+L_öschen
+;#DEF Delete
+;#SET (//)
+STR_LEAVE
+_Überspr.
+;#DEF Leave
+;#SET (//)
+STR_YES
+_Ja
+;#DEF Yes
+;#SET (//)
+STR_NO
+_Nein
+;#DEF No
+;#SET (//)
+STR_ICONIFY
+_Verbergen
+;#DEF Iconify
+;#SET (//)
+STR_CONTINUE
+_Weiter
+;#DEF Continue
+;#SET (//)
+STR_OKAY
+_Weiter
+;#DEF Okay
+;#SET (//)
+STR_CANCEL
+_Abbrechen
+;#DEF Cancel
+;#SET (//)
+STR_OKAY_TITLE
+- Bereit -
+;#DEF OK
+;#SET (//)
+STR_DESCRIPTION
+Beschreibung
+;#DEF Description
+;#SET (//)
+STR_PRINT_CONTROL
+Drucker-Kontrolle
+;#DEF Print control
+;#SET (//)
+STR_FILE
+Datei
+;#DEF File
+;#SET (//)
+STR_IMAGE_SIZE
+Bild
+;#DEF Image size
+;#SET (//)
+STR_PAGE_SIZE
+Seite
+;#DEF Page size
+;#SET (//)
+STR_SCREEN_SIZE
+Bildschirm
+;#DEF Screen size
+;#SET (//)
+STR_DEPTH
+Tiefe
+;#DEF Depth
+;#SET (//)
+STR_COLOURS
+Farben
+;#DEF Colors
+;#SET (//)
+STR_SCREEN_MODES
+Modus
+;#DEF Screen modes
+;#SET (//)
+STR_ASPECT
+Bild_lage:
+;#DEF _Aspect:
+;#SET (//)
+STR_IMAGE
+B_ild:
+;#DEF _Image:
+;#SET (//)
+STR_SHADE
+_Farbe:
+;#DEF _Shade:
+;#SET (//)
+STR_PLACEMENT
+_Position:
+;#DEF _Placement:
+;#SET (//)
+STR_FORMFEED
+A_uswerfen
+;#DEF _Form feed
+;#SET (//)
+STR_PRINT
+_Drucken
+;#DEF Print
+;#SET (//)
+STR_ABORT_PRINT
+Druck abbrechen
+;#DEF Abort print
+;#SET (//)
+STR_PORTRAIT
+Horizontal
+;#DEF Portrait
+;#SET (//)
+STR_LANDSCAPE
+Vertikal
+;#DEF Landscape
+;#SET (//)
+STR_POSITIVE
+Positiv
+;#DEF Positive
+;#SET (//)
+STR_NEGATIVE
+Negativ
+;#DEF Negative
+;#SET (//)
+STR_BLACK_WHITE
+Schwarz/Weiß
+;#DEF Black&White
+;#SET (//)
+STR_GRAY_SCALE
+Graustufen
+;#DEF Gray scale
+;#SET (//)
+STR_COLOUR
+Farbe
+;#DEF Color
+;#SET (//)
+STR_CENTER
+Zentrieren
+;#DEF Center
+;#SET (//)
+STR_FULL_LEFT
+Linksbündig
+;#DEF Full left
+;#SET (//)
+STR_FONT
+Schriftart
+;#DEF Font
+;#SET (//)
+STR_FONT_SIZE
+Größe
+;#DEF Font size
+;#SET (//)
+STR_NUM_CHARS
+Zeichen
+;#DEF Characters
+;#SET (//)
+STR_FONT_STYLE
+Schriftart
+;#DEF Font style
+;#SET (//)
+STR_FONT_FLAGS
+Flags
+;#DEF Font flags
+;#SET (//)
+STR_ICON
+Piktogramm
+;#DEF Icon
+;#SET (//)
+STR_ICON_TYPE
+Piktogrammtyp
+;#DEF Icon type
+;#SET (//)
+STR_ICON_ALTERNATE
+Alt. Bild
+;#DEF Alt. image
+;#SET (//)
+STR_ICON_DEFAULTTOOL
+Standardprogramm
+;#DEF Default tool
+;#SET (//)
+STR_NUM_FRAMES
+Rahmen
+;#DEF Frame
+;#SET (//)
+STR_PLAYING_ANIM
+Zeige Animation an...
+;#DEF Playing selected animation...
+;#SET (//)
+STR_OLD_NEW_FILE_REPLACE
+Datei \"%s\" existiert bereits! Ersetzen?\n\nNeu  -  Größe: %7ld  Datum: %19s\nAlt  -  Größe: %7ld  Datum: %19s
+;#DEF "\"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -  Size : %7ld  Date : %19s
+;#SET (//)
+STR_REMAINING
+%ld von %ld Einträgen
+;#DEF %ld of %ld items
+;#SET (//)
+STR_CUSTOM_LIST
+Benutzerliste
+;#DEF Custom list
+;#SET (//)
+STR_ENTRIES_IN_TREE
+%ld Einträge im Verzeichnisbaum
+;#DEF %ld entries in tree
+;#SET (//)
+STR_DIRS_IN_BUFFERS
+%ld Verzeichnisse gepuffert
+;#DEF %ld directories in buffers
+;#SET (//)
+STR_USER_ENTRIES
+%ld Benutzer-Einträge
+;#DEF %ld user-defined entries
+;#SET (//)
+STR_COMPLETED
+Abgeschlossen!
+;#DEF Completed
+;#SET (//)
+STR_UNICONIFY
+_Vollbild
+;#DEF Uniconify
+;#SET (//)
+STR_CUSTPORT_NOT_FOUND
+Der angegebene Handler-Port\n\"%s\"\nkonnte nicht gefunden werden!
+;#DEF User-specified custom handler port\n\"%s\"\ncould not be found!
+;#SET (//)
+STR_CHECKFIT_STRING
+Bytes benötigt: %11ld   Bytes frei: %11ld   Genug für %s%%
+;#DEF Bytes needed : %11ld   Bytes free : %11ld   Fit : %s%%
+;#SET (//)
+STR_DIR_TREE
+<Verzeichnisbaum>
+;#DEF <Directory tree>
+;#SET (//)
+STR_BUILDING_TREE
+Erzeuge Verzeichnisbaum...
+;#DEF Generating tree structure...
+;#SET (//)
+STR_UNPROTECT_ALL
+A_lle Entsich.
+;#DEF Unprotect all
+;#SET (//)
+STR_READING_CHANGED_DIRECTORY
+Verzeichnis verändert - lese Puffer neu ein
+;#DEF Buffered directory changed - re-reading
+;#SET (//)
+STR_CREATING_DIRECTORY
+Erzeuge Verzeichnis...
+;#DEF creating directory
+;#SET (//)
+STR_STARTING_DISK_MODULE
+Starte Disk-Modul...
+;#DEF Starting disk module...
+;#SET (//)
+STR_UNABLE_TO_LOAD_MODULE
+Externes Modul konnte nicht geladen werden
+;#DEF Unable to load external module
+;#SET (//)
+STR_SELECT_ALL_ENTRIES
+Alle Einträge
+;#DEF All entries
+;#SET (//)
+STR_SELECT_ONLY_FILES
+Dateien
+;#DEF Only files
+;#SET (//)
+STR_SELECT_ONLY_DIRS
+Verzeichnisse
+;#DEF Only dirs
+;#SET (//)
+STR_SELECT_NAME
+Name
+;#DEF Name
+;#SET (//)
+STR_SELECT_DATE
+Datum
+;#DEF Date
+;#SET (//)
+STR_SELECT_BITS
+Bits
+;#DEF Bits
+;#SET (//)
+STR_STARTING_PRINT_MODULE
+Starte Druck-Modul...
+;#DEF Starting print module...
+;#SET (//)
+STR_ABOUT
+%s\nBasierend auf GPL Release Version 4.12\nmodified by %s\n\n Dieses Programm ist freie Software; Es darf gemäß den Bestimmungen der\nGNU General Public License Version 2 (oder einer beliebigen späteren\nVersion) vertrieben oder geändert werden.\n\nDie GNU General Public License wird von der Free Softare Foundation\nveröffentlicht (http://www.gnu.org).\n\nDieses Programm wird in der Hoffnung veröffentlicht, daß es für den\nAnwender nützlich sein könnte, aber OHNE IRGENDEINE GEWÄHRLEISTUNG,\nWEDER AUSDRÜCKLICH NOCH IMPLIZIT, einschließlich - aber nicht begrenzt\nauf - MARKTREIFE oder VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK.\n Ausführlichere Informationen sind in der GNU General Public License\n zu finden.\n\nAlle Benutzer von Directory Opus 4 (inclusive der Versionen, die\nunter der GPL vertrieben werden) sind berechtigt, zu reduzierten\nPreisen ein Upgrade auf die neueste Version von Directory Opus 5\nzu erwerben:\n\nhttp://www.gpsoft.com.au\n\n
+;#DEF %s\nBased on GPL release version 4.12\nmodified by %s\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nAll users of Directory Opus 4 (including versions distributed\nunder the GPL) are entitled to upgrade to the latest version of\nDirectory Opus version 5 at a reduced price. Please see\nhttp://www.gpsoft.com.au for more information.
+;#SET (//)
+STR_PRINTTITLE
+_Titel drucken
+;#DEF Print _Title
+;#SET (//)
+STR_SEARCH_NO_CASE
+Keine _Groß- und Kleinschreibung
+;#DEF Treat upper and lower case as the same
+;#SET (//)
+STR_SEARCH_WILD
+_Fragezeichen als Joker zulassen
+;#DEF Recognise ? as a wildcard character
+;#SET (//)
+STR_SEARCH_ONLYWORD
+Nur ganze (ungebrochene) _Worte finden
+;#DEF Only match on whole, unbroken words
+;#SET (//)
+STR_ENTER_FILTER
+Muster für Filter:
+;#DEF Enter file filter
+;#SET (//)
+STR_SELECT_PROTECTION_BITS
+Neue Schutzbits anwählen
+;#DEF Select new protection bits
+;#SET (//)
+STR_DIRECTORY_OPUS_REQUEST
+DirectoryOpus Anfrage...
+;#DEF Directory Opus Request
+;#SET (//)
+STR_CLOCK_CHIP
+CHIP:
+;#DEF CHIP:
+;#SET (//)
+STR_CLOCK_FAST
+FAST:
+;#DEF FAST:
+;#SET (//)
+STR_CLOCK_TOTAL
+GESAMT:
+;#DEF TOTAL:
+;#SET (//)
+STR_CLOCK_MEM
+RAM:
+;#DEF MEM:
+;#SET (//)
+STR_CLOCK_MEMORY
+Speicher:
+;#DEF MEMORY:
+;#SET (//)
+STR_MONTH_JANUARY
+Januar
+;#DEF January
+;#SET (//)
+STR_MONTH_FEBRUARY
+Februar
+;#DEF February
+;#SET (//)
+STR_MONTH_MARCH
+März
+;#DEF March
+;#SET (//)
+STR_MONTH_APRIL
+April
+;#DEF April
+;#SET (//)
+STR_MONTH_MAY_LONG
+Mai
+;#DEF May
+;#SET (//)
+STR_MONTH_JUNE
+Juni
+;#DEF June
+;#SET (//)
+STR_MONTH_JULY
+Juli
+;#DEF July
+;#SET (//)
+STR_MONTH_AUGUST
+August
+;#DEF August
+;#SET (//)
+STR_MONTH_SEPTEMBER
+September
+;#DEF September
+;#SET (//)
+STR_MONTH_OCTOBER
+Oktober
+;#DEF October
+;#SET (//)
+STR_MONTH_NOVEMBER
+November
+;#DEF November
+;#SET (//)
+STR_MONTH_DECEMBER
+Dezember
+;#DEF December
+;#SET (//)
+STR_MONTH_JAN
+Jan
+;#DEF Jan
+;#SET (//)
+STR_MONTH_FEB
+Feb
+;#DEF Feb
+;#SET (//)
+STR_MONTH_MAR
+Mär
+;#DEF Mar
+;#SET (//)
+STR_MONTH_APR
+Apr
+;#DEF Apr
+;#SET (//)
+STR_MONTH_MAY
+Mai
+;#DEF May
+;#SET (//)
+STR_MONTH_JUN
+Jun
+;#DEF Jun
+;#SET (//)
+STR_MONTH_JUL
+Jul
+;#DEF Jul
+;#SET (//)
+STR_MONTH_AUG
+Aug
+;#DEF Aug
+;#SET (//)
+STR_MONTH_SEP
+Sep
+;#DEF Sep
+;#SET (//)
+STR_MONTH_OCT
+Okt
+;#DEF Oct
+;#SET (//)
+STR_MONTH_NOV
+Nov
+;#DEF Nov
+;#SET (//)
+STR_MONTH_DEC
+Dez
+;#DEF Dec
+;#SET (//)
+STR_DAY_MONDAY
+Montag
+;#DEF Monday
+;#SET (//)
+STR_DAY_TUESDAY
+Dienstag
+;#DEF Tuesday
+;#SET (//)
+STR_DAY_WEDNESDAY
+Mittwoch
+;#DEF Wednesday
+;#SET (//)
+STR_DAY_THURSDAY
+Donnerstag
+;#DEF Thursday
+;#SET (//)
+STR_DAY_FRIDAY
+Freitag
+;#DEF Friday
+;#SET (//)
+STR_DAY_SATURDAY
+Samstag
+;#DEF Saturday
+;#SET (//)
+STR_DAY_SUNDAY
+Sonntag
+;#DEF Sunday
+;#SET (//)
+STR_DAY_MON
+Mon
+;#DEF Mon
+;#SET (//)
+STR_DAY_TUE
+Die
+;#DEF Tue
+;#SET (//)
+STR_DAY_WED
+Mit
+;#DEF Wed
+;#SET (//)
+STR_DAY_THU
+Don
+;#DEF Thu
+;#SET (//)
+STR_DAY_FRI
+Fre
+;#DEF Fri
+;#SET (//)
+STR_DAY_SAT
+Sam
+;#DEF Sat
+;#SET (//)
+STR_DAY_SUN
+Son
+;#DEF Sun
+;#SET (//)
+STR_DAY_YESTERDAY
+Gestern
+;#DEF Yesterday
+;#SET (//)
+STR_DAY_TODAY
+Heute
+;#DEF Today
+;#SET (//)
+STR_DAY_TOMORROW
+Morgen
+;#DEF Tomorrow
+;#SET (//)
+STR_DAY_FUTURE
+Zukunft
+;#DEF Future
+;#SET (//)
+STR_KEY
+Kurzbefehl:
+;#DEF Key :
+;#SET (//)
+STR_TINY_BUTTONS
+PRSA?DFKIQ
+;#DEF BRSA?EFCIQ
+;#SET (//)
+STR_VIEW_BUTTONS
+HROUSDQ
+;#DEF UDTBSPQ
+;#SET (//)
+STR_DISKINFO_DEVICE
+Laufwerk
+;#DEF Device
+;#SET (//)
+STR_DISKINFO_NAME
+Name
+;#DEF Name
+;#SET (//)
+STR_DISKINFO_SIZE
+Kapazität
+;#DEF Size
+;#SET (//)
+STR_DISKINFO_USED
+Belegt
+;#DEF Used
+;#SET (//)
+STR_DISKINFO_FREE
+Frei
+;#DEF Free
+;#SET (//)
+STR_DISKINFO_PERCENT
+Prozentual
+;#DEF Percent
+;#SET (//)
+STR_DISKINFO_DENSITY
+Blockgröße
+;#DEF Density
+;#SET (//)
+STR_DISKINFO_ERRORS
+Fehler
+;#DEF Errors
+;#SET (//)
+STR_DISKINFO_STATUS
+Status
+;#DEF Status
+;#SET (//)
+STR_DISKINFO_DATE
+Datum
+;#DEF Date
+;#SET (//)
+STR_DISKINFO_BYTES
+Bytes
+;#DEF bytes
+;#SET (//)
+STR_DISKINFO_BLOCKS
+Blocks
+;#DEF blocks
+;#SET (//)
+STR_DISKINFO_FULL
+belegt
+;#DEF full
+;#SET (//)
+STR_DISKINFO_SFREE
+frei
+;#DEF free
+;#SET (//)
+STR_DISKINFO_BYTESPERBLOCK
+Bytes/Block
+;#DEF bytes/block
+;#SET (//)
+STR_TEXT_VIEWER_TITLE
+DirectoryOpus-Textanzeiger
+;#DEF Directory Opus Text Viewer
+;#SET (//)
+STR_PROTECT_ALL_BITS
+Alle Bits
+;#DEF All bits
+;#SET (//)
+STR_PROTECT_NONE
+Keine
+;#DEF None
+;#SET (//)
+STR_PROTECT_TOGGLE
+Invert.
+;#DEF Toggle
+;#SET (//)
+STR_PROTECT_REVERT
+Zurück
+;#DEF Revert
+;#SET (//)
+STR_PROTECT_OLD
+  Alt:
+;#DEF Old :
+;#SET (//)
+STR_PROTECT_NEW
+  Neu:
+;#DEF New :
+;#SET (//)
+STR_PROTECT_MASK
+Maske:
+;#DEF Mask:
+;#SET (//)
+STR_PROTECT_HIDDEN
+_H-Versteckt
+;#DEF _Hidden
+;#SET (//)
+STR_PROTECT_SCRIPT
+_S-Skript
+;#DEF _Script
+;#SET (//)
+STR_PROTECT_PURE
+_P-Residentfähig
+;#DEF _Pure
+;#SET (//)
+STR_PROTECT_ARCHIVE
+_A-Archiviert
+;#DEF _Archive
+;#SET (//)
+STR_PROTECT_READ
+_R-Lesbar
+;#DEF _Read
+;#SET (//)
+STR_PROTECT_WRITE
+_W-Schreibbar
+;#DEF _Write
+;#SET (//)
+STR_PROTECT_EXECUTED
+_E-Ausführbar
+;#DEF _Execute
+;#SET (//)
+STR_PROTECT_DELETED
+_D-Löschbar
+;#DEF _Delete
+;#SET (//)
+STR_FILE_REQUEST
+Bitte auswählen...
+;#DEF File request
+;#SET (//)
+STR_OF
+von
+;#DEF of
+;#SET (//)
+STR_FRAME
+Bild
+;#DEF Frame
+;#SET (//)
+STR_DISK_OP_TITLE
+DirectoryOpus-Diskoperationen
+;#DEF Directory Opus Disk Operations
+;#SET (//)
+STR_BUTTON_STRIP
+DirectoryOpus-Knopfleiste
+;#DEF Directory Opus Button Strip
+;#SET (//)
+STR_NO_FIT
+ N
+;#DEF  N
+;#SET (//)
+STR_YES_FIT
+ J
+;#DEF  Y
+;#SET (//)
+STR_FTYPE_DEFAULT
+Standard
+;#DEF Default
+;#SET (//)
+STR_FTYPE_UNKNOWN
+Unbekannter Dateityp
+;#DEF Unknown file type
+;#SET (//)
+STR_PROTBIT_HSPA
+HSPA----
+;#DEF HSPA----
+;#SET (//)
+STR_PROTBIT_RWED
+----RWED
+;#DEF ----RWED
+;#SET (//)
+STR_PROTBIT_ALLBITS
+hsparwed
+;#DEF hsparwed
+;#SET (//)
+STR_MULTI_DRAG
+Click-M-Click mit  %ld  Dateien
+;#DEF Multi-drag - %ld files selected
+;#SET (//)
+STR_PRESS_MOUSE_BUTTON
+Linker Mausknopf um fortzufahren...
+;#DEF Press left mouse button to continue...
+;#SET (//)
+STR_NETWORK_NO_OWNER
+Kein Eigentümer
+;#DEF No owner
+;#SET (//)
+STR_NETWORK_NO_GROUP
+Keine Gruppe
+;#DEF No group
+;#SET (//)
+STR_ERROR_ERROR_HELP
+_Fehlerhilfe
+;#DEF Error help
+;#SET (//)
+STR_SKIP_ALL
+alle ü_berspr.
+;#DEF S_kip all
+;#SET (//)
+STR_PARENT_MULTI
+Überg. Verzeichnisse / multiple Zuweisungen
+;#DEF Parents and Multi-Assigns...
+;#SET (//)
+STR_DISKINFO_FILESYSTEM
+Filesystem
+;#DEF F.System
+;#SET (//)
+STR_ANIM_TYPE
+Animationstyp
+;#DEF Anim type
+;#SET (//)
+STR_GFX_NATIVE
+Original
+;#DEF Native
+;#SET (//)
+STR_OPENING_ARCHIVE
+Öffne Archiv...
+;#DEF Opening archive...
+;#SET (//)
+STR_SORT_BY
+Sortieren nach
+;#DEF Sort by
+;#SET (//)
+STR_FILE_NAME
+Dateiname
+;#DEF File name
+;#SET (//)
+STR_FILE_SIZE
+Dateigröße
+;#DEF File size
+;#SET (//)
+STR_PROTECTION_BITS
+Schutzbits
+;#DEF Protection bits
+;#SET (//)
+STR_CREATION_DATE
+Datum
+;#DEF Creation date
+;#SET (//)
+STR_FILE_COMMENT
+Kommentar
+;#DEF File comment
+;#SET (//)
+STR_FILE_TYPE
+Dateityp
+;#DEF File type
+;#SET (//)
+STR_OWNER
+Eigentümer
+;#DEF Owner
+;#SET (//)
+STR_GROUP
+Gruppe
+;#DEF Group
+;#SET (//)
+STR_NET_PROTECTION_BITS
+Netzwerk Schutzbits
+;#DEF Net protection bits
+;#SET (//)
+STR_REVERSE_ORDER
+Umgekehrt
+;#DEF Reverse order
+;#SET (//)
+STR_SIZE_AS_KMG
+Größe als K/M/G
+;#DEF Size as K/M/G
+;#SET (//)
+STR_BRING_TO_FRONT
+nach _vorn
+;#DEF Bring to front
+;#SET (//)
+STR_REPLACE_DIR_WITH_FILE
+\"%s\" existiert bereits! Ersetzen?\n\nNeu  -  Größe: %7ld  Datum: %19s\nAlt  -                  Datum: %19s
+;#DEF \"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -                  Date : %19s
+;#SET (//)
+STR_REPLACE_FILE_WITH_DIR
+\"%s\" existiert bereits! Ersetzen?\n\nNeu  -                  Datum: %19s\nAlt  -  Größe: %7ld  Datum: %19s
+;#DEF \"%s\" already exists! Replace?\n\nNew  -                  Date : %19s\nOld  -  Size : %7ld  Date : %19s
+;#SET (//)
+STR_OPERATION_NOT_SUPPORTED
+Operation wird nicht unterstützt
+;#DEF Operation not supported
+;#SET (//)
+STR_QUERY_REMOVE_ASSIGN
+Die Zuweisung \"%s\" wirklich entfernen?
+;#DEF Do you really wish to remove \"%s\" assign?
+;#SET (//)
+STR_VERSION_CONTENTS
+%-42s\n\n  Directory Opus%24s  \n  DOpus Library%25s  \n  Erstellt um %26s  \n   Erstellt am %26s   \n  Port/Screen-Name%22s  \n\n  Kickstart%29s  \n  Workbench%29s  \n  Prozessor%29s  \n  Math.Co-Prozessor%21s  \n  Amiga Chipsatz  %22s  \nVideo-System%26s
+;#DEF %-42s\n\n  Directory Opus%24s  \n  DOpus Library%25s  \n  Compile time%26s  \n  Compile date%26s  \n  Port/screen name%22s  \n\n  Kickstart%29s  \n  Workbench%29s  \n  Processor%29s  \n  Math co-processor%21s  \n  Graphics chipset%22s  \n  Video system%26s
+;#SET (//)
+STR_VERSION_HEADER
+Versions-Informationen...
+;#DEF Version information...
+;#SET (//)

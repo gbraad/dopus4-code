@@ -1,0 +1,54 @@
+* Get CPU usage as a percentage
+* getusage() routine takes no arguments, returns value from 0 to 100 in d0
+* basically pinched from an old version of xoper, thanks Werner :)
+
+* Agony's note:
+* 020++ ONLY
+* The value returned is from 0 to 1000 i think
+* Anyway my routine and original routine give the same result :)
+* I don't  know if this code 2 calculate cpu usage is correct or not, sorry.
+* on a 060 processor mulu is faster than code .mulu1000 
+* (3 cycles Vs 9) but this code is faster on 020/030/040 (24 Vs 48 on 030).
+* The code is smaller (76 bytes) than original (232+24 reloc).
+
+
+	XDEF _getusage
+
+	section code,code_P
+
+_getusage:
+	movem.l	d1-d3/a6,-(sp)
+	move.l	$4.W,a6
+	move.l	280(a6),d0		;IdleCount
+	move.l	284(a6),d1		;DispCount
+	lea	oldidl(PC),a6		;relative code is shorter ;)
+	move.l	(a6),d3
+	move.l	d0,(a6)+		;oldidl
+	sub.l	d3,d0			;d0=IC-OIC
+	move.l	olddisp(PC),d3
+	move.l	d1,(a6)			;olddisp
+	sub.l	d1,d3			;d3=ODC-DC
+	sub.l	d3,d0
+;	mulu.l	#-1000,d3		;this istruction is faster on 060 than the code
+	neg.l	d3			;but really slower on <=040
+.mulu1000
+	move.l	d3,d1			;		2
+	lsl.l	#2,d1			;x4		4
+	add.l	d3,d3			;x2		2
+	move.l	d1,d2			;		2
+	lsl.l	#8,d2			;x1024		4
+	add.l	d3,d1			;x6		2
+	lsl.l	#2,d1			;x24		4
+	sub.l	d1,d2			;x1000		2
+	addq.l	#1,d0			;to avoid divisionby0 not 101% safe ;)
+	divu.l	d0,d2			
+	move.l	d2,d0
+	movem.l	(sp)+,d1-d3/a6
+	rts
+
+oldidl
+	dc.l 0
+olddisp
+	dc.l 0
+
+	end

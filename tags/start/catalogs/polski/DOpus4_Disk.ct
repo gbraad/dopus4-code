@@ -1,0 +1,171 @@
+## version $VER: DOpus_Disk.catalog 1.0 (28.03.01) © Mariusz Danilewicz <mandi@interia.pl>
+## language polski
+## codeset 0
+STR_FORMAT_NAME
+_Nazwa
+; _Name
+STR_FORMAT_FFS
+_Fast File System
+; _Fast File System
+STR_FORMAT_INTERNATIONAL
+Tryb m_iëdzynarodowy
+; _International Mode
+STR_FORMAT_CACHING
+_Buforowanie katalogu
+; _Directory Caching
+STR_FORMAT_TRASHCAN
+_Zaîóû ômietnik
+; _Put Trashcan
+STR_FORMAT_VERIFY
+_Weryfikacja
+; _Verify
+STR_FORMAT_FORMAT
+Formatuj
+; Format
+STR_FORMAT_QUICKFORMAT
+Form. szybko
+; Quick Format
+STR_FORMAT_EXIT
+Wyjdú
+; Exit
+STR_FORMAT_EMPTY
+Pusty
+; Empty
+STR_FORMAT_INFODISPLAY
+%ld ôcieûek, %ld b./ôcieûkë, %s
+; %ld tracks, %ld bytes/trk, %s
+STR_FORMAT_FORMATTING
+Formatujë %ld, pozostaîo %ld
+; Formatting %ld, %ld to go
+STR_FORMAT_VERIFYING
+Weryfikujë %ld, pozostaîo %ld
+; Verifying  %ld, %ld to go
+STR_FORMAT_INITIALISING
+Inicjalizujë dysk...
+; Initialising disk...
+STR_FORMAT_FORMATERROR
+Bîâd formatowania ôcieûki %ld
+; Format error on track %ld
+STR_FORMAT_ERRORVERIFYING
+Bîâd podczas weryfikowania ôcieûki %ld
+; Error verifying track %ld
+STR_FORMAT_VERIFYERROR
+Bîâd weryfikacji ôcieûki %ld
+; Verify error on track %ld
+STR_SUCCESS
+Operacja zakoïczona pomyôlnie
+; Operation successful
+STR_FAILED_ERROR
+Operacja nie powiodîa sië
+; Operation failed
+STR_MEMORY_ERROR
+Zbyt maîo wolnej pamiëci
+; Not enough memory
+STR_BITMAP_ERROR
+Bîâd bitmapy
+; Bitmap error
+STR_DEVICE_ERROR
+Bîâd urzâdzenia
+; Device error
+STR_NODEVICE_ERROR
+Nie mogë otworzyê urzâdzenia
+; Couldn't open device
+STR_RETRY
+Ponów
+; Retry
+STR_NODISKPRESENT
+Brak dysku w %s
+; No disk present in %s
+STR_DISKWRITEPROTECTED
+Dysk w %s jest zabezpieczony przed zapisem.
+; Disk in %s is write protected
+STR_ABORTED
+Przerwano...
+; Aborted...
+STR_FORMAT_MAKINGTRASHCAN
+Tworzë ômietnik...
+; Creating Trashcan...
+STR_DISK_NOT_BLANK
+Dysk w napëdzie %s nie jest pusty!\n\nWolumen \"%s\" zawiera %s.\n\nWszystkie dane zostanâ utracone.\nWybierz koontynuuj, aby kontynuowaê %s.
+; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\nAll data will be erased.\nChoose Proceed to continue the %s.
+STR_PROCEED
+Kontynuuj
+; Proceed
+STR_CHECKING_DESTINATION
+Sprawdzam dysk docelowy...
+; Checking destination disk...
+STR_DISKCOPY_DISKCOPY
+Kopiuj
+; Diskcopy
+STR_DISKCOPY_FROM
+Z...
+; From...
+STR_DISKCOPY_TO
+Na...
+; To...
+STR_DISKCOPY_INFODISPLAY
+%s, uûywanych %s
+; %s, %s used
+STR_DISKCOPY_NODISK
+Informacje o dysku niedostëpne
+; No disk info available
+STR_CHECKING_DISKS
+Sprawdzam dysk(i)...
+; Checking disk(s)...
+STR_DISKCOPY_READING
+Odczytujë  %ld, pozostaîo %ld
+; Reading    %ld, %ld to go
+STR_DISKCOPY_WRITING
+Zapisujë   %ld, pozostaîo %ld
+; Writing    %ld, %ld to go
+STR_DISKCOPY_READERROR
+Bîâd odczytu na ôcieûce %ld
+; Read error on track %ld
+STR_DISKCOPY_WRITEERROR
+Bîâd zapisu na ôcieûce %ld
+; Write error on track %ld
+STR_DISKCOPY_INSERTSOURCE
+Wîóû dysk úródîowy do %s
+; Insert source disk in %s
+STR_DISKCOPY_INSERTDEST
+Wîóû dysk docelowy do %s
+; Insert destination disk in %s
+STR_INSTALL_INSTALL
+Instaluj
+; Install
+STR_INSTALL_NOBOOT
+Niebotowalny
+; No Boot
+STR_INSTALL_NOINFO
+Informrmacje o bootblocku niedostëpne
+; Bootblock info unavailable
+STR_INSTALL_NOTBOOTABLE
+Dysk jest niebotowalny
+; Disk is not bootable
+STR_INSTALL_NORMAL
+Normalny %s %s bootblock
+; Normal %s %s bootblock
+STR_INSTALL_NONSTANDARD
+Niestandardowy bootblock
+; Non-standard bootblock
+STR_INSTALL_ERRORWRITING
+Bîâd zapisu bootlocka!
+; Error writing bootblock!
+STR_INVALID_DISK
+NIeodpowiedni dysk do instalowania
+; Disk is unsuitable for installing
+STR_INSTALL_INSTALLINGDISK
+Inicjalizujë dysk...
+; Installing disk...
+STR_CANCEL
+Poniechaj
+; Cancel
+STR_BUMP_NAMES
+_Zmieï nazwë
+; _Bump name
+STR_BUMPING_NAME
+Zmieniam nazwë dysku...
+; Bumping disk name...
+STR_DISKCOPY_CHECK
+Sprawdú
+; Check

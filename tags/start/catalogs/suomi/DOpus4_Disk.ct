@@ -1,0 +1,182 @@
+## version $VER: DOpus4_Disk.catalog 1.1 (15.06.2001)
+## language suomi
+## codeset 0
+;##†chunk AUTH Jari Komulainen & Sami Raunio
+;
+STR_FORMAT_NAME
+_Nimi
+; _Name
+STR_FORMAT_FFS
+_Fast File System
+; _Fast File System
+STR_FORMAT_INTERNATIONAL
+International-tila
+; _International Mode
+STR_FORMAT_CACHING
+Hakemistopuskurointi
+; _Directory Caching
+STR_FORMAT_TRASHCAN
+Luo roskakori
+; _Put Trashcan *
+STR_FORMAT_VERIFY
+_Tarkista
+; _Verify *
+STR_FORMAT_FORMAT
+Alustus
+; Format
+STR_FORMAT_QUICKFORMAT
+Pika-alustus
+; Quick Format
+STR_FORMAT_EXIT
+Lopeta
+; Exit *
+STR_FORMAT_EMPTY
+Tyhj‰
+; Empty
+STR_FORMAT_INFODISPLAY
+%ld uraa, %ld tavua/ura, %s
+; %ld tracks, %ld bytes/trk, %s *
+STR_FORMAT_FORMATTING
+Alustan %ld, %ld j‰ljell‰
+; Formatting %ld, %ld to go
+STR_FORMAT_VERIFYING
+Tarkistan %ld, %ld j‰ljell‰
+; Verifying  %ld, %ld to go *
+STR_FORMAT_INITIALISING
+Valmistelen levy‰...
+; Initialising disk... *
+STR_FORMAT_FORMATERROR
+Alustusvirhe uralla %ld
+; Format error on track %ld
+STR_FORMAT_ERRORVERIFYING
+Virhe varmistaessa uraa %ld
+; Error verifying track %ld
+STR_FORMAT_VERIFYERROR
+Tarkistusvirhe uralla %ld
+; Verify error on track %ld *
+STR_SUCCESS
+Teht‰v‰ suoritettu
+; Operation successful
+STR_FAILED_ERROR
+Teht‰v‰ ep‰onnistui
+; Operation failed
+STR_MEMORY_ERROR
+Ei tarpeeksi muistia
+; Not enough memory
+STR_BITMAP_ERROR
+Bittikartta-virhe
+; Bitmap error
+STR_DEVICE_ERROR
+Laitevirhe
+; Device error
+STR_NODEVICE_ERROR
+Laitetta ei voitu avata
+; Couldn't open device
+STR_RETRY
+Uudelleen
+; Retry
+STR_NODISKPRESENT
+Ei levy‰ asemassa %s
+; No disk present in %s *
+STR_DISKWRITEPROTECTED
+Levy asemassa %s on kirjoitussuojattu
+; Disk in %s is write protected *
+STR_ABORTED
+Peruttu...
+; Aborted...
+STR_FORMAT_MAKINGTRASHCAN
+Luon roskakoria...
+; Creating Trashcan...
+STR_DISK_NOT_BLANK
+Levy asemassa %s ei ole tyhj‰!\n\nLevy \"%s\" sis‰lt‰‰ %s.\n\nKaikki tieto poistetaan.\nSuorittaaksesi %s valitse Jatka.
+; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\nAll data will be erased.\nChoose Proceed to continue the %s.
+STR_PROCEED
+Jatka
+; Proceed
+STR_CHECKING_DESTINATION
+Tutkin kohdelevy‰...
+; Checking destination disk... *
+STR_DISKCOPY_DISKCOPY
+Kopiointi
+; Diskcopy
+STR_DISKCOPY_FROM
+L‰hteest‰...
+; From...
+STR_DISKCOPY_TO
+Kohteeseen...
+; To...
+STR_DISKCOPY_INFODISPLAY
+%s, %s k‰ytetty
+; %s, %s used
+STR_DISKCOPY_NODISK
+Levyst‰ ei ole tietoa saatavilla
+; No disk info available *
+STR_CHECKING_DISKS
+Tutkin levyt...
+; Checking disk(s)... *
+STR_DISKCOPY_READING
+Luen       %ld, %ld j‰ljell‰
+; Reading    %ld, %ld to go
+STR_DISKCOPY_WRITING
+Kirjoitan  %ld, %ld j‰ljell‰
+; Writing    %ld, %ld to go
+STR_DISKCOPY_READERROR
+Lukuvirhe uralla %ld
+; Read error on track %ld
+STR_DISKCOPY_WRITEERROR
+Kirjoitusvirhe uralla %ld
+; Write error on track %ld
+STR_DISKCOPY_INSERTSOURCE
+Laita l‰hdelevy asemaan %s
+; Insert source disk in %s
+STR_DISKCOPY_INSERTDEST
+Laita kohdelevy asemaan %s
+; Insert destination disk in %s
+STR_INSTALL_INSTALL
+K‰ynnistys
+; Install
+STR_INSTALL_NOBOOT
+Ilman
+; No Boot
+STR_INSTALL_NOINFO
+K‰ynnistyslohkotietoa ei ole
+; Bootblock info unavailable
+STR_INSTALL_NOTBOOTABLE
+Levylt‰ ei voi k‰ynnist‰‰
+; Disk is not bootable
+STR_INSTALL_NORMAL
+Tavallinen %s %s k‰ynnistyslohko
+; Normal %s %s bootblock
+STR_INSTALL_NONSTANDARD
+Ep‰tavallinen k‰ynnistyslohko
+; Non-standard bootblock
+STR_INSTALL_ERRORWRITING
+Virhe luotaessa k‰ynnistyslohkoa!
+; Error writing bootblock! *
+STR_INVALID_DISK
+Levylle ei voi luoda k‰ynnistyslohkoa
+; Disk is unsuitable for installing
+STR_INSTALL_INSTALLINGDISK
+Luodaan k‰ynnistyslohko...
+; Installing disk...
+STR_CANCEL
+Peru
+; Cancel
+STR_BUMP_NAMES
+Alkunimi
+; _Bump name
+STR_BUMPING_NAME
+Muutan nime‰...
+; Bumping disk name...
+STR_DISKCOPY_CHECK
+Tutki
+; Check *
+STR_WINDOW_FORMAT
+Alustus
+; Format
+STR_WINDOW_DISKCOPY
+Kopiointi
+; Diskcopy
+STR_WINDOW_INSTALL
+K‰ynnistys
+; Install

@@ -1,0 +1,237 @@
+## version $VER: DOpus4_Disk.ct 1.2 (10.06.01)
+STR_FORMAT_NAME
+_Name
+;#DEF _Name
+;#SET (//)
+STR_FORMAT_FFS
+_FastFileSystem
+;#DEF _Fast File System
+;#SET (//)
+STR_FORMAT_INTERNATIONAL
+_Internationaler Modus
+;#DEF _International Mode
+;#SET (//)
+STR_FORMAT_CACHING
+_Directory Caching
+;#DEF _Directory Caching
+;#SET (//)
+STR_FORMAT_TRASHCAN
+_Papierkorb einrichten
+;#DEF _Put Trashcan
+;#SET (//)
+STR_FORMAT_VERIFY
+_überprüfen
+;#DEF _Verify
+;#SET (//)
+STR_FORMAT_FORMAT
+F_ormatieren
+;#DEF Format
+;#SET (//)
+STR_FORMAT_QUICKFORMAT
+_Schnell
+;#DEF Quick Format
+;#SET (//)
+STR_FORMAT_EXIT
+_Ende
+;#DEF Exit
+;#SET (//)
+STR_FORMAT_EMPTY
+Leer
+;#DEF Empty
+;#SET (//)
+STR_FORMAT_INFODISPLAY
+%ld Spuren, %ld Bytes/Spur, %s
+;#DEF %ld tracks, %ld bytes/trk, %s
+;#SET (//)
+STR_FORMAT_FORMATTING
+Formatiere %ld, noch %ld
+;#DEF Formatting %ld, %ld to go
+;#SET (//)
+STR_FORMAT_VERIFYING
+Überprüfe  %ld, noch %ld
+;#DEF Verifying  %ld, %ld to go
+;#SET (//)
+STR_FORMAT_INITIALISING
+Initialisiere Disk...
+;#DEF Initialising disk...
+;#SET (//)
+STR_FORMAT_FORMATERROR
+Formatierfehler auf Spur %ld
+;#DEF Format error on track %ld
+;#SET (//)
+STR_FORMAT_ERRORVERIFYING
+Fehler beim Überprüfen von Spur %ld
+;#DEF Error verifying track %ld
+;#SET (//)
+STR_FORMAT_VERIFYERROR
+Prüffehler auf Spur %ld
+;#DEF Verify error on track %ld
+;#SET (//)
+STR_SUCCESS
+Fertig. Keine Fehler!
+;#DEF Operation successful
+;#SET (//)
+STR_FAILED_ERROR
+Fehler - Abgebrochen!
+;#DEF Operation failed
+;#SET (//)
+STR_MEMORY_ERROR
+Zu wenig freies RAM
+;#DEF Not enough memory
+;#SET (//)
+STR_BITMAP_ERROR
+Fehler in der Bitmap
+;#DEF Bitmap error
+;#SET (//)
+STR_DEVICE_ERROR
+Laufwerksfehler
+;#DEF Device error
+;#SET (//)
+STR_NODEVICE_ERROR
+Konnte Laufwerk nicht finden
+;#DEF Couldn't open device
+;#SET (//)
+STR_RETRY
+_Nochmal
+;#DEF Retry
+;#SET (//)
+STR_NODISKPRESENT
+Keine Disk in Laufwerk %s
+;#DEF No disk present in %s
+;#SET (//)
+STR_DISKWRITEPROTECTED
+Disk in %s ist schreibgeschützt.
+;#DEF Disk in %s is write protected
+;#SET (//)
+STR_ABORTED
+Abgebrochen...
+;#DEF Aborted...
+;#SET (//)
+STR_FORMAT_MAKINGTRASHCAN
+Erzeuge Papierkorb...
+;#DEF Creating Trashcan...
+;#SET (//)
+STR_DISK_NOT_BLANK
+Disk in Laufwerk %s ist nicht leer!\n\nDatenträger \"%s\" enthält %s.\n\nAlle Daten werden gelöscht!\nFortfahren mit %s?
+;#DEF Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\nAll data will be erased.\nChoose Proceed to continue the %s.
+;#SET (//)
+STR_PROCEED
+_Weiter
+;#DEF Proceed
+;#SET (//)
+STR_CHECKING_DESTINATION
+Überprüfe Zieldisk...
+;#DEF Checking destination disk...
+;#SET (//)
+STR_DISKCOPY_DISKCOPY
+_Kopieren
+;#DEF Diskcopy
+;#SET (//)
+STR_DISKCOPY_FROM
+Von...
+;#DEF From...
+;#SET (//)
+STR_DISKCOPY_TO
+Nach...
+;#DEF To...
+;#SET (//)
+STR_DISKCOPY_INFODISPLAY
+%s, %s belegt
+;#DEF %s, %s used
+;#SET (//)
+STR_DISKCOPY_NODISK
+Keine Disk-Informationen verfügbar
+;#DEF No disk info available
+;#SET (//)
+STR_CHECKING_DISKS
+Überprüfe Disks
+;#DEF Checking disk(s)...
+;#SET (//)
+STR_DISKCOPY_READING
+Lese %ld, noch %ld
+;#DEF Reading    %ld, %ld to go
+;#SET (//)
+STR_DISKCOPY_WRITING
+Schreibe   %ld, noch %ld
+;#DEF Writing    %ld, %ld to go
+;#SET (//)
+STR_DISKCOPY_READERROR
+Lesefehler auf Spur %ld
+;#DEF Read error on track %ld
+;#SET (//)
+STR_DISKCOPY_WRITEERROR
+Schreibfehler auf Spur %ld
+;#DEF Write error on track %ld
+;#SET (//)
+STR_DISKCOPY_INSERTSOURCE
+Quelldisk in Laufwerk %s einlegen
+;#DEF Insert source disk in %s
+;#SET (//)
+STR_DISKCOPY_INSERTDEST
+Zieldisk in Laufwerk %s einlegen
+;#DEF Insert destination disk in %s
+;#SET (//)
+STR_INSTALL_INSTALL
+_Installieren
+;#DEF Install
+;#SET (//)
+STR_INSTALL_NOBOOT
+_BB entfernen
+;#DEF No Boot
+;#SET (//)
+STR_INSTALL_NOINFO
+Keine BootBlock-Infos verfügbar
+;#DEF Bootblock info unavailable
+;#SET (//)
+STR_INSTALL_NOTBOOTABLE
+Disk ist nicht bootfähig.
+;#DEF Disk is not bootable
+;#SET (//)
+STR_INSTALL_NORMAL
+Normaler OS%s %s-Bootblock
+;#DEF Normal %s %s bootblock
+;#SET (//)
+STR_INSTALL_NONSTANDARD
+Kein Standard-BootBlock
+;#DEF Non-standard bootblock
+;#SET (//)
+STR_INSTALL_ERRORWRITING
+Fehler beim Schreiben des BootBlocks
+;#DEF Error writing bootblock!
+;#SET (//)
+STR_INVALID_DISK
+Disk kann nicht installiert werden
+;#DEF Disk is unsuitable for installing
+;#SET (//)
+STR_INSTALL_INSTALLINGDISK
+Installiere Disk...
+;#DEF Installing disk...
+;#SET (//)
+STR_CANCEL
+_Abbrechen
+;#DEF Cancel
+;#SET (//)
+STR_BUMP_NAMES
+_Neuer Name
+;#DEF _Bump name
+;#SET (//)
+STR_BUMPING_NAME
+Erzeuge neuen Disknamen...
+;#DEF Bumping disk name...
+;#SET (//)
+STR_DISKCOPY_CHECK
+Ü_berprüfen
+;#DEF Check
+;#SET (//)
+STR_WINDOW_FORMAT
+Formatieren
+;#DEF Format
+;#SET (//)
+STR_WINDOW_DISKCOPY
+Disketten kopieren
+;#DEF Diskcopy
+;#SET (//)
+STR_WINDOW_INSTALL
+BootBlock installieren
+;#DEF Install
+;#SET (//)

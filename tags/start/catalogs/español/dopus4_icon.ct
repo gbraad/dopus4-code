@@ -1,0 +1,203 @@
+## version $VER: DOpus4_Icon.catalog 1.3 (16.05.2001)
+## language español
+## codeset 0
+;
+; ------------------------------------------------------------------------
+; History:
+;
+; 1.0 (2.3.2001)
+;
+; - Initial version, translated by Javier de las Rivas <javierdlr@jazzfree.com>
+;
+;
+; 1.1 (27.3.2001)
+;
+; - First version proofread by David Rey <david@saug.org>
+;
+; - Cleaned up this source to make it more readable, added the missing
+;   'codeset' command
+;
+; - Fixed typos in STR_WRITE_PROTECTED and STR_LAST_CHANGED
+;
+; - Changed the wording of STR_REMAP_COLORS
+;
+; - Fixed the translation of
+;
+;   STR_TOOLTYPES
+;   STR_DEFAULT_TOOL
+;   STR_READABLE
+;   STR_WRITABLE
+;   STR_STACK
+;   STR_KICK
+;   STR_APPICON
+;
+; - Changed the shortcuts defined in STR_ARCHIVED and STR_EXECUTABLE to
+;   make them match the Spanish AmigaOS 3.9 locale
+;
+;
+; 1.2 (10.5.2001)
+;
+; - Reduced the size of STR_REMAP_COLORS, STR_TOOLTYPES, STR_DEFAULT_TOOL
+;   and STR_STACK to make it usable with Topaz/8  <sigh>
+;
+; - Removed the fake shortcut from STR_COMMENT and STR_DEFAULT_TOOL
+;
+; - Fixed a minor typo in STR_BLOCK_SIZE
+;
+;
+; 1.3 (16.5.2001)
+;
+; - *Changed strings* for DOpus4_Icon 1.7h (gadgets have now a shortcut):
+;
+;   STR_REMAP_COLORS
+;   STR_SAVE
+;   STR_SKIP
+;   STR_CANCEL
+;   STR_DELETE
+;   STR_NEW
+;   STR_COMMENT
+;   STR_DEFAULT_TOOL
+;   STR_STACK
+;
+; ------------------------------------------------------------------------
+;
+STR_REMAP_COLORS
+_Remapear col.
+; Rema_p colors
+;
+STR_SAVE
+_Guardar
+; Sa_ve
+;
+STR_SKIP
+Sal_tar
+; S_kip
+;
+STR_CANCEL
+_Cancelar
+; _Cancel
+;
+STR_DELETE
+Borrar
+; De_lete
+;
+STR_NEW
+_Nuevo
+; _New
+;
+STR_TOOLTYPES
+Tipos:
+; Tool types:
+;
+STR_COMMENT
+C_omentario:
+; Co_mment:
+;
+STR_DEFAULT_TOOL
+_Herramienta:
+; De_fault tool:
+;
+STR_VALIDATING
+Validando
+; Validating
+;
+STR_WRITE_PROTECTED
+Sólo lectura
+; Write protected
+;
+STR_READ_WRITE
+Lectura/Escritura
+; Read/Write
+;
+STR_SCRIPT
+_Script
+; _Script
+;
+STR_ARCHIVED
+_Archivado
+; _Archived
+;
+STR_READABLE
+_Legible
+; _Readable
+;
+STR_WRITABLE
+_Escribible
+; _Writable
+;
+STR_EXECUTABLE
+E_jecutable
+; _Executable
+;
+STR_DELETABLE
+_Borrable
+; _Deletable
+;
+STR_BLOCKS
+Bloques
+; Blocks
+;
+STR_USED
+Usados
+; Used
+;
+STR_FREE
+Libres
+; Free
+;
+STR_BLOCK_SIZE
+Tam. bloque
+; Block size
+;
+STR_CREATED
+Creado
+; Created
+;
+STR_LAST_CHANGED
+Último cambio
+; Last changed
+;
+STR_BYTES
+Bytes
+; Bytes
+;
+STR_STACK
+_Pila
+; S_tack
+;
+STR_DISK
+Disco
+; Disk
+;
+STR_DRAWER
+Cajón
+; Drawer
+;
+STR_TOOL
+Herramienta
+; Tool
+;
+STR_PROJECT
+Proyecto
+; Project
+;
+STR_TRASH
+Papelera
+; Trash
+;
+STR_DEVICE
+Volumen
+; Device
+;
+STR_KICK
+Kickstart
+; Kick
+;
+STR_APPICON
+Icono de aplicación
+; AppIcon
+;
+STR_ICON
+Icono
+; Icon
+;

@@ -1,0 +1,235 @@
+## chunk AUTH Massimo Mascia e Francesco Mancuso
+## language italiano
+## version $VER: DOpus4_Print.catalog 1.2 (07.06.2001)
+STR_SELECT_FILE
+Scegli file
+;#DEF Select file
+;#SET (//)
+STR_ABORT
+_Interrompi
+;#DEF Abort
+;#SET (//)
+STR_CONTINUE
+_Continua
+;#DEF Continue
+;#SET (//)
+STR_OKAY
+_Okay
+;#DEF Okay
+;#SET (//)
+STR_CANCEL
+_Cancella
+;#DEF Cancel
+;#SET (//)
+STR_FILE
+File
+;#DEF File
+;#SET (//)
+STR_TOP_MARGIN
+Margine sup.
+;#DEF Top Margin
+;#SET (//)
+STR_BOTTOM_MARGIN
+Margine inf.
+;#DEF Bottom Margin
+;#SET (//)
+STR_LEFT_MARGIN
+Margine sin.
+;#DEF Left Margin
+;#SET (//)
+STR_RIGHT_MARGIN
+Margine des.
+;#DEF Right Margin
+;#SET (//)
+STR_TAB_SIZE
+Dim. tab.
+;#DEF Tab size
+;#SET (//)
+STR_PRINT_PITCH
+Corpo stampa
+;#DEF Print pitch
+;#SET (//)
+STR_QUALITY
+Densità
+;#DEF Density
+;#SET (//)
+STR_EJECT
+Espelli ultima pag.
+;#DEF Eject final page
+;#SET (//)
+STR_CONFIGURATION
+configurazione...
+;#DEF configuration...
+;#SET (//)
+STR_TITLE
+Titolo
+;#DEF Title
+;#SET (//)
+STR_DATE
+Data
+;#DEF Date
+;#SET (//)
+STR_PAGE_NUMBER
+N° pagina
+;#DEF Page no.
+;#SET (//)
+STR_TEXT_STYLE
+Stile testo
+;#DEF Text style
+;#SET (//)
+STR_PRINTER
+Stampante
+;#DEF Printer
+;#SET (//)
+STR_PRINT
+Stampa
+;#DEF Print
+;#SET (//)
+STR_EXIT
+Esci
+;#DEF Exit
+;#SET (//)
+STR_OUTPUT_TO
+Output:
+;#DEF Output to...
+;#SET (//)
+STR_PICA
+Pica
+;#DEF Pica
+;#SET (//)
+STR_ELITE
+Elite
+;#DEF Elite
+;#SET (//)
+STR_FINE
+Fine
+;#DEF Fine
+;#SET (//)
+STR_NORMAL
+Normale
+;#DEF Normal
+;#SET (//)
+STR_BOLD
+Grassetto
+;#DEF Bold
+;#SET (//)
+STR_ITALICS
+Corsivo
+;#DEF Italics
+;#SET (//)
+STR_UNDERLINED
+Sottolin.
+;#DEF UnLined
+;#SET (//)
+STR_DOUBLESTRIKE
+Doppio
+;#DEF DbStrik
+;#SET (//)
+STR_SHADOW
+Ombregg.
+;#DEF Shadow
+;#SET (//)
+STR_DRAFT
+Bozza
+;#DEF Draft
+;#SET (//)
+STR_LETTER
+Lettera
+;#DEF Letter
+;#SET (//)
+STR_HEADER
+Testata
+;#DEF Header
+;#SET (//)
+STR_FOOTER
+Piè pag.
+;#DEF Footer
+;#SET (//)
+STR_SIZE
+Dimens.
+;#DEF Size
+;#SET (//)
+STR_PROTECTION
+Protezione
+;#DEF Protection
+;#SET (//)
+STR_COMMENT
+Commento
+;#DEF Comment
+;#SET (//)
+STR_FILETYPE
+Formato file
+;#DEF File type
+;#SET (//)
+STR_PRINT_DOT
+Stampa...
+;#DEF Print...
+;#SET (//)
+STR_PRINTDIR
+StampaDir
+;#DEF Printdir
+;#SET (//)
+STR_UNABLE_TO_OPEN_FILE
+Non riesco ad aprire il file. Riprovo?
+;#DEF Unable to open file. Try again?
+;#SET (//)
+STR_UNABLE_TO_OPEN_OUTPUT
+Non posso aprire il file in uscita. Riprovo?
+;#DEF Unable to open output file. Try again?
+;#SET (//)
+STR_UNABLE_TO_OPEN_PRINTER
+La stampante non risponde. Riprovo?
+;#DEF Unable to open printer. Try again?
+;#SET (//)
+STR_ERROR_PRINTING_DIR
+Errore stampa directory. Riprovo?
+;#DEF Error printing directory. Try again?
+;#SET (//)
+STR_INCORRECT_PASSWORD
+La password non è corretta. Riprovo?
+;#DEF Incorrect password entered. Try again?
+;#SET (//)
+STR_PRINT_ERROR
+Errore di stampa! Riprovo?
+;#DEF Print error! Try again?
+;#SET (//)
+STR_REALLY_ABORT
+Vuoi davvero annullare la stampa?
+;#DEF Really abort print operation?
+;#SET (//)
+STR_CREATING_FILE
+Creo il file...
+;#DEF Creating file
+;#SET (//)
+STR_OPENING_PRINTER
+Attivo stampante
+;#DEF Opening printer
+;#SET (//)
+STR_LOADING_FILE
+Carico il file...
+;#DEF Loading file..
+;#SET (//)
+STR_PRINTING_FILE
+Stampo il file...
+;#DEF Printing file...
+;#SET (//)
+STR_PRESS_ESCAPE
+[ESC] per annullare
+;#DEF Press ESC to abort
+;#SET (//)
+STR_PAGE
+Pagina
+;#DEF Page
+;#SET (//)
+STR_COMPLETE
+completo
+;#DEF complete
+;#SET (//)
+STR_TOFILE
+File
+;#DEF File
+;#SET (//)
+STR_PRINTWIN
+Stampa
+;#DEF Print
+;#SET (//)
