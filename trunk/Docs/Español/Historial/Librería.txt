@@ -1,3 +1,9 @@
+22.21 (24.2.2002)
+
+- Corregido el problema de los colores de fondo de la imagen de la
+  marca de revisado.
+
+
 22.20 (25.11.2001)
 
 - Pequeñas correcciones

@@ -7,6 +7,38 @@ mientras que otros no tienen en mi opinión demasiado sentido. Utilice
 la versión que más le guste.
 
 
+4.17 (24.2.2002)
+
+- El comando "Parent" sobre el árbol de directorios devuelve ahora la
+  presentación anterior del directorio.
+
+- Los parámetros OutputCmd y OutputWindow de los comandos ARexx "Query"
+  y "Modify" funcionan ahora correctamente.
+
+- La ventana de selección por patrón permite ahora buscar también según
+  el comentario de los ficheros.
+
+- El visor abrirá ahora su ventana aunque sus coordenadas no encajan
+  con la pantalla.
+
+- Soporte preliminar para ayuda AmigaGuide.
+
+- Esperará silenciosamente a que todas las ventanas ajenas abiertas en
+  la pantalla se cierren antes de cerrar la pantalla y abandonar el
+  sistema.
+
+- Soporte preliminar para datatypes en la función "Show".
+
+- Limpiado el código de manejo de entrada del usuario.
+
+- Añadido soporte para el chunk 8SVX PAN.
+
+- Soporte AHI para las muestras de sonido (los módulos siguen
+  reproduciéndose mediante inovamusic.library a través del
+  audio.device). Utilice el tipo de herramienta USEAHI en el
+  icono del programa para activarlo.
+
+
 4.17 (27.1.2002)
 
 - Corregidos algunos impactos de Enforcer.

@@ -1,3 +1,8 @@
+4.17 (24.2.2002)
+
+- Correcciones gráficas para tipos de letra con una anchura distinta de 8
+  (por ejemplo, XEN)
+
 4.16 (25.11.2001)
 
 - Utiliza ConfigOpus.info como icono de aplicación, en caso de estar
