@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 1.14 (09.02.2002)
+## version $VER: DOpus4.catalog 1.15 (30.05.2002)
 ## codeset 0
 ## language español
 ;
@@ -377,9 +377,19 @@ STR_ADDING_ICON
 añadiendo icono a
 ; adding an icon to
 ;
+STR_SELECT_COMMENT
+Comentario
+; Comment
+;
 STR_ENTER_COMMENT
 Introduzca comentario
 ; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+No puede cerrarse la pantalla debido a la presencia\n\
+de ventanas extrañas. Directory Opus esperará\n\
+tranquilamente a que sean cerradas.
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
 ;
 STR_ENTER_PASSWORD
 Introduzca contraseña
@@ -395,7 +405,7 @@ Introduzca cadena a buscar
 ;
 STR_STRING_NOT_FOUND
 No se ha encontrado la cadena.
-; Sorry! String could not be found!;
+; Sorry! String could not be found!
 ;
 STR_MATCHED_FILES
 Se han encontrado coincidencias con %ld ficheros.
@@ -608,7 +618,7 @@ Sa_ltar
 ;
 STR_ALL
 T_odos
-; A_ll
+; _All
 ;
 STR_REMOVE
 Eliminar
@@ -1225,27 +1235,27 @@ Opciones de listado
 ;
 STR_FILE_NAME
 Nombre
-; File name
+; Name
 ;
 STR_FILE_SIZE
 Tamaño
-; File size
+; Size
 ;
 STR_PROTECTION_BITS
 Banderas de protección
-; Protection bits
+; Protection
 ;
 STR_CREATION_DATE
 Fecha
-; Creation date
+; Timestamp
 ;
 STR_FILE_COMMENT
 Comentario
-; File comment
+; Comment
 ;
 STR_FILE_TYPE
 Tipo
-; File type;
+; File type
 ;
 STR_OWNER
 Dueño
@@ -1288,18 +1298,18 @@ STR_QUERY_REMOVE_ASSIGN
 ; Do you really wish to remove \"%s\" assign?
 ;
 STR_VERSION_CONTENTS
-%-41s\n\n\
- Directory Opus%23s\n\
- dopus.library%24s\n\
- Hora de compilación%18s\n\
- Fecha de compilación%17s\n\
- Puerto ARexx/Pantalla%16s\n\n\
- Kickstart%28s\n\
- Workbench%28s\n\
- Procesador%27s\n\
- Coprocesador%25s\n\
- Juego de chips%23s\n\
- Sistema de vídeo%21s
+%-42s\n\n\
+  Directory Opus%24s  \n\
+  dopus.library%25s  \n\
+  Hora de compilación%19s  \n\
+  Fecha de compilación%18s  \n\
+  Puerto ARexx/Pantalla%17s  \n\n\
+  Kickstart%29s  \n\
+  Workbench%29s  \n\
+  Procesador%28s  \n\
+  Coprocesador%26s  \n\
+  Juego de chips%24s  \n\
+  Sistema de vídeo%22s  \0
 ; %-42s\n\n\
 ;   Directory Opus%24s  \n\
 ;   DOpus Library%25s  \n\
@@ -1311,7 +1321,7 @@ STR_VERSION_CONTENTS
 ;   Processor%29s  \n\
 ;   Math co-processor%21s  \n\
 ;   Graphics chipset%22s  \n\
-;   Video system%26s
+;   Video system%26s  \0
 ;
 STR_VERSION_HEADER
 Información de versión...
@@ -1347,7 +1357,7 @@ Ordenar por
 ;
 STR_NAMESORT_MENU
 Nombres de fichero
-; Filename sorting
+; Name sorting
 ;
 STR_FILE_EXTENSION
 Extensión
@@ -1360,3 +1370,28 @@ Acep_tar
 STR_PROTECT_ALL
 T_odos
 ; A_ll
+;
+STR_ENTER_MAKELINK_PARAMS
+Introduzca parámetros para enlace
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Blando
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Duro
+; Hard
+;
+STR_MAKELINK_TYPE
+Tipo
+; Type
+;
+STR_MAKELINK_NAME
+Origen
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Destino
+; Link destination
+;
