@@ -38,11 +38,12 @@ char
     *systemgads[14],
     *gadgetgads[11],
     *gadflaglist[17],
-    *functypelist[13],
+    *functypelist[14],
 
     ftype_funcmap[]={
         FTFUNC_CLICKMCLICK,
         FTFUNC_DOUBLECLICK,
+        FTFUNC_MMBCLICK,
         FTFUNC_ANSIREAD,
         FTFUNC_HEXREAD,
         FTFUNC_LOOPPLAY,

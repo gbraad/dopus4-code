@@ -114,6 +114,7 @@ struct DirectoryWindow {
     char group_name[32];
     struct xadArchiveInfo *xai;
     char *arcname;
+    char arcpassword[32];
 };
 
 #define DWF_ABORTED  1

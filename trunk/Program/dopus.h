@@ -102,11 +102,6 @@ the existing commercial status of Directory Opus 5.
 #define DOPUSLIB_VERSION 22
 #define DOPUSLIB_REVISION 20
 
-#define DOPUS_VERSION  4
-#define DOPUS_REV      "17"
-
-#define DOPUS_REVISION DOPUS_REV
-
 #define OSVER_34 0
 #define OSVER_37 1
 #define OSVER_38 2

@@ -33,6 +33,7 @@ strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
 	$(FLEXCAT) /catalogs/DOpus4.cd strings.c=strings_c.sd
 
 .c.o:
+	@touch about.c
 	$(CC) -c $*.c $(CCOPTS) -O3 -fomit-frame-pointer $(INC) -DWITHPCHG -DDEBUG -Wall
 # -g
 

@@ -620,11 +620,11 @@ void init_strings()
     for (a=0;a<9;a++) palettenames[a+4]=cfg_string[STR_PALETTE_TINT+a];
     palettenames[13]=NULL;
 
-    for (a=0;a<2;a++)
+    for (a=0;a<3;a++)
         lsprintf(functypelist[a],"   %-11s %s",
             cfg_string[STR_FTYPE_ACTION],cfg_string[STR_FTYPE_CLICKMCLICK+a]);
     for (a=0;a<10;a++)
-        lsprintf(functypelist[a+2],"   %-11s %s",
+        lsprintf(functypelist[a+3],"   %-11s %s",
             cfg_string[STR_FTYPE_COMMAND],ftype_funcs[a]);
 
     fileview_types[0]=cfg_string[STR_FILEVIEW_HEX];

@@ -621,6 +621,7 @@ struct DefaultString
         {STR_PALETTE_A2024,"A2024"},
         {STR_FTYPE_CLICKMCLICK,"Click-m-click"},
         {STR_FTYPE_DOUBLECLICK,"Double-click"},
+        {STR_FTYPE_MMBCLICK,"MMB-click"},
         {STR_FUNCTION_COMMAND,"Command"},
         {STR_FUNCTION_AMIGADOS,"AmigaDOS"},
         {STR_FUNCTION_WORKBENCH,"Workbench"},

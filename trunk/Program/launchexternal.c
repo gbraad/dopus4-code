@@ -284,7 +284,7 @@ configdone:
       fixcstuff(&cstuff);
       CheckConfig(&cstuff);
       SetUp(2);
-      config_changed=1;
+//      config_changed=1;
      }
     else
      {

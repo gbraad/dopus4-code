@@ -6,8 +6,16 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (12.05.2002):
+4.17 (19.05.2002):
 - few hits removed
+- New filetype action: MMB-click (needs new ConfigOpus to configure). Do not set MMB as a
+uniconify/activate hotkey if you want to use that feature!
+- Lister is not re-readed after CLONE function
+- Files and dirs copied from a listed archive have their original comment
+preserved
+- support for encrypted archives
+- CLI parameters template available through ? or HELP parameter when
+starting from CLI
 - Files and dirs copied from a listed archive have their original datestamp
 and protection bits preserved
 - Filter works for selected files too

@@ -724,7 +724,7 @@ extern short
     fontsizegadget_xy[2],
     editclassgadgets_xy[14][2],
     screen_sliders_gadgets_xy[2][2];
-
+/*
 #define FTFUNC_AUTOFUNC1   0
 #define FTFUNC_AUTOFUNC2   1
 #define FTFUNC_DOUBLECLICK 2
@@ -737,7 +737,7 @@ extern short
 #define FTFUNC_AUTOFUNC4   9
 #define FTFUNC_READ        10
 #define FTFUNC_SHOW        11
-
+*/
 #define FREQ_FILETYPE  10
 #define FREQ_FILECLASS 11
 #define FREQ_ARGREQ    12

@@ -76,6 +76,11 @@ D(bug("Allocated dir->xai: %lx\nOpening the archive...\n",dir->xai));
          if(!(xadGetInfoA(dir->xai, ti)))
           {
 D(bug("done\n"));
+           if (dir->xai->xai_Flags & XADAIF_CRYPTED)
+            {
+D(bug("Encrypted archive!\n"));
+             whatsit(globstring[STR_ENTER_PASSWORD],32,dir->arcpassword,NULL);
+            }
            if (dir->xai->xai_DiskInfo)
             {
              struct xadArchiveInfo *xai2;
@@ -197,6 +202,7 @@ D(bug("Freeing dir->xai: %lx\n",dir->xai));
    dir->arcname = NULL;
    xadFreeObject(dir->xai, TAG_END);
    dir->xai = NULL;
+   dir->arcpassword[0]=0;
   }
 }
 
@@ -264,13 +270,17 @@ D(bug("unarcfiledir: arcdir = %s\n",arcdir));
      strcpy(arcname,path);
      strcat(arcname,namebuf);
      for (xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next) if (LStrCmpI(xfi->xfi_FileName,arcdir) == 0) break;
-     if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER,xfi->xfi_EntryNumber,XAD_OUTFILENAME,(ULONG)arcname,TAG_END)))
+     if (xfi) if (!(xadFileUnArc(dir->xai,XAD_ENTRYNUMBER, xfi->xfi_EntryNumber,
+                                          XAD_OUTFILENAME, (ULONG)arcname,
+                                          dir->arcpassword[0]?XAD_PASSWORD:TAG_IGNORE, dir->arcpassword,
+                                          TAG_END)))
       {
        struct DateStamp ds;
 
        xadConvertDates(XAD_DATEXADDATE, (Tag)&xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag)&ds, TAG_END);
        SetFileDate(arcname,&ds);
        SetProtection(arcname,xfi->xfi_Protection);
+       if (xfi->xfi_Comment) SetComment(arcname,xfi->xfi_Comment);
 
        strcpy(str_arcorgname,file);
 D(bug("str_arcorgname set\n"));
@@ -302,5 +312,4 @@ D(bug("arcfillfib: %s (%s)\n",entry->name?entry->name:"<NULL>",entry->comment?en
   fib->fib_OwnerUID = entry->owner_id;
   fib->fib_OwnerGID = entry->group_id;
 }
-
 

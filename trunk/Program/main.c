@@ -189,17 +189,6 @@ char *argv[];
 
     main_proc->pr_WindowPtr=windowptr_save;
 
-    /* Construct the version string from the #defined version numbers */
-
-#ifdef DOPUS_SECRET_VERSION
-    lsprintf(str_version_string,"%ld.%s",DOPUS_VERSION,DOPUS_SECRET_VERSION);
-#else
-    lsprintf(str_version_string,"%ld.%s",DOPUS_VERSION,DOPUS_REVISION);
-#endif
-#ifdef DOPUS_LETTERREV
-    strcat(str_version_string,DOPUS_LETTERREV);
-#endif
-
     /* Initialise various data */
 /*
 D(bug("DOpusBase->cycletop: %lx\n",DOpusBase->pdb_cycletop));
@@ -240,15 +229,6 @@ D(bug("beepwave: %lx\n",beepwave));
     for (a=0;a<16;a++) screen_pens[a].alloc=0;
 
     func_reselection.reselection_list=NULL;
-
-    old_pr_cis=main_proc->pr_CIS;
-    old_pr_cos=main_proc->pr_COS;
-    old_pr_consoletask=main_proc->pr_ConsoleTask;
-
-    nil_file_handle=Open("NIL:",MODE_NEWFILE);
-    main_proc->pr_CIS=nil_file_handle;
-    main_proc->pr_COS=nil_file_handle;
-    main_proc->pr_ConsoleTask=(APTR)((struct FileHandle *)BADDR(nil_file_handle))->fh_Type;
 
     scrdata_is_pal=getpal();
 
@@ -321,6 +301,15 @@ D(bug("beepwave: %lx\n",beepwave));
       user_appicon->do_CurrentX = NO_ICON_POSITION;
       user_appicon->do_CurrentY = NO_ICON_POSITION;
      }
+
+    old_pr_cis=main_proc->pr_CIS;
+    old_pr_cos=main_proc->pr_COS;
+    old_pr_consoletask=main_proc->pr_ConsoleTask;
+
+    nil_file_handle=Open("NIL:",MODE_NEWFILE);
+    main_proc->pr_CIS=nil_file_handle;
+    main_proc->pr_COS=nil_file_handle;
+    main_proc->pr_ConsoleTask=(APTR)((struct FileHandle *)BADDR(nil_file_handle))->fh_Type;
 
     if ((s=strstri(BaseName(str_config_basename),".CFG"))) *s=0;
 

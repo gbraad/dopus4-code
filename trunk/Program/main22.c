@@ -428,7 +428,7 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
         nextfile=file->next;
 
         if ((!file->selected && !globflag) ||
-            (str_filter_parsed[0] && (LMatchPatternI(str_filter_parsed,file->name)==FALSE)))
+            ((file->type <= ENTRY_FILE) && str_filter_parsed[0] && (LMatchPatternI(str_filter_parsed,file->name)==FALSE)))
          {
           file=nextfile;
           continue;
@@ -1775,6 +1775,9 @@ D(bug("recursedir returned %ld\n",a));
         case FUNC_ADDICON:
         case FUNC_ICONINFO:
             update_buffer_stamp(act,1);
+            break;
+        case FUNC_COPYAS:
+            if (specflags&FUNCFLAGS_COPYISCLONE) update_buffer_stamp(act,1);
             break;
 
         case FUNC_COMMENT:

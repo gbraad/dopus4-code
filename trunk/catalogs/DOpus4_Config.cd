@@ -2038,6 +2038,9 @@ Click-m-click
 STR_FTYPE_DOUBLECLICK (//)
 Double-click
 ;
+STR_FTYPE_MMBCLICK (//)
+MMB-click
+;
 STR_FUNCTION_COMMAND (//)
 Command
 ;

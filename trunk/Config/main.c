@@ -179,9 +179,9 @@ char *argv[];
     wsave=myproc->pr_WindowPtr;
     myproc->pr_WindowPtr=(APTR)-1;
 
-    for (a=0;a<12;a++)
+    for (a=0;a<13;a++)
         if (!(functypelist[a]=LAllocRemember(&mainkey,40,MEMF_CLEAR))) quit();
-    functypelist[12]=NULL;
+    functypelist[13]=NULL;
 
     if (!cmdport && !(config=(struct Config *)AllocMem(sizeof(struct Config),MEMF_CLEAR)))
         quit();

@@ -29,23 +29,70 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
+#include "stabs.h"
 
-#define BETAREV
+#define DOPUS_VERSION  "4"
+#define DOPUS_REV      "17"
+#define DOPUS_BETAREV  "pre10"
+
+#define DOPUS_REVISION DOPUS_REV
 
 #ifdef __MORPHOS__
 char _ProgramName[] = "DirectoryOpus";
 #endif
 
-char *version="$VER: Directory Opus 4.17" BETAREV " (" __DATE__ ")";
+char *version="$VER: Directory Opus " DOPUS_VERSION "." DOPUS_REVISION DOPUS_BETAREV " (" __DATE__ ")";
 
 void about()
 {
     char buf[1024];
 
-    lsprintf(buf,globstring[STR_ABOUT],"Directory Opus 4.17" BETAREV ,"Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
+    lsprintf(buf,globstring[STR_ABOUT],"Directory Opus " DOPUS_VERSION "." DOPUS_REVISION DOPUS_BETAREV ,"Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
     simplerequest(buf,globstring[STR_CONTINUE],NULL);
 }
 
+static char *clihelp = "%s by %s\n\n"\
+           "Usage: DirectoryOpus [?/-opt1] [-opt2] ... [optN] [dir]\n\n"\
+           "\twhere:\n\n"\
+           "?\tThis help\n"\
+           "-optX\tis one or more of:\n\n"\
+           "\t-i  Start iconified\n"\
+           "\t-b  Start iconified to buttons\n"\
+           "\t-c  Load configuration from file, ie. -cENV:DO.CFG\n"\
+           "\t-g  Do not check for other copies running\n"\
+           "\t-q  ???\n"\
+           "\t-Q  ???\n"\
+           "\t-x  Forces opening xfdmaster.library (XPK support)\n"\
+           "\t-X  Forces opening xadmaster.library (XAD support)\n"\
+           "dir\tDirectory to display in left lister on startup\n\n";
+static char *rdatemplate = "?=HELP/S";
+
+extern struct WBStart *_WBenchMsg;
+extern void *__SaveSP;
+
+void printtemplate(void)
+{
+  /* Construct the version string from the #defined version numbers */
+
+  strcpy(str_version_string,DOPUS_VERSION "." DOPUS_REVISION DOPUS_BETAREV);
+
+  if (! _WBenchMsg)
+   {
+    struct RDArgs *rda;
+    ULONG  rda_res = 0;
+    struct Library *DOSBase = OpenLibrary("dos.library",37);
+
+    if ((rda = ReadArgs(rdatemplate,&rda_res,NULL)))
+     {
+      if (rda_res) Printf(clihelp,(LONG)"Directory Opus " DOPUS_VERSION "." DOPUS_REVISION DOPUS_BETAREV, (LONG)"Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
+      FreeArgs(rda);
+     }
+    CloseLibrary(DOSBase);
+    if (rda_res) asm("movel %0,sp;move.l #0,%d0;rts"::"r"(__SaveSP):"sp"); // quits immediately
+   }
+}
+
+ADD2INIT(printtemplate,-75); /* between cpucheck and detach functions */
 
 char *comp_date=__DATE__,*comp_time=__TIME__;
 
@@ -63,7 +110,7 @@ void give_version_info()
     UWORD ver,rev;
     int proc,fpu;
 
-    lsprintf(prog_ver_buf,"v%s" BETAREV,str_version_string);
+    lsprintf(prog_ver_buf,"v%s",str_version_string);
     lsprintf(lib_ver_buf,"v%ld.%ld",
         DOpusBase->LibNode.lib_Version,DOpusBase->LibNode.lib_Revision);
 
@@ -89,7 +136,7 @@ void give_version_info()
     {
         struct Library *VersionBase;
 
-        if (VersionBase=OpenLibrary("version.library",0)) {
+        if ((VersionBase=OpenLibrary("version.library",0))) {
             ver=VersionBase->lib_Version;
             rev=VersionBase->lib_Revision;
             CloseLibrary(VersionBase);
@@ -117,7 +164,7 @@ void give_version_info()
     }
     else proc=0;
 
-    lsprintf(proc_buf,"680%02ld",proc);
+    lsprintf(proc_buf,"68%03ld",proc);
 
     fpu = 0;
     if (SysBase->AttnFlags & AFF_68881)
@@ -133,19 +180,10 @@ void give_version_info()
          }
        }
      }
-    switch (fpu)
-     {
-      case 881: strcpy(coproc_buf,"68881"); break;
-      case 882: strcpy(coproc_buf,"68882"); break;
-      case  40: strcpy(coproc_buf,"68040"); break;
-      case  60: strcpy(coproc_buf,"68060");  break;
-//      default:  strcpy(coproc_buf,"None");
-      default:  strcpy(coproc_buf,globstring[STR_PROTECT_NONE]); //HUX
-     }
+    lsprintf(coproc_buf,fpu?"68%03ld":globstring[STR_PROTECT_NONE],fpu);
 
     if (FindName(&SysBase->LibList,"rtg.library")) strcpy(gfx_buf,"P96");
     else if (FindName(&SysBase->LibList,"cybergraphics.library")) strcpy(gfx_buf,"CGX");
-//    else strcpy(gfx_buf,"Native");
     else strcpy(gfx_buf,globstring[STR_GFX_NATIVE]);
 
     lsprintf(buf,globstring[STR_VERSION_CONTENTS],globstring[STR_VERSION_HEADER],

@@ -102,7 +102,7 @@ the existing commercial status of Directory Opus 5.
 #define FTYC_COMMANDOK  11
 
 /* FileType Functions */
-
+/*
 #define FTFUNC_AUTOFUNC1   0
 #define FTFUNC_AUTOFUNC2   1
 #define FTFUNC_DOUBLECLICK 2
@@ -115,7 +115,7 @@ the existing commercial status of Directory Opus 5.
 #define FTFUNC_AUTOFUNC4   9
 #define FTFUNC_READ        10
 #define FTFUNC_SHOW        11
-
+*/
 /* Curly-Bracket Sequences */
 
 #define FUNC_QUERYINFO   235
