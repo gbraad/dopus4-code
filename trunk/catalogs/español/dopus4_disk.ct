@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Disk.catalog 1.3 (11.12.2001)
+## version $VER: DOpus4_Disk.catalog 1.3 (14.01.2002)
 ## language español
 ## codeset 0
 ;
@@ -245,9 +245,9 @@ Install
 ; Install
 ;
 STR_DISK_NOT_BLANK_FORMAT
-formatear.
+formatear
 ; Format
 ;
 STR_DISK_NOT_BLANK_DISKCOPY
-copiar.
+copiar
 ; Diskcopy
