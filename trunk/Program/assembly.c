@@ -199,107 +199,81 @@ notnexttab:
 
 int smartcountlines(struct ViewData *vd)
 {
-    register unsigned int size, sizebak;
-
-    register char *buf, *lws = NULL;
-
-    register unsigned int linecount, hexcount;
-    register unsigned short int charcount, max_line_length/*, mll_p*/;
-    register BOOL last_was_escape;
+    UBYTE *buf, *lws;
+    ULONG size;
+    ULONG linecount, hexcount;
+    UWORD charcount /*, mll_p*/;
 
     size = vd->view_file_size;
-    sizebak = size;
     buf = vd->view_text_buffer;
-    max_line_length = vd->view_max_line_length;
 
+    lws = NULL;
     linecount = 0;
     charcount = 0;
     hexcount = 0;
 //    mll_p = max_line_length - 10;
-    last_was_escape = FALSE;
 
     D(bug("tabsize: %ld\n",vd->view_tab_size));
     do {
         charcount ++;
-        if (max_line_length > charcount) {
-            BOOL is_hex = TRUE;
-            /* askip1 */
+        if (vd->view_max_line_length > charcount) {
+            BOOL is_hex;
 
-            if (*buf < -33) {
-                is_hex = FALSE;
-            } else if (*buf <= -1) {
-                is_hex = TRUE;
-            } else if (*buf < '\t') {
-                is_hex = TRUE;
-            } else if (*buf < 14) {
-                is_hex = FALSE;
-            } else if (*buf < ' ') {
-                is_hex = TRUE;
-            } else if (((unsigned char)*buf) <= 127) {
-                is_hex = FALSE;
-            } else if (((unsigned char)*buf) > 160) {
-                is_hex = FALSE;
-            }
-
+            if ((*buf & 0x7F) >= 0x20) is_hex = FALSE;
+            else switch (*buf)
+             {
+              case 9:          // TAB
+                  charcount += vd->view_tab_size - (charcount % vd->view_tab_size);
+                  lws = buf;
+                  is_hex = FALSE;
+                  break;
+              case 10:         // LF
+                  lws = NULL;
+                  linecount++;
+                  charcount = 0;
+                  is_hex = FALSE;
+                  break;
+              case 12:         // FF
+              case 13:         // CR
+                  is_hex = FALSE;
+                  break;
+              default:
+                  is_hex = TRUE;
+                  break;
+             }
             if (is_hex)
             {
-                /* aishex */
-
-                if (sizebak < 6) return -1;
                 hexcount++;
-                if (hexcount >= 6) return -1;
-                if (*buf == 27) last_was_escape = TRUE;
-            }
-            else {
-                /* aokay */
-                hexcount = 0;
+                if (hexcount >= 6) return -1; /* hex */
+                else if (vd->view_file_size < 6) return -1; /* hex */
 
-                if (last_was_escape)
-                {
-                    if (*buf == '[') return -2; /* isansi */
-                    last_was_escape = FALSE;
-                }
+                if (*buf == 0x1B)         /* ESC */
+                 {
+                  if (buf[1] == '[') return -2; /* ansi */
+                 }
+                else if (*buf == 0x9B)    /* CSI */
+                 {
+                  if ((buf[1] >= 0x20) && (buf[1] <= 0x7F)) return -2; /* ansi */
+                 }
             }
-
-            /* aokay1 */
-            if (*buf == '\n')
+            else hexcount = 0;
+        }
+        else
+        {
+            if (lws)
             {
-                lws = NULL;
-                linecount++;
-                charcount = 0;
-            }
-            else if (*buf == '\t')
-            {
-                // TAB
-
-                charcount += vd->view_tab_size - (charcount % vd->view_tab_size);
-                lws = buf;
-            }
-
-
-        } else  {
-
-            if (lws) {
                 size += (int)buf - (int)lws;
                 buf = lws;
             }
 
-            /* nolastspace1 */
             *buf = '\n';
 
             lws = NULL;
             linecount ++;
             charcount = 0;
-
         }
 
-        /* askip2 */
-        if (*buf == ' ')
-        {
-            lws = buf;
-        }
-
-        /* notspace1 */
+        if (*buf == ' ') lws = buf;
 
         if (--size) buf++;
 

@@ -316,11 +316,8 @@ char *command;
             while (entry) {
                 if (entry->selected) {
                     ptr=NULL;
-                    if (entry->type==ENTRY_CUSTOM) {
-                        if (entry->dispstr) ptr=entry->dispstr;
-                        else ptr=entry->comment;
-                    }
-                    if (!ptr) ptr=entry->name;
+                    if (entry->type==ENTRY_CUSTOM) ptr = (entry->dispstr ? entry->dispstr : entry->comment);
+                    if (!ptr) ptr = entry->name;
                     rexx_set_return(msg,0,ptr);
                     return(1);
                 }

@@ -1,6 +1,6 @@
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.4'
+   This file was created automatically by `FlexCat 2.5'
    from "../catalogs/DOpus4_Disk.cd".
 
    Do NOT edit by hand!
@@ -102,6 +102,11 @@ enum {
     STR_WINDOW_INSTALL=58,
     STR_DISK_NOT_BLANK_FORMAT=59,
     STR_DISK_NOT_BLANK_DISKCOPY=60,
+    STR_FORMAT_SFS_CASE=61,
+    STR_FORMAT_SFS_SHOWREC=62,
+    STR_FORMAT_SFS_NOREC=63,
+    STR_FORMAT_PFS_DELDIR=64,
+    STR_FORMAT_PFS_FNSIZE=65,
 
     STR_STRING_COUNT};
 

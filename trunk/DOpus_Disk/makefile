@@ -1,10 +1,10 @@
 ASM = Work:Dev/PhxAss/PhxAss
 ASMOPTS = M=68020 SYMDEBUG SC SD 4
-CCOPTS = -m68020 -resident
+CCOPTS = -m68020 -resident -Wall
 CC = m68k-amigaos-gcc
 FLEXCAT = Work:Dev/FlexCat/FlexCat
 
-OBJS = diskop.o data.o lsprintf.o format.o strings.o diskcopy.o install.o
+OBJS = strings.o diskop.o data.o lsprintf.o format.o diskcopy.o install.o
 
 All : ../../DOpus_Disk
 
@@ -17,7 +17,7 @@ diskstrings.h: ../catalogs/DOpus4_Disk.cd diskstrings_h.sd
 strings.c: ../catalogs/DOpus4_Disk.cd diskstrings.h strings_c.sd
 	$(FLEXCAT) /catalogs/DOpus4_Disk.cd strings.c=strings_c.sd
 
-.c.o:
+.c.o: diskop.h
 	$(CC) -c $*.c $(CCOPTS) -I../include -msmall-code -Os -DDEBUG
 
 lsprintf.o: lsprintf.asm

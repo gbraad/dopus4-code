@@ -282,7 +282,7 @@ char *name,*title,*function;
 struct dopusfuncpar *par;
 struct function_data *funcdata;
 {
-    int moretodo,a,b,len,tot,type,count;
+    int moretodo,a,b,len,retval,type,count;
     unsigned char buf[256],*ptr;
     char buf2[MAXCOMMANDLEN],tbuf[512];
     struct args *usearg,*endarg;
@@ -293,31 +293,38 @@ struct function_data *funcdata;
         else if (name) dostatustext(name);
     }
 
-    if ((type=par->type)==FT_AREXX) {
+    type = par->type;
+/*
+    if (type==FT_AREXX) {
         rexx_command(function,NULL);
         return(1);
     }
-
-    if (!(openscriptfile(par,funcdata))) return(0);
-    if (type==FT_CHDIR) {
-        b=strlen(function);
-        for (a=1;a<b;a++) if (function[a]=='!') break;
-        LStrnCpy(buf2,&function[1],a-1);
-        lsprintf(tbuf,"CD %s\n",buf2);
-        Write(funcdata->output_file,tbuf,strlen(tbuf));
-        return(1);
-    }
-
-    tot=1;
+*/
+    if (type != FT_AREXX)
+     {
+      if (!(openscriptfile(par,funcdata))) return(0);
+      if (type==FT_CHDIR) {
+          b=strlen(function);
+          for (a=1;a<b;a++) if (function[a]=='!') break;
+          LStrnCpy(buf2,&function[1],a-1);
+          lsprintf(tbuf,"CD %s\n",buf2);
+          Write(funcdata->output_file,tbuf,strlen(tbuf));
+          return(1);
+      }
+     }
+    retval=1;
 
     if (!function[0]) {
-        ptr=(unsigned char *)name;
-        while (*ptr) {
-            if (*ptr==';') *ptr='\n';
-            ++ptr;
-        }
-        lsprintf(tbuf,"%s\n",name);
-        Write(funcdata->output_file,tbuf,strlen(tbuf));
+        if (type != FT_AREXX)
+         {
+          ptr=(unsigned char *)name;
+          while (*ptr) {
+              if (*ptr==';') *ptr='\n';
+              ++ptr;
+          }
+          lsprintf(tbuf,"%s\n",name);
+          Write(funcdata->output_file,tbuf,strlen(tbuf));
+         }
     }
     else {
         parserunline(function,buf);
@@ -332,26 +339,30 @@ struct function_data *funcdata;
 
         FOREVER {
             if (status_haveaborted) {
-                closescriptfile(NULL,0,funcdata);
+                if (type != FT_AREXX) closescriptfile(NULL,0,funcdata);
                 myabort();
-                tot=0;
+                retval=0;
                 break;
             }
             moretodo=0;
             if (!(buildcustfunc(buf,len,buf2,&moretodo,par->which&FLAG_RECURSE,par->which&FLAG_RELOAD,
                 ((par->which&FLAG_NOQUOTE)?0:1),funcdata))) {
-                closescriptfile(NULL,0,funcdata);
-                tot=0;
+                if (type != FT_AREXX) closescriptfile(NULL,0,funcdata);
+                retval=0;
                 break;
             }
 D(bug("customthing(): buf2 = %s\n",buf2));
-            if (type==FT_BATCH) strcpy(tbuf,"Execute ");
-            else if (type==FT_WORKBENCH) lsprintf(tbuf,"\"%s\" -r ",str_dopusrt_path);
-            else tbuf[0]=0;
-            Write(funcdata->output_file,tbuf,strlen(tbuf));
+            if (type == FT_AREXX) rexx_command(buf2,NULL);
+            else
+             {
+              if (type==FT_BATCH) strcpy(tbuf,"Execute ");
+              else if (type==FT_WORKBENCH) lsprintf(tbuf,"\"%s\" -r ",str_dopusrt_path);
+              else tbuf[0]=0;
+              Write(funcdata->output_file,tbuf,strlen(tbuf));
 
-            lsprintf(tbuf,"%s\n",buf2);
-            Write(funcdata->output_file,tbuf,strlen(tbuf));
+              lsprintf(tbuf,"%s\n",buf2);
+              Write(funcdata->output_file,tbuf,strlen(tbuf));
+             }
 //D(bug("customthing: moretodo=%ld, funcdata: entry_first=%lx, file_request.filearray=%lx\n",moretodo,funcdata->entry_first,funcdata->file_request.filearray));
             if (moretodo &&
                 (funcdata->entry_first || funcdata->file_request.filearray)) goto domorestuff;
@@ -373,7 +384,7 @@ domorestuff:
         LFreeRemember(&funcdata->file_request.filearraykey);
         funcdata->file_request.filearray=NULL;
     }
-    return(tot);
+    return(retval);
 }
 
 int buildcustfunc(function,line_len,buffer,moretodo,star,reload,quote,funcdata)

@@ -1,3 +1,8 @@
+3.0beta (03.02.03):
+- Format supports PFS specific options
+- Format supports SFS specific options
+- Gadtools GUI
+
 2.6 (13.01.2001):
 - removed some OS1.3 code
 - localization updated

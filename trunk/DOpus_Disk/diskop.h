@@ -48,7 +48,12 @@ the existing commercial status of Directory Opus 5.
 #include <workbench/startup.h>
 #include <devices/trackdisk.h>
 #include <datatypes/datatypesclass.h>
-#include <proto/all.h>
+#include <proto/dos.h>
+#include <proto/exec.h>
+#include <proto/graphics.h>
+#include <proto/intuition.h>
+#include <proto/icon.h>
+#include <proto/gadtools.h>
 
 //#include "dopusbase.h"
 //#include "dopuspragmas.h"
@@ -67,6 +72,8 @@ extern struct GfxBase *GfxBase;
 extern struct Library *IconBase;
 extern struct ExecBase *SysBase;
 extern struct DosLibrary *DOSBase;
+
+extern struct RequesterBase req;
 
 #define ERROR_FAILED  -1
 #define ERROR_MEMORY  -2
@@ -106,8 +113,77 @@ struct RootDirectory {
     ULONG   SecondaryType;
 };
 
-extern ULONG BitTable[32];
+union DD_Prefs {
+    struct diskcopyP {
+        BOOL verify, bump;
+        struct DOpusListView *srclist,*dstlist;
+    } diskcopy;
+    struct formatP {
+        char name[32];
+        ULONG flags;
+        struct DOpusListView *srclist;
+        UBYTE pfsdeldir, pfsfnsize;
+    } format;
+    struct installP {
+        BOOL ffs;
+        struct DOpusListView *srclist;
+    } install;
+};
 
+enum {
+    PREFS_DISKCOPY,
+    PREFS_FORMAT,
+    PREFS_INSTALL };
+
+enum {
+    DISKCOPY_VERIFY,
+    DISKCOPY_BUMPNAMES,
+    DISKCOPY_SRCDEV,
+    DISKCOPY_DSTDEV,
+    DISKCOPY_INFO,
+    DISKCOPY_DISKCOPY,
+    DISKCOPY_CHECK,
+    DISKCOPY_CANCEL };
+
+enum {
+    INSTALL_FFS,
+    INSTALL_INSTALL,
+    INSTALL_NOBOOT,
+    INSTALL_CANCEL,
+    INSTALL_DEVLIST,
+    INSTALL_INFO };
+
+enum {
+    FORMAT_NAME,
+    FORMAT_FFS,
+    FORMAT_INTERNATIONAL,
+    FORMAT_CACHING,
+    FORMAT_TRASHCAN,
+    FORMAT_VERIFY,
+    FORMAT_DEV,
+    FORMAT_INFO,
+    FORMAT_FORMAT,
+    FORMAT_QUICKFORMAT,
+    FORMAT_CANCEL,
+    FORMAT_SFS_CASE,
+    FORMAT_SFS_SHOWREC,
+    FORMAT_SFS_NOREC,
+    FORMAT_PFS_DELDIR,
+    FORMAT_PFS_FNSIZE,
+    FORMAT_GAD_LAST
+};
+
+#define FORMATFLAG_FFS             (1<<0)
+#define FORMATFLAG_INTERNATIONAL   (1<<1)
+#define FORMATFLAG_CACHING         (1<<2)
+#define FORMATFLAG_TRASHCAN        (1<<3)
+#define FORMATFLAG_VERIFY          (1<<4)
+#define FORMATFLAG_SFS_CASE        (1<<5)
+#define FORMATFLAG_SFS_SHOWREC     (1<<6)
+#define FORMATFLAG_SFS_NOREC       (1<<7)
+
+extern ULONG BitTable[32];
+/*
 extern struct TagItem format_name_gadget[];
 extern struct TagItem format_ffs_gadget[];
 extern struct TagItem format_international_gadget[];
@@ -129,6 +205,8 @@ extern struct TagItem install_ffs_gadget[];
 extern struct TagItem install_install_gadget[];
 extern struct TagItem install_noboot_gadget[];
 extern struct TagItem install_cancel_gadget[];
+*/
+extern struct TagItem commonGTtags[];
 
 extern struct DiskObject trashcanicon_icon;
 
@@ -145,7 +223,53 @@ extern struct DefaultString default_strings[];
 
 #define STRING_VERSION 1
 
+/* diskop.c */
+
+void get_vis_info(struct VisInfo *,char *);
+void sort_device_list(char **);
+int dopus_message(int,APTR,char *);
+int like_devices(struct DeviceNode *,struct DeviceNode *);
+void fill_out_req(struct RequesterBase *,struct VisInfo *);
+char **get_device_list(struct DOpusRemember **,char *);
+void select_device(struct DOpusListView *,char *);
+void border_text(struct RequesterBase *,struct Gadget /*Object_Border*/ *,char *);
+struct DeviceNode *find_device(char *);
+int check_error(struct RequesterBase *,char *,int);
+int check_abort(struct Window *);
+int check_disk(struct RequesterBase *,struct IOExtTD *,char *,int);
+int check_blank_disk(struct RequesterBase *,char *,char *);
+void drive_motor(struct IOExtTD *,int);
+void inhibit_drive(char *,ULONG);
+ULONG do_checksum(ULONG *);
+int open_device(char *,struct DeviceHandle *);
+void close_device(struct DeviceHandle *);
+void get_env(union DD_Prefs *prefs,int id);
+void set_env(union DD_Prefs *prefs,int id);
 unsigned char getkeyshortcut(const char *);
+void getsizestring(char *,long long);
+void getfloatstr(double f,char *buf);
+
+/* diskcopy.c */
+void diskop_diskcopy(/*struct VisInfo *,*/char *,int,char *[]);
+void show_diskcopy_info(struct RequesterBase *,/*Object_Border*/struct Gadget *,char *);
+void bump_disk_name(char *);
+int do_diskcopy(struct RequesterBase *,/*Object_Border*/struct Gadget *,struct diskcopyP */*char *,char *,int,int*/,int);
+
+/* format.c */
+void diskop_format(/*struct VisInfo *,*/char *,int,char *[]);
+int do_format(struct RequesterBase *,/*Object_Border*/struct Gadget *,char *,struct formatP * /*char *,ULONG*/,char);
+int do_raw_format(struct RequesterBase *,/*Object_Border*/struct Gadget *,struct IOExtTD *,ULONG,ULONG,ULONG,ULONG,ULONG);
+void show_device_info(struct RequesterBase *reqbase,struct Gadget /*Object_Border*/ *border,char *name);
+void write_trashcan(/*struct RequesterBase *reqbase,Object_Border *border,*/char *device);
+
+/* install.c */
+
+void diskop_install(/*struct VisInfo *,*/int, char *[]);
+int do_install(struct RequesterBase *,/*Object_Border*/struct Gadget *,char *,int,int);
+int install_compare_block(ULONG *,ULONG *,ULONG);
+
+/* lsprintf.asm */
+void lsprintf(const char *,...);
 
 #endif /* DISKOP_H */
 

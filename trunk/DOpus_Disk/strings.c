@@ -1,6 +1,6 @@
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.4'
+   This file was created automatically by `FlexCat 2.5'
    from "../catalogs/DOpus4_Disk.cd".
 
    Do NOT edit by hand!
@@ -105,5 +105,10 @@ struct DefaultString
         {STR_WINDOW_INSTALL,"Install"},
         {STR_DISK_NOT_BLANK_FORMAT,"Format"},
         {STR_DISK_NOT_BLANK_DISKCOPY,"Diskcopy"},
+        {STR_FORMAT_SFS_CASE,"Case-sensitive"},
+        {STR_FORMAT_SFS_SHOWREC,"Show 'Recycled'"},
+        {STR_FORMAT_SFS_NOREC,"No 'Recycled'"},
+        {STR_FORMAT_PFS_DELDIR,"DelDir blocks"},
+        {STR_FORMAT_PFS_FNSIZE,"Filename size"},
 
         {STR_STRING_COUNT,NULL}};

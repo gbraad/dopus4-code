@@ -30,13 +30,17 @@ the existing commercial status of Directory Opus 5.
 
 #include "diskop.h"
 
-enum {
-    DISKCOPY_VERIFY,
-    DISKCOPY_BUMPNAMES,
-    DISKCOPY_DISKCOPY,
-    DISKCOPY_CANCEL,
-    DISKCOPY_CHECK};
-
+static struct NewGadget ng[8] = {
+    {0,1,13,6,(APTR)STR_DISKCOPY_FROM,NULL,DISKCOPY_SRCDEV,PLACETEXT_ABOVE,NULL,NULL},
+    {36,1,13,6,(APTR)STR_DISKCOPY_TO,NULL,DISKCOPY_DSTDEV,PLACETEXT_ABOVE,NULL,NULL},
+    {14,4,0,0,(APTR)STR_FORMAT_VERIFY,NULL,DISKCOPY_VERIFY,PLACETEXT_RIGHT,NULL,NULL},
+    {14,6,0,0,(APTR)STR_BUMP_NAMES,NULL,DISKCOPY_BUMPNAMES,PLACETEXT_RIGHT,NULL,NULL},
+    {0,7,46,1,(APTR)~0,NULL,DISKCOPY_INFO,0,NULL,NULL},
+    {0,8,14,1,(APTR)STR_DISKCOPY_DISKCOPY,NULL,DISKCOPY_DISKCOPY,PLACETEXT_IN,NULL,NULL},
+    {16,8,14,1,(APTR)STR_DISKCOPY_CHECK,NULL,DISKCOPY_CHECK,PLACETEXT_IN,NULL,NULL},
+    {32,8,14,1,(APTR)STR_FORMAT_EXIT,NULL,DISKCOPY_CANCEL,PLACETEXT_IN,NULL,NULL},
+};
+/*
 struct TagItem
     diskcopy_source_list[]={
         {RO_Type,OBJECT_LISTVIEW},
@@ -151,93 +155,112 @@ struct TagItem
         diskcopy_check_gadget,
         diskcopy_cancel_gadget,
         NULL};
+*/
 
-/* prototypes */
-void show_diskcopy_info(struct RequesterBase *reqbase,Object_Border *border,char *name);
-void bump_disk_name(char *disk);
-unsigned char getkeyshortcut(const char *);
-/* end of prototypes */
-
-void diskop_diskcopy(vis,portname,argc,argv)
-struct VisInfo *vis;
+void diskop_diskcopy(/*vis,*/portname,argc,argv)
+//struct VisInfo *vis;
 char *portname;
 int argc;
 char *argv[];
 {
-    struct RequesterBase diskcopyreq;
     struct Window *window;
     struct IntuiMessage *msg;
-    Object_Border *infobox;
-    struct DOpusListView *sourcelist,*destinationlist,*view;
-    struct Gadget *gadlist;
+//    Object_Border *infobox;
+    struct DOpusListView *sourcelist,*destinationlist/*,*view*/;
+//    struct Gadget *gadlist;
     ULONG class;
     USHORT code,gadgetid;
     APTR iaddress;
-    int a,b,gadcount=0,ignorechange=0;
-    int source=-1,dest=-1,startverify=0,bumpnames=0,oldsel;
+    int a,b,/*gadcount=0,*/ignorechange=0;
+    int source=-1,dest=-1,/*startverify=0,bumpnames=0,*/oldsel;
     int startcheck=0;
     struct DOpusRemember *destkey=NULL;
     unsigned char keys[5];
 
-    diskcopyreq.rb_width=43;
-    diskcopyreq.rb_height=9;
-    diskcopyreq.rb_widthfine=16;
-    diskcopyreq.rb_heightfine=61;
-    diskcopyreq.rb_leftoffset=8;
-    diskcopyreq.rb_topoffset=8;
-    diskcopyreq.rb_flags=0;
+    struct Gadget *gtgads[8], *gtglist=NULL;
+    APTR gt_vi;
+    struct TextFont *tf;
+    struct TextAttr ta;
+    struct List gt_devlist1, gt_devlist2;
+    struct Node *node;
+	struct diskcopyP prefs;
 
-    fill_out_req(&diskcopyreq,vis);
+    req.rb_width=46;
+    req.rb_height=9;
+    req.rb_widthfine=16;
+    req.rb_heightfine=61;
+    req.rb_title=string_table[STR_WINDOW_DISKCOPY];
 
-    diskcopyreq.rb_privateflags=0;
-    diskcopyreq.rb_screenname=NULL;
-
-    if (diskcopyreq.rb_screen && !(vis->vi_flags&VISF_BORDERS)) {
-        diskcopyreq.rb_flags|=RBF_STRINGS;
-        diskcopyreq.rb_title=NULL;
-    }
-    else {
-        diskcopyreq.rb_flags|=RBF_BORDERS|RBF_CLOSEGAD|RBF_STRINGS;
-        diskcopyreq.rb_title=string_table[STR_WINDOW_DISKCOPY];
-    }
-
-    diskcopyreq.rb_extend=NULL;
-    diskcopyreq.rb_idcmpflags=0;
-    diskcopyreq.rb_string_table=string_table;
-
-    if (!(window=OpenRequester(&diskcopyreq)) ||
-        !(gadlist=addreqgadgets(&diskcopyreq,diskcopy_gadgets,0,&gadcount)) ||
-        !(infobox=(Object_Border *)
-            AddRequesterObject(&diskcopyreq,diskcopy_info_box)) ||
-        !(sourcelist=(struct DOpusListView *)
-            AddRequesterObject(&diskcopyreq,diskcopy_source_list)) ||
-        !(sourcelist->items=get_device_list(&diskcopyreq.rb_memory,NULL)) ||
-        !(destinationlist=(struct DOpusListView *)
-            AddRequesterObject(&diskcopyreq,diskcopy_destination_list))) {
-        CloseRequester(&diskcopyreq);
+    if (!(window=OpenRequester(&req)) ||
+//        !(gadlist=addreqgadgets(&req,diskcopy_gadgets,0,&gadcount)) ||
+//        !(infobox=(Object_Border *)AddRequesterObject(&req,diskcopy_info_box)) ||
+//        !(sourcelist=(struct DOpusListView *)AddRequesterObject(&req,diskcopy_source_list)) ||
+        !(sourcelist=(struct DOpusListView *)LAllocRemember(&req.rb_memory,sizeof(struct DOpusListView),MEMF_ANY|MEMF_CLEAR)) ||
+        !(sourcelist->items=get_device_list(&req.rb_memory,NULL)) ||
+//        !(destinationlist=(struct DOpusListView *)AddRequesterObject(&req,diskcopy_destination_list))) {
+        !(destinationlist=(struct DOpusListView *)LAllocRemember(&req.rb_memory,sizeof(struct DOpusListView),MEMF_ANY|MEMF_CLEAR))) {
+        CloseRequester(&req);
         return;
     }
 
-    fix_listview(&diskcopyreq,sourcelist);
-    fix_listview(&diskcopyreq,destinationlist);
+    tf = window->RPort->Font;
+    ta.ta_Name = tf->tf_Message.mn_Node.ln_Name;
+    ta.ta_YSize = tf->tf_YSize;
+    ta.ta_Style = tf->tf_Style;
+    ta.ta_Flags = tf->tf_Flags;
+    gt_vi = GetVisualInfoA(window->WScreen,NULL);
+    for (a=0; a<8; a++)
+     {
+      ng[a].ng_VisualInfo = gt_vi;
+      if (ng[a].ng_GadgetText != (UBYTE *)~0) ng[a].ng_GadgetText = string_table[(ULONG)(ng[a].ng_GadgetText)];
+      else ng[a].ng_GadgetText = NULL;
+      ng[a].ng_TextAttr = &ta;
+      ng[a].ng_LeftEdge *= tf->tf_XSize;
+      ng[a].ng_LeftEdge += window->BorderLeft + 8;
+      ng[a].ng_TopEdge *= tf->tf_YSize;
+      ng[a].ng_TopEdge += window->BorderTop + 8;
+      ng[a].ng_Width *= tf->tf_XSize;
+      ng[a].ng_Height *= tf->tf_YSize;
+      ng[a].ng_Height += 4;
+     }
+    ng[0].ng_Height = ng[1].ng_Height += 26;
+    ng[1].ng_LeftEdge -= 18;
+    ng[4].ng_TopEdge += 36;
+    ng[5].ng_TopEdge = ng[6].ng_TopEdge = ng[7].ng_TopEdge += 45;
+
+D(for (a=0; a<8; a++) bug("Gadget %ld: %ld/%ld/%ld/%ld\n",a,ng[a].ng_LeftEdge,ng[a].ng_TopEdge,ng[a].ng_Width,ng[a].ng_Height));
+
+//    fix_listview(&req,sourcelist);
+    NewList(&gt_devlist1);
+    for (a=0; sourcelist->items[a]; a++)
+     {
+      if ((node = LAllocRemember(&req.rb_memory,sizeof(struct Node),MEMF_ANY)))
+       {
+        node->ln_Name = sourcelist->items[a];
+        AddTail(&gt_devlist1,node);
+       }
+     }
+//    fix_listview(&req,destinationlist);
+    NewList(&gt_devlist2);
 
     select_device(sourcelist,NULL);
-    get_env("diskcopy",gadlist,gadcount,sourcelist);
+//    get_env("diskcopy",gadlist,gadcount,sourcelist);
+    prefs.srclist = sourcelist;
+    prefs.dstlist = destinationlist;
+    get_env((union DD_Prefs *)&prefs,PREFS_DISKCOPY);
 
     oldsel=sourcelist->itemselected;
 
     for (a=0;a<argc;a++) {
-        if (LStrCmpI(argv[a],"verify")==0) startverify=1;
-        else if (LStrnCmpI(argv[a],"bump",4)==0) bumpnames=1;
+        if (LStrCmpI(argv[a],"verify")==0) prefs.verify=1;
+        else if (LStrnCmpI(argv[a],"bump",4)==0) prefs.bump=1;
         else if (LStrnCmpI(argv[a],"check",5)==0) startcheck=1;
         else {
             if (source==-1) {
                 for (b=0;sourcelist->items[b];b++) {
                     if (LStrCmpI(argv[a],sourcelist->items[b])==0) {
-                        source=b;
-                        sourcelist->itemselected=b;
-                        destinationlist->items=
-                            get_device_list(&destkey,sourcelist->items[b]);
+                        sourcelist->itemselected = source = b;
+                        destinationlist->items = get_device_list(&destkey,sourcelist->items[b]);
                         break;
                     }
                 }
@@ -245,8 +268,7 @@ char *argv[];
             else if (dest==-1 && destinationlist->items) {
                 for (b=0;destinationlist->items[b];b++) {
                     if (LStrCmpI(argv[a],destinationlist->items[b])==0) {
-                        dest=b;
-                        destinationlist->itemselected=b;
+                        destinationlist->itemselected = dest = b;
                         break;
                     }
                 }
@@ -258,64 +280,106 @@ char *argv[];
         LFreeRemember(&destkey);
         destinationlist->items=NULL;
         sourcelist->itemselected=oldsel;
-        startverify=bumpnames=0;
+        prefs.verify=prefs.bump=0;
     }
 
     if (!destinationlist->items) {
-        destinationlist->items=
-            get_device_list(&destkey,sourcelist->items[sourcelist->itemselected]);
+        destinationlist->items=get_device_list(&destkey,sourcelist->items[sourcelist->itemselected]);
         select_device(destinationlist,sourcelist->items[sourcelist->itemselected]);
-        sourcelist->next=destinationlist;
-        if (source==-1) get_env("diskcopy",gadlist,gadcount,sourcelist);
+//        sourcelist->next=destinationlist;
+        if (source==-1) get_env((union DD_Prefs *)&prefs,PREFS_DISKCOPY/*"diskcopy",gadlist,gadcount,sourcelist*/);
     }
-    else sourcelist->next=destinationlist;
-
+//    else sourcelist->next=destinationlist;
+    for (a=0; destinationlist->items[a]; a++)
+     {
+      if ((node = LAllocRemember(&destkey,sizeof(struct Node),MEMF_ANY)))
+       {
+        node->ln_Name = destinationlist->items[a];
+        AddTail(&gt_devlist2,node);
+       }
+     }
+/*
     if (!(AddListView(sourcelist,2))) {
-        CloseRequester(&diskcopyreq);
+        CloseRequester(&req);
         LFreeRemember(&destkey);
         return;
     }
     show_sel_item(sourcelist);
 
-    if (startverify) gadlist->Flags|=GFLG_SELECTED;
+    if (prefs.verify) gadlist->Flags|=GFLG_SELECTED;
     else if (dest>-1) gadlist->Flags&=~GFLG_SELECTED;
 
-    if (bumpnames) gadlist->NextGadget->Flags|=GFLG_SELECTED;
+    if (prefs.bump) gadlist->NextGadget->Flags|=GFLG_SELECTED;
     else if (dest>-1) gadlist->NextGadget->Flags&=~GFLG_SELECTED;
-
+*/
     keys[0] = getkeyshortcut(string_table[STR_FORMAT_VERIFY]);
     keys[1] = getkeyshortcut(string_table[STR_BUMP_NAMES]);
     keys[2] = getkeyshortcut(string_table[STR_DISKCOPY_DISKCOPY]);
     keys[3] = getkeyshortcut(string_table[STR_DISKCOPY_CHECK]);
     keys[4] = getkeyshortcut(string_table[STR_FORMAT_EXIT]);
 
-    RefreshRequesterObject(&diskcopyreq,NULL);
-    RefreshGList(gadlist,window,NULL,gadcount);
-    show_diskcopy_info(&diskcopyreq,infobox,sourcelist->items[sourcelist->itemselected]);
+    CreateContext(&gtglist);
+    gtgads[0] = CreateGadget(LISTVIEW_KIND,gtglist,&ng[0],
+    				GTLV_Labels, (Tag)&gt_devlist1,
+                    GTLV_Selected, sourcelist->itemselected,
+                    GTLV_ShowSelected, NULL,
+                    TAG_END);
+    gtgads[1] = CreateGadget(LISTVIEW_KIND,gtgads[0],&ng[1],
+    				GTLV_Labels, (Tag)&gt_devlist2,
+                    GTLV_Selected, destinationlist->itemselected,
+                    GTLV_ShowSelected, NULL,
+                    TAG_END);
+    gtgads[2] = CreateGadget(CHECKBOX_KIND,gtgads[1],&ng[2],
+                    GTCB_Checked, prefs.verify,
+                    TAG_MORE, (Tag)commonGTtags);
+    gtgads[3] = CreateGadget(CHECKBOX_KIND,gtgads[2],&ng[3],
+                    GTCB_Checked, prefs.bump,
+                    TAG_MORE, (Tag)commonGTtags);
+    gtgads[4] = CreateGadget(TEXT_KIND,gtgads[3],&ng[4],
+                    GTTX_Border, TRUE,
+                    GTTX_Justification, GTJ_CENTER,
+                    GTTX_FrontPen, req.rb_fg,
+                    GTTX_BackPen,  req.rb_bg,
+                    TAG_END);
+    for (a=5; a<8; a++) gtgads[a] = CreateGadgetA(BUTTON_KIND,gtgads[a-1],&ng[a],commonGTtags);
+
+    AddGList(window,gtglist,-1,-1,NULL);
+    RefreshGList(gtglist,window,NULL,-1);
+//    RefreshRequesterObject(&req,NULL);
+//    RefreshGList(gadlist,window,NULL,gadcount);
+    GT_RefreshWindow(window,NULL);
+    ModifyIDCMP(window,IDCMP_CLOSEWINDOW|IDCMP_DISKINSERTED|IDCMP_DISKREMOVED|IDCMP_VANILLAKEY |
+                       LISTVIEWIDCMP|CHECKBOXIDCMP|BUTTONIDCMP|TEXTIDCMP);
+
+    show_diskcopy_info(&req,gtgads[4]/*infobox*/,sourcelist->items[sourcelist->itemselected]);
 
     if (dest>-1) {
-        if (do_diskcopy(&diskcopyreq,
-            infobox,
-            sourcelist->items[sourcelist->itemselected],
-            destinationlist->items[destinationlist->itemselected],
-            (gadlist->Flags&GFLG_SELECTED),
-            (gadlist->NextGadget->Flags&GFLG_SELECTED),
+        if (do_diskcopy(&req,
+            gtgads[4]/*infobox*/,
+            &prefs,
+//            sourcelist->items[sourcelist->itemselected],
+//            destinationlist->items[destinationlist->itemselected],
+//            prefs.verify/*(gadlist->Flags&GFLG_SELECTED)*/,
+//            prefs.bump/*(gadlist->NextGadget->Flags&GFLG_SELECTED)*/,
             startcheck)) {
             dopus_message(DOPUSMSG_UPDATEDRIVE,
                 (APTR)destinationlist->items[destinationlist->itemselected],
                 portname);
         }
-        RemoveListView(sourcelist,2);
-        CloseRequester(&diskcopyreq);
+//        RemoveListView(sourcelist,2);
+        CloseRequester(&req);
+        FreeGadgets(gtglist);
         LFreeRemember(&destkey);
+        FreeVisualInfo(gt_vi);
         return;
     }
 
     FOREVER {
-        while (msg=(struct IntuiMessage *)GetMsg(window->UserPort)) {
-            if ((view=(struct DOpusListView *)ListViewIDCMP(sourcelist,msg))==
-                (struct DOpusListView *)-1) {
-                class=msg->Class; code=msg->Code;
+        while ((msg=(struct IntuiMessage *)GT_GetIMsg(window->UserPort))) {
+/*            if ((view=(struct DOpusListView *)ListViewIDCMP(sourcelist,msg))==
+                (struct DOpusListView *)-1) */{
+                class=msg->Class;
+                code=msg->Code;
                 iaddress=msg->IAddress;
                 ReplyMsg((struct Message *)msg);
 
@@ -324,29 +388,32 @@ char *argv[];
                     case IDCMP_DISKREMOVED:
                         if (ignorechange) ignorechange=0;
                         else {
-                            show_diskcopy_info(&diskcopyreq,
-                                infobox,
-                                sourcelist->items[sourcelist->itemselected]);
+                            show_diskcopy_info(&req,gtgads[4]/*infobox*/,sourcelist->items[sourcelist->itemselected]);
                         }
                         break;
 
                     case IDCMP_VANILLAKEY:  
                         code=LToLower(code);
                         if (code == keys[0]) {
-                                gadlist->Flags^=GFLG_SELECTED;
-                                RefreshGList(gadlist,window,NULL,1);
+                                prefs.verify = !prefs.verify;
+                                GT_SetGadgetAttrs(gtgads[2],window,NULL,GTCB_Checked,prefs.verify,TAG_END);
+//                                gadlist->Flags^=GFLG_SELECTED;
+//                                RefreshGList(gadlist,window,NULL,1);
                         }
                         else if (code == keys[1]) {
-                                gadlist->NextGadget->Flags^=GFLG_SELECTED;
-                                RefreshGList(gadlist,window,NULL,-1);
+                                prefs.bump = !prefs.bump;
+                                GT_SetGadgetAttrs(gtgads[3],window,NULL,GTCB_Checked,prefs.bump,TAG_END);
+//                                gadlist->NextGadget->Flags^=GFLG_SELECTED;
+//                                RefreshGList(gadlist,window,NULL,-1);
                         }
                         else if ((code == keys[2]) || (code == keys[3]) || (code == '\r')) {
-                                if (do_diskcopy(&diskcopyreq,
-                                    infobox,
-                                    sourcelist->items[sourcelist->itemselected],
-                                    destinationlist->items[destinationlist->itemselected],
-                                    (gadlist->Flags&GFLG_SELECTED),
-                                    (gadlist->NextGadget->Flags&GFLG_SELECTED),
+                                if (do_diskcopy(&req,
+                                    gtgads[4]/*infobox*/,
+                                    &prefs,
+//                                    sourcelist->items[sourcelist->itemselected],
+//                                    destinationlist->items[destinationlist->itemselected],
+//                                    (gadlist->Flags&GFLG_SELECTED),
+//                                    (gadlist->NextGadget->Flags&GFLG_SELECTED),
                                     code == keys[3])) {
                                     ignorechange=1;
                                     dopus_message(DOPUSMSG_UPDATEDRIVE,
@@ -355,15 +422,18 @@ char *argv[];
                                 }
                         }
                         else if ((code == keys[4]) || (code == 0x1b)) {
-                                set_env("diskcopy",gadlist,gadcount,sourcelist);
-                                RemoveListView(sourcelist,2);
-                                CloseRequester(&diskcopyreq);
+//                                set_env("diskcopy",gadlist,gadcount,sourcelist);
+                                set_env((union DD_Prefs *)&prefs,PREFS_DISKCOPY);
+//                                RemoveListView(sourcelist,2);
+                                CloseRequester(&req);
+                                FreeGadgets(gtglist);
                                 LFreeRemember(&destkey);
+                                FreeVisualInfo(gt_vi);
                                 return;
                         }
                         break;
 
-                    case IDCMP_GADGETDOWN:
+//                    case IDCMP_GADGETDOWN:
                     case IDCMP_GADGETUP:
                         gadgetid=((struct Gadget *)iaddress)->GadgetID;
                     case IDCMP_CLOSEWINDOW:
@@ -371,19 +441,30 @@ char *argv[];
 
                         switch (gadgetid) {
                             case DISKCOPY_CANCEL:
-                                set_env("diskcopy",gadlist,gadcount,sourcelist);
-                                RemoveListView(sourcelist,2);
-                                CloseRequester(&diskcopyreq);
+//                                set_env("diskcopy",gadlist,gadcount,sourcelist);
+                                set_env((union DD_Prefs *)&prefs,PREFS_DISKCOPY);
+//                                RemoveListView(sourcelist,2);
+                                CloseRequester(&req);
+                                FreeGadgets(gtglist);
                                 LFreeRemember(&destkey);
+                                FreeVisualInfo(gt_vi);
                                 return;
+
+                            case DISKCOPY_VERIFY:
+                                prefs.verify = code;
+                                break;
+                            case DISKCOPY_BUMPNAMES:
+                                prefs.bump = code;
+                                break;
                             case DISKCOPY_DISKCOPY:
                             case DISKCOPY_CHECK:
-                                if (do_diskcopy(&diskcopyreq,
-                                    infobox,
-                                    sourcelist->items[sourcelist->itemselected],
-                                    destinationlist->items[destinationlist->itemselected],
-                                    (gadlist->Flags&GFLG_SELECTED),
-                                    (gadlist->NextGadget->Flags&GFLG_SELECTED),
+                                if (do_diskcopy(&req,
+                                    gtgads[4]/*infobox*/,
+                                    &prefs,
+//                                    sourcelist->items[sourcelist->itemselected],
+//                                    destinationlist->items[destinationlist->itemselected],
+//                                    prefs.verify/*(gadlist->Flags&GFLG_SELECTED)*/,
+//                                    prefs.bump/*(gadlist->NextGadget->Flags&GFLG_SELECTED)*/,
                                     (gadgetid==DISKCOPY_CHECK))) {
                                     ignorechange=1;
                                     dopus_message(DOPUSMSG_UPDATEDRIVE,
@@ -391,10 +472,37 @@ char *argv[];
                                         portname);
                                 }
                                 break;
+
+                            case DISKCOPY_SRCDEV:
+                                GT_SetGadgetAttrs(gtgads[1],window,NULL,GTLV_Labels,~0,TAG_END);
+                                while (RemTail(&gt_devlist2));
+                                LFreeRemember(&destkey);
+                                sourcelist->itemselected = code;
+                                destinationlist->items=get_device_list(&destkey,sourcelist->items[code]);
+                                for (a=0; destinationlist->items[a]; a++)
+                                 {
+                                  if ((node = LAllocRemember(&destkey,sizeof(struct Node),MEMF_ANY)))
+                                   {
+                                    node->ln_Name = destinationlist->items[a];
+                                    AddTail(&gt_devlist2,node);
+                                   }
+                                 }
+                                select_device(destinationlist,sourcelist->items[code]);
+                                GT_SetGadgetAttrs(gtgads[1],window,NULL,
+                                      GTLV_Labels,   (Tag)&gt_devlist2,
+                                      GTLV_Selected, destinationlist->itemselected,
+                                      TAG_END);
+//                                RefreshListView(destinationlist,1);
+                                show_diskcopy_info(&req,gtgads[4]/*infobox*/,sourcelist->items[code]);
+                                break;
+                            case DISKCOPY_DSTDEV:
+                                destinationlist->itemselected = code;
+                                break;
                         }
                         break;
                 }
             }
+/*
             else if (view) {
                 switch (view->listid) {
                     case 0:
@@ -402,10 +510,11 @@ char *argv[];
                         destinationlist->items=get_device_list(&destkey,view->items[view->itemselected]);
                         select_device(destinationlist,view->items[view->itemselected]);
                         RefreshListView(destinationlist,1);
-                        show_diskcopy_info(&diskcopyreq,infobox,sourcelist->items[sourcelist->itemselected]);
+                        show_diskcopy_info(&req,infobox,sourcelist->items[sourcelist->itemselected]);
                         break;
                 }
             }
+*/
         }
         Wait(1<<window->UserPort->mp_SigBit);
     }
@@ -413,10 +522,10 @@ char *argv[];
 
 void show_diskcopy_info(reqbase,border,name)
 struct RequesterBase *reqbase;
-Object_Border *border;
+/*Object_Border*/struct Gadget *border;
 char *name;
 {
-    char infobuf[60],sizebuf[20];
+    char infobuf[60],sizebuf[20],*ptr;
     BPTR lock;
     struct FileInfoBlock __aligned fib;
     struct InfoData __aligned info;
@@ -427,10 +536,12 @@ char *name;
     wsave=myproc->pr_WindowPtr;
     myproc->pr_WindowPtr=(APTR)-1;
 
+D(bug("show_diskcopy_info(%s)\n",name));
     border_text(reqbase,border,NULL);
+//    GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)NULL,TAG_END);
 
     if (name) {
-        if (lock=Lock(name,ACCESS_READ)) {
+        if ((lock=Lock(name,ACCESS_READ))) {
             Info(lock,&info);
             Examine(lock,&fib);
             UnLock(lock);
@@ -438,18 +549,17 @@ char *name;
             getsizestring(sizebuf,((long long)info.id_NumBlocksUsed)*info.id_BytesPerBlock);
             lsprintf(infobuf,string_table[STR_DISKCOPY_INFODISPLAY],fib.fib_FileName,sizebuf);
 
-            border_text(reqbase,border,infobuf);
+//            border_text(reqbase,border,infobuf);
+            ptr = infobuf;
         }
-        else border_text(reqbase,border,string_table[STR_DISKCOPY_NODISK]);
+        else ptr = string_table[STR_DISKCOPY_NODISK]; //border_text(reqbase,border,string_table[STR_DISKCOPY_NODISK]);
+        border_text(reqbase,border,ptr);
+//        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)ptr,TAG_END);
     }
     myproc->pr_WindowPtr=wsave;
 }
 
-do_diskcopy(reqbase,border,source,dest,verify,bump,check)
-struct RequesterBase *reqbase;
-Object_Border *border;
-char *source,*dest;
-int verify,bump,check;
+int do_diskcopy(struct RequesterBase *reqbase,/*Object_Border*/struct Gadget *border,struct diskcopyP *prefs/*,char *source,char *dest,int verify,int bump*/,int check)
 {
     struct IOExtTD *device_req[2];
     struct MsgPort *device_port[2];
@@ -464,6 +574,13 @@ int verify,bump,check;
     char *buffer=NULL,*dev_table[2];
     ULONG *verifybuffer=NULL,*cmpbuffer;
     struct DOpusRemember *memkey=NULL;
+    char *source, *dest;
+    int verify,bump;
+
+    source = prefs->srclist->items[prefs->srclist->itemselected];
+    dest = prefs->dstlist->items[prefs->dstlist->itemselected];
+    verify = prefs->verify;
+    bump = prefs->bump;
 
     if (!source || !dest ||
         !(source_node=find_device(source)) ||
@@ -509,6 +626,7 @@ int verify,bump,check;
 
     if (!buffer) {
         border_text(reqbase,border,string_table[STR_MEMORY_ERROR]);
+//        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)string_table[STR_MEMORY_ERROR],TAG_END);
         return(0);
     }
 
@@ -520,6 +638,7 @@ int verify,bump,check;
     }
     if (check && !verifybuffer) {
         border_text(reqbase,border,string_table[STR_MEMORY_ERROR]);
+//        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)string_table[STR_MEMORY_ERROR],TAG_END);
         return(0);
     }
 
@@ -551,6 +670,7 @@ int verify,bump,check;
 
         if (drives==2) {
             border_text(reqbase,border,string_table[STR_CHECKING_DISKS]);
+//            GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)string_table[STR_CHECKING_DISKS],TAG_END);
 
             for (a=0;a<2;a++) {
                 if (!(check_disk(reqbase,device_req[a],dev_table[a],(check)?0:a))) break;
@@ -574,6 +694,7 @@ int verify,bump,check;
                 if (drives==1) {
                     lsprintf(infobuf,string_table[STR_DISKCOPY_INSERTSOURCE],source);
                     border_text(reqbase,border,infobuf);
+//                    GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
                     drive_motor(device_req[0],0);
                     if (!(check_error(reqbase,infobuf,STR_PROCEED)) ||
                         !(check_disk(reqbase,device_req[0],source,0))) {
@@ -588,6 +709,7 @@ int verify,bump,check;
                     lsprintf(infobuf,string_table[STR_DISKCOPY_READING],
                         track+curtrack,numtracks-curtrack-track-1);
                     border_text(reqbase,border,infobuf);
+//                    GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
 
                     if (check_abort(reqbase->rb_window)) {
                         abort=1;
@@ -605,6 +727,7 @@ int verify,bump,check;
 
                         lsprintf(infobuf,string_table[STR_DISKCOPY_READERROR],track+curtrack);
                         border_text(reqbase,border,infobuf);
+//                        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
                         if (!(check_error(reqbase,infobuf,STR_RETRY))) {
                             abort=1;
                             err=ERROR_FAILED;
@@ -623,6 +746,7 @@ int verify,bump,check;
                 if (drives==1) {
                     lsprintf(infobuf,string_table[STR_DISKCOPY_INSERTDEST],dest);
                     border_text(reqbase,border,infobuf);
+//                    GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
                     drive_motor(device_req[0],0);
                     if (!(check_error(reqbase,infobuf,STR_PROCEED)) ||
                         !(check_disk(reqbase,device_req[1],dest,1))) {
@@ -639,6 +763,7 @@ int verify,bump,check;
                         lsprintf(infobuf,string_table[STR_DISKCOPY_WRITING],
                             track+curtrack,numtracks-curtrack-track-1);
                         border_text(reqbase,border,infobuf);
+//                        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
 
                         if (check_abort(reqbase->rb_window)) {
                             abort=1;
@@ -660,6 +785,7 @@ int verify,bump,check;
 
                             lsprintf(infobuf,string_table[STR_DISKCOPY_WRITEERROR],track+curtrack);
                             border_text(reqbase,border,infobuf);
+//                            GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
                             if (!(check_error(reqbase,infobuf,STR_RETRY))) {
                                 abort=1;
                                 err=ERROR_FAILED;
@@ -674,6 +800,7 @@ int verify,bump,check;
                         lsprintf(infobuf,string_table[STR_FORMAT_VERIFYING],
                             track+curtrack,numtracks-curtrack-track-1);
                         border_text(reqbase,border,infobuf);
+//                        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
 
                         FOREVER {
                             device_req[1]->iotd_Req.io_Command=CMD_READ;
@@ -695,6 +822,7 @@ int verify,bump,check;
                             }
 
                             border_text(reqbase,border,infobuf);
+//                            GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)infobuf,TAG_END);
                             if (!(check_error(reqbase,infobuf,STR_RETRY))) {
                                 abort=1;
                                 break;
@@ -716,6 +844,7 @@ int verify,bump,check;
                 case 0:
                     if (bump && !check) {
                         border_text(reqbase,border,string_table[STR_BUMPING_NAME]);
+//                        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)string_table[STR_BUMPING_NAME],TAG_END);
                         inhibit_drive(dest,FALSE);
                         bump_disk_name(dest);
                     }
@@ -737,6 +866,7 @@ int verify,bump,check;
     else txt=STR_NODEVICE_ERROR;
 
     if (txt>-1) border_text(reqbase,border,string_table[txt]);
+//        GT_SetGadgetAttrs(border,reqbase->rb_window,NULL,GTTX_Text,(Tag)string_table[txt],TAG_END);
 
     for (a=0;a<2;a++) {
         if (device_req[a]) {
@@ -762,7 +892,7 @@ char *disk;
         wsave=myproc->pr_WindowPtr;
         myproc->pr_WindowPtr=(APTR)-1;
 
-        if (lock=Lock(disk,ACCESS_READ)) {
+        if ((lock=Lock(disk,ACCESS_READ))) {
             struct FileInfoBlock __aligned info;
             char namebuf[FILEBUF_SIZE];
             struct MsgPort *port;
@@ -772,7 +902,7 @@ char *disk;
 
             BumpRevision(namebuf,info.fib_FileName);
 
-            if (port=(struct MsgPort *)DeviceProc(disk)) {
+            if ((port=(struct MsgPort *)DeviceProc(disk))) {
                 char __aligned bstr_name[FILEBUF_SIZE+4];
                 ULONG arg;
 

@@ -30,13 +30,22 @@ the existing commercial status of Directory Opus 5.
 
 #include "diskop.h"
 
-char *version="$VER: DOpus_Disk 2.6 (" __DATE__ ") made under GPL license by Jacek Rzeuski";
+char *version="$VER: DOpus_Disk 3.0beta (" __DATE__ ") made under GPL license by Jacek Rzeuski";
 
 struct DOpusBase *DOpusBase = NULL;
 struct IntuitionBase *IntuitionBase = NULL;
 struct GfxBase *GfxBase = NULL;
 struct Library *IconBase = NULL;
+struct Library *GadToolsBase = NULL;
 
+struct RequesterBase req;
+
+struct TagItem commonGTtags[] = {
+                    { GT_Underscore, '_' },
+                    { TAG_END, 0 }
+};
+
+/*
 ULONG BitTable[32]={
     0xfffffffe,0xfffffffd,0xfffffffb,0xfffffff7,
     0xffffffef,0xffffffdf,0xffffffbf,0xffffff7f,
@@ -46,7 +55,7 @@ ULONG BitTable[32]={
     0xffefffff,0xffdfffff,0xffbfffff,0xff7fffff,
     0xfeffffff,0xfdffffff,0xfbffffff,0xf7ffffff,
     0xefffffff,0xdfffffff,0xbfffffff,0x7fffffff};
-
+*/
 USHORT
     trashcanicon_1_data[]={
         0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
