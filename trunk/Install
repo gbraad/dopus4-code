@@ -1,0 +1,652 @@
+;
+; $VER: DirectoryOpus4 Installscript 1.6 (15.10.01) Christoph Gutjahr
+;
+; History:
+;
+;   15-Oct-01 added support for french manual
+;   10-Oct-01 now checks if the localization is available
+;   10-Oct-01 added support for Hungarian translation
+;   10-Oct-01 all variable names start with "#" now, to be style-guide compliant
+;   10-Oct-01 should catch all versions of "DirectoryOpus already exists" now
+;   10-Oct-01 Deleting files is now handled by a procedure
+;   10-Oct-01 Installing translations is now handled by a procedure
+;   10-Oct-01 combined the "copy catalogs" and "copy helpfiles" stuff
+;   10-Oct-01 removed the check for file "DirectoryOpus"
+;   24-Jun-01 new strings: #lang_catalog, #lang_manual #removingold
+;   24-Jun-01 added the options to choose which catalogs/docs to install
+;   24-Jun-01 script now asks all questions first, then operates
+;   23-Jun-01 added french translation by ATO France
+;   23-Jun-01 changed the User-Startup additions to contain "CD <DOPUSDIR>"
+;   22-Jun-01 added spanish translation by David Rey
+;   21-Jun-01 added standard version string
+;   21-Jun-01 replaced "InstallOpus" with "Installation routine" or similar all over the place
+;   21-Jun-01 corrected copyright message
+;   21-Jun-01 corrected some typos
+;   09-Jun-01 removed  the "Create Boot floppy mode"
+;   08-Jun-01 changed strings: #exists, #exists2, #existshelp, #endtext
+;   08-Jun-01 New strings: #remfiles, #remhelp, #informassign #backupfiles
+;   08-Jun-01 rewrote script to match DOpus 4.16
+;   15-Sep-00 Localization implemented
+;   09-Sep-00 Major CleanUp, rewrote 'Install to Boot floppy' mode
+;   08-Sep-00 Changed to match the Diropus 4.15 distribution
+
+
+;******************************************************************************
+;*****                               SETUP                                *****
+;******************************************************************************
+
+
+; some useful variables
+
+(set #true 1)
+(set #false 0)
+(set #is_a_file 1)
+(set #is_a_dir 2)
+(set #quote "\"")
+(set #newline "\n")
+(set #nothing "")
+
+; catalog languages
+
+(set #def_lang_english   0)
+(set #def_lang_deutsch   1)
+(set #def_lang_espanol   2)
+(set #def_lang_francais  4)
+(set #def_lang_italiano  8)
+(set #def_lang_magyar   16)
+(set #def_lang_polski   32)
+(set #def_lang_suomi    64)
+
+; manual languages
+
+(set #def_doc_english  0)
+(set #def_doc_espanol  1)
+(set #def_doc_francais 2)
+
+; check if the localization is available
+
+(if (exists "catalogs") (set #localavail 1))
+
+; set up our delete options
+
+(delopts "AskUser" "OkNoDelete" "Force")
+
+; this procedures deletes a file whose name is stored in #temp_file
+
+(procedure p_deletefile
+   (if (= (exists #temp_file) #is_a_file) (delete #temp_file))
+)
+
+; the procedure used for installing a single language with the name #lang
+
+(procedure p_copytranslation
+   (copyfiles (source (tackon "Catalogs" #lang)) (all) (dest (tackon #cat_dir #lang)) (confirm) (prompt #copyfiles) (help #copyhelp) (optional "Fail" "Force"))
+   (copyfiles (source "S") (pattern (cat "#?" #lang "#?"))  (dest #help_dir) (confirm) (prompt #copyfiles) (help #copyhelp) (optional "Fail" "Force"))
+)
+
+
+;******************************************************************************
+;*****                            LOCALISATION                            *****
+;******************************************************************************
+
+
+; English
+
+(set #welcome "\nWelcome to the Directory Opus installation!\n\nWritten by Christoph Gutjahr and Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nThere seems to be a Directory Opus already installed in your drawer named:\n\n")
+(set #exists2 "\n\nDo you want to backup this version first?\n\n\(click on \"Help\" for more information\)")
+(set #existhelp "\nThe installation routine has determined that there is already a copy of Directory Opus installed in the specified destination directory.\n\nSelect \"Yes\" and the existing files will be backuped in a directory called \"Backup\".\n\nIf you answer \"No\", they will be overwritten.\n\nNote: Configuration files, or files not directly related to the Directory Opus distribution will never get deleted!")
+(set #askdir "Where would you like Directory Opus installed ?\n\(A drawer named 'DirOpus4' will be created, if necessary\)")
+(set #copyfiles "Copying files needed by DirOpus.")
+(set #copyhelp "\nThis will copy the program and support files needed by DirOpus.\n\nYou can select which parts of the distribution should be installed.\n\nUnder normal circumstances, it is recommended to copy all files.\n\n")
+(set #startup "What do you want to do when your machine starts up ?")
+(set #startuphelp "\nThe installation routine can modify the boot process of your computer, to start up Directory Opus immediately at startup.\n\nTo achieve this, the program will make an additional entry in your User-Startup.")
+(set #schoice1 "Do not auto-start Directory Opus")
+(set #schoice2 "Startup Directory Opus")
+(set #schoice3 "Startup Directory Opus iconified")
+(set #updateus "Updating S:User-Startup.")
+(set #addinstr "\nThese instructions need to be added to your 'S:User-Startup', to properly configure your system for the use of Directory Opus 4:\n\n")
+(set #endtext "\nWell that's it folks, have a fun time with Directory Opus 4.\n\nIf you are upgrading from an earlier version of Directory Opus, please reboot your computer now.")
+(set #abort "You aborted the installation process.")
+(set #informassign "\nThe assign \"DOpus:\" exists on your system. This assign is not needed anymore, please remove the following line from your user-startup once the installation is finished:\n\nassign DOpus: \"")
+(set #remfiles "Do you want to scan your hard disk for outdated DOpus files and delete them?\n\n(Configuration files found will not be deleted of course)")
+(set #remhelp "Earlier versions of Directory Opus spread their files over various system directories. Some users continued to do so with 4.x versions, to avoid the need of creating an assign.\n\nNone of this is needed anymore, but there may be some DOpus files still lurking in some places. Answer \"Yes\" to delete DOpus related files from your System directories.")
+(set #backupfiles "Backing up existing version of Directory Opus...")
+(set #lang_catalog "Which catalog files do you want to install?\n(English language is built-in)")
+(set #lang_manual "Which version of the documentation would you like to install ?")
+(set #removingold "Removing DOpus files from system directories.")
+
+(set #def_cat_lang #def_lang_english)
+(set #def_doc_lang #def_doc_english)
+
+; Deutsch
+
+(if (= @language "deutsch")
+(
+(set #welcome "\nWillkommen bei der Directory Opus Installation!\n\nVon Christoph Gutjahr und Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nIm angegeben Zielverzeichnis:\n\n")
+(set #exists2 "\n\nscheint bereits eine Version von Directory Opus installiert zu sein. Möchten Sie ein Backup dieser Version erstellen?\n\n\(ein Unterverzeichnis \"Backup\" wird erstellt und die existierenden Dateien dorthin kopiert\)")
+(set #existhelp "\nDas Installationsprogramm hat herausgefunden, daß sich im angewählten Zielverzeichnis bereits eine Version von Directory Opus befindet.\n\nKlicken sie auf \"Ja\", um ein Backup dieser Version zu erstellen, sie wird dann in das Unterverzeichnis \"Backup\" verschoben, welches vom Installationsprogramm erstellt wird.\n\n")
+(set #existhelp2 "Antworten Sie mit \"Nein\", und die existierenden Dateien werden überschrieben.\n\nIn keinem der Fälle werden durch die Installation Konfigurationsdateien oder fremde Dateien überschrieben!")
+(set #askdir "Wo möchten Sie Directory Opus 4 installieren ?\n\(Ein Verzeichnis namens 'DirOpus4' wird erstellt, falls nötig\)")
+(set #copyfiles "Kopiere Dateien, die von DirOpus benötigt werden.")
+(set #copyhelp "\nJetzt werden das Hauptprogramm und die Zusatzdateien von Directory Opus 4 installiert.\n\nSie können festlegen, welche Teile der Distribution kopiert werden sollen.\n\nIm Normalfall sollten Sie alle Files kopieren.\n\n")
+(set #startup "Was soll beim Booten Ihres Rechners geschehen ?")
+(set #startuphelp "\nDas Installationsprogramm kann den Bootvorgang ihres Rechners so modifizieren, daß Directory Opus automatisch gestartet wird, wenn Ihr Rechner hochfährt.\n\nDazu macht das Programm einen zusätzlichen Eintrag in der User-Startup.")
+(set #schoice1 "DirOpus nicht automatisch starten")
+(set #schoice2 "DirOpus automatisch starten")
+(set #schoice3 "DirOpus iconifiziert starten")
+(set #updateus "Datei S:User-Startup wird modifiziert.")
+(set #addinstr "\nFolgende Befehle müssen der Datei 'S:User-Startup' hinzugefügt werden, damit Ihr System für die Nutzung von Directory Opus 4 einwandfrei konfiguriert ist:\n\n")
+(set #endtext "\nOkay Leute, das war's. Viel Spaß mit DirOpus 4.\n\nWenn Sie bereits eine ältere Version von Directory Opus benutzt haben, sollten Sie jetzt ihren Rechner neu starten.")
+(set #abort "Sie haben den Vorgang abgebrochen.")
+(set #informassign "Der Assign \"DOpus:\" existiert auf Ihrem Computer. Diese Zuweisung wird nicht mehr benötigt, bitte entfernen Sie nach Beendigung der Installation folgende Zeile aus Ihrer User-Startup Datei:\n\nassign DOpus: \"")
+(set #remfiles "Soll ihre Festplatte nach nicht mehr benötigten DOpus-Dateien durchsucht werden und diese Dateien gelöscht werden?\n\n(Konfigurationsdateien werden auf keinen Fall gelöscht)")
+(set #remhelp "Frühere Versionen von Directory Opus legten verschiedene Programmteile in System-Verzeichnissen ab. Manche Benutzer des Programmes versuchten auch, durch das Verschieben einzelner Programmteile in Systemverzeichnisse die Notwendigkeit zu umgehen, einen Assign zu erstellen.\n\nBeides ist nun nicht mehr nötig, deshalb können alle DOpus Dateien aus Systemverzeichnissen entfernt werden (falls sich dort noch welche befinden sollten).")
+(set #backupfiles "Existierende Dateien werden im Verzeichnis \"Backup\" gesichert.")
+(set #lang_catalog "Welche Sprachen sollen installiert werden ?\n(Englisch ist eingebaut)")
+(set #lang_manual "Welche Version des Handbuchs wollen Sie installieren ?")
+(set #removingold "Entferne DOpus-Dateien aus Systemverzeichnissen.")
+
+(set #def_cat_lang #def_lang_deutsch)
+)
+)
+
+; Español
+
+(if (= @language "español")
+(
+(set #welcome "\nBienvenido a la instalación de Directory Opus.\n\nEscrita por Christoph Gutjahr y Eddie Churchill\n\n© 2001 del Proyecto de Investigación Directory Opus 4\n")
+(set #exists "\nParece haber una copia de Directory Opus ya instalada en su directorio:\n\n")
+(set #exists2 "\n\n¿Desea hacer una copia de esa versión antes de continuar?\n\n\ (pulse \"Ayuda\" para más información).")
+(set #existhelp "\nInstaller ha encontrado una copia de Directory Opus instalada en el directorio destino indicado.\n\n Elija \"Sí\" para que los ficheros que la forman sean copiados a un directorio llamado \"Backup\".\n\nSi elige \"No\", esos ficheros serán sobreescritos.\n\nNota: NO se borrará ningún fichero de configuración, ni ficheros no relacionados directamente con la distribución de Directory Opus.")
+(set #askdir "¿Dónde le gustaría instalar Directory Opus?\n(Se creará un cajón llamado 'DirOpus4' si es necesario).")
+(set #copyfiles "Copiando los ficheros necesarios para DirOpus.")
+(set #copyhelp "\nEsta operación copiará el programa y los ficheros de soporte necesarios para DirOpus.\n\nPuede elegir qué partes de la distribución le interesa instalar.\n\nEn circunstancias normales, se recomienda copiar todos los ficheros.\n\n")
+(set #startup "¿Qué desea hacer cuando se reinicie su ordenador?")
+(set #startuphelp "\nInstaller puede modificar el fichero User-Startup de su partición de arranque, para lanzar Directory Opus inmediatamente al arrancarse el sistema.\n\nPara ello, añadirá una línea extra a su fichero User-Startup.")
+(set #schoice1 "No lanzar automáticamente Directory Opus")
+(set #schoice2 "Lanzar automáticamente Directory Opus")
+(set #schoice3 "Lanzar Directory Opus en modo iconificado")
+(set #updateus "Actualizando S:User-Startup.")
+(set #addinstr "\nEstas instrucciones necesitan ser añadidas a su fichero 'S:User-Startup', para configurar su sistema correctamente para el uso de Directory Opus 4:\n\n")
+(set #endtext "\nÉso es todo, ¡que se divierta con Directory Opus 4!\n\n Si está actualizándose desde una versión más antigua de Directory Opus, por favor, reinicie ahora su ordenador.")
+(set #abort "Ha interrumpido el proceso de instalación.")
+(set #informassign "\nLa asignación \"DOpus:\" está presente en su sistema. Esta asignación ya no es necesaria; por favor, elimine la siguiente línea de su fichero 'User-Startup' una vez concluido el proceso de instalación:\n\nassign DOpus: \"")
+(set #remfiles "¿Desea que Installer explore su disco duro en busca de viejos ficheros de DOpus para borrarlos?\n\n(Los ficheros de configuración que se encuentren NO serán borrados, por supuesto)")
+(set #remhelp "Anteriores versiones de Directory Opus dispersaban sus ficheros por varios directorios del sistema. Algunos usuarios continuaron así en las versiones 4.x, para evitar la necesidad de crear una asignación.\n\nNada de esto es necesario ahora, pero puede haber todavía algunos ficheros de DOpus desperdigados por alguna parte. Conteste \"Sí\" para borrar los ficheros de DOpus de sus directorios del sistema.")
+(set #backupfiles "Creando copia de seguridad de la versión existente de Directory Opus...")
+(set #lang_catalog "¿Qué catálogo desea instalar?\n(Por omisión, DOpus trabaja en inglés)")
+(set #lang_manual "¿Qué versión de la documentación le gustaría instalar?")
+(set #removingold "Eliminando los ficheros de DOpus de los directorios del sistema...")
+
+(set #def_cat_lang #def_lang_espanol)
+(set #def_doc_lang #def_doc_espanol)
+)
+)
+
+; Français
+
+(if (= @language "français")
+(
+(set #welcome "Bienvenue dans l'installation de DirectoryOpus 4 !\n\nEcrit par Christoph Gutjahr et Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nIl semble qu'il y aie déjà un Directory Opus installé dans le répertoire :\n\n")
+(set #exists2 "\n\nVoulez-vous sauvegarder cette version avant d'installer ?\n\n\(Cliquez sur \"Aide\" pour plus d'informations.\)")
+(set #existhelp "\nUne copie de Directory Opus est déjà installée dans le répertoire de destination spécifié.\n\nSi vous sélectionnez \"Oui\" les fichiers présents seront sauvegardés dans un répertoire appelé \"Backup\".\n\nSi vous répondez \"Non\", ils seront écrasés.\n\nNotez: les fichiers de configuration et les fichiers non liés à la distribution de Directory Opus ne seront pas effacés !")
+(set #askdir "Où voulez-vous installer Directory Opus ?\n\(Un dossier appelé 'DirOpus4' sera créé\)")
+(set #copyfiles "Copie des fichiers de DirOpus en cours.")
+(set #copyhelp "\nLes fichiers nécessaires à DirOpus seront installés.\n\nVous pouvez sélectionner les parties de la distribution à installer.\n\nEn temps normal, il est recommandé de copier tous les fichiers.\n\n")
+(set #startup "Que voulez-vous faire au démarrage de votre système ?")
+(set #startuphelp "\nL'installation peut modifier votre séquence de démarrage pour que Directory Opus soit démarré automatiquement à chaque démarrage.\n\nPour réaliser ceci, le programme ajoutera quelques lignes au fichier s:User-Startup.")
+(set #schoice1 "Ne pas démarrer automatiquement Directory Opus")
+(set #schoice2 "Démarrer Directory Opus")
+(set #schoice3 "Démarrer Directory Opus iconifié")
+(set #updateus "Mise-à-jour de S:User-Startup.")
+(set #addinstr "\nCes instructions doivent être ajoutées au fichier 'S:User-Startup' pour configurer votre système pour Directory Opus 4 :\n\n")
+(set #endtext "\nL'installation est terminée, bonne utilisation de Directory Opus 4 !\n\nSi vous venez d'effectuer une mise à jour de Directory Opus, merci de redémarrer votre système.")
+(set #abort "Vous avez interrompu la procédure d'installation.")
+(set #informassign "\nL'assignation \"DOpus:\" existe sur votre système. Elle n'est plus utile, merci de supprimer la ligne suivante de votre user-startup une fois l'installation terminée :\n\nassign DOpus: \"")
+(set #remfiles "Voulez-vous effacer les anciens fichiers de DOpus sur votre disque ?\n\n(Les fichiers de configuration ne seront pas effacés.)")
+(set #remhelp "Les installations de versions précédentes de Directory Opus copiaient des fichiers de la distribution un peu partout dans les répertoires de votre disque système. Certains utilisateurs on continué à faire ainsi avec les versions 4.x, pour éviter la création d'une assignation.\n\nRien de ceci n'est encore indispensable, mais des fichiers de DOpus peuvent toujours se trouver sur votre disque. Répondez \"Oui\" pour effacer les fichiers DOpus dans vos répertoires systèmes.")
+(set #backupfiles "Sauvegarde de la version actuelle de Directory Opus...")
+(set #lang_catalog "Which catalog file do you want to install?\n(English language is built-in)")
+(set #lang_manual "Which version of the documentation would you like to install ?")
+(set #removingold "Removing DOpus files from system directories.")
+
+
+(set #def_cat_lang #def_lang_francais)
+(set #def_doc_lang #def_doc_francais)
+)
+)
+
+; Italiano
+
+(if (= @language "italiano")
+(
+(set #welcome "\nWelcome to the Directory Opus installation!\n\nWritten by Christoph Gutjahr and Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nThere seems to be a Directory Opus already installed in your drawer named:\n\n")
+(set #exists2 "\n\nDo you want to backup this version first?\n\n\(click on \"Help\" for more information\)")
+(set #existhelp "\nThe installation routine has determined that there is already a copy of Directory Opus installed in the specified destination directory.\n\nSelect \"Yes\" and the existing files will be backuped in a directory called \"Backup\".\n\nIf you answer \"No\", they will be overwritten.\n\nNote: Configuration files, or files not directly related to the Directory Opus distribution will never get deleted!")
+(set #askdir "Where would you like Directory Opus installed ?\n\(A drawer named 'DirOpus4' will be created, if necessary\)")
+(set #copyfiles "Copying files needed by DirOpus.")
+(set #copyhelp "\nThis will copy the program and support files needed by DirOpus.\n\nYou can select which parts of the distribution should be installed.\n\nUnder normal circumstances, it is recommended to copy all files.\n\n")
+(set #startup "What do you want to do when your machine starts up ?")
+(set #startuphelp "\nThe installation routine can modify the boot process of your computer, to start up Directory Opus immediately at startup.\n\nTo achieve this, the program will make an additional entry in your User-Startup.")
+(set #schoice1 "Do not auto-start Directory Opus")
+(set #schoice2 "Startup Directory Opus")
+(set #schoice3 "Startup Directory Opus iconified")
+(set #updateus "Updating S:User-Startup.")
+(set #addinstr "\nThese instructions need to be added to your 'S:User-Startup', to properly configure your system for the use of Directory Opus 4:\n\n")
+(set #endtext "\nWell that's it folks, have a fun time with Directory Opus 4.\n\nIf you are upgrading from an earlier version of Directory Opus, please reboot your computer now.")
+(set #abort "You aborted the installation process.")
+(set #informassign "\nThe assign \"DOpus:\" exists on your system. This assign is not needed anymore, please remove the following line from your user-startup once the installation is finished:\n\nassign DOpus: \"")
+(set #remfiles "Do you want to scan your hard disk for outdated DOpus files and delete them?\n\n(Configuration files found will not be deleted of course)")
+(set #remhelp "Earlier versions of Directory Opus spread their files over various system directories. Some users continued to do so with 4.x versions, to avoid the need of creating an assign.\n\nNone of this is needed anymore, but there may be some DOpus files still lurking in some places. Answer \"Yes\" to delete DOpus related files from your System directories.")
+(set #backupfiles "Backing up existing version of Directory Opus...")
+(set #lang_catalog "Which catalog files do you want to install?\n(English language is built-in)")
+(set #lang_manual "Which version of the documentation would you like to install ?")
+(set #removingold "Removing DOpus files from system directories.")
+
+(set #def_cat_lang #def_lang_italiano)
+)
+)
+
+; Magyar
+
+(if (= @language "magyar")
+(
+(set #welcome "\nWelcome to the Directory Opus installation!\n\nWritten by Christoph Gutjahr and Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nThere seems to be a Directory Opus already installed in your drawer named:\n\n")
+(set #exists2 "\n\nDo you want to backup this version first?\n\n\(click on \"Help\" for more information\)")
+(set #existhelp "\nThe installation routine has determined that there is already a copy of Directory Opus installed in the specified destination directory.\n\nSelect \"Yes\" and the existing files will be backuped in a directory called \"Backup\".\n\nIf you answer \"No\", they will be overwritten.\n\nNote: Configuration files, or files not directly related to the Directory Opus distribution will never get deleted!")
+(set #askdir "Where would you like Directory Opus installed ?\n\(A drawer named 'DirOpus4' will be created, if necessary\)")
+(set #copyfiles "Copying files needed by DirOpus.")
+(set #copyhelp "\nThis will copy the program and support files needed by DirOpus.\n\nYou can select which parts of the distribution should be installed.\n\nUnder normal circumstances, it is recommended to copy all files.\n\n")
+(set #startup "What do you want to do when your machine starts up ?")
+(set #startuphelp "\nThe installation routine can modify the boot process of your computer, to start up Directory Opus immediately at startup.\n\nTo achieve this, the program will make an additional entry in your User-Startup.")
+(set #schoice1 "Do not auto-start Directory Opus")
+(set #schoice2 "Startup Directory Opus")
+(set #schoice3 "Startup Directory Opus iconified")
+(set #updateus "Updating S:User-Startup.")
+(set #addinstr "\nThese instructions need to be added to your 'S:User-Startup', to properly configure your system for the use of Directory Opus 4:\n\n")
+(set #endtext "\nWell that's it folks, have a fun time with Directory Opus 4.\n\nIf you are upgrading from an earlier version of Directory Opus, please reboot your computer now.")
+(set #abort "You aborted the installation process.")
+(set #informassign "\nThe assign \"DOpus:\" exists on your system. This assign is not needed anymore, please remove the following line from your user-startup once the installation is finished:\n\nassign DOpus: \"")
+(set #remfiles "Do you want to scan your hard disk for outdated DOpus files and delete them?\n\n(Configuration files found will not be deleted of course)")
+(set #remhelp "Earlier versions of Directory Opus spread their files over various system directories. Some users continued to do so with 4.x versions, to avoid the need of creating an assign.\n\nNone of this is needed anymore, but there may be some DOpus files still lurking in some places. Answer \"Yes\" to delete DOpus related files from your System directories.")
+(set #backupfiles "Backing up existing version of Directory Opus...")
+(set #lang_catalog "Which catalog files do you want to install?\n(English language is built-in)")
+(set #lang_manual "Which version of the documentation would you like to install ?")
+(set #removingold "Removing DOpus files from system directories.")
+
+(set #def_cat_lang #def_lang_magyar)
+)
+)
+
+; Polski
+
+(if (= @language "polski")
+(
+(set #welcome "\nWelcome to the Directory Opus installation!\n\nWritten by Christoph Gutjahr and Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nThere seems to be a Directory Opus already installed in your drawer named:\n\n")
+(set #exists2 "\n\nDo you want to backup this version first?\n\n\(click on \"Help\" for more information\)")
+(set #existhelp "\nThe installation routine has determined that there is already a copy of Directory Opus installed in the specified destination directory.\n\nSelect \"Yes\" and the existing files will be backuped in a directory called \"Backup\".\n\nIf you answer \"No\", they will be overwritten.\n\nNote: Configuration files, or files not directly related to the Directory Opus distribution will never get deleted!")
+(set #askdir "Where would you like Directory Opus installed ?\n\(A drawer named 'DirOpus4' will be created, if necessary\)")
+(set #copyfiles "Copying files needed by DirOpus.")
+(set #copyhelp "\nThis will copy the program and support files needed by DirOpus.\n\nYou can select which parts of the distribution should be installed.\n\nUnder normal circumstances, it is recommended to copy all files.\n\n")
+(set #startup "What do you want to do when your machine starts up ?")
+(set #startuphelp "\nThe installation routine can modify the boot process of your computer, to start up Directory Opus immediately at startup.\n\nTo achieve this, the program will make an additional entry in your User-Startup.")
+(set #schoice1 "Do not auto-start Directory Opus")
+(set #schoice2 "Startup Directory Opus")
+(set #schoice3 "Startup Directory Opus iconified")
+(set #updateus "Updating S:User-Startup.")
+(set #addinstr "\nThese instructions need to be added to your 'S:User-Startup', to properly configure your system for the use of Directory Opus 4:\n\n")
+(set #endtext "\nWell that's it folks, have a fun time with Directory Opus 4.\n\nIf you are upgrading from an earlier version of Directory Opus, please reboot your computer now.")
+(set #abort "You aborted the installation process.")
+(set #informassign "\nThe assign \"DOpus:\" exists on your system. This assign is not needed anymore, please remove the following line from your user-startup once the installation is finished:\n\nassign DOpus: \"")
+(set #remfiles "Do you want to scan your hard disk for outdated DOpus files and delete them?\n\n(Configuration files found will not be deleted of course)")
+(set #remhelp "Earlier versions of Directory Opus spread their files over various system directories. Some users continued to do so with 4.x versions, to avoid the need of creating an assign.\n\nNone of this is needed anymore, but there may be some DOpus files still lurking in some places. Answer \"Yes\" to delete DOpus related files from your System directories.")
+(set #backupfiles "Backing up existing version of Directory Opus...")
+(set #lang_catalog "Which catalog files do you want to install?\n(English language is built-in)")
+(set #lang_manual "Which version of the documentation would you like to install ?")
+(set #removingold "Removing DOpus files from system directories.")
+
+(set #def_cat_lang #def_lang_polski)
+)
+)
+
+; Suomi
+
+(if (= @language "suomi")
+(
+(set #welcome "\nWelcome to the Directory Opus installation!\n\nWritten by Christoph Gutjahr and Eddie Churchill\n© 2001 Directory Opus 4 Research Project\n")
+(set #exists "\nThere seems to be a Directory Opus already installed in your drawer named:\n\n")
+(set #exists2 "\n\nDo you want to backup this version first?\n\n\(click on \"Help\" for more information\)")
+(set #existhelp "\nThe installation routine has determined that there is already a copy of Directory Opus installed in the specified destination directory.\n\nSelect \"Yes\" and the existing files will be backuped in a directory called \"Backup\".\n\nIf you answer \"No\", they will be overwritten.\n\nNote: Configuration files, or files not directly related to the Directory Opus distribution will never get deleted!")
+(set #askdir "Where would you like Directory Opus installed ?\n\(A drawer named 'DirOpus4' will be created, if necessary\)")
+(set #copyfiles "Copying files needed by DirOpus.")
+(set #copyhelp "\nThis will copy the program and support files needed by DirOpus.\n\nYou can select which parts of the distribution should be installed.\n\nUnder normal circumstances, it is recommended to copy all files.\n\n")
+(set #startup "What do you want to do when your machine starts up ?")
+(set #startuphelp "\nThe installation routine can modify the boot process of your computer, to start up Directory Opus immediately at startup.\n\nTo achieve this, the program will make an additional entry in your User-Startup.")
+(set #schoice1 "Do not auto-start Directory Opus")
+(set #schoice2 "Startup Directory Opus")
+(set #schoice3 "Startup Directory Opus iconified")
+(set #updateus "Updating S:User-Startup.")
+(set #addinstr "\nThese instructions need to be added to your 'S:User-Startup', to properly configure your system for the use of Directory Opus 4:\n\n")
+(set #endtext "\nWell that's it folks, have a fun time with Directory Opus 4.\n\nIf you are upgrading from an earlier version of Directory Opus, please reboot your computer now.")
+(set #abort "You aborted the installation process.")
+(set #informassign "\nThe assign \"DOpus:\" exists on your system. This assign is not needed anymore, please remove the following line from your user-startup once the installation is finished:\n\nassign DOpus: \"")
+(set #remfiles "Do you want to scan your hard disk for outdated DOpus files and delete them?\n\n(Configuration files found will not be deleted of course)")
+(set #remhelp "Earlier versions of Directory Opus spread their files over various system directories. Some users continued to do so with 4.x versions, to avoid the need of creating an assign.\n\nNone of this is needed anymore, but there may be some DOpus files still lurking in some places. Answer \"Yes\" to delete DOpus related files from your System directories.")
+(set #backupfiles "Backing up existing version of Directory Opus...")
+(set #lang_catalog "Which catalog files do you want to install?\n(English language is built-in)")
+(set #lang_manual "Which version of the documentation would you like to install ?")
+(set #removingold "Removing DOpus files from system directories.")
+
+(set #def_cat_lang #def_lang_suomi)
+)
+)
+
+
+;******************************************************************************
+;*****     Now figure out the initial defaults for a bunch of things      *****
+;******************************************************************************
+
+
+; introduce ourselfs to the viewers
+
+(welcome #welcome)
+
+; set default destination directory, check for the assign
+
+(set @default-dest "SYS:")
+(set #DOpus_Dir (getassign "DOpus"))
+
+; tell the user to remove the assign if it exists
+
+(if (<> #DOpus_Dir #nothing)
+   (
+   (set #oldlevel @user-level)
+   (user 2)
+   (message #informassign #DOpus_Dir #quote)
+   (set @default-dest #DOpus_Dir)
+   (user #oldlevel)
+   )
+)
+
+; ask for the destination directory, append "DirOpus4" if neccessary, else ask if old version should be backuped
+
+(set #DOpus_Dir (askdir (prompt #askdir) (help @askdir-help) (default @default-dest) (newpath)))
+(if (<> (exists (tackon #DOpus_Dir "DirectoryOpus")) #is_a_file)
+   (
+   (set #DOpus_Dir (tackon #DOpus_Dir "DirOpus4"))
+   )
+)
+(if (= (exists (tackon #DOpus_Dir "DirectoryOpus")) #is_a_file)
+   (
+   (set #backup_old (askbool (prompt #exists #quote #DOpus_Dir #quote #exists2) (help #existhelp #existhelp2) (default 0)))
+   )
+)
+
+; Shall we clean DOpus files from System directories ?
+
+(set #remove_old (askbool (prompt #remfiles) (help #remhelp) (default 1)))
+
+; the following only if localization is available
+
+(if (= #localavail 1)
+   (
+
+   ; Ask the user which language catalogs should be installed
+
+   (set #catalog_lang
+      (askoptions
+         (prompt  #lang_catalog)
+         (help @askoptions-help)
+         (choices "Deutsch  (v4.17)" "Español  (v4.17)" "Français (v4.17)" "Italiano (v4.16)" "Magyar   (v4.17)" "Polski   (v4.17)" "Suomi    (v4.16)")
+         (default #def_cat_lang)
+      )
+   )
+
+   ; Ask the user which documentation should be installed
+
+   (set #docs_lang
+      (askchoice
+         (prompt  #lang_manual)
+         (help    @askchoice-help)
+         (choices "English" "Español" "Français")
+         (default #def_doc_lang)
+      )
+   )
+   )
+
+   ; else reset all localization parameters
+
+   (
+   (set def_cat_lang 0)
+   (set def_doc_lang 0)
+   )
+)
+
+; ask the user if he wants DirectoryOpus auto-started when he boots
+
+(set #startup_mode (askchoice (prompt #startup) (help #startuphelp) (choices #schoice1 #schoice2 #schoice3) (default 0)))
+
+; tell the user of our progress
+
+(complete 10)
+
+
+;******************************************************************************
+;*****                     The fun is about to begin!                     *****
+;******************************************************************************
+
+
+; Backup old version if the user opted to do so
+
+(if (= #backup_old 1)
+   (
+   (set #backup_dir (tackon #DOpus_Dir "backup"))
+   (copyfiles
+      (prompt #backupfiles)
+      (source #DOpus_Dir)
+      (help @copyfiles-help)
+      (dest #backup_dir)
+      (pattern "#?")
+      (infos)
+      (confirm)
+   )
+   )
+)
+
+; tell the user of our progress
+
+(complete 20)
+
+; Remove old files from various system directories, if the user opted to do so
+
+(if (= #remove_old 1)
+   (
+   (working #removingold)
+   (set #temp_file "S:DirectoryOpus.HLP")
+   (p_deletefile)
+   (set #temp_file "S:ConfigOpus.HLP")
+   (p_deletefile)
+   (set #temp_file "S:DO_Deutsch.HLP")
+   (p_deletefile)
+   (set #temp_file "S:CO_Deutsch.HLP")
+   (p_deletefile)
+   (set #temp_file "C:DOpusRT")
+   (p_deletefile)
+   (set #temp_file "C:DOpus_Print")
+   (p_deletefile)
+   (set #temp_file "C:DOpus_Print.info")
+   (p_deletefile)
+   (set #temp_file "C:DOpus_Disk")
+   (p_deletefile)
+   (set #temp_file "C:DOpus_Icon")
+   (p_deletefile)
+   (set #temp_file "C:ConfigOpus")
+   (p_deletefile)
+   (set #temp_file "C:ConfigOpus.info")
+   (p_deletefile)
+   (set #temp_file "SYS:ConfigOpus")
+   (p_deletefile)
+   (set #temp_file "SYS:ConfigOpus.info")
+   (p_deletefile)
+   (set #temp_file "ConfigOpus")
+   (p_deletefile)
+   (set #temp_file "ConfigOpus.info")
+   (p_deletefile)
+   (set #temp_file "LIBS:Dopus.Library")
+   (p_deletefile)
+   )
+)
+
+; tell the user of our progress
+
+(complete 30)
+
+; Copy main distribution files
+
+(set #DOpus_Dir
+   (copyfiles
+      (prompt #copyfiles)
+      (help #copyhelp)
+      (source "")
+      (dest #DOpus_Dir)
+      (pattern "(C|Libs|Modules|DirectoryOpus|#?readme#?|#?copying#?)")
+      (infos)
+      (optional "Fail" "Force")
+      (confirm)
+   )
+)
+(copyfiles
+   (prompt #copyfiles)
+   (help #copyhelp)
+   (source "S")
+   (pattern "#?Opus.HLP")
+   (dest (tackon #DOpus_Dir "s"))
+   (optional "Fail" "Force")
+   (confirm)
+)
+
+; tell the user of our progress
+
+(complete 80)
+
+; Copy language files
+
+(if (> #catalog_lang 0)
+   (
+   (set #cat_dir (tackon #DOpus_Dir "catalogs"))
+   (if (not (exists #cat_dir))  (makedir #cat_dir))
+   (set #help_dir (tackon #DOpus_Dir "s"))
+   (if (not (exists #help_dir))  (makedir #help_dir))
+   (copyfiles (prompt #copyfiles) (help #copyhelp) (source "Catalogs") (pattern "#?.cd") (dest #cat_dir) (optional "Fail" "Force") (confirm))
+   (if (bitand #catalog_lang #def_lang_deutsch)
+      (
+      (set #lang "deutsch")
+      (p_copytranslation)
+      )
+   )
+   (if (bitand #catalog_lang #def_lang_espanol)
+      (
+      (set #lang "español")
+      (p_copytranslation)
+      )
+   )
+   (if (bitand #catalog_lang #def_lang_francais)
+      (
+      (set #lang "français")
+      (p_copytranslation)
+      )
+   )
+   (if (bitand #catalog_lang #def_lang_italiano)
+      (
+      (set #lang "italiano")
+      (p_copytranslation)
+      )
+   )
+   (if (bitand #catalog_lang #def_lang_magyar)
+      (
+      (set #lang "magyar")
+      (p_copytranslation)
+      )
+   )
+   (if (bitand #catalog_lang #def_lang_polski)
+      (
+      (set #lang "polski")
+      (p_copytranslation)
+      )
+   )
+   (if (bitand #catalog_lang #def_lang_suomi)
+      (
+      (set #lang "suomi")
+      (p_copytranslation)
+      )
+   )
+   )
+)
+
+; tell the user of our progress
+
+(complete 90)
+
+; Copy the manual and other documentation stuff
+
+(set #doc_dir (tackon #DOpus_Dir "Docs"))
+(if (not (exists #doc_dir))  (makedir #doc_dir (infos)))
+(if (= #docs_lang #def_doc_Espanol) ((copyfiles (source "Docs/español") (dest #doc_dir) (confirm) (pattern "#?") (prompt #copyfiles) (help #copyhelp) (infos) (optional "Fail" "Force")))
+   (
+   (copyfiles (source "Docs/english") (dest #doc_dir) (confirm) (pattern "~(#?manual#?)") (prompt #copyfiles) (help #copyhelp) (infos) (optional "Fail" "Force"))
+   (if (= #docs_lang #def_doc_English)  (copyfiles (source "Docs/english")  (dest #doc_dir) (confirm) (pattern "#?manual#?") (prompt #copyfiles) (help #copyhelp) (infos) (optional "Fail" "Force")))
+   (if (= #docs_lang #def_doc_Francais) (copyfiles (source "Docs/Français") (dest #doc_dir) (confirm) (pattern "#?") (prompt #copyfiles) (help #copyhelp) (infos) (optional "Fail" "Force")))
+   )
+)
+
+; tell the user of our progress
+
+(complete 95)
+
+; modify user-startup if neccessary
+
+(if (> #startup_mode 0)
+   (
+
+   ; startup DirectoryOpus
+
+   (if (= #startup_mode 1)
+      (set #user_script (cat #user_script "CD " #DOpus_Dir #newline "DirectoryOpus" #newline))
+   )
+
+   ; startup DirectoryOpus in ICONIFIED mode
+
+   (if (= #startup_mode 2)
+      (set #user_script (cat #user_script "CD " #DOpus_Dir #newline "DirectoryOpus -i" #newline))
+   )
+
+   ; modify S:User-Startup
+
+   (working #updateus)
+   (startup "DOpus" (prompt #addinstr #user_script) (help @startup-help) (command #user_script))
+   )
+)
+
+; tell the user of our progress
+
+(complete 100)
+
+; make sure that default-dir is pointing to the right place
+
+(set @default-dest #DOpus_Dir)
+
+
+;******************************************************************************
+;*****                    END THE WHOLE PROCESS NOW                      ******
+;******************************************************************************
+
+
+; display final message for our viewers and exit
+
+(exit #endtext)
