@@ -485,9 +485,6 @@ int isinwindow(int,int);
 
 int LoadPic(char *);
 int checkiff(void);
-struct BitMap *getbitmap(int,int,int);
-void freebitmap(struct BitMap *,int,int);
-void cleanupbitmap(void);
 void rletobuffer(unsigned char *,int,int,struct BitMap *,char,char);
 void readpic(struct BitMapHeader *,unsigned char *,struct BitMap *);
 void decoderle(struct RLEinfo *);
@@ -503,12 +500,10 @@ void decode_riff7_long(ULONG *,unsigned char *,unsigned char *,int,int);
 int WaitForMouseClick(int,struct Window *);
 int chunkread(void *,ULONG);
 void getcolstring(char *);
-void dotitle(void);
 void gfxprint(struct Window *,struct RastPort *,int,int,int,int,int);
 int InitDHIRES(int);
 void getviewmodes(char *);
 int initsham(void);
-void docheckrasscroll(struct Screen *);
 void iffinfotxt(struct RastPort *,char *,int,int);
 void build_palettes(unsigned char *,int,UWORD *,ULONG *);
 

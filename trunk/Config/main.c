@@ -1533,9 +1533,9 @@ D(bug("PubScreen name: %s\n",psn->psn_Node.ln_Name));
                                                   //BIDTAG_NominalHeight, configscr.Height,
                                                   BIDTAG_DesiredHeight, configscr.Height,
                                                   BIDTAG_Depth, configscr.Depth,
-                                                  wbscreen?BIDTAG_MonitorID:TAG_IGNORE, GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK,
+                                                  wbscreen?BIDTAG_MonitorID:TAG_IGNORE, wbscreen?GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK:0,
                                                   TAG_END);
-D(bug("ConfigOpus wbscreen: %lx\tMonitorID: %lx\tModeID: %lx\n",wbscreen,GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK,scr_taglist[1].ti_Data));
+D(bug("ConfigOpus wbscreen: %lx\tMonitorID: %lx\tModeID: %lx\n",wbscreen,wbscreen?GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK:-1,scr_taglist[1].ti_Data));
               if (scr_taglist[1].ti_Data == INVALID_ID) scr_taglist[1].ti_Data = HIRES_KEY;
             }
             while (!(Screen=OpenScreen((struct NewScreen *)&configscr))) {

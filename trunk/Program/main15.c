@@ -267,7 +267,7 @@ char *source,*dest;
     status_justabort=status_haveaborted=0;
     if (function==FUNC_HELP && !dopus_firsthelp) return(0);
 
-    if (function!=FUNC_HELP && function!=FUNC_ABOUT /*&&
+    if (!rexx && function!=FUNC_HELP && function!=FUNC_ABOUT /*&&
         function!=FUNC_READ && function!=FUNC_HEXREAD*/) busy();
 
     if (function!=FUNC_RESELECT && !(status_flags&STATUS_HELP))

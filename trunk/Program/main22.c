@@ -240,15 +240,15 @@ D(bug("\tfile: %lx\n",file));
             askeach=1;
             break;
         case FUNC_MOVE:
-            if (destdir[0] && !(checksame(sourcedir,destdir,1))) goto endfunction;
+            if (destdir[0] && (checksame(sourcedir,destdir,1)==LOCK_SAME)) goto endfunction;
         case FUNC_MOVEAS:
             if (!(checkdest(inact))) goto endfunction;
             if (!(config->existflags&REPLACE_ALWAYS)) askeach=1;
             else askeach = 0;
-            progress_copy=1;
+            if (checksame(sourcedir,destdir,2)!=LOCK_SAME_VOLUME) progress_copy=1;
             break;
         case FUNC_COPY:
-            if (destdir[0] && !(checksame(sourcedir,destdir,1))) goto endfunction;
+            if (destdir[0] && (checksame(sourcedir,destdir,1)==LOCK_SAME)) goto endfunction;
 //        case FUNC_CLONE:
         case FUNC_COPYAS:
             if (!(checkdest(inact))) goto endfunction;
@@ -318,7 +318,7 @@ D(bug("main22.c: dos_global_files = %ld\n",dos_global_files));
             askeach=1;
             break;
         case FUNC_ENCRYPT:
-            if (!(checkdest(inact)) || !(checksame(sourcedir,destdir,1)))
+            if (!(checkdest(inact)) || (checksame(sourcedir,destdir,1)==LOCK_SAME))
                 goto endfunction;
             if (!(config->existflags&REPLACE_ALWAYS)) askeach=1;
             else askeach = 0;
@@ -817,7 +817,7 @@ D(bug("Rename(%s,%s)\n",sourcename,destname));
                     StrCombine(destname,destdir,namebuf,256);
                     StrCombine(newiconname,destname,".info",256);
                 }
-                if (!(checksame(destdir,sourcename,0))) break;
+                if (checksame(destdir,sourcename,0)==LOCK_SAME) break;
 retry_move:
                 if ((exist=CheckExist(destname,NULL))) {
                     if (askeach) {
@@ -998,7 +998,7 @@ D(bug("recursedir returned %ld\n",a));
                     StrCombine(newiconname,destname,".info",256);
                 }
                 arcfile = getsourcefromarc(swindow,sourcename,file->name);
-                if (!(checksame(destdir,sourcename,0))) break;
+                if (checksame(destdir,sourcename,0)==LOCK_SAME) break;
 retry_copy:
                 if ((exist=CheckExist(destname,NULL))) {
 D(bug("askeach = %ld\n",askeach));
@@ -1072,8 +1072,9 @@ D(bug("askeach = %ld\n",askeach));
                     else if (a<0) break;
                 }
                 else {
+D(bug("FUNC_COPY: src=\"%s\", dst=\"%s\"\n",sourcename,destname));
                     a=copyfile(sourcename,destname,&err,/*-1,*/NULL,0);
-//D(bug("FUNC_COPY: a=%ld,err=%ld\n",a,err));
+D(bug("FUNC_COPY: a=%ld,err=%ld\n",a,err));
                     if (a==0) {
                         doerror(err);
                         if ((a=checkerror(globstring[STR_COPYING],file->name,err))==3) {
@@ -1795,7 +1796,7 @@ D(bug("viewfile() returned %ld\n",a));
         seename(inact);
     }
     switch (function) {
-        case FUNC_MOVEAS: if (checksame(sourcedir,destdir,2)==0) break;
+        case FUNC_MOVEAS: if (checksame(sourcedir,destdir,2)==LOCK_SAME) break;
         case FUNC_DELETE:
         case FUNC_RENAME:
         case FUNC_MOVE:
@@ -1817,7 +1818,7 @@ D(bug("viewfile() returned %ld\n",a));
     switch (function) {
         case FUNC_MOVEAS:
         case FUNC_COPYAS:
-             if (checksame(sourcedir,destdir,2)==0) break;
+             if (checksame(sourcedir,destdir,2)==LOCK_SAME) break;
         case FUNC_MOVE:
         case FUNC_COPY:
         case FUNC_ENCRYPT:

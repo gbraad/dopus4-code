@@ -60,26 +60,56 @@ struct AnimFrame {
     int cmapsize;
 };
 
-static ULONG *colourtable_8;
-static UWORD *copperlist,*colourtable_4,colourlist[4];
-static struct View *view;
-static struct ViewPort *ivp;
+struct DOpusAnim {
+    struct AnimFrame initial_frame;
+    struct AnimFrame *first_frame;
+    struct AnimFrame *current_frame;
+    struct AnimFrame *last_frame;
+    struct BitMap *frame_bm[2],
+                  *initialframe_bm;
+    struct Image frameimage;
+    int framecount,
+        framenum,
+        framedisp,
+        speed,
+        framespersec,
+        type;
+};
+
+static struct NewWindow iffwin = {
+        0,0,0,0,
+        255,255,
+        IDCMP_MOUSEBUTTONS|IDCMP_RAWKEY|IDCMP_INTUITICKS|IDCMP_INACTIVEWINDOW,
+        WFLG_RMBTRAP|WFLG_BORDERLESS|WFLG_SIMPLE_REFRESH|WFLG_NOCAREREFRESH,
+        NULL,NULL,NULL,NULL,NULL,
+        0,0,0,0,CUSTOMSCREEN};
+
 static char *picbuffer,*picturename;
 static unsigned char *bodyptr;
-static CRange cyclerange[6];
 static ULONG buffersize,bufferpos;
-static int
-    numcolours,currange,copperheight,viewmode,
-    screenwidth,screenheight,
-    imagewidth,imageheight,
-    bitmapwidth,bitmapheight,
-    minwidth,minheight,maxwidth,maxheight,depth,coppersize,
-    viewflags;
+
+static ULONG *colourtable_8;
+static UWORD *copperlist,*colourtable_4;
+
+static struct ViewPort *ivp;
+
+static int numcolours,currange,copperheight,
+           screenwidth,screenheight,
+           bitmapwidth,bitmapheight,
+           viewflags;
+static int palette32,got_dpan;
+static char doublebuffer;
 static char specialformat;
+
 static struct BitMapHeader bmhd;
+
 static struct BitMap *iffbm[2];
 static struct Window *iffwindow;
-static struct DOpusRemember *iffkey;
+
+#ifdef WITHPCHG
+static struct PCHGHeader *pchghead;
+static char *sham;
+#endif
 
 #ifdef DO_DBUF
 static struct DBufInfo *dbufinfo;
@@ -88,81 +118,98 @@ static struct MsgPort *dbufport;
 
 static char iffscreenname[34];
 
-static struct NewWindow
-    iffwin={
-        0,0,0,0,
-        255,255,
-        IDCMP_MOUSEBUTTONS|IDCMP_RAWKEY|IDCMP_INTUITICKS|IDCMP_INACTIVEWINDOW,
-        WFLG_RMBTRAP|WFLG_BORDERLESS|WFLG_SIMPLE_REFRESH|WFLG_NOCAREREFRESH,
-        NULL,NULL,NULL,NULL,NULL,
-        0,0,0,0,CUSTOMSCREEN};
+static struct DOpusAnim anim;
 
-static struct Image animframeimage;
+static inline void dotitle(struct BitMapHeader *bmhd)
+{
+    char title[100],modes[140],cols[30];
 
-static struct AnimFrame
-    *first_anim_frame,*current_anim_frame,*last_anim_frame,
-    initial_anim_cmap;
-static int framecount,framenum,framedisp;
-static char doublebuffer;
-static int animspeed,framespersec,animrestart;
-static struct BitMap *animframe_bm[2],*initialframe_bm;
-static union printerIO *print_request; /* IO request for Print operation */
-static int palette32,got_dpan;
-static int animtype;
-#ifdef WITHPCHG
-static struct PCHGHeader *pchghead;
-static char *sham;
-#endif
-
-static APTR dto;
-static BOOL dt_ok;
+    getcolstring(cols);
+    getviewmodes(modes);
+    lsprintf(title,"%ld x %ld x %ld (page %ld x %ld) %s cols (%s)",
+        bmhd->bmh_Width,
+        bmhd->bmh_Height,
+        bmhd->bmh_Depth,
+        bmhd->bmh_PageWidth,
+        bmhd->bmh_PageHeight,
+        cols,modes);
+    dostatustext(title);
+}
 
 int LoadPic(name)
 char *name;
 {
-    int
-        retcode,a,gotbody,brush,scroll,mp=1,isanim,extflag=0,
-        colourptr,coloursize,maxframes;
-    ULONG chunkid,chunksize,chunkbuf[3];
+    struct DOpusRemember *iffkey;
+    int retcode,
+        a,
+        gotbody = 0,
+        brush = 0,
+        scroll = 1,
+        mp = 1,
+        isanim = 0,
+        extflag = 0,
+        colourptr = -1,
+        coloursize,
+        imagewidth, imageheight,
+        minwidth, minheight, maxwidth, maxheight,
+        depth,
+        coppersize,
+        viewmode,
+        maxframes;
+    UWORD colourlist[4];
+    ULONG chunkid,
+          chunksize,
+          chunkbuf[3];
     struct DimensionInfo *dimension;
     DisplayInfoHandle *handle;
-    char dimbuf[DIMBUFSIZE],*ptr;
+    char dimbuf[DIMBUFSIZE],
+         *ptr;
     DPAnimChunk dpan;
-    struct AnimFrame *cur_frame=NULL,*frame;
+    struct AnimFrame *cur_frame = NULL,
+                     *frame;
+    CRange cyclerange[6];
+	APTR dto = NULL;
+	BOOL dt_ok = 0;
 
-    picturename=name;
-    viewmode=-1; copperlist=NULL; iffwindow=NULL;
-    iffscreen=NULL; iffscreenname[0]=0;
-    copperheight=currange=gotbody=brush=0; scroll=1;
-    colourptr=-1; doublebuffer=0; animspeed=50000;
-    bodyptr=NULL; bufferpos=isanim=0; iffkey=NULL; first_anim_frame=NULL;
-    framecount=0; framespersec=20; maxframes=65535; specialformat=0;
-    initialframe_bm=NULL; palette32=0;
-    last_anim_frame=NULL; initial_anim_cmap.cmap=NULL;
-    got_dpan=0; animtype=0;
+    picturename = name;
+    viewmode = -1;
+    anim.speed = 50000;
+    anim.framespersec = 20;
+    maxframes = 65535;
+    copperlist = NULL;
+    iffwindow = NULL;
+    iffscreen = NULL;
+    iffscreenname[0] = 0;
+    copperheight = 0;
+    currange = 0;
+    doublebuffer = 0;
+    bodyptr = NULL;
+    bufferpos = 0;
+    iffkey = NULL;
+    anim.framecount = 0;
+    specialformat = 0;
+    anim.initialframe_bm = NULL;
+    palette32 = 0;
+    got_dpan = 0;
+    anim.type = 0;
+    anim.first_frame = NULL;
+    anim.last_frame = NULL;
+    anim.initial_frame.cmap = NULL;
 #ifdef WITHPCHG
-    pchghead=NULL; sham=NULL;
+    pchghead = NULL;
+    sham = NULL;
 #endif
-
-    for (a=0;a<2;a++) {
-        iffbm[a]=NULL;
-        animframe_bm[a]=NULL;
-    }
-
 #ifdef DO_DBUF
-    dbufinfo=NULL; dbufport=NULL;
+    dbufinfo = NULL;
+    dbufport = NULL;
 #endif
+    for (a = 0; a < 2; a++) iffbm[a] = anim.frame_bm[a] = NULL;
 
-    dt_ok = 0;
+    if (readfile(name,&picbuffer,(int *)&buffersize)) return(0);
 
-    if (readfile(name,&picbuffer,(int *)&buffersize))
-     {
-      return(0);
-     }
-
-    if (!chunkread(chunkbuf,sizeof(ULONG)*3) ||
-        chunkbuf[0]!=ID_FORM ||
-        (chunkbuf[2]!=ID_ANIM && chunkbuf[2]!=ID_ILBM))
+    if (! chunkread(chunkbuf,sizeof(ULONG)*3) ||
+        chunkbuf[0] != ID_FORM ||
+        ((chunkbuf[2] != ID_ANIM) && (chunkbuf[2] != ID_ILBM)))
      {
 DTload:
       if (DataTypesBase)
@@ -199,7 +246,7 @@ D(bug("viewmode(0) = %08lx\n",viewmode));
      }
     if (! dt_ok)
      {
-      if (chunkbuf[2]==ID_ANIM) isanim=1;
+      if (chunkbuf[2] == ID_ANIM) isanim = 1;
 
       while (bufferpos<=buffersize) {
           if (!chunkread(&chunkid,sizeof(int)) ||
@@ -217,26 +264,26 @@ D(bug("viewmode(0) = %08lx\n",viewmode));
                   }
                   chunksize=0;
                   maxframes=dpan.nframes;
-                  if ((framespersec=dpan.framespersecond)>0)
-                      animspeed=1000000/dpan.framespersecond;
+                  if ((anim.framespersec=dpan.framespersecond)>0)
+                      anim.speed=1000000/dpan.framespersecond;
                   got_dpan=1;
                   break;
               case ID_ANHD:
-                  if (isanim && framecount<maxframes &&
+                  if (isanim && anim.framecount<maxframes &&
                       (frame=LAllocRemember(&iffkey,sizeof(struct AnimFrame),MEMF_CLEAR))) {
                       frame->animheader=(struct AnimHeader *)(picbuffer+bufferpos);
                       if (frame->animheader->ah_Interleave!=1) doublebuffer=1;
-                      if (!animtype) animtype=frame->animheader->ah_Operation;
+                      if (!anim.type) anim.type=frame->animheader->ah_Operation;
 
                       if (cur_frame) cur_frame->next=frame;
-                      else first_anim_frame=frame;
+                      else anim.first_frame=frame;
                       cur_frame=frame;
                   }
                   break;
               case ID_DLTA:
-                  if (isanim && framecount<maxframes && cur_frame) {
+                  if (isanim && anim.framecount<maxframes && cur_frame) {
                       cur_frame->delta=picbuffer+bufferpos;
-                      ++framecount;
+                      ++anim.framecount;
                   }
                   break;
               case ID_BMHD:
@@ -250,10 +297,10 @@ D(bug("viewmode(0) = %08lx\n",viewmode));
               case ID_CMAP:
                   if (colourptr==-1) {
                       colourptr=bufferpos; coloursize=chunksize;
-                      initial_anim_cmap.cmap=(unsigned char *)&picbuffer[bufferpos];
-                      initial_anim_cmap.cmapsize=chunksize;
+                      anim.initial_frame.cmap=(unsigned char *)&picbuffer[bufferpos];
+                      anim.initial_frame.cmapsize=chunksize;
                   }
-                  else if (isanim && framecount<maxframes && cur_frame) {
+                  else if (isanim && anim.framecount<maxframes && cur_frame) {
                       cur_frame->cmap=(unsigned char *)&picbuffer[bufferpos];
                       cur_frame->cmapsize=chunksize;
                   }
@@ -327,7 +374,7 @@ D(bug("viewmode(0) = %08lx\n",viewmode));
       if (copperlist) specialformat=1;
      }
 
-    depth=bmhd.bmh_Depth;
+    depth = bmhd.bmh_Depth;
 
     if (colourptr>-1) {
         numcolours=coloursize/3;
@@ -348,74 +395,41 @@ D(bug("viewmode(0) = %08lx\n",viewmode));
 
     build_palettes(&picbuffer[colourptr],coloursize,colourtable_4,colourtable_8);
 
-    imagewidth=bmhd.bmh_Width;
-    imageheight=bmhd.bmh_Height;
-    screenwidth=bmhd.bmh_Width;
-    screenheight=bmhd.bmh_Height;
+    imagewidth = bmhd.bmh_Width;
+    screenwidth = bmhd.bmh_Width;
+    imageheight = bmhd.bmh_Height;
+    screenheight = bmhd.bmh_Height;
 
-    minwidth=320;
-    minheight=200;
+    minwidth = 320;
+    minheight = 200;
 
-    maxwidth=368;
-    if (scrdata_is_pal) maxheight=281;
-    else maxheight=241;
+    maxwidth = 368;
+    maxheight = (scrdata_is_pal ? 281 : 241);
 
     if (viewmode==-1 || brush) {
         viewflags=viewmode; viewmode=0;
         if (bmhd.bmh_PageWidth>maxwidth) viewmode|=HIRES;
         if (bmhd.bmh_PageHeight>maxheight) viewmode|=LACE;
-/*        if (system_version2<OSVER_39) {
-            if (depth>6) {
-                retcode=IFFERR_BADMODE;
-                goto endiff;
-            }
-            if (depth==6) {
-                if (viewflags==-1 || viewflags&HAM) viewmode|=HAM;
-                else viewmode|=EXTRA_HALFBRITE;
-            }
-        } */
         viewflags=0;
     }
 
-    /*if (system_version2)*/ {
-        /*if (viewmode&0xfffe000)*/ {
-            if (!(ModeNotAvailable(viewmode))) extflag=1;
-/*
-            else if ((handle=FindDisplayInfo(viewmode)) &&
-                (GetDisplayInfoData(handle,dimbuf,DIMBUFSIZE,DTAG_NAME,0)))
-                extflag=1;
-*/
-        }
-    }
+    if (!(ModeNotAvailable(viewmode))) extflag = 1;
 D(bug("extflag,viewmode(1) = %ld,%08lx\n",extflag,viewmode));
-//    if (extflag) {
-/*
-        if (ModeNotAvailable(viewmode)) {
-            if (system_version2<OSVER_39) {
-                retcode=IFFERR_BADMODE;
-                goto endiff;
-            }
-            else viewmode=-1;
-        }
-*/
-D(bug("extflag,viewmode(2) = %ld,%08lx\n",extflag,viewmode));
-        if (/*system_version2>=OSVER_39 && */
-            (/*viewmode==-1 ||*/ config->viewbits&VIEWBITS_BESTMODEID)) {
+    if (config->viewbits & VIEWBITS_BESTMODEID)
+     {
+      ULONG newmode;
 
-            ULONG newmode;
-
-            if (!(ModeNotAvailable((newmode=BestModeID(
+      if (!(ModeNotAvailable((newmode=BestModeID(
 //                    BIDTAG_NominalWidth,imagewidth,
 //                    BIDTAG_NominalHeight,imageheight,
-                    BIDTAG_DesiredWidth,imagewidth,
-                    BIDTAG_DesiredHeight,imageheight,
-                    BIDTAG_Depth,depth,
-                    BIDTAG_SourceID,viewmode,
-                    BIDTAG_MonitorID,GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK,
-                    TAG_END))))) viewmode=newmode;
-D(bug("extflag,viewmode(3) = %ld,%08lx\n",extflag,viewmode));
-        }
-//    }
+              BIDTAG_DesiredWidth,imagewidth,
+              BIDTAG_DesiredHeight,imageheight,
+              BIDTAG_Depth,depth,
+              BIDTAG_SourceID,viewmode,
+              BIDTAG_MonitorID,GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK,
+              TAG_END))))) viewmode=newmode;
+D(bug("extflag,viewmode(2) = %ld,%08lx\n",extflag,viewmode));
+     }
 
     if ((handle=FindDisplayInfo(viewmode))) {
         if (!(a=GetDisplayInfoData(handle,dimbuf,DIMBUFSIZE,DTAG_NAME,0))) {
@@ -452,45 +466,43 @@ D(bug("extflag,viewmode(3) = %ld,%08lx\n",extflag,viewmode));
 
     if (!extflag) {
         viewmode=viewflags;
-D(bug("extflag,viewmode(4) = %ld,%08lx\n",extflag,viewmode));
+D(bug("extflag,viewmode(3) = %ld,%08lx\n",extflag,viewmode));
         viewmode&=0x0000ffff;
         viewmode&=~(SPRITES|GENLOCK_AUDIO|GENLOCK_VIDEO|VP_HIDE|DUALPF|PFBA|EXTENDED_MODE);
         viewflags=viewmode;
-D(bug("extflag,viewmode(5) = %ld,%08lx\n",extflag,viewmode));
+D(bug("extflag,viewmode(4) = %ld,%08lx\n",extflag,viewmode));
 
         if (viewflags&HIRES) {
-            if (viewflags&SUPERHIRES) maxwidth*=4;
-            else maxwidth*=2;
-            minwidth*=2;
+            maxwidth *= (viewflags&SUPERHIRES) ? 4 : 2;
+            minwidth *= 2;
         }
     }
 
-    if (screenwidth<minwidth) screenwidth=minwidth;
-    else if (screenwidth>maxwidth) screenwidth=maxwidth;
+    if (screenwidth < minwidth) screenwidth = minwidth;
+    else if (screenwidth > maxwidth) screenwidth = maxwidth;
 
-    if (!extflag && viewflags&LACE) {
-        maxheight*=2;
-        minheight*=2;
+    if (!extflag && viewflags & LACE) {
+        maxheight *= 2;
+        minheight *= 2;
     }
-    if (screenheight<minheight) screenheight=minheight;
-    else if (screenheight>maxheight) screenheight=maxheight;
+    if (screenheight < minheight) screenheight = minheight;
+    else if (screenheight > maxheight) screenheight = maxheight;
 
-    if (imagewidth<screenwidth) bitmapwidth=screenwidth;
-    else bitmapwidth=imagewidth;
-    if (imageheight<screenheight) bitmapheight=screenheight;
-    else bitmapheight=imageheight;
+    bitmapwidth = (imagewidth < screenwidth) ? screenwidth : imagewidth;
+    bitmapheight = (imageheight < screenheight) ? screenheight : imageheight;
 
-    if (bitmapwidth>screenwidth || bitmapheight>screenheight) scroll=3;
-    dotitle();
+    if ((bitmapwidth > screenwidth) || (bitmapheight > screenheight)) scroll=3;
 
-    if (isanim && first_anim_frame) {
-        if (!(animframe_bm[0]=getbitmap(bitmapwidth,bitmapheight,bmhd.bmh_Depth))) {
+    dotitle(&bmhd);
+
+    if (isanim && anim.first_frame) {
+        if (!(anim.frame_bm[0]=AllocBitMap(bitmapwidth,bitmapheight,bmhd.bmh_Depth,BMF_DISPLAYABLE|BMF_CLEAR,NULL))) {
             retcode=IFFERR_NOMEM;
             goto endiff;
         }
         if (doublebuffer) {
-            if ((animframe_bm[1]=getbitmap(bitmapwidth,bitmapheight,bmhd.bmh_Depth))) {
-                initialframe_bm=getbitmap(bitmapwidth,bitmapheight,bmhd.bmh_Depth);
+            if ((anim.frame_bm[1]=AllocBitMap(bitmapwidth,bitmapheight,bmhd.bmh_Depth,BMF_DISPLAYABLE|BMF_CLEAR,NULL))) {
+                anim.initialframe_bm=AllocBitMap(bitmapwidth,bitmapheight,bmhd.bmh_Depth,BMF_DISPLAYABLE|BMF_CLEAR,NULL);
 #ifdef DO_DBUF
                 if (/*system_version2>=OSVER_39 && */
                     (dbufinfo=AllocDBufInfo(ivp))) {
@@ -506,12 +518,12 @@ D(bug("extflag,viewmode(5) = %ld,%08lx\n",extflag,viewmode));
 
     if (doublebuffer) {
         for (a=0;a<2;a++) {
-            if (animframe_bm[a]) {
+            if (anim.frame_bm[a]) {
                 if (!(iffbm[a]=LAllocRemember(&iffkey,sizeof(struct BitMap),MEMF_CLEAR))) {
                     retcode=IFFERR_NOMEMORY;
                     goto endiff;
                 }
-                CopyMem((char *)animframe_bm[a],(char *)iffbm[a],sizeof(struct BitMap));
+                CopyMem((char *)anim.frame_bm[a],(char *)iffbm[a],sizeof(struct BitMap));
             }
         }
     }
@@ -519,66 +531,42 @@ D(bug("extflag,viewmode(5) = %ld,%08lx\n",extflag,viewmode));
      {
       if (!dt_ok)
        {
-        iffbm[0]=getbitmap(bitmapwidth,bitmapheight,depth);
+        iffbm[0]=AllocBitMap(bitmapwidth,bitmapheight,depth,BMF_DISPLAYABLE|BMF_CLEAR,NULL);
 
-        if (!(iffbm[0]))
+        if (iffbm[0] == NULL)
          {
-          retcode=IFFERR_NOMEMORY;
+          retcode = IFFERR_NOMEMORY;
           goto endiff;
          }
        }
      }
 
-D(bug("extflag,viewmode(6) = %ld,%lx\n",extflag,viewmode));
-    /*if (system_version2)*/ {
-//        ULONG err =0;
+D(bug("extflag,viewmode(5) = %ld,%lx\n",extflag,viewmode));
+    if (!(iffscreen = OpenScreenTags(NULL,
+                          SA_Width,      bitmapwidth,
+                          SA_Height,     bitmapheight,
+                          SA_Depth,      depth,
+                          dt_ok?SA_Type:SA_BitMap,     dt_ok?CUSTOMSCREEN:(Tag)iffbm[0],
+                          SA_Behind,     TRUE,
+                          SA_DisplayID,  viewmode,
+                          SA_AutoScroll, TRUE,
+                          SA_Overscan,   OSCAN_MAX,
+                          SA_SharePens,  TRUE,
+                          SA_ShowTitle,  FALSE,
+                          SA_Colors32,   (Tag)colourtable_8,
+                 //            SA_ErrorCode,  (Tag)&err,
+                          TAG_END)))
+     {
+      retcode = IFFERR_NOSCREEN;
+      goto endiff;
+     }
 
-        iffscreen=OpenScreenTags(NULL,
-            SA_Width,      bitmapwidth,
-            SA_Height,     bitmapheight,
-            SA_Depth,      depth,
-            dt_ok?SA_Type:SA_BitMap,     dt_ok?CUSTOMSCREEN:(Tag)iffbm[0],
-            SA_Behind,     TRUE,
-            SA_DisplayID,  viewmode,
-            SA_AutoScroll, TRUE,
-            SA_Overscan,   OSCAN_MAX,
-            SA_SharePens,  TRUE,
-            SA_ShowTitle,  FALSE,
-            SA_Colors32,   colourtable_8,
-//            SA_ErrorCode,  (Tag)&err,
-            TAG_END);
-    }
-    /*else {
-        struct NewScreen iffscr;
+    ivp = &(iffscreen->ViewPort);
+    if (!dt_ok) LoadRGB4(ivp,nullpalette,1<<(depth>8?8:depth));
 
-        iffscr.LeftEdge=0;
-        iffscr.TopEdge=0;
-        iffscr.Width=screenwidth;
-        iffscr.Height=screenheight;
-        iffscr.Depth=depth;
-        iffscr.DetailPen=0;
-        iffscr.BlockPen=0;
-        iffscr.ViewModes=viewflags;
-        iffscr.Type=CUSTOMSCREEN|SCREENBEHIND|CUSTOMBITMAP;
-        iffscr.Font=NULL;
-        iffscr.DefaultTitle=NULL;
-        iffscr.Gadgets=NULL;
-        iffscr.CustomBitMap=iffbm[0];
-
-        iffscreen=OpenScreen(&iffscr);
-    }
-    */
-    if (!iffscreen) {
-        retcode=IFFERR_NOSCREEN;
-        goto endiff;
-    }
-
-    ivp=&(iffscreen->ViewPort);
-    if (! dt_ok) LoadRGB4(ivp,nullpalette,1<<(depth>8?8:depth));
-
-    iffwin.Screen=iffscreen;
-    iffwin.Width=iffscreen->Width;
-    iffwin.Height=iffscreen->Height;
+    iffwin.Screen = iffscreen;
+    iffwin.Width = iffscreen->Width;
+    iffwin.Height = iffscreen->Height;
 
     if (!(iffwindow=OpenWindow(&iffwin))) {
         retcode=IFFERR_NOSCREEN;
@@ -587,7 +575,7 @@ D(bug("extflag,viewmode(6) = %ld,%lx\n",extflag,viewmode));
 
     if (dt_ok)
      {
-      SetDTAttrs(dto,NULL,NULL,PDTA_Screen,iffscreen,TAG_END);
+      SetDTAttrs(dto,NULL,NULL,PDTA_Screen,(Tag)iffscreen,TAG_END);
       DoDTMethod(dto, iffwindow, NULL, DTM_PROCLAYOUT, NULL, 1);
       GetDTAttrs(dto, PDTA_DestBitMap, (Tag)&iffbm[0],TAG_END);
 D(bug("PDTA_DestBitMap: %08lx\n",iffbm[0]));
@@ -609,24 +597,24 @@ D(KDump(iffbm[0],sizeof(struct BitMap)));
 
     setnullpointer(iffwindow);
 
-    if (isanim && first_anim_frame) {
-        framenum=1;
-        framedisp=animrestart=0;
-        current_anim_frame=first_anim_frame;
+    if (isanim && anim.first_frame) {
+        anim.framenum=1;
+        anim.framedisp=0;
+        anim.current_frame=anim.first_frame;
 
-        rletobuffer(bodyptr,bmhd.bmh_Width,bmhd.bmh_Height,animframe_bm[0],bmhd.bmh_Masking,bmhd.bmh_Compression);
+        rletobuffer(bodyptr,bmhd.bmh_Width,bmhd.bmh_Height,anim.frame_bm[0],bmhd.bmh_Masking,bmhd.bmh_Compression);
 
         if (doublebuffer) {
-            if (animframe_bm[1]) {
-                BltBitMap(animframe_bm[0],0,0,animframe_bm[1],0,0,bmhd.bmh_Width,bmhd.bmh_Height,0xc0,0xff,NULL);
-                if (initialframe_bm)
-                    BltBitMap(animframe_bm[0],0,0,initialframe_bm,0,0,bmhd.bmh_Width,bmhd.bmh_Height,0xc0,0xff,NULL);
+            if (anim.frame_bm[1]) {
+                BltBitMap(anim.frame_bm[0],0,0,anim.frame_bm[1],0,0,bmhd.bmh_Width,bmhd.bmh_Height,0xc0,0xff,NULL);
+                if (anim.initialframe_bm)
+                    BltBitMap(anim.frame_bm[0],0,0,anim.initialframe_bm,0,0,bmhd.bmh_Width,bmhd.bmh_Height,0xc0,0xff,NULL);
                 WaitBlit();
             }
         }
         else {
-            animframeimage.LeftEdge=(bitmapwidth-bmhd.bmh_Width)/2;
-            animframeimage.TopEdge=(bitmapheight-bmhd.bmh_Height)/2;
+            anim.frameimage.LeftEdge=(bitmapwidth-bmhd.bmh_Width)/2;
+            anim.frameimage.TopEdge=(bitmapheight-bmhd.bmh_Height)/2;
             doanimframe();
         }
     }
@@ -635,17 +623,6 @@ D(KDump(iffbm[0],sizeof(struct BitMap)));
     if (numcolours>ivp->ColorMap->Count) numcolours=ivp->ColorMap->Count;
 
     if (!copperlist) {
-        /*if (!system_version2) {
-            int x,y;
-
-            if (viewflags&HIRES) x=(scrdata_norm_width-screenwidth)/2;
-            else x=((scrdata_norm_width/2)-screenwidth)/2;
-            if (viewflags&LACE) y=((scrdata_norm_height*2)-screenheight)/2;
-            else y=(scrdata_norm_height-screenheight)/2;
-            ivp->DxOffset=x;
-            ivp->DyOffset=y;
-            MakeScreen(iffscreen);
-        } */
         if (viewflags&HAM
 #ifdef WITHPCHG
  || pchghead
@@ -665,7 +642,8 @@ D(KDump(iffbm[0],sizeof(struct BitMap)));
     ScreenToFront(iffscreen);
 
     if (copperlist) {
-        view=ViewAddress();
+        struct View *view = ViewAddress();
+
         if ((copperheight>>1)>scrdata_norm_height) view->DyOffset=14+(/*system_version2?*/8/*:0*/);
         if (mp) LoadRGB4(ivp,colourlist,4);
         if (!InitDHIRES(mp)) {
@@ -678,8 +656,7 @@ D(KDump(iffbm[0],sizeof(struct BitMap)));
 
     if (currange) initcycle(ivp,colourtable_4,numcolours,cyclerange,currange);
 
-    if (!(a=WaitForMouseClick(scroll,iffwindow))) retcode=1;
-    else retcode=-1;
+    retcode = (WaitForMouseClick(scroll,iffwindow) ? -1 : 1);
 
     if (checkcycling()) togglecycle();
     stopcycle();
@@ -695,10 +672,34 @@ D(KDump(iffbm[0],sizeof(struct BitMap)));
 
 endiff:
 #ifdef DO_DBUF
-    if (dbufinfo) FreeDBufInfo(dbufinfo);
+    FreeDBufInfo(dbufinfo);
     if (dbufport) LDeletePort(dbufport);
 #endif
-    cleanupbitmap();
+    ScreenToFront(blankscreen ? blankscreen : Window->WScreen);
+
+    if (iffwindow) {
+        CloseWindow(iffwindow);
+        iffwindow = NULL;
+    }
+    if (iffscreen) {
+        CloseScreen(iffscreen);
+        iffscreen = NULL;
+    }
+    if (dt_ok)
+     {
+      DisposeDTObject(dto);
+      dto = NULL;
+     }
+    else
+     {
+      for (a = 0; a < 2; a++)
+       {
+        FreeBitMap(iffbm[a]);
+        FreeBitMap(anim.frame_bm[a]);
+       }
+      FreeBitMap(anim.initialframe_bm);
+     }
+
     ActivateWindow(Window);
 #ifdef WITHPCHG
     if (pchghead && sham) {
@@ -706,71 +707,13 @@ endiff:
     }
 #endif
     LFreeRemember(&iffkey);
-    if (picbuffer) FreeVec(picbuffer);
-    first_anim_frame=NULL;
-    colourtable_8=NULL; colourtable_4=NULL;
+    FreeVec(picbuffer);
+
+    anim.first_frame = NULL;
+    colourtable_8 = NULL;
+    colourtable_4 = NULL;
+
     return(retcode);
-}
-
-struct BitMap *getbitmap(width,height,depth)
-int width,height,depth;
-{
-/*    struct BitMap *bm;
-    int a;
-
-    if (system_version2>=OSVER_39) { */
-        return((AllocBitMap(width,height,depth,BMF_DISPLAYABLE|BMF_CLEAR,NULL)));
-/*    }
-    if (!(bm=AllocMem(sizeof(struct BitMap),MEMF_CLEAR))) return(NULL);
-    InitBitMap(bm,depth,width,height);
-    for (a=0;a<8;a++) bm->Planes[a]=NULL;
-    for (a=0;a<depth;a++) {
-        if (!(bm->Planes[a]=AllocRaster(width,height))) {
-            freebitmap(bm,width,height);
-            return(NULL);
-        }
-    }
-    return(bm); */
-}
-
-void freebitmap(bm,width,height)
-struct BitMap *bm;
-{
-//HUX    int a;
-
-    if (bm) {
-        /*if (system_version2>=OSVER_39)*/ FreeBitMap(bm);
-        /*else {
-            for (a=0;a<8;a++) if (bm->Planes[a]) FreeRaster(bm->Planes[a],width,height);
-            FreeMem(bm,sizeof(struct BitMap));
-        }                                           */
-    }
-}    
-
-void cleanupbitmap()
-{
-    int num;
-
-    if (blankscreen) ScreenToFront(blankscreen);
-    else ScreenToFront(Window->WScreen);
-    if (iffwindow) {
-        CloseWindow(iffwindow);
-        iffwindow=NULL;
-    }
-    if (iffscreen) {
-        CloseScreen(iffscreen);
-        iffscreen=NULL;
-    }
-    if (dt_ok)
-     {
-      DisposeDTObject(dto);
-      dto=NULL;
-     }
-    else if (iffbm[0] && !doublebuffer) freebitmap(iffbm[0],bitmapwidth,bitmapheight);
-    for (num=0;num<2;num++) {
-        if (animframe_bm[num]) freebitmap(animframe_bm[num],bitmapwidth,bitmapheight);
-    }
-    if (initialframe_bm) freebitmap(initialframe_bm,bitmapwidth,bitmapheight);
 }
 
 void rletobuffer(source,sourcewidth,sourceheight,dest,mask,comp)
@@ -806,17 +749,10 @@ struct BitMap *bmap;
     struct RLEinfo picinfo;
 
     rowbytes=((bmhd->bmh_Width+15)/16)*2;
-    /*if (system_version2>=OSVER_39)*/ bmrbytes=((GetBitMapAttr(bmap,BMA_WIDTH)+15)/16)*2;
-    /*else bmrbytes=bmap->BytesPerRow; */
+    bmrbytes=((GetBitMapAttr(bmap,BMA_WIDTH)+15)/16)*2;
 
     if ((rows=bmhd->bmh_Height)>bmap->Rows) rows=bmap->Rows;
-    /*
-    if (!system_version2) {
-        if (rowbytes<bmrbytes) byteoff=(bmrbytes-rowbytes)/2;
-        else byteoff=0;
-        if (rows<bmap->Rows) byteoff+=((bmap->Rows-rows)/2)*bmrbytes;
-    }
-    */
+
     picinfo.sourceptr=source;
     picinfo.destplanes=bmap->Planes;
     picinfo.imagebpr=rowbytes;
@@ -838,7 +774,7 @@ struct RLEinfo *rleinfo;
     register char *source,*dest;
     register int copy,col;
     register char count;
-    int plane,row,bmoffset,planes;
+    register int plane,row,bmoffset,planes;
 
     planes=rleinfo->imagedepth;
     if (rleinfo->masking==mskHasMask) ++planes;
@@ -893,13 +829,13 @@ void doanimframe()
 {
     struct AnimFrame *frame;
 
-    if (last_anim_frame) {
-        frame=last_anim_frame;
-        last_anim_frame=last_anim_frame->next;
+    if (anim.last_frame) {
+        frame=anim.last_frame;
+        anim.last_frame=anim.last_frame->next;
     }
     else {
-        frame=&initial_anim_cmap;
-        last_anim_frame=first_anim_frame;
+        frame=&anim.initial_frame;
+        anim.last_frame=anim.first_frame;
     }
 
     if (frame->cmap) {
@@ -911,72 +847,72 @@ void doanimframe()
     if (doublebuffer && iffbm[1]) {
 #ifdef DO_DBUF
         if (dbufport) {
-            ChangeVPBitMap(ivp,iffbm[framedisp],dbufinfo);
+            ChangeVPBitMap(ivp,iffbm[anim.framedisp],dbufinfo);
             WaitPort(dbufport);
             GetMsg(dbufport);
         }
         else {
-            iffscreen->RastPort.BitMap=iffbm[framedisp];
-            iffscreen->ViewPort.RasInfo->BitMap=iffbm[framedisp];
+            iffscreen->RastPort.BitMap=iffbm[anim.framedisp];
+            iffscreen->ViewPort.RasInfo->BitMap=iffbm[anim.framedisp];
             MakeScreen(iffscreen);
             RethinkDisplay();
         }
 #else
-        iffscreen->RastPort.BitMap=iffbm[framedisp];
-        iffscreen->ViewPort.RasInfo->BitMap=iffbm[framedisp];
+        iffscreen->RastPort.BitMap=iffbm[anim.framedisp];
+        iffscreen->ViewPort.RasInfo->BitMap=iffbm[anim.framedisp];
         MakeScreen(iffscreen);
         RethinkDisplay();
 #endif
     }
     else {
-        BltBitMap(animframe_bm[framedisp],0,0,
-            iffwindow->RPort->BitMap,animframeimage.LeftEdge,animframeimage.TopEdge,
+        BltBitMap(anim.frame_bm[anim.framedisp],0,0,
+            iffwindow->RPort->BitMap,anim.frameimage.LeftEdge,anim.frameimage.TopEdge,
             bmhd.bmh_Width,bmhd.bmh_Height,0xc0,0xff,NULL);
         WaitBlit();
     }
-    if (animframe_bm[1]) framedisp=1-framedisp;
+    if (anim.frame_bm[1]) anim.framedisp=1-anim.framedisp;
 
-    if (!current_anim_frame) {
-        if (animframe_bm[1]) {
-            if (initialframe_bm) {
-                BltBitMap(initialframe_bm,0,0,
-                    animframe_bm[framedisp],0,0,
+    if (!anim.current_frame) {
+        if (anim.frame_bm[1]) {
+            if (anim.initialframe_bm) {
+                BltBitMap(anim.initialframe_bm,0,0,
+                    anim.frame_bm[anim.framedisp],0,0,
                     bmhd.bmh_Width,bmhd.bmh_Height,0xc0,0xff,NULL);
                 WaitBlit();
             }
             else rletobuffer(bodyptr,bmhd.bmh_Width,bmhd.bmh_Height,
-                animframe_bm[framedisp],bmhd.bmh_Masking,bmhd.bmh_Compression);
+                anim.frame_bm[anim.framedisp],bmhd.bmh_Masking,bmhd.bmh_Compression);
         }
-        if (got_dpan || framenum==0) {
-            current_anim_frame=first_anim_frame;
-            last_anim_frame=first_anim_frame;
-            framenum=1;
+        if (got_dpan || anim.framenum==0) {
+            anim.current_frame=anim.first_frame;
+            anim.last_frame=anim.first_frame;
+            anim.framenum=1;
         }
-        else framenum=0;
+        else anim.framenum=0;
     }
 
-    if (framenum>0) {
-        switch (current_anim_frame->animheader->ah_Operation) {
+    if (anim.framenum>0) {
+        switch (anim.current_frame->animheader->ah_Operation) {
             case 0:
-                if (current_anim_frame->delta)
-                    rletobuffer(current_anim_frame->delta,bmhd.bmh_Width,bmhd.bmh_Height,
-                        animframe_bm[framedisp],bmhd.bmh_Masking,bmhd.bmh_Compression);
+                if (anim.current_frame->delta)
+                    rletobuffer(anim.current_frame->delta,bmhd.bmh_Width,bmhd.bmh_Height,
+                        anim.frame_bm[anim.framedisp],bmhd.bmh_Masking,bmhd.bmh_Compression);
                 break;
             case 5:
-                doriff(current_anim_frame->delta,animframe_bm[framedisp],
-                    (current_anim_frame->animheader->ah_Flags&2 || !animframe_bm[1]),bmhd.bmh_Width,0);
+                doriff(anim.current_frame->delta,anim.frame_bm[anim.framedisp],
+                    (anim.current_frame->animheader->ah_Flags&2 || !anim.frame_bm[1]),bmhd.bmh_Width,0);
                 break;
             case 7:
-                doriff7(current_anim_frame->delta,animframe_bm[framedisp],
-                    bmhd.bmh_Width,(current_anim_frame->animheader->ah_Flags&1)?2:1);
+                doriff7(anim.current_frame->delta,anim.frame_bm[anim.framedisp],
+                    bmhd.bmh_Width,(anim.current_frame->animheader->ah_Flags&1)?2:1);
                 break;
             case 8:
-                doriff(current_anim_frame->delta,animframe_bm[framedisp],
-                    1,bmhd.bmh_Width,(current_anim_frame->animheader->ah_Flags&1)?2:1);
+                doriff(anim.current_frame->delta,anim.frame_bm[anim.framedisp],
+                    1,bmhd.bmh_Width,(anim.current_frame->animheader->ah_Flags&1)?2:1);
                 break;
         }
-        ++framenum;
-        current_anim_frame=current_anim_frame->next;
+        ++anim.framenum;
+        anim.current_frame=anim.current_frame->next;
     }
 }
 
@@ -1259,19 +1195,19 @@ struct Window *wind;
     struct IntuiMessage *msg;
     ULONG class;
     USHORT code,qual;
-    int ticks,waitfor=0,pon=0,waitbits,retcode=1,gottimer=0,origspeed,anim,delta;
+    int ticks,waitfor=0,pon=0,waitbits,retcode=1,gottimer=0,origspeed,startanim,delta;
     struct timerequest treq;
 
-    while (msg=(struct IntuiMessage *) GetMsg(wind->UserPort))
+    while ((msg=(struct IntuiMessage *) GetMsg(wind->UserPort)))
         ReplyMsg((struct Message *)msg);
-    if (!first_anim_frame && config->showdelay>0) {
+    if (!anim.first_frame && config->showdelay>0) {
         waitfor=config->showdelay*10; ticks=0;
     }
 
-    origspeed=animspeed;
+    origspeed=anim.speed;
 
     waitbits=1<<wind->UserPort->mp_SigBit;
-    if (first_anim_frame) {
+    if (anim.first_frame) {
         if (!(OpenDevice(TIMERNAME,UNIT_VBLANK,&treq.tr_node,0))) {
             treq.tr_node.io_Message.mn_ReplyPort=general_port;
             treq.tr_node.io_Command=TR_ADDREQUEST;
@@ -1282,22 +1218,22 @@ struct Window *wind;
             waitbits|=1<<general_port->mp_SigBit;
             gottimer=1;
         }
-        if (!(anim=(!(config->viewbits&VIEWBITS_PAUSEANIMS))) && doublebuffer)
+        if (!(startanim=(!(config->viewbits&VIEWBITS_PAUSEANIMS))) && doublebuffer)
             doanimframe();
     }
 
     FOREVER {
-        if (first_anim_frame) {
+        if (anim.first_frame) {
             while (GetMsg(general_port));
             if (CheckIO(&treq.tr_node)) {
                 WaitIO(&treq.tr_node);
                 treq.tr_time.tv_secs=0;
-                treq.tr_time.tv_micro=animspeed;
+                treq.tr_time.tv_micro=anim.speed;
                 SendIO(&treq.tr_node);
-                if (anim) doanimframe();
+                if (startanim) doanimframe();
             }
         }
-        while (msg=(struct IntuiMessage *) GetMsg(wind->UserPort)) {
+        while ((msg=(struct IntuiMessage *) GetMsg(wind->UserPort))) {
             class=msg->Class; code=msg->Code; qual=msg->Qualifier;
             ReplyMsg((struct Message *) msg);
             switch (class) {
@@ -1307,25 +1243,25 @@ struct Window *wind;
                 case IDCMP_RAWKEY:
                     if (code>=0x50 && code<=0x59) { // F1-F10
                         code-=0x50;
-                        animspeed=(code*10000)+10;
+                        anim.speed=(code*10000)+10;
                         break;
                     }
                     switch (code) {
                         case 0x0b:                  // -
-                            if ((animspeed+=10000)>1000000) animspeed=1000000;
+                            if ((anim.speed+=10000)>1000000) anim.speed=1000000;
                             break;
                         case 0x0c:                  // =
-                            if ((animspeed-=10000)<10) animspeed=10;
+                            if ((anim.speed-=10000)<10) anim.speed=10;
                             break;
                         case 0x0d:                  // '\'
-                            animspeed=origspeed;
+                            anim.speed=origspeed;
                             break;
                         case 0x21:                  // S
-                            anim=1-anim;
+                            startanim=1-startanim;
                             break;
                         case 0x36:                  // N
-                            if (first_anim_frame) {
-                                anim=0;
+                            if (anim.first_frame) {
+                                startanim=0;
                                 doanimframe();
                             }
                             break;
@@ -1340,11 +1276,8 @@ struct Window *wind;
                             else if (qual&IEQUALIFIER_ANYSHIFT) delta=screenwidth-20;
                             else delta=2;
                             if (code==CURSOR_LEFT || code==0x2d || code== NM_WHEEL_LEFT) delta=-delta;
-                            /*if (system_version2)*/ MoveScreen(wind->WScreen,-delta,0);
-                            /*else {
-                                ivp->RasInfo->RxOffset+=delta;
-                                docheckrasscroll(wind->WScreen);
-                            } */
+
+                            MoveScreen(wind->WScreen,-delta,0);
                             break;
                         case CURSOR_UP:
                         case NM_WHEEL_UP:
@@ -1358,20 +1291,12 @@ struct Window *wind;
                             else delta=2;
                             if (code==CURSOR_UP || code==NM_WHEEL_UP || code==0x3e) {
                                 delta=-delta;
-                                /*if (system_version2)*/ {
-                                    if (wind->WScreen->TopEdge-delta>0)
-                                        delta=wind->WScreen->TopEdge;
-                                }
+                                if (wind->WScreen->TopEdge > delta) delta = wind->WScreen->TopEdge;
                             }
-                            /*if (system_version2)*/ MoveScreen(wind->WScreen,0,-delta);
-                            /*else {
-                                ivp->RasInfo->RyOffset+=delta;
-                                docheckrasscroll(wind->WScreen);
-                            }  */
+                            MoveScreen(wind->WScreen,0,-delta);
                             break;
                         case 0x44:                  // ENTER
-                            if (tits==2) retcode=-2;
-                            else retcode=0;
+                            retcode = ((tits == 2) ? -2 : 0);
                             break;
                         case 0x45:                  // ESC
                             retcode=-1;
@@ -1425,7 +1350,7 @@ struct Window *wind;
         if (retcode!=1) break;
         Wait(waitbits);
     }
-    if (first_anim_frame && gottimer) {
+    if (anim.first_frame && gottimer) {
         if (!(CheckIO(&treq.tr_node)))
             AbortIO(&treq.tr_node);
         WaitIO(&treq.tr_node);
@@ -1453,18 +1378,6 @@ char *str;
         else strcpy(str,"4096");
     }
     else lsprintf(str,"%ld",1<<bmhd.bmh_Depth);
-}
-
-void dotitle()
-{
-    char title[100],modes[140],cols[30];
-
-    getcolstring(cols);
-    getviewmodes(modes);
-    lsprintf(title,"%ld x %ld x %ld (page %ld x %ld) %s cols (%s)",
-        bmhd.bmh_Width,bmhd.bmh_Height,bmhd.bmh_Depth,bmhd.bmh_PageWidth,bmhd.bmh_PageHeight,
-        cols,modes);
-    dostatustext(title);
 }
 
 void gfxprint(wind,rast,x,y,w,h,iff)
@@ -1520,6 +1433,7 @@ int x,y,w,h,iff;
     struct DOpusRemember *pkey=NULL;
     struct PrinterData *pd;
     struct Preferences *prefs;
+    union printerIO *print_request; /* IO request for Print operation */
     APTR save;
     ULONG class;
     USHORT code,gadgetid,qual;
@@ -1614,20 +1528,20 @@ D(bug("Print screen ModeID: %lx\n",class));
             bmhd.bmh_Height);
         iffinfotxt(prp,buf,7,35+goff);
 
-        if (first_anim_frame) {
-            if (framenum<2) fnum=1;
-            else fnum=framenum-1;
+        if (anim.first_frame) {
+            if (anim.framenum<2) fnum=1;
+            else fnum=anim.framenum-1;
             lsprintf(buf,"%12s : %ld %s %ld @ %ld/sec",
                 globstring[STR_NUM_FRAMES],
                 fnum,
                 globstring[STR_OF],
-                framecount+(1-got_dpan),
-                framespersec);
+                anim.framecount+(1-got_dpan),
+                anim.framespersec);
             iffinfotxt(prp,buf,7,43+goff);
 
             lsprintf(buf,"%12s : ANIM Op %ld",
                 globstring[STR_ANIM_TYPE],
-                animtype);
+                anim.type);
             iffinfotxt(prp,buf,7,51+goff);
 
             lsprintf(title,"IFF ANIM : %s   %s %ld %s %ld   %ld x %ld x %s\n\n",
@@ -1635,7 +1549,7 @@ D(bug("Print screen ModeID: %lx\n",class));
                 globstring[STR_FRAME],
                 fnum,
                 globstring[STR_OF],
-                framecount+1,
+                anim.framecount+1,
                 bmhd.bmh_Width,
                 bmhd.bmh_Height,
                 cols);
@@ -1679,7 +1593,7 @@ D(bug("Print screen ModeID: %lx\n",class));
         char fontname[40],*ptr;
 
         strcpy(fontname,show_global_font->tf_Message.mn_Node.ln_Name);
-        if (ptr=strstri(fontname,".font")) *ptr=0;
+        if ((ptr=strstri(fontname,".font"))) *ptr=0;
 
         lsprintf(buf,"%12s : %s",
             globstring[STR_FONT],
@@ -1779,9 +1693,10 @@ D(bug("Print screen ModeID: %lx\n",class));
     save=main_proc->pr_WindowPtr;
     main_proc->pr_WindowPtr=(APTR)pwin;
 
+    Wait(1<<pwin->UserPort->mp_SigBit);
+
     FOREVER {
-        Wait(1<<pwin->UserPort->mp_SigBit);
-        while (msg=(struct IntuiMessage *) GetMsg(pwin->UserPort)) {
+        while ((msg=(struct IntuiMessage *) GetMsg(pwin->UserPort))) {
             class=msg->Class; code=msg->Code; qual=msg->Qualifier;
             if (class==IDCMP_GADGETUP)
                 gadgetid=((struct Gadget *)msg->IAddress)->GadgetID;
@@ -1854,7 +1769,7 @@ doprint:
     AddGadgetBorders(&pkey,&abortprintgad,1,2,1);
     AddGadgets(pwin,&abortprintgad,printabortgadtxt,1,2,1,1);
     SetBusyPointer(pwin);
-    if (print_request=(union printerIO *) LCreateExtIO(general_port,sizeof(union printerIO))) {
+    if ((print_request=(union printerIO *) LCreateExtIO(general_port,sizeof(union printerIO)))) {
         if (!(OpenDevice("printer.device",0,(struct IORequest *)print_request,0))) {
             pd=(struct PrinterData *)print_request->iodrp.io_Device;
             prefs=&pd->pd_Preferences;
@@ -1904,7 +1819,7 @@ doprint:
             FOREVER {
                 Wait(1<<pwin->UserPort->mp_SigBit|1<<general_port->mp_SigBit);
                 while (GetMsg(general_port));
-                while (msg=(struct IntuiMessage *) GetMsg(pwin->UserPort)) {
+                while ((msg=(struct IntuiMessage *) GetMsg(pwin->UserPort))) {
                     class=msg->Class;
                     if (class==IDCMP_GADGETUP)
                         gadgetid=((struct Gadget *)msg->IAddress)->GadgetID;
@@ -2005,33 +1920,20 @@ char *modes;
         }
         if (viewflags&LACE) strcat(modes," LACE");
     }
-#ifdef WITHPCHG
     if (copperlist) strcat(modes," DHIRES");
+#ifdef WITHPCHG
     else if (pchghead) {
         if (sham) strcat(modes," SHAM");
         else strcat(modes," PCHG");
     }
-    else 
 #endif
+    else 
     {
         if (viewflags&HAM) strcat(modes," HAM");
         else if (viewflags&EXTRA_HALFBRITE) strcat(modes," EHB");
     }
 }
-/*
-void docheckrasscroll(scr)
-struct Screen *scr;
-{
-    if (ivp->RasInfo->RxOffset+screenwidth>bitmapwidth)
-        ivp->RasInfo->RxOffset=bitmapwidth-ivp->DWidth;
-    if (ivp->RasInfo->RxOffset<0) ivp->RasInfo->RxOffset=0;
-    if (ivp->RasInfo->RyOffset+screenheight>bitmapheight)
-        ivp->RasInfo->RyOffset=bitmapheight-ivp->DHeight;
-    if (ivp->RasInfo->RyOffset<0) ivp->RasInfo->RyOffset=0;
-    MakeScreen(scr);
-    RethinkDisplay();
-}
-*/
+
 void iffinfotxt(r,buf,x,y)
 struct RastPort *r;
 char *buf;

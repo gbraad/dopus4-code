@@ -66,6 +66,7 @@ static char *clihelp = "%s by %s\n\n"\
 */
            "\t-x  Forces opening xfdmaster.library (XPK support)\n"\
            "\t-X  Forces opening xadmaster.library (XAD support)\n"\
+           "\t-B  Prevents from popping up the screen\n"\
            "dir\tDirectory to display in left lister on startup\n\n";
 static char *rdatemplate = "?=HELP/S";
 

@@ -61,7 +61,7 @@ int rexx;
                 else switch (dev->size)
                  {
                   case DLT_DIRECTORY:
-                    if (lock = Lock(buf1, ACCESS_READ))
+                    if ((lock = Lock(buf1, ACCESS_READ)))
                      {
                       if (!(a = AssignLock(buf,lock))) UnLock(lock);
                      }
@@ -118,24 +118,20 @@ char *src,*dst;
 int type;
 {
     BPTR lk1,lk2;
-    int ret,a;
+    int ret;
 
-    if (!(lk1=Lock(src,ACCESS_READ))) return(1);
+    if (!(lk1=Lock(src,ACCESS_READ))) return(LOCK_DIFFERENT);
     if (!(lk2=Lock(dst,ACCESS_READ))) {
         UnLock(lk1);
-        return(1);
+        return(LOCK_DIFFERENT);
     }
-    if ((ret=(CompareLock(lk1,lk2)))==LOCK_SAME) {
-        if (type < 2)
-         {
-          if (type==0) a=STR_CANT_COPY_DIR_TO_ITSELF;
-          else a=STR_CANT_OVERCOPY_FILES;
-          dostatustext(globstring[a]);
-          simplerequest(globstring[a],globstring[STR_CONTINUE],NULL);
-         }
-        ret=0;
-    }
-    else ret=1;
+    ret = SameLock(lk1,lk2);
+    if ((ret == LOCK_SAME) && (type < 2))
+     {
+      int a = (type ? STR_CANT_OVERCOPY_FILES : STR_CANT_COPY_DIR_TO_ITSELF);
+      dostatustext(globstring[a]);
+      simplerequest(globstring[a],globstring[STR_CONTINUE],NULL);
+     }
     UnLock(lk1);
     UnLock(lk2);
     return(ret);
@@ -151,7 +147,7 @@ char *path,*buffer;
     save=main_proc->pr_WindowPtr;
     main_proc->pr_WindowPtr=(APTR)-1;
     buffer[0]=0;
-    if (lock=Lock(path,ACCESS_READ)) {
+    if ((lock=Lock(path,ACCESS_READ))) {
         PathName(lock,buffer,256);
         UnLock(lock);
         suc=1;

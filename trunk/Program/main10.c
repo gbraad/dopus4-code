@@ -298,9 +298,9 @@ getout:
     if (swap) {
         temp=datebuf; datebuf=timebuf; timebuf=temp;
     }
-
     DateStamp(&(datetime.dat_Stamp));
     initdatetime(&datetime,mydtbuf,mytmbuf,-1);
+D(bug("parsedatetime: datebuf=%s, timebuf=%s\n\tmydtbuf=%s, mytmbuf=%s\n",datebuf,timebuf,mydtbuf,mytmbuf));
 
     c=0;
     if (datebuf && (a=strlen(datebuf))<16 && a>2) strcpy(dbuf,datebuf);
@@ -331,9 +331,9 @@ getout:
         strcpy(tbuf,timebuf);
         if (!(*dis)) *dis=-1;
     }
-    else strcpy(tbuf,c?mytmbuf:"00:00:00");
+    else strcpy(tbuf,c ? (char *)mytmbuf : (char *)"00:00:00");
 
-D(bug("parsedatetime(%s)=%ld\n",buf,*dis));
+D(bug("dbuf=%s\ttbuf=%s\nparsedatetime(%s)=%ld\n",dbuf,tbuf,buf,*dis));
     return(ptr);
 }
 

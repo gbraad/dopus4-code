@@ -43,6 +43,7 @@ struct ProgressBar
   int curr,max;
   int last_w;
   BOOL incignore;
+  BOOL hide;
  };
 
 void progressbar(struct ProgressBar *bar);
@@ -84,7 +85,7 @@ static struct Interrupt
 static struct NewBroker
   hotkey_broker={
     NB_VERSION,
-    "Directory Opus",
+    NULL,
     "Directory Opus © Jonathan Potter",
     "The most amazing program ever written",
     0,COF_SHOW_HIDE,100,NULL,0};
@@ -93,6 +94,7 @@ static IX hotkey_ix={IX_VERSION};
 
 void __saveds hotkeytaskcode()
 {
+  char cxname[20];
   int top,sig,waitbits,commodity=0,command,x,run=1;
   struct dopustaskmsg *hmsg;
 #ifdef INPUTDEV_HOTKEY
@@ -119,6 +121,15 @@ void __saveds hotkeytaskcode()
       && !(status_flags&STATUS_IANSCRAP)
 #endif
      ) {
+    strcpy(cxname,"Directory Opus");
+    if (system_dopus_runcount)
+     {
+      char tmp[8];
+
+      lsprintf(tmp," (%ld)",system_dopus_runcount+1);
+      strcat(cxname,tmp);
+     }
+    hotkey_broker.nb_Name = cxname;
     hotkey_broker.nb_Port=inputport;
     if ((broker=CxBroker(&hotkey_broker,NULL))) {
 
@@ -306,12 +317,13 @@ void __saveds hotkeytaskcode()
     }
 
     while ((hmsg=(struct dopustaskmsg *)GetMsg(hotkeymsg_port))) {
-      switch (hmsg->command) {
 
 #define BAR_ID (hmsg->flag)
 
+      switch (hmsg->command) {
         case PROGRESS_UPDATE:
           if (pwindow) {
+//D(bug("UPDATE: BAR_ID=%ld\n",BAR_ID));
             if (hmsg->value>-1)
              {
               bar[BAR_ID].curr = hmsg->value;
@@ -319,6 +331,7 @@ void __saveds hotkeytaskcode()
 
               progressbar(&bar[BAR_ID]);
              }
+            if (bar[BAR_ID].hide) break;
             if (BAR_ID==0 || hmsg->data)
               progresstext(bar[BAR_ID].descY,hmsg->value,hmsg->total,hmsg->data);
           }
@@ -328,10 +341,12 @@ void __saveds hotkeytaskcode()
           if (pwindow) {
             if (bar[BAR_ID].incignore) break;
 
+//D(bug("INCREASE: BAR_ID=%ld\n",BAR_ID));
             bar[BAR_ID].curr += hmsg->value;
             if (bar[BAR_ID].curr > bar[BAR_ID].max) bar[BAR_ID].curr = bar[BAR_ID].max;
 
             progressbar(&bar[BAR_ID]);
+            if (bar[BAR_ID].hide) break;
             progresstext(bar[BAR_ID].descY,bar[BAR_ID].curr,bar[BAR_ID].max,NULL);
           }
           break;
@@ -428,32 +443,24 @@ int add;
   int a;
 
   if (filter_table) {
-    for (a=0;a<hotkey_count;a++)
-      DeleteCxObjAll(filter_table[a]);
+    for (a = 0; a < hotkey_count; a++) DeleteCxObjAll(filter_table[a]);
     FreeMem(filter_table,hotkey_count*sizeof(CxObj *));
-    filter_table=NULL;
+    filter_table = NULL;
   }
 
-  hotkey=dopus_firsthotkey;
-  hotkey_count=0;
-  while (hotkey) {
-    ++hotkey_count;
-    hotkey=hotkey->next;
-  }
+  if (add == 0) return;
 
-  if (!add || !hotkey_count ||
-    !(filter_table=AllocMem(hotkey_count*sizeof(CxObj *),MEMF_CLEAR))) return;
+  for (hotkey = dopus_firsthotkey, hotkey_count = 0; hotkey; hotkey = hotkey->next)
+    hotkey_count++;
+  if (hotkey_count==0) return;
 
-  hotkey=dopus_firsthotkey;
-  a=0;
-  while (hotkey) {
-    filter_table[a]=
-      set_dopus_filter(broker,port,NULL,
+  filter_table = AllocMem(hotkey_count*sizeof(CxObj *),MEMF_CLEAR);
+  if (filter_table == NULL) return;
+
+  for (a = 0, hotkey = dopus_firsthotkey; hotkey; hotkey = hotkey->next, a++)
+    filter_table[a] = set_dopus_filter(broker,port,NULL,
         hotkey->code,hotkey->qualifier,
         HOTKEY_HOTKEY+a,1);
-    ++a;
-    hotkey=hotkey->next;
-  }
 }
 
 CxObj *set_dopus_filter(broker,port,string,code,qual,command,translate)
@@ -464,10 +471,12 @@ USHORT code,qual;
 int command;
 int translate;
 {
-  CxObj *filter,*cxobj;
+  CxObj *filter;
 
   if ((filter=CxFilter(string))) {
     if (!string) {
+      set_hotkey(filter,code,qual);
+/*
       hotkey_ix.ix_Class=IECLASS_RAWKEY;
       if (code==(USHORT)~0) {
         hotkey_ix.ix_Code=0;
@@ -479,18 +488,18 @@ int translate;
       }
       hotkey_ix.ix_Qualifier=qual&VALID_QUALIFIERS;
       hotkey_ix.ix_QualMask=VALID_QUALIFIERS;
+*/
     }
     else {
       hotkey_ix.ix_Class=IECLASS_RAWMOUSE;
       hotkey_ix.ix_CodeMask=0xff;
       hotkey_ix.ix_QualSame=0;
+      SetFilterIX(filter,&hotkey_ix);
     }
-    SetFilterIX(filter,&hotkey_ix);
     AttachCxObj(broker,filter);
-    if ((cxobj=CxSender(port,command)))
-      AttachCxObj(filter,cxobj);
-    if (translate && (cxobj=CxTranslate(NULL)))
-      AttachCxObj(filter,cxobj);
+    AttachCxObj(filter,CxSender(port,command));
+    if (translate) AttachCxObj(filter,CxTranslate(NULL));
+
     return(filter);
   }
   return(NULL);
@@ -614,30 +623,35 @@ D(bug("PROGRESS_INCREASE commands will be ignored\n"));
     prog_yoff+(font->tf_YSize*4)+prog_yextra+5);
 
   for (a=0;a<2;a++) {
-    bar[a].barX=(((pwindow->Width-356)/2)+28)-font->tf_XSize;
-    bar[a].barY=font->tf_YSize+3+prog_yoff;
-    if (a==0) bar[a].barY += prog_yextra+3;
-
-    Do3DBox(prp,
-      bar[a].barX,bar[a].barY,
-      300,font->tf_YSize,
-      screen_pens[config->gadgetbotcol].pen,
-      screen_pens[config->gadgettopcol].pen);
-    SetBPen(prp,screen_pens[0].pen);
-
-    bar[a].descY=bar[a].barY+font->tf_YSize+(font->tf_YSize/2)+font->tf_Baseline;
-    if (a==0) progresstext(bar[a].descY,value,total,NULL);
-    SetAPen(prp,screen_pens[1].pen);
-    Move(prp,bar[a].barX-(TextLength(prp,"0% ",3))-4,bar[a].barY+font->tf_Baseline);
-    Text(prp,"0%",2);
-    Move(prp,bar[a].barX+302+font->tf_XSize,bar[a].barY+font->tf_Baseline);
-    Text(prp,"100%",4);
     bar[a].last_w = 0;
     bar[a].curr = value;
     bar[a].max = total;
     bar[a].incignore = incignore;
-    progressbar(&bar[a]);
-    if (!flag) break;
+    bar[a].hide = (a == 0) ? 0 : !flag;
+    bar[a].barX=(((pwindow->Width-356)/2)+28)-font->tf_XSize;
+    bar[a].barY=font->tf_YSize+3+prog_yoff;
+    if (a==0) bar[a].barY += prog_yextra+3;
+
+    if (! bar[a].hide)
+     {
+      Do3DBox(prp,
+        bar[a].barX,bar[a].barY,
+        300,font->tf_YSize,
+        screen_pens[config->gadgetbotcol].pen,
+        screen_pens[config->gadgettopcol].pen);
+
+      bar[a].descY=bar[a].barY+font->tf_YSize+(font->tf_YSize/2)+font->tf_Baseline;
+
+      SetAPen(prp,screen_pens[1].pen);
+      SetBPen(prp,screen_pens[0].pen);
+      Move(prp,bar[a].barX-(TextLength(prp,"0% ",3))-4,bar[a].barY+font->tf_Baseline);
+      Text(prp,"0%",2);
+      Move(prp,bar[a].barX+302+font->tf_XSize,bar[a].barY+font->tf_Baseline);
+      Text(prp,"100%",4);
+
+      if (a==0) progresstext(bar[a].descY,value,total,NULL);
+      progressbar(&bar[a]);
+     }
   }
 }
 
@@ -686,6 +700,7 @@ void progressbar(struct ProgressBar *bar)
 {
   int w;
 
+  if (bar->hide) return;
 D(bug("progressbar(Y=%ld,V=%ld,Vmax=%ld)\n",bar->barY,bar->curr,bar->max));
   if (bar->curr>0) {
     float f=(float)(bar->curr)/(float)(bar->max);

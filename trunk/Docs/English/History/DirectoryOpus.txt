@@ -6,9 +6,13 @@ of them are buggy, some don't make too much sense IMHO. Use the version you
 like more.
 
 
-4.17 (23.08.2002):
+4.17 (04.12.2002):
 - few hits removed
-- Show function will use datatypes if it fails to load IFF file (it 
+- new tooltype BEHINDWB (and -B CLI option) to prevent DOpus to popping up
+its screen. This allows to start it from WBStartup ready to use by just
+a screen switch.
+- fixed copy progress display in one-bar mode
+- Show function will use datatypes if it fails to load IFF file (it
 supports 24bit IFF files only through datatypes)
 - MouseWheel can be used to scroll drive and button banks
 - separate version with debug enabled (use it with Sushi/Sashimi tools to report

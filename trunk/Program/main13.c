@@ -412,7 +412,7 @@ struct DateStamp *ds;
     datetime.dat_Stamp.ds_Tick = 0;
 */
     datetime.dat_Format=dateformat(config->dateformat);
-    datetime.dat_Flags=DDTF_SUBST/*|DDTF_CUSTOM*/;
+    datetime.dat_Flags=0/*DDTF_SUBST|DDTF_CUSTOM*/;
     datetime.dat_StrDate=date;
     datetime.dat_StrTime=time;
 //    datetime.custom_months=date_months;
@@ -420,6 +420,8 @@ struct DateStamp *ds;
 //    datetime.custom_weekdays=date_weekdays;
 //    datetime.custom_shortweekdays=date_shortweekdays;
 //    datetime.custom_special_days=date_special;
-    D(bug("strtostamp=%ld\n",StrToStamp(&datetime)));
+//    StrToStamp(&datetime);
+    StrToDate((struct DateTime *)&datetime);
+//    D(bug("strtostamp(%s,%s)=%ld\n",date,time,StrToDate((struct DateTime *)&datetime)));
     copy_datestamp(&datetime.dat_Stamp,ds);
 }

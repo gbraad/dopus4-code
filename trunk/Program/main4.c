@@ -38,15 +38,13 @@ void makedir(rexx)
 int rexx;
 {
     struct FileInfoBlock __aligned fileinfo;
-    int len,a,success,win,err;
+    int a,success,win,err,addicon = 0;
     char dirname[FILEBUF_SIZE],new_directory[256];
     BPTR lock;
 
     win=data_active_window;
     if (/*(dopus_curwin[win] == dopus_specialwin[win]) ||*/ (dopus_curwin[win]->directory[0] == 0)) return;
     dirname[0]=new_directory[0]=0;
-    if (config->iconflags&ICONFLAG_MAKEDIRICON) len=FILEBUF_SIZE-7;
-    else len=FILEBUF_SIZE-2;
 
     FOREVER {
         if (rexx) {
@@ -57,6 +55,7 @@ int rexx;
                 if (!(isvalidwindow(data_active_window))) return;
                 strcpy(new_directory,str_pathbuffer[data_active_window]);
                 TackOn(new_directory,rexx_args[0],256);
+                if (rexx_args[1][0] && (rexx_args[1][0] == '1')) addicon = 1;
             }
             else {
                 strcpy(new_directory,rexx_args[0]);
@@ -72,7 +71,9 @@ int rexx;
             if (!(isvalidwindow(data_active_window))) return;
             strcpy(new_directory,str_pathbuffer[data_active_window]);
 
-            if (!(whatsit(globstring[STR_ENTER_DIRECTORY_NAME],len,dirname,NULL)) ||
+            if (!(whatsit(globstring[STR_ENTER_DIRECTORY_NAME],
+                config->iconflags&ICONFLAG_MAKEDIRICON ? FILEBUF_SIZE-7 : FILEBUF_SIZE-2,
+                dirname,NULL)) ||
                 !dirname[0]) {
                 myabort();
                 return;
@@ -113,7 +114,7 @@ int rexx;
         }
 
         success=1;
-        if (config->iconflags&ICONFLAG_MAKEDIRICON) {
+        if ((config->iconflags&ICONFLAG_MAKEDIRICON) || addicon) {
             strcat(new_directory,".info");
             if ((iconwrite(ICONTYPE_DRAWER,new_directory))==1 &&
                 (lockandexamine(new_directory,&fileinfo))) {

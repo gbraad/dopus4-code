@@ -184,8 +184,8 @@ LONG  rexx_result_code;                   /* Return code for ARexx functions */
 LONG  rexx_return_value;                  /* RC for ARexx functions */
 
 ULONG func_global_function=0;             /* Global function number */
-char  func_single_file[FILEBUF_SIZE];     /* Single file to operate on */
-char  func_external_file[256];            /* External file to operate on */
+char  func_single_file[FILEBUF_SIZE]={0}; /* Single file to operate on */
+char  func_external_file[256]={0};        /* External file to operate on */
 struct Directory *func_single_entry=NULL; /* Single entry to operate on */
 UBYTE func_entry_deleted=0;               /* Indicates entry was deleted */
 

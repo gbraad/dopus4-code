@@ -40,6 +40,8 @@ extern USHORT __chip uniconifydata[2][20];
 extern USHORT __chip appicon_data[];
 #endif
 
+static BOOL staybehindWB;
+
 extern BOOL useAHI;
 
 int  CXBRK(void) { return(0); }  /* Disable Lattice CTRL/C handling */
@@ -136,35 +138,35 @@ char *argv[];
 
     /* status_flags contains various flags; initialise it to 0 to start with */
 
-    status_flags=0;
+//    status_flags=0;
 
-    windowptr_save=main_proc->pr_WindowPtr;
-    main_proc->pr_WindowPtr=(APTR)-1;
+    windowptr_save = main_proc->pr_WindowPtr;
+    main_proc->pr_WindowPtr = (APTR)-1;
 
     /* Initialise and open the other libraries that we need or want */
 
-    GfxBase=DOpusBase->GfxBase;
-    IntuitionBase=DOpusBase->IntuitionBase;
-    LayersBase=DOpusBase->LayersBase;
+    GfxBase = DOpusBase->GfxBase;
+    IntuitionBase = DOpusBase->IntuitionBase;
+    LayersBase = DOpusBase->LayersBase;
 #ifdef __SASC
     DOSBase = (struct DosLibrary *)OpenLibrary( "dos.library", 39 );
 #endif
-    DiskfontBase=OpenLibrary("diskfont.library",0);
-    IconBase=OpenLibrary("icon.library",0);
-    WorkbenchBase=OpenLibrary("workbench.library",37);
-    CxBase=OpenLibrary("commodities.library",37);
-    RexxSysBase=(struct RxsLib *)OpenLibrary("rexxsyslib.library",0);
-    UtilityBase=(struct UtilityBase *)OpenLibrary("utility.library",37);
-    CyberGfxBase=OpenLibrary("cybergraphics.library",40);
-    PopupMenuBase=(struct PopupMenuBase *)OpenLibrary("popupmenu.library", 9);
+    DiskfontBase = OpenLibrary("diskfont.library",0);
+    IconBase = OpenLibrary("icon.library",0);
+    WorkbenchBase = OpenLibrary("workbench.library",37);
+    CxBase = OpenLibrary("commodities.library",37);
+    RexxSysBase = (struct RxsLib *)OpenLibrary("rexxsyslib.library",0);
+    UtilityBase = (struct UtilityBase *)OpenLibrary("utility.library",37);
+    CyberGfxBase = OpenLibrary("cybergraphics.library",40);
+    PopupMenuBase = (struct PopupMenuBase *)OpenLibrary("popupmenu.library", 9);
 
 //    AccountsBase=NULL;
 
     Forbid();
     if (FindName(&SysBase->LibList,"services.library")) {
-        if ((AccountsBase=OpenLibrary("accounts.library",0))) {
-            user_info=AllocUserInfo();
-            group_info=AllocGroupInfo();
+        if ((AccountsBase = OpenLibrary("accounts.library",0))) {
+            user_info = AllocUserInfo();
+            group_info = AllocGroupInfo();
         }
     }
     if (FindName(&SysBase->LibList,"multiuser.library")) {
@@ -179,8 +181,8 @@ char *argv[];
 //    OpenXFDlib();
 
 //    PPBase=(struct PPBase *)open_dopus_library("powerpacker.library",0);
-    MUSICBase=(struct MusicBase *)open_dopus_library("inovamusic.library",0);
-    ScreenNotifyBase=OpenLibrary("screennotify.library",0);
+    MUSICBase = (struct MusicBase *)open_dopus_library("inovamusic.library",0);
+    ScreenNotifyBase = OpenLibrary("screennotify.library",0);
     LocaleBase = OpenLibrary("locale.library",38);
     DataTypesBase = OpenLibrary("datatypes.library",39);
     AmigaGuideBase = OpenLibrary("amigaguide.library",39);
@@ -188,7 +190,7 @@ char *argv[];
 
     /* Restore window pointer now that we've got our libraries */
 
-    main_proc->pr_WindowPtr=windowptr_save;
+    main_proc->pr_WindowPtr = windowptr_save;
 
     /* Initialise various data */
 /*
@@ -202,14 +204,14 @@ D(bug("pageflip_data2: %lx\n",pageflip_data2));
 D(bug("null_pointer: %lx\n",null_pointer));
 D(bug("beepwave: %lx\n",beepwave));
 */
-    str_hunt_name[0]=0;
-    str_search_string[0]=0;
-    str_filter[0]=0;
-    str_filter_parsed[0]=0;
+//    str_hunt_name[0]=0;
+//    str_search_string[0]=0;
+//    str_filter[0]=0;
+//    str_filter_parsed[0]=0;
 
     if ((str_last_rexx_result = AllocVec(256,MEMF_ANY))) str_last_rexx_result[0] = 0;
     else quit();
-
+/*
     func_single_file[0]=0;
     func_external_file[0]=0;
 
@@ -230,7 +232,7 @@ D(bug("beepwave: %lx\n",beepwave));
     for (a=0;a<16;a++) screen_pens[a].alloc=0;
 
     func_reselection.reselection_list=NULL;
-
+*/
     scrdata_is_pal=getpal();
 
     iconstart=in=0;
@@ -255,6 +257,7 @@ D(bug("beepwave: %lx\n",beepwave));
 #endif
                     case 'x': xfdMasterBase = (struct xfdMasterBase *)OpenLibrary("xfdmaster.library",38); break;
                     case 'X': xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4); break;
+                    case 'B': staybehindWB = TRUE;
                 }
             }
             else startdir = argv[a];
@@ -272,6 +275,7 @@ D(bug("beepwave: %lx\n",beepwave));
             if (FindToolType(toolarray,"USEAHI"))        useAHI=TRUE;
             if (FindToolType(toolarray,"FORCEOPENXFD"))  xfdMasterBase = (struct xfdMasterBase *)OpenLibrary("xfdmaster.library",38);
             if (FindToolType(toolarray,"FORCEOPENXAD"))  xadMasterBase = (struct xadMasterBase *)OpenLibrary("xadmaster.library",4);
+            if (FindToolType(toolarray,"BEHINDWB")) staybehindWB = TRUE;
             if (FindToolType(toolarray,"USESYSINFO"))
               {
 D(bug("Opening sysinfo.library v2..."));
@@ -348,29 +352,23 @@ else D(bug("FAILED!\n"));
 //    if (!(lock=Lock("ENV:",ACCESS_READ))) Assign("ENV:","RAM:");
 //    else UnLock(lock);
 
-    if (!(arexx_port=CreateUniquePort("DOPUS",str_arexx_portname,&system_dopus_runcount)))
-        quit();
+    if (!(install_arbiter()) ||
+        !(count_port=LCreatePort(NULL,0)) ||
+        !(general_port=LCreatePort(NULL,0)) ||
+        !(snm_port = LCreatePort(NULL,0)) ||
+        !(arexx_port=CreateUniquePort("DOPUS",str_arexx_portname,&system_dopus_runcount))) quit();
 
-    rexx_signalbit=1<<arexx_port->mp_SigBit;
-
-    if (!(snm_port = LCreatePort(NULL,0)))
-        quit();
+    rexx_signalbit = 1<<arexx_port->mp_SigBit;
 
     if (ScreenNotifyBase) snm_handle = AddWorkbenchClient(snm_port,0);
 
-    if (!(install_arbiter()) ||
-        !(count_port=LCreatePort(NULL,0)) ||
-        !(general_port=LCreatePort(0,0))) quit();
-
-//    if (system_version2) {
-        if (WorkbenchBase) {
-            if (!(appmsg_port=LCreatePort(0,0))) quit();
-        }
-        for (a=0;a<2;a++) {
-            if ((dos_notify_req[a]=LAllocRemember(&general_key,sizeof(struct NotifyRequest),MEMF_ANY|MEMF_CLEAR)))
-                dos_notify_req[a]->nr_Name=dos_notify_names[a];
-        }
-//    }
+    if (WorkbenchBase) {
+        if (!(appmsg_port=LCreatePort(0,0))) quit();
+    }
+    for (a=0;a<2;a++) {
+        if ((dos_notify_req[a]=LAllocRemember(&general_key,sizeof(struct NotifyRequest),MEMF_ANY|MEMF_CLEAR)))
+            dos_notify_req[a]->nr_Name=dos_notify_names[a];
+    }
 /*
     if (!(keyboard_req=(struct IOStdReq *)
         LCreateExtIO(general_port,sizeof(struct IOStdReq)))) quit();
@@ -385,7 +383,8 @@ else D(bug("FAILED!\n"));
         quit();
       if ((OpenDevice("input.device",0,(struct IORequest *)input_req,0))!=0)
        {
-        LDeleteExtIO((struct IORequest *)input_req); input_req=NULL;
+        LDeleteExtIO((struct IORequest *)input_req);
+        input_req=NULL;
         quit();
        }
      }
@@ -408,11 +407,7 @@ else D(bug("FAILED!\n"));
          {
           case 2:
            {
-/*            int a;
-            char buf[20], comm[80];
-            struct MsgPort *port, *replyport;
-            struct RexxMsg *message;
-*/
+//            Signal(FindTask("dopus_hotkeez"),INPUTSIG_UNICONIFY);
             if (CxBase)
              {
               struct InputEvent ie;
@@ -423,42 +418,7 @@ else D(bug("FAILED!\n"));
               ie.ie_Qualifier = config->hotkeyqual;
               AddIEvents(&ie);
              }
-//            Signal(FindTask("dopus_hotkeez"),INPUTSIG_UNICONIFY);
-/*            if (RexxSysBase) if (replyport = CreateMsgPort())
-             {
-              if (message = CreateRexxMsg (replyport, NULL, NULL))
-               {
-                message->rm_Action = RXCOMM | RXFF_STRING;
-                for (a=1;a<10;a++)
-                 {
-                  lsprintf(buf,"DOPUS.%ld",a);
-                  if (strcmp(buf,arexx_port->mp_Node.ln_Name))
-                   {
-                    Forbid();
-                    if (port = FindPort("REXX"))
-                     {
-                      sprintf(comm,"ADDRESS '%s'\nUNICONIFY\nDOPUSTOFRONT",buf);
-                      message->rm_Args[0] = comm;
-                      if (FillRexxMsg (message, 1, 0))
-                       {
-  //                      D(bug("Sending msg: %s\n",message->rm_Args[0]));
-                        PutMsg(port,(struct Message *)message);
-                        Permit();
-                        WaitPort(replyport);
-                        GetMsg(replyport);
-                        ClearRexxMsg (message, 1);
-                       }
-                      else Permit();
-                      a=10;
-                     }
-                    else Permit();
-                   }
-                 }
-                DeleteRexxMsg (message);
-               }
-              DeleteMsgPort(replyport);
-             }
-*/           }
+           }
           case 0:
             quit();
             break;
@@ -1180,11 +1140,8 @@ tryfonts:
         scrdata_status_xpos=2+scrdata_xoffset;
         scrdata_status_ypos=1+scrdata_yoffset;
 
-        if (MainScreen) ScreenToFront(MainScreen);
-        if (config->errorflags&ERROR_ENABLE_DOS)
-            main_proc->pr_WindowPtr=(APTR)Window;
-        else
-            main_proc->pr_WindowPtr=(APTR)-1;
+        if (MainScreen && !staybehindWB) ScreenToFront(MainScreen);
+        main_proc->pr_WindowPtr = (config->errorflags & ERROR_ENABLE_DOS) ? Window : (APTR)-1L;
 
         layout_menus();
 

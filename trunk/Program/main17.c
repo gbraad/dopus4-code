@@ -286,7 +286,7 @@ char *command;
                 entry=entry->next;
             }
             if (a>0) {
-                if (buf1=AllocMem(a+2,MEMF_CLEAR)) {
+                if ((buf1=AllocMem(a+2,MEMF_CLEAR))) {
                     entry=dopus_curwin[win]->firstentry;
                     while (entry) {
                         if ((function==FUNC_GETALL ||
@@ -742,7 +742,7 @@ doentryselection:
             if ((b=atoi(rexx_args[2]))==0) d=0;
             else {
                 if (status_iconified) strcpy(rexx_args[7],"0");
-                d=addfile(dopus_curwin[data_active_window],data_active_window,
+                d=(int)addfile(dopus_curwin[data_active_window],data_active_window,
                     rexx_args[0],
                     atoi(rexx_args[1]),
                     b,
@@ -815,7 +815,7 @@ doentryselection:
                         else entry=(struct Directory *)-1;
                     }
                 }
-                if ((a=addfile(dopus_curwin[data_active_window],
+                if ((a=(int)addfile(dopus_curwin[data_active_window],
                     data_active_window,buf2,c,ENTRY_CUSTOM,
                     &ds,rexx_args[0],d,CUSTOMENTRY_USER,
                     (rexx_argcount>5)?atoi(rexx_args[5]):0,NULL,entry,0,0))) {
@@ -1412,7 +1412,7 @@ doentryselection:
 
         default:
             func_global_function=function;
-D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0],rexx_args[1],rexx_args[2]));
+D(bug("rexx_args(%s,%s,%s)\n",rexx_args[0]?rexx_args[0]:"<NULL>",rexx_args[1]?rexx_args[1]:"<NULL>",rexx_args[2]?rexx_args[2]:"<NULL>"));
             break;
     }
     if (!func_global_function) rexx_return(msg,0);
