@@ -1,73 +1,6 @@
-## version $VER: DOpus4_Disk.catalog 1.2 (26.05.2001)
+## version $VER: DOpus4_Disk.catalog 1.3 (11.12.2001)
 ## language español
 ## codeset 0
-;
-; ------------------------------------------------------------------------
-; History:
-;
-; 1.0 (5.3.2001)
-;
-; - Initial version, translated by Javier de las Rivas <javierdlr@jazzfree.com>
-;
-;
-; 1.1 (20.5.2001)
-;
-; - First version proofread by David Rey <david@saug.org>
-;
-; - Cleaned up this source to make it more easily readable, added the missing
-;   'codeset' command
-;
-; - Fixed a typo in STR_ABORTED
-;
-; - Changed the wording of
-;
-;   STR_FORMAT_NAME
-;   STR_FORMAT_FFS
-;   STR_FORMAT_INTERNATIONAL
-;   STR_FORMAT_CACHING
-;   STR_FORMAT_TRASHCAN
-;   STR_FORMAT_EMPTY
-;   STR_FORMAT_FORMATTING
-;   STR_FORMAT_VERIFYING
-;   STR_FORMAT_FORMATERROR
-;   STR_FORMAT_ERRORVERIFYING
-;   STR_FORMAT_VERIFYERROR
-;   STR_SUCCESS
-;   STR_BITMAP_ERROR
-;   STR_DEVICE_ERROR
-;   STR_NODEVICE_ERROR
-;   STR_NODISKPRESENT
-;   STR_DISKWRITEPROTECTED
-;   STR_DISK_NOT_BLANK
-;   STR_PROCEED
-;   STR_DISKCOPY_INFODISPLAY
-;   STR_DISKCOPY_NODISK
-;   STR_DISKCOPY_READING
-;   STR_DISKCOPY_WRITING
-;   STR_DISKCOPY_READERROR
-;   STR_DISKCOPY_WRITEERROR
-;   STR_DISKCOPY_INSERTSOURCE
-;   STR_DISKCOPY_INSERTDEST
-;   STR_INSTALL_NOBOOT
-;   STR_INSTALL_NOINFO
-;   STR_INSTALL_NOBOOTABLE
-;   STR_INSTALL_NORMAL
-;   STR_INSTALL_NONSTANDARD
-;   STR_INSTALL_ERRORWRITING
-;   STR_INVALID_DISK
-;   STR_INSTALL_INSTALLINGDISK
-;   STR_BUMP_NAMES
-;
-;
-; 1.2 (26.5.2001)
-;
-; - *New strings*:
-;
-;   STR_WINDOW_FORMAT
-;   STR_WINDOW_DISKCOPY
-;   STR_WINDOW_INSTALL
-;
-; ------------------------------------------------------------------------
 ;
 STR_FORMAT_NAME
 _Nuevo
@@ -102,8 +35,8 @@ F. rápido
 ; Quick Format
 ;
 STR_FORMAT_EXIT
-Salir
-; Exit
+_Cancelar
+; E_xit
 ;
 STR_FORMAT_EMPTY
 Vacío
@@ -174,8 +107,8 @@ El disco de la unidad %s está protegido contra escritura.
 ; Disk in %s is write protected
 ;
 STR_ABORTED
-Interrumpido...
-; Aborted...
+Interrumpido.
+; Aborted.
 ;
 STR_FORMAT_MAKINGTRASHCAN
 Creando papelera...
@@ -185,8 +118,11 @@ STR_DISK_NOT_BLANK
 ¡El disco de la unidad %s no está vacío!\n\n\
 El volumen \"%s\" contiene %s\n\n\¡ATENCIÓN!\n\
 ¡Se perderán todos los datos!\n\n\
-Elija 'Continuar' para realmente %s.
-; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\nAll data will be erased.\nChoose Proceed to continue the %s.
+Elija 'Continuar' si de verdad desea %s.
+; Disk in drive %s is not blank!\n\n\
+; Volume \"%s\" contains %s.\n\n\
+; All data will be erased.\n\
+; Choose Proceed to continue the %s.
 ;
 STR_PROCEED
 Continuar
@@ -197,8 +133,8 @@ Comprobando disco destino...
 ; Checking destination disk...
 ;
 STR_DISKCOPY_DISKCOPY
-Copiar
-; Diskcopy
+C_opiar
+; _Diskcopy
 ;
 STR_DISKCOPY_FROM
 De...
@@ -293,8 +229,8 @@ Cambiando nombre...
 ; Bumping disk name...
 ;
 STR_DISKCOPY_CHECK
-Verificar
-; Check
+V_erificar
+; _Check
 ;
 STR_WINDOW_FORMAT
 Format
@@ -307,3 +243,11 @@ DiskCopy
 STR_WINDOW_INSTALL
 Install
 ; Install
+;
+STR_DISK_NOT_BLANK_FORMAT
+formatear.
+; Format
+;
+STR_DISK_NOT_BLANK_DISKCOPY
+copiar.
+; Diskcopy

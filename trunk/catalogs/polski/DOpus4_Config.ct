@@ -1,8 +1,6 @@
-## version $VER: Dopus4_Config.catalog 1.1 (09.06.2001) © Daniel Sternik <dxs2@wp.pl>
+## version $VER: Dopus4_Config.catalog 1.4 (04.12.2001) © Daniel Sternik <dxs2@wp.pl>
 ## language polski
 ## codeset 0
-;
-; $VER DOpus4_Config.cd 1.1 (06.06.2001)
 ;
 STR_REALLY_DISCARD_CONFIG
 Czy chcesz porzuciê\n aktualne ustawienia?
@@ -59,7 +57,7 @@ STR_DISPLAYED_LENGTHS
 Wyôwietlane dîugoôci...
 ; Displayed lengths...
 STR_CHECK_INDICATES_SORT
-(  Oznacza sposób sortowania)
+(   Oznacza sposób sortowania)
 ; (  Check indicates sort item)
 STR_ENTRY_SEPARATION
 Oddzielanie wpisów...
@@ -619,8 +617,6 @@ Operacje
 STR_MAINMENU_SCREEN
 Ekran
 ; Screen
-;
-; ***NEW***
 STR_MAINMENU_SYSTEM
 System
 ; System
@@ -850,13 +846,13 @@ STR_COLOR_SELDIR
 Zaznaczony katalog
 ; Selected directory
 STR_COLOR_UNSELDIR
-Nie zaznaczony katalog
+Odznaczony katalog
 ; Unselected directory
 STR_COLOR_SELFILE
-Wybrany plik
+Zaznaczony plik
 ; Selected file
 STR_COLOR_UNSELFILE
-Nie wybrany plik
+Odznaczony plik
 ; Unselected file
 STR_COLOR_SLIDERS
 Suwaki
@@ -904,11 +900,11 @@ STR_LISTFORMAT_RESET
 Skasuj
 ; Reset
 STR_LISTFORMAT_NAME
-nazwy pliku
-; File name
+
+; 
 STR_LISTFORMAT_COMMENT
-komentarza
-; File comment
+
+; 
 STR_LISTFORMAT_REVERSE
 Porzâdek odwrotny
 ; Reverse sorting
@@ -1012,10 +1008,10 @@ STR_OP_ERROR_ENABLE
 Wîâczone...
 ; Enable...
 STR_OP_ERROR_DOSREQ
-Komunikaty DOS'u
+Komunikaty DOS-u
 ; DOS requesters
 STR_OP_ERROR_OPUSREQ
-Komunikaty bîëdów Opus'a
+Komunikaty bîëdów Opusa
 ; Opus error requesters
 STR_OP_GENERAL_DRAG
 Miëdzyklik przeciâga
@@ -1411,7 +1407,7 @@ STR_FUNCTIONLIST_ENDFUNCTION
 FinishSection -  Koïczy polecenia powyûej
 ; FinishSection -     Finish above commands
 STR_FUNCTIONLIST_ERRORHELP
-ErrorHelp     -     Pomoc o bîëdzie DOS'u
+ErrorHelp     -     Pomoc o bîëdzie DOS-u
 ; ErrorHelp     -      Help with DOS errors
 STR_FUNCTIONLIST_EXECUTE
 Execute       -     Wykonuje plik wsadowy
@@ -1677,16 +1673,12 @@ Obsîugiwane zewnëtrzne moduîy...
 STR_removed_2
 
 ; 
-;
-; ***NEW***
 STR_MODULE_LIST_CHECK_STRING
-(  oznacza moduîy wczytywane przy starcie)
+(   Oznacza moduîy wczytywane przy starcie)
 ; (  Check indicates a module to be pre-loaded)
 STR_removed_3
 
 ; 
-;
-; ***NEW***
 STR_SYS_CLOCK_KILOBYTES_FREE
 Kilobajty wolne
 ; Kilobytes free
@@ -1791,7 +1783,7 @@ STR_PAINT_STATE
 ;   (Paint mode active)
 STR_removed_4
 
-;
+; 
 STR_SCREEN_GENERAL_TITLEBARSTATUS
 Wyôwietlaj teksty statusowe na belce tytuîowej
 ; Display status text in title bar
@@ -1833,7 +1825,7 @@ ParentList    -    Lista nadrzëdnych kat.
 ; ParentList    -   List parent directories
 STR_SIZE_KMGMODE
 Pokazuj rozmiary w K/M/G
-; Show entries as K/M/G
+; Show size in K/M/G
 STR_SYS_VIEWPLAY_INWINDOW
 W oknie
 ; View in window
@@ -1855,3 +1847,19 @@ MatchI       - tekst (bez wielkoôci znaków)
 STR_MENU_MAX_REACHED
 Uwaga! Niektóre menu nie zostaîy zaimportowane z powodu braku miejsca.
 ; Warning! Some menus were not imported due to lack of free space.
+STR_OP_GENERAL_FMPARENTMODE
+Nadrzëdne jak w FileMasterze
+; FileMaster-like Parent
+STR_OP_COPY_COPYARCHIVE
+Kopiuj takûe bit A
+; Copy archive bit too
+STR_OP_GENERAL_FORCEQUIT
+Nie pytaj przed zakoïczeniem pracy
+; Don't ask before quit
+;
+; ***NEW***
+STR_USE
+Uûyj
+; Use
+;
+; ***NEW***

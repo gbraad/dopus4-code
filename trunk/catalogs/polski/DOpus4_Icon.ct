@@ -1,143 +1,143 @@
-## chunk AUTH Mariusz Danilewicz
+## version $VER: DOpus4_Icon.catalog 1.2 (07.11.2001) © Mariusz Danilewicz <mandi@interia.pl>
 ## language polski
-## version $VER: DOpus4_Icon.ct 1.0 (28.04.01)
+## codeset 0
+;
 STR_REMAP_COLORS
-Przeko_loruj
-;#DEF 
-;#SET (//)
+_Przekoloruj
+; Rema_p colors
+;
 STR_SAVE
-_Zapisz
-;#DEF 
-;#SET (//)
+Zapi_sz
+; Sa_ve
+;
 STR_SKIP
-_Pomiï
-;#DEF 
-;#SET (//)
+Pom_iï
+; S_kip
+;
 STR_CANCEL
-P_oniechaj
-;#DEF 
-;#SET (//)
+Ponie_chaj
+; _Cancel
+;
 STR_DELETE
 Skasu_j
-;#DEF 
-;#SET (//)
+; De_lete
+;
 STR_NEW
 _Nowy
-;#DEF 
-;#SET (//)
+; _New
+;
 STR_TOOLTYPES
 Parametry:
-;#DEF 
-;#SET (//)
+; Tool types:
+;
 STR_COMMENT
-_Komentarz:
-;#DEF 
-;#SET (//)
+Ko_mentarz:
+; Co_mment:
+;
 STR_DEFAULT_TOOL
-Program:
-;#DEF 
-;#SET (//)
+Pro_gram:
+; De_fault tool:
+;
 STR_VALIDATING
 Aktualizujë
-;#DEF 
-;#SET (//)
+; Validating
+;
 STR_WRITE_PROTECTED
 Zabezp. przed zapisem
-;#DEF 
-;#SET (//)
+; Write protected
+;
 STR_READ_WRITE
 Do odczytu/zapisu
-;#DEF 
-;#SET (//)
+; Read/Write
+;
 STR_SCRIPT
-_Skrypt
-;#DEF 
-;#SET (//)
+Sk_rypt
+; _Script
+;
 STR_ARCHIVED
 Z_archiwizowany
-;#DEF 
-;#SET (//)
+; _Archived
+;
 STR_READABLE
-O_dczytywalny
-;#DEF 
-;#SET (//)
+_Odczytywalny
+; _Readable
+;
 STR_WRITABLE
-Zap_isywalny
-;#DEF 
-;#SET (//)
+_Zapisywalny
+; _Writable
+;
 STR_EXECUTABLE
 _Wykonywalny
-;#DEF 
-;#SET (//)
+; _Executable
+;
 STR_DELETABLE
-_Usuwalny
-;#DEF 
-;#SET (//)
+_Kasowalny
+; _Deletable
+;
 STR_BLOCKS
 Bloków
-;#DEF 
-;#SET (//)
+; Blocks
+;
 STR_USED
 Uûywanych
-;#DEF 
-;#SET (//)
+; Used
+;
 STR_FREE
 Wolnych
-;#DEF 
-;#SET (//)
+; Free
+;
 STR_BLOCK_SIZE
 Rozmiar bl.
-;#DEF 
-;#SET (//)
+; Block size
+;
 STR_CREATED
 Utworzony
-;#DEF 
-;#SET (//)
+; Created
+;
 STR_LAST_CHANGED
 Zmieniony
-;#DEF 
-;#SET (//)
+; Last changed
+;
 STR_BYTES
 Bajtów
-;#DEF 
-;#SET (//)
+; Bytes
+;
 STR_STACK
-Stos
-;#DEF 
-;#SET (//)
+S_tos
+; S_tack
+;
 STR_DISK
 Dysk
-;#DEF 
-;#SET (//)
+; Disk
+;
 STR_DRAWER
 Katalog
-;#DEF 
-;#SET (//)
+; Drawer
+;
 STR_TOOL
 Narzëdzie
-;#DEF 
-;#SET (//)
+; Tool
+;
 STR_PROJECT
 Projekt
-;#DEF 
-;#SET (//)
+; Project
+;
 STR_TRASH
 Ômietnik
-;#DEF 
-;#SET (//)
+; Trash
+;
 STR_DEVICE
 Urzâdzenie
-;#DEF 
-;#SET (//)
+; Device
+;
 STR_KICK
 Kick
-;#DEF 
-;#SET (//)
+; Kick
+;
 STR_APPICON
 AppIkona
-;#DEF 
-;#SET (//)
+; AppIcon
+;
 STR_ICON
 Ikona
-;#DEF 
-;#SET (//)
+; Icon

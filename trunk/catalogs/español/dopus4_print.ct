@@ -2,61 +2,6 @@
 ## language español
 ## codeset 0
 ;
-; ------------------------------------------------------------------------
-; History:
-;
-; 1.0 (5.3.2001)
-;
-; - Initial version, translated by Javier de las Rivas <javierdlr@jazzfree.com>
-;
-;
-; 1.1 (28.5.2001)
-;
-; - First version proofread by David Rey <david@saug.org>
-;
-; - Cleaned up this source to make it more readable, added the missing
-;   'codeset' command
-;
-; - Changed the wording of
-;
-;   STR_ABORT
-;   STR_OK
-;   STR_CANCEL
-;   STR_RIGHT_MARGIN
-;   STR_TAB_SIZE
-;   STR_PAGE_NUMBER
-;   STR_TEXT_STYLE
-;   STR_OUTPUT_TO
-;   STR_FINE
-;   STR_DOUBLESTRIKE
-;   STR_HEADER
-;   STR_PROTECTION
-;   STR_FILETYPE
-;   STR_PRINTDIR
-;   STR_UNABLE_TO_OPEN_FILE
-;   STR_UNABLE_TO_OPEN_OUTPUT
-;   STR_UNABLE_TO_OPEN_PRINTER
-;   STR_ERROR_PRINTING_DIR
-;   STR_INCORRECT_PASSWORD
-;   STR_REALLY_ABORT
-;   STR_PRESS_ESCAPE
-;   STR_PAGE
-;   STR_COMPLETE
-;
-; - Fixed a typo in STR_ELITE
-;
-; - Added a \n wrapper to STR_PRINT_ERROR to make it look nicer
-;
-;
-; 1.2 (12.6.2001)
-;
-; - *New strings*:
-;
-;   STR_TOFILE
-;   STR_PRINTWIN
-;
-; ------------------------------------------------------------------------
-;
 STR_SELECT_FILE
 Elija fichero...
 ; Select file

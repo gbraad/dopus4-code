@@ -1,235 +1,10 @@
-## version $VER: DOpus4.catalog 1.4 (12.06.2001)
+## version $VER: DOpus4.catalog 1.10 (08.01.2002)
 ## codeset 0
 ## language español
 ;
-; ------------------------------------------------------------------------
-; History:
-;
-; 1.0 (4.3.2001)
-;
-; - Initial version, translated by Javier de las Rivas <javierdlr@jazzfree.com>
-;
-;
-; 1.1 (22.3.2001)
-;
-; - First version proofread by David Rey <david@saug.org>
-;
-; - Cleaned up this source to make it more readable, added the missing
-;   'codeset' command
-;
-; - *New strings*: STR_VERSION_CONTENTS and STR_VERSION_HEADER
-;
-; - Changed the wording of
-;
-;   STR_DOPUS_ALREADY_RUNNING
-;   STR_UNABLE_TO_OPEN_WINDOW
-;   STR_DEVICE_LIST
-;   STR_NO_CHIP_FOR_ICON
-;   STR_FILE_NOT_ILBM
-;   STR_NO_CHIP_FOR_PICTURE
-;   STR_CANT_ALLOCATE_AUDIO
-;   STR_ENTER_TIME
-;   STR_AREXX_NOT_RUNNING
-;   STR_ENTER_NEW_CD
-;   STR_SCANNING_DEVICE_LIST
-;   STR_FOUND_A_MATCH
-;   STR_BUFFERS_CLEARED
-;   STR_NOT_A_DOS_DISK
-;   STR_DEVICE_NOT_MOUNTED
-;   STR_NO_DISK_IN_DRIVE
-;   STR_DOS_ERROR_CODE
-;   STR_CANT_CANCEL_ASSIGN
-;   STR_ENTER_DEVICE_NAME
-;   STR_NO_DESTINATION_SELECTED
-;   STR_CANT_COPY_DIR_TO_ITSELF
-;   STR_SHOWING_FONT
-;   STR_FOUND_A_MATCH_READ
-;   STR_CONFIG_CHANGED_QUIT
-;   STR_CONFIG_CHANGED_LASTSAVED
-;   STR_CONFIG_CHANGED_DEFAULTs
-;   STR_HELP_NOT_AVAILABLE
-;   STR_SCANNING_TREE
-;   STR_ENTER_A_STRING
-;   STR_PLEASE_CHOOSE
-;   STR_COMMENTING
-;   STR_CANT_OVERCOPY_FILES
-;   STR_NOT_IDENTIFIED
-;   STR_CONFIG_NOT_FOUND
-;   STR_REALLY_DELETE
-;   STR_WISH_TO_DELETE
-;   STR_WISH_TO_DELETE
-;   STR_ENTER_NEW_NAME_MOVE
-;   STR_ENTER_NEW_NAME_CLONE
-;   STR_SIZE_IS_NOT_KNOWN
-;   STR_FILE_MAY_NOT_FIT
-;   STR_SIZES_NOT_KNOWN
-;   STR_ENTRIES_MAY_NOT_FIT
-;   STR_ENTER_NEW_NAME_COPY
-;   STR_ENTER_HUNT_PATTERN
-;   STR_COULD_NOT_FIND_FILE
-;   STR_FOUND_MATCHING_FILES
-;   STR_ENTER_PASSWORD
-;   STR_STRING_NOT_FOUND
-;   STR_MATCHED_FILES
-;   STR_NO_SOURCE_SELECTED
-;   STR_BAD_TEMPLATE
-;   STR_REQUIRED_ARG_MISSING
-;   STR_ARGUMENT_MISSING
-;   STR_UNMATCHED_QUOTED
-;   STR_OBJECT_IN_USE
-;   STR_OBJECT_EXISTS
-;   STR_DIR_NOT_FOUND
-;   STR_OBJECT_NOT_FOUND
-;   STR_UNKNOWN_PACKET
-;   STR_OBJECT_BAD_TYPE
-;   STR_DISK_NOT_VALIDATED
-;   STR_RENAME_DEVICES_ATTEMPTED
-;   STR_TOO_MANY_LEVELS
-;   STR_SEEK_ERROR
-;   STR_COMMENT_TOO_LONG
-;   STR_DISK_FULL
-;   STR_OBJECT_DELETE_PROTECTED
-;   STR_NO_MORE_ENTRIES
-;   STR_OBJECT_IS_SOFT_LINK
-;   STR_CONFIG_CHANGED_LOAD
-;   STR_NO_HELP_FOR_ERROR
-;   STR_ERROR_OCURED
-;   STR_AS
-;   STR_ENTER_SELECT_PATTERN
-;   STR_FILE_ENCRYPTED
-;   STR_NO_MEMORY_TO_DECRUNCH
-;   STR_BAD_PASSWORD
-;   STR_JUMP_TO_LINE
-;   STR_JUMP_TO_PERCENTAGE
-;   STR_CANT_OPEN_PRINTER
-;   STR_ERROR_PRINTING_LINE
-;   STR_READY_PRINTER
-;   STR_CANT_FIND_ICON
-;   STR_NEW_DISK_INSERTED
-;   STR_NOT_VALID_REQUESTED
-;   STR_ENTER_DATE_1
-;   STR_ENTER_DATE_2
-;   STR_ENTER_DATE_3
-;   STR_ENTER_DATE_4
-;   STR_REALLY_QUIT
-;   STR_REALLY_PROCEED
-;   STR_SCREEN_MODE_UNAVAILABLE
-;   STR_ERROR_INITIALISING_PRINTER
-;   STR_REALLY_ABORT_PRINT
-;   STR_SELECT_SOURCE_DIR
-;   STR_SELECT_DESTINATION_DIR
-;   STR_SELECT_A_FILE
-;   STR_SELECT_A_DIRECTORY
-;   STR_LEFT_WINDOW
-;   STR_RIGHT_WINDOW
-;   STR_DEVICE_LIST_TITLE
-;   STR_BUFFER_LIST_TITLE
-;   STR_UNPROTECT
-;   STR_RUN
-;   STR_ABORT
-;   STR_REPLACE
-;   STR_QUIT
-;   STR_DEFAULTS
-;   STR_DELETE
-;   STR_OKAY_TITLE
-;   STR_PRINT_CONTROL
-;   STR_IMAGE_SIZE
-;   STR_PAGE_SIZE
-;   STR_SCREEN_SIZE
-;   STR_DEPTH
-;   STR_SCREEN_MODES
-;   STR_ABORT_PRINT
-;   STR_PORTRAIT
-;   STR_BLACK_WHITE
-;   STR_GRAY_SCALE
-;   STR_FONT
-;   STR_FONT_SIZE
-;   STR_ICON_TYPE
-;   STR_ICON_DEFAULTTOOL
-;   STR_OLD_NEW_FILE_REPLACE
-;   STR_CUSTOM_LIST
-;   STR_ENTRIES_IN_TREE
-;   STR_DIRS_IN_BUFFERS
-;   STR_USER_ENTRIES
-;   STR_CUSTPORT_NOT_FOUND
-;   STR_DIR_TREE
-;   STR_UNPROTECT_ALL
-;   STR_READING_CHANGED_DIRECTORY
-;   STR_STARTING_DISK_MODULE
-;   STR_UNABLE_TO_LOAD_MODULE
-;   STR_SELECT_ALL_ENTRIES
-;   STR_STARTING_PRINT_MODULE
-;   STR_ABOUT_FAILED
-;   STR_SEARCH_NO_CASE
-;   STR_SEARCH_ONLYWORD
-;   STR_SELECT_PROTECTION_BITS
-;   STR_DISKINFO_FILESYSTEM
-;   STR_DISKINFO_BYTESPERBLOCK
-;   STR_TEXT_VIEWER_TITLE
-;   STR_DISK_OP_TITLE
-;   STR_BUTTON_STRIP
-;   STR_FTYPE_DEFAULT
-;   STR_SKIP_ALL
-;   STR_ANIM_TYPE
-;   STR_PROTECTION_BITS
-;   STR_NET_PROTECTION_BITS
-;   STR_REPLACE_DIR_WITH_FILE
-;   STR_REPLACE_FILE_WITH_DIR
-;   STR_VERSION_CONTENTS
-;   STR_VERSION_HEADER
-;
-; - Fixed typos in STR_WRITE_PROTECTED, STR_SEARCH_WILD
-;
-; - Fixed some translations
-;
-; - Splitted some strings to make them nicer
-;
-;
-; 1.2 (22.5.2001)
-;
-; - The current catalog description file still lacks the gadget shortcuts
-;   used by DOpus 4.15j <sigh>. The following strings have been changed
-;   accordingly by the try & terror method...
-;
-;   STR_TRY_AGAIN
-;   STR_RETRY
-;   STR_ABORT
-;   STR_REPLACE
-;   STR_SKIP
-;   STR_ALL
-;   STR_QUIT
-;   STR_SAVE_QUIT
-;   STR_ICONIFY
-;   STR_CONTINUE
-;   STR_OKAY
-;   STR_CANCEL
-;   STR_ERROR_ERROR_HELP
-;   STR_SKIP_ALL
-;
-;
-; 1.3 (31.5.2001)
-;
-; - *New string*: STR_ABOUT
-;
-; - Dumped all the "STR_recremoved" nonsense.
-;
-;   Please NOTE: You will need to either remove every "STR_recremoved"
-;   string from the DOpus4.cd file and use (+1//) in the following string
-;   *OR* restore & rename the missing "STR_recremoved" strings here if you
-;   want to recompile the catalog!
-;
-; - Modified the shortcut in STR_PROTECT_HIDDEN
-;
-;
-; 1.4 (12.6.2001)
-;
-; - *Changed string* from DOpus.cd 1.1 (6.6.2001): STR_VERSION_CONTENTS
-;
-; -------------------------------------------------------------------------
-;
 STR_DIRS_FILES_BYTES_COUNT
-Dirs.: %03ld/%03ld  Ficheros: %03ld/%03ld  Bytes: %7ld/%7ld
-; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7ld/%7ld
+Dirs.: %03ld/%03ld  Ficheros: %03ld/%03ld  Bytes: %7s/%7s
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
 ;
 STR_DOPUS_ALREADY_RUNNING
 Directory Opus ya está en funcionamiento.\n¿Desea lanzar otra copia?
@@ -602,13 +377,25 @@ STR_ADDING_ICON
 añadiendo icono a
 ; adding an icon to
 ;
+STR_recremoved1
+
+;
+;
 STR_ENTER_COMMENT
 Introduzca comentario
 ; Enter comment
 ;
+STR_recremoved2
+
+;
+;
 STR_ENTER_PASSWORD
 Introduzca contraseña
 ; Enter password
+;
+STR_recremoved3
+
+;
 ;
 STR_ENTER_DATE_AND_TIME
 Introduzca fecha y hora (o nada para usar los valores actuales)
@@ -617,6 +404,10 @@ Introduzca fecha y hora (o nada para usar los valores actuales)
 STR_ENTER_SEARCH_STRING
 Introduzca cadena a buscar
 ; Enter search string
+;
+STR_recremoved4
+
+;
 ;
 STR_STRING_NOT_FOUND
 No se ha encontrado la cadena.
@@ -783,8 +574,8 @@ Ha modificado la configuración.\n\n¿De verdad desea cargar una nueva?
 ; You have modified the configuration.\nReally load a new configuration file?
 ;
 STR_ABORTED
-Interrumpido...
-; Aborted...
+Interrumpido.
+; Aborted.
 ;
 STR_ENTER_DOS_ERROR_CODE
 Introduzca código de error DOS
@@ -839,7 +630,7 @@ Saltar al porcentaje...
 ; Jump to what percentage?
 ;
 STR_CANT_OPEN_PRINTER
-No se puede  inicializar la impresora.
+No se puede inicializar la impresora.
 ; Can't open printer!;
 ;
 STR_ERROR_PRINTING_FILE
@@ -863,9 +654,9 @@ Se ha insertado un disco en DF%ld:\n\n\
 ¿De verdad desea leer este disco?
 ; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
 ;
-;STR_NOT_VALID_REQUESTED
-;El fichero no responde a una petición válida.
-; File is not a valid custom requester.
+STR_recremoved5
+
+;
 ;
 STR_ENTER_DATE_1
 Introduzca fecha en el formato DD-MMM-AA
@@ -888,11 +679,11 @@ STR_CONTINUE_WITH_SEARCH
 ; Do you wish to continue with the search?
 ;
 STR_REALLY_QUIT
-¿Desea verdad desea salir de Directory Opus?
+¿De verdad desea salir de Directory Opus?
 ; Do you really want to quit Directory Opus?
 ;
 STR_REALLY_PROCEED
-¿Desea verdad desea continuar con esta operación?
+¿De verdad desea continuar con esta operación?
 ; Do you really wish to proceed with this operation?
 ;
 STR_SCREEN_MODE_UNAVAILABLE
@@ -948,32 +739,32 @@ Desproteger
 ; Unprotect
 ;
 STR_RUN
-Ejecutar
-; Run
+_Ejecutar
+; _Run
 ;
 STR_TRY_AGAIN
 _Reintentar
-; Try Again
+; _Try Again
 ;
 STR_RETRY
-_Reintentar
+Reintentar
 ; Retry
 ;
 STR_ABORT
 _Interrumpir
-; Abort
+; A_bort
 ;
 STR_REPLACE
 _Sustituir
-; Replace
+; _Replace
 ;
 STR_SKIP
 Sa_ltar
-; Skip
+; _Skip
 ;
 STR_ALL
 T_odos
-; All
+; A_ll
 ;
 STR_REMOVE
 Eliminar
@@ -981,11 +772,11 @@ Eliminar
 ;
 STR_QUIT
 _Salir
-; Quit
+; _Quit
 ;
 STR_SAVE_QUIT
 _Guardar y Salir
-; Save & quit
+; _Save & quit
 ;
 STR_LOAD
 Cargar
@@ -1005,7 +796,7 @@ Cerrar
 ;
 STR_DELETE
 Borrar
-; Delete
+; _Delete
 ;
 STR_LEAVE
 Saltar
@@ -1021,19 +812,19 @@ No
 ;
 STR_ICONIFY
 _Iconificar
-; Iconify
+; _Iconify
 ;
 STR_CONTINUE
 _Continuar
-; Continue
+; C_ontinue
 ;
 STR_OKAY
 _Aceptar
-; Okay
+; _Okay
 ;
 STR_CANCEL
 _Cancelar
-; Cancel
+; _Cancel
 ;
 STR_OKAY_TITLE
 Aceptar
@@ -1048,27 +839,27 @@ Opciones de impresión
 ; Print control
 ;
 STR_FILE
-Fichero      
+Fichero
 ; File
 ;
 STR_IMAGE_SIZE
 Tamaño de Imagen
-; Image size;
+; Image size
 ;
 STR_PAGE_SIZE
 Tamaño de Página
-; Page size;
+; Page size
 ;
 STR_SCREEN_SIZE
 Tamaño de Pantalla
-; Screen size;
+; Screen size
 ;
 STR_DEPTH
 Bits de color
 ; Depth
 ;
 STR_COLOURS
-Colores      
+Colores
 ; Colors
 ;
 STR_SCREEN_MODES
@@ -1094,10 +885,6 @@ _Posición:
 STR_FORMFEED
 _Salto de página
 ; _Form feed
-;
-STR_PRINTTITLE
-Incluir _título
-; Print _Title
 ;
 STR_PRINT
 Imprimir
@@ -1152,15 +939,15 @@ Tamaño de letra
 ; Font size
 ;
 STR_NUM_CHARS
-Caracteres   
+Caracteres
 ; Characters
 ;
 STR_FONT_STYLE
-Estilo       
+Estilo
 ; Font style
 ;
 STR_FONT_FLAGS
-Opciones     
+Opciones
 ; Font flags
 ;
 STR_ICON
@@ -1206,7 +993,7 @@ STR_ENTRIES_IN_TREE
 ;
 STR_DIRS_IN_BUFFERS
 %ld dirs. en buffers.
-; %ld directories in buffers;
+; %ld directories in buffers
 ;
 STR_USER_ENTRIES
 %ld objetos definidos por el usuario
@@ -1226,8 +1013,8 @@ No se ha podido encontrar el puerto de manejador\n\
 ; User-specified custom handler port\n\"%s\"\ncould not be found!
 ;
 STR_CHECKFIT_STRING
-Necesarios: %11ld bytes   Libres: %11ld bytes   Cabe el %s%%
-; Bytes needed : %11ld   Bytes free : %11ld   Fit : %s%%
+Necesarios: %11qd bytes   Libres: %11qd bytes   Cabe el %.1f%%
+; Bytes needed : %11qd   Bytes free : %11qd   Fit : %.1f%%
 ;
 STR_DIR_TREE
 <Árbol del directorio>
@@ -1255,7 +1042,7 @@ Lanzando módulo de disco...
 ;
 STR_UNABLE_TO_LOAD_MODULE
 No se puede cargar el módulo externo.
-; Unable to load external module;
+; Unable to load external module
 ;
 STR_SELECT_ALL_ENTRIES
 Todo
@@ -1324,6 +1111,10 @@ información.
 ;No se puede mostrar la pantalla \"Acerca de...\".
 ; Unable to display about screen!
 ;
+STR_PRINTTITLE
+Incluir _título
+; Print _Title
+;
 STR_SEARCH_NO_CASE
 No distinguir entre mays. y minúsculas
 ; Treat upper and lower case as the same
@@ -1370,172 +1161,172 @@ MEMORIA:
 ;
 STR_MONTH_JANUARY
 Enero
-; January
+;
 ;
 STR_MONTH_FEBRUARY
 Febrero
-; February
+;
 ;
 STR_MONTH_MARCH
 Marzo
-; March
+;
 ;
 STR_MONTH_APRIL
 Abril
-; Apri;
+;
 ;
 STR_MONTH_MAY_LONG
 Mayo
-; May
+;
 ;
 STR_MONTH_JUNE
 Junio
-; June
+;
 ;
 STR_MONTH_JULY
 Julio
-; July
+;
 ;
 STR_MONTH_AUGUST
 Agosto
-; August
+;
 ;
 STR_MONTH_SEPTEMBER
 Septiembre
-; September
+;
 ;
 STR_MONTH_OCTOBER
 Octubre
-; October
+;
 ;
 STR_MONTH_NOVEMBER
 Noviembre
-; November
+;
 ;
 STR_MONTH_DECEMBER
 Diciembre
-; December
+;
 ;
 STR_MONTH_JAN
 Ene
-; Jan
+;
 ;
 STR_MONTH_FEB
 Feb
-; Feb
+;
 ;
 STR_MONTH_MAR
 Mar
-; Mar
+;
 ;
 STR_MONTH_APR
 Abr
-; Apr
+;
 ;
 STR_MONTH_MAY
 May
-; May
+;
 ;
 STR_MONTH_JUN
 Jun
-; Jun
+;
 ;
 STR_MONTH_JUL
 Jul
-; Jul
+;
 ;
 STR_MONTH_AUG
 Ago
-; Aug
+;
 ;
 STR_MONTH_SEP
 Sep
-; Sep
+;
 ;
 ;
 STR_MONTH_OCT
 Oct
-; Oct
+;
 ;
 STR_MONTH_NOV
 Nov
-; Nov
+;
 ;
 STR_MONTH_DEC
 Dic
-; Dec
+;
 ;
 STR_DAY_MONDAY
 Lunes
-; Monday
+;
 ;
 STR_DAY_TUESDAY
 Martes
-; Tuesday
+;
 ;
 STR_DAY_WEDNESDAY
 Miércoles
-; Wednesday
+;
 ;
 STR_DAY_THURSDAY
 Jueves
-; Thursday
+;
 ;
 STR_DAY_FRIDAY
 Viernes
-; Friday
+;
 ;
 STR_DAY_SATURDAY
 Sábado
-; Saturday
+;
 ;
 STR_DAY_SUNDAY
 Domingo
-; Sunday
+;
 ;
 STR_DAY_MON
 Lun
-; Mon
+;
 ;
 STR_DAY_TUE
 Mar
-; Tue
+;
 ;
 STR_DAY_WED
 Mié
-; Wed
+;
 ;
 STR_DAY_THU
 Jue
-; Thu
+;
 ;
 STR_DAY_FRI
 Vie
-; Fri
+;
 ;
 STR_DAY_SAT
 Sáb
-; Sat
+;
 ;
 STR_DAY_SUN
 Dom
-; Sun
+;
 ;
 STR_DAY_YESTERDAY
 Ayer
-; Yesterday
+;
 ;
 STR_DAY_TODAY
 Hoy
-; Today
+;
 ;
 STR_DAY_TOMORROW
 Mañana
-; Tomorrow
+;
 ;
 STR_DAY_FUTURE
 Futuro
-; Future
+;
 ;
 STR_KEY
 Tecla:
@@ -1588,10 +1379,6 @@ Estado
 STR_DISKINFO_DATE
 Fecha
 ; Date
-;
-STR_DISKINFO_FILESYSTEM
-Sistema de ficheros
-; F.System
 ;
 STR_DISKINFO_BYTES
 bytes
@@ -1646,35 +1433,35 @@ Máscara:
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-Ocul_to
+(_H) Oculto
 ; _Hidden
 ;
 STR_PROTECT_SCRIPT
-_Script
+(_S) Script
 ; _Script
 ;
 STR_PROTECT_PURE
-_Puro
+(_P) Puro
 ; _Pure
 ;
 STR_PROTECT_ARCHIVE
-Archi_vado
+(_A) Archivado
 ; _Archive
 ;
 STR_PROTECT_READ
-_Legible
+(_R) Legible
 ; _Read
 ;
 STR_PROTECT_WRITE
-_Escribible
+(_W) Escribible
 ; _Write
 ;
 STR_PROTECT_EXECUTED
-Ejec_utable
+(_E) Ejecutable
 ; _Execute
 ;
 STR_PROTECT_DELETED
-_Borrable
+(_D) Borrable
 ; _Delete
 ;
 STR_FILE_REQUEST
@@ -1753,6 +1540,10 @@ STR_PARENT_MULTI
 Dirs. anteriores y asignaciones múltiples...
 ; Parents and Multi-Assigns...
 ;
+STR_DISKINFO_FILESYSTEM
+Sistema de ficheros
+; F.System
+;
 STR_ANIM_TYPE
 Tipo de animación
 ; Anim type
@@ -1765,9 +1556,9 @@ STR_OPENING_ARCHIVE
 Abriendo archivo...
 ; Opening archive...
 ;
-STR_SORT_BY
-Ordenar por
-; Sort by
+STR_LISTER_MENU
+Opciones de listado
+; Lister options
 ;
 STR_FILE_NAME
 Nombre
@@ -1810,12 +1601,12 @@ Orden inverso
 ; Reverse order
 ;
 STR_SIZE_AS_KMG
-Tamaño en K/M/G
-; Size as K/M/G
+Tamaños en K/M/G
+; Sizes in K/M/G format
 ;
 STR_BRING_TO_FRONT
-Mostrar DOpus
-; Bring to front
+_Mostrar DOpus
+; _Bring to front
 ;
 STR_REPLACE_DIR_WITH_FILE
 \"%s\" ya existe. ¿Desea sustituirlo?\n\nNUEVO: %7ld bytes  Fecha: %19s\nANTIGUO:         bytes  Fecha: %19s
@@ -1831,7 +1622,7 @@ Operación no soportada.
 ;
 STR_QUERY_REMOVE_ASSIGN
 ¿De verdad desea eliminar la asignación \"%s\"?
-; Do you really wish to remove \"%s\" assign?;
+; Do you really wish to remove \"%s\" assign?
 ;
 STR_VERSION_CONTENTS
 %-41s\n\n\
@@ -1839,7 +1630,7 @@ STR_VERSION_CONTENTS
  dopus.library%24s\n\
  Hora de compilación%18s\n\
  Fecha de compilación%17s\n\
- Puerto ARexx/pantalla%16s\n\n\
+ Puerto ARexx/Pantalla%16s\n\n\
  Kickstart%28s\n\
  Workbench%28s\n\
  Procesador%27s\n\
@@ -1863,3 +1654,34 @@ STR_VERSION_HEADER
 Información de versión...
 ; Version information...
 ;
+STR_DIRSFIRST
+Mostrar directorios primero
+; Show dirs first
+;
+STR_FILESFIRST
+Mostrar ficheros primero
+; Show files first
+;
+STR_MIXDIRSFILES
+Mezclar directorios y ficheros
+; Mix files and dirs
+;
+STR_SORTALPHA
+Orden alfanumérico
+; Plain alphanumeric
+;
+STR_SORTDEC
+Reconocer decimales
+; Recognize decimals
+;
+STR_SORTHEX
+Reconocer hexadecimales
+; Recognize hexadecimals
+;
+STR_SORTBY
+Ordenar por
+; Sort by
+;
+STR_NAMESORT_MENU
+Nombres de fichero
+; Filename sorting

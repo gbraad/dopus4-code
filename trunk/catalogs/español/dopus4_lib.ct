@@ -1,0 +1,91 @@
+## version $VER: DOpus4_Lib.catalog 1.1 (11.12.2001)
+## codeset 0
+## language español
+;
+STR_CONFIG_TOO_OLD
+No se aceptan configuraciones anteriores a la versión 3.32.
+; Pre-3.32 configuration files not recognised!
+;
+STR_CONTINUE
+Continuar
+; Continue
+;
+STR_REQUEST
+Petición
+; Request
+;
+STR_TRY_AGAIN
+Reintentar
+; Try Again
+;
+STR_CANCEL
+Cancelar
+; Cancel
+;
+STR_CANNOT_FIND_FILE_REQ
+No se puede encontrar el fichero \"%s\"\n\
+en los directorios C:, Modules/ o DOPUS:Modules/.\n\
+Si es necesario, inserte el disco de DOpus y elija\n\
+%s, o bien %s para cancelar la operación.
+; Unable to find the file \"%s\"\n\
+; in either the C: directory or the\n\
+; Modules/ or the DOPUS:Modules/ directory.\n\
+; Insert DOpus disk if necessary and select\n\
+; %s, or %s to abort the operation
+;
+STR_FILEREQ_FILE
+Fichero
+; File
+;
+STR_FILEREQ_DRAWER
+Cajón
+; Drawer
+;
+STR_FILEREQ_ACCEPT
+Aceptar
+; Accept
+;
+STR_FILEREQ_PARENT
+Padre
+; Parent
+;
+STR_FILEREQ_DRIVES
+Unidades
+; Drives
+;
+STR_FILEREQ_DIR
+    Dir
+;     Dir
+;
+STR_FILEREQ_NAME
+Petición de fichero
+; File request
+;
+STR_DEV_DEV
+  <UNI>
+;   <DEV>
+;
+STR_DEV_ASN
+  <ASN>
+;   <ASN>
+;
+STR_DEV_VOL
+  <VOL>
+;   <VOL>
+;
+STR_DEV_DFR
+  <DFR>
+;   <DFR>
+;
+STR_DEV_NBD
+  <NBD>
+;   <NBD>
+;
+STR_SELECT_DIR
+Elija directorio
+; Select directory
+;
+STR_SELECT_FILE
+Elija fichero
+; Select file
+;
