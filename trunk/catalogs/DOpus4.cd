@@ -1,7 +1,7 @@
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 1.7 (23.01.2002)
-=;
+; $VER: DOpus4.cd 1.8 (23.01.2002)
+;
 ;
 ; General
 ;
@@ -39,7 +39,7 @@ STR_DIRECTORY_CREATED (//)
 Directory created.
 ;
 STR_PRINTING_DIRECTORY (//)
-Printing directory..
+Printing directory...
 ;
 STR_DIRECTORY (//)
 Directory 
@@ -165,10 +165,10 @@ STR_CONFIG_CHANGED_QUIT (//)
 You have modified the configuration.\nDo you really want to quit?
 ;
 STR_SAVING_CONFIG (//)
-Saving configuration..
+Saving configuration...
 ;
 STR_READING_CONFIG (//)
-Reading configuration..
+Reading configuration...
 ;
 STR_CONFIG_CHANGED_LASTSAVED (//)
 You have modified the configuration.\nReally load the last-saved settings?
@@ -281,29 +281,17 @@ Found %ld matching files.
 STR_ADDING_ICON (//)
 adding an icon to
 ;
-;STR_recremoved1 (//)
-;
-;
 STR_ENTER_COMMENT (+1//)
 Enter comment
 ;
-;STR_recremoved2 (//)
-;
-;
 STR_ENTER_PASSWORD (+1//)
 Enter password
-;
-;STR_recremoved3 (//)
-;
 ;
 STR_ENTER_DATE_AND_TIME (+1//)
 Enter date and time (blank for current)
 ;
 STR_ENTER_SEARCH_STRING (//)
 Enter search string
-;
-;STR_recremoved4 (//)
-;
 ;
 STR_STRING_NOT_FOUND (+1//)
 Sorry! String could not be found!
@@ -322,115 +310,6 @@ Enter arguments
 ;
 STR_SELECT_FUNCTION (//)
 Select function you need help with, or Help again to cancel.
-;
-;
-; Typical DOS errors
-;
-; They should match the error reports usually returned by AmigaDOS
-;
-;STR_NOT_ENOUGH_MEMORY (//)
-;Not enough memory
-;
-;STR_PROCESS_TABLE_FULL (//)
-;Process table full
-;
-;STR_BAD_TEMPLATE (//)
-;Bad template
-;
-;STR_BAD_NUMBER (//)
-;Bad number
-;
-;STR_REQUIRED_ARG_MISSING (//)
-;Required argument missing
-;
-;STR_ARGUMENT_MISSING (//)
-;Argument after \"=\" missing
-;
-;STR_TOO_MANY_ARGUMENTS (//)
-;Too many arguments
-;
-;STR_UNMATCHED_QUOTED (//)
-;Unmatched quotes
-;
-;STR_ARG_LINE_TOO_LONG (//)
-;Argument line invalid or too long
-;
-;STR_FILE_NOT_EXECUTABLE (//)
-;File is not executable
-;
-;STR_INVALID_LIBRARY (//)
-;Invalid resident library
-;
-;STR_OBJECT_IN_USE (//)
-;Object is in use
-;
-;STR_OBJECT_EXISTS (//)
-;Object already exists
-;
-;STR_DIR_NOT_FOUND (//)
-;Directory not found
-;
-;STR_OBJECT_NOT_FOUND (//)
-;Object not found
-;
-;STR_INVALID_WINDOW (//)
-;Invalid window description
-;
-;STR_UNKNOWN_PACKET (//)
-;Packet request type unknown
-;
-;STR_OBJECT_NAME_INVALID (//)
-;Object name invalid
-;
-;STR_INVALID_LOCK (//)
-;Invalid object lock
-;
-;STR_OBJECT_BAD_TYPE (//)
-;Object not of required type
-;
-;STR_DISK_NOT_VALIDATED (//)
-;Disk not validated
-;
-;STR_DISK_WRITE_PROTECTED (//)
-;Disk is write-protected
-;
-;STR_RENAME_DEVICES_ATTEMPTED (//)
-;Rename across devices attempted
-;
-;STR_DIRECTORY_NOT_EMPTY (//)
-;Directory not empty
-;
-;STR_TOO_MANY_LEVELS (//)
-;Too many levels
-;
-;STR_SEEK_ERROR (//)
-;Seek error
-;
-;STR_COMMENT_TOO_LONG (//)
-;Comment is too long
-;
-;STR_DISK_FULL (//)
-;Disk is full
-;
-;STR_OBJECT_DELETE_PROTECTED (//)
-;Object is protected from deletion
-;
-;STR_OBJECT_WRITE_PROTECTED (//)
-;File is write protected
-;
-;STR_OBJECT_READ_PROTECTED (//)
-;File is read protected
-;
-;STR_NOT_VALID_DOS_DISK (//)
-;Not a valid DOS disk
-;
-;STR_NO_MORE_ENTRIES (//)
-;No more entries in directory
-;
-;STR_OBJECT_IS_SOFT_LINK (//)
-;Object is soft link
-;
-;
 ;
 STR_CONFIG_CHANGED_LOAD (+34//)
 You have modified the configuration.\nReally load a new configuration file?
@@ -460,6 +339,7 @@ Rename
 STR_AS (//)
 As
 ;
+;
 STR_ENTER_SELECT_PATTERN (//)
 Enter select pattern
 ;
@@ -467,7 +347,7 @@ STR_FILE_ENCRYPTED (//)
 \nFile is encrypted!\n\n
 ;
 STR_READING_FILE (//)
-Reading file..
+Reading file...
 ;
 STR_NO_MEMORY_TO_DECRUNCH (//)
 Not enough memory to load/decrunch complete file!
@@ -476,7 +356,7 @@ STR_BAD_PASSWORD (//)
 Incorrect password given!
 ;
 STR_COUNTING_LINES (//)
-Counting lines..
+Counting lines...
 ;
 ;
 ; Built-in text viewer requesters
@@ -509,9 +389,6 @@ encrypting
 ;
 STR_NEW_DISK_INSERTED (//)
 A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
-;
-;STR_recremoved5 (//)
-;
 ;
 STR_ENTER_DATE_1 (+1//)
 Enter date in the form DD-MMM-YY
@@ -891,137 +768,6 @@ STR_CLOCK_MEMORY (//)
 MEMORY:
 ;
 ;
-; Locale names for weekdays and months
-;
-; Note: These are now ignored and taken instead from the .language file in use.
-;
-;STR_MONTH_JANUARY (//)
-;
-;
-;STR_MONTH_FEBRUARY (//)
-;
-;
-;STR_MONTH_MARCH (//)
-;
-;
-;STR_MONTH_APRIL (//)
-;
-;
-;STR_MONTH_MAY_LONG (//)
-;
-;
-;STR_MONTH_JUNE (//)
-;
-;
-;STR_MONTH_JULY (//)
-;
-;
-;STR_MONTH_AUGUST (//)
-;
-;
-;STR_MONTH_SEPTEMBER (//)
-;
-;
-;STR_MONTH_OCTOBER (//)
-;
-;
-;STR_MONTH_NOVEMBER (//)
-;
-;
-;STR_MONTH_DECEMBER (//)
-;
-;
-;STR_MONTH_JAN (//)
-;
-;
-;STR_MONTH_FEB (//)
-;
-;
-;STR_MONTH_MAR (//)
-;
-;
-;STR_MONTH_APR (//)
-;
-;
-;STR_MONTH_MAY (//)
-;
-;
-;STR_MONTH_JUN (//)
-;
-;
-;STR_MONTH_JUL (//)
-;
-;
-;STR_MONTH_AUG (//)
-;
-;
-;STR_MONTH_SEP (//)
-;
-;
-;STR_MONTH_OCT (//)
-;
-;
-;STR_MONTH_NOV (//)
-;
-;
-;STR_MONTH_DEC (//)
-;
-;
-;STR_DAY_MONDAY (//)
-;
-;
-;STR_DAY_TUESDAY (//)
-;
-;
-;STR_DAY_WEDNESDAY (//)
-;
-;
-;STR_DAY_THURSDAY (//)
-;
-;
-;STR_DAY_FRIDAY (//)
-;
-;
-;STR_DAY_SATURDAY (//)
-;
-;
-;STR_DAY_SUNDAY (//)
-;
-;
-;STR_DAY_MON (//)
-;
-;
-;STR_DAY_TUE (//)
-;
-;
-;STR_DAY_WED (//)
-;
-;
-;STR_DAY_THU (//)
-;
-;
-;STR_DAY_FRI (//)
-;
-;
-;STR_DAY_SAT (//)
-;
-;
-;STR_DAY_SUN (//)
-;
-;
-;STR_DAY_YESTERDAY (//)
-;
-;
-;STR_DAY_TODAY (//)
-;
-;
-;STR_DAY_TOMORROW (//)
-;
-;
-;STR_DAY_FUTURE (//)
-;
-;
-;
 ; Used to describe the keyboard shortcut for some function
 ;
 STR_KEY (+42//)
@@ -1177,22 +923,6 @@ Default
 STR_FTYPE_UNKNOWN (//)
 Unknown file type
 ;
-;
-; Protection bits
-;
-; Note: These strings are now ignored, and hardcoded in DOpus.
-;
-;STR_PROTBIT_HSPA (//)
-;
-;
-;STR_PROTBIT_RWED (//)
-;
-;
-;STR_PROTBIT_ALLBITS (//)
-;
-;
-;
-;
 STR_MULTI_DRAG (+3//)
 Multi-drag - %ld files selected
 ;
@@ -1341,7 +1071,7 @@ Extension
 ; Protect window (2/2)
 ;
 STR_PROTECT_OKAY (//)
-Okay
+_Okay
 ;
 STR_PROTECT_ALL (//)
-All
+A_ll
