@@ -1,0 +1,84 @@
+## chunk AUTH Massimo Mascia & Stefano Guidetti
+## language italiano
+## version $VER: DOpus4_Lib.catalog 1.1 (12.01.2002)
+;
+STR_CONFIG_TOO_OLD
+Configurazioni precedenti alla v.3.32 non riconosciute!
+; Pre-3.32 configuration files not recognised!
+;
+STR_CONTINUE
+Continua
+; Continue
+;
+STR_REQUEST
+Richiesta
+; Request
+;
+STR_TRY_AGAIN
+Riprova
+; Try Again
+;
+STR_CANCEL
+Annulla
+; Cancel
+;
+STR_CANNOT_FIND_FILE_REQ
+Non ho trovato il file \"%s\"\nné nella directory C: , né in Modules/\nné nella directory DOPUS:Modules/.\nSe necessario, inserisci il disco di DOpus e seleziona\n%s, o %s per interrompere l'operazione.
+; Unable to find the file \"%s\"\nin either the C: directory or the\nModules/ or the DOPUS:Modules/ directory.\nInsert DOpus disk if necessary and select\n%s, or %s to abort the operation
+;
+STR_FILEREQ_FILE
+File
+; File
+;
+STR_FILEREQ_DRAWER
+Cassetto
+; Drawer
+;
+STR_FILEREQ_ACCEPT
+Accetta
+; Accept
+;
+STR_FILEREQ_PARENT
+Precedente
+; Parent
+;
+STR_FILEREQ_DRIVES
+Dischi
+; Drives
+;
+STR_FILEREQ_DIR
+   Dir
+;     Dir
+;
+STR_FILEREQ_NAME
+Richiesta file
+; File request
+;
+STR_DEV_DEV
+  <DEV>
+;   <DEV>
+;
+STR_DEV_ASN
+  <ASN>
+;   <ASN>
+;
+STR_DEV_VOL
+  <VOL>
+;   <VOL>
+;
+STR_DEV_DFR
+  <DFR>
+;   <DFR>
+;
+STR_DEV_NBD
+  <NBD>
+;   <NBD>
+;
+STR_SELECT_DIR
+Scegli directory
+; Select directory
+;
+STR_SELECT_FILE
+Scegli file
+; Select file
+;
