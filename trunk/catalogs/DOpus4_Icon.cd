@@ -3,11 +3,6 @@
 ; $VER: DOpus4_Icon.cd 1.2 (22.10.2001)
 ;
 ;
-; 1.2 (22.10.2001) - David Rey <david@saug.org>
-;
-; - Cleanup work to make this source more easily readable
-;
-;
 STR_REMAP_COLORS (//)
 Rema_p colors
 ;

@@ -1,27 +1,7 @@
 ; DOpus4_Disk.cd - Directory Opus 4 Disk module catalog description file
 ;
-; $VER: DOpus_Disk.cd 1.3 (29.10.2001)
+; $VER: DOpus4_Disk.cd 1.4 (11.12.2001)
 ;
-;
-; 1.2 (22.10.2001) - David Rey <david@saug.org>
-;
-; - Cleanup work to make this source more easily readable, added a
-;   proper version string
-;
-;
-; 1.3 (29.10.2001) - David Rey <david@saug.org>
-;
-; - Added some very needed comments
-;
-; - Added the missing shortcuts in
-;
-;   STR_FORMAT_EXIT
-;   STR_DISKCOPY_DISKCOPY
-;   STR_DISKCOPY_CHECK
-;
-; - Removed the trailing dots in STR_ABORTED
-;
-; /*------------------------------------------------------------------------*/
 ;
 ;*** Format
 ;
@@ -117,7 +97,7 @@ STR_FORMAT_MAKINGTRASHCAN (//)
 Creating Trashcan...
 ;
 ;
-; Note: The last placeholder becomes STR_WINDOW_(FORMAT|DISKCOPY|INSTALL) !
+; Note: The last placeholder resolves to STR_DISK_NOT_BLANK_[FORMAT|DISKCOPY]
 ;
 STR_DISK_NOT_BLANK (//)
 Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n\
@@ -218,8 +198,6 @@ _Check
 ;
 ; Window titles
 ;
-; NOTE: These also show up via the last placeholder in STR_DISK_NOT_BLANK !
-;
 STR_WINDOW_FORMAT (//)
 Format
 ;
@@ -229,9 +207,11 @@ Diskcopy
 STR_WINDOW_INSTALL (//)
 Install
 ;
+;
+; The last placeholder in STR_DISK_NOT_BLANK will resolve to one of these
+;
 STR_DISK_NOT_BLANK_FORMAT (//)
 Format
 ;
 STR_DISK_NOT_BLANK_DISKCOPY (//)
 Diskcopy
-
