@@ -1,5 +1,5 @@
 **Versionstring
-$VER: DOpus4_Español.HLP 1.3 (12.10.2001)
+$VER: DOpus4_Español.HLP 1.3 (20.01.2002)
 ^
 **Assign
 Este comando le permite asignar un nombre de unidad lógica al directorio
@@ -34,7 +34,7 @@ caja de directorio vacía.^
 Le ofrece más información sobre los mensajes y códigos de error del
 AmigaDOS que la que se ofrece normalmente. Al ser seleccionado, se le
 pedirá un código de error; una vez introducido, se le mostrará un mensaje
-de error estándar así como una descripción del error.^
+de error estándar, así como una descripción del error.^
 **Configure
 Cargará en memoria el programa de configuración ConfigOpus y lo ejecutará,
 o bien, si ya está en la memoria, lo invocará desde ahí. Consulte el manual
@@ -84,7 +84,7 @@ disco destino de la lista de la derecha.
 
 Si elige la Verificación, la copia será verificada a medida que se
 escribe cada pista, asegurando así que se ha copiado correctamente. La
-opción Renombrar le permite modificar el nombre de la copia, para evitar
+opción "Renombrar" le permite modificar el nombre de la copia, para evitar
 posibles problemas al tener en el sistema dos discos con el mismo nombre.
 
 El botón [Verificar] en la parte inferior del requester no copia discos,
@@ -96,17 +96,16 @@ Esta función es prestada por el módulo externo DOpus_Disk.
 
 Cuando se elige esto, aparece una ventana que contiene una lista de
 unidades, así como varias opciones. Elija en la lista el disco que
-desea formatear. Dependiendo de su versión del Sistema Operativo, habrá
-varias opciones disponibles para permitirle elegir el tipo de formato que
-desee (FFS, Caché de directorio, etc.)
+desea formatear. En la ventana verá varias opciones que le permitirán
+elegir el tipo de formato que desee (FFS, Caché de directorio, etc.)
 
 Si elige la Verificación, el formateo será verificado después de escribir
 cada pista, para asegurar que el formateo es bueno. La opción 'Poner
 papelera' hace que se instale una papelera en el nuevo disco.
 
-La opción 'Formateo rápido' le permite inicializar un disco ya formateado.
+El botón [Formateo rápido] le permite inicializar un disco ya formateado.
 Esto le ofrece una forma extremadamente rápida de borrar viejos discos.
-Sin embargo, no funcionará en discos nuevos; debe usar la opción 'Formatear'
+Sin embargo, no funcionará en discos nuevos; debe usar el botón [Formatear]
 para formatear discos completamente nuevos.^
 **Install
 Esta función le permite hacer que un disco sea de arranque. Todos los discos
@@ -119,13 +118,13 @@ disponibles (recuerde que esta función sólo puede instalar discos
 flexibles). Elija en la lista la unidad que desea instalar.^
 **Relabel
 Esta función le permite modificar el nombre (etiqueta) del disco al que
-pertenece le directorio abierto en la ventana de directorio activa.^
+pertenece el directorio abierto en la ventana de directorio activa.^
 **PrintDir
 Esta función le permite imprimir el contenido de la ventana de directorio
 activa. Puede elegir qué información en concreto le interesa imprimir,
-como pueden ser los tamaños de los ficheros, las banderas de protección,
-fechas y comentarios. También puede decidir enviar la salida a un fichero
-en disco en lugar de hacerlo a la impresora.
+como los tamaños de los ficheros, las banderas de protección, las fechas,
+los comentarios y los tipos de ficheros. También puede decidir enviar la
+salida a un fichero en disco en lugar de hacerlo a la impresora.
 
 Esta función es prestada por el módulo externo DOpus_Print.^
 **DiskInfo
@@ -158,7 +157,7 @@ Esta función elige todos los ficheros y directorios presentes en la
 ventana de directorio activa.^
 **Toggle
 Esta función invierte el estado de todos los ficheros y directorios del
-directorio activo, es decir, todo los objetos seleccionados quedan
+directorio activo, es decir, todos los objetos seleccionados quedan
 deseleccionados y viceversa.^
 **None
 Esta función deselecciona todos los ficheros y directorios presentes en la
@@ -186,18 +185,18 @@ un nuevo nombre. Cada fichero y directorio se copiará bajo un nuevo nombre,
 y el original será borrado de su lugar original.^
 **Rename
 Esta función le permite renombrar todos los ficheros y directorios
-seleccionados. Puede utilizar un '*' para indicar un patrón. Si no utiliza
-ningún '*', se le pedirá un nuevo nombre para cada fichero por separado.
+seleccionados. Puede utilizar un "*" para indicar un patrón. Si no utiliza
+ningún "*", se le pedirá un nuevo nombre para cada fichero por separado.
 
 Para añadir un prefijo o un sufijo (o ambos a la vez) a todos los objetos
-seleccionados, utilice un '*' en la segunda caja de texto. Por ejemplo,
-para añadir 'ALTARES' como prefijo y '.pic' como sufijo para todos los
-objetos seleccionados, introduzca 'ALTARES*.pic'.
+seleccionados, utilice un "*" en la segunda caja de texto. Por ejemplo,
+para añadir "ALTARES" como prefijo y ".pic" como sufijo para todos los
+objetos seleccionados, introduzca "ALTARES*.pic".
 
 Para cambiar un prefijo o un sufijo (o ambos a la vez) en todos los
-objetos seleccionados, utilice un '*' en la caja de arriba. Por ejemplo,
-para cambiar ALTARES por MEDIARES como prefijo, y cambiar el sufijo '.pic'
-por '.iff', introduzca 'ALTARES*.pic' en la caja de arriba y 'MEDIARES*.iff'
+objetos seleccionados, utilice un "*" en la caja de arriba. Por ejemplo,
+para cambiar "ALTARES" por "MEDIARES" como prefijo, y cambiar el sufijo ".pic"
+por ".iff", introduzca "ALTARES*.pic" en la caja de arriba y "MEDIARES*.iff"
 en la caja de abajo.^
 **Clone
 Esta función produce una copia idéntica de todos los ficheros y directorios
@@ -209,7 +208,7 @@ ventana de directorio activa. ¡TENGA CUIDADO!
 También puede utilizar esta función para eliminar asignaciones: simplemente
 invoque la lista de unidades (pulse el pequeño botón [S] situado en el
 centro de la ventana de DirOpus con el botón derecho del ratón), elija la
-asignación o asignaciones que desee eliminar, e invoque el comando Delete.^
+asignación o asignaciones que desee eliminar, e invoque el comando "Delete".^
 **MakeDir
 Esta función le permite crear un directorio en la ventana de directorio
 activa.^
@@ -226,29 +225,29 @@ todas sus particiones sean FFS y de 512 bytes por bloque!
 
 Esta función calculará si todos los ficheros y directorios seleccionados
 cabrían en el directorio destino en caso de que se hiciese allí una copia
-de ellos. Esto cumple una función similar al comando 'GetSizes', con la
+de ellos. Esto cumple una función similar al comando "GetSizes", con la
 diferencia de que es mucho más preciso. El único inconveniente de este
 comando es que aunque tenga a la vista los tamaños de los directorios
 que ha seleccionado, es posible que tenga que reexplorarlos si la unidad
 destino ha cambiado.^
 **GetSizes
-Esta función trabaja de una forma muy similar a CheckFit, en el sentido
+Esta función trabaja de una forma muy similar a "CheckFit", en el sentido
 de que explora todos los directorios seleccionados calculando el número
 total de bytes de cada uno de ellos y sumándolos a la lista, mostrando
-entonces un carácter 'Y' o 'N' para indicar si los objetos seleccionados
+entonces un carácter "S" o "N" para indicar si los objetos seleccionados
 cabrían en el destino en caso de que se hiciese allí una copia de ellos.
 Esto, sin embargo, sólo es una indicación aproximada; para disponer de
-un cálculo totalmente preciso debería usar el comando CheckFit.^
+un cálculo totalmente preciso debería usar el comando "CheckFit".^
 **ClearSizes
 Borrará todos los tamaños que se muestran para todos los directorios
 seleccionados. Puede interesarle hacer esto en caso de que sepa que el
 tamaño del directorio ha cambiado. Entonces puede reseleccionar el
-directorio y utilizar las funciones GetSizes o CheckFit para obtener
+directorio y utilizar las funciones "GetSizes" o "CheckFit" para obtener
 una medida precisa.^
 **Hunt
 Esta función le permite buscar un fichero determinado en todos los
 directorios y subdirectorios seleccionados, o bien un grupo de ficheros
-determinado por un comodín. Si se encuentra el fichero o ficheros que se
+determinado por un patrón. Si se encuentra el fichero o ficheros que se
 buscan, se leerá el directorio que los contiene, y los ficheros quedarán
 automáticamente seleccionados.^
 **Search
@@ -281,18 +280,18 @@ pulse <Intro>. Para mantener el mismo comentario, pulse <Intro> sin editar
 nada.
 
 Para dar un mismo comentario a todos los objetos seleccionados, pulse el
-botón 'Todos' en el requester de comentario; elegir 'Aceptar' o pulsar
+botón [Todos] en el requester de comentario; elegir [Aceptar] o pulsar
 <Intro> hará que se especifique un comentario un fichero cada vez.^
 **DateStamp
 Esta función le permite alterar la fecha de última modificación de todos
 los ficheros y directorios seleccionados en la ventana de directorio activa.
 
 Por cada objeto se le presentará un requester. Si desea que el fichero
-reciba la fecha y hora actuales, limítese a pulsar <Intro>. De lo contrario,
+reciba la fecha y hora actuales, limítese a pulsar <Intro>; de lo contrario,
 introduzca la fecha y hora que prefiera.
 
 Para dar la misma fecha y hora a todos los objetos seleccionados, debería
-elegir el botón 'Todos' del requester; seleccionar 'Aceptar' o pulsar
+usar el botón [Todos] del requester; seleccionar [Aceptar] o pulsar
 <Intro> hará que se pida una fecha y hora para cada fichero de forma
 separada.^
 **Protect
@@ -301,34 +300,34 @@ ficheros y directorios seleccionados en la ventana de directorio activa.
 
 Por cada objeto se le presentará un requester mostrándole las actuales
 banderas de protección de cada uno. Las banderas de protección son H
-(oculto), S (script), P (puro), A (archivado), R (legible), W (escribible),
+(retener), S (script), P (puro), A (archivado), R (legible), W (escribible),
 E (ejecutable) y D (borrable).
 
 Para activar o desactivar banderas, pulse los botones apropiados o bien
-las teclas que corresponda. Para activar todas las banderas, pulse el botón
-'Todas las banderas'. Para desactivar todas las banderas, pulse el botón
-'Ninguno'. Para invertir el estado de las banderas, pulse el botón
-'Invertir'. Para devolver todas las banderas a su estado original, elija
-el botón 'Restaurar'.
+las teclas que correspondan. Para activar todas las banderas, pulse el botón
+[Todas las banderas]. Para desactivar todas las banderas, pulse el botón
+[Ninguno]. Para invertir el estado de las banderas, pulse el botón
+[Invertir]. Para devolver todas las banderas a su estado original, elija
+el botón [Restaurar].
 
-La 'Máscara' le permite indicar banderas que no deberían ser afectadas por
+La "Máscara" le permite indicar banderas que no deberían ser afectadas por
 esta operación. Esto le permite, por ejemplo, activar las banderas RW de
 todos los ficheros, dejando todas las demás banderas intactas. Para activar
 o desactivar una bandera en la máscara, pulse el área apropiada o bien la
 tecla correspondiente, quizás junto con la tecla <Mayúsculas>.
 
 Para definir las banderas de protección de todos los objetos seleccionados
-debería elegir el botón 'Todos' del requester de protección. Seleccionar
-'Aceptar' alterará las banderas de protección un fichero cada vez.^
+debería elegir el botón [Todos] del requester de protección. Seleccionar
+[Aceptar] alterará las banderas de protección un fichero cada vez.^
 **IconInfo
 Esto le permite modificar los parámetros de los iconos, de forma muy similar
-a la opción de menú 'Información...' del Workbench. Puede modificar las
+a la opción de menú "Información..." del Workbench. Puede modificar las
 banderas de protección, el tamaño de la pila, los comentarios, las
 herramientas por omisión y los tipos de herramienta.^
 **AddIcon
 Esto añadirá iconos a todos los ficheros y directorios seleccionados en la
 ventana de directorio activa. Directory Opus se da cuenta automáticamente
-del tipo de fichero del que se trata (cajón, proyecto o herramienta), y
+del tipo de objeto del que se trata (cajón, proyecto o herramienta), y
 añadirá el icono apropiado para cada caso. Puede indicar sus propios iconos
 en la configuración, en caso de que los iconos empleados por omisión no le
 gusten.^
@@ -337,11 +336,11 @@ Esta función le permite mantener en secreto información importante,
 encriptando ficheros con una determinada contraseña. Todos los ficheros
 seleccionados en la ventana de directorio activa serán encriptados, y
 entonces se escribirán en la ventana destino. Si la contraseña empieza
-por el carácter '-', se producirá la operación inversa, es decir, los
+por el carácter "-", se producirá la operación inversa, es decir, los
 ficheros serán desencriptados.^
 *Arc Ext
-Este botón invoca el comando de tipo de fichero Usuario1 sobre todos los
-ficheros seleccionados. Está etiquetado como 'Arc Ext' puesto que es como
+Este botón invoca el comando de tipo de fichero "User1" sobre todos los
+ficheros seleccionados. Está etiquetado como "Arc Ext" puesto que es como
 están configurados los tipos de fichero por omisión: extraer archivos.
 Debería consultar el manual para más información sobre las características
 de los tipos de ficheros.^
@@ -349,13 +348,12 @@ de los tipos de ficheros.^
 Esta función le permite leer un fichero de texto empleando el ratón.
 
 Para deslizarse automáticamente por el fichero, pulse el botón izquierdo
-del ratón. La dirección y velocidad pueden indicarse con la posición
-vertical del puntero. También puede utilizar las teclas del cursor, los
-botones en forma de flecha y el deslizador (si existe) para moverse por
-el fichero.
+del ratón. La dirección y velocidad vienen dadas por la posición vertical
+del puntero. También puede utilizar las teclas del cursor, los botones en
+forma de flecha y el deslizador (si existe) para moverse por el fichero.
 
 Para saltar a una línea determinada, pulse el número que aparece
-inmediatamente a continuación de 'Líneas'. Para ir a una posición
+inmediatamente a continuación de "Líneas". Para ir a una posición
 porcentual concreta del fichero, pulse en el indicador de porcentaje.
 
 Para moverse hacia arriba o hacia abajo una página completa, pulse los
@@ -373,9 +371,9 @@ pulse <C>. Para imprimir el fichero al completo, pulse [P]. Para salir,
 pulse el botón [X] o bien las teclas <Esc>, <X> o <Q>.
 
 Tenga en cuenta que esta función no muestra secuencias de control ANSI
-o caracteres de tabulador; para ello deberá usar la función ANSIREAD.^
+o caracteres de tabulador; para ello deberá usar la función "AnsiRead".^
 **AnsiRead
-Esta función trabaja igual que la función READ, con la única diferencia
+Esta función trabaja igual que la función "Read", con la única diferencia
 de que también muestra correctamente las secuencias de control ANSI
 (colores y estilos de texto), y también maneja correctamente los
 tabuladores.^
@@ -385,7 +383,7 @@ algo muy útil a la hora de examinar ficheros binarios. El fichero se
 muestra en hexadecimal, con 16 bytes por línea. El visor de texto funciona
 de la misma forma que cuando se examina un texto como ASCII.^
 **Show
-Esta función mostrará uno por uno cada fichero seleccionado, en caso de
+Esta función mostrará los ficheros seleccionados uno por uno, en caso de
 que se trate de ficheros IFF ILBM, una animación ANIM, un icono o un tipo
 de letra. Si se trata de un icono, la imagen alternativa (si la tiene)
 puede verse pulsando <Intro>. Para cerrar la imagen, pulse el botón
@@ -406,7 +404,7 @@ el manual).^
 Esta función le permite reproducir sonidos IFF 8SVX y otros ficheros.
 Para detener un sonido mientras está sonando, pulse el botón izquierdo
 del ratón. Si tiene instalada en su directorio LIBS: una copia de
-'inovamusic.library', esta función también podrá reproducir módulos de
+"inovamusic.library", esta función también podrá reproducir módulos de
 sonido.^
 **LoopPlay
 Esta función le permite reproducir sonidos IFF 8SVX y otros ficheros.
@@ -418,7 +416,7 @@ No se trata de una función integrada; en realidad, es un botón que está
 preconfigurado para invocar al editor c:Ed. Probablemente querrá cambiar
 esto en la configuración.^
 *New File
-Esto invocará a un editor de forma similar a como lo hace el botón 'Edit'.
+Esto invocará a un editor de forma similar a como lo hace el botón [Edit].
 Sin embargo, esta función le permite crear un nuevo fichero con el editor,
 para lo cual le preguntará por el nombre de un fichero.^
 **Print
@@ -428,35 +426,35 @@ encontrará varias opciones de configuración. La rutina de impresión es
 servida por el módulo externo DOpus_Print.
 
 Puede configurar los márgenes superior e inferior (en líneas), así como
-los márgenes izquierdo y derecho (en caracteres). El 'tabulador' es el
+los márgenes izquierdo y derecho (en caracteres). El "tabulador" es el
 número de espacios a los que equivaldrá un carácter de tabulador. Puede
-elegir 'Pica', 'Élite' o 'Fina' como separador, y 'Borrador' o 'Carta'
+elegir "Pica", "Élite" o "Fina" como separador, y "Borrador" o "Carta"
 como calidad de impresión.
 
 Puede configurar de forma individual el contenido de la cabecera y el
 pie de página, pudiendo incluir un título, fecha y número de página.
 En caso de no indicar ninguno de ellos, no se utilizará cabecera ni pie
 de página alguno. Si elige un título e introduce una cadena en la caja
-situada a la derecha del botón 'Título', se empleará esa cadena como
+situada a la derecha del botón "Título", se empleará esa cadena como
 título; si esta caja se deja en blanco, se empleará como título el
 nombre del fichero.
 
 Puede enviar la salida a la impresora o a un fichero en disco. El botón
-'Imprimir' iniciará la operación de impresión, mientras que 'Salir' la
-cancelará completamente.^
+[Imprimir] iniciará la operación de impresión, mientras que [Salir]
+cancelará el requester completamente.^
 **GetDevices
 Esta función muestra una lista de todas las unidades, volúmenes y
 directorios asignados presentes en el sistema. Puede leer el contenido
 de estas unidades pulsando dos veces sobre ellas. También puede elegir
-unidades enteras con las funciones 'Hunt' y 'Search', como también es
+unidades enteras con las funciones "Hunt" y "Search", como también es
 posible elegir uno o más directorios sobre los que se haya establecido
 alguna asignación, y cancelar esas asignaciones invocando el comando
-'Delete'.^
+"Delete".^
 **Select
 Esto le permite elegir ficheros y directorios en la ventana de directorio
 activa basándose en un nombre (que puede contener comodines), fecha de
 última modificación o banderas de protección. Para la selección basada en
-un nombre se soportan todos los comodines estándar ('*', '~', '?', etc.)
+un nombre se soportan todos los comodines estándar ("*", "~", "?", etc.)
 además del comodín '#?' típico del AmigaDOS. Consulte el manual para más
 información sobre el uso de los comodines.
 
@@ -467,7 +465,7 @@ fecha límite. También puede indicar horas en el formato HH:MM:SS así como
 fechas.
 
 Para indicar banderas de protección, utilice los códigos de carácter
-'hsparwed'. Si indica un guión '-' delante de una bandera, estará diciendo
+"hsparwed". Si indica un guión "-" delante de una bandera, estará diciendo
 que la bandera deberá estar desactivada para que el fichero quede
 seleccionado. Consulte el manual para más información sobre la selección
 de ficheros.^
@@ -586,8 +584,8 @@ Ha escrito mal el nombre del comando, o bien se trata de un fichero
 
 Solución:
 Teclee de nuevo el nombre del fichero y asegúrese de que se trata de un
-programa. Recuerde que para ejecutar un script, la bandera 's' debe
-estar activada o bien deberá usar el comando EXECUTE.^
+programa. Recuerde que para ejecutar un script, la bandera "s" debe
+estar activada, o bien deberá usar el comando EXECUTE.^
 *!122
 Librería residente no válida
 
@@ -669,7 +667,7 @@ más de 30 caracteres al utilizar el sistema de ficheros nativo del Amiga
 
 Solución:
 Vuelva a teclear el nombre, asegurándose de no usar caracteres no válidos
-ni pasarse de la longitud máxima permitida.^
+ni rebasar la longitud máxima permitida.^
 *!211
 Bloqueo de objeto no válido
 
@@ -783,29 +781,29 @@ diferente.^
 Objeto protegido contra el borrado
 
 Posible causa:
-Está desactivada la bandera de protección 'd' (borrable) del fichero o
+Está desactivada la bandera de protección "d" (borrable) del fichero o
 directorio.
 
 Solución:
 Si está realmente seguro de querer borrar el fichero o directorio,
-utilice PROTECT para activar la bandera 'd'.^
+utilice PROTECT para activar la bandera "d".^
 *!223
 Fichero protegido contra escritura
 
 Posible causa:
-Está desactivada la bandera de protección 'w' (escribible) del fichero.
+Está desactivada la bandera de protección "w" (escribible) del fichero.
 
 Solución:
 Si está realmente seguro de querer sobreescribir el fichero, utilice
-PROTECT para activar la bandera 'w'.^
+PROTECT para activar la bandera "w".^
 *!224
 Fichero protegido contra lectura
 
 Posible causa:
-Está desactivada la bandera de protección 'r' (legible) del fichero.
+Está desactivada la bandera de protección "r" (legible) del fichero.
 
 Solución:
-Utilice PROTECT para activar la bandera 'r' del fichero.^
+Utilice PROTECT para activar la bandera "r" del fichero.^
 *!225
 No es un disco DOS válido
 
