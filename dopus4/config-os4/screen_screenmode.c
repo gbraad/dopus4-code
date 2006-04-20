@@ -40,7 +40,7 @@ int initscreenmodes()
 	struct List *pubscreenlist;
 	struct PubScreenNode *pubscreen;
 	ULONG modeid;
-	struct Library *CyberGfxBase;
+//	struct Library *CyberGfxBase;
 
 	dimension = (struct DimensionInfo *)buf;
 	count = 0;
@@ -63,17 +63,6 @@ int initscreenmodes()
 	{
 		if(!IGraphics->ModeNotAvailable(modeid) && (handle = IGraphics->FindDisplayInfo(modeid)) && (IGraphics->GetDisplayInfoData(handle, namebuf, 128, DTAG_NAME, 0)) && (IGraphics->GetDisplayInfoData(handle, buf, 256, DTAG_DIMS, 0)))
 		{
-/*			if(CyberGfxBase && IsCyberModeID(modeid))
-			{
-				minw = GetCyberIDAttr(CYBRIDATTR_WIDTH, modeid);
-				dimension->MinRasterHeight = dimension->MaxRasterHeight = GetCyberIDAttr(CYBRIDATTR_HEIGHT, modeid);
-				dimension->MaxDepth = GetCyberIDAttr(CYBRIDATTR_DEPTH, modeid);
-				dimension->TxtOScan.MaxX = minw - 1;
-				dimension->TxtOScan.MinX = 0;
-				dimension->TxtOScan.MaxY = dimension->MinRasterHeight - 1;
-				dimension->TxtOScan.MinY = 0;
-			}
-			else */
 			if(modeid & (HIRES_KEY | HIRESLACE_KEY))
 				minw = 640;
 			else
@@ -115,7 +104,6 @@ int initscreenmodes()
 		}
 		IIntuition->UnlockPubScreenList();
 	}
-//	CloseLibrary(CyberGfxBase);
 
 	if(needdef)
 	{
@@ -194,26 +182,26 @@ struct ScreenMode *showdisplaydesc()
 	IGraphics->SetAPen(rp, screen_pens[1].pen);
 	if(!(mode = getscreenmode(screenmodeview.itemselected)))
 		return (NULL);
-	sprintf(buf, "%-16s: %ld %s %ld", cfg_string[STR_MINIMUM_SIZE], mode->minw, cfg_string[STR_BY], mode->minh);
+	sprintf(buf, "%-16s: %d %s %d", cfg_string[STR_MINIMUM_SIZE], mode->minw, cfg_string[STR_BY], mode->minh);
 	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 147, -1);
-	sprintf(buf, "%-16s: %ld %s %ld", cfg_string[STR_MAXIMUM_SIZE], mode->maxw, cfg_string[STR_BY], mode->maxh);
+	sprintf(buf, "%-16s: %d %s %d", cfg_string[STR_MAXIMUM_SIZE], mode->maxw, cfg_string[STR_BY], mode->maxh);
 	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 155, -1);
-	sprintf(buf, "%-16s: %ld %s %ld", cfg_string[STR_DEFAULT_SIZE], mode->defw, cfg_string[STR_BY], mode->defh);
+	sprintf(buf, "%-16s: %d %s %d", cfg_string[STR_DEFAULT_SIZE], mode->defw, cfg_string[STR_BY], mode->defh);
 	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 163, -1);
-	sprintf(buf, "%-16s: %ld", cfg_string[STR_MAXIMUM_COLORS], (1 << mode->maxdepth));
+	sprintf(buf, "%-16s: %d", cfg_string[STR_MAXIMUM_COLORS], (1 << mode->maxdepth));
 	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 171, -1);
 	return (mode);
 }
 
 void fixmodegads(struct ScreenMode *mode)
 {
-	sprintf(screenwidth_buf, "%ld", config->scrw);
-	sprintf(screenheight_buf, "%ld", config->scrh);
+	sprintf(screenwidth_buf, "%d", config->scrw);
+	sprintf(screenheight_buf, "%d", config->scrh);
 	if(config->scrdepth < 2)
 		config->scrdepth += 2;
 	if(config->scrdepth > ((mode) ? mode->maxdepth : 8))
 		config->scrdepth = ((mode) ? mode->maxdepth : 8);
-	sprintf(screendepth_buf, "%ld", (1 << config->scrdepth));
+	sprintf(screendepth_buf, "%d", (1 << config->scrdepth));
 	if(mode && !(screenmodegads[SCREENMODE_WIDTH - 300].Flags & GFLG_DISABLED))
 	{
 		if(!(IDOpus->CheckNumGad(&screenmodegads[SCREENMODE_WIDTH - 300], Window, mode->minw, mode->maxw)))

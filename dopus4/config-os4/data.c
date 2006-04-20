@@ -467,14 +467,13 @@ extern USHORT pageflip_data1[];
 extern USHORT pageflip_data2[];
 extern USHORT dropbox_data[];
 
-struct StringExtend stringex = { NULL, {0, 0}, {0, 0}, 0, NULL, NULL, {0, 0, 0, 0} };
+struct StringExtend stringex = { NULL, { 0, 0 }, { 0, 0 }, 0, NULL, NULL, { 0, 0, 0, 0 } };
 struct Image dropboximage = { 0, 0, 83, 42, 2, dropbox_data, 3, 0, NULL };
 
 struct DiskObject *dropboxicon = NULL;
-struct DiskObject dropboxobj = {
-	0, 0,	{NULL, 0, 0, 83, 42, 0, 0, 0,
-	 (APTR) & dropboximage, NULL, NULL, NULL, NULL, NULL, NULL},
-	0, NULL, NULL, NO_ICON_POSITION, NO_ICON_POSITION, NULL, NULL, NULL
+struct DiskObject dropboxobj =
+{
+	0, 0,	{ NULL, 0, 0, 83, 42, 0, 0, 0, (APTR)&dropboximage, NULL, NULL, 0, NULL, 0, NULL }, 0, NULL, NULL, NO_ICON_POSITION, NO_ICON_POSITION, NULL, NULL, 0
 };
 
 void *appobject = NULL;

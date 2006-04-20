@@ -47,33 +47,13 @@ void readhelp()
 
 	if(IDOpus->CheckExist(helpfilename, &helpsize) >= 0)
 		return;
-	if(in = IDOS->Open(helpfilename, MODE_OLDFILE))
+	if((in = IDOS->Open(helpfilename, MODE_OLDFILE)))
 	{
 		IDOS->Read(in, &id, 4);
-/*		if((id == 'PX20') || (id == 'PP11') || (id == 'PP20'))
-		{
-			struct PPBase *PPBase;
-			char *pptemp;
-
-			Close(in);
-			if(PPBase = OpenLibrary("powerpacker.library", 0))
-			{
-				if(!(ppLoadData(helpfilename, DECR_NONE, MEMF_CLEAR, &pptemp, &helpsize, NULL)))
-				{
-					if(helpbuffer = LAllocRemember(&helpkey, helpsize + 1, MEMF_CLEAR))
-						CopyMem(pptemp, helpbuffer, helpsize);
-					FreeMem(pptemp, helpsize);
-				}
-				CloseLibrary(PPBase);
-			}
-		}
-		else
-		{*/
-			IDOS->Seek(in, 0, OFFSET_BEGINNING);
-			if(helpbuffer = IDOpus->LAllocRemember(&helpkey, helpsize + 1, MEMF_CLEAR))
-				IDOS->Read(in, helpbuffer, helpsize);
-			IDOS->Close(in);
-//		}
+		IDOS->Seek(in, 0, OFFSET_BEGINNING);
+		if((helpbuffer = IDOpus->LAllocRemember(&helpkey, helpsize + 1, MEMF_CLEAR)))
+			IDOS->Read(in, helpbuffer, helpsize);
+		IDOS->Close(in);
 	}
 }
 
@@ -136,7 +116,7 @@ void dohelpmsg(STRPTR text)
 	int size, lines, a, b, pos;
 	struct DOpusListView *view;
 	ULONG class;
-	USHORT gadgetid;
+	USHORT gadgetid = 0;
 	struct DOpusRemember *key = NULL;
 
 	size = strlen(text);
@@ -174,7 +154,7 @@ void dohelpmsg(STRPTR text)
 	setup_list_window(&requestwin, &helplist, &helpcancelgad, 1);
 
 	requestwin.Title = currenthelpname;
-	if(wind = openwindow(&requestwin))
+	if((wind = openwindow(&requestwin)))
 	{
 		setuplist(&helplist, -1, -1);
 		helplist.items = helpbuf;
@@ -188,7 +168,7 @@ void dohelpmsg(STRPTR text)
 			for(;;)
 			{
 				IExec->Wait(1 << wind->UserPort->mp_SigBit);
-				while(IMsg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort))
+				while((IMsg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort)))
 				{
 					if((view = IDOpus->ListViewIDCMP(&helplist, IMsg)) == (struct DOpusListView *)-1)
 					{
@@ -208,120 +188,6 @@ void dohelpmsg(STRPTR text)
 	}
 	IDOpus->LFreeRemember(&key);
 }
-
-/*
-struct clipboard_data {
-    long form;
-    long length;
-    long docp;
-    long size;
-};
-
-void load_clips()
-{
-    struct Clip clip,*curclip=NULL,*newclip;
-    struct clipboard_data cdata;
-    char *funcbuf;
-
-    if (!clip_io ||
-        (OpenDevice("clipboard.device",0,(struct IORequest *)clip_io,0))) return;
-
-    clip_io->io_Error=0;
-    clip_io->io_ClipID=0;
-
-    clip_io->io_Command=CMD_READ;
-    clip_io->io_Data=(char *)&cdata;
-    clip_io->io_Length=sizeof(struct clipboard_data);
-    clip_io->io_Offset=0;
-
-    if (!(DoIO((struct IORequest *)clip_io)) &&
-        cdata.form=='FORM' && cdata.docp=='DOCP') {
-
-        FOREVER {
-            clip_io->io_Command=CMD_READ;
-            clip_io->io_Data=(char *)&clip;
-            clip_io->io_Length=sizeof(struct Clip);
-            if (DoIO((struct IORequest *)clip_io) ||
-                clip_io->io_Actual<sizeof(struct Clip)) break;
-            if (clip.func.function &&
-                (funcbuf=LAllocRemember(&clipkey,(int)clip.func.function,0))) {
-                clip_io->io_Command=CMD_READ;
-                clip_io->io_Data=funcbuf;
-                clip_io->io_Length=(int)clip.func.function;
-                if (DoIO((struct IORequest *)clip_io) ||
-                    clip_io->io_Actual<(int)clip.func.function) break;
-            }
-            else funcbuf=NULL;
-            clip.func.function=funcbuf;
-            if (newclip=LAllocRemember(&clipkey,sizeof(struct Clip),0)) {
-                CopyMem((char *)&clip,(char *)newclip,sizeof(struct Clip));
-                if (curclip) curclip->next=newclip;
-                else firstclip=newclip;
-                curclip=newclip;
-                ++clipcount;
-            }
-        }
-    }
-
-    CloseDevice((struct IORequest *)clip_io);
-}
-
-void save_clips()
-{
-    int size=0;
-    struct Clip *clip;
-    struct clipboard_data cdata;
-    char *function;
-
-    if (!clip_io ||
-        (OpenDevice("clipboard.device",0,(struct IORequest *)clip_io,0))) return;
-
-    clip=firstclip;
-    while (clip) {
-        size+=sizeof(struct Clip);
-        if (clip->func.function) size+=strlen(clip->func.function)+1;
-        clip=clip->next;
-    }
-
-    cdata.form='FORM';
-    cdata.length=size+8;
-    cdata.docp='DOCP';
-    cdata.size=size;
-
-    clip_io->io_Error=0;
-    clip_io->io_ClipID=0;
-
-    clip_io->io_Data=(char *)&cdata;
-    clip_io->io_Length=sizeof(struct clipboard_data);
-    clip_io->io_Command=CMD_WRITE;
-    clip_io->io_Offset=0;
-
-    if (!(DoIO((struct IORequest *)clip_io))) {
-        clip=firstclip;
-        while (clip) {
-            if ((function=clip->func.function))
-                clip->func.function=(char *)strlen(function)+1;
-
-            clip_io->io_Data=(char *)clip;
-            clip_io->io_Length=sizeof(struct Clip);
-            clip_io->io_Command=CMD_WRITE;
-            if (DoIO((struct IORequest *)clip_io)) break;
-            if (function) {
-                clip_io->io_Data=function;
-                clip_io->io_Length=(int)clip->func.function;
-                clip_io->io_Command=CMD_WRITE;
-                if (DoIO((struct IORequest *)clip_io)) break;
-            }
-            clip=clip->next;
-        }
-    }
-
-    clip_io->io_Command=CMD_UPDATE;
-    DoIO((struct IORequest *)clip_io);
-
-    CloseDevice((struct IORequest *)clip_io);
-}
-*/
 
 void load_clips()
 {
@@ -344,7 +210,7 @@ void load_clips()
 		else
 			funcbuf = NULL;
 		clip.func.function = funcbuf;
-		if(newclip = IDOpus->LAllocRemember(&clipkey, sizeof(struct Clip), 0))
+		if((newclip = IDOpus->LAllocRemember(&clipkey, sizeof(struct Clip), 0)))
 		{
 			IExec->CopyMem((char *)&clip, (char *)newclip, sizeof(struct Clip));
 			if(curclip)
@@ -383,7 +249,7 @@ void save_clips()
 	IDOS->Close(file);
 }
 
-readfile(STRPTR name, STRPTR *buf, int *size)
+int readfile(STRPTR name, STRPTR *buf, int *size)
 {
 	int in;
 

@@ -81,15 +81,3 @@ USHORT glass_data[2][18] =
 USHORT uparrow_data[6] = { 0x0600, 0x0f00, 0x1f80, 0x3fc0, 0x7fe0, 0xfff0 };
 
 USHORT downarrow_data[6] = { 0xfff0, 0x7fe0, 0x3fc0, 0x1f80, 0x0f00, 0x0600 };
-
-void SwapMem(char *src, char *dst, int size)
-{
-	char tmp;
-
-	for(; size; size--)
-	{
-		tmp = *dst;
-		*dst++ = *src;
-		*src++ = tmp;
-	}
-}

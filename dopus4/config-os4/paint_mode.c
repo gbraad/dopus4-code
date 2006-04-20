@@ -37,7 +37,7 @@ int get_paint_colours(int *fg, int *bg, int type)
 	struct IntuiMessage *msg;
 	ULONG class;
 	USHORT code;
-	int x, y, gadgetid;
+	int x, y, gadgetid = 0;
 
 	dummylist.w = 330;
 	dummylist.h = 37;

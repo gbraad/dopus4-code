@@ -277,11 +277,6 @@ int readfile(char *, char **, int *);
 void init_strings(void);
 void setup_list_window(struct NewWindow *, struct DOpusListView *, struct Gadget *, int);
 
-/* lsprintf.asm */
-
-//void SwapMem(char *src, char *dst, int size);
-//void lsprintf(char *, char *, ...);
-
 /* strings.c */
 
 void read_strings(void);
@@ -292,3 +287,6 @@ int get_paint_colours(int *, int *, int);
 void do3dbox(int, int, int, int);
 void fix_slider(struct Gadget *);
 struct Window *openwindow(struct NewWindow *);
+
+/* swapmem.c */
+void SwapMem(char *, char *, int);

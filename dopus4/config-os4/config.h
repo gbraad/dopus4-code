@@ -661,5 +661,4 @@ extern int bpg;
 extern char *left_right_cycle[3];
 
 #include "configstrings.h"
-
 #include "functions.h"
