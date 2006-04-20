@@ -83,8 +83,7 @@ $(TARGET): $(OBJS)
 
 .PHONY: clean
 clean:
-	$(RM) $(TARGET) $(OBJS)
-	$(RM) $(TARGET).debug
+	@$(RM) $(TARGET) $(TARGET).debug $(OBJS)
 
 .PHONY: revision
 revision:

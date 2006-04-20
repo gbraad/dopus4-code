@@ -31,4 +31,4 @@ strings.c: ../catalogs/DOpus4_Config.cd configstrings.h strings_c.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Config.cd strings.c=strings_c.sd
 
 clean:
-	rm -f *.o ConfigOpus
+	@rm -f *.o ConfigOpus ConfigOpus.debug
