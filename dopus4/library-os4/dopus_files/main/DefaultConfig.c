@@ -141,7 +141,7 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	config->uniconscript[0] = 0;
 	config->configreturnscript[0] = 0;
 
-	config->viewbits = VIEWBITS_SHOWBLACK | VIEWBITS_TEXTBORDERS;
+	config->viewbits = VIEWBITS_INWINDOW | VIEWBITS_SHOWBLACK | VIEWBITS_TEXTBORDERS;
 	config->showdelay = 0;
 	config->fadetime = 2;
 	config->tabsize = 8;
@@ -189,15 +189,16 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	for(i = 0; i < NUMFONTS; i++)
 	{
-		config->fontsizes[i] = 16;
-		Self->LStrCpy(config->fontbufs[i], "Bitstream Vera Sans Mono.font");
+		config->fontsizes[i] = 8;
+		Self->LStrCpy(config->fontbufs[i], "topaz.font");
 	}
 
 	config->generalscreenflags = SCR_GENERAL_TINYGADS | SCR_GENERAL_INDICATERMB | SCR_GENERAL_REQDRAG | SCR_GENERAL_WINBORDERS;
 
 	IExec->CopyMem((char *)defaultpalette, (char *)config->new_palette, sizeof(defaultpalette));
 
-	config->screenmode = MODE_WORKBENCHCLONE;
+//	config->screenmode = MODE_WORKBENCHCLONE;
+	config->screenmode = MODE_WORKBENCHUSE;
 	config->scrdepth = 3;
 	config->scrw = -1;
 	config->scrh = -1;
@@ -205,8 +206,8 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	config->scr_winx = 0;
 	config->scr_winy = 0;
-	config->scr_winw = -1;
-	config->scr_winh = -1;
+	config->scr_winw = 800;//-1;
+	config->scr_winh = 600;//-1;
 
 	/* Misc Stuff */
 	config->gadgetrows = 6;

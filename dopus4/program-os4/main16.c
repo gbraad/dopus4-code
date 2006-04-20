@@ -30,8 +30,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 #include <proto/amigaguide.h>
-//#include <libraries/amigaguide.h>
-//#include <proto/powerpacker.h>
 
 int showfont(char *name, int size, int np)
 {
@@ -174,11 +172,11 @@ void readhelp(char *file)
 
 void doreadhelp(char *file)
 {
-	int a, b, helpsize, inmsg;
-	char *helpbuf, *buf;
+	int a, b = 0, /*helpsize, */inmsg;
+	uint32 helpsize;
+	STRPTR helpbuf, buf;
 	struct Help *temph, *curhelp;
 
-//D(bug("doreadhelp(%s)\n",file);Delay(50));
 	freehelp();
 	if(!file[0] || !(buf = IExec->AllocMem(10000, MEMF_CLEAR)))
 		return;
@@ -397,7 +395,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 	{
 		char *msg = NULL, *buf = NULL, buf1[40], buf2[30];
 		struct Help *help = dopus_firsthelp;
-		int s, s1;
+		int s = 0, s1;
 
 		while(help)
 		{

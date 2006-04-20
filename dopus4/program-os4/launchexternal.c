@@ -32,8 +32,6 @@ the existing commercial status of Directory Opus 5.
 #include "view.h"
 #include <dos/dostags.h>
 
-//static ULONG data_window_refresh;	/* Windows that need refreshing */
-
 int start_external(struct dopus_func_start *func)
 {
 	int arg;
@@ -154,7 +152,6 @@ void doconfig()
 	if(!configopus_segment)
 	{
 		dostatustext(globstring[STR_LOADING_CONFIG]);
-//		IDOpus->FindSystemFile("ConfigOpus", funcpath, 80, SYSFILE_MODULE);
 		IUtility->Strlcpy(funcpath, "PROGDIR:Modules/ConfigOpus", 80);
 	}
 
@@ -336,7 +333,6 @@ int dopus_iconinfo(char *filename)
 
 void setup_externals()
 {
-//	int a;
 	char funcbuf[256];
 	APTR wsave;
 
@@ -351,17 +347,6 @@ void setup_externals()
 	else
 		configopus_segment = 0L;
 
-/*	for(a = 0; a < 3; a++)
-	{
-		if(config->loadexternal & (1 << a))
-		{
-			IDOpus->FindSystemFile(external_modules[a], funcbuf, 256, SYSFILE_MODULE);
-			external_mod_segment[a] = IDOS->LoadSeg(funcbuf);
-		}
-		else
-			external_mod_segment[a] = 0L;
-	}
-*/
 	main_proc->pr_WindowPtr = wsave;
 }
 

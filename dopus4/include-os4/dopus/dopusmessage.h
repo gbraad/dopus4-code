@@ -31,29 +31,31 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-struct NetworkStuff {
-    char *owner;
-    char *group;
-    char net_protbuf[10];
+struct NetworkStuff
+{
+	char *owner;
+	char *group;
+	char net_protbuf[10];
 };
 
-struct Directory {
-    struct Directory *last,*next;
-    char name[FILEBUF_SIZE];
-    int type;
-    int64 size;
-    int subtype;
-    int protection;
-    char *comment;
-    char *dispstr;
-    char protbuf[12],datebuf[LEN_DATSTRING+12];
-    int selected;
-    char *description;
-    int userdata,userdata2;
-    struct DateStamp date;
-    UWORD owner_id,group_id;
-    struct NetworkStuff *network;
-    char *extension;
+struct Directory
+{
+	struct Directory *last, *next;
+	char name[FILEBUF_SIZE];
+	int type;
+	int64 size;
+	int subtype;
+	int protection;
+	char *comment;
+	char *dispstr;
+	char protbuf[12], datebuf[LEN_DATSTRING + 12];
+	int selected;
+	char *description;
+	int userdata, userdata2;
+	struct DateStamp date;
+	UWORD owner_id, group_id;
+	struct NetworkStuff *network;
+	char *extension;
 };
 
 #define DOPUSMSG_GETVIS         1
@@ -62,51 +64,56 @@ struct Directory {
 #define DOPUSMSG_UNSELECTFILE   4
 #define DOPUSMSG_GETPRINTDIR    5
 
-struct DOpusMessage {
-    struct Message msg;
-    int command;
-    APTR data;
+struct DOpusMessage
+{
+	struct Message msg;
+	int command;
+	APTR data;
 };
 
-struct VisInfo {
-    char vi_fg,vi_bg;
-    char vi_shine,vi_shadow;
-    struct TextFont *vi_font;
-    struct Screen *vi_screen;
-    char vi_stringcol[2];
-    char vi_activestringcol[2];
-    ULONG vi_flags;
-    char *vi_language;
+struct VisInfo
+{
+	char vi_fg, vi_bg;
+	char vi_shine, vi_shadow;
+	struct TextFont *vi_font;
+	struct Screen *vi_screen;
+	char vi_stringcol[2];
+	char vi_activestringcol[2];
+	ULONG vi_flags;
+	char *vi_language;
 };
 
 #define VISF_8POINTFONT 1
 #define VISF_WINDOW     2
 #define VISF_BORDERS    (1<<16)
 
-struct DOpusArgsList {
-    char *single_file;
-    int   file_window;
-    APTR  file_list;
-    APTR  last_select;
-    char *file_data;
+struct DOpusArgsList
+{
+	char *single_file;
+	int file_window;
+	APTR file_list;
+	APTR last_select;
+	char *file_data;
 };
 
-struct PrintDirData {
-    int win;
-    char titlebuf[512];
-    struct Directory *entry;
-    int onlysel;
-    int namelen;
+struct PrintDirData
+{
+	int win;
+	char titlebuf[512];
+	struct Directory *entry;
+	int onlysel;
+	int namelen;
 };
 
-struct DirWindowPars {
-    char top_name[FILEBUF_SIZE];
-    int offset;
-    int hoffset;
-    char *reselection_list;
-    ULONG reselection_size;
-    UBYTE reselection_win;
-    struct DirectoryWindow *reselection_dir;
+struct DirWindowPars
+{
+	char top_name[FILEBUF_SIZE];
+	int offset;
+	int hoffset;
+	char *reselection_list;
+	ULONG reselection_size;
+	UBYTE reselection_win;
+	struct DirectoryWindow *reselection_dir;
 };
 
 #define CONFIG_GET_CONFIG 1
@@ -115,22 +122,24 @@ struct DirWindowPars {
 #define CONFIG_NEW_HOTKEY 4
 #define CONFIG_HOTKEYS_CHANGE 5
 
-struct dopusconfigmsg {
-    struct Message msg;
-    int command;
-    char *buffer;
+struct dopusconfigmsg
+{
+	struct Message msg;
+	int command;
+	char *buffer;
 };
 
-struct configconfig {
-    struct Config *config;
-    struct dopusfiletype *firsttype;
-    struct DOpusRemember *typekey;
-    struct dopusgadgetbanks *firstbank;
-    int changed;
-    char configname[256];
-    struct Window *Window;
-    struct Screen *Screen;
-    struct dopushotkey *firsthotkey;
+struct configconfig
+{
+	struct Config *config;
+	struct dopusfiletype *firsttype;
+	struct DOpusRemember *typekey;
+	struct dopusgadgetbanks *firstbank;
+	int changed;
+	char configname[256];
+	struct Window *Window;
+	struct Screen *Screen;
+	struct dopushotkey *firsthotkey;
 };
 
 #endif /* DOPUS_MESSAGE_H */

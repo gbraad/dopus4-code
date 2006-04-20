@@ -29,7 +29,6 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-//#include <proto/inovamusic.h>
 #include <proto/ahi.h>
 #include <workbench/icon.h>
 
@@ -48,8 +47,8 @@ static struct MsgPort *audio_port[2];	/* 8SVX Sound player Ports */
 static struct IOAudio *audio_req1[2];	/* Audio IO Request block #1 */
 static struct IOAudio *audio_req2[2];	/* Audio IO Request block #2 */
 
-static UBYTE *audiodata;	/* Audio data to play */
-static ULONG audio_size;	/* Size of audio data */
+static STRPTR audiodata;	/* Audio data to play */
+static uint32 audio_size;	/* Size of audio data */
 
 struct Library *AHIBase;
 struct AHIIFace *IAHI;
@@ -148,43 +147,26 @@ int readicon(STRPTR name, int np)
 		return (0);
 
 	name[(strlen(name) - 5)] = 0;
-//	if(IconBase->lib_Version >= 44)
-		dobj = IIcon->GetIconTags(name, ICONGETA_Screen, NULL, ICONGETA_GenerateImageMasks, FALSE, TAG_END);
-//	else
-//		dobj = GetDiskObject(name);
+	dobj = IIcon->GetIconTags(name, ICONGETA_Screen, NULL, ICONGETA_GenerateImageMasks, FALSE, TAG_END);
 
 	if(dobj == NULL)
 		return (-2);
 
 	gad = &(dobj->do_Gadget);
 
-//	if(IconBase->lib_Version >= 44)
-//	{
-		icon_image[0] = (struct Image *)1;
-		depth = 8;
-//	}
-//	else
-//	{
-//		icon_image[0] = (struct Image *)gad->GadgetRender;
-//		depth = icon_image[0]->Depth;
-//		D(bug("icon depth: %ld\n", icon_image[0]->Depth));
-//      if (depth>4) depth=4;
-//	}
+	icon_image[0] = (struct Image *)1;
+	depth = 8;
+
 	if(!icon_image[0] || !(setupfontdisplay(depth, coltab)))
 	{
 		IIcon->FreeDiskObject(dobj);
 		return (-3);
 	}
-//	if(IconBase->lib_Version >= 44)
-//	{
-//      long isPMicon=0;
 
-//      IconControl(dobj,ICONCTRLA_IsPaletteMapped,&isPMicon,TAG_END);
-		IGraphics->LoadRGB4(&fontscreen->ViewPort, coltab, 256);
-		IIcon->LayoutIconA(dobj, fontscreen, NULL);
-		IGraphics->LoadRGB4(&fontscreen->ViewPort, nullpalette, 256);
-		icon_image[0] = (struct Image *)(gad->GadgetRender);
-//	}
+	IGraphics->LoadRGB4(&fontscreen->ViewPort, coltab, 256);
+	IIcon->LayoutIconA(dobj, fontscreen, NULL);
+	IGraphics->LoadRGB4(&fontscreen->ViewPort, nullpalette, 256);
+	icon_image[0] = (struct Image *)(gad->GadgetRender);
 
 	if(gad->Flags & GFLG_GADGHIMAGE)
 		icon_image[1] = (struct Image *)gad->SelectRender;
@@ -218,7 +200,7 @@ int readicon(STRPTR name, int np)
 			x1 = x + icon_image[imagenum]->Width;
 			y1 = y + icon_image[imagenum]->Height;
 			IIntuition->DrawImage(fontwindow->RPort, icon_image[imagenum], x, y);
-			drawrecaround(fontwindow->RPort, /*0,0, */ x, y, x1, y1, width, height);
+			drawrecaround(fontwindow->RPort, x, y, x1, y1, width, height);
 		}
 		else
 		{
@@ -232,26 +214,25 @@ int readicon(STRPTR name, int np)
 	show_global_icon = NULL;
 	if(fred != -3)
 		FadeRGB4(fontscreen, coltab, (1 << depth), -1, config->fadetime);
-//cleanicon: // HUX - this label is unused
 	IIcon->FreeDiskObject(dobj);
 	cleanup_fontdisplay();
 	return (ret);
 }
 
-void drawrecaround(struct RastPort *r, /*int l, int t, */ int x, int y, int x1, int y1, int width, int height)
+void drawrecaround(struct RastPort *r, int x, int y, int x1, int y1, int width, int height)
 {
 	UBYTE o;
 
 	o = IGraphics->GetAPen(r);
 	IGraphics->SetAPen(r, 0);
 	if(x > 0)
-		IGraphics->RectFill(r, /*l */ 0, /*t */ 0, /*l+ */ x - 1, /*t+ */ height - 1);
-	if(x1 < /*l+ */ width)
-		IGraphics->RectFill(r, /*l+ */ x1, /*t */ 0, /*l+ */ width - 1, /*t+ */ height - 1);
+		IGraphics->RectFill(r, 0, 0, x - 1, height - 1);
+	if(x1 < width)
+		IGraphics->RectFill(r, x1, 0, width - 1, height - 1);
 	if(y > 0)
-		IGraphics->RectFill(r, /*l */ 0, /*t */ 0, /*l+ */ width - 1, /*t+ */ y - 1);
-	if(y1 < /*t+ */ height)
-		IGraphics->RectFill(r, /*l */ 0, /*t+ */ y1, /*l+ */ width - 1, /*t+ */ height - 1);
+		IGraphics->RectFill(r, 0, 0, width - 1, y - 1);
+	if(y1 < height)
+		IGraphics->RectFill(r, 0, y1, width - 1, height - 1);
 	IGraphics->SetAPen(r, o);
 }
 
@@ -268,7 +249,7 @@ BOOL OpenAHI(void)
 		if((AHIio = (struct AHIRequest *)IExec->CreateIORequest(AHImp, sizeof(struct AHIRequest))))
 		{
 			AHIio->ahir_Version = 4;
-			if(!(AHIDevice = IExec->OpenDevice(AHINAME, AHI_NO_UNIT, (struct IORequest *)AHIio, NULL)))
+			if(!(AHIDevice = IExec->OpenDevice(AHINAME, AHI_NO_UNIT, (struct IORequest *)AHIio, 0)))
 			{
 				AHIBase = (struct Library *)AHIio->ahir_Std.io_Device;
 				if((IAHI = (struct AHIIFace *)IExec->GetInterface(AHIBase, "main", 1, NULL)))
@@ -308,14 +289,15 @@ static int AHIloops;
 
 ULONG AHISoundFunc(struct AHIAudioCtrl *actrl, struct AHISoundMessage *smsg)
 {
-	if(AHIloops)		// Will it work for stereo sounds too?
+	if(AHIloops)
 	{
-		IAHI->AHI_SetSound(smsg->ahism_Channel, AHI_NOSOUND, 0, 0, actrl, NULL);
+		IAHI->AHI_SetSound(smsg->ahism_Channel, AHI_NOSOUND, 0, 0, actrl, 0);
 		IExec->Signal(actrl->ahiac_UserData, 1L << AHIsignal);
 	}
 	else
+	{
 		AHIloops++;
-//D(bug("AHISoundFunc() called\n"));
+	}
 	return 0;
 }
 
@@ -324,30 +306,23 @@ static struct Hook AHISoundHook;
 int doplay8svx(STRPTR fname, int loop)
 {
 	struct VoiceHeader *vhdr = NULL;
-	UBYTE *p8data;
+	STRPTR p8data, psample = NULL, ry, compressbuf;
 	ULONG size, class, rsize, chan = 0, pan = Unity / 2, waitbits, sigs;
 	USHORT code;
-	char *psample, *ry, *compressbuf;
 	ChunkHeader *p8chunk;
-	int a, b, stereo, *vxcheck, finish, playsize;
+	uint32 a, b, stereo, *vxcheck, finish, playsize = 0;
 	struct IOAudio *audioptr[2];
 	UBYTE *playdata[2];
-/*
-    for (a=0;a<2;a++) {
-        audio_port[a]=NULL;
-        audio_req1[a]=audio_req2[a]=NULL;
-    }
-    audiodata=NULL;
-*/
+
 	status_flags &= ~STATUS_AUDIOLED;
 
-	if((a = readfile(fname, (char **)&audiodata, (int *)&audio_size)))
+	if((a = readfile(fname, (char **)&audiodata, &audio_size)))
 	{
 		if(a == -1)
 			return (0);
 		return (-2);
 	}
-	vxcheck = (int *)audiodata;
+	vxcheck = (uint32 *)audiodata;
 	if(audio_size < 12 || vxcheck[0] != ID_FORM || vxcheck[2] != ID_8SVX)
 	{			// Raw data
 		size = audio_size;
@@ -412,24 +387,20 @@ int doplay8svx(STRPTR fname, int loop)
 
 	if(useAHI)
 	{
-//		D(bug("Trying to play through AHI\n"));
 		if(OpenAHI())
 		{
-//			D(bug("AHI opened\n"));
 			AHISoundHook.h_Entry = AHISoundFunc;
 			if((actrl = IAHI->AHI_AllocAudio(AHIA_AudioID, AHI_DEFAULT_ID, AHIA_MixFreq, AHI_DEFAULT_FREQ, AHIA_Channels, stereo ? 2 : 1, AHIA_Sounds, stereo ? 2 : 1, loop ? TAG_IGNORE : AHIA_SoundFunc, (Tag)&AHISoundHook, AHIA_UserData, (Tag) IExec->FindTask(NULL), TAG_DONE)))
 			{
-				struct AHISampleInfo sample = { AHIST_M8S, psample, size /*/ AHI_SampleFrameSize(AHIST_M8S) */ };
+				struct AHISampleInfo sample = { AHIST_M8S, psample, size };
 				UWORD snd0, snd1 = 1;
 
-//				D(bug("AHI_AllocAudio() succeeded\n"));
 				snd0 = IAHI->AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl);
 				if(stereo)
 				{
 					sample.ahisi_Address = psample + stereo;
 					snd1 = IAHI->AHI_LoadSound(1, AHIST_SAMPLE, &sample, actrl);
 				}
-//				D(bug("LoadSound(0)=%ld, LoadSound(1)=%ld\n", snd0, snd1));
 				if((snd0 != AHI_NOSOUND) && (snd1 != AHI_NOSOUND))
 				{
 					if((AHIsignal = IExec->AllocSignal(-1)) != -1)
@@ -441,14 +412,13 @@ int doplay8svx(STRPTR fname, int loop)
 							{ AHIP_Vol, vhdr ? vhdr->vh_Volume : Unity },
 							{ AHIP_Pan, 0L },
 							{ AHIP_Sound, 1 },
-							{ AHIP_EndChannel, 0L }, //NULL },
+							{ AHIP_EndChannel, 0L },
 							{ TAG_END, 0 }
 						};
 
 						IAHI->AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
 
 						IAHI->AHI_Play(actrl, AHIP_BeginChannel, 0, AHIP_Freq, vhdr ? vhdr->vh_SamplesPerSec : 10000, AHIP_Vol, vhdr ? vhdr->vh_Volume : Unity, AHIP_Pan, stereo ? Unity : pan, AHIP_Sound, 0, AHIP_EndChannel, NULL, stereo ? TAG_MORE : TAG_END, (Tag) ahitags2);
-//						D(bug("Playing through AHI\n"));
 					}
 					else
 						CloseAHI();
@@ -466,7 +436,6 @@ int doplay8svx(STRPTR fname, int loop)
 	{
 		static UBYTE audiochannels[2][4] = { {8 + 1, 1, 8, 4}, {4 + 2, 2, 4, 8} };
 
-//		D(bug("Trying to play through audio.device\n"));
 		for(a = 0; a < 2; a++)
 		{
 			if(!(audio_req1[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_req2[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
@@ -499,17 +468,9 @@ int doplay8svx(STRPTR fname, int loop)
 			audio_req1[a]->ioa_Cycles = 1;
 			IExec->CopyMem((char *)audio_req1[a], (char *)audio_req2[a], sizeof(struct IOAudio));
 			audio_req1[a]->ioa_Data = (UBYTE *) playdata[a];
-			audio_req2[a]->ioa_Data = (UBYTE *) playdata[a] + playsize / 2 /*12800 */ ;
+			audio_req2[a]->ioa_Data = (UBYTE *) playdata[a] + playsize / 2;
 			audioptr[a] = audio_req2[a];
 		}
-	}
-
-	if(config->viewbits & VIEWBITS_FILTEROFF)
-	{
-		if(filteroff())
-			status_flags |= STATUS_AUDIOLED;
-		else
-			status_flags &= ~STATUS_AUDIOLED;
 	}
 
 	waitbits = 1 << Window->UserPort->mp_SigBit;
@@ -517,37 +478,7 @@ int doplay8svx(STRPTR fname, int loop)
 		waitbits |= 1 << audio_port[0]->mp_SigBit | 1 << audio_port[1]->mp_SigBit;
 	else if(!loop)
 		waitbits |= 1 << AHIsignal;
-/*
-    if (size<=25600) {
-        for (a=0;a<2;a++) CopyMem(psample+(a*stereo),(char *)playdata[a],playsize);
-        FOREVER {
-            for (b=0;b<2;b++) {
-                audio_req1[b]->ioa_Length=size;
-                BeginIO((struct IORequest *)audio_req1[b]);
-            }
-            a=0;
-            FOREVER {
-                Wait(waitbits);
-                while (getintuimsg()) {
-                    class=IMsg->Class; code=IMsg->Code;
-                    ReplyMsg((struct Message *)IMsg);
-                    if (class==IDCMP_MOUSEBUTTONS) {
-                        if (code==SELECTDOWN) return(1);
-                        else if (code==MENUDOWN) return(-1);
-                    }
-                    else if (class==IDCMP_RAWKEY) {
-                        if (code==RAWKEY_ESC) return(-1);
-                        else if (code==RAWKEY_Q || code==RAWKEY_X) return(1);
-                    }
-                }
-                for (b=0;b<2;b++) if (GetMsg(audio_port[b])) ++a;
-                if (a>=2) break;
-            }
-            if (!loop) return(1);
-        }
-    }
-    else
-*/
+
 	{
 		ry = psample;
 		rsize = size;
@@ -561,14 +492,11 @@ int doplay8svx(STRPTR fname, int loop)
 				for(a = 0; a < 2; a++)
 				{
 					IExec->CopyMem(psample + (a * stereo), (char *)playdata[a], playsize);
-					//                CopyMem((char *)audio_req1[a],(char *)audio_req2[a],sizeof(struct IOAudio));
-					//                audio_req1[a]->ioa_Data=(UBYTE *)playdata[a];
-					//                audio_req2[a]->ioa_Data=(UBYTE *)playdata[a]+12800;
-					audio_req1[a]->ioa_Length = audio_req2[a]->ioa_Length = playsize / 2 /*12800 */ ;
+					audio_req1[a]->ioa_Length = audio_req2[a]->ioa_Length = playsize / 2;
 					audioptr[a] = audio_req2[a];
 				}
 				psample += playsize;
-				size -= playsize /*25600 */ ;
+				size -= playsize;
 				for(a = 0; a < 2; a++)
 					IExec->BeginIO((struct IORequest *)audio_req1[a]);
 				for(a = 0; a < 2; a++)
@@ -610,7 +538,7 @@ int doplay8svx(STRPTR fname, int loop)
 									audioptr[b] = audio_req2[b];
 								else
 									audioptr[b] = audio_req1[b];
-								audioptr[b]->ioa_Length = (size < (playsize / 2 /*12800 */)? size : (playsize / 2) /*12800 */);
+								audioptr[b]->ioa_Length = (size < (playsize / 2)? size : (playsize / 2));
 								IExec->CopyMem(psample + (b * stereo), (char *)audioptr[b]->ioa_Data, audioptr[b]->ioa_Length);
 							}
 							a |= 1 << b;
@@ -630,7 +558,7 @@ int doplay8svx(STRPTR fname, int loop)
 						else
 						{
 							size -= audioptr[0]->ioa_Length;
-							psample += playsize / 2 /*12800 */ ;
+							psample += playsize / 2;
 							for(b = 0; b < 2; b++)
 								IExec->BeginIO((struct IORequest *)audioptr[b]);
 						}
@@ -639,7 +567,6 @@ int doplay8svx(STRPTR fname, int loop)
 				}
 				else if(sigs & (1 << AHIsignal))
 				{
-//D(bug("AHIsignal received\n"));
 					break;
 				}
 			}
@@ -691,11 +618,6 @@ void kill8svx()
 		IExec->FreeVec(audiodata);
 	IDOpus->LFreeRemember(&audio_key);
 	audiodata = NULL;
-	if(status_flags & STATUS_AUDIOLED)
-	{
-		filteron();
-		status_flags &= ~STATUS_AUDIOLED;
-	}
 }
 
 void handle8svxerror(int res)
@@ -726,21 +648,16 @@ void dosound(int type)
 		static UBYTE achannels[8] = { 1 + 2, 1 + 4, 2 + 8, 4 + 8, 1, 2, 4, 8 };
 		int a;
 
-//		D(bug("beepwave at %lx\n", beepwave));
 		if(useAHI)
 		{
-//			D(bug("Trying to play through AHI\n"));
 			if(OpenAHI())
 			{
-//				D(bug("AHI opened\n"));
 				if((actrl = IAHI->AHI_AllocAudio(AHIA_AudioID, AHI_DEFAULT_ID, AHIA_MixFreq, AHI_DEFAULT_FREQ, AHIA_Channels, 1, AHIA_Sounds, 1, TAG_DONE)))
 				{
 					struct AHISampleInfo sample = { AHIST_M8S, beepwave, 16 };
 
-//					D(bug("AHI_AllocAudio() succeeded\n"));
 					if(IAHI->AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl) != AHI_NOSOUND)
 					{
-//						D(bug("Playing through AHI\n"));
 						IAHI->AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
 
 						for(a = 0; a < 11; a++)
@@ -764,7 +681,6 @@ void dosound(int type)
 			else
 				CloseAHI();
 		}
-//		D(bug("Trying to play through audio.device\n"));
 		audio.ioa_Request.io_Message.mn_ReplyPort = general_port;
 		audio.ioa_Request.io_Message.mn_Node.ln_Pri = 90;
 		audio.ioa_Data = achannels;
@@ -796,44 +712,12 @@ void dosound(int type)
 
 int playmod(STRPTR name)
 {
-/*	int a;
-
-	if((a = PlayModule(name, 1)))
-	{
-		switch (a)
-		{
-		case ML_NOMEM:
-			doerror(ERROR_NO_FREE_STORE);
-			break;
-		case ML_BADMOD:
-			dostatustext(globstring[STR_NOT_ST_MOD]);
-			break;
-		case ML_NOMOD:
-			doerror(ERROR_OBJECT_NOT_FOUND);
-			break;
-*//*
-            default:
-                doerror(0);
-                break;
-*/
-/*		}
-		FlushModule();
-		return (0);
-	}
-*/	return (1);
+	return (1);
 }
 
 int check_is_module(STRPTR name)
 {
-/*	int a;
-
-	if(MUSICBase)
-	{
-		a = IsModule(name);
-		if(a > 0 && a < 100)
-			return (1);
-	}
-*/	return (0);
+	return (0);
 }
 
 static char codetodelta[16] = { -34, -21, -13, -8, -5, -3, -2, -1, 0, 1, 2, 3, 5, 8, 13, 21 };
@@ -874,26 +758,4 @@ int EnvoyPacket(STRPTR device, uint32 action, uint32 action2, UWORD data, APTR b
 		return (1);
 	}
 	return (0);
-}
-
-int filteroff(void)		//_filteroff:   ;int
-{
-	char *filter_register = (char *)0xBFE001L;
-
-	if((*filter_register) & 2)	//  btst.b #1,$bfe001
-		//  bne alreadyon
-		return (0);	//alreadyon:
-	//  moveq.l #0,d0
-	//  rts
-	(*filter_register) |= 2;	//  bset.b #1,$bfe001
-	return (1);		//  moveq.l #1,d0
-	//  rts
-}
-
-void filteron(void)		//_filteron:    ;void
-{
-	char *filter_register = (char *)0xBFE001L;
-
-	(*filter_register) &= (~2);	//  bclr.b #1,$bfe001
-	//  rts
 }

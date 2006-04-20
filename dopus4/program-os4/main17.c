@@ -632,7 +632,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			if(f)
 			{
 				strcpy(str_okaystring, buf3);
-//				D(bug("buf3 = \"%s\"\n", buf3));
 			}
 			else
 				buf1 = str_okaystring;
@@ -712,7 +711,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		if((entry = findfile(dopus_curwin[win], rexx_args[0], NULL)))
 		{
 			getprot(entry->protection, buf2);
-			sprintf(buf, "%s%lc%ld%lc%ld%lc%ld%lc%ld%lc%ld%lc%ld%lc%s%lc%s%lc", entry->name, pad[0], (int)entry->size, pad[0], entry->subtype, pad[0], entry->type, pad[0], entry->selected, pad[0], entry->date.ds_Days, pad[0], (entry->date.ds_Minute * 60) + (entry->date.ds_Tick / 50), pad[0], entry->comment, pad[0], buf2, pad[0]);
+			sprintf(buf, "%s%c%d%c%d%c%d%c%d%c%ld%c%ld%c%s%c%s%c", entry->name, pad[0], (int)entry->size, pad[0], entry->subtype, pad[0], entry->type, pad[0], entry->selected, pad[0], entry->date.ds_Days, pad[0], (entry->date.ds_Minute * 60) + (entry->date.ds_Tick / 50), pad[0], entry->comment, pad[0], buf2, pad[0]);
 			rexx_set_return(msg, 0, buf);
 			return (1);
 		}
@@ -1096,7 +1095,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				{
 					if(config->displaypos[b][a] == -1)
 						break;
-					sprintf(buf2, "%ld ", config->displaypos[b][a]);
+					sprintf(buf2, "%d ", config->displaypos[b][a]);
 					strcat(buf, buf2);
 				}
 				retbuf = buf;
@@ -1189,7 +1188,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			case MOD_FONT:
 				if(b < 0 || b >= FONT_LAST)
 					break;
-				sprintf(buf, "%s/%ld", config->fontbufs[b], config->fontsizes[b]);
+				sprintf(buf, "%s/%d", config->fontbufs[b], config->fontsizes[b]);
 				retbuf = buf;
 				break;
 
@@ -1212,7 +1211,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				buf[0] = 0;
 				if(b < 0 || b > 1)
 					b = data_active_window;
-				sprintf(buf, "%ld %ld %ld %ld %ld", config->displaylength[b][DISPLAY_NAME], config->displaylength[b][DISPLAY_COMMENT], config->displaylength[b][DISPLAY_FILETYPE], config->displaylength[b][DISPLAY_OWNER], config->displaylength[b][DISPLAY_GROUP]);
+				sprintf(buf, "%d %d %d %d %d", config->displaylength[b][DISPLAY_NAME], config->displaylength[b][DISPLAY_COMMENT], config->displaylength[b][DISPLAY_FILETYPE], config->displaylength[b][DISPLAY_OWNER], config->displaylength[b][DISPLAY_GROUP]);
 				retbuf = buf;
 				break;
 
@@ -1238,17 +1237,17 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 
 			case MOD_WINDOWXY:
 				if(!status_iconified && status_publicscreen && Window)
-					sprintf(buf, "%ld %ld", Window->LeftEdge, Window->TopEdge);
+					sprintf(buf, "%d %d", Window->LeftEdge, Window->TopEdge);
 				else
-					sprintf(buf, "%ld %ld", config->wbwinx, config->wbwiny);
+					sprintf(buf, "%d %d", config->wbwinx, config->wbwiny);
 				retbuf = buf;
 				break;
 
 			case MOD_WINDOWSIZE:
 				if(!status_iconified && status_publicscreen && Window)
-					sprintf(buf, "%ld %ld", Window->Width, Window->Height);
+					sprintf(buf, "%d %d", Window->Width, Window->Height);
 				else
-					sprintf(buf, "%ld %ld", config->scr_winw, config->scr_winh);
+					sprintf(buf, "%d %d", config->scr_winw, config->scr_winh);
 				retbuf = buf;
 				break;
 
@@ -1259,11 +1258,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			case MOD_WINDOWXYWH:
 				if(!status_iconified && status_publicscreen && Window)
 				{
-					sprintf(buf, "%ld %ld %ld %ld", Window->LeftEdge, Window->TopEdge, Window->Width, Window->Height);
+					sprintf(buf, "%d %d %d %d", Window->LeftEdge, Window->TopEdge, Window->Width, Window->Height);
 				}
 				else
 				{
-					sprintf(buf, "%ld %ld %ld %ld", config->wbwinx, config->wbwiny, config->scr_winw, config->scr_winh);
+					sprintf(buf, "%d %d %d %d", config->wbwinx, config->wbwiny, config->scr_winw, config->scr_winh);
 				}
 				retbuf = buf;
 				break;
@@ -1636,7 +1635,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 
 	default:
 		func_global_function = function;
-//		D(bug("rexx_args(%s,%s,%s)\n", rexx_args[0] ? rexx_args[0] : "<NULL>", rexx_args[1] ? rexx_args[1] : "<NULL>", rexx_args[2] ? rexx_args[2] : "<NULL>"));
 		break;
 	}
 	if(!func_global_function)
@@ -1644,10 +1642,9 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 	return (0);
 }
 
-int parse(UBYTE *buf)
+int parse(STRPTR buf)
 {
 	int len, argno, argpos, a, withinquote, havequoted;
-//	D(bug("parse cmd(%s)\n", buf));
 	len = strlen(buf);
 	for(a = len - 1; a >= 0; a--)
 		if(_isspace(buf[a]) == 0)
@@ -1658,7 +1655,6 @@ int parse(UBYTE *buf)
 	for(a = 1; a <= len; a++)
 	{
 		;
-//		D(bug("_isspace(%lc) = %ld\n", buf[a], _isspace(buf[a])));
 		if(buf[a] == '\"')
 		{
 			if(withinquote == 1)
@@ -1692,7 +1688,6 @@ int parse(UBYTE *buf)
 				if(argpos > 0 || havequoted)
 				{
 					rexx_args[argno++][argpos] = 0;
-//					D(bug("arg %ld complete: (%s)\n", argno - 1, rexx_args[argno - 1]));
 					argpos = havequoted = 0;
 				}
 			}
@@ -1710,7 +1705,6 @@ int parse(UBYTE *buf)
 	if(argno < 16 && argpos < 256)
 	{
 		rexx_args[argno][argpos] = 0;
-//		D(bug("arg %ld complete: (%s)\n", argno, rexx_args[argno]));
 	}
 	else if(argno == 16)
 		argno = 15;
@@ -1816,6 +1810,6 @@ void rexx_return(struct RexxMsg *msg, long long num)
 {
 	char numbuf[24];
 
-	sprintf(numbuf, "%qd", num);
+	sprintf(numbuf, "%lld", num);
 	rexx_set_return(msg, 0, numbuf);
 }

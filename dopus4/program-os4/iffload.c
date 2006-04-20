@@ -29,17 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-//#include <devices/newmouse.h>
-//#include <proto/powerpacker.h>
-/*
-#ifdef WITHPCHG
-#ifdef __PPC__
-#include <hardware/custom.h>
-struct Custom *custom = 0x00DFF000;
-#endif
-#include <clib/pchglib_protos.h>
-#endif
-*/
+
 enum
 {
 	PRINT_ASPECT,
@@ -59,8 +49,8 @@ struct AnimFrame
 {
 	struct AnimFrame *next;
 	struct AnimHeader *animheader;
-	unsigned char *delta;
-	unsigned char *cmap;
+	/*unsigned*/ char *delta;
+	/*unsigned*/ char *cmap;
 	int cmapsize;
 };
 
@@ -79,17 +69,17 @@ static struct NewWindow iffwin =
 {
 	0, 0, 0, 0,
 	255, 255,
-	IDCMP_MOUSEBUTTONS | IDCMP_RAWKEY | IDCMP_INTUITICKS | IDCMP_INACTIVEWINDOW,
+	IDCMP_MOUSEBUTTONS | IDCMP_EXTENDEDMOUSE | IDCMP_RAWKEY | IDCMP_INTUITICKS | IDCMP_INACTIVEWINDOW,
 	WFLG_RMBTRAP | WFLG_BORDERLESS | WFLG_SIMPLE_REFRESH | WFLG_NOCAREREFRESH,
 	NULL, NULL, NULL, NULL, NULL,
 	0, 0, 0, 0, CUSTOMSCREEN
 };
 
 static char *picbuffer, *picturename;
-static unsigned char *bodyptr;
+static char *bodyptr;
 static ULONG buffersize, bufferpos;
 
-static ULONG *colourtable_8;
+static uint32 *colourtable_8;
 static UWORD *copperlist, *colourtable_4;
 
 static struct ViewPort *ivp;
@@ -103,18 +93,7 @@ static struct BitMapHeader bmhd;
 
 static struct BitMap *iffbm[2];
 static struct Window *iffwindow;
-/*
-#ifdef WITHPCHG
-static struct PCHGHeader *pchghead;
-static char *sham;
-#endif
-*/
-/*
-#ifdef DO_DBUF
-static struct DBufInfo *dbufinfo;
-static struct MsgPort *dbufport;
-#endif
-*/
+
 static char iffscreenname[34];
 
 static struct DOpusAnim anim;
@@ -125,7 +104,7 @@ static inline void dotitle(struct BitMapHeader *bmhd)
 
 	getcolstring(cols);
 	getviewmodes(modes);
-	sprintf(title, "%ld x %ld x %ld (page %ld x %ld) %s cols (%s)", bmhd->bmh_Width, bmhd->bmh_Height, bmhd->bmh_Depth, bmhd->bmh_PageWidth, bmhd->bmh_PageHeight, cols, modes);
+	IUtility->SNPrintf(title, 100, "%ld x %ld x %ld (page %ld x %ld) %s cols (%s)", bmhd->bmh_Width, bmhd->bmh_Height, bmhd->bmh_Depth, bmhd->bmh_PageWidth, bmhd->bmh_PageHeight, cols, modes);
 	dostatustext(title);
 }
 
@@ -134,7 +113,7 @@ int LoadPic(char *name)
 	struct DOpusRemember *iffkey;
 	int retcode, a, gotbody = 0, brush = 0, scroll = 1, mp = 1, isanim = 0, extflag = 0, colourptr = -1, coloursize, imagewidth, imageheight, minwidth, minheight, maxwidth, maxheight, depth, coppersize, viewmode, maxframes;
 	UWORD colourlist[4];
-	ULONG chunkid, chunksize, chunkbuf[3];
+	uint32 chunkid, chunksize, chunkbuf[3];
 	struct DimensionInfo *dimension;
 	DisplayInfoHandle *handle;
 	char dimbuf[DIMBUFSIZE], *ptr;
@@ -168,20 +147,11 @@ int LoadPic(char *name)
 	anim.first_frame = NULL;
 	anim.last_frame = NULL;
 	anim.initial_frame.cmap = NULL;
-/*
-#ifdef WITHPCHG
-	pchghead = NULL;
-	sham = NULL;
-#endif
-#ifdef DO_DBUF
-	dbufinfo = NULL;
-	dbufport = NULL;
-#endif
-*/
+
 	for(a = 0; a < 2; a++)
 		iffbm[a] = anim.frame_bm[a] = NULL;
 
-	if(readfile(name, &picbuffer, (int *)&buffersize))
+	if(readfile(name, &picbuffer, &buffersize))
 		return (0);
 
 	if(!chunkread(chunkbuf, sizeof(ULONG) * 3) || chunkbuf[0] != ID_FORM || ((chunkbuf[2] != ID_ANIM) && (chunkbuf[2] != ID_ILBM)))
@@ -189,19 +159,17 @@ int LoadPic(char *name)
 	      DTload:
 		if(DataTypesBase)
 		{
-			if((dto = IDataTypes->NewDTObject(name, DTA_GroupID, GID_PICTURE, /*PDTA_Remap, FALSE,*/ PDTA_FreeSourceBitMap, TRUE, TAG_END)))
+			if((dto = IDataTypes->NewDTObject(name, DTA_GroupID, GID_PICTURE, PDTA_FreeSourceBitMap, TRUE, TAG_END)))
 			{
 				struct BitMapHeader *dto_bmhd;
 
 				if(IDataTypes->GetDTAttrs(dto, PDTA_ModeID, (Tag) & viewmode, PDTA_BitMapHeader, (Tag) & dto_bmhd, PDTA_ColorRegisters, (Tag) & colourptr, PDTA_NumColors, (Tag) & coloursize, TAG_DONE) == 4)
 				{
-//					D(bug("viewmode(0) = %08lx\n", viewmode));
 					bmhd = *dto_bmhd;
 					coloursize *= 3;
 					picbuffer = NULL;
 
 					dt_ok = TRUE;
-//					D(KDump(colourptr,coloursize));
 				}
 			}
 		}
@@ -277,12 +245,12 @@ int LoadPic(char *name)
 				{
 					colourptr = bufferpos;
 					coloursize = chunksize;
-					anim.initial_frame.cmap = (unsigned char *)&picbuffer[bufferpos];
+					anim.initial_frame.cmap = (char *)&picbuffer[bufferpos];
 					anim.initial_frame.cmapsize = chunksize;
 				}
 				else if(isanim && anim.framecount < maxframes && cur_frame)
 				{
-					cur_frame->cmap = (unsigned char *)&picbuffer[bufferpos];
+					cur_frame->cmap = (char *)&picbuffer[bufferpos];
 					cur_frame->cmapsize = chunksize;
 				}
 				break;
@@ -296,7 +264,6 @@ int LoadPic(char *name)
 					goto endiff;
 				}
 				chunksize = 0;
-//				D(bug("viewmode(0) = %08lx\n", viewmode));
 				break;
 			case ID_CTBL:
 				if((copperlist = IDOpus->LAllocRemember(&iffkey, chunksize, MEMF_CLEAR)))
@@ -310,23 +277,6 @@ int LoadPic(char *name)
 			case ID_DYCP:
 				mp = 0;
 				break;
-/*
-#ifdef WITHPCHG
-			case ID_SHAM:
-				if(!(pchghead = PCHG_SHAM2PCHG((UWORD *) & picbuffer[bufferpos], chunksize, (viewmode & LACE) ? 2 : 1)))
-				{
-					retcode = IFFERR_NOMEM;
-					goto endiff;
-				}
-				sham = &picbuffer[bufferpos];
-				specialformat = 1;
-				break;
-			case ID_PCHG:
-				pchghead = (struct PCHGHeader *)&picbuffer[bufferpos];
-				specialformat = 1;
-				break;
-#endif
-*/
 			case ID_CRNG:
 				if(currange < 6)
 				{
@@ -413,14 +363,12 @@ int LoadPic(char *name)
 
 	if(!(IGraphics->ModeNotAvailable(viewmode)))
 		extflag = 1;
-//	D(bug("extflag,viewmode(1) = %ld,%08lx\n", extflag, viewmode));
 	if(config->viewbits & VIEWBITS_BESTMODEID)
 	{
 		ULONG newmode;
 
-		if(!(IGraphics->ModeNotAvailable((newmode = IGraphics->BestModeID(/*BIDTAG_NominalWidth,imagewidth, BIDTAG_NominalHeight,imageheight,*/ BIDTAG_DesiredWidth, imagewidth, BIDTAG_DesiredHeight, imageheight, BIDTAG_Depth, depth, BIDTAG_SourceID, viewmode, BIDTAG_MonitorID, IGraphics->GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK, TAG_END)))))
+		if(!(IGraphics->ModeNotAvailable((newmode = IGraphics->BestModeID(BIDTAG_DesiredWidth, imagewidth, BIDTAG_DesiredHeight, imageheight, BIDTAG_Depth, depth, BIDTAG_SourceID, viewmode, BIDTAG_MonitorID, IGraphics->GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK, TAG_END)))))
 			viewmode = newmode;
-//		D(bug("extflag,viewmode(2) = %ld,%08lx\n", extflag, viewmode));
 	}
 
 	if((handle = IGraphics->FindDisplayInfo(viewmode)))
@@ -470,11 +418,9 @@ int LoadPic(char *name)
 	if(!extflag)
 	{
 		viewmode = viewflags;
-//		D(bug("extflag,viewmode(3) = %ld,%08lx\n", extflag, viewmode));
 		viewmode &= 0x0000ffff;
 		viewmode &= ~(SPRITES | GENLOCK_AUDIO | GENLOCK_VIDEO | VP_HIDE | DUALPF | PFBA | EXTENDED_MODE);
 		viewflags = viewmode;
-//		D(bug("extflag,viewmode(4) = %ld,%08lx\n", extflag, viewmode));
 
 		if(viewflags & HIRES)
 		{
@@ -518,18 +464,6 @@ int LoadPic(char *name)
 			if((anim.frame_bm[1] = IGraphics->AllocBitMap(bitmapwidth, bitmapheight, bmhd.bmh_Depth, BMF_DISPLAYABLE | BMF_CLEAR, NULL)))
 			{
 				anim.initialframe_bm = IGraphics->AllocBitMap(bitmapwidth, bitmapheight, bmhd.bmh_Depth, BMF_DISPLAYABLE | BMF_CLEAR, NULL);
-/*
-#ifdef DO_DBUF
-				if((dbufinfo = IGraphics->AllocDBufInfo(ivp)))
-				{
-					if(dbufport = IExec->CreatePort(NULL, 0))
-					{
-						dbufinfo->dbi_SafeMessage.mn_ReplyPort = dbufport;
-						dbufinfo->dbi_SafeMessage.mn_Length = sizeof(struct Message);
-					}
-				}
-#endif
-*/
 			}
 		}
 	}
@@ -563,8 +497,7 @@ int LoadPic(char *name)
 		}
 	}
 
-//	D(bug("extflag,viewmode(5) = %ld,%lx\n", extflag, viewmode));
-	if(!(iffscreen = IIntuition->OpenScreenTags(NULL, SA_Width, bitmapwidth, SA_Height, bitmapheight, SA_Depth, depth, dt_ok ? SA_Type : SA_BitMap, dt_ok ? CUSTOMSCREEN : (Tag) iffbm[0], SA_Behind, TRUE, SA_DisplayID, viewmode, SA_AutoScroll, TRUE, SA_Overscan, OSCAN_MAX, SA_SharePens, TRUE, SA_ShowTitle, FALSE, SA_Colors32, (Tag) colourtable_8, /*SA_ErrorCode, (Tag)&err,*/ TAG_END)))
+	if(!(iffscreen = IIntuition->OpenScreenTags(NULL, SA_Width, bitmapwidth, SA_Height, bitmapheight, SA_Depth, depth, dt_ok ? SA_Type : SA_BitMap, dt_ok ? CUSTOMSCREEN : (Tag) iffbm[0], SA_Behind, TRUE, SA_DisplayID, viewmode, SA_AutoScroll, TRUE, SA_Overscan, OSCAN_MAX, SA_SharePens, TRUE, SA_ShowTitle, FALSE, SA_Colors32, (Tag) colourtable_8, TAG_END)))
 	{
 		retcode = IFFERR_NOSCREEN;
 		goto endiff;
@@ -589,20 +522,15 @@ int LoadPic(char *name)
 		IDataTypes->SetDTAttrs(dto, NULL, NULL, PDTA_Screen, (Tag) iffscreen, TAG_END);
 		IDataTypes->DoDTMethod(dto, iffwindow, NULL, DTM_PROCLAYOUT, NULL, 1);
 		IDataTypes->GetDTAttrs(dto, PDTA_DestBitMap, (Tag) & iffbm[0], TAG_END);
-//		D(bug("PDTA_DestBitMap: %08lx\n", iffbm[0]));
 		if(!(iffbm[0]))
 		{
 			IDataTypes->GetDTAttrs(dto, PDTA_BitMap, (Tag) & iffbm[0], TAG_END);
-//			D(bug("PDTA_BitMap: %08lx\n", iffbm[0]));
 		}
-//     if (!(iffbm[0])) GetDTAttrs(dto, PDTA_ClassBitMap, (Tag)&iffbm[0],TAG_END);
-//D(bug("PDTA_ClassBitMap: %08lx\n",iffbm[0]));
 		if(!(iffbm[0]))
 		{
 			retcode = IFFERR_NOMEMORY;
 			goto endiff;
 		}
-//		D(KDump(iffbm[0], sizeof(struct BitMap)));
 		IGraphics->BltBitMapRastPort(iffbm[0], 0, 0, iffwindow->RPort, 0, 0, bitmapwidth, bitmapheight, 0xC0);
 	}
 
@@ -641,13 +569,7 @@ int LoadPic(char *name)
 
 	if(!copperlist)
 	{
-		if(viewflags & HAM
-/*
-#ifdef WITHPCHG
-		   || pchghead
-#endif
-*/
-		)
+		if(viewflags & HAM)
 		{
 			if(palette32)
 				IGraphics->LoadRGB32(ivp, colourtable_8);
@@ -655,17 +577,7 @@ int LoadPic(char *name)
 				IGraphics->LoadRGB4(ivp, colourtable_4, numcolours);
 		}
 	}
-/*
-#ifdef WITHPCHG
-	if(pchghead)
-	{
-		if(sham)
-			PCHG_SetUserCopList(0, 0, ivp, pchghead, &pchghead[1], sham);
-		else
-			PCHG_ParsePCHG(pchghead, ivp);
-	}
-#endif
-*/
+
 	IIntuition->ActivateWindow(iffwindow);
 	IIntuition->ScreenToFront(iffscreen);
 
@@ -674,7 +586,7 @@ int LoadPic(char *name)
 		struct View *view = IIntuition->ViewAddress();
 
 		if((copperheight >> 1) > scrdata_norm_height)
-			view->DyOffset = 14 + ( /*system_version2? */ 8 /*:0 */ );
+			view->DyOffset = 14 + 8;
 		if(mp)
 			IGraphics->LoadRGB4(ivp, colourlist, 4);
 		if(!InitDHIRES(mp))
@@ -712,13 +624,6 @@ int LoadPic(char *name)
 	}
 
       endiff:
-/*
-#ifdef DO_DBUF
-	IGraphics->FreeDBufInfo(dbufinfo);
-	if(dbufport)
-		IExec->DeletePort(dbufport);
-#endif
-*/
 	IIntuition->ScreenToFront(blankscreen ? blankscreen : Window->WScreen);
 
 	if(iffwindow)
@@ -747,14 +652,7 @@ int LoadPic(char *name)
 	}
 
 	IIntuition->ActivateWindow(Window);
-/*
-#ifdef WITHPCHG
-	if(pchghead && sham)
-	{
-		IExec->FreeMem(pchghead, sizeof(struct PCHGHeader) + ((pchghead->LineCount + 31) / 32) * 4);
-	}
-#endif
-*/
+
 	IDOpus->LFreeRemember(&iffkey);
 	IExec->FreeVec(picbuffer);
 
@@ -765,7 +663,7 @@ int LoadPic(char *name)
 	return (retcode);
 }
 
-void rletobuffer(UBYTE *source, int sourcewidth, int sourceheight, struct BitMap *dest, char mask, char comp)
+void rletobuffer(STRPTR source, int sourcewidth, int sourceheight, struct BitMap *dest, char mask, char comp)
 {
 	struct RLEinfo picinfo;
 
@@ -784,7 +682,7 @@ void rletobuffer(UBYTE *source, int sourcewidth, int sourceheight, struct BitMap
 	decoderle(&picinfo);
 }
 
-void readpic(struct BitMapHeader *bmhd, UBYTE *source, struct BitMap *bmap)
+void readpic(struct BitMapHeader *bmhd, STRPTR source, struct BitMap *bmap)
 {
 	int rowbytes, bmrbytes, rows;
 	int byteoff = 0;
@@ -813,7 +711,7 @@ void readpic(struct BitMapHeader *bmhd, UBYTE *source, struct BitMap *bmap)
 
 void decoderle(struct RLEinfo *rleinfo)
 {
-	char *source, *dest;
+	STRPTR source, dest;
 	int copy, col;
 	char count;
 	int plane, row, bmoffset, planes;
@@ -838,7 +736,7 @@ void decoderle(struct RLEinfo *rleinfo)
 
 				for(col = 0; col < rleinfo->imagebpr;)
 				{
-					if((count = *source++) >= 0)
+					if(!((count = *source++) & 0x80)) //>= 0)
 					{
 						copy = count + 1;
 						col += copy;
@@ -850,7 +748,7 @@ void decoderle(struct RLEinfo *rleinfo)
 						else
 							source += copy;
 					}
-					else if(count != -128)
+					else if(count != 0xFF) //-128)
 					{
 						copy = 1 - count;
 						col += copy;
@@ -908,28 +806,10 @@ void doanimframe()
 
 	if(doublebuffer && iffbm[1])
 	{
-/*
-#ifdef DO_DBUF
-		if(dbufport)
-		{
-			ChangeVPBitMap(ivp, iffbm[anim.framedisp], dbufinfo);
-			WaitPort(dbufport);
-			GetMsg(dbufport);
-		}
-		else
-		{
-			iffscreen->RastPort.BitMap = iffbm[anim.framedisp];
-			iffscreen->ViewPort.RasInfo->BitMap = iffbm[anim.framedisp];
-			MakeScreen(iffscreen);
-			RethinkDisplay();
-		}
-#else
-*/
 		iffscreen->RastPort.BitMap = iffbm[anim.framedisp];
 		iffscreen->ViewPort.RasInfo->BitMap = iffbm[anim.framedisp];
 		IIntuition->MakeScreen(iffscreen);
 		IIntuition->RethinkDisplay();
-//#endif
 	}
 	else
 	{
@@ -984,7 +864,7 @@ void doanimframe()
 	}
 }
 
-void doriff(UBYTE *delta, struct BitMap *image, int xor, int sourcewidth, int size)
+void doriff(STRPTR delta, struct BitMap *image, int xor, int sourcewidth, int size)
 {
 	int plane, *dptr;
 	unsigned char *data;
@@ -1014,7 +894,7 @@ void doriff(UBYTE *delta, struct BitMap *image, int xor, int sourcewidth, int si
 	}
 }
 
-void doriff7(UBYTE *delta, struct BitMap *image, int sourcewidth, int size)
+void doriff7(STRPTR delta, struct BitMap *image, int sourcewidth, int size)
 {
 	int plane, *dptr;
 	unsigned char *data;
@@ -1039,7 +919,7 @@ void doriff7(UBYTE *delta, struct BitMap *image, int sourcewidth, int size)
 	}
 }
 
-void decode_riff_xor(UBYTE *delta, char *image, int rowbytes, int sourcebytes)
+void decode_riff_xor(UBYTE *delta, UBYTE *image, int rowbytes, int sourcebytes)
 {
 	int column, opcount;
 	unsigned char *data, ch;
@@ -1079,7 +959,7 @@ void decode_riff_xor(UBYTE *delta, char *image, int rowbytes, int sourcebytes)
 	}
 }
 
-void decode_riff_set(UBYTE *delta, char *image, int rowbytes, int sourcebytes)
+void decode_riff_set(UBYTE *delta, UBYTE *image, int rowbytes, int sourcebytes)
 {
 	int column, opcount;
 	unsigned char *data, ch;
@@ -1294,7 +1174,7 @@ int WaitForMouseClick(int tits, struct Window *wind)
 	struct IntuiMessage *msg;
 	ULONG class;
 	USHORT code, qual;
-	int ticks, waitfor = 0, pon = 0, waitbits, retcode = 1, gottimer = 0, origspeed, startanim, delta;
+	int ticks = 0, waitfor = 0, pon = 0, waitbits, retcode = 1, gottimer = 0, origspeed, startanim = 0, delta;
 	struct timerequest treq;
 
 	while((msg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort)))
@@ -1383,10 +1263,8 @@ int WaitForMouseClick(int tits, struct Window *wind)
 					}
 					break;
 				case CURSOR_LEFT:
-//				case NM_WHEEL_LEFT:
 				case 0x2d:	// NUM-4
 				case CURSOR_RIGHT:
-//				case NM_WHEEL_RIGHT:
 				case 0x2f:	// NUM-6
 					if(tits != 3)
 						break;
@@ -1396,16 +1274,14 @@ int WaitForMouseClick(int tits, struct Window *wind)
 						delta = screenwidth - 20;
 					else
 						delta = 2;
-					if(code == CURSOR_LEFT || code == 0x2d/* || code == NM_WHEEL_LEFT*/)
+					if(code == CURSOR_LEFT || code == 0x2d)
 						delta = -delta;
 
 					IIntuition->MoveScreen(wind->WScreen, -delta, 0);
 					break;
 				case CURSOR_UP:
-//				case NM_WHEEL_UP:
 				case 0x3e:	// NUM-8
 				case CURSOR_DOWN:
-//				case NM_WHEEL_DOWN:
 				case 0x1e:	// NUM-2
 					if(tits != 3)
 						break;
@@ -1440,14 +1316,6 @@ int WaitForMouseClick(int tits, struct Window *wind)
 				case 0x5f:	// HELP
 				case 0x19:	// P
 				case 0x40:	// SPACE
-					if(!(qual & IEQUALIFIER_REPEAT))
-					{
-						IIntuition->ModifyIDCMP(wind, (wind->IDCMPFlags & ~IDCMP_INACTIVEWINDOW) | IDCMP_ACTIVEWINDOW);
-						if(tits & 1)
-							gfxprint(wind, &iffscreen->RastPort, 0, 0, bitmapwidth, bitmapheight, 1);
-						else
-							gfxprint(wind, wind->RPort, 0, 0, wind->Width, wind->Height, 0);
-					}
 					break;
 				case 0x39:	// .
 					if(pon)
@@ -1520,458 +1388,7 @@ void getcolstring(char *str)
 			strcpy(str, "4096");
 	}
 	else
-		sprintf(str, "%ld", 1 << bmhd.bmh_Depth);
-}
-
-void gfxprint(struct Window *wind, struct RastPort *rast, int x, int y, int w, int h, int iff)
-{
-	static struct NewScreen printscreen =
-	{
-		0, 0, 320, 0, 2,
-		0, 1, 0,
-		CUSTOMSCREEN | SCREENQUIET | SCREENBEHIND | NS_EXTENDED,
-		&screen_attr, NULL, NULL, NULL
-	};
-	static struct NewWindow printwin =
-	{
-		0, 0, 320, 0, 0, 0,
-		IDCMP_GADGETUP | IDCMP_VANILLAKEY,
-		WFLG_RMBTRAP | WFLG_BORDERLESS,
-		NULL, NULL, NULL, NULL, NULL,
-		0, 0, 0, 0, CUSTOMSCREEN
-	};
-	static struct Image printcheckimage = { 7, 2, 13, 7, 1, NULL, 1, 0, NULL }, printnullcheckimage =
-	{
-		7, 2, 13, 7, 1, NULL, 0, 0, NULL
-	};
-	static struct Gadget printgadgets[8] =
-	{
-		{&printgadgets[1], 142, 104, 123, 14, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, GAD_CYCLE, NULL, PRINT_ASPECT, NULL},
-		{&printgadgets[2], 142, 120, 123, 14, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, GAD_CYCLE, NULL, PRINT_IMAGE, NULL},
-		{&printgadgets[3], 142, 136, 123, 14, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, GAD_CYCLE, NULL, PRINT_SHADE, NULL},
-		{&printgadgets[4], 142, 152, 123, 14, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, GAD_CYCLE, NULL, PRINT_PLACE, NULL},
-		{&printgadgets[5], 18, 168, 26, 11, GFLG_GADGIMAGE | GFLG_GADGHIMAGE | GFLG_SELECTED, GACT_RELVERIFY | GACT_TOGGLESELECT, GTYP_BOOLGADGET, (APTR) &printnullcheckimage, (APTR) &printcheckimage, NULL, GAD_CHECK, NULL, PRINT_FORMFD, NULL},
-		{&printgadgets[6], 142, 168, 26, 11, GFLG_GADGIMAGE | GFLG_GADGHIMAGE, GACT_RELVERIFY | GACT_TOGGLESELECT, GTYP_BOOLGADGET, (APTR) &printnullcheckimage, (APTR) &printcheckimage, NULL, GAD_CHECK, NULL, PRINT_TITLE, NULL},
-		{&printgadgets[7], 20, 186, 100, 12, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, 0, NULL, PRINT_OKAY, NULL},
-		{NULL, 196, 186, 100, 12, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, 0, NULL, PRINT_CANCEL, NULL}
-	}, abortprintgad =
-	{
-		NULL, 60, 0, 200, 80, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, 0, NULL, PRINT_ABORT, NULL
-	};
-	static char print_gads_sel[4] = { 0, 0, 0, 0 }, print_gads_max[4] =
-	{
-		1, 1, 2, 1
-	};
-	static USHORT basepalette[4] = { 0xaaa, 0x000, 0xfff, 0x679 };
-	static char firsttime;
-
-	struct IntuiMessage *msg;
-	struct Window *pwin;
-	struct Screen *pscr;
-	struct RastPort *prp;
-	struct DOpusRemember *pkey = NULL;
-	struct PrinterData *pd;
-	struct Preferences *prefs;
-	union printerIO *print_request;	/* IO request for Print operation */
-	APTR save;
-	ULONG class;
-	USHORT code, gadgetid, qual;
-	int a, /*b, */ abort = 0, goff, fnum;
-	char buf[200], modes[140], *ptr, pactcode[6], cols[30], title[120];
-	char *printgadtxt[9], *printabortgadtxt[2] = { NULL, NULL }, *print_aspect_txt[2], *print_image_txt[2], *print_shade_txt[3], *print_placement_txt[2], **print_gads_txt[4] =
-	{
-	print_aspect_txt, print_image_txt, print_shade_txt, print_placement_txt};
-
-	if(scrdata_is_pal)
-	{
-		printscreen.Height = printwin.Height = 256;
-		goff = 28;
-	}
-	else
-	{
-		printscreen.Height = printwin.Height = 200;
-		goff = 0;
-	}
-
-	for(a = 0; a < 7; a++)
-	{
-		if(a == 5)
-			printgadtxt[a] = globstring[STR_PRINTTITLE];
-		else if(a == 6)
-			printgadtxt[a] = globstring[STR_PRINT];
-		else
-			printgadtxt[a] = globstring[STR_ASPECT + a];
-		if(a < 6)
-		{
-			pactcode[a] = getkeyshortcut(printgadtxt[a]);
-/*            for (b=0;;b++) {
-                if (!printgadtxt[a][b]) break;
-                if (printgadtxt[a][b]=='_') {
-                    pactcode[a]=ToLower(printgadtxt[a][b+1]);
-                    break;
-                }
-            }*/
-		}
-	}
-
-	printgadtxt[7] = str_cancelstring;
-	printgadtxt[8] = NULL;
-	printabortgadtxt[0] = globstring[STR_ABORT_PRINT];
-	for(a = 0; a < 2; a++)
-	{
-		print_aspect_txt[a] = globstring[STR_PORTRAIT + a];
-		print_image_txt[a] = globstring[STR_POSITIVE + a];
-		print_placement_txt[a] = globstring[STR_CENTER + a];
-	}
-	for(a = 0; a < 3; a++)
-		print_shade_txt[a] = globstring[STR_BLACK_WHITE + a];
-
-	class = IGraphics->BestModeID(BIDTAG_NominalWidth, printscreen.Width, BIDTAG_NominalHeight, printscreen.Height, BIDTAG_Depth, printscreen.Depth, BIDTAG_MonitorID, IGraphics->GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK, TAG_END);
-//	D(bug("Print screen ModeID: %lx\n", class));
-	if(class == INVALID_ID)
-		class = LORES_KEY;
-
-	if(!(pscr = IIntuition->OpenScreenTags(&printscreen, SA_DisplayID, class, SA_Pens, (Tag) scr_drawinfo, TAG_END)))
-		return;
-	IGraphics->LoadRGB4(&(pscr->ViewPort), basepalette, 4);
-	printwin.Screen = pscr;
-	if(!(pwin = IIntuition->OpenWindow(&printwin)))
-	{
-		IIntuition->CloseScreen(pscr);
-		return;
-	}
-	prp = pwin->RPort;
-	IGraphics->SetFont(prp, scr_font[FONT_GENERAL]);
-	IGraphics->SetAPen(prp, 1);
-	IDOpus->Do3DFrame(prp, 0, 4 + goff, 320, 88, globstring[STR_DESCRIPTION], 2, 1);
-	IDOpus->Do3DFrame(prp, 0, 98 + goff, 320, 86, globstring[STR_PRINT_CONTROL], 2, 1);
-
-	if(iff)
-	{
-		ptr = IDOS->FilePart(picturename);
-		getcolstring(cols);
-		sprintf(buf, "%12s : %s", globstring[STR_FILE], ptr);
-		iffinfotxt(prp, buf, 7, 19 + goff);
-
-		sprintf(buf, "%12s : %ld x %ld", globstring[STR_IMAGE_SIZE], bmhd.bmh_Width, bmhd.bmh_Height);
-		iffinfotxt(prp, buf, 7, 35 + goff);
-
-		if(anim.first_frame)
-		{
-			if(anim.framenum < 2)
-				fnum = 1;
-			else
-				fnum = anim.framenum - 1;
-			sprintf(buf, "%12s : %ld %s %ld @ %ld/sec", globstring[STR_NUM_FRAMES], fnum, globstring[STR_OF], anim.framecount + (1 - got_dpan), anim.framespersec);
-			iffinfotxt(prp, buf, 7, 43 + goff);
-
-			sprintf(buf, "%12s : ANIM Op %ld", globstring[STR_ANIM_TYPE], anim.type);
-			iffinfotxt(prp, buf, 7, 51 + goff);
-
-			sprintf(title, "IFF ANIM : %s   %s %ld %s %ld   %ld x %ld x %s\n\n", ptr, globstring[STR_FRAME], fnum, globstring[STR_OF], anim.framecount + 1, bmhd.bmh_Width, bmhd.bmh_Height, cols);
-		}
-		else
-		{
-			sprintf(buf, "%12s : %ld x %ld", globstring[STR_PAGE_SIZE], bmhd.bmh_PageWidth, bmhd.bmh_PageHeight);
-			iffinfotxt(prp, buf, 7, 43 + goff);
-
-			sprintf(buf, "%12s : %ld x %ld", globstring[STR_SCREEN_SIZE], iffscreen->Width, iffscreen->Height);
-			iffinfotxt(prp, buf, 7, 51 + goff);
-
-			sprintf(title, "IFF ILBM : %s   %ld x %ld x %s\n\n", ptr, bmhd.bmh_Width, bmhd.bmh_Height, cols);
-		}
-		sprintf(buf, "%12s : %ld", globstring[STR_DEPTH], bmhd.bmh_Depth);
-		iffinfotxt(prp, buf, 7, 67 + goff);
-
-		sprintf(buf, "%12s : %s", globstring[STR_COLOURS], cols);
-		iffinfotxt(prp, buf, 7, 75 + goff);
-
-		getviewmodes(modes);
-		sprintf(buf, "%12s : %s", globstring[STR_SCREEN_MODES], modes);
-		iffinfotxt(prp, buf, 7, 83 + goff);
-	}
-	else if(show_global_font)
-	{
-		char fontname[40], *ptr;
-
-		strcpy(fontname, show_global_font->tf_Message.mn_Node.ln_Name);
-		if((ptr = strstri(fontname, ".font")))
-			*ptr = 0;
-
-		sprintf(buf, "%12s : %s", globstring[STR_FONT], fontname);
-		iffinfotxt(prp, buf, 7, 19 + goff);
-
-		sprintf(buf, "%12s : %ld", globstring[STR_FONT_SIZE], show_global_font->tf_YSize);
-		iffinfotxt(prp, buf, 7, 35 + goff);
-
-		sprintf(buf, "%12s : %ld (%ld - %ld)", globstring[STR_NUM_CHARS], (show_global_font->tf_HiChar - show_global_font->tf_LoChar) + 1, show_global_font->tf_LoChar, show_global_font->tf_HiChar);
-		iffinfotxt(prp, buf, 7, 51 + goff);
-
-		sprintf(buf, "%12s :", globstring[STR_FONT_STYLE]);
-		if((show_global_font->tf_Style & 15) == 0)
-			strcat(buf, " NORMAL");
-		else
-		{
-			if(show_global_font->tf_Style & FSF_UNDERLINED)
-				strcat(buf, " ULINED");
-			if(show_global_font->tf_Style & FSF_BOLD)
-				strcat(buf, " BOLD");
-			if(show_global_font->tf_Style & FSF_ITALIC)
-				strcat(buf, " ITALIC");
-			if(show_global_font->tf_Style & FSF_EXTENDED)
-				strcat(buf, " EXTEND");
-		}
-		iffinfotxt(prp, buf, 7, 67 + goff);
-
-		sprintf(buf, "%12s :", globstring[STR_FONT_FLAGS]);
-		if(show_global_font->tf_Flags & FPF_TALLDOT)
-			strcat(buf, " TALL");
-		if(show_global_font->tf_Flags & FPF_WIDEDOT)
-			strcat(buf, " WIDE");
-		if(show_global_font->tf_Flags & FPF_PROPORTIONAL)
-			strcat(buf, " PROP");
-		iffinfotxt(prp, buf, 7, 75 + goff);
-
-		sprintf(title, "Font : %s/%ld   %ld chars (%ld - %ld)\n\n", fontname, show_global_font->tf_YSize, (show_global_font->tf_HiChar - show_global_font->tf_LoChar) + 1, show_global_font->tf_LoChar, show_global_font->tf_HiChar);
-	}
-	else if(show_global_icon)
-	{
-		sprintf(buf, "%12s : %s", globstring[STR_ICON], show_global_icon_name);
-		iffinfotxt(prp, buf, 7, 27 + goff);
-
-		sprintf(buf, "%12s : %s", globstring[STR_ICON_TYPE], icon_type_names[show_global_icon->do_Type - 1]);
-		iffinfotxt(prp, buf, 7, 43 + goff);
-
-		sprintf(buf, "%12s : %s", globstring[STR_ICON_ALTERNATE], (show_global_icon->do_Gadget.Flags & GFLG_GADGHIMAGE) ? globstring[STR_YES] : globstring[STR_NO]);
-		iffinfotxt(prp, buf, 7, 59 + goff);
-
-		if(show_global_icon->do_DefaultTool)
-		{
-			sprintf(buf, "%12s : %s", globstring[STR_ICON_DEFAULTTOOL], show_global_icon->do_DefaultTool);
-			iffinfotxt(prp, buf, 7, 75 + goff);
-		}
-		sprintf(title, "Workbench %s : %s\n\n", globstring[STR_ICON], show_global_icon_name);
-	}
-
-	for(a = 0; a < 8; a++)
-		printgadgets[a].TopEdge += goff;
-	printcheckimage.ImageData = NULL; //(USHORT *) DOpusBase->pdb_check;
-	IDOpus->AddGadgetBorders(&pkey, printgadgets, 4, 2, 1);
-	IDOpus->AddGadgetBorders(&pkey, &printgadgets[PRINT_OKAY], 2, 2, 1);
-	IDOpus->AddGadgets(pwin, printgadgets, printgadtxt, 8, 2, 1, 1);
-
-	if(!firsttime)
-	{
-		struct Preferences prefs;
-
-		IIntuition->GetPrefs(&prefs, sizeof(struct Preferences));
-		print_gads_sel[PRINT_ASPECT] = prefs.PrintAspect;
-		print_gads_sel[PRINT_IMAGE] = prefs.PrintImage;
-		print_gads_sel[PRINT_SHADE] = prefs.PrintShade;
-
-		firsttime = 1;
-	}
-
-	for(a = 0; a < 4; a++)
-	{
-		IDOpus->DoCycleGadget(&printgadgets[a], pwin, print_gads_txt[a], print_gads_sel[a]);
-	}
-
-	IIntuition->ScreenToFront(pscr);
-	IIntuition->ActivateWindow(pwin);
-	save = main_proc->pr_WindowPtr;
-	main_proc->pr_WindowPtr = (APTR) pwin;
-
-	IExec->Wait(1 << pwin->UserPort->mp_SigBit);
-
-	FOREVER
-	{
-		while((msg = (struct IntuiMessage *)IExec->GetMsg(pwin->UserPort)))
-		{
-			class = msg->Class;
-			code = msg->Code;
-			qual = msg->Qualifier;
-			if(class == IDCMP_GADGETUP)
-				gadgetid = ((struct Gadget *)msg->IAddress)->GadgetID;
-			IExec->ReplyMsg((struct Message *)msg);
-			switch (class)
-			{
-			case IDCMP_VANILLAKEY:
-				if(qual & IEQUALIFIER_REPEAT)
-					break;
-				code = IUtility->ToLower(code);
-				for(a = 0; a < 6; a++)
-				{
-					if(code == pactcode[a]
-					   /*|| code==ToUpper(pactcode[a]) */
-						)
-					{
-//                        if (ToLower(code)==pactcode[a]) {
-						if(a < 4)
-						{
-//                                if (code==ToUpper(pactcode[a])) qual|=IEQUALIFIER_LSHIFT;
-							IDOpus->SelectGadget(pwin, &printgadgets[a]);
-							gadgetid = a;
-							goto docyclegads;
-						}
-						else if(a == 4)
-						{
-							printgadgets[4].Flags ^= GFLG_SELECTED;
-							IIntuition->RefreshGList(&printgadgets[4], pwin, NULL, 1);
-						}
-						else if(a == 5)
-						{
-							printgadgets[5].Flags ^= GFLG_SELECTED;
-							IIntuition->RefreshGList(&printgadgets[5], pwin, NULL, 1);
-						}
-					}
-				}
-				if(code == '\r' || code == getkeyshortcut(globstring[STR_PRINT]))
-				{
-					IDOpus->SelectGadget(pwin, &printgadgets[6]);
-					goto doprint;
-				}
-				else if(code == '' || code == ' ' || code == getkeyshortcut(str_cancelstring))
-				{
-					IDOpus->SelectGadget(pwin, &printgadgets[7]);
-					goto endprint;
-				}
-				break;
-
-			case IDCMP_GADGETUP:
-				if(gadgetid < PRINT_FORMFD)
-				{
-				      docyclegads:
-					if(qual & IEQUALIFIER_ANYSHIFT)
-					{
-						if((--print_gads_sel[gadgetid]) < 0)
-							print_gads_sel[gadgetid] = print_gads_max[gadgetid];
-					}
-					else
-					{
-						if((++print_gads_sel[gadgetid]) > print_gads_max[gadgetid])
-							print_gads_sel[gadgetid] = 0;
-					}
-					IDOpus->DoCycleGadget(&printgadgets[gadgetid], pwin, print_gads_txt[gadgetid], print_gads_sel[gadgetid]);
-				}
-				else
-					switch (gadgetid)
-					{
-					case PRINT_CANCEL:
-						goto endprint;
-					case PRINT_OKAY:
-						goto doprint;
-					}
-				break;
-			}
-		}
-	}
-      doprint:
-	IIntuition->RemoveGList(pwin, printgadgets, -1);
-	IGraphics->SetAPen(prp, 0);
-	IGraphics->RectFill(prp, 0, 0, 319, pwin->Height - 1);
-	IGraphics->SetAPen(prp, 1);
-	abortprintgad.TopEdge = (pwin->Height - 80) / 2;
-	IDOpus->AddGadgetBorders(&pkey, &abortprintgad, 1, 2, 1);
-	IDOpus->AddGadgets(pwin, &abortprintgad, printabortgadtxt, 1, 2, 1, 1);
-	IDOpus->SetBusyPointer(pwin);
-	if((print_request = (union printerIO *)IExec->CreateIORequest(general_port, sizeof(union printerIO))))
-	{
-		if(!(IExec->OpenDevice("printer.device", 0, (struct IORequest *)print_request, 0)))
-		{
-			pd = (struct PrinterData *)print_request->iodrp.io_Device;
-			prefs = &pd->pd_Preferences;
-			prefs->PrintAspect = print_gads_sel[PRINT_ASPECT];
-			prefs->PrintImage = print_gads_sel[PRINT_IMAGE];
-			prefs->PrintShade = print_gads_sel[PRINT_SHADE];
-			prefs->PrintXOffset = 0;
-
-			print_request->ios.io_Command = CMD_WRITE;
-			print_request->ios.io_Data = "\033#1";
-			print_request->ios.io_Length = -1;
-			while(IExec->DoIO((struct IORequest *)print_request))
-			{
-				reqoverride = pwin;
-				a = simplerequest(globstring[STR_ERROR_INITIALISING_PRINTER], globstring[STR_TRY_AGAIN], str_cancelstring, NULL);
-				reqoverride = NULL;
-				if(!a)
-					goto closeprinter;
-			}
-
-			if(printgadgets[5].Flags & GFLG_SELECTED)
-			{
-				print_request->ios.io_Command = CMD_WRITE;
-				print_request->ios.io_Data = title;
-				print_request->ios.io_Length = -1;
-				if(IExec->DoIO((struct IORequest *)print_request))
-					goto closeprinter;
-			}
-
-			print_request->iodrp.io_Command = PRD_DUMPRPORT;
-			print_request->iodrp.io_RastPort = rast;
-			print_request->iodrp.io_ColorMap = wind->WScreen->ViewPort.ColorMap;
-			//if (system_version2) {
-			print_request->iodrp.io_Modes = IGraphics->GetVPModeID(&(wind->WScreen->ViewPort));
-			/*}
-			   else {
-			   print_request->iodrp.io_Modes=wind->WScreen->ViewPort.Modes;
-			   } */
-			print_request->iodrp.io_SrcX = x;
-			print_request->iodrp.io_SrcY = y;
-			print_request->iodrp.io_SrcWidth = w;
-			print_request->iodrp.io_SrcHeight = h;
-			print_request->iodrp.io_Special = SPECIAL_FULLCOLS | SPECIAL_ASPECT | SPECIAL_NOFORMFEED;
-			if(!print_gads_sel[PRINT_PLACE])
-				print_request->iodrp.io_Special |= SPECIAL_CENTER;
-			if(!(printgadgets[4].Flags & GFLG_SELECTED))
-				print_request->iodrp.io_Special |= SPECIAL_NOFORMFEED;
-
-			IExec->SendIO((struct IORequest *)print_request);
-			FOREVER
-			{
-				IExec->Wait(1 << pwin->UserPort->mp_SigBit | 1 << general_port->mp_SigBit);
-				while(IExec->GetMsg(general_port));
-				while((msg = (struct IntuiMessage *)IExec->GetMsg(pwin->UserPort)))
-				{
-					class = msg->Class;
-					if(class == IDCMP_GADGETUP)
-						gadgetid = ((struct Gadget *)msg->IAddress)->GadgetID;
-					IExec->ReplyMsg((struct Message *)msg);
-					if(class == IDCMP_GADGETUP && gadgetid == PRINT_ABORT)
-					{
-						reqoverride = pwin;
-						abort = simplerequest(globstring[STR_REALLY_ABORT_PRINT], globstring[STR_ABORT], globstring[STR_CONTINUE], NULL);
-						reqoverride = NULL;
-						if(abort)
-							IExec->AbortIO((struct IORequest *)print_request);
-						break;
-					}
-				}
-				if(abort || (IExec->CheckIO((struct IORequest *)print_request)))
-					break;
-			}
-			IExec->WaitIO((struct IORequest *)print_request);
-			if(!abort && printgadgets[4].Flags & GFLG_SELECTED)
-			{
-				print_request->ios.io_Command = CMD_WRITE;
-				print_request->ios.io_Data = "\f";
-				print_request->ios.io_Length = -1;
-				IExec->DoIO((struct IORequest *)print_request);
-			}
-		      closeprinter:
-			IExec->CloseDevice((struct IORequest *)print_request);
-		}
-		IExec->DeleteIORequest((struct IORequest *)print_request);
-	}
-      endprint:
-	for(a = 0; a < 8; a++)
-		printgadgets[a].TopEdge -= goff;
-	main_proc->pr_WindowPtr = save;
-	IIntuition->ActivateWindow(iffwindow);
-	IIntuition->ScreenToBack(pscr);
-	IIntuition->CloseWindow(pwin);
-	IIntuition->CloseScreen(pscr);
-	IDOpus->LFreeRemember(&pkey);
+		sprintf(str, "%d", 1 << bmhd.bmh_Depth);
 }
 
 int InitDHIRES(int mp)
@@ -2000,7 +1417,7 @@ int InitDHIRES(int mp)
 			IGraphics->CBump(ucop);
 			for(creg = 4; creg < oscan; creg++)
 			{
-				IGraphics->CMove(ucop, (long *)(0xdff180 + (creg * 2)), copperlist[(line << (4 + lace)) + creg]);
+				IGraphics->CMove(ucop, (0xdff180 + (creg * 2)), copperlist[(line << (4 + lace)) + creg]);
 				IGraphics->CBump(ucop);
 			}
 		}
@@ -2014,13 +1431,12 @@ int InitDHIRES(int mp)
 			IGraphics->CBump(ucop);
 			for(creg = 4; creg < 16; creg++)
 			{
-				IGraphics->CMove(ucop, (long *)(0xdff180 + (creg * 2)), copperlist[(line << 4) + creg]);
+				IGraphics->CMove(ucop, (0xdff180 + (creg * 2)), copperlist[(line << 4) + creg]);
 				IGraphics->CBump(ucop);
 			}
 		}
 	}
 
-//	CEND(ucop);
 	IGraphics->CWait(ucop, 10000, 255);
 	IGraphics->CBump(ucop);
 	IExec->Forbid();
@@ -2058,18 +1474,9 @@ void getviewmodes(char *modes)
 			strcat(modes, " LACE");
 	}
 	if(copperlist)
-		strcat(modes, " DHIRES");
-/*
-#ifdef WITHPCHG
-	else if(pchghead)
 	{
-		if(sham)
-			strcat(modes, " SHAM");
-		else
-			strcat(modes, " PCHG");
+		strcat(modes, " DHIRES");
 	}
-#endif
-*/
 	else
 	{
 		if(viewflags & HAM)
@@ -2089,7 +1496,7 @@ void iffinfotxt(struct RastPort *r, char *buf, int x, int y)
 	IGraphics->Text(r, buf, (a > l) ? l : a);
 }
 
-void build_palettes(UBYTE *colourdata, int coloursize, UWORD *ctable4, ULONG *ctable8)
+void build_palettes(STRPTR colourdata, int coloursize, UWORD *ctable4, ULONG *ctable8)
 {
 	int a, b;
 	struct ColorRegister rgb;
@@ -2097,11 +1504,9 @@ void build_palettes(UBYTE *colourdata, int coloursize, UWORD *ctable4, ULONG *ct
 	if(ctable8)
 	{
 		for(a = 0, b = 1; a < coloursize; a++, b++)
-/*
-            ctable8[b]=(colourdata[a]<<24)|0x00ffffff;
-*/
+		{
 			ctable8[b] = ((colourdata[a] << 24) & 0xff000000) | ((colourdata[a] << 16) & 0x00ff0000) | ((colourdata[a] << 8) & 0x0000ff00) | ((colourdata[a] & 0x000000ff));
-
+		}
 		ctable8[0] = numcolours << 16;
 		ctable8[(numcolours * 3) + 1] = 0;
 	}

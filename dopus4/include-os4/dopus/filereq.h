@@ -41,29 +41,31 @@ the existing commercial status of Directory Opus 5.
 
 #define INTERRUPT 2000
 
-struct direntry {
-    struct direntry *last,*next;
-    int type,select;
-    char name[FILEBUF_SIZE];
-    char size[10];
+struct direntry
+{
+	struct direntry *last, *next;
+	int type, select;
+	char name[FILEBUF_SIZE];
+	char size[10];
 };
 
-struct FileReqData {
-    int *filetype;
-    struct Window *fr_Window;
-    struct FileInfoBlock *finfo;
-    struct direntry *firstfile,*firstdir;
-    struct DOpusRemember *filekey;
-    struct DOpusFileReq *freq;
-    int prevsec,prevmic;
-    int fileentries,fileoffset,oldfileoffset;
-    int version2,flags,fh,fw,fb,width,ww,sfh,sfw,sfy,fy;
-    struct PropInfo filenameprop;
-    struct Image filenameimage;
-    struct StringInfo filenamesinfo,drawernamesinfo;
-    struct Gadget reqgads[9];
-    struct IntuiText reqtext[6];
-    struct NewWindow reqwin;
+struct FileReqData
+{
+	int *filetype;
+	struct Window *fr_Window;
+	struct FileInfoBlock *finfo;
+	struct direntry *firstfile, *firstdir;
+	struct DOpusRemember *filekey;
+	struct DOpusFileReq *freq;
+	int prevsec, prevmic;
+	int fileentries, fileoffset, oldfileoffset;
+	int version2, flags, fh, fw, fb, width, ww, sfh, sfw, sfy, fy;
+	struct PropInfo filenameprop;
+	struct Image filenameimage;
+	struct StringInfo filenamesinfo, drawernamesinfo;
+	struct Gadget reqgads[9];
+	struct IntuiText reqtext[6];
+	struct NewWindow reqwin;
 };
 
 #define ERROR_CANCEL 0
@@ -76,4 +78,3 @@ struct FileReqData {
 #define DFRF_DIRREQ (1<<DFRB_DIRREQ)
 #define DFRF_MULTI  (1<<DFRB_MULTI)
 #define DFRF_SAVE   (1<<DFRB_SAVE)
-

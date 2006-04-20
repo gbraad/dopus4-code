@@ -89,7 +89,4 @@ typedef struct C_Range
 	UBYTE low, high;
 } CRange;
 
-
-//#include "pchg.h"
-
 #endif

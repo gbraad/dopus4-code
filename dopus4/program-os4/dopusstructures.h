@@ -123,7 +123,7 @@ struct DirectoryWindow
 
 struct RLEinfo
 {
-	unsigned char *sourceptr;
+	STRPTR sourceptr;
 	UBYTE **destplanes;
 	USHORT imagebpr, imageheight, imagedepth;
 	USHORT destbpr, destheight, destdepth;

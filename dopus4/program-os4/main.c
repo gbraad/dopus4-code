@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	struct WBStartup *WBmsg;
 	struct WBArg *p;
 	STRPTR *toolarray, s, startdir = NULL;
-	char buf[32];
+	char buf[1024];
 
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
 	main_proc = (struct Process *)IExec->FindTask(NULL);
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 			for(a = 1; a < WBmsg->sm_NumArgs; a++)
 			{
 				p = &(WBmsg->sm_ArgList[a]);
-				IDOS->NameFromLock(p->wa_Lock, buf, 32);
+				IDOS->NameFromLock(p->wa_Lock, buf, 1024);
 				startdir = buf;
 			}
 	}
@@ -408,8 +408,8 @@ int SetUp(int tit)
 		{
 			if(config->fontsizes[a] > 8)
 			{
-				strcpy(config->fontbufs[a], "Bitstream Vera Sans Mono.font");
-				config->fontsizes[a] = 16;
+				strcpy(config->fontbufs[a], "topaz.font");
+				config->fontsizes[a] = 8;
 			}
 		}
 	}
@@ -1159,9 +1159,9 @@ struct TextFont *getfont(STRPTR font, int *size, int noprop)
 	{
 		if(tf)
 			IGraphics->CloseFont(tf);
-		strcpy(font, "Bitstream Vera Sans Mono.font");
-		*size = 16;
-		sfont.ta_YSize = 16;
+		strcpy(font, "topaz.font");
+		*size = 8;
+		sfont.ta_YSize = 8;
 		tf = IDiskfont->OpenDiskFont(&sfont);
 	}
 	return (tf);
@@ -1318,7 +1318,6 @@ int get_data_file(STRPTR buf, STRPTR suff, int fb)
 {
 	char temp[40];
 
-//	sprintf(temp, "DO_%s.%s", config->language, suff);
 	IUtility->SNPrintf(temp, 40, "DO_%s.%s", config->language, suff);
 	if(!config->language[0] || !(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
 	{

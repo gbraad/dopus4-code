@@ -247,8 +247,6 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 	}
 	else
 	{
-//        StrCombine(buf,dest,".info",256);
-//        suc=copyfile(srce,buf,err,/*-1,*/NULL,0);
 		IDOS->SetIoErr(ERROR_OBJECT_NOT_FOUND);
 		suc = 0;
 	}
@@ -322,9 +320,9 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 	return (str_pathbuffer[win]);
 }
 
-int readfile(STRPTR name, STRPTR *buf, int *size)
+int readfile(STRPTR name, STRPTR *buf, uint32 *size)
 {
-	int in, retval /*loadpp */  = 0;
+	int in, retval  = 0;
 
 	if(IDOpus->CheckExist(name, size) >= 0 || !(in = IDOS->Open(name, MODE_OLDFILE)))
 		return (-1);
@@ -332,7 +330,7 @@ int readfile(STRPTR name, STRPTR *buf, int *size)
 	{
 		IDOS->Read(in, *buf, *size);
 
-		if(IxfdMaster) //OpenXFDlib())
+/*		if(IxfdMaster)
 		{
 			struct xfdBufferInfo *xfdbi;
 
@@ -340,14 +338,12 @@ int readfile(STRPTR name, STRPTR *buf, int *size)
 			{
 				xfdbi->xfdbi_SourceBuffer = *buf;
 				xfdbi->xfdbi_SourceBufLen = *size;
-				//xfdbi->xfdbi_Flags = XFDFB_RECOGEXTERN;
 				if(IxfdMaster->xfdRecogBuffer(xfdbi))
 				{
 					xfdbi->xfdbi_TargetBufMemType = MEMF_ANY;
 					if(IxfdMaster->xfdDecrunchBuffer(xfdbi))
 					{
 						IExec->FreeVec(xfdbi->xfdbi_SourceBuffer);
-//              *size = xfdbi->xfdbi_TargetBufLen;
 						*size = xfdbi->xfdbi_TargetBufSaveLen;
 						if((*buf = IExec->AllocVec(*size, MEMF_ANY)))
 							IExec->CopyMem(xfdbi->xfdbi_TargetBuffer, *buf, *size);
@@ -359,12 +355,13 @@ int readfile(STRPTR name, STRPTR *buf, int *size)
 				}
 				IxfdMaster->xfdFreeObject(xfdbi);
 			}
-		}
+		}*/
 	}
 	else
+	{
 		retval = -2;
+	}
 	IDOS->Close(in);
-//D(bug("readfile() ends\n");Delay(50);)
 	return (retval);
 }
 

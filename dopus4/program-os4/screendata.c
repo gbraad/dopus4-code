@@ -35,11 +35,13 @@ the existing commercial status of Directory Opus 5.
 
 /* TextAttr structures */
 
-struct TextAttr main_screen_attr = { NULL, 0, 0, 0 },	/* Main screen font */
+//struct TextAttr main_screen_attr = { NULL, 0, 0, 0 },	/* Main screen font */
+struct TextAttr main_screen_attr = { "Bitstream Vera Sans Mono", 16, 0, 0 },	/* Main screen font */
 
 	screen_attr = { NULL, 8, 0, 0 },		/* General screen font */
 
-	menu_attr = { NULL, 0, 0, 0 };			/* Menu font */
+//	menu_attr = { NULL, 0, 0, 0 };			/* Menu font */
+	menu_attr = { "Bitstream Vera Sans Mono", 16, 0, 0 };			/* Menu font */
 
 /* Screen tag lists */
 
@@ -59,7 +61,7 @@ struct TagItem mainscreen_tags[] =			/* Tags for the main screen */
 	{ TAG_DONE, 0 }
 }, stdscreen_tags[] =
 {				/* Tags for a standard HIRES screen */
-	{ SA_DisplayID, 0 }, //HIRES_KEY },
+	{ SA_DisplayID, HIRES_KEY },
 	{ SA_Pens, (ULONG) scr_drawinfo },
 	{ TAG_DONE, 0 }
 }, mainwindow_tags[] =

@@ -105,7 +105,7 @@ the existing commercial status of Directory Opus 5.
 #define UPDATE_LEFTJUSTIFY       16
 #define UPDATE_PROGRESSINDICATOR 32
 #define UPDATE_PROGRESSIND_COPY  64
-#define UPDATE_QUIETGETDIR      128 //HUX
+#define UPDATE_QUIETGETDIR      128	//HUX
 
 /* ScreenFlags */
 
@@ -214,6 +214,6 @@ the existing commercial status of Directory Opus 5.
 
 /* ListerDisplayFlags */
 
-#define SIZE_KMG 1 /* If not set use entries total bytes, otherwise K/M/G */
+#define SIZE_KMG 1		/* If not set use entries total bytes, otherwise K/M/G */
 
 #endif

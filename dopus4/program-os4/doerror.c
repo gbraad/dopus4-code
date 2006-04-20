@@ -29,52 +29,13 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-/*
-static short errcodes[36][2]={
-    {103,STR_NOT_ENOUGH_MEMORY},
-    {104,STR_PROCESS_TABLE_FULL},
-    {114,STR_BAD_TEMPLATE},
-    {115,STR_BAD_NUMBER},
-    {116,STR_REQUIRED_ARG_MISSING},
-    {117,STR_ARGUMENT_MISSING},
-    {118,STR_TOO_MANY_ARGUMENTS},
-    {119,STR_UNMATCHED_QUOTES},
-    {120,STR_ARG_LINE_TOO_LONG},
-    {121,STR_FILE_NOT_EXECUTABLE},
-    {122,STR_INVALID_LIBRARY},
-    {202,STR_OBJECT_IN_USE},
-    {203,STR_OBJECT_EXISTS},
-    {204,STR_DIR_NOT_FOUND},
-    {205,STR_OBJECT_NOT_FOUND},
-    {206,STR_INVALID_WINDOW},
-    {209,STR_UNKNOWN_PACKET},
-    {210,STR_OBJECT_NAME_INVALID},
-    {211,STR_INVALID_LOCK},
-    {212,STR_OBJECT_BAD_TYPE},
-    {213,STR_DISK_NOT_VALIDATED},
-    {214,STR_DISK_WRITE_PROTECTED},
-    {215,STR_RENAME_DEVICES_ATTEMPTED},
-    {216,STR_DIRECTORY_NOT_EMPTY},
-    {217,STR_TOO_MANY_LEVELS},
-    {218,STR_DEVICE_NOT_MOUNTED},
-    {219,STR_SEEK_ERROR},
-    {220,STR_COMMENT_TOO_LONG},
-    {221,STR_DISK_FULL},
-    {222,STR_OBJECT_DELETE_PROTECTED},
-    {223,STR_OBJECT_WRITE_PROTECTED},
-    {224,STR_OBJECT_READ_PROTECTED},
-    {225,STR_NOT_VALID_DOS_DISK},
-    {226,STR_DEVICE_NOT_MOUNTED},
-    {232,STR_NO_MORE_ENTRIES},
-    {233,STR_OBJECT_IS_SOFT_LINK}};
-*/
+
 int doerror(int err)
 {
 	char buf[80];
 
 	if(err == -1)
 		err = IDOS->IoErr();
-//    if (err && geterrorstring(buf,err)) {
 	if(err)
 	{
 		geterrorstring(buf, err);
@@ -87,18 +48,12 @@ int doerror(int err)
 
 void geterrorstring(char *buf, int err)
 {
-//    int a;
 	char buf2[80];
-//    for (a=0;a<36;a++) {
-//       if (errcodes[a][0]==err) {
+
 	IDOS->Fault(err, NULL, buf2, 80);
 	sprintf(buf, globstring[STR_DOS_ERROR_CODE], err);
 	strcat(buf, " - ");
-	strcat(buf, buf2 /*globstring[errcodes[a][1]] */ );
-//            return(1);
-//        }
-//   }
-//    return(0);
+	strcat(buf, buf2);
 }
 
 void dostatustext(char *text)
@@ -152,7 +107,6 @@ void dostatustext(char *text)
 		else
 		{
 			IIntuition->SetWindowTitles(Window, (char *)-1, str_last_statustext);
-//			if(IntuitionBase->ActiveScreen == MainScreen && IntuitionBase->ActiveWindow != Window)
 			if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveScreen == MainScreen && ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow != Window)
 				IIntuition->SetWindowTitles(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow, (char *)-1, str_last_statustext);
 			MainScreen->DefaultTitle = str_last_statustext;
@@ -227,7 +181,7 @@ void geterrorhelp(int st)
 		err = atoi(rexx_args[0]);
 	if(doerror(err))
 	{
-		sprintf(buf2, "!%ld", err);
+		sprintf(buf2, "!%d", err);
 		dohelp(buf2, NULL, 0, 0, globstring[STR_NO_HELP_FOR_ERROR]);
 	}
 	else
@@ -247,24 +201,18 @@ int checkerror(char *action, char *name, int err)
 	if(!(config->errorflags & ERROR_ENABLE_OPUS))
 		return ((skip) ? 2 : 3);
 
-//    if (geterrorstring(buf2,err))
 	geterrorstring(buf2, err);
 	sprintf(buf, globstring[STR_ERROR_OCCURED], action, name, buf2);
-/*
-    else {
-        lsprintf(buf,globstring[STR_ERROR_OCCURED],action,name,"");
-        erhelp=0;
-    }
-*/
-	FOREVER
+
+	for(;;)
 	{
-		a = simplerequest(buf, globstring[STR_TRY_AGAIN], /* 1 */ globstring[STR_ABORT], /* 0 */ (skip) ? globstring[STR_SKIP] : NULL, /* 2 */ (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, /* 2 or 3 */ NULL);
+		a = simplerequest(buf, globstring[STR_TRY_AGAIN], globstring[STR_ABORT], (skip) ? globstring[STR_SKIP] : NULL, (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, NULL);
 
 		if((skip && a == 3) || (!skip && a == 2))
 		{
 			char helpbuf[20];
 
-			sprintf(helpbuf, "!%ld", err);
+			sprintf(helpbuf, "!%d", err);
 			dohelp(helpbuf, NULL, 0, 0, globstring[STR_NO_HELP_FOR_ERROR]);
 			busy();
 		}

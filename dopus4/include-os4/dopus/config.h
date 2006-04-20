@@ -144,230 +144,241 @@ the existing commercial status of Directory Opus 5.
 
 #define MAX_DISPLAYLENGTH 4096
 
-struct olddopusgadget {
-    char name[10];
-    int which,stack;
-    unsigned char key,qual;
-    char type,pri,delay;
-    UBYTE fpen,bpen;
-    char pad[3];
-    char *function;
+struct olddopusgadget
+{
+	char name[10];
+	int which, stack;
+	unsigned char key, qual;
+	char type, pri, delay;
+	UBYTE fpen, bpen;
+	char pad[3];
+	char *function;
 };
 
-struct dopusfunction {
-    char name[16];
-    int which,stack;
-    unsigned char key,qual;
-    char type,pri,delay;
-    UBYTE fpen,bpen;
-    char pad;
-    char *function;
+struct dopusfunction
+{
+	char name[16];
+	int which, stack;
+	unsigned char key, qual;
+	char type, pri, delay;
+	UBYTE fpen, bpen;
+	char pad;
+	char *function;
 };
 
-struct newdopusfunction {
-    char *name;
-    int pad2[3];
-    int which,stack;
-    unsigned char key,qual;
-    char type,pri,delay;
-    UBYTE fpen,bpen;
-    char pad;
-    char *function;
+struct newdopusfunction
+{
+	char *name;
+	int pad2[3];
+	int which, stack;
+	unsigned char key, qual;
+	char type, pri, delay;
+	UBYTE fpen, bpen;
+	char pad;
+	char *function;
 };
 
-struct dopusdrive {
-    char name[10];
-    char path[33];
-    unsigned char key,qual;
-    UBYTE fpen,bpen;
-    char pad;
+struct dopusdrive
+{
+	char name[10];
+	char path[33];
+	unsigned char key, qual;
+	UBYTE fpen, bpen;
+	char pad;
 };
 
-struct olddopusfiletype {
-    struct dopusfiletype *next;
-    char type[40];
-    char filepat[60];
-    char recogchars[100];
-    char actionstring[4][60];
-    int which[4],stack[4];
-    char pri[4],delay[4];
-    char and;
-    char pad[3];
-    char *function[4];
+struct olddopusfiletype
+{
+	struct dopusfiletype *next;
+	char type[40];
+	char filepat[60];
+	char recogchars[100];
+	char actionstring[4][60];
+	int which[4], stack[4];
+	char pri[4], delay[4];
+	char and;
+	char pad[3];
+	char *function[4];
 };
 
-struct dopusfiletype {
-    struct dopusfiletype *next;
-    char type[32];
-    char typeid[8];
-    char actionstring[FILETYPE_FUNCNUM][40];
-    int which[FILETYPE_FUNCNUM],stack[FILETYPE_FUNCNUM];
-    char pri[FILETYPE_FUNCNUM],delay[FILETYPE_FUNCNUM];
-    unsigned char *recognition;
-    char *function[FILETYPE_FUNCNUM];
-    char *iconpath;
+struct dopusfiletype
+{
+	struct dopusfiletype *next;
+	char type[32];
+	char typeid[8];
+	char actionstring[FILETYPE_FUNCNUM][40];
+	int which[FILETYPE_FUNCNUM], stack[FILETYPE_FUNCNUM];
+	char pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
+	unsigned char *recognition;
+	char *function[FILETYPE_FUNCNUM];
+	char *iconpath;
 };
 
-struct wr_dopusfiletype {
-    struct dopusfiletype *next;
-    char type[40];
-    char actionstring[FILETYPE_FUNCNUM][40];
-    int which[FILETYPE_FUNCNUM],stack[FILETYPE_FUNCNUM];
-    char pri[FILETYPE_FUNCNUM],delay[FILETYPE_FUNCNUM];
+struct wr_dopusfiletype
+{
+	struct dopusfiletype *next;
+	char type[40];
+	char actionstring[FILETYPE_FUNCNUM][40];
+	int which[FILETYPE_FUNCNUM], stack[FILETYPE_FUNCNUM];
+	char pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
 };
 
-struct dopusgadgetbanks {
-    struct newdopusfunction gadgets[GADCOUNT];
-    struct dopusgadgetbanks *next;
+struct dopusgadgetbanks
+{
+	struct newdopusfunction gadgets[GADCOUNT];
+	struct dopusgadgetbanks *next;
 };
 
-struct dopushotkey {
-    struct dopushotkey *next;
-    UWORD code,qualifier;
-    char name[40];
-    struct dopusfunction func;
+struct dopushotkey
+{
+	struct dopushotkey *next;
+	UWORD code, qualifier;
+	char name[40];
+	struct dopusfunction func;
 };
 
-struct Config {
-    USHORT version;
-    USHORT magic;
+struct Config
+{
+	USHORT version;
+	USHORT magic;
 
-    UBYTE copyflags;
-    UBYTE deleteflags;
-    UBYTE errorflags;
-    UBYTE generalflags;
-    UBYTE iconflags;
-    UBYTE existflags;
-    UBYTE sepflags;
-    UBYTE sortflags;
-    UBYTE dynamicflags; // JRZ
-    char sortmethod[2];
+	UBYTE copyflags;
+	UBYTE deleteflags;
+	UBYTE errorflags;
+	UBYTE generalflags;
+	UBYTE iconflags;
+	UBYTE existflags;
+	UBYTE sepflags;
+	UBYTE sortflags;
+	UBYTE dynamicflags;
+	char sortmethod[2];
 
-    UBYTE hotkeyflags;
+	UBYTE hotkeyflags;
 
-    char menutit[5][16];
-    struct newdopusfunction menu[MENUCOUNT];
+	char menutit[5][16];
+	struct newdopusfunction menu[MENUCOUNT];
 
-    struct dopusfunction drive[DRIVECOUNT];
+	struct dopusfunction drive[DRIVECOUNT];
 
-    char outputcmd[80],output[80];
-    int gadgetrows;
+	char outputcmd[80], output[80];
+	int gadgetrows;
 
-    char separatemethod[2];
+	char separatemethod[2];
 
-    char language[30];
+	char language[30];
 
-    char displaypos[2][16];
-    UBYTE old_displaylength[2][16];
+	char displaypos[2][16];
+	UBYTE old_displaylength[2][16];
 
-    char pubscreen_name[80];
+	char pubscreen_name[80];
 
-    USHORT Palette[16];
-    UBYTE gadgettopcol,gadgetbotcol;
-    UBYTE statusfg,statusbg;
-    UBYTE filesfg,filesbg,filesselfg,filesselbg;
-    UBYTE dirsfg,dirsbg,dirsselfg,dirsselbg;
-    UBYTE clockfg,clockbg;
-    UBYTE requestfg,requestbg;
-    UBYTE disknamefg,disknamebg,disknameselfg,disknameselbg;
-    UBYTE slidercol,arrowfg,arrowbg,littlegadfg,littlegadbg;
+	USHORT Palette[16];
+	UBYTE gadgettopcol, gadgetbotcol;
+	UBYTE statusfg, statusbg;
+	UBYTE filesfg, filesbg, filesselfg, filesselbg;
+	UBYTE dirsfg, dirsbg, dirsselfg, dirsselbg;
+	UBYTE clockfg, clockbg;
+	UBYTE requestfg, requestbg;
+	UBYTE disknamefg, disknamebg, disknameselfg, disknameselbg;
+	UBYTE slidercol, arrowfg, arrowbg, littlegadfg, littlegadbg;
 
-    char pad3;
+	char pad3;
 
-    char scrdepth;
-    UBYTE screenflags;
-    int screenmode;
-    int scrw,scrh;
-    char pad3a[40];
-    char arrowpos[3];
+	char scrdepth;
+	UBYTE screenflags;
+	int screenmode;
+	int scrw, scrh;
+	char pad3a[40];
+	char arrowpos[3];
 
-    char pad4; //HUX - now unused
+	char pad4;
 
-    char startupscript[80];
-    UBYTE dirflags;
-    unsigned char bufcount;
+	char startupscript[80];
+	UBYTE dirflags;
+	unsigned char bufcount;
 
-    UBYTE listerdisplayflags[2]; //HUX - was char pad5[2]
+	UBYTE listerdisplayflags[2];
 
-    char autodirs[2][70]; // JRZ - was: 30
-//    char pad5a[80];     // JRZ - assigned to autodirs
-    UWORD hotkeycode,hotkeyqual;
+	char autodirs[2][70];
 
-    char toolicon[80],projecticon[80],drawericon[80],defaulttool[80];
-    char priority;
-    unsigned char showdelay,viewbits,fadetime,tabsize; // JRZ
+	UWORD hotkeycode, hotkeyqual;
 
-    char pad7[2];
+	char toolicon[80], projecticon[80], drawericon[80], defaulttool[80];
+	char priority;
+	unsigned char showdelay, viewbits, fadetime, tabsize;
 
-    char hiddenbit;
-    char showpat[40],hidepat[40];
-    char showpatparsed[40],hidepatparsed[40];
-    char icontype,scrclktype,showfree;
+	char pad7[2];
 
-    char pad8;
+	char hiddenbit;
+	char showpat[40], hidepat[40];
+	char showpatparsed[40], hidepatparsed[40];
+	char icontype, scrclktype, showfree;
 
-    short iconx,icony;
-    short wbwinx,wbwiny;
+	char pad8;
 
-    char configreturnscript[80];
+	short iconx, icony;
+	short wbwinx, wbwiny;
 
-    char fontsizes[NUMFONTS];
-    char fontbufs[NUMFONTS][40];
+	char configreturnscript[80];
 
-    char uniconscript[80];
-    UBYTE sliderbgcol;
+	char fontsizes[NUMFONTS];
+	char fontbufs[NUMFONTS][40];
 
-    char pad_foo;
+	char uniconscript[80];
+	UBYTE sliderbgcol;
 
-    short scr_winx,scr_winy;
-    short scr_winw,scr_winh;
+	char pad_foo;
 
-        short viewtext_topleftx, viewtext_toplefty; //HUX
-        short viewtext_width, viewtext_height; //HUX
-    char morepadding[223]; //HUX was 231
+	short scr_winx, scr_winy;
+	short scr_winw, scr_winh;
 
-    char old_displaypos[2][8];
-    char dateformat,addiconflags;
-    UBYTE stringfgcol,stringbgcol;
-    char namelength[2];
-    char sliderwidth,sliderheight;
-    UBYTE formatflags;
-    short iconbutx,iconbuty;
-    char stringheight;
-    UBYTE stringselfgcol,stringselbgcol;
-    UBYTE generalscreenflags;
+	short viewtext_topleftx, viewtext_toplefty;
+	short viewtext_width, viewtext_height;
+	char morepadding[223];
 
-    struct Rectangle scrollborders[2];
+	char old_displaypos[2][8];
+	char dateformat, addiconflags;
+	UBYTE stringfgcol, stringbgcol;
+	char namelength[2];
+	char sliderwidth, sliderheight;
+	UBYTE formatflags;
+	short iconbutx, iconbuty;
+	char stringheight;
+	UBYTE stringselfgcol, stringselbgcol;
+	UBYTE generalscreenflags;
 
-    char old2_displaylength[2][8];
+	struct Rectangle scrollborders[2];
 
-    char shellstartup[30];
+	char old2_displaylength[2][8];
 
-    WORD windowdelta;
+	char shellstartup[30];
 
-    UWORD displaylength[2][16]; // JRZ
-    char pad9a[396-64];         // 64 bytes assigned to displaylength
+	WORD windowdelta;
 
-    int loadexternal;
+	UWORD displaylength[2][16];
+	char pad9a[396 - 64];
 
-    ULONG new_palette[48];
+	int loadexternal;
 
-    char arrowsize[3];
+	ULONG new_palette[48];
 
-    char slider_pos;
+	char arrowsize[3];
 
-    short config_x;
-    short config_y;
+	char slider_pos;
 
-    char pad10[1414];
+	short config_x;
+	short config_y;
+
+	char pad10[1414];
 };
 
-struct ConfigStuff {
-    struct Config *config;
-    struct DOpusRemember *typekey;
-    struct dopusfiletype *firsttype;
-    struct dopusgadgetbanks *firstbank,*curbank;
-    struct dopushotkey *firsthotkey;
+struct ConfigStuff
+{
+	struct Config *config;
+	struct DOpusRemember *typekey;
+	struct dopusfiletype *firsttype;
+	struct dopusgadgetbanks *firstbank, *curbank;
+	struct dopushotkey *firsthotkey;
 };
 
 #define MODE_WORKBENCHUSE    1
