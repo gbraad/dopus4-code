@@ -42,11 +42,13 @@ the existing commercial status of Directory Opus 5.
 #include <devices/input.h>
 #include <workbench/startup.h>
 
+#include "DOpusRT_rev.h"
+
 void WBRun(int, char **);
 int setarg(struct WBArg *, char *, BPTR);
 BPTR CloneCommandDir(const char *);
 
-static const char version[] __attribute__ ((used)) = "\0$VER: DOpusRT 4.8 (" __DATE__ ")";
+static const char version[] __attribute__ ((used)) = VERSTAG;
 
 static const char *pathlists[7] =
 {
