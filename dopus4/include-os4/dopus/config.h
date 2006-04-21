@@ -286,7 +286,8 @@ struct Config
 
 	char scrdepth;
 	UBYTE screenflags;
-	int screenmode;
+//	int screenmode;
+	uint32 screenmode;
 	int scrw, scrh;
 	char pad3a[40];
 	char arrowpos[3];
@@ -295,7 +296,8 @@ struct Config
 
 	char startupscript[80];
 	UBYTE dirflags;
-	unsigned char bufcount;
+//	unsigned char bufcount;
+	UBYTE bufcount;
 
 	UBYTE listerdisplayflags[2];
 

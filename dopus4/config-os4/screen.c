@@ -777,7 +777,7 @@ void makescreenedit(int mode)
 					if(screenmode->mode == MODE_PUBLICSCREENUSE)
 					{
 						IUtility->SNPrintf(buf, 256, "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
-						if(IDOpus->LStrCmpI(buf, screenmode->name) == 0)
+						if(IUtility->Stricmp(buf, screenmode->name) == 0)
 							screenmodeview.itemselected = b;
 					}
 					else
@@ -785,7 +785,7 @@ void makescreenedit(int mode)
 						screenmodeview.itemselected = b;
 					}
 				}
-				if(!(screenmode = screenmode->next))
+				if((screenmode = screenmode->next) == NULL)
 					break;
 			}
 		}
