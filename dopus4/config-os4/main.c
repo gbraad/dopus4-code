@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 	if(!cmdport && !(config = (struct Config *)IExec->AllocMem(sizeof(struct Config), MEMF_CLEAR)))
 		quit();
 	getconfig();
-	strcpy(oldconfigname, configname);
+	IUtility->Strlcpy(oldconfigname, configname, 256);
 
 	appport = IExec->CreatePort(NULL, 0);
 
@@ -311,8 +311,8 @@ void getconfig()
 		typekey = cfg->typekey;
 		changed = cfg->changed;
 		strcpy(configname, cfg->configname);
-		IDOpus->StrConcat(configname, ".CFG", 256);
-		strcpy(loadnamebuf, configname);
+		IUtility->Strlcat(configname, ".CFG", 256);
+		IUtility->Strlcpy(loadnamebuf, configname, 256);
 		Screen = cfg->Screen;
 	}
 	else
@@ -1083,11 +1083,11 @@ void copyfiletypes(struct dopusfiletype *oldfirst, struct dopusfiletype **newfir
 	*newfirst = NULL;
 	while(type)
 	{
-		if(newtype = (struct dopusfiletype *)getcopy((char *)type, sizeof(struct dopusfiletype), key))
+		if((newtype = (struct dopusfiletype *)getcopy((char *)type, sizeof(struct dopusfiletype), key)))
 		{
 			for(a = 0; a < FILETYPE_FUNCNUM; a++)
 				newtype->function[a] = getcopy(type->function[a], -1, key);
-			newtype->recognition = getcopy(type->recognition, -1, key);
+			newtype->recognition = (UBYTE *)getcopy((char *)type->recognition, -1, key);
 			newtype->iconpath = getcopy(type->iconpath, -1, key);
 			if(curtype)
 				curtype->next = newtype;
@@ -1134,7 +1134,7 @@ void doundo(struct ConfigUndo *undo, int type)
 			curbank = NULL;
 			while(bank)
 			{
-				if(newbank = (struct dopusgadgetbanks *)getcopy((char *)bank, sizeof(struct dopusgadgetbanks), NULL))
+				if((newbank = (struct dopusgadgetbanks *)getcopy((char *)bank, sizeof(struct dopusgadgetbanks), NULL)))
 				{
 					newbank->next = NULL;
 					copygadgets(bank, newbank, NULL);
@@ -1185,7 +1185,7 @@ void doundo(struct ConfigUndo *undo, int type)
 			hotkey = undo->firsthotkey;
 			while(hotkey)
 			{
-				if(newhotkey = (struct dopushotkey *)getcopy((char *)hotkey, sizeof(struct dopushotkey), NULL))
+				if((newhotkey = (struct dopushotkey *)getcopy((char *)hotkey, sizeof(struct dopushotkey), NULL)))
 				{
 					newhotkey->func.function = getcopy(hotkey->func.function, -1, NULL);
 					newhotkey->next = NULL;
@@ -1363,7 +1363,7 @@ void doglassimage(struct Gadget *gad)
 	IGraphics->SetAPen(rp, screen_pens[config->gadgetbotcol].pen);
 	for(a = 0; a < 2; a++)
 	{
-		IGraphics->BltTemplate((char *)glass_data[a], 0, 4, rp, gad->LeftEdge + 4, gad->TopEdge + 2, 20, 9);
+		IGraphics->BltTemplate((UBYTE *)glass_data[a], 0, 4, rp, gad->LeftEdge + 4, gad->TopEdge + 2, 20, 9);
 		IGraphics->SetAPen(rp, screen_pens[config->gadgettopcol].pen);
 	}
 	IGraphics->SetDrMd(rp, JAM2);
@@ -1392,7 +1392,7 @@ struct IntuiMessage *getintuimsg()
 	int a;
 	char buf[10], c;
 
-	if(msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort))
+	if((msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
 	{
 		if(msg->Class == IDCMP_RAWKEY)
 		{
@@ -1501,7 +1501,7 @@ void loadrgb4(struct Screen *scr, USHORT *pal, int num)
 	int a, b;
 	ULONG *data;
 
-	if(data = IExec->AllocMem(num * 3 * sizeof(ULONG), 0))
+	if((data = IExec->AllocMem(num * 3 * sizeof(ULONG), 0)))
 	{
 		for(a = 0, b = 0; a < num; a++)
 		{
@@ -1528,7 +1528,7 @@ void load_palette(struct Screen *screen, uint32 *palette, int numcols)
 	{
 		uint32 *backup_palette;
 
-		if(backup_palette = IExec->AllocMem(((numcols * 3) + 2) * sizeof(ULONG), MEMF_CLEAR))
+		if((backup_palette = IExec->AllocMem(((numcols * 3) + 2) * sizeof(ULONG), MEMF_CLEAR)))
 		{
 			IExec->CopyMem((char *)palette, (char *)&backup_palette[1], (numcols * 3) * sizeof(ULONG));
 			backup_palette[0] = numcols << 16;
@@ -1575,7 +1575,7 @@ void open_screen()
 			struct List *psl;
 			struct PubScreenNode *psn;
 
-			if(psl = IIntuition->LockPubScreenList())
+			if((psl = IIntuition->LockPubScreenList()))
 			{
 				for(psn = (struct PubScreenNode *)psl->lh_Head; psn->psn_Node.ln_Succ; psn = (struct PubScreenNode *)psn->psn_Node.ln_Succ)
 				{
@@ -1588,7 +1588,7 @@ void open_screen()
 				IIntuition->UnlockPubScreenList();
 			}
 		}
-		if(wbscreen = IIntuition->LockPubScreen(psname))
+		if((wbscreen = IIntuition->LockPubScreen(psname)))
 		{
 			if(wbscreen->Height > wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189)
 			{
@@ -1728,7 +1728,7 @@ unsigned char getkeyshortcut(const char *str)
 {
 	char *c;
 
-	if(c = strchr(str, '_'))
+	if((c = strchr(str, '_')))
 		return IUtility->ToLower(c[1]);
 	else
 		return 0;

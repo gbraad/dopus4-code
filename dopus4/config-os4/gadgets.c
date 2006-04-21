@@ -30,7 +30,8 @@ the existing commercial status of Directory Opus 5.
 
 #include "config.h"
 
-char *mainmenugads[14], *listviewgads[3], *listviewgads2[4], *operationgads[14], *systemgads[14], *gadgetgads[11], *gadflaglist[17], *functypelist[14], ftype_funcmap[] = {
+char *mainmenugads[14], *listviewgads[3], *listviewgads2[4], *operationgads[14], *systemgads[14], *gadgetgads[11], *gadflaglist[17], *functypelist[14], ftype_funcmap[] =
+{
 	FTFUNC_CLICKMCLICK,
 	FTFUNC_DOUBLECLICK,
 	FTFUNC_MMBCLICK,
@@ -44,11 +45,10 @@ char *mainmenugads[14], *listviewgads[3], *listviewgads2[4], *operationgads[14],
 	FTFUNC_AUTOFUNC2,
 	FTFUNC_AUTOFUNC3,
 	FTFUNC_AUTOFUNC4
-}, *functypestr[6], *editfuncgads[6], *editfuncgads2[16], *editclassgads[10], *menugadgets[11], *drivegadgets[11], *drivegadgets2[5], *hotkeysgadgets[11], *screengadgets[14], *palettegadgets[7], *coloursgadgets[16], *screenmodegadgets[7], *formatgadgets[11],	//JRZ: was 10
+}, *functypestr[6], *editfuncgads[6], *editfuncgads2[16], *editclassgads[10], *menugadgets[11], *drivegadgets[11], *drivegadgets2[5], *hotkeysgadgets[11], *screengadgets[14], *palettegadgets[7], *coloursgadgets[16], *screenmodegadgets[7], *formatgadgets[11], *hotkeygadgets[3], *arrowgadtxt[4], *arrowtypetxt[3], *filetypeactiongadgets[11];
 
-	*hotkeygadgets[3], *arrowgadtxt[4], *arrowtypetxt[3], *filetypeactiongadgets[11];
-
-struct ConfigGadget op_copygadgets[] = {
+struct ConfigGadget op_copygadgets[] =
+{
 	{CTYPE_MOVE, 0, -1, 20},
 	{CTYPE_TEXT, 0, STR_OP_COPY_WHENCOPYING, 169, 30},
 	{CTYPE_GAD, 0, STR_OP_COPY_CHECKDEST, 196, 36, -1, -1, COPY_CHECK, 0},
@@ -56,468 +56,249 @@ struct ConfigGadget op_copygadgets[] = {
 	{CTYPE_TEXT, 0, STR_OP_COPY_ALSOCOPY, 169, 77},
 	{CTYPE_GAD, 0, STR_OP_COPY_DATESTAMP, 247, 82, -1, -1, COPY_DATE, 0},
 	{CTYPE_GAD, 0, STR_OP_COPY_BITS, 247, 95, -1, -1, COPY_PROT, 0},
-	{CTYPE_GAD, 0, STR_OP_COPY_COPYARCHIVE, 283, 108, -1, -1,
-	 COPY_COPYARC, 0},
+	{CTYPE_GAD, 0, STR_OP_COPY_COPYARCHIVE, 283, 108, -1, -1, COPY_COPYARC, 0},
 	{CTYPE_GAD, 0, STR_OP_COPY_COMMENT, 247, 121, -1, -1, COPY_NOTE, 0},
 	{CTYPE_TEXT, 0, STR_OP_COPY_IFFILEEXISTS, 169, 147},
-	{CTYPE_RAD, 1, STR_OP_COPY_ALWAYSREPLACE, 249, 152, -1, -1,
-	 REPLACE_ALWAYS, 15},
-	{CTYPE_RAD, 1, STR_OP_COPY_NEVERREPLACE, 249, 162, -1, -1,
-	 REPLACE_NEVER, 15},
-	{CTYPE_RAD, 1, STR_OP_COPY_ONLYOLDER, 249, 172, -1, -1, REPLACE_OLDER,
-	 15},
-	{CTYPE_RAD, 1, STR_OP_COPY_ASKBEFORE, 249, 182, -1, -1, REPLACE_ASK,
-	 15},
+	{CTYPE_RAD, 1, STR_OP_COPY_ALWAYSREPLACE, 249, 152, -1, -1, REPLACE_ALWAYS, 15},
+	{CTYPE_RAD, 1, STR_OP_COPY_NEVERREPLACE, 249, 162, -1, -1, REPLACE_NEVER, 15},
+	{CTYPE_RAD, 1, STR_OP_COPY_ONLYOLDER, 249, 172, -1, -1, REPLACE_OLDER, 15},
+	{CTYPE_RAD, 1, STR_OP_COPY_ASKBEFORE, 249, 182, -1, -1, REPLACE_ASK, 15},
 	{0, 0, -1}
 }, op_dategadgets[] =
-
 {
-	{
-	CTYPE_TEXT, 0, STR_OP_DATE_DATEFORMAT, 169, 55},
-	{
-	CTYPE_RAD, 0, STR_OP_DATE_DDMMMYY, 249, 61, -1, -1, 1, 15},
-	{
-	CTYPE_RAD, 0, STR_OP_DATE_YYMMDD, 249, 71, -1, -1, 2, 15},
-	{
-	CTYPE_RAD, 0, STR_OP_DATE_MMDDYY, 249, 81, -1, -1, 4, 15},
-	{
-	CTYPE_RAD, 0, STR_OP_DATE_DDMMYY, 249, 91, -1, -1, 8, 15},
-	{
-	CTYPE_TEXT, 0, STR_MISC_FLAGS, 169, 119},
-	{
-	CTYPE_GAD, 0, STR_OP_DATE_NAMESUB, 247, 126, -1, -1, 16, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_DATE_12HOUR, 247, 139, -1, -1, 32, 0},
-	{
-0, 0, -1}}, op_deletegadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_OP_DATE_DATEFORMAT, 169, 55},
+	{ CTYPE_RAD, 0, STR_OP_DATE_DDMMMYY, 249, 61, -1, -1, 1, 15},
+	{ CTYPE_RAD, 0, STR_OP_DATE_YYMMDD, 249, 71, -1, -1, 2, 15},
+	{ CTYPE_RAD, 0, STR_OP_DATE_MMDDYY, 249, 81, -1, -1, 4, 15},
+	{ CTYPE_RAD, 0, STR_OP_DATE_DDMMYY, 249, 91, -1, -1, 8, 15},
+	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, 169, 119},
+	{ CTYPE_GAD, 0, STR_OP_DATE_NAMESUB, 247, 126, -1, -1, 16, 0},
+	{ CTYPE_GAD, 0, STR_OP_DATE_12HOUR, 247, 139, -1, -1, 32, 0},
+	{ 0, 0, -1 }
+}, op_deletegadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_OP_DEL_ASKBEFORE, 169, 55},
-	{
-	CTYPE_GAD, 0, STR_OP_DEL_COMMENCING, 247, 61, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_DEL_DELETEFILES, 247, 74, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_DEL_DELETEDIRS, 247, 87, -1, -1, 4, 0},
-	{
-	CTYPE_TEXT, 0, STR_MISC_FLAGS, 169, 119},
-	{
-	CTYPE_GAD, 0, STR_OP_DEL_IGNOREPROT, 247, 126, -1, -1, 8, 0},
-	{
-0, 0, -1}}, op_errorgadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_OP_DEL_ASKBEFORE, 169, 55},
+	{ CTYPE_GAD, 0, STR_OP_DEL_COMMENCING, 247, 61, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_OP_DEL_DELETEFILES, 247, 74, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_OP_DEL_DELETEDIRS, 247, 87, -1, -1, 4, 0},
+	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, 169, 119},
+	{ CTYPE_GAD, 0, STR_OP_DEL_IGNOREPROT, 247, 126, -1, -1, 8, 0},
+	{ 0, 0, -1 }
+}, op_errorgadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_OP_ERROR_ENABLE, 169, 81},
-	{
-	CTYPE_GAD, 0, STR_OP_ERROR_DOSREQ, 247, 87, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_ERROR_OPUSREQ, 247, 100, -1, -1, 2, 0},
-	{
-0, 0, -1}}, op_generalgadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_OP_ERROR_ENABLE, 169, 81},
+	{ CTYPE_GAD, 0, STR_OP_ERROR_DOSREQ, 247, 87, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_OP_ERROR_OPUSREQ, 247, 100, -1, -1, 2, 0},
+	{ 0, 0, -1 }
+}, op_generalgadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_MISC_FLAGS, -1, -1},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_DRAG, 247, -1, -1, -1, GENERAL_DRAG, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_DISPLAYINFO, 247, -1, -1, -1, GENERAL_DISPLAYINFO, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_DOUBLECLICK, 247, -1, -1, -1, GENERAL_DOUBLECLICK, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_SLIDERACTIVE, 247, -1, -1, -1, GENERAL_ACTIVATE, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_FMPARENTMODE, 247, -1, -1, -1, GENERAL_FMPARENT, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_FORCEQUIT, 247, -1, -1, -1, GENERAL_FORCEQUIT, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_GENERAL_MMBSELECTS, 247, -1, -1, -1, GENERAL_MMBSELECTS, 0},
-	{
-0, 0, -1}}, op_icongadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, -1, -1},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_DRAG, 247, -1, -1, -1, GENERAL_DRAG, 0},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_DISPLAYINFO, 247, -1, -1, -1, GENERAL_DISPLAYINFO, 0},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_DOUBLECLICK, 247, -1, -1, -1, GENERAL_DOUBLECLICK, 0},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_SLIDERACTIVE, 247, -1, -1, -1, GENERAL_ACTIVATE, 0},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_FMPARENTMODE, 247, -1, -1, -1, GENERAL_FMPARENT, 0},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_FORCEQUIT, 247, -1, -1, -1, GENERAL_FORCEQUIT, 0},
+	{ CTYPE_GAD, 0, STR_OP_GENERAL_MMBSELECTS, 247, -1, -1, -1, GENERAL_MMBSELECTS, 0},
+	{ 0, 0, -1 }
+}, op_icongadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_MISC_FLAGS, 169, 83},
-	{
-	CTYPE_GAD, 0, STR_OP_ICON_CREATEWITHDIR, 247, 90, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_ICON_DOUNTOICONS, 247, 103, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_ICON_SELECTAUTO, 247, 116, -1, -1, 4, 0},
-	{
-0, 0, -1}}, op_updategadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, 169, 83},
+	{ CTYPE_GAD, 0, STR_OP_ICON_CREATEWITHDIR, 247, 90, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_OP_ICON_DOUNTOICONS, 247, 103, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_OP_ICON_SELECTAUTO, 247, 116, -1, -1, 4, 0},
+	{ 0, 0, -1 }
+}, op_updategadgets[] =
 {
-	{
-	CTYPE_TEXT, 1, STR_OP_UPDATE_PROGRESS, -1, 28 /* HUX: was 38 */ },
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_PROGRESSIND, 237, -1, -1, -1, 32, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_PROGRESSIND_COPY, 237, -1, -1, -1, 64, 0},
-	{
-	CTYPE_TEXT, 0, -1, -1, -1},
-	{
-	CTYPE_TEXT, 0, STR_OP_UPDATE_WHENPROCESSING, -1, -1},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_LEFTJUSTIFY, 237, -1, -1, -1, 16, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_SCROLLTOFOLLOW, 237, -1, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_UPDATEFREE, 237, -1, -1, -1, 1, 0},
-	{
-	CTYPE_TEXT, 0, -1, -1, -1},
-	{
-	CTYPE_TEXT, 0, STR_MISC_FLAGS, -1, -1},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_STARTNOTIFY, 237, -1, -1, -1, 8, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_REDRAWMORE, 237, -1, -1, -1, 4, 0},
-	{
-	CTYPE_GAD, 0, STR_OP_UPDATE_QUIETGETDIR, 237, -1, -1, -1, 128, 0},	// HUX
-	{
-0, 0, -1}}, *operationgadgets[8] =
-
+	{ CTYPE_TEXT, 1, STR_OP_UPDATE_PROGRESS, -1, 28},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_PROGRESSIND, 237, -1, -1, -1, 32, 0},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_PROGRESSIND_COPY, 237, -1, -1, -1, 64, 0},
+	{ CTYPE_TEXT, 0, -1, -1, -1},
+	{ CTYPE_TEXT, 0, STR_OP_UPDATE_WHENPROCESSING, -1, -1},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_LEFTJUSTIFY, 237, -1, -1, -1, 16, 0},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_SCROLLTOFOLLOW, 237, -1, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_UPDATEFREE, 237, -1, -1, -1, 1, 0},
+	{ CTYPE_TEXT, 0, -1, -1, -1},
+	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, -1, -1},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_STARTNOTIFY, 237, -1, -1, -1, 8, 0},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_REDRAWMORE, 237, -1, -1, -1, 4, 0},
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_QUIETGETDIR, 237, -1, -1, -1, 128, 0},	// HUX
+	{ 0, 0, -1 }
+}, *operationgadgets[8] =
+{ op_copygadgets, op_dategadgets, op_deletegadgets, op_errorgadgets, op_generalgadgets, op_icongadgets, NULL, op_updategadgets}, sys_amigadosgadgets[] =
 {
-op_copygadgets, op_dategadgets, op_deletegadgets, op_errorgadgets, op_generalgadgets, op_icongadgets, NULL, op_updategadgets}, sys_amigadosgadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_SYS_AMIGADOS_TITLE, 169, 75},
+	{ CTYPE_STR, 0, -1, 284, 84, -1, -1, 4, 80},
+	{ CTYPE_REQ, 0, STR_SYS_AMIGADOS_SHELL, 248, 81, -1, -1, 0, 0, "C:"},
+	{ CTYPE_STR, 0, STR_SYS_AMIGADOS_CONSOLE, 252, 99, -1, -1, 0, 80},
+	{ CTYPE_STR, 0, -1, 284, 114, -1, -1, 4, 30},
+	{ CTYPE_REQ, 0, STR_SYS_AMIGADOS_STARTUP, 248, 111, -1, -1, 0, 0, "S:"},
+	{ CTYPE_STR, 0, STR_SYS_AMIGADOS_PRIORITY, 252, 129, 80, -1, 1, 3},
+	{ 0, 0, -1 }
+}, sys_clockgadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_SYS_AMIGADOS_TITLE, 169, 75},
-	{
-	CTYPE_STR, 0, -1, 284, 84, -1, -1, 4, 80},
-	{
-	CTYPE_REQ, 0, STR_SYS_AMIGADOS_SHELL, 248, 81, -1, -1, 0, 0, "C:"},
-	{
-	CTYPE_STR, 0, STR_SYS_AMIGADOS_CONSOLE, 252, 99, -1, -1, 0, 80},
-	{
-	CTYPE_STR, 0, -1, 284, 114, -1, -1, 4, 30},
-	{
-	CTYPE_REQ, 0, STR_SYS_AMIGADOS_STARTUP, 248, 111, -1, -1, 0, 0, "S:"},
-	{
-	CTYPE_STR, 0, STR_SYS_AMIGADOS_PRIORITY, 252, 129, 80, -1, 1, 3},
-	{
-0, 0, -1}}, sys_clockgadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_TITLE, 169, 26},
+	{ CTYPE_GAD, 0, STR_SYS_CLOCK_MEMORY, 227, 32, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_SYS_CLOCK_CPUMONITOR, 227, 44, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_SYS_CLOCK_DATE, 227, 56, -1, -1, 4, 0},
+	{ CTYPE_GAD, 0, STR_SYS_CLOCK_TIME, 227, 68, -1, -1, 8, 0},
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 423, 26},
+	{ CTYPE_RAD, 0, STR_SYS_CLOCK_BYTES, 435, 31, -1, -1, 64, 64},
+	{ CTYPE_MRAD, 0, STR_SYS_CLOCK_KILOBYTES_FREE, 435, 41, -1, -1, 512, 576},
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_TEXTFORMAT, 423, 65},
+	{ CTYPE_MRAD, 0, STR_SYS_CLOCK_CHIPANDFAST, 435, 70, -1, -1, 1024, 1152},
+	{ CTYPE_RAD, 0, STR_SYS_CLOCK_CANDF, 435, 80, -1, -1, 128, 128},
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_WHENICONIFIED, 169, 105},
+	{ CTYPE_MRAD, 1, STR_SYS_CLOCK_WINDOW, 227, 110, -1, -1, 256, 304},
+	{ CTYPE_GAD, 1, STR_SYS_CLOCK_MEMORY, 256, 122, -1, -1, 1, 0},
+	{ CTYPE_GAD, 1, STR_SYS_CLOCK_CPUMONITOR, 256, 134, -1, -1, 2, 0},
+	{ CTYPE_GAD, 1, STR_SYS_CLOCK_DATE, 256, 146, -1, -1, 4, 0},
+	{ CTYPE_GAD, 1, STR_SYS_CLOCK_TIME, 256, 158, -1, -1, 8, 0},
+	{ CTYPE_RAD, 1, STR_SYS_CLOCK_NOWINDOW, 227, 172, -1, -1, 16, 48},
+	{ CTYPE_RAD, 1, STR_SYS_CLOCK_APPICON, 227, 182, -1, -1, 32, 48},
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 423, 116},
+	{ CTYPE_RAD, 1, STR_SYS_CLOCK_BYTES, 435, 121, -1, -1, 64, 64},
+	{ CTYPE_MRAD, 1, STR_SYS_CLOCK_KILOBYTES_FREE, 435, 131, -1, -1, 512, 576},
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_TEXTFORMAT, 423, 155},
+	{ CTYPE_MRAD, 1, STR_SYS_CLOCK_CHIPANDFAST, 435, 160, -1, -1, 1024, 1152},
+	{ CTYPE_RAD, 1, STR_SYS_CLOCK_CANDF, 435, 170, -1, -1, 128, 128},
+	{ 0, 0, -1 }
+}, sys_directorygadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_TITLE, 169, 26},
-	{
-	CTYPE_GAD, 0, STR_SYS_CLOCK_MEMORY, 227, 32, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_CLOCK_CPUMONITOR, 227, 44, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_CLOCK_DATE, 227, 56, -1, -1, 4, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_CLOCK_TIME, 227, 68, -1, -1, 8, 0},
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 423, 26},
-	{
-	CTYPE_RAD, 0, STR_SYS_CLOCK_BYTES, 435, 31, -1, -1, 64, 64},
-	{
-	CTYPE_MRAD, 0, STR_SYS_CLOCK_KILOBYTES_FREE, 435, 41, -1, -1, 512, 576},
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_TEXTFORMAT, 423, 65},
-	{
-	CTYPE_MRAD, 0, STR_SYS_CLOCK_CHIPANDFAST, 435, 70, -1, -1, 1024, 1152},
-	{
-	CTYPE_RAD, 0, STR_SYS_CLOCK_CANDF, 435, 80, -1, -1, 128, 128},
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_WHENICONIFIED, 169, 105},
-	{
-	CTYPE_MRAD, 1, STR_SYS_CLOCK_WINDOW, 227, 110, -1, -1, 256, 304},
-	{
-	CTYPE_GAD, 1, STR_SYS_CLOCK_MEMORY, 256, 122, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 1, STR_SYS_CLOCK_CPUMONITOR, 256, 134, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 1, STR_SYS_CLOCK_DATE, 256, 146, -1, -1, 4, 0},
-	{
-	CTYPE_GAD, 1, STR_SYS_CLOCK_TIME, 256, 158, -1, -1, 8, 0},
-	{
-	CTYPE_RAD, 1, STR_SYS_CLOCK_NOWINDOW, 227, 172, -1, -1, 16, 48},
-	{
-	CTYPE_RAD, 1, STR_SYS_CLOCK_APPICON, 227, 182, -1, -1, 32, 48},
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 423, 116},
-	{
-	CTYPE_RAD, 1, STR_SYS_CLOCK_BYTES, 435, 121, -1, -1, 64, 64},
-	{
-	CTYPE_MRAD, 1, STR_SYS_CLOCK_KILOBYTES_FREE, 435, 131, -1, -1, 512, 576},
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_TEXTFORMAT, 423, 155},
-	{
-	CTYPE_MRAD, 1, STR_SYS_CLOCK_CHIPANDFAST, 435, 160, -1, -1, 1024, 1152},
-	{
-	CTYPE_RAD, 1, STR_SYS_CLOCK_CANDF, 435, 170, -1, -1, 128, 128},
-	{
-0, 0, -1}}, sys_directorygadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_SYS_DIR_CACHES, 160, 28},
+	{ CTYPE_STR, 0, STR_SYS_DIR_NUMBUFFERS, 341, 36, 80, -1, 1, 4},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_ALWAYSEMPTY, 189, 49, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_REREADINCOMPLETE, 189, 62, -1, -1, 32, 0},
+	{ CTYPE_TEXT, 0, STR_SYS_DIR_SEARCHBUFFERS, 160, 89},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_SEARCHPARENT, 189, 94, -1, -1, 64, 0},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_DIRREAD, 189, 107, -1, -1, 16, 0},
+	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, 160, 136},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_AUTODISKCHANGE, 189, 142, -1, -1, 4, 0},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_AUTODISKLOAD, 189, 155, -1, -1, 8, 0},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_EXPANDPATHS, 189, 168, -1, -1, 128, 0},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_USEEXALL, 189, 181, -1, -1, 2, 0},
+	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 377, 148},
+	{ CTYPE_RAD, 1, STR_SYS_CLOCK_BYTES, 392, 153, -1, -1, 1, 15},
+	{ CTYPE_RAD, 1, STR_SYS_CLOCK_KILOBYTES, 392, 163, -1, -1, 2, 15},
+	{ CTYPE_RAD, 1, STR_SYS_DIR_BLOCKSFREE, 392, 173, -1, -1, 4, 15},
+	{ CTYPE_RAD, 1, STR_SYS_DIR_PERCENTAGE, 392, 183, -1, -1, 8, 15},
+	{ 0, 0, -1 }
+}, sys_showpatterngadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_SYS_DIR_CACHES, 160, 28},
-	{
-	CTYPE_STR, 0, STR_SYS_DIR_NUMBUFFERS, 341, 36, 80, -1, 1, 4},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_ALWAYSEMPTY, 189, 49, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_REREADINCOMPLETE, 189, 62, -1, -1, 32, 0},
-	{
-	CTYPE_TEXT, 0, STR_SYS_DIR_SEARCHBUFFERS, 160, 89},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_SEARCHPARENT, 189, 94, -1, -1, 64, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_DIRREAD, 189, 107, -1, -1, 16, 0},
-	{
-	CTYPE_TEXT, 0, STR_MISC_FLAGS, 160, 136},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_AUTODISKCHANGE, 189, 142, -1, -1, 4, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_AUTODISKLOAD, 189, 155, -1, -1, 8, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_EXPANDPATHS, 189, 168, -1, -1, 128, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_DIR_USEEXALL, 189, 181, -1, -1, 2, 0},
-	{
-	CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 377, 148},
-	{
-	CTYPE_RAD, 1, STR_SYS_CLOCK_BYTES, 392, 153, -1, -1, 1, 15},
-	{
-	CTYPE_RAD, 1, STR_SYS_CLOCK_KILOBYTES, 392, 163, -1, -1, 2, 15},
-	{
-	CTYPE_RAD, 1, STR_SYS_DIR_BLOCKSFREE, 392, 173, -1, -1, 4, 15},
-	{
-	CTYPE_RAD, 1, STR_SYS_DIR_PERCENTAGE, 392, 183, -1, -1, 8, 15},
-	{
-0, 0, -1}}, sys_showpatterngadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_SYS_SHOWPATTERN_TITLE, 169, 91},
+	{ CTYPE_GAD, 0, STR_SYS_SHOWPATTERN_HIDDENBIT, 248, 97, -1, -1, 1, 0},
+	{ CTYPE_STR, 0, STR_SYS_SHOWPATTERN_SHOW, 252, 112, -1, -1, 0, 40},
+	{ CTYPE_STR, 0, STR_SYS_SHOWPATTERN_HIDE, 252, 126, -1, -1, 0, 40},
+	{ 0, 0, -1 }
+}, sys_startupgadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_SYS_SHOWPATTERN_TITLE, 169, 91},
-	{
-	CTYPE_GAD, 0, STR_SYS_SHOWPATTERN_HIDDENBIT, 248, 97, -1, -1, 1, 0},
-	{
-	CTYPE_STR, 0, STR_SYS_SHOWPATTERN_SHOW, 252, 112, -1, -1, 0, 40},
-	{
-	CTYPE_STR, 0, STR_SYS_SHOWPATTERN_HIDE, 252, 126, -1, -1, 0, 40},
-	{
-0, 0, -1}}, sys_startupgadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_SYS_STARTUP_TITLE, 149, 60},
+	{ CTYPE_STR, 0, -1, 263, 69, -1, -1, 4, 70},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_LEFT, 227, 66, -1, -1, 1, 0, "SYS:"},
+	{ CTYPE_STR, 0, -1, 263, 85, -1, -1, 4, 70},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_RIGHT, 227, 82, -1, -1, 1, 0, "SYS:"},
+	{ CTYPE_TEXT, 0, STR_SYS_STARTUP_AREXX, 149, 111},
+	{ CTYPE_STR, 0, -1, 263, 122, -1, -1, 4, 80},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_STARTUP, 227, 119, -1, -1, 0, 0, "REXX:"},
+	{ CTYPE_STR, 0, -1, 263, 138, -1, -1, 4, 80},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_UNICONIFY, 227, 135, -1, -1, 0, 0, "REXX:"},
+	{ CTYPE_STR, 0, -1, 263, 154, -1, -1, 4, 80},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_CONFIG, 227, 151, -1, -1, 0, 0, "REXX:"},
+	{ 0, 0, -1 }
+}, sys_viewplaygadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_SYS_STARTUP_TITLE, 149, 60},
-	{
-	CTYPE_STR, 0, -1, 263, 69, -1, -1, 4, 70},
-	{
-	CTYPE_REQ, 0, STR_SYS_STARTUP_LEFT, 227, 66, -1, -1, 1, 0, "SYS:"},
-	{
-	CTYPE_STR, 0, -1, 263, 85, -1, -1, 4, 70},
-	{
-	CTYPE_REQ, 0, STR_SYS_STARTUP_RIGHT, 227, 82, -1, -1, 1, 0, "SYS:"},
-	{
-	CTYPE_TEXT, 0, STR_SYS_STARTUP_AREXX, 149, 111},
-	{
-	CTYPE_STR, 0, -1, 263, 122, -1, -1, 4, 80},
-	{
-	CTYPE_REQ, 0, STR_SYS_STARTUP_STARTUP, 227, 119, -1, -1, 0, 0, "REXX:"},
-	{
-	CTYPE_STR, 0, -1, 263, 138, -1, -1, 4, 80},
-	{
-	CTYPE_REQ, 0, STR_SYS_STARTUP_UNICONIFY, 227, 135, -1, -1, 0, 0, "REXX:"},
-	{
-	CTYPE_STR, 0, -1, 263, 154, -1, -1, 4, 80},
-	{
-	CTYPE_REQ, 0, STR_SYS_STARTUP_CONFIG, 227, 151, -1, -1, 0, 0, "REXX:"},
-	{
-0, 0, -1}}, sys_viewplaygadgets[] =
-
+	{ CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_TITLE, 169, 22},
+	{ CTYPE_MOVE, 0, -1, 27},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BLACK, 248, -1, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_PAUSED, 248, -1, -1, -1, 32, 0},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_8BITCOL, 248, -1, -1, -1, 4, 0},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BESTMODEID, 248, -1, -1, -1, 64, 0},
+	{ CTYPE_STR, 0, STR_SYS_VIEWPLAY_SHOWDELAY, 252, -1, 80, -1, 1, 3},
+	{ CTYPE_STR, 0, STR_SYS_VIEWPLAY_FADEDELAY, 462, -2, 80, -1, 1, 3},
+	{ CTYPE_MOVEREL, 0, -1, 5},
+	{ CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_SOUNDPLAYER, 169, -1},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_FILTER, 248, -1, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_LOOP, 248, -1, -1, -1, 8, 0},
+	{ CTYPE_MOVEREL, 0, -1, 5},
+	{ CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_TEXTVIEW, 169, -1},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BORDERS, 248, -1, -1, -1, 16, 0},
+	{ CTYPE_MOVEREL, 0, -1, -13},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_INWINDOW, 448, -1, -1, -1, 128, 0},
+	{ CTYPE_STR, 0, STR_SYS_VIEWPLAY_TABSIZE, 252, -1, 80, -1, 1, 3},
+	{ CTYPE_STR, 0, STR_SYS_LEFT_X, 452, -2, 40, -1, 1, 7},
+	{ CTYPE_STR, 0, STR_SYS_TOP_Y, 560, -2, 40, -1, 1, 7},
+	{ CTYPE_STR, 0, STR_SYS_WIDTH, 452, -1, 40, -1, 1, 7},
+	{ CTYPE_STR, 0, STR_SYS_HEIGHT, 560, -2, 40, -1, 1, 7},
+	{ 0, 0, -1 }
+}, scr_generalgadgets[] =
 {
-	{
-	CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_TITLE, 169, 22 /* HUX: was 26 */ },
-	{
-	CTYPE_MOVE, 0, -1, 27 /* HUX: was 31 */ },
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BLACK, 248, -1, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_PAUSED, 248, -1, -1, -1, 32, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_8BITCOL, 248, -1, -1, -1, 4, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BESTMODEID, 248, -1, -1, -1, 64, 0},
-	{
-	CTYPE_STR, 0, STR_SYS_VIEWPLAY_SHOWDELAY, 252, -1, 80, -1, 1, 3},
-	{
-	CTYPE_STR, 0, STR_SYS_VIEWPLAY_FADEDELAY, 462, -2, 80, -1, 1, 3},
-	{
-	CTYPE_MOVEREL, 0, -1, 5 /* HUX: was 8 */ },
-	{
-	CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_SOUNDPLAYER, 169, -1},
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_FILTER, 248, -1, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_LOOP, 248, -1, -1, -1, 8, 0},
-	{
-	CTYPE_MOVEREL, 0, -1, 5 /* HUX: was 8 */ },
-	{
-	CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_TEXTVIEW, 169, -1},
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BORDERS, 248, -1, -1, -1, 16, 0},
-	{
-	CTYPE_MOVEREL, 0, -1, -13},	//HUX
-	{
-	CTYPE_GAD, 0, STR_SYS_VIEWPLAY_INWINDOW, 448, -1, -1, -1, 128, 0},	//HUX
-	{
-	CTYPE_STR, 0, STR_SYS_VIEWPLAY_TABSIZE, 252, -1, 80, -1, 1, 3},
-	{
-	CTYPE_STR, 0, STR_SYS_LEFT_X, 452, -2, 40, -1, 1, 7},	// HUX
-	{
-	CTYPE_STR, 0, STR_SYS_TOP_Y, 560, -2, 40, -1, 1, 7},	// HUX
-	{
-	CTYPE_STR, 0, STR_SYS_WIDTH, 452, -1, 40, -1, 1, 7},	// HUX
-	{
-	CTYPE_STR, 0, STR_SYS_HEIGHT, 560, -2, 40, -1, 1, 7},	// HUX
-	{
-0, 0, -1}}, scr_generalgadgets[] =
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_TINYGADS, -1, -1, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_GADGETSLIDERS, -1, -1, -1, -1, 4, 0},
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_WINDOWBORDERS, -1, -1, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_TITLEBARSTATUS, -1, -1, -1, -1, 128, 0},
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_DRAGREQUESTERS, -1, -1, -1, -1, 32, 0},
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_INDICATERMB, -1, -1, -1, -1, 8, 0},
+	{ CTYPE_GAD, 0, STR_SCREEN_GENERAL_NEWLOOKSLIDERS, -1, -1, -1, -1, 16, 0},
+	{ 0, 0, -1 }
+}, *systemgadgets[9] =
+{ sys_amigadosgadgets, sys_clockgadgets, sys_directorygadgets, NULL, NULL, NULL, sys_showpatterngadgets, sys_startupgadgets, sys_viewplaygadgets};
 
+struct DOpusListView editlists[3] =
 {
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_TINYGADS, -1, -1, -1, -1, 2, 0},
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_GADGETSLIDERS, -1, -1, -1, -1, 4, 0},
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_WINDOWBORDERS, -1, -1, -1, -1, 1, 0},
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_TITLEBARSTATUS, -1, -1, -1, -1, 128, 0},
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_DRAGREQUESTERS, -1, -1, -1, -1, 32, 0},
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_INDICATERMB, -1, -1, -1, -1, 8, 0},
-//        {CTYPE_GAD,0,STR_SCREEN_GENERAL_NEWLOOKMENUS,-1,-1,-1,-1,64,0},
-	{
-	CTYPE_GAD, 0, STR_SCREEN_GENERAL_NEWLOOKSLIDERS, -1, -1, -1, -1, 16, 0},
-	{
-0, 0, -1}}, *systemgadgets[9] =
-
-{
-sys_amigadosgadgets, sys_clockgadgets, sys_directorygadgets, NULL, NULL, NULL, sys_showpatterngadgets, sys_startupgadgets, sys_viewplaygadgets};
-
-struct DOpusListView editlists[3] = {
-	{EDIT_FUNCTIONS, NULL, 0, 0, 464, 40, NULL, NULL, NULL,
-	 DLVF_ENDNL | DLVF_LEAVE | DLVF_HIREC, 8,
-	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &editlists[1]},
-	{EDIT_FLAGS, NULL, 0, 0, 226, 40, NULL, gadflaglist, NULL,
-	 DLVF_MULTI | DLVF_CHECK | DLVF_SLOW | DLVF_HIREC, 8, 0, 0, 0, 0, 0,
-	 0, 0, 0, 0, 0, -1, NULL},
-	{EDIT_FUNCTIONTYPE, NULL, 0, 0, 272, 48, NULL, functypelist, NULL,
-	 DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	 -1, NULL}
-}, editclasslist =
-
-{
-1, NULL, 0, 0, 602, 48, NULL, NULL, NULL, DLVF_LEAVE | DLVF_ENDNL | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL}, filetypeactionlist =
-
-{
-2, NULL, 0, 0, 596, 120, NULL, NULL, NULL, DLVF_LEAVE | DLVF_TTOP | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL}, hotkeyslist =
-
-{
-1, NULL, 0, 0, 596, 120, NULL, NULL, NULL, DLVF_LEAVE | DLVF_TTOP | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL}, screenmodeview =
-
-{
-1, NULL, 0, 0, 256, 40, NULL, NULL, NULL, DLVF_LEAVE | DLVF_SLOW | DLVF_TTOP | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL};
+	{EDIT_FUNCTIONS, NULL, 0, 0, 464, 40, NULL, NULL, NULL, DLVF_ENDNL | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &editlists[1]},
+	{EDIT_FLAGS, NULL, 0, 0, 226, 40, NULL, gadflaglist, NULL, DLVF_MULTI | DLVF_CHECK | DLVF_SLOW | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL},
+	{EDIT_FUNCTIONTYPE, NULL, 0, 0, 272, 48, NULL, functypelist, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL}
+}, editclasslist = { 1, NULL, 0, 0, 602, 48, NULL, NULL, NULL, DLVF_LEAVE | DLVF_ENDNL | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL },
+	filetypeactionlist = { 2, NULL, 0, 0, 596, 120, NULL, NULL, NULL, DLVF_LEAVE | DLVF_TTOP | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL },
+	hotkeyslist = { 1, NULL, 0, 0, 596, 120, NULL, NULL, NULL, DLVF_LEAVE | DLVF_TTOP | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL },
+	screenmodeview = { 1, NULL, 0, 0, 256, 40, NULL, NULL, NULL, DLVF_LEAVE | DLVF_SLOW | DLVF_TTOP | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL };
 
 char undobuf[256];
 
 char edit_namebuf[256], edit_stackbuf[7], edit_prioritybuf[5], edit_delaybuf[3], edit_funcbuf[256], edit_pathbuf[256], edit_actionbuf[40], palette_buf[3][4], screenwidth_buf[6], screenheight_buf[6], screendepth_buf[4], formatlen_buf[5][8], fontsize_buf[12], edit_typeidbuf[8];
 
-struct StringInfo namesinfo = { (STRPTR) edit_namebuf, (STRPTR) undobuf, 0, 0, 0, 0, 0, 0, 0, 0,
-	&stringex
-}, stacksinfo =
-
+struct StringInfo namesinfo = { (STRPTR) edit_namebuf, (STRPTR) undobuf, 0, 0, 0, 0, 0, 0, 0, 0, &stringex },
+	stacksinfo = { (STRPTR) edit_stackbuf, (STRPTR) undobuf, 0, 7, 0, 0, 0, 0, 0, 0, &stringex },
+	prioritysinfo = { (STRPTR) edit_prioritybuf, (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex },
+	delaysinfo = { (STRPTR) edit_delaybuf, (STRPTR) undobuf, 0, 3, 0, 0, 0, 0, 0, 0, &stringex },
+	funcsinfo = { (STRPTR) edit_funcbuf, (STRPTR) undobuf, 0, 256, 0, 0, 0, 0, 0, 0, &stringex },
+	pathsinfo = { (STRPTR) edit_pathbuf, (STRPTR) undobuf, 0, 256, 0, 0, 0, 0, 0, 0, &stringex },
+	actionsinfo = { (STRPTR) edit_actionbuf, (STRPTR) undobuf, 0, 40, 0, 0, 0, 0, 0, 0, &stringex },
+	typeidsinfo = { (STRPTR) edit_typeidbuf, (STRPTR) undobuf, 0, 8, 0, 0, 0, 0, 0, 0, &stringex },
+	palettesinfo[3] =
 {
-(STRPTR) edit_stackbuf, (STRPTR) undobuf, 0, 7, 0, 0, 0, 0, 0, 0, &stringex}, prioritysinfo =
-
+	{ (STRPTR) palette_buf[0], (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex },
+	{ (STRPTR) palette_buf[1], (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex },
+	{ (STRPTR) palette_buf[2], (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex }
+}, screenwidthsinfo = { (STRPTR) screenwidth_buf, (STRPTR) undobuf, 0, 6, 0, 0, 0, 0, 0, 0, &stringex },
+	screenheightsinfo = { (STRPTR) screenheight_buf, (STRPTR) undobuf, 0, 6, 0, 0, 0, 0, 0, 0, &stringex },
+	screendepthsinfo = { (STRPTR) screendepth_buf, (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex },
+	formatlensinfo[5] =
 {
-(STRPTR) edit_prioritybuf, (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex}, delaysinfo =
+	{ (STRPTR) formatlen_buf[0], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex },
+	{ (STRPTR) formatlen_buf[1], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex },
+	{ (STRPTR) formatlen_buf[2], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex },
+	{ (STRPTR) formatlen_buf[3], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex },
+	{ (STRPTR) formatlen_buf[4], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex }
+}, fontsizesinfo = { (STRPTR) fontsize_buf, (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex};
 
+struct PropInfo menusliderprop = { PROPBORDERLESS | FREEVERT, 0, 0, 0, 0xffff },
+		paletteprop[3] =
 {
-(STRPTR) edit_delaybuf, (STRPTR) undobuf, 0, 3, 0, 0, 0, 0, 0, 0, &stringex}, funcsinfo =
+	{ PROPBORDERLESS | FREEHORIZ, 0, 0, 0xfff, 0 },
+	{ PROPBORDERLESS | FREEHORIZ, 0, 0, 0xfff, 0 },
+	{ PROPBORDERLESS | FREEHORIZ, 0, 0, 0xfff, 0 }
+}, screenmodeprop = { PROPBORDERLESS | FREEHORIZ, 0, 0, 0x5555, 0 },
+	fileviewprop = { PROPBORDERLESS | FREEVERT, 0, 0, 0, 0xffff };
 
-{
-(STRPTR) edit_funcbuf, (STRPTR) undobuf, 0, 256, 0, 0, 0, 0, 0, 0, &stringex}, pathsinfo =
-
-{
-(STRPTR) edit_pathbuf, (STRPTR) undobuf, 0, 256, 0, 0, 0, 0, 0, 0, &stringex}, actionsinfo =
-
-{
-(STRPTR) edit_actionbuf, (STRPTR) undobuf, 0, 40, 0, 0, 0, 0, 0, 0, &stringex}, typeidsinfo =
-
-{
-(STRPTR) edit_typeidbuf, (STRPTR) undobuf, 0, 8, 0, 0, 0, 0, 0, 0, &stringex}, palettesinfo[3] =
-
-{
-	{
-	(STRPTR) palette_buf[0], (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex},
-	{
-	(STRPTR) palette_buf[1], (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex},
-	{
-(STRPTR) palette_buf[2], (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex}}, screenwidthsinfo =
-
-{
-(STRPTR) screenwidth_buf, (STRPTR) undobuf, 0, 6, 0, 0, 0, 0, 0, 0, &stringex}, screenheightsinfo =
-
-{
-(STRPTR) screenheight_buf, (STRPTR) undobuf, 0, 6, 0, 0, 0, 0, 0, 0, &stringex}, screendepthsinfo =
-
-{
-(STRPTR) screendepth_buf, (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex}, formatlensinfo[5] =
-
-{
-	{
-	(STRPTR) formatlen_buf[0], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex},
-	{
-	(STRPTR) formatlen_buf[1], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex},
-	{
-	(STRPTR) formatlen_buf[2], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex},
-	{
-	(STRPTR) formatlen_buf[3], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex},
-	{
-(STRPTR) formatlen_buf[4], (STRPTR) undobuf, 0, 5, 0, 0, 0, 0, 0, 0, &stringex}}, fontsizesinfo =
-
-{
-(STRPTR) fontsize_buf, (STRPTR) undobuf, 0, 4, 0, 0, 0, 0, 0, 0, &stringex};
-
-struct PropInfo menusliderprop = { PROPBORDERLESS | FREEVERT, 0, 0, 0, 0xffff }, paletteprop[3] =
-
-{
-	{
-	PROPBORDERLESS | FREEHORIZ, 0, 0, 0xfff, 0},
-	{
-	PROPBORDERLESS | FREEHORIZ, 0, 0, 0xfff, 0},
-	{
-PROPBORDERLESS | FREEHORIZ, 0, 0, 0xfff, 0}}, screenmodeprop /*[3] */  =
-
-{
-PROPBORDERLESS | FREEHORIZ, 0, 0, 0x5555, 0}, fileviewprop =
-
-{
-PROPBORDERLESS | FREEVERT, 0, 0, 0, 0xffff};
-
-struct Image menusliderimage = { 0, 0, 8, 0, 1, NULL, 0, 1, NULL }, paletteimage[3] =
-
-{
-	{
-	0, 0, 0, 8, 1, NULL, 0, 1, NULL},
-	{
-	0, 0, 0, 8, 1, NULL, 0, 1, NULL},
-	{
-0, 0, 0, 8, 1, NULL, 0, 1, NULL}}, screenmodeimage =
-
-{
-0, 0, 0, 8, 1, NULL, 0, 1, NULL}, fileviewimage =
-
-{
-0, 0, 8, 0, 1, NULL, 0, 1, NULL};
+struct Image menusliderimage = { 0, 0, 8, 0, 1, NULL, 0, 1, NULL },
+	     paletteimage[3] =
+	     {
+		     { 0, 0, 0, 8, 1, NULL, 0, 1, NULL },
+		     { 0, 0, 0, 8, 1, NULL, 0, 1, NULL },
+		     { 0, 0, 0, 8, 1, NULL, 0, 1, NULL }
+	     }, screenmodeimage = { 0, 0, 0, 8, 1, NULL, 0, 1, NULL },
+	     fileviewimage = { 0, 0, 8, 0, 1, NULL, 0, 1, NULL};
 
 struct Gadget editfuncgadgets[15] = {
 	{&editfuncgadgets[1], 256, 54, 140, 8,

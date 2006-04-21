@@ -32,7 +32,7 @@ the existing commercial status of Directory Opus 5.
 
 #define ABS(x) ((x)<0?-(x):(x))
 
-initfontlist(int num, int move, int flags)
+int initfontlist(int num, int move, int flags)
 {
 	int a, b, dist = 0, one, val, size = -1;
 	char name[80], *ptr;
@@ -164,7 +164,7 @@ void dofontdemo(STRPTR name, int size)
 		IGraphics->RectFill(rp, x_off + 146, y_off + 94, x_off + 613, y_off + 167);
 		IGraphics->SetAPen(rp, screen_pens[1].pen);
 		IGraphics->SetFont(rp, font);
-		if((reg = /*(struct Region *)*/IGraphics->NewRegion()))
+		if((reg = IGraphics->NewRegion()))
 		{
 			IGraphics->OrRectRegion(reg, &clip);
 			oldreg = ILayers->InstallClipRegion(Window->WLayer, reg);

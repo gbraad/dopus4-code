@@ -40,7 +40,6 @@ int initscreenmodes()
 	struct List *pubscreenlist;
 	struct PubScreenNode *pubscreen;
 	ULONG modeid;
-//	struct Library *CyberGfxBase;
 
 	dimension = (struct DimensionInfo *)buf;
 	count = 0;

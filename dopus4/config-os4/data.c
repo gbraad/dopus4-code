@@ -114,32 +114,16 @@ struct Image *checkonimage, *checkoffimage, *buttononimage, *buttonoffimage, cop
 
 struct RMBGadget insertbankrmb =
 {
-	NULL, 0, 0, 104, 12, RGF_ALTTEXT, 1,
-	{
-		{ NULL, 2, 1, 100, 10, 1, 0},
-		{NULL, 2, 1, 100, 10, 1, 0 }
-	}
+	NULL, 0, 0, 104, 12, RGF_ALTTEXT, 1, { { NULL, 2, 1, 100, 10, 1, 0 }, { NULL, 2, 1, 100, 10, 1, 0 } }
 }, nextbankrmb =
 {
-	&insertbankrmb, 0, 0, 104, 12, RGF_ALTTEXT, 0,
-	{
-		{ NULL, 2, 1, 100, 10, 1, 0 },
-		{ NULL, 2, 1, 100, 10, 1, 0 }
-	}
+	&insertbankrmb, 0, 0, 104, 12, RGF_ALTTEXT, 0, { { NULL, 2, 1, 100, 10, 1, 0 }, { NULL, 2, 1, 100, 10, 1, 0 } }
 }, formatclearrmb =
 {
-	NULL, 465, 137, 104, 12, RGF_ALTTEXT, 0,
-	{
-		{ NULL, 2, 1, 100, 10, 1, 0 },
-		{ NULL, 2, 1, 100, 10, 1, 0 }
-	}
+	NULL, 465, 137, 104, 12, RGF_ALTTEXT, 0, { { NULL, 2, 1, 100, 10, 1, 0 }, { NULL, 2, 1, 100, 10, 1, 0 } }
 }, sampleclearrmb =
 {
-	NULL, 0, 0, 104, 12, RGF_ALTTEXT, 0,
-	{
-		{ NULL, 2, 1, 100, 10, 1, 0 },
-		{ NULL, 2, 1, 100, 10, 1, 0 }
-	}
+	NULL, 0, 0, 104, 12, RGF_ALTTEXT, 0, { { NULL, 2, 1, 100, 10, 1, 0 }, { NULL, 2, 1, 100, 10, 1, 0 } }
 };
 
 char *commandlist[95], *arglist[18], *classopslist[13];
@@ -195,8 +179,7 @@ struct Gadget cmdcancelgad =
 
 struct NewWindow requestwin =
 {
-	0, 0, 0, 0,
-	255, 255,
+	0, 0, 0, 0, 255, 255,
 	IDCMP_MOUSEBUTTONS | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE | IDCMP_VANILLAKEY,
 	WFLG_ACTIVATE | WFLG_RMBTRAP | WFLG_DRAGBAR | WFLG_DEPTHGADGET,
 	NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
@@ -215,243 +198,131 @@ struct Gadget *seligad;
 
 struct ColourSel coloursel[] =
 {
-	{COLBIT_STATUS, 149, 57, 598, 76},
-	{COLBIT_SELDISKNAME, 149, 77, 373, 86},
-	{COLBIT_DISKNAME, 374, 75, 598, 86},
-	{COLBIT_SELDIRECTORY, 151, 88, 353, 95},
-	{COLBIT_DIRECTORY, 151, 96, 353, 103},
-	{COLBIT_SELFILE, 151, 104, 353, 111},
-	{COLBIT_FILE, 151, 112, 353, 128},
-	{COLBIT_FILE, 394, 88, 596, 128},
-	{COLBIT_SLIDERS, 356, 87, 391, 111},
-	{COLBIT_SLIDERS, 149, 130, 319, 140},
-	{COLBIT_SLIDERS, 428, 130, 599, 140},
-	{COLBIT_ARROWS, 320, 130, 352, 153},
-	{COLBIT_ARROWS, 392, 130, 427, 153},
-	{COLBIT_ARROWS, 356, 112, 391, 129},
-	{COLBIT_TINYGADS, 356, 130, 391, 153},
-	{COLBIT_TINYGADS, 491, 153, 598, 162},
-	{COLBIT_CLOCK, 149, 153, 490, 162},
-	{COLBIT_3DBOXES, 160, 167, 371, 178},
-	{COLBIT_REQUESTER, 376, 167, 587, 178},
-	{COLBIT_STRINGS, 149, 141, 319, 152},
-	{COLBIT_SELSTRINGS, 428, 141, 599, 152},
-	{-1, 0, 0, 0, 0}
+	{ COLBIT_STATUS, 149, 57, 598, 76 },
+	{ COLBIT_SELDISKNAME, 149, 77, 373, 86 },
+	{ COLBIT_DISKNAME, 374, 75, 598, 86 },
+	{ COLBIT_SELDIRECTORY, 151, 88, 353, 95 },
+	{ COLBIT_DIRECTORY, 151, 96, 353, 103 },
+	{ COLBIT_SELFILE, 151, 104, 353, 111 },
+	{ COLBIT_FILE, 151, 112, 353, 128 },
+	{ COLBIT_FILE, 394, 88, 596, 128 },
+	{ COLBIT_SLIDERS, 356, 87, 391, 111 },
+	{ COLBIT_SLIDERS, 149, 130, 319, 140 },
+	{ COLBIT_SLIDERS, 428, 130, 599, 140 },
+	{ COLBIT_ARROWS, 320, 130, 352, 153 },
+	{ COLBIT_ARROWS, 392, 130, 427, 153 },
+	{ COLBIT_ARROWS, 356, 112, 391, 129 },
+	{ COLBIT_TINYGADS, 356, 130, 391, 153 },
+	{ COLBIT_TINYGADS, 491, 153, 598, 162 },
+	{ COLBIT_CLOCK, 149, 153, 490, 162 },
+	{ COLBIT_3DBOXES, 160, 167, 371, 178 },
+	{ COLBIT_REQUESTER, 376, 167, 587, 178 },
+	{ COLBIT_STRINGS, 149, 141, 319, 152 },
+	{ COLBIT_SELSTRINGS, 428, 141, 599, 152 },
+	{ -1, 0, 0, 0, 0 }
 };
 
 char **screenmodelist;
 struct ScreenMode *firstmode, *screenmode;
 
-struct Image open_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, paste_barimage =
+struct Image open_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, paste_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, erase_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, deleteclass_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL };
 
+struct IntuiText newtext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 opentext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 savetext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 saveastext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 cuttext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 copytext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 pastetext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 erasetext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 clearcliptext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 newclasstext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 editclasstext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 duplicateclasstext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 deleteclasstext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
+		 clearclasstext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL},
+		 gadrowstext[5],
+		 paintmodetext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL };
+
+struct MenuItem projectitems[] =
 {
-0, 0, 0, 0, 0, NULL, 0, 0, NULL}, erase_barimage =
-
-{
-0, 0, 0, 0, 0, NULL, 0, 0, NULL}, deleteclass_barimage =
-
-{
-0, 0, 0, 0, 0, NULL, 0, 0, NULL};
-
-struct IntuiText newtext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL }, opentext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, savetext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, saveastext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, cuttext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, copytext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, pastetext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, erasetext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, clearcliptext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, newclasstext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, editclasstext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, duplicateclasstext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, deleteclasstext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, clearclasstext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL}, gadrowstext[5], paintmodetext =
-
-{
-0, 0, JAM1, 1, 1, NULL, NULL, NULL};
-
-struct MenuItem projectitems[] = {
-	{&projectitems[1], 0, 0, 0, 0,
-	 ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0,
-	 (APTR) & newtext, NULL, 'D', NULL, 0xffff},
-	{&projectitems[2], 0, 0, 0, 0,
-	 ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0,
-	 (APTR) & opentext, NULL, 'O', NULL, 0xffff},
-	{&projectitems[3], 0, 0, 0, 2, HIGHNONE, 0,
-	 (APTR) & open_barimage, NULL, 0, NULL, 0xffff},
-	{&projectitems[4], 0, 0, 0, 0,
-	 ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0,
-	 (APTR) & savetext, NULL, 'S', NULL, 0xffff},
-	{NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0,
-	 (APTR) & saveastext, NULL, 'A', NULL, 0xffff}
+	{ &projectitems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0, (APTR)&newtext, NULL, 'D', NULL, 0xffff },
+	{ &projectitems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0, (APTR)&opentext, NULL, 'O', NULL, 0xffff },
+	{ &projectitems[3], 0, 0, 0, 2, HIGHNONE, 0, (APTR)&open_barimage, NULL, 0, NULL, 0xffff },
+	{ &projectitems[4], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0, (APTR)&savetext, NULL, 'S', NULL, 0xffff },
+	{ NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | COMMSEQ, 0, (APTR)&saveastext, NULL, 'A', NULL, 0xffff }
 }, edititems[] =
-
 {
-	{
-	&edititems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & cuttext, NULL, 0, NULL, 0xffff},
-	{
-	&edititems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & copytext, NULL, 0, NULL, 0xffff},
-	{
-	&edititems[3], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & pastetext, NULL, 0, NULL, 0xffff},
-	{
-	&edititems[4], 0, 0, 0, 2, HIGHNONE, 0, (APTR) & paste_barimage, NULL, 0, NULL, 0xffff},
-	{
-	&edititems[5], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & erasetext, NULL, 0, NULL, 0xffff},
-	{
-	&edititems[6], 0, 0, 0, 2, HIGHNONE, 0, (APTR) & erase_barimage, NULL, 0, NULL, 0xffff},
-	{
-NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & clearcliptext, NULL, 0, NULL, 0xffff}}, classitems[] =
-
+	{ &edititems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&cuttext, NULL, 0, NULL, 0xffff },
+	{ &edititems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&copytext, NULL, 0, NULL, 0xffff },
+	{ &edititems[3], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&pastetext, NULL, 0, NULL, 0xffff },
+	{ &edititems[4], 0, 0, 0, 2, HIGHNONE, 0, (APTR)&paste_barimage, NULL, 0, NULL, 0xffff },
+	{ &edititems[5], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&erasetext, NULL, 0, NULL, 0xffff },
+	{ &edititems[6], 0, 0, 0, 2, HIGHNONE, 0, (APTR)&erase_barimage, NULL, 0, NULL, 0xffff },
+	{ NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&clearcliptext, NULL, 0, NULL, 0xffff }
+}, classitems[] =
 {
-	{
-	&classitems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & newclasstext, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & editclasstext, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[3], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & duplicateclasstext, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[4], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & deleteclasstext, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[5], 0, 0, 0, 2, HIGHNONE, 0, (APTR) & deleteclass_barimage, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[6], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & opentext, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[7], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & savetext, NULL, 0, NULL, 0xffff},
-	{
-	&classitems[8], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & saveastext, NULL, 0, NULL, 0xffff},
-	{
-NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR) & clearclasstext, NULL, 0, NULL, 0xffff}}, gadrowsitems[] =
-
+	{ &classitems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&newclasstext, NULL, 0, NULL, 0xffff },
+	{ &classitems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&editclasstext, NULL, 0, NULL, 0xffff },
+	{ &classitems[3], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&duplicateclasstext, NULL, 0, NULL, 0xffff },
+	{ &classitems[4], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&deleteclasstext, NULL, 0, NULL, 0xffff },
+	{ &classitems[5], 0, 0, 0, 2, HIGHNONE, 0, (APTR)&deleteclass_barimage, NULL, 0, NULL, 0xffff },
+	{ &classitems[6], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&opentext, NULL, 0, NULL, 0xffff },
+	{ &classitems[7], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&savetext, NULL, 0, NULL, 0xffff },
+	{ &classitems[8], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&saveastext, NULL, 0, NULL, 0xffff },
+	{ NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP, 0, (APTR)&clearclasstext, NULL, 0, NULL, 0xffff}
+}, gadrowsitems[] =
 {
-	{
-	&gadrowsitems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 30, (APTR) & gadrowstext[0], NULL, 0, NULL, 0xffff},
-	{
-	&gadrowsitems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 29, (APTR) & gadrowstext[1], NULL, 0, NULL, 0xffff},
-	{
-	&gadrowsitems[3], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 27, (APTR) & gadrowstext[2], NULL, 0, NULL, 0xffff},
-	{
-	&gadrowsitems[4], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 23, (APTR) & gadrowstext[3], NULL, 0, NULL, 0xffff},
-	{
-NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 15, (APTR) & gadrowstext[4], NULL, 0, NULL, 0xffff}}, neatstuffitem =
+	{ &gadrowsitems[1], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 30, (APTR)&gadrowstext[0], NULL, 0, NULL, 0xffff },
+	{ &gadrowsitems[2], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 29, (APTR)&gadrowstext[1], NULL, 0, NULL, 0xffff },
+	{ &gadrowsitems[3], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 27, (APTR)&gadrowstext[2], NULL, 0, NULL, 0xffff },
+	{ &gadrowsitems[4], 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 23, (APTR)&gadrowstext[3], NULL, 0, NULL, 0xffff },
+	{ NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT, 15, (APTR)&gadrowstext[4], NULL, 0, NULL, 0xffff}
+}, neatstuffitem = { NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT | MENUTOGGLE, 0, (APTR)&paintmodetext, NULL, 0, NULL, 0xffff };
 
-{
-NULL, 0, 0, 0, 0, ITEMTEXT | ITEMENABLED | HIGHCOMP | CHECKIT | MENUTOGGLE, 0, (APTR) & paintmodetext, NULL, 0, NULL, 0xffff};
-
-struct Menu projectmenu = { NULL, 8, 0, 0, 0, MENUENABLED, NULL, projectitems }, gadrowsmenu =
-
-{
-&neatstuffmenu, 0, 0, 0, 0, MENUENABLED, NULL, gadrowsitems}, editmenu =
-
-{
-NULL, 8, 0, 0, 0, MENUENABLED, NULL, edititems}, classmenu =
-
-{
-NULL, 0, 0, 0, 0, MENUENABLED, NULL, classitems}, neatstuffmenu =
-
-{
-NULL, 0, 0, 0, 0, MENUENABLED, NULL, &neatstuffitem};
+struct Menu projectmenu = { NULL, 8, 0, 0, 0, MENUENABLED, NULL, projectitems },
+	    gadrowsmenu = { &neatstuffmenu, 0, 0, 0, 0, MENUENABLED, NULL, gadrowsitems },
+	    editmenu = { NULL, 8, 0, 0, 0, MENUENABLED, NULL, edititems },
+	    classmenu = { NULL, 0, 0, 0, 0, MENUENABLED, NULL, classitems },
+	    neatstuffmenu = { NULL, 0, 0, 0, 0, MENUENABLED, NULL, &neatstuffitem };
 
 int curoperation = -1, clipcount = 0;
 
-USHORT defpalettes[11][4] = {
-	{
-	 0xaaa, 0x000, 0xfff, 0x68b},
-	{
-	 0, 0, 0, 0},
-	{
-	 0xba9, 0x002, 0xfff, 0x68b},
-	{
-	 0x8ac, 0x002, 0xfff, 0xfc9},
-	{
-	 0x8ac, 0x002, 0xfff, 0xe97},
-	{
-	 0x5ba, 0x002, 0xeef, 0x57a},
-	{
-	 0x9bd, 0x002, 0xfff, 0x68b},
-	{
-	 0xa98, 0x321, 0xfee, 0xfdb},
-	{
-	 0xccb, 0x003, 0xfff, 0x9ab},
-	{
-	 0xc99, 0x002, 0xfee, 0xb67},
-	{
-	 0xa96, 0x002, 0xfff, 0x779}
-}, def_dopus_palette[16] =
-
+USHORT defpalettes[11][4] =
 {
-0xaaa, 0x000, 0xfff, 0x05b, 0xea4, 0x707, 0xff0, 0xc20, 0xf80, 0xf0f, 0x963, 0x0f9, 0x4f3, 0x000, 0xfff, 0x259};
+	{ 0xaaa, 0x000, 0xfff, 0x68b },
+	{ 0, 0, 0, 0 },
+	{ 0xba9, 0x002, 0xfff, 0x68b },
+	{ 0x8ac, 0x002, 0xfff, 0xfc9 },
+	{ 0x8ac, 0x002, 0xfff, 0xe97 },
+	{ 0x5ba, 0x002, 0xeef, 0x57a },
+	{ 0x9bd, 0x002, 0xfff, 0x68b },
+	{ 0xa98, 0x321, 0xfee, 0xfdb },
+	{ 0xccb, 0x003, 0xfff, 0x9ab },
+	{ 0xc99, 0x002, 0xfee, 0xb67 },
+	{ 0xa96, 0x002, 0xfff, 0x779 }
+}, def_dopus_palette[16] = { 0xaaa, 0x000, 0xfff, 0x05b, 0xea4, 0x707, 0xff0, 0xc20, 0xf80, 0xf0f, 0x963, 0x0f9, 0x4f3, 0x000, 0xfff, 0x259 };
 
 char *palettenames[14];
 
 char *fontplacenames[FONT_COUNT + 1];
 
-int fontplaceflags[] = {
-	FFLAG_8ONLY, 0, FFLAG_NOPROP, 0, 0, 0, 0, 0, FFLAG_NOPROP, 0, 0, 0
-};
+int fontplaceflags[] = { FFLAG_8ONLY, 0, FFLAG_NOPROP, 0, 0, 0, 0, 0, FFLAG_NOPROP, 0, 0, 0 };
 
-int fontplacevals[] = {
-	FONT_CLOCK, FONT_GADGETS, FONT_MENUS, FONT_NAMES, FONT_DIRS,
-	FONT_GENERAL, FONT_ICONIFY, FONT_STRING, FONT_REQUEST,
-	FONT_SCREEN, FONT_STATUS, FONT_TEXT
-};
+int fontplacevals[] = { FONT_CLOCK, FONT_GADGETS, FONT_MENUS, FONT_NAMES, FONT_DIRS, FONT_GENERAL, FONT_ICONIFY, FONT_STRING, FONT_REQUEST, FONT_SCREEN, FONT_STATUS, FONT_TEXT };
 
-struct DOpusListView palettelist = {
-	2, NULL, 0, 0, 250, 56, NULL, palettenames, NULL,
-	DLVF_SLOW | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL
-}, fontplacelist =
-
-{
-1, NULL, 0, 0, 176, 64, NULL, fontplacenames, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &fontlistview}, fontlistview =
-
-{
-2, NULL, 0, 0, 176, 64, NULL, NULL, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &fontsizelistview}, fontsizelistview =
-
-{
-3, NULL, 0, 0, 32, 64, NULL, NULL, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL}, listformatlists[2] =
-
-{
-	{
-	1, NULL, 0, 0, 196, 56, NULL, formatnames, NULL, DLVF_SLOW | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &listformatlists[1]},
-	{
-2, NULL, 0, 0, 196, 56, NULL, selectedformatnames, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_CHECK | DLVF_TOGGLE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL}}, iconlistview =
-
-{
-3, NULL, 0, 0, 452, 104, NULL, NULL, NULL, DLVF_TTOP | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL};
+struct DOpusListView palettelist = { 2, NULL, 0, 0, 250, 56, NULL, palettenames, NULL, DLVF_SLOW | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL },
+		     fontplacelist = { 1, NULL, 0, 0, 176, 64, NULL, fontplacenames, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &fontlistview },
+		     fontlistview = { 2, NULL, 0, 0, 176, 64, NULL, NULL, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &fontsizelistview },
+		     fontsizelistview = { 3, NULL, 0, 0, 32, 64, NULL, NULL, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL },
+		     listformatlists[2] = { { 1, NULL, 0, 0, 196, 56, NULL, formatnames, NULL, DLVF_SLOW | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, &listformatlists[1] }, { 2, NULL, 0, 0, 196, 56, NULL, selectedformatnames, NULL, DLVF_SLOW | DLVF_LEAVE | DLVF_CHECK | DLVF_TOGGLE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL } },
+		     iconlistview = { 3, NULL, 0, 0, 452, 104, NULL, NULL, NULL, DLVF_TTOP | DLVF_LEAVE | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL};
 
 char *formatnames[FORMAT_MAXNUM + 1], *selectedformatnames[FORMAT_MAXNUM + 1];
 
 int rowtrans[5] = { 0, 1, 2, 3, 6 };
 struct TextFont *tfont;
-char *fontdatabuf = NULL, **fontlist, *(**fontsizelist), **noproplist, *(**nopropsizelist), **only8list, *only8sizelist[] =
-{
-"8", NULL};
+char *fontdatabuf = NULL, **fontlist, *(**fontsizelist), **noproplist, *(**nopropsizelist), **only8list, *only8sizelist[] = { "8", NULL};
 struct fileclass *firstclass;
 char classname[256];
 struct DOpusRemember *helpkey = NULL;
@@ -503,7 +374,8 @@ char *ftype_funcs[] =
 	"User4"
 };
 
-short func_list_items[] = {
+short func_list_items[] =
+{
 	STR_FUNCTIONLIST_ABOUT,
 	STR_FUNCTIONLIST_ADDICON,
 	STR_FUNCTIONLIST_ALARM,

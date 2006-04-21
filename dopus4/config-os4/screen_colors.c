@@ -87,7 +87,7 @@ void updatecolourvals(int pen, int show)
 	get_palette(Screen, config->new_palette, 1 << ((screen_depth > 4) ? 4 : screen_depth));
 }
 
-void showscreencolours(int which, STRPTR *fg, STRPTR *bg, int special)
+void showscreencolours(int which, UBYTE **fg, UBYTE **bg, int special)
 {
 	int a, x, y, h;
 	char buf[2];

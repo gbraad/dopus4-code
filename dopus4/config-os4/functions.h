@@ -175,7 +175,6 @@ void seteditclassgads(int);
 void removeclassentry(char **, char *, int);
 void insertnewclass(char **, char *, int, char **, char *, int);
 void endclassedit(int, char **, char *, char **);
-//void makeclassrecog(struct fileclass *, unsigned char **, unsigned char *);
 void makeclassrecog(struct fileclass *, STRPTR *, STRPTR);
 void checkclassswap(void);
 void showclassop(int);
@@ -198,7 +197,7 @@ void removescreenedit(int);
 
 void showcolourvals(int, int);
 void updatecolourvals(int, int);
-void showscreencolours(int, char **, char **, int);
+void showscreencolours(int, UBYTE **, UBYTE **, int);
 void solidblock(struct RastPort *, char *, int, int, int, int, int, int, int);
 void showcolourscycle(int, int, int);
 

@@ -32,14 +32,15 @@ the existing commercial status of Directory Opus 5.
 
 char old_general_font[30];
 
-doscreenconfig()
+int doscreenconfig()
 {
 	ULONG class;
-	USHORT code, gadgetid, qual;
+	USHORT code, gadgetid = 0, qual;
 	struct ConfigUndo *undo;
-	struct Gadget *gad;
+	struct Gadget *gad = NULL;
 	int mode = -1, realpen = 1, x, y, cursel = -1, a, b, fontnum = 0, arrowact = 0, c;
-	char *fg = NULL, *bg = NULL, buf[256], *ptr;
+	char buf[256], *ptr;
+	UBYTE *fg = NULL, *bg = NULL;
 	struct DOpusListView *view;
 	struct Screen scrbuf;
 	unsigned char k;
@@ -52,7 +53,7 @@ doscreenconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if(!(mode == SCREEN_SCREENMODE && (view = IDOpus->ListViewIDCMP(&screenmodeview, IMsg)) != (struct DOpusListView *)-1) && !(mode == SCREEN_FONTS && (view = IDOpus->ListViewIDCMP(&fontplacelist, IMsg)) != (struct DOpusListView *)-1) && !(mode == SCREEN_PALETTE && (view = IDOpus->ListViewIDCMP(&palettelist, IMsg)) != (struct DOpusListView *)-1))
 			{
@@ -201,7 +202,7 @@ doscreenconfig()
 						for(;;)
 						{
 							IExec->Wait(1 << Window->UserPort->mp_SigBit);
-							while(IMsg = getintuimsg())
+							while((IMsg = getintuimsg()))
 							{
 								class = IMsg->Class;
 								IExec->ReplyMsg((struct Message *)IMsg);
@@ -301,7 +302,7 @@ doscreenconfig()
 							}
 							else
 								IDOS->Delay(1);
-							while(IMsg = getintuimsg())
+							while((IMsg = getintuimsg()))
 							{
 								class = IMsg->Class;
 								IExec->ReplyMsg((struct Message *)IMsg);
@@ -457,7 +458,7 @@ doscreenconfig()
 						case SCREENMODE_WIDTH:
 							a = atoi(screenwidth_buf);
 							if(a % 2)
-								sprintf(screenwidth_buf, "%ld", a + 1);
+								sprintf(screenwidth_buf, "%d", a + 1);
 							IDOpus->CheckNumGad(&screenmodegads[SCREENMODE_WIDTH - 300], Window, curmode->minw, curmode->maxw);
 							config->scrw = atoi(screenwidth_buf);
 							config->scr_winw = config->scrw;
@@ -493,7 +494,7 @@ doscreenconfig()
 								a = curmode->maxdepth;
 							else if(a < 2)
 								a = 2;
-							sprintf(screendepth_buf, "%ld", (1 << a));
+							sprintf(screendepth_buf, "%d", (1 << a));
 							IDOpus->RefreshStrGad(&screenmodegads[SCREENMODE_DEPTH - 300], Window);
 							config->scrdepth = a;
 							IDOpus->FixSliderPot(Window, &screenmodegads[SCREENMODE_SLIDER - 300], config->scrdepth - 2, curmode->maxdepth - 1, 1, 2);
@@ -660,7 +661,7 @@ doscreenconfig()
 							IDOpus->GetWBScreen(&scrbuf);
 							wbdepth = 1 << scrbuf.RastPort.BitMap->Depth;
 							size = (wbdepth * 3) * sizeof(ULONG);
-							if(palbuf = IExec->AllocMem(size, MEMF_CLEAR))
+							if((palbuf = IExec->AllocMem(size, MEMF_CLEAR)))
 							{
 								ULONG palette[48];
 
@@ -767,7 +768,7 @@ void makescreenedit(int mode)
 			screenmode = firstmode;
 			for(b = 0; b < a; b++)
 			{
-				if(screenmodelist[b] = IDOpus->LAllocRemember(&screenkey, DISPLAYNAMELEN, MEMF_CLEAR))
+				if((screenmodelist[b] = IDOpus->LAllocRemember(&screenkey, DISPLAYNAMELEN, MEMF_CLEAR)))
 					strcpy(screenmodelist[b], screenmode->name);
 				if(screenmode->mode == MODE_WORKBENCHCLONE)
 					wclone = b;
@@ -775,12 +776,14 @@ void makescreenedit(int mode)
 				{
 					if(screenmode->mode == MODE_PUBLICSCREENUSE)
 					{
-						sprintf(buf, "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
+						IUtility->SNPrintf(buf, 256, "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
 						if(IDOpus->LStrCmpI(buf, screenmode->name) == 0)
 							screenmodeview.itemselected = b;
 					}
 					else
+					{
 						screenmodeview.itemselected = b;
+					}
 				}
 				if(!(screenmode = screenmode->next))
 					break;
@@ -819,7 +822,7 @@ void makescreenedit(int mode)
 			{
 				if(!(fontdatabuf = IDOpus->LAllocRemember(&fontkey, size, MEMF_CLEAR)))
 					break;
-				if(shortage = IDiskfont->AvailFonts(fontdatabuf, size, AFF_MEMORY | AFF_DISK))
+				if((shortage = IDiskfont->AvailFonts(fontdatabuf, size, AFF_MEMORY | AFF_DISK)))
 				{
 					IDOpus->LFreeRemember(&fontkey);
 					size += shortage;
@@ -846,7 +849,7 @@ void makescreenedit(int mode)
 			sortfontlist(avail, num, 1);
 			for(fnum = 0; fnum < num; fnum++)
 			{
-				if(ptr = strstri(avail[fnum].af_Attr.ta_Name, ".font"))
+				if((ptr = strstri(avail[fnum].af_Attr.ta_Name, ".font")))
 					*ptr = 0;
 				avail[fnum].af_Attr.ta_Style = 0;
 			}
@@ -890,7 +893,7 @@ void makescreenedit(int mode)
 						if(!fontsizelist[a][b])
 						{
 							if((fontsizelist[a][b] = IDOpus->LAllocRemember(&fontkey, 8, MEMF_CLEAR)))
-								sprintf(fontsizelist[a][b], "%4ld", avail[fnum].af_Attr.ta_YSize);
+								sprintf(fontsizelist[a][b], "%4d", avail[fnum].af_Attr.ta_YSize);
 							break;
 						}
 

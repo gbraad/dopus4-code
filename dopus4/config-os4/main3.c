@@ -945,7 +945,7 @@ void makeselflags(int flags, STRPTR buf)
 	}
 }
 
-getselflags(STRPTR buf)
+int getselflags(STRPTR buf)
 {
 	int a, flags = 0;
 
@@ -1136,7 +1136,7 @@ void checkswapgad()
 	}
 }
 
-funcrequester(int type, STRPTR buf, STRPTR title)
+int funcrequester(int type, STRPTR buf, STRPTR title)
 {
 	struct Window *wind;
 	ULONG class;
@@ -1354,8 +1354,6 @@ void fixeditfunction(struct dopusfunction *func, STRPTR flagsel, STRPTR *funclis
 	if(func->stack < 4000)
 		func->stack = 4000;
 	func->pri = atoi(edit_prioritybuf);
-//    if (func->pri<-127) func->pri=-127;
-//    else if (func->pri>127) func->pri=127;
 	func->delay = atoi(edit_delaybuf);
 	if(func->delay < -1)
 		func->delay = -1;
@@ -1412,9 +1410,9 @@ void setupeditdisplay(struct dopusfunction *func, int type, APTR data, int curty
 	else
 		IDOpus->RefreshListView(editlists, 3);
 	edit_funcbuf[0] = 0;
-	sprintf(edit_stackbuf, "%ld", func->stack);
-	sprintf(edit_prioritybuf, "%ld", func->pri);
-	sprintf(edit_delaybuf, "%ld", func->delay);
+	sprintf(edit_stackbuf, "%d", func->stack);
+	sprintf(edit_prioritybuf, "%d", func->pri);
+	sprintf(edit_delaybuf, "%d", func->delay);
 	IIntuition->RefreshGList(&editfuncgadgets[6], Window, NULL, 3);
 	if(type == CFG_FILETYPE)
 		IIntuition->RefreshGList(&editfuncgadgets[13], Window, NULL, 1);
@@ -1441,7 +1439,7 @@ void erasefunction(struct dopusfunction *func, STRPTR *funclist, STRPTR *displis
 	makeselflags(0, flagsel);
 }
 
-fixfunctypelist(struct dopusfiletype *ftype)
+int fixfunctypelist(struct dopusfiletype *ftype)
 {
 	int a, type = -1, b;
 
@@ -1470,7 +1468,7 @@ void add_appobject(int type)
 	{
 		if(Screen && type)
 		{
-			appobject = (void *)IWorkbench->AddAppIconA(MY_APPOBJECT, 0, cfg_string[STR_DROP_A_TOOL_HERE], appport, NULL, dropboxicon, NULL);
+			appobject = (void *)IWorkbench->AddAppIconA(MY_APPOBJECT, 0, cfg_string[STR_DROP_A_TOOL_HERE], appport, 0, dropboxicon, NULL);
 		}
 		else if(!Screen)
 		{
