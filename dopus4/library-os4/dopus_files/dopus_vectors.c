@@ -54,8 +54,8 @@ extern int                  VARARGS68K _DOpus_Assign(struct DOpusIFace *, char *
 extern int                  VARARGS68K _DOpus_PathName(struct DOpusIFace *, BPTR lock, char * buffer, int len);
 extern int                  VARARGS68K _DOpus_SendPacket(struct DOpusIFace *, struct MsgPort * port, int action, ULONG * args, int nargs);
 extern int                  VARARGS68K _DOpus_TackOn(struct DOpusIFace *, char * path, char * name, int len);
-extern void                 VARARGS68K _DOpus_StampToStr(struct DOpusIFace *, struct DOpusDateTime * datetime);
-extern int                  VARARGS68K _DOpus_StrToStamp(struct DOpusIFace *, struct DOpusDateTime * datetime);
+extern void                 VARARGS68K _DOpus_StampToStr(struct DOpusIFace *, struct DateTime * datetime);
+extern int                  VARARGS68K _DOpus_StrToStamp(struct DOpusIFace *, struct DateTime * datetime);
 extern int                  VARARGS68K _DOpus_AddListView(struct DOpusIFace *, struct DOpusListView * listview, int count);
 extern struct DOpusListView * VARARGS68K _DOpus_ListViewIDCMP(struct DOpusIFace *, struct DOpusListView * listview, struct IntuiMessage * imsg);
 extern int                  VARARGS68K _DOpus_RefreshListView(struct DOpusIFace *, struct DOpusListView * listview, int count);

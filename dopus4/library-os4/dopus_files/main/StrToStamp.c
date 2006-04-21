@@ -32,7 +32,7 @@
 *      StrToStamp -- Description
 *
 *   SYNOPSIS
-*      int StrToStamp(struct DOpusDateTime * datetime);
+*      int StrToStamp(struct DateTime * datetime);
 *
 *   FUNCTION
 *
@@ -54,12 +54,12 @@
 *
 */
 
-int _DOpus_StrToStamp(struct DOpusIFace *Self, struct DOpusDateTime *datetime)
+int _DOpus_StrToStamp(struct DOpusIFace *Self, struct DateTime *datetime)
 {
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
 	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 
-	return(IDOS->StrToDate((struct DateTime *)datetime));
+	return(IDOS->StrToDate(datetime));
 }
 

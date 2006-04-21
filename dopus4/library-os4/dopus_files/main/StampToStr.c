@@ -13,7 +13,6 @@
  *
  */
 
-//#include <stdio.h>
 #include <string.h>
 #include <exec/exec.h>
 #include <proto/exec.h>
@@ -36,7 +35,7 @@
 *      StampToStr -- Description
 *
 *   SYNOPSIS
-*      void StampToStr(struct DOpusDateTime * datetime);
+*      void StampToStr(struct DateTime * datetime);
 *
 *   FUNCTION
 *
@@ -72,7 +71,7 @@ void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 	IDOS->DateToStr(datetime);
 	datetime->dat_StrTime = time;
 
-	if(datetime->dat_StrTime)// != NULL)
+	if(datetime->dat_StrTime)
 	{
 		ds_minute = datetime->dat_Stamp.ds_Minute;
 		ds_tick = datetime->dat_Stamp.ds_Tick;
