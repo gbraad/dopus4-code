@@ -1,0 +1,79 @@
+/*
+ *  $VER: LStrnCmp.c $Revision$ (01-Feb-2006)
+ *
+ *  This file is part of dopus.
+ *
+ *  (C) Copyright 2006 Hyperion Entertainment
+ *      All rights reserved
+ *
+ * $Id$
+ *
+ * $Log$
+ *
+ *
+ */
+
+
+#include <exec/exec.h>
+#include <proto/exec.h>
+#include <dos/dos.h>
+#include <libraries/dopus.h>
+#include <intuition/intuition.h>
+#include <dopus/requesters.h>
+#include <dopus/config.h>
+#include <dopus/stringdata.h>
+#include <proto/dopus.h>
+#include <stdarg.h>
+
+/****** dopus/main/LStrnCmp ******************************************
+*
+*   NAME
+*      LStrnCmp -- Description
+*
+*   SYNOPSIS
+*      int LStrnCmp(char * s1, char * s2, int len);
+*
+*   FUNCTION
+*
+*   INPUTS
+*       s1 - 
+*       s2 - 
+*       len - 
+*
+*   RESULT
+*       The result ...
+*
+*   EXAMPLE
+*
+*   NOTES
+*
+*   BUGS
+*
+*   SEE ALSO
+*
+*****************************************************************************
+*
+*/
+
+int _DOpus_LStrnCmp(struct DOpusIFace *Self, char *s1, char *s2, int len)
+{
+	int8 c1, c2, diff;
+
+	while(1)
+	{
+		c1 = *s1++;
+		c2 = *s2++;
+
+		diff = c1-c2;
+
+		if(diff > 0)
+			return 1;
+		else if(diff < 0)
+			return -1;
+		else if((c1 == 0) || (len == 0))
+			break;
+		len--;
+	}
+	return 0;
+}
+
