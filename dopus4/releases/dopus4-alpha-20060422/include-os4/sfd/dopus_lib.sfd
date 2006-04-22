@@ -1,0 +1,114 @@
+==id $Id: dopus_lib.sfd,v 1.0 2006/02/01 16:02:23 noname Exp $
+* "dopus.library"
+==base _DOpusBase
+==basetype struct Library *
+==libname dopus.library
+==bias 30
+==public
+==include <dopus/dopusbase.h>
+==include <intuition/intuition.h>
+==include <dopus/requesters.h>
+==include <dopus/config.h>
+==include <dopus/stringdata.h>
+int FileRequest(struct DOpusFileReq * freq) (a0)
+void Do3DBox(struct RastPort * rp, int x, int y, int w, int h, int tp, int bp) (a0,d0,d1,d2,d3,d4,d5)
+void Do3DStringBox(struct RastPort * rp, int x, int y, int w, int h, int tp, int bp) (a0,d0,d1,d2,d3,d4,d5)
+void Do3DCycleBox(struct RastPort * rp, int x, int y, int w, int h, int tp, int bp) (a0,d0,d1,d2,d3,d4,d5)
+void DoArrow(struct RastPort * rp, int x, int y, int w, int h, int fg, int bg,
+	int dir) (a0,d0,d1,d2,d3,d4,d5,d6)
+==reserve 1
+void LStrCat(char * s1, char * s2) (a0,a1)
+void LStrnCat(char * s1, char * s2, int len) (a0,a1,d0)
+void LStrCpy(char * to, char * from) (a0,a1)
+void LStrnCpy(char * to, char * from, int len) (a0,a1,d0)
+int LStrCmp(char * s1, char * s2) (a0,a1)
+int LStrnCmp(char * s1, char * s2, int len) (a0,a1,d0)
+int LStrCmpI(char * s1, char * s2) (a0,a1)
+int LStrnCmpI(char * s1, char * s2, int len) (a0,a1,d0)
+int StrCombine(char * s1, char * s2, char * s3, int len) (a0,a1,a2,d0)
+int StrConcat(char * s1, char * s2, int len) (a0,a1,d0)
+void LParsePattern(char * pat, char * parsepat) (a0,a1)
+int LMatchPattern(char * parsepat, char * str) (a0,a1)
+void LParsePatternI(char * pat, char * parsepat) (a0,a1)
+int LMatchPatternI(char * parsepat, char * str) (a0,a1)
+void BtoCStr(BSTR bstr, char * cstr, int len) (a0,a1,d0)
+int Assign(char * name, char * dir) (a0,a1)
+int PathName(BPTR lock, char * buffer, int len) (a0,a1,d0)
+int SendPacket(struct MsgPort * port, int action, ULONG * args, int nargs) (a0,d0,a1,d1)
+int TackOn(char * path, char * name, int len) (a0,a1,d0)
+void StampToStr(struct DateTime * datetime) (a0)
+int StrToStamp(struct DateTime * datetime) (a0)
+int AddListView(struct DOpusListView * listview, int count) (a0,d0)
+struct DOpusListView * ListViewIDCMP(struct DOpusListView * listview,
+	struct IntuiMessage * imsg) (a0,a1)
+int RefreshListView(struct DOpusListView * listview, int count) (a0,d0)
+int RemoveListView(struct DOpusListView * listview, int count) (a0,d0)
+void DrawCheckMark(struct RastPort * rp, int x, int y, int clear) (a0,d0,d1,d2)
+void FixSliderBody(struct Window * window, struct Gadget * gadget, int count, int lines,
+	int show) (a0,a1,d0,d1,d2)
+void FixSliderPot(struct Window * window, struct Gadget * gadget, int offset, int count,
+	int lines, int show) (a0,a1,d0,d1,d2,d3)
+int GetSliderPos(struct Gadget * gadget, int count, int lines) (a0,d0,d1)
+void * LAllocRemember(struct DOpusRemember ** key, ULONG size, ULONG type) (a0,d0,d1)
+void LFreeRemember(struct DOpusRemember ** key) (a0)
+void SetBusyPointer(struct Window * window) (a0)
+void GetWBScreen(struct Screen * scrbuf) (a0)
+int SearchPathList(char * name, char * buffer, int size) (a0,a1,d0)
+int CheckExist(char * name, int * size) (a0,a1)
+void Seed(int seed) (d0)
+int Random(int limit) (d0)
+void StrToUpper(char * from, char * to) (a0,a1)
+void StrToLower(char * from, char * to) (a0,a1)
+int RawkeyToStr(USHORT code, USHORT qual, char * buf, char * kbuf, int len) (d0,d1,a0,a1,d2)
+int DoRMBGadget(struct RMBGadget * rmbgadget, struct Window * window) (a0,a1)
+int AddGadgets(struct Window * window, struct Gadget * gadget, char ** text, int count,
+	int fg, int bg, int add) (a0,a1,a2,d0,d1,d2,d3)
+void ActivateStrGad(struct Gadget * gadget, struct Window * window) (a0,a1)
+void RefreshStrGad(struct Gadget * gadget, struct Window * window) (a0,a1)
+int CheckNumGad(struct Gadget * gadget, struct Window * window, int min, int max) (a0,a1,d0,d1)
+int CheckHexGad(struct Gadget * gadget, struct Window * window, int min, int max) (a0,a1,d0,d1)
+int Atoh(char * str, int len) (a0,d0)
+void HiliteGad(struct Gadget * gadget, struct RastPort * a1arg) (a0,a1)
+int DoSimpleRequest(struct Window * window, struct DOpusSimpleRequest * simplereq) (a0,a1)
+int ReadConfig(char * name, struct ConfigStuff * cstuff) (a0,a1)
+int SaveConfig(char * name, struct ConfigStuff * cstuff) (a0,a1)
+int DefaultConfig(struct ConfigStuff * cstuff) (a0)
+int GetDevices(struct ConfigStuff * cstuff) (a0)
+int AssignGadget(struct ConfigStuff * cstuff, int banknum, int gadnum, char * name,
+	char * func) (a0,d0,d1,a1,a2)
+int AssignMenu(struct ConfigStuff * cstuff, int itemnum, char * name, char * func) (a0,d0,a1,a2)
+int FindSystemFile(char * name, char * buffer, int size, int type) (a0,a1,d0,d1)
+void Do3DFrame(struct RastPort * a0arg, int x, int y, int w, int h, char * title,
+	int tp, int bp) (a0,d0,d1,d2,d3,a1,d4,d5)
+int FreeConfig(struct ConfigStuff * cstuff) (a0)
+void DoCycleGadget(struct Gadget * gadget, struct Window * window, char ** choices,
+	int selection) (a0,a1,a2,d0)
+void UScoreText(struct RastPort * rp, char * text, int x, int y, int upos) (a0,a1,d0,d1,d2)
+void DisableGadget(struct Gadget * gad, struct RastPort * rp, int xoff, int yoff) (a0,a1,d0,d1)
+void EnableGadget(struct Gadget * gad, struct RastPort * rp, int xoff, int yoff) (a0,a1,d0,d1)
+void GhostGadget(struct Gadget * gad, struct RastPort * rp, int xoff, int yoff) (a0,a1,d0,d1)
+void DrawRadioButton(struct RastPort * rp, int x, int y, int w, int h, int hi, int lo) (a0,d0,d1,d2,d3,d4,d5)
+struct Image * GetButtonImage(int w, int h, int fg, int bg, int fpen, int bpen,
+	struct DOpusRemember ** key) (d0,d1,d2,d3,d4,d5,a0)
+void ShowSlider(struct Window * window, struct Gadget * gadget) (a0,a1)
+int CheckConfig(struct ConfigStuff * cstuff) (a0)
+struct Image * GetCheckImage(UBYTE fg, UBYTE bg, int pen, struct DOpusRemember ** key) (d0,d1,d2,a0)
+struct Window * OpenRequester(struct RequesterBase * reqbase) (a0)
+void CloseRequester(struct RequesterBase * reqbase) (a0)
+APTR AddRequesterObject(struct RequesterBase * reqbase, struct TagItem * taglist) (a0,a1)
+void RefreshRequesterObject(struct RequesterBase * reqbase, struct RequesterObject * object) (a0,a1)
+void ObjectText(struct RequesterBase * reqbase, short left, short top, short width,
+	short height, char * text, unsigned short textpos) (a0,d0,d1,d2,d3,a1,d4)
+void DoGlassImage(struct RastPort * rp, struct Gadget * gadget, int shine, int shadow,
+	int type) (a0,a1,d0,d1,d2)
+void Decode_RLE(char * source, char * dest, int size) (a0,a1,d0)
+int ReadStringFile(struct StringData * stringdata, char * filename) (a0,a1)
+int FreeStringFile(struct StringData * stringdata) (a0)
+void LFreeRemEntry(struct DOpusRemember ** key, char * pointer) (a0,a1)
+void AddGadgetBorders(struct DOpusRemember ** key, struct Gadget * gadget, int count,
+	int shine, int shadow) (a0,a1,d0,d1,d2)
+void CreateGadgetBorders(struct DOpusRemember ** key, int w, int h, struct Border ** selborder,
+	struct Border ** unselborder, int dogear, int shine, int shadow) (a0,d0,d1,a1,a2,d2,d3,d4)
+void SelectGadget(struct Window * window, struct Gadget * gadget) (a0,a1)
+int FSSetMenuStrip(struct Window * window, struct Menu * menu) (a0,a1)
+==end
