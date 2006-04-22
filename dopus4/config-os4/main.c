@@ -37,9 +37,9 @@ int onworkbench = 0;
 
 int main(int argc, char **argv)
 {
-	ULONG class;
-	USHORT gadgetid, code;
-	int num, a;
+	uint32 class;
+	uint16 gadgetid = 0, code;
+	int32 num, a;
 	char portname[50], rportname[50], oldconfigname[256];
 	struct WBStartup *wbmsg;
 	struct ConfigUndo *undo;
@@ -100,10 +100,10 @@ int main(int argc, char **argv)
 		if(wbmsg->sm_NumArgs > 1)
 		{
 			num = atoi(wbmsg->sm_ArgList[1].wa_Name);
-			sprintf(portname, "dopus4_config_port%d", num);
+			sprintf(portname, "dopus4_config_port%ld", num);
 			if(!(conport = IExec->CreatePort(portname, 20)))
 				quit();
-			sprintf(rportname, "dopus4_config_reply%d", num);
+			sprintf(rportname, "dopus4_config_reply%ld", num);
 			IExec->Forbid();
 			if(!(cmdport = IExec->FindPort(rportname)))
 			{
@@ -535,7 +535,7 @@ void showconfigscreen(int scr)
 
 void initsidegads(STRPTR *gads, int toggle, int vert)
 {
-	int num, a, x, y, x1, ac, dn, gnum, rnum, w, h;
+	int num, a, x, y, x1 = 0, ac, dn, gnum, rnum, w, h;
 	struct Gadget *gadbuf;
 
 	if(!gads)
@@ -607,7 +607,7 @@ void initsidegads(STRPTR *gads, int toggle, int vert)
 
 void inittickgads(struct ConfigGadget *gads, int flag, int flag2)
 {
-	int num, a, y, gad, last, lasty, dy, xp, yp, fl, b;
+	int32 num, a, y, gad, last = 0, lasty, dy, xp, yp, fl = 0, b;
 	char **namearray;
 	struct StringInfo *sinfo;
 
@@ -981,7 +981,7 @@ int processtickgad(struct ConfigGadget *gads, int flag, int sel, int num)
 				{
 					if(gads[a].bit & 2)
 						IDOpus->CheckHexGad(gad, Window, 0, 0xff);
-					strcpy(gads[a].buffer, (char *)((struct StringInfo *)gad->SpecialInfo)->Buffer);
+					strcpy((char *)gads[a].buffer, ((struct StringInfo *)gad->SpecialInfo)->Buffer);
 				}
 			}
 		}
@@ -1260,7 +1260,7 @@ char *getcopy(STRPTR object, int size, struct DOpusRemember **key)
 	return (newobject);
 }
 
-void makestring(STRPTR buf, ...)
+void makestring(int8 *buf, ...)
 {
 	va_list ap;
 	char *ptr;
@@ -1279,11 +1279,11 @@ void makestring(STRPTR buf, ...)
 			cgad = (struct ConfigGadget *)gad->UserData;
 			cgad->buffer = buf;
 			ptr = (char *)((struct StringInfo *)gad->SpecialInfo)->Buffer;
-			strcpy(ptr, buf);
+			strcpy(ptr, (char *)buf);
 			IDOpus->RefreshStrGad(gad, Window);
 			if(!first)
 				first = gad;
-			buf = (char *)va_arg(ap, char *);
+			buf = va_arg(ap, int8 *);
 		}
 		gad = gad->NextGadget;
 	}
@@ -1516,12 +1516,13 @@ void loadrgb4(struct Screen *scr, USHORT *pal, int num)
 
 void load_palette(struct Screen *screen, uint32 *palette, int numcols)
 {
-	int a, b;
+	int a = 0, b = 0;
 	if(!screen)
 	{
 		for(a = 0, b = 0; a < numcols; a++)
 		{
-			IGraphics->SetRGB32(&Window->WScreen->ViewPort, screen_pens[a].pen, palette[b++], palette[b++], palette[b++]);
+			IGraphics->SetRGB32(&Window->WScreen->ViewPort, screen_pens[a].pen, palette[b], palette[b + 1], palette[b + 2]);
+			b++; b++; b++;
 		}
 	}
 	else

@@ -963,14 +963,14 @@ int dorun(STRPTR name, int state, int workbench)
 	}
 	else
 		buf[0] = 0;
-	IDOpus->StrConcat(buf, "\"", 256);
-	IDOpus->StrConcat(buf, name, 256);
-	IDOpus->StrConcat(buf, "\"", 256);
+	IUtility->Strlcat(buf, "\"", 256);
+	IUtility->Strlcat(buf, name, 256);
+	IUtility->Strlcat(buf, "\"", 256);
 
 	len = 256 - strlen(buf);
 	if(state)
 	{
-		sprintf(louise, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
+		IUtility->SNPrintf(louise, 80, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
 		if(!(rec = whatsit(louise, len, argbuf, globstring[STR_SKIP])))
 		{
 			myabort();
@@ -988,8 +988,8 @@ int dorun(STRPTR name, int state, int workbench)
 	}
 	if(argbuf[0])
 	{
-		IDOpus->StrConcat(buf, " ", 256);
-		IDOpus->StrConcat(buf, argbuf, 256);
+		IUtility->Strlcat(buf, " ", 256);
+		IUtility->Strlcat(buf, argbuf, 256);
 	}
 	defaultpar(&par);
 	dofunctionstring(buf, NULL, IDOS->FilePart(name), &par);

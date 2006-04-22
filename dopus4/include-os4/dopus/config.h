@@ -263,11 +263,11 @@ struct Config
 	char outputcmd[80], output[80];
 	int gadgetrows;
 
-	char separatemethod[2];
+	int8 separatemethod[2];
 
 	char language[30];
 
-	char displaypos[2][16];
+	int8 displaypos[2][16];
 	UBYTE old_displaylength[2][16];
 
 	char pubscreen_name[80];
@@ -295,13 +295,14 @@ struct Config
 	char pad4;
 
 	char startupscript[80];
-	UBYTE dirflags;
+	uint8 dirflags;
 //	unsigned char bufcount;
-	UBYTE bufcount;
+	uint8 bufcount;
 
 	UBYTE listerdisplayflags[2];
 
-	char autodirs[2][70];
+//	char autodirs[2][70];
+	int8 autodirs[2][70];
 
 	UWORD hotkeycode, hotkeyqual;
 
@@ -312,7 +313,7 @@ struct Config
 	char pad7[2];
 
 	char hiddenbit;
-	char showpat[40], hidepat[40];
+	int8 showpat[40], hidepat[40];
 	char showpatparsed[40], hidepatparsed[40];
 	char icontype, scrclktype, showfree;
 

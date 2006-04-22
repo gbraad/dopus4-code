@@ -255,14 +255,14 @@ extern struct Image *checkonimage, *checkoffimage, *buttononimage, *buttonoffima
 
 struct ConfigGadget
 {
-	char type;
-	char value;
-	int nameentry;
-	short x, y;
-	short w, h;
-	int bit;
-	int mutualex;
-	char *buffer;
+	int8 type;
+	int8 value;
+	int32 nameentry;
+	int16 x, y;
+	int16 w, h;
+	int32 bit;
+	int32 mutualex;
+	int8 *buffer;
 	struct Gadget *gad;
 };
 

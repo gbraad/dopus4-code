@@ -713,7 +713,7 @@ void decoderle(struct RLEinfo *rleinfo)
 {
 	STRPTR source, dest;
 	int copy, col;
-	char count;
+	int8 count;
 	int plane, row, bmoffset, planes;
 
 	planes = rleinfo->imagedepth;
@@ -736,7 +736,7 @@ void decoderle(struct RLEinfo *rleinfo)
 
 				for(col = 0; col < rleinfo->imagebpr;)
 				{
-					if(!((count = *source++) & 0x80)) //>= 0)
+					if(!((count = *source++) >= 0))
 					{
 						copy = count + 1;
 						col += copy;
@@ -748,7 +748,7 @@ void decoderle(struct RLEinfo *rleinfo)
 						else
 							source += copy;
 					}
-					else if(count != 0xFF) //-128)
+					else if(count != -128)
 					{
 						copy = 1 - count;
 						col += copy;

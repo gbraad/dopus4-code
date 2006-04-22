@@ -81,13 +81,12 @@ void freedir(struct DirectoryWindow *dir, int win)
 int getdir(struct DirectoryWindow *dir, int win, int incmess)
 {
 	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int tot = 1, a, use_exall = 0, exall_entry, exall_continue, subtype, exall_type = ED_OWNER;
+	int tot = 1, a, use_exall = 0, exall_entry = 0, exall_continue = 0, subtype, exall_type = ED_OWNER;
 	BPTR mylock;
 	char buf[256];
 	struct ExAllControl *exall_control = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL);
-	struct ExAllData *exall_buffer, *exall_current;
+	struct ExAllData *exall_buffer = NULL, *exall_current = NULL;
 	struct MsgPort *deviceport;
-	struct Directory *result;
 
 	endnotify(win);
 	freedir(dir, win);
@@ -124,7 +123,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		return (0);
 	}
 
-	strcpy(buf, str_pathbuffer[win]);
+	IUtility->Strlcpy(buf, str_pathbuffer[win], 256);
 	if(getroot(buf, NULL))
 	{
 		strcpy(dir->volumename, buf);
@@ -142,10 +141,11 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	}
 
 	IDOS->Examine(mylock, fileinfo);
-	if(fileinfo->fib_DirEntryType < 0)
+	if(FIB_IS_FILE(fileinfo)) //fileinfo->fib_DirEntryType < 0)
 	{
 		IDOS->UnLock(mylock);
 		if(IxadMaster)
+		{
 			if(readarchive(dir, win))
 			{
 				unbusy();
@@ -154,8 +154,11 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				startnotify(win);
 				return (1);
 			}
+		}
 		if(Window)
+		{
 			doerror(ERROR_OBJECT_WRONG_TYPE);
+		}
 		return (0);
 	}
 	dir->flags = 0;
@@ -227,9 +230,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			fileinfo->fib_OwnerUID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerUID : 0;
 			fileinfo->fib_OwnerGID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerGID : 0;
 			if(exall_current->ed_Comment)
-/*
-                                BtoCStr((BSTR)exall_current->ed_Comment,fileinfo.fib_Comment,79);
-*/
 				strcpy(fileinfo->fib_Comment, exall_current->ed_Comment);
 			else
 				fileinfo->fib_Comment[0] = 0;
@@ -276,7 +276,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 									break;
 								default:
 									fileinfo->fib_DirEntryType = ENTRY_FILE;
-//                                  fileinfo->fib_Size = fib->fib_Size;
 									break;
 								}
 							}
@@ -308,17 +307,9 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			tot = 0;
 			break;
 		}
-/* Code deleted by Pavel Cizek, 28. 3. 2000:
- *   This code was disable to speed-up directory reading.
- *   Its deletion causes no proportional-gadget refresh during scanning of a directory.
- *   The final update of directory proportional gadget is done by call refreshwindow(win,1)
- *   below via the same function - fixprop(win).
-*/
 		else if(Window)
 			if(config->dynamicflags & UPDATE_QUIETGETDIR)
 				fixprop(win);
-/* * End of deleted code
- */
 	}
 	IDOS->UnLock(mylock);
 
@@ -535,8 +526,7 @@ void findfirstchar(int win, char c)
 				break;
 			}
 		}
-		/*if (sel->next) */ sel = sel->next;
-//                else sel=NULL;
+		sel = sel->next;
 		++a;
 	}
 	if(!b)
@@ -576,7 +566,6 @@ void nodayseedate(struct DateStamp *ds, char *date)
 
 	copy_datestamp(ds, &dt.dat_Stamp);
 	initdatetime(&dt, datebuf, timebuf, 0);
-//        strcpy(date,datebuf); strcat(date," "); strcat(date,timebuf);
 	sprintf(date, "%s %s", datebuf, timebuf);
 }
 
@@ -636,7 +625,7 @@ void displaydir(int win)
 	int d, a, l, tl, bl, b, ds, my, c, /*f, */ pw, px, lpst8, sc, to, y;
 	char sbuf[MAXDISPLAYLENGTH];
 	struct Directory *entry;
-	struct Region *oldreg, *newreg;
+	struct Region *oldreg = NULL, *newreg;
 	struct Rectangle rect;
 
 	if(win < 0 || status_iconified)
@@ -774,7 +763,7 @@ void displaydir(int win)
 void display_entry(struct Directory *entry, int win, int x, int y)
 {
 	char dispbuf[MAXDISPLAYLENGTH];
-	struct Region *oldreg, *newreg;
+	struct Region *oldreg = NULL, *newreg;
 	struct Rectangle rect;
 
 	builddisplaystring(entry, dispbuf, win);
@@ -830,7 +819,7 @@ static void inline PUTCODE(char **c, UWORD x, WORD y)
 void drawentry(char *text, int win)
 {
 	struct RastPort *rp = &dir_rp[win];
-	int len = 0, x, y0, y1, fg, bg;
+	int len = 0, x, y0, y1, fg = 0, bg = 0;
 	char *t = NULL;
 	struct TextCode *c = (struct TextCode *)text;
 	WORD skip;
@@ -1261,7 +1250,7 @@ static const UWORD testdays[] =
 void getprotdatelengths(struct RastPort *rp)
 {
 	struct DateTime dt;
-	char day[LEN_DATSTRING], date[LEN_DATSTRING];
+	char /*day[LEN_DATSTRING], */date[LEN_DATSTRING];
 	int a, b, l;
 
 	config->displaylength[0][DISPLAY_DATE] = 0;

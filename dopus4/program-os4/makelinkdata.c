@@ -179,7 +179,7 @@ static struct TagItem makelink_type_gadget[] =
 int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 {
 	ULONG class;
-	USHORT gadgetid, code;
+	USHORT gadgetid = 0, code;
 	struct Window *swindow;
 	struct Gadget *name_gad, *makelink_type_gad, *makelink_destname_gad;
 	char *makelink_type_array[3] =
@@ -321,13 +321,15 @@ int makelink(int rexx)
 
 	if(rexx)
 	{
-		strcpy(name, rexx_args[0]);
-		strcpy(path, rexx_args[1]);
+		IUtility->Strlcpy(name, rexx_args[0], 256);
+		IUtility->Strlcpy(path, rexx_args[1], 256);
 		if(atoi(rexx_args[2]))
 			mode = 1;
 	}
 	else if(!(getmakelinkdata(name, path, &mode)))
+	{
 		return 0;
+	}
 
 	if(name[0] && path[0])
 	{
@@ -337,7 +339,7 @@ int makelink(int rexx)
 		{
 			if((lock = IDOS->Lock(path, ACCESS_READ)))
 			{
-				if(IDOS->MakeLink(name, lock, FALSE))
+				if(IDOS->MakeLink(name, lock, TRUE))
 				{
 					dostatustext(str_okaystring);
 					return 1;
@@ -348,10 +350,13 @@ int makelink(int rexx)
 		}
 		else
 		{
-			if(IDOS->MakeLink(name, path, TRUE))
+			if((lock = IDOS->Lock(path, ACCESS_READ)))
 			{
-				dostatustext(str_okaystring);
-				return 1;
+				if(IDOS->MakeLink(name, lock, FALSE))
+				{
+					dostatustext(str_okaystring);
+					return 1;
+				}
 			}
 			doerror(-1);
 			return 0;

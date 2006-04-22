@@ -34,13 +34,6 @@ the existing commercial status of Directory Opus 5.
 int countlines(struct ViewData *);
 int smartcountlines(struct ViewData *);
 int ansicountlines(struct ViewData *);
-/*
-void removetabs(struct ViewData *);
-int getusage(void);
-void dprintf(char *, char *, ...);
-int filteroff(void);
-void filteron(void);
-*/
 
 /* about.c */
 void about(void);
@@ -390,9 +383,9 @@ void dofunctionstring(char *, char *, char *, struct dopusfuncpar *);
 int handlefunctionss(char *, char *, char *, struct dopusfuncpar *, struct function_data *);
 int getfunction(char *, char **);
 int customthing(char *, char *, char *, struct dopusfuncpar *, struct function_data *);
-int buildcustfunc(unsigned char *, int, char *, int *, int, int, int, struct function_data *);
+int buildcustfunc(char *, int, char *, int *, int, int, int, struct function_data *);
 int addfilename(char *, char *, char *, int);
-void parserunline(char *, unsigned char *);
+void parserunline(STRPTR, STRPTR);
 void custunselect(struct Directory *, int, struct function_data *);
 void doreloadfiles(struct function_data *);
 struct Directory *reload_file(int, char *);

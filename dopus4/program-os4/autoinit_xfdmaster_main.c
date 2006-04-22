@@ -18,7 +18,7 @@
 __attribute__((weak)) struct xfdMasterIFace * IxfdMaster = NULL;
 /****************************************************************************/
 
-extern struct xfdMasterBase * xfdMasterBase;
+extern struct Library * xfdMasterBase;
 
 void __init_xfdmaster_main(void) __attribute__((constructor));
 void __exit_xfdmaster_main(void) __attribute__((destructor));
@@ -27,7 +27,7 @@ void __exit_xfdmaster_main(void) __attribute__((destructor));
 
 void __init_xfdmaster_main(void)
 {
-    struct xfdMasterBase * LibBase;
+    struct Library * LibBase;
     if (xfdMasterBase == NULL) /* Library base is NULL, we need to open it */
     {
         LibBase = IExec->OpenLibrary("xfdmaster.library", 0L);

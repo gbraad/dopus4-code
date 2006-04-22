@@ -18,7 +18,7 @@
 __attribute__((weak)) struct AsyncIOIFace * IAsyncIO = NULL;
 /****************************************************************************/
 
-extern struct AsyncIOBase * AsyncIOBase;
+extern struct Library * AsyncIOBase;
 
 void __init_asyncio_main(void) __attribute__((constructor));
 void __exit_asyncio_main(void) __attribute__((destructor));
@@ -27,7 +27,7 @@ void __exit_asyncio_main(void) __attribute__((destructor));
 
 void __init_asyncio_main(void)
 {
-    struct AsyncIOBase * LibBase;
+    struct Library * LibBase;
     if (AsyncIOBase == NULL) /* Library base is NULL, we need to open it */
     {
         LibBase = IExec->OpenLibrary("asyncio.library", 0L);

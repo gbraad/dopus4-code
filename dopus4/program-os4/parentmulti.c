@@ -90,7 +90,7 @@ struct TagItem pm_lister[] =
 int do_parent_multi(STRPTR path)
 {
 	ULONG class;
-	USHORT gadgetid;
+	uint16 gadgetid = 0;
 	struct Window *rwindow;
 	struct Gadget *gadlist;
 	struct DOpusListView *listview, *view;
@@ -150,7 +150,7 @@ int do_parent_multi(STRPTR path)
 	while(parentlock)
 	{
 		IDOpus->PathName(parentlock, buf, 256);
-		if(table[count] = IDOpus->LAllocRemember(&pm_req.rb_memory, (a = (strlen(buf) + 3)), 0))
+		if((table[count] = IDOpus->LAllocRemember(&pm_req.rb_memory, (a = (strlen(buf) + 3)), 0)))
 		{
 			strcpy(table[count], buf);
 			IDOpus->TackOn(table[count], NULL, a - 1);
@@ -181,16 +181,16 @@ int do_parent_multi(STRPTR path)
 
 	for(a = 0; a < 2; a++)
 	{
-		if(uscore = strchr(globstring[a ? STR_CANCEL : STR_OKAY], '_'))
+		if((uscore = strchr(globstring[a ? STR_CANCEL : STR_OKAY], '_')))
 			key[a] = uscore[1];
 		else
 			key[a] = globstring[a ? STR_CANCEL : STR_OKAY][0];
 		key[a] = IUtility->ToLower(key[a]);
 	}
 
-	FOREVER
+	for(;;)
 	{
-		while(IMsg = (struct IntuiMessage *)IExec->GetMsg(rwindow->UserPort))
+		while((IMsg = (struct IntuiMessage *)IExec->GetMsg(rwindow->UserPort)))
 		{
 			seconds = IMsg->Seconds;
 			micros = IMsg->Micros;
@@ -250,16 +250,14 @@ int do_parent_multi(STRPTR path)
 
 int get_multi_volume(BPTR lock, STRPTR *table, struct DOpusRemember **key)
 {
-	struct DosList *doslist;
-//	struct RootNode *rootnode;
+/*	struct DosList *doslist;
+	struct RootNode *rootnode;
 	struct DosInfo *dosinfo;
 	struct AssignList *list;
 	char buf[256];
 	int count = 0, tabcount = 0, a;
 
-//  if (!system_version2) return(0);
-
-/*	IExec->Forbid();
+	IExec->Forbid();
 
 	rootnode = (struct RootNode *)DOSBase->dl_Root;
 	dosinfo = (struct DosInfo *)BADDR(rootnode->rn_Info);
@@ -293,5 +291,6 @@ int get_multi_volume(BPTR lock, STRPTR *table, struct DOpusRemember **key)
 	if(table)
 		return (tabcount);
 	else
-*/		return (count);
+		return (count);*/
+	return 0;
 }

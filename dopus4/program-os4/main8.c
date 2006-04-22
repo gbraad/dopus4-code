@@ -46,7 +46,7 @@ void newcli(char *spec)
 {
 	char buf[200];
 
-	sprintf(buf, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
+	IUtility->SNPrintf(buf, 200, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
 	if(!(IDOS->Execute(buf, 0, nil_file_handle)))
 		doerror(-1);
 	else
@@ -718,10 +718,10 @@ void FadeRGB32(struct Screen *screen, uint32 *cmap, int count, int dir, int fade
 		IExec->FreeMem(tempmap, ((count * 3) + 2) * sizeof(ULONG));
 }
 
-void FadeRGB4(struct Screen *screen, UWORD *cmap, int count, int dir, int fadetime)
+void FadeRGB4(struct Screen *screen, uint16 *cmap, int count, int dir, int fadetime)
 {
 	UWORD *tempmap = NULL;
-	char red, green, blue;
+	int8 red, green, blue;
 	int i, j, s, t, n;
 	struct timerequest treq;
 	struct MsgPort *fade_port = NULL;

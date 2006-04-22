@@ -35,12 +35,12 @@ static char displenmap[] = { DISPLAY_NAME, DISPLAY_COMMENT, DISPLAY_FILETYPE, DI
 
 int dooperationconfig()
 {
-	ULONG class;
-	USHORT code, gadgetid, qual;
-	char *flag = NULL, *flag2 = NULL;
+	uint8 *flag = NULL, *flag2 = NULL;
+	uint16 code, gadgetid = 0, qual;
+	int32 lastsel = -1, a, disppos = 0, b, formatwin = 0, x, y;
+	uint32 class;
 	struct ConfigUndo *undo;
-	struct Gadget *gad;
-	int lastsel = -1, a, disppos = 0, b, formatwin = 0, x, y;
+	struct Gadget *gad = NULL;
 	struct DOpusListView *view;
 	struct DOpusRemember *borderkey = NULL;
 
@@ -50,7 +50,7 @@ int dooperationconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if(lastsel != OP_FORMAT || ((view = IDOpus->ListViewIDCMP(listformatlists, IMsg)) == (struct DOpusListView *)-1))
 			{
@@ -181,9 +181,10 @@ int dooperationconfig()
 								a = 20;
 							else if(a > MAX_DISPLAYLENGTH)
 								a = MAX_DISPLAYLENGTH;
-							sprintf(formatlen_buf[b], "%ld", a);
+//							sprintf(formatlen_buf[b], "%ld", a);
+							IUtility->SNPrintf(formatlen_buf[b], 8, "%ld", a);
 							IDOpus->RefreshStrGad(gad, Window);
-							config->displaylength[formatwin][displenmap[b]] = a;
+							config->displaylength[formatwin][(uint32)displenmap[b]] = a;
 							if(code != 0x9)
 								getnextgadget(gad);
 							break;
@@ -274,7 +275,7 @@ int dooperationconfig()
 								flag2 = &(config->existflags);
 								break;
 							case OP_DATEFORMAT:
-								flag = &(config->dateformat);
+								flag = (uint8 *)&(config->dateformat);
 								break;
 							case OP_DELETE:
 								flag = &(config->deleteflags);
@@ -394,12 +395,13 @@ int dooperationconfig()
 
 int dosystemconfig()
 {
-	ULONG class;
-	USHORT code, gadgetid, qual, hotcode, hotqual;
-	char *flag = NULL, *flag2 = NULL, buf[80], buf1[80], buf2[80], *ptr;
+	uint32 class;
+	uint16 code, gadgetid = 0, qual, hotcode, hotqual;
+	uint8 *flag = NULL, *flag2 = NULL;
+	char buf[80], buf1[80], buf2[80], *ptr;
 	char buf3[10], buf4[10], buf5[10], buf6[10];
 	struct ConfigUndo *undo;
-	struct Gadget *gad;
+	struct Gadget *gad = NULL;
 	struct ConfigGadget *congad;
 	int a, lastsel = -1, tick, x, y;
 	struct DOpusListView *view;
@@ -415,7 +417,7 @@ int dosystemconfig()
 	FOREVER
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if(!(lastsel == SYS_ICONS && (view = IDOpus->ListViewIDCMP(&iconlistview, IMsg)) != (struct DOpusListView *)-1) && !(lastsel == SYS_MODULES && (view = IDOpus->ListViewIDCMP(&modulelist, IMsg)) != (struct DOpusListView *)-1))
 			{
@@ -499,7 +501,7 @@ int dosystemconfig()
 					{
 						congad = (struct ConfigGadget *)gad->UserData;
 						ptr = ((struct StringInfo *)congad->gad->SpecialInfo)->Buffer;
-						if(system_requester(ptr, congad->buffer, congad->gad, congad->bit))
+						if(system_requester(ptr, (char *)congad->buffer, congad->gad, congad->bit))
 							processtickgad(systemgadgets[lastsel], 0, -1, -1);
 					}
 					else if(gadgetid >= STRING_BASE)
@@ -521,10 +523,10 @@ int dosystemconfig()
 							config->showdelay = atoi(buf);
 							config->fadetime = atoi(buf1);
 							config->tabsize = atoi(buf2);
-							config->viewtext_topleftx = atoi(buf3);	//HUX
-							config->viewtext_toplefty = atoi(buf4);	//HUX
-							config->viewtext_width = atoi(buf5);	//HUX
-							config->viewtext_height = atoi(buf6);	//HUX
+							config->viewtext_topleftx = atoi(buf3);
+							config->viewtext_toplefty = atoi(buf4);
+							config->viewtext_width = atoi(buf5);
+							config->viewtext_height = atoi(buf6);
 							break;
 						}
 						if(code != 0x9)
@@ -693,15 +695,15 @@ int dosystemconfig()
 							switch (gadgetid)
 							{
 							case SYS_CLOCK:
-								flag = &(config->scrclktype);
-								flag2 = &(config->icontype);
+								flag = (uint8 *)&(config->scrclktype);
+								flag2 = (uint8 *)&(config->icontype);
 								break;
 							case SYS_DIRECTORIES:
 								flag = &(config->dirflags);
-								flag2 = &(config->showfree);
+								flag2 = (uint8 *)&(config->showfree);
 								break;
 							case SYS_SHOWPATTERN:
-								flag = &(config->hiddenbit);
+								flag = (uint8 *)&(config->hiddenbit);
 								break;
 							case SYS_VIEWPLAY:
 								flag = &(config->viewbits);
@@ -715,15 +717,15 @@ int dosystemconfig()
 							switch (gadgetid)
 							{
 							case SYS_AMIGADOS:
-								sprintf(buf, "%ld", config->priority);
+								IUtility->SNPrintf(buf, 80, "%d", config->priority);
 								makestring(config->outputcmd, config->output, config->shellstartup, buf, NULL);
 								break;
 							case SYS_STARTUP:
 								makestring(config->autodirs[0], config->autodirs[1], config->startupscript, config->uniconscript, config->configreturnscript, NULL);
 								break;
 							case SYS_DIRECTORIES:
-								sprintf(buf, "%ld", config->bufcount);
-								makestring(buf, NULL);
+								IUtility->SNPrintf(buf, 80, "%d", config->bufcount);
+								makestring((int8 *)buf, NULL);
 								break;
 							case SYS_HOTKEYS:
 								IGraphics->SetAPen(rp, screen_pens[1].pen);
@@ -762,14 +764,14 @@ int dosystemconfig()
 //								IGraphics->BltTemplate((PLANEPTR) DOpusBase->pdb_check, 0, 2, rp, x_off + 208, y_off + 77, 13, 7);
 								break;
 							case SYS_VIEWPLAY:
-								sprintf(buf, "%ld", config->showdelay);
-								sprintf(buf1, "%ld", config->fadetime);
-								sprintf(buf2, "%ld", config->tabsize);
-								sprintf(buf3, "%ld", config->viewtext_topleftx);
-								sprintf(buf4, "%ld", config->viewtext_toplefty);
-								sprintf(buf5, "%ld", config->viewtext_width);
-								sprintf(buf6, "%ld", config->viewtext_height);
-								makestring(buf, buf1, buf2, buf3, buf4, buf5, buf6, NULL);
+								IUtility->SNPrintf(buf, 80, "%d", config->showdelay);
+								sprintf(buf1, "%d", config->fadetime);
+								sprintf(buf2, "%d", config->tabsize);
+								sprintf(buf3, "%d", config->viewtext_topleftx);
+								sprintf(buf4, "%d", config->viewtext_toplefty);
+								sprintf(buf5, "%d", config->viewtext_width);
+								sprintf(buf6, "%d", config->viewtext_height);
+								makestring((int8 *)buf, buf1, buf2, buf3, buf4, buf5, buf6, NULL);
 								break;
 							case SYS_SHOWPATTERN:
 								makestring(config->showpat, config->hidepat, NULL);
@@ -901,16 +903,16 @@ void fixdisplaylengths(int win)
 	lim = (network) ? 5 : 3;
 	for(a = 0; a < lim; a++)
 	{
-		if(config->displaylength[win][displenmap[a]] < 20)
-			config->displaylength[win][displenmap[a]] = 20;
-		else if(config->displaylength[win][displenmap[a]] > MAX_DISPLAYLENGTH)
-			config->displaylength[win][displenmap[a]] = MAX_DISPLAYLENGTH;
-		sprintf(formatlen_buf[a], "%ld", config->displaylength[win][displenmap[a]]);
+		if(config->displaylength[win][(uint32)displenmap[a]] < 20)
+			config->displaylength[win][(uint32)displenmap[a]] = 20;
+		else if(config->displaylength[win][(uint32)displenmap[a]] > MAX_DISPLAYLENGTH)
+			config->displaylength[win][(uint32)displenmap[a]] = MAX_DISPLAYLENGTH;
+		sprintf(formatlen_buf[a], "%d", config->displaylength[win][(uint32)displenmap[a]]);
 	}
-	IIntuition->RefreshGList(&formatgads[6], Window, NULL, -1 /*lim */ );	//HUX was 5
+	IIntuition->RefreshGList(&formatgads[6], Window, NULL, -1);
 }
 
-int system_requester(STRPTR buf, STRPTR buf2, struct Gadget *gad, int bit)
+int system_requester(char *buf, char *buf2, struct Gadget *gad, int32 bit)
 {
 	if(!buf[0])
 	{
@@ -958,7 +960,7 @@ void system_makeiconlist(int make)
 			if(IDOpus->LStrCmpI(type->type, "Default") == 0)
 				--count;
 		}
-		if(iconlistview.items = IDOpus->LAllocRemember(&key, (count + 1) * 4, MEMF_CLEAR))
+		if((iconlistview.items = IDOpus->LAllocRemember(&key, (count + 1) * 4, MEMF_CLEAR)))
 		{
 			for(a = 0; a < 3; a++)
 				iconlistview.items[a] = icontypes[a];
@@ -978,7 +980,7 @@ void system_makeiconlist(int make)
 			{
 				if(IDOpus->LStrCmpI(type->type, "Default") == 0)
 					--a;
-				else if(iconlistview.items[a] = IDOpus->LAllocRemember(&key, strlen(type->type) + 4, 0))
+				else if((iconlistview.items[a] = IDOpus->LAllocRemember(&key, strlen(type->type) + 4, 0)))
 				{
 					strcpy(iconlistview.items[a], "   ");
 					strcat(iconlistview.items[a], type->type);
@@ -999,7 +1001,7 @@ void system_showicon(STRPTR iconfile, int deftype)
 	int x, y;
 	struct Image *image;
 	struct Rectangle cliprec;
-	struct Region *reg, *oldreg;
+	struct Region *reg, *oldreg = NULL;
 
 	cliprec.MinX = x_off + 459;
 	cliprec.MinY = y_off + 126;
@@ -1020,7 +1022,7 @@ void system_showicon(STRPTR iconfile, int deftype)
 
 	if(!icon)
 		return;
-	if(reg = IGraphics->NewRegion())
+	if((reg = IGraphics->NewRegion()))
 	{
 		IGraphics->OrRectRegion(reg, &cliprec);
 		oldreg = ILayers->InstallClipRegion(Window->WLayer, reg);
@@ -1038,10 +1040,3 @@ void system_showicon(STRPTR iconfile, int deftype)
 		IGraphics->DisposeRegion(reg);
 	}
 }
-
-STRPTR lock_dirs[] =
-{
-	"PROGDIR:/S/",
-//	"S:",
-//	"DOpus:S/"
-};

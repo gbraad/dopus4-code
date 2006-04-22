@@ -35,10 +35,10 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 {
 	struct FileInfoBlock *cfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	char *buffer;
-	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size, size;
+	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size = 0, size;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
 	int inhandle, outhandle;
-	struct AsyncFile *infile;
+	struct AsyncFile *infile = NULL;
 
 	struct DateStamp ds, *dsp;
 
@@ -142,7 +142,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			{
 				for(a = 0; a < length; a++)
 				{
-					enbyte = IUtility->Random(9999);
+					enbyte = IUtility->Random((struct RandomState *)9999);
 					buffer[a] += enbyte;
 				}
 			}
@@ -150,7 +150,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			{
 				for(a = 0; a < length; a++)
 				{
-					enbyte = IUtility->Random(9999);
+					enbyte = IUtility->Random((struct RandomState *)9999);
 					buffer[a] -= enbyte;
 				}
 			}

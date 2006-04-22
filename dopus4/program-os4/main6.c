@@ -207,7 +207,7 @@ int getpal()
 
 	p = (((struct GfxBase *)(IGraphics->Data.LibBase))->DisplayFlags & PAL) ? 1 : 0;
 //    if (system_version2>=OSVER_37) {
-	if(screen = IIntuition->LockPubScreen(NULL))
+	if((screen = IIntuition->LockPubScreen(NULL)))
 	{
 		if((modeid = IGraphics->GetVPModeID(&(screen->ViewPort))) != INVALID_ID)
 		{
@@ -303,7 +303,6 @@ char *getfiledescription(STRPTR name, int win)
 	return (type->type);
 }
 
-//extern int column[];
 void fixhlen(int win)
 {
 	int a;
@@ -323,88 +322,67 @@ void fixhlen(int win)
 				if(config->displaypos[win][a] == DISPLAY_NAME)
 					dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_NAME];
 				else if(config->displaypos[win][a] == DISPLAY_SIZE)
-//                    dopus_curwin[win]->hlen+=8;
 					dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_SIZE];
 				else if(config->displaypos[win][a] == DISPLAY_PROTECT)
-//                    dopus_curwin[win]->hlen+=9;
 					dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_PROTECT] + scrdata_font_xsize;
 				else if(config->displaypos[win][a] == DISPLAY_DATE)
 				{
-//                    if (config->dateformat&DATE_12HOUR)
-//                        dopus_curwin[win]->hlen+=20;
-//                    else dopus_curwin[win]->hlen+=19;
 					dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_DATE] + scrdata_font_xsize;
 				}
 				else if(config->displaypos[win][a] == DISPLAY_COMMENT)
 					dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_COMMENT];
 				else if(config->displaypos[win][a] == DISPLAY_FILETYPE)
 					dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_FILETYPE];
-/*				else if(AccountsBase || muBase)
-				{
-					if(config->displaypos[win][a] == DISPLAY_OWNER)
-						dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_OWNER];
-					else if(config->displaypos[win][a] == DISPLAY_GROUP)
-						dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_GROUP];
-					else if(config->displaypos[win][a] == DISPLAY_NETPROT)
-//                        dopus_curwin[win]->hlen+=10;
-						dopus_curwin[win]->hlen += config->displaylength[win][DISPLAY_NETPROT] + scrdata_font_xsize;
-				}
-*/			}
+			}
 		}
 		if(dopus_curwin[win]->hlen < scrdata_dispwin_nchars[win])
 			dopus_curwin[win]->hlen = scrdata_dispwin_nchars[win];
 		if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
 			dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
 	}
-//D(bug("hlen[%ld] = %ld\n",win,dopus_curwin[win]->hlen));
 }
 
 
 /* Get the name of the screen we are currently on */
-
 char *get_our_pubscreen()
 {
 	char *name = NULL;
 
 	if(Window)
 	{
-		/* Under 2.0 we lock the pubscreen list, and scan it to find
-		   the screen we're on */
-/*        if (system_version2)*/
+		struct List *pubscreenlist;
+		struct PubScreenNode *node;
+
+		if((pubscreenlist = IIntuition->LockPubScreenList()))
 		{
-			struct List *pubscreenlist;
-			struct PubScreenNode *node;
-
-			if(pubscreenlist = IIntuition->LockPubScreenList())
+			for(node = (struct PubScreenNode *)pubscreenlist->lh_Head; node->psn_Node.ln_Succ; node = (struct PubScreenNode *)node->psn_Node.ln_Succ)
 			{
-				for(node = (struct PubScreenNode *)pubscreenlist->lh_Head; node->psn_Node.ln_Succ; node = (struct PubScreenNode *)node->psn_Node.ln_Succ)
+				/* See if this node is our screen */
+				if(node->psn_Screen == Window->WScreen)
 				{
-
-					/* See if this node is our screen */
-					if(node->psn_Screen == Window->WScreen)
-					{
-
-						/* Get name pointer */
-						name = node->psn_Node.ln_Name;
-						break;
-					}
+					/* Get name pointer */
+					name = node->psn_Node.ln_Name;
+					break;
 				}
-				IIntuition->UnlockPubScreenList();
 			}
+			IIntuition->UnlockPubScreenList();
 		}
 
 		/* Otherwise use default title */
 		if(!name)
+		{
 			name = Window->WScreen->DefaultTitle;
+		}
 	}
 
 	/* If no window open, use port name */
 	else
+	{
 		name = str_arexx_portname;
+	}
 
 	return (name);
 }
-
 
 /* Change name of arexx port */
 

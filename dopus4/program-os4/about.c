@@ -53,7 +53,7 @@ STRPTR comp_date = __DATE__, comp_time = __TIME__;
 
 void about()
 {
-	char buf[1024];
+	char buf[1024] = { 0, };
 
 	IUtility->SNPrintf(buf, 1024, globstring[STR_ABOUT], "Directory Opus " DOPUS_VERSION "." DOPUS_REVISION " " DOPUS_BETAREV, "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);

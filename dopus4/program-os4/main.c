@@ -36,10 +36,10 @@ extern BOOL useAHI;
 
 int main(int argc, char **argv)
 {
-	int a, in, iconstart, sup, ck, nsee;
+	uint32 a, in, iconstart, sup, ck, nsee;
 	struct WBStartup *WBmsg;
 	struct WBArg *p;
-	STRPTR *toolarray, s, startdir = NULL;
+	char **toolarray, *s, *startdir = NULL;
 	char buf[1024];
 
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 	read_configuration(0);
 
 	if(startdir)
-		IUtility->Strlcpy(config->autodirs[0], startdir, 69);
+		IUtility->Strlcpy((char *)config->autodirs[0], startdir, 69);
 
 	initlistermenu();
 
@@ -286,7 +286,7 @@ int main(int argc, char **argv)
 		{
 			if(config->autodirs[a][0])
 			{
-				strcpy(str_pathbuffer[a], config->autodirs[a]);
+				IUtility->Strlcpy(str_pathbuffer[a], (char *)config->autodirs[a], 256);
 				checkdir(str_pathbuffer[a], (sup) ? &path_strgadget[a] : NULL);
 				strcpy(dopus_curwin[a]->directory, str_pathbuffer[a]);
 				getdir(dopus_curwin[a], a, 0);

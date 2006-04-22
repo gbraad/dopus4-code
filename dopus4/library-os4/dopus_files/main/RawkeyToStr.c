@@ -18,6 +18,7 @@
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <proto/console.h>
+#include <proto/utility.h>
 #include <dos/dos.h>
 #include <dos/dosextens.h>
 #include <libraries/dopus.h>
@@ -34,7 +35,7 @@
 *      RawkeyToStr -- Description
 *
 *   SYNOPSIS
-*      int RawkeyToStr(USHORT code, USHORT qual, char * buf, char * kbuf, 
+*      int RawkeyToStr(uint16 code, uint16 qual, char * buf, char * kbuf, 
 *          int len);
 *
 *   FUNCTION
@@ -61,9 +62,11 @@
 *
 */
 
-int _DOpus_RawkeyToStr(struct DOpusIFace *Self, USHORT code, USHORT qual, char *buf, char *kbuf, int len)
+int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *buf, char *kbuf, int len)
 {
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
+	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 	struct Device *ConsoleDevice;
 	struct ConsoleIFace *IConsole;
 	struct InputEvent inev;
@@ -75,13 +78,14 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, USHORT code, USHORT qual, char *
 	if(buf)
 		buf[0] = 0;
 	ocbuf[0] = cbuf[0] = 0;
-	if(code != (USHORT) ~ 0 && code != 0xff)
+	if(code != (uint16) ~ 0 && code != 0xff)
 	{
 		if(code & IECODE_UP_PREFIX)
 			code -= 0x80;
 		if(code >= 0x50 && code <= 0x59)
-			LSprintf(cbuf, "F%ld", code - 0x4f);
-		else if(code != (USHORT)~0 && code != 0xff)
+//			LSprintf(cbuf, "F%ld", code - 0x4f);
+			IUtility->SNPrintf(cbuf, 20, "F%ld", code - 0x4f);
+		else if(code != (uint16)~0 && code != 0xff)
 		{
 			foo = NULL;
 			switch (code)
@@ -138,7 +142,7 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, USHORT code, USHORT qual, char *
 				return (0);
 			}
 			ConsoleDevice = (struct Device *)req->io_Device;
-			if(!(IConsole = (struct ConsoleIFace *)IExec->GetInterface(ConsoleDevice, "main", 1, NULL)))
+			if(!(IConsole = (struct ConsoleIFace *)IExec->GetInterface((struct Library *)ConsoleDevice, "main", 1, NULL)))
 			{
 				IExec->DeleteIORequest((struct IORequest *)req);
 				return (0);
@@ -176,7 +180,7 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, USHORT code, USHORT qual, char *
 			Self->StrConcat(buf, "LALT + ", len);
 		if(qual & IEQUALIFIER_RALT)
 			Self->StrConcat(buf, "RALT + ", len);
-		if((code == (USHORT) ~ 0 || code == 0xff /* || code==0 */ ) && buf[0])
+		if((code == (uint16) ~ 0) || (code == 0xff && buf[0]))
 			buf[strlen(buf) - 3] = 0;
 		else if(cbuf[0])
 		{

@@ -42,8 +42,8 @@ int readarchive(struct DirectoryWindow *dir, int win)
 	char arcname[256], arcdir[256], buf[FILEBUF_SIZE], *c;
 	int type;
 
-	strcpy(arcdir, "");
-	strcpy(arcname, dir->directory);
+	IUtility->Strlcpy(arcdir, "", 256);
+	IUtility->Strlcpy(arcname, dir->directory, 256);
 	if((len = strlen(arcname)))
 		if(arcname[len - 1] == '/')
 			arcname[len - 1] = 0;
@@ -54,13 +54,13 @@ int readarchive(struct DirectoryWindow *dir, int win)
 			return 0;
 		if(c > arcname)
 			*(c - 1) = 0;
-		strcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname);
+		IUtility->Strlcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname, 256);
 	}
 	len = strlen(arcdir);
 	IDOS->UnLock(lock);
 	if(!dir->xai)
 	{
-		dostatustext(globstring[STR_OPENING_ARCHIVE]);	//HUX
+		dostatustext(globstring[STR_OPENING_ARCHIVE]);
 		if((dir->arcname = IExec->AllocVec(strlen(arcname) + 1, MEMF_ANY)))
 		{
 			strcpy(dir->arcname, arcname);
@@ -218,27 +218,27 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 					whatsit(globstring[STR_ENTER_PASSWORD], 32, dir->arcpassword, NULL);
 			}
 
-			strcpy(arcname, dir->arcname);
+			IUtility->Strlcpy(arcname, dir->arcname, 256);
 			{
 				c = strstr(dir->directory, IDOS->FilePart(arcname));
 				if(c)
 					for(; c && (*c != '/'); c++);
 				if(c)
 					c++;
-				strcpy(arcdir, c ? c : "");
+				IUtility->Strlcpy(arcdir, c ? c : "", 256);
 			}
 
 			IDOS->AddPart(arcdir, file, 256);
 			strcpy(namebuf, "dopustmp");
-			sprintf(arcname, "%04lx", IUtility->GetUniqueID());
+			IUtility->SNPrintf(arcname, 256, "%04lx", IUtility->GetUniqueID());
 			strcat(namebuf, arcname);
 			c = strchr(file, '.');
 			if(c)
 				strcat(namebuf, c);
-			strcpy(arcname, path);
-			strcat(arcname, namebuf);
+			IUtility->Strlcpy(arcname, path, 256);
+			IUtility->Strlcat(arcname, namebuf, 256);
 			for(xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next)
-				if(IDOpus->LStrCmpI(xfi->xfi_FileName, arcdir) == 0)
+				if(IUtility->Stricmp(xfi->xfi_FileName, arcdir) == 0)
 					break;
 
 			if(xfi)
@@ -286,7 +286,7 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 {
 	if(entry == NULL)
 		return;
-	fib->fib_DirEntryType = entry-> /*sub */ type;
+	fib->fib_DirEntryType = entry->type;
 	strcpy(fib->fib_FileName, entry->name);
 	fib->fib_Protection = entry->protection;
 	fib->fib_Size = (int)entry->size;

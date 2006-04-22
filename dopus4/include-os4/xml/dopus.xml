@@ -50,13 +50,9 @@
 			<arg name="h" type="int"/>
 			<arg name="fg" type="int"/>
 			<arg name="bg" type="int"/>
-			<arg name="dir" type="int"/>
+			<arg name="d" type="int"/>
 		</method>
-		<method name="Reserved1" result="void" status="unimplemented"/>
-		<method name="LCreateExtIO" result="struct IORequest *">
-			<arg name="port" type="struct MsgPort *"/>
-			<arg name="size" type="int"/>
-		</method>
+	<!--	<method name="Reserved1" result="void" status="unimplemented"/> -->
 		<method name="LStrCat" result="void">
 			<arg name="s1" type="char *"/>
 			<arg name="s2" type="char *"/>
@@ -99,11 +95,11 @@
 			<arg name="s3" type="char *"/>
 			<arg name="len" type="int"/>
 		</method>
-		<method name="StrConcat" result="int">
+	<!--	<method name="StrConcat" result="int">
 			<arg name="s1" type="char *"/>
 			<arg name="s2" type="char *"/>
 			<arg name="len" type="int"/>
-		</method>
+		</method> -->
 		<method name="LParsePattern" result="int">
 			<arg name="pat" type="char *"/>
 			<arg name="parsepat" type="char *"/>
@@ -131,7 +127,7 @@
 		</method>
 		<method name="PathName" result="int">
 			<arg name="lock" type="BPTR"/>
-			<arg name="buffer" type="char *"/>
+			<arg name="buf" type="char *"/>
 			<arg name="len" type="int"/>
 		</method>
 		<method name="SendPacket" result="int">
@@ -140,31 +136,31 @@
 			<arg name="args" type="ULONG *"/>
 			<arg name="nargs" type="int"/>
 		</method>
-		<method name="TackOn" result="int">
+	<!--	<method name="TackOn" result="int">
 			<arg name="path" type="char *"/>
-			<arg name="name" type="char *"/>
+			<arg name="file" type="char *"/>
 			<arg name="len" type="int"/>
-		</method>
+		</method> -->
 		<method name="StampToStr" result="void">
 			<arg name="datetime" type="struct DateTime *"/>
 		</method>
-		<method name="StrToStamp" result="int">
+	<!--	<method name="StrToStamp" result="int">
 			<arg name="datetime" type="struct DateTime *"/>
-		</method>
+		</method> -->
 		<method name="AddListView" result="int">
-			<arg name="listview" type="struct DOpusListView *"/>
+			<arg name="view" type="struct DOpusListView *"/>
 			<arg name="count" type="int"/>
 		</method>
 		<method name="ListViewIDCMP" result="struct DOpusListView *">
-			<arg name="listview" type="struct DOpusListView *"/>
+			<arg name="view" type="struct DOpusListView *"/>
 			<arg name="imsg" type="struct IntuiMessage *"/>
 		</method>
 		<method name="RefreshListView" result="int">
-			<arg name="listview" type="struct DOpusListView *"/>
+			<arg name="view" type="struct DOpusListView *"/>
 			<arg name="count" type="int"/>
 		</method>
 		<method name="RemoveListView" result="int">
-			<arg name="listview" type="struct DOpusListView *"/>
+			<arg name="view" type="struct DOpusListView *"/>
 			<arg name="count" type="int"/>
 		</method>
 		<method name="DrawCheckMark" result="void">

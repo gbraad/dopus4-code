@@ -42,7 +42,7 @@ void do_path_completion(int win, USHORT qual)
 	a = strlen(path);
 	if(a > 0 && (path[a - 1] == '/' || path[a - 1] == ':'))
 		match[0] = 0;
-	else if(ptr = IDOS->FilePart(path))
+	else if((ptr = IDOS->FilePart(path)))
 	{
 		IDOpus->LStrnCpy(match, ptr, FILEBUF_SIZE - 1);
 		match[FILEBUF_SIZE - 1] = 0;
@@ -83,7 +83,7 @@ void do_path_completion(int win, USHORT qual)
 		completion[win].currententry = NULL;
 
 		busy();
-		if(lock = IDOS->Lock(path, ACCESS_READ))
+		if((lock = IDOS->Lock(path, ACCESS_READ)))
 		{
 			IDOS->Examine(lock, /*&*/finfo);
 			if(finfo->fib_DirEntryType > 0)
@@ -94,7 +94,7 @@ void do_path_completion(int win, USHORT qual)
 						break;
 					if(finfo->fib_DirEntryType > 0 && (!match[0] || IDOpus->LStrnCmpI(finfo->fib_FileName, match, strlen(match)) == 0))
 					{
-						if(entry = IDOpus->LAllocRemember(&completion[win].memory, sizeof(struct complete_entry), MEMF_CLEAR))
+						if((entry = IDOpus->LAllocRemember(&completion[win].memory, sizeof(struct complete_entry), MEMF_CLEAR)))
 						{
 							strcpy(entry->name, finfo->fib_FileName);
 							addpos = completion[win].firstentry;

@@ -100,7 +100,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		file->selected = old;
 	}
 
-/*	if(IxadMaster)
+	if(IxadMaster)
 	{
 		BPTR fh;
 		int len;
@@ -117,12 +117,12 @@ void ftype_doubleclick(char *path, char *name, int state)
 			IExec->FreeMem(mem, len);
 			if(cl)
 			{
-				strcpy(str_pathbuffer[data_active_window], buf);
+				IUtility->Strlcpy(str_pathbuffer[data_active_window], buf, 256);
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				return;
 			}
 		}
-	}*/
+	}
 	if(checkexec(buf))
 	{
 		if(checkisfont(buf, buf2))

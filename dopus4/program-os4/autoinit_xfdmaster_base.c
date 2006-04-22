@@ -17,7 +17,7 @@
 
 /****************************************************************************/
 
-__attribute__((weak)) struct xfdMasterBase * xfdMasterBase = NULL;
+__attribute__((weak)) struct Library * xfdMasterBase = NULL;
 
 void __init_xfdmaster_base(void) __attribute__((constructor));
 void __exit_xfdmaster_base(void) __attribute__((destructor));

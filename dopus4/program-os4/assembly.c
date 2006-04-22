@@ -70,16 +70,16 @@ int countlines(struct ViewData *vd)
 
 int ansicountlines(struct ViewData *viewdata)
 {
-	char *a0_buf, *a1_lws;
+	int8 *a0_buf, *a1_lws;
 	int d0_linecount, d1_size, d2_mll, d3_charcount;
-	int /*d5_wrap, */ d7_tabskip;
+	int d7_tabskip;
 	int tabsize;
 	BOOL last_was_esc;
 
 	tabsize = viewdata->view_tab_size;
 	d1_size = viewdata->view_file_size;
 	d2_mll = viewdata->view_max_line_length;
-	a0_buf = viewdata->view_text_buffer;
+	a0_buf = (BYTE *)viewdata->view_text_buffer;
 
 	d0_linecount = 0L;
 	d3_charcount = 0L;
@@ -157,10 +157,10 @@ int ansicountlines(struct ViewData *viewdata)
 
 int smartcountlines(struct ViewData *vd)
 {
-	UBYTE *buf, *lws;
+	STRPTR buf, lws;
 	ULONG size;
 	ULONG linecount, hexcount;
-	UWORD charcount /*, mll_p */ ;
+	UWORD charcount;
 
 	size = vd->view_file_size;
 	buf = vd->view_text_buffer;

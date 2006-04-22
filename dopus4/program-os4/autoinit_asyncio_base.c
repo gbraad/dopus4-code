@@ -17,7 +17,7 @@
 
 /****************************************************************************/
 
-__attribute__((weak)) struct AsyncIOBase * AsyncIOBase = NULL;
+__attribute__((weak)) struct Library * AsyncIOBase = NULL;
 
 void __init_asyncio_base(void) __attribute__((constructor));
 void __exit_asyncio_base(void) __attribute__((destructor));

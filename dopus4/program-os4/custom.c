@@ -35,18 +35,8 @@ the existing commercial status of Directory Opus 5.
 
 void defaultpar(struct dopusfuncpar *par)
 {
-#ifdef _USE_SMALL_Q
-	if(status_flags & STATUS_IANSCRAP)
-	{
-		par->which = FLAG_OUTWIND;
-		par->delay = -1;
-	}
-	else
-#endif
-	{
-		par->which = FLAG_OUTWIND | FLAG_WB2F | FLAG_DOPUSF | FLAG_CDSOURCE;
-		par->delay = 2;
-	}
+	par->which = /*FLAG_OUTWIND | */FLAG_WB2F | FLAG_DOPUSF | FLAG_CDSOURCE;
+	par->delay = 2;
 	par->key = par->qual = par->type = 0;
 	par->pri = config->priority;
 	par->stack = 8000;
@@ -236,7 +226,6 @@ int handlefunctionss(char *funcbuf, char *name, char *title, struct dopusfuncpar
 
 				global_swap_window = FALSE;
 
-//				D(bug("handlefunctionss():funcbuf:\t%s\n\tname:\t%s\n\ttitle:\t%s\n\tfuncptr:\t%s\n", funcbuf ? funcbuf : "<NULL>", name ? name : "<NULL>", title ? title : "<NULL>", funcptr ? funcptr : "<NULL>"));
 				if(funcptr)
 				{
 					func_global_function = function;
@@ -358,12 +347,7 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 	}
 
 	type = par->type;
-/*
-    if (type==FT_AREXX) {
-        rexx_command(function,NULL);
-        return(1);
-    }
-*/
+
 	if(type != FT_AREXX)
 	{
 		if(!(openscriptfile(par, funcdata)))
@@ -399,7 +383,7 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 	}
 	else
 	{
-		parserunline(function, buf);
+		parserunline(function, (STRPTR)buf);
 		ptr = buf;
 		while (*ptr)
 		{
@@ -407,7 +391,7 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 				*ptr = '\n';
 			++ptr;
 		}
-		len = strlen((char *)buf);
+		len = strlen((STRPTR)buf);
 		count = funcdata->function_count;
 		endarg = usearg = funcdata->arg_use;
 
@@ -422,14 +406,13 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 				break;
 			}
 			moretodo = 0;
-			if(!(buildcustfunc(buf, len, buf2, &moretodo, par->which & FLAG_RECURSE, par->which & FLAG_RELOAD, ((par->which & FLAG_NOQUOTE) ? 0 : 1), funcdata)))
+			if(!(buildcustfunc((STRPTR)buf, len, buf2, &moretodo, par->which & FLAG_RECURSE, par->which & FLAG_RELOAD, ((par->which & FLAG_NOQUOTE) ? 0 : 1), funcdata)))
 			{
 				if(type != FT_AREXX)
 					closescriptfile(NULL, 0, funcdata);
 				retval = 0;
 				break;
 			}
-//			D(bug("customthing(): buf2 = %s\n", buf2));
 			if(type == FT_AREXX)
 				rexx_command(buf2, NULL);
 			else
@@ -445,13 +428,11 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 				sprintf(tbuf, "%s\n", buf2);
 				IDOS->Write(funcdata->output_file, tbuf, strlen(tbuf));
 			}
-//D(bug("customthing: moretodo=%ld, funcdata: entry_first=%lx, file_request.filearray=%lx\n",moretodo,funcdata->entry_first,funcdata->file_request.filearray));
 			if(moretodo && (funcdata->entry_first || funcdata->file_request.filearray))
 				goto domorestuff;
 			if(!funcdata->recursive_path)
 				break;
 		      domorestuff:
-//D(bug("customthing: domorestuff\n"));
 			funcdata->function_count = -1;
 			endarg = funcdata->arg_use;
 			if(usearg)
@@ -459,7 +440,6 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 			if(!funcdata->arg_use)
 				funcdata->arg_use = usearg ? usearg : funcdata->arg_first;
 		}
-//D(bug("customthing: end loop\n"));
 		funcdata->function_count = count;
 		funcdata->arg_use = endarg;
 		if(funcdata->activewin > -1)
@@ -473,24 +453,18 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 	return (retval);
 }
 
-int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, int star, int reload, int quote, struct function_data *funcdata)
+int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, int star, int reload, int quote, struct function_data *funcdata)
 {
-	char buf3[256], *ptr, filebuf[FILEBUF_SIZE], dirbuf[256], *spath, defbuf[256], titlebuf[80];
-	int a, pos, bufpos, d, f, sblen, buftitpos, h, qad, def, tit;
+	char buf3[256], *ptr, filebuf[FILEBUF_SIZE], dirbuf[256] = { 0, }, *spath, defbuf[256], titlebuf[80];
+	int a, pos, bufpos = 0, d, f, sblen, buftitpos, h, qad = quote * 2, def, tit;
 	struct Directory *cust = NULL, dummy;
 	struct args *arg;
 
-	/*buffer[0]=buf3[0]= */ dirbuf[0] = 0;
-	qad = quote * 2;
-
-	bzero(buffer, MAXCOMMANDLEN);
-	bzero(buf3, 256);
-//    for (bufpos=0;bufpos<500;bufpos++) buffer[bufpos]=buf3[bufpos]=0;
-	bufpos = 0;
+	IUtility->ClearMem(buffer, MAXCOMMANDLEN);
+	IUtility->ClearMem(buf3, 256);
 
 	sblen = strlen(funcdata->source_path);
 
-//D(bug("buildcustfunc: function = %s\n",function));
 	for(pos = 0; pos < line_len; pos++)
 	{
 		switch (function[pos])
@@ -506,7 +480,7 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 					else
 						return (0);
 				}
-				else	/*if (!funcdata->recursive_path) */
+				else
 					cust = custgetfirst(funcdata);
 				if(cust)
 				{
@@ -579,7 +553,6 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 					cust = custgetfirst(funcdata);
 				while (a < (MAXCOMMANDLEN - 1) && (cust || funcdata->recursive_path))
 				{
-//if (cust) D(bug("cust->name: %s\n",cust->name));
 					if(funcdata->recursive_path || (cust->selected && cust->type != 0))
 					{
 						if(!funcdata->recursive_path && cust->type > 0)
@@ -635,13 +608,10 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 						if(cust)
 							cust = cust->next;
 					}
-//D(bug("buffer: %s\n",buffer));
 				}
 				if(!funcdata->recursive_path)
 				{
-//D(bug("funcdata->entry_first: %s\t",funcdata->entry_first->name));
 					custnextsel(&funcdata->entry_first);
-//D(bug("->\tfuncdata->entry_first: %s\n",funcdata->entry_first->name));
 				}
 				bufpos += a - d;
 				if(moretodo)
@@ -657,7 +627,6 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 
 		case FUNC_ONEPATH:
 		case FUNC_ONEPATH_NO:
-//D(bug("buildcustfunc(): func_single_file=\"%s\"\n",func_single_file));
 			if(!func_single_file[0])
 			{
 				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
@@ -671,16 +640,13 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 				}
 				else
 				{
-					/*if (!funcdata->recursive_path) */
-						cust = custgetfirst(funcdata);
+					cust = custgetfirst(funcdata);
 					spath = funcdata->source_path;
 				}
-//D(bug("cust = %lx\n",cust));
 				if(cust)
 				{
 					strcpy(funcdata->last_file, spath);
 					IDOpus->TackOn(funcdata->last_file, cust->name, 256);
-//D(bug("funcdata->last_file = %s\n",funcdata->last_file));
 					if(!funcdata->recursive_path && cust->type > 0)
 					{
 						if(star)
@@ -688,17 +654,14 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 							IDOpus->LFreeRemember(&rec_pathkey);
 							funcdata->entry_current = cust;
 							IDOpus->StrCombine(buf3, spath, cust->name, 256);
-//D(bug("recurse -> calling recursedir(%s)\n",buf3));
 							if(recursedir(buf3, NULL, R_STARDIR, 0))
 								return (0);
 							setdirsize(cust, dos_global_bytecount, funcdata->activewin);
 							funcdata->recursive_path = rec_firstpath;
-//D(bug("recursive_path = %s,%lx\n",funcdata->recursive_path->path,funcdata->recursive_path->next));
 							goto addfile3;
 						}
 						else
 						{
-//D(bug("no recurse\n"));
 							bufpos += addfilename(buffer, spath, cust->name, quote);
 							if(function[pos] != FUNC_ONEPATH_NO)
 							{
@@ -814,14 +777,11 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 					{
 						if(cust)
 							cust = cust->next;
-//                            custnextsel(&funcdata->entry_first);
 					}
 				}
 				if(!funcdata->recursive_path)
 				{
-//D(bug("funcdata->entry_first: %s\t",funcdata->entry_first->name));
 					custnextsel(&funcdata->entry_first);
-//D(bug("->\tfuncdata->entry_first: %s\n",funcdata->entry_first->name));
 				}
 				bufpos += a - d;
 				if(moretodo)
@@ -918,13 +878,12 @@ int buildcustfunc(UBYTE *function, int line_len, char *buffer, int *moretodo, in
 			}
 			titlebuf[tit] = 0;
 
-//                if (system_version2) {
 			if((a = IDOS->GetVar(titlebuf, buf3, 256, 0)) > 0)
 			{
-				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+				IUtility->Strlcat(buffer, buf3, MAXCOMMANDLEN);
 				bufpos += a;
 			}
-//                }
 			break;
 
 		case FUNC_GETARG:
@@ -1130,7 +1089,6 @@ int addfilename(char *buf, char *part1, char *part2, int quote)
 {
 	int c = 0, d;
 
-//D(bug("addfilename(%s,%s,%s,%ld\n",buf,part1,part2,quote));
 	d = strlen(buf);
 	if(d > 0 && !(_isspace(buf[d - 1])))
 		quote = 0;
@@ -1155,16 +1113,17 @@ int addfilename(char *buf, char *part1, char *part2, int quote)
 		IDOpus->StrConcat(buf, "\"", MAXCOMMANDLEN);
 		++c;
 	}
-//D(bug("buf(%ld): %s\n",strlen(buf),buf));
 	return (c);
 }
 
-void parserunline(char *buf, UBYTE *buf1)
+void parserunline(STRPTR buf, STRPTR buf1)
 {
 	int a, b, c, d;
 
 	a = strlen(buf);
-	bzero(buf1, 256);	//for (c=0;c<256;c++) buf1[c]=0;
+//	bzero(buf1, 256);
+	IUtility->ClearMem(buf1, 256);
+//	IUtility->SetMem(buf1, 0, 256);
 	c = 0;
 	for(b = 0; b < a; b++)
 	{
@@ -1347,7 +1306,7 @@ struct Directory *reload_file(int win, char *name)
 	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	struct Directory *cust, *ret = NULL;
 
-	if((lockandexamine(name, /*&*/fileinfo)))
+	if((lockandexamine(name, fileinfo)))
 	{
 		if((cust = findfile(dopus_curwin[win], fileinfo->fib_FileName, NULL)))
 			removefile(cust, dopus_curwin[win], win, FALSE);
@@ -1399,8 +1358,8 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	if((lock = IDOS->Lock(buf, ACCESS_READ)))
 	{
-		IDOS->Examine(lock, /*&*/fileinfo);
-		if(IDOS->ExNext(lock, /*&*/fileinfo))
+		IDOS->Examine(lock, fileinfo);
+		if(IDOS->ExNext(lock, fileinfo))
 		{
 			FOREVER
 			{
@@ -1408,7 +1367,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 					sprintf(funcdata->scriptname, "%s%s", buf, fileinfo->fib_FileName);
 				else
 					funcdata->scriptname[0] = 0;
-				a = IDOS->ExNext(lock, /*&*/fileinfo);
+				a = IDOS->ExNext(lock, fileinfo);
 				if(funcdata->scriptname[0])
 					IDOS->DeleteFile(funcdata->scriptname);
 				if(!a)
@@ -1422,7 +1381,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	for(a = 0; a < 100; a++)
 	{
-		sprintf(funcdata->scriptname, "%sdopustemp.tmp%ld", buf, a);
+		sprintf(funcdata->scriptname, "%sdopustemp.tmp%d", buf, a);
 		if((funcdata->output_file = IDOS->Open(funcdata->scriptname, MODE_NEWFILE)))
 			break;
 	}
@@ -1432,7 +1391,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		return (0);
 	}
 
-	sprintf(funcdata->tempfile, "%sdopusout.tmp%ld", buf, a);
+	sprintf(funcdata->tempfile, "%sdopusout.tmp%d", buf, a);
 
 	rec_pathkey = NULL;
 
@@ -1480,12 +1439,12 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	if(buf[0])
 		IDOS->Write(funcdata->output_file, buf, strlen(buf));
 
-	sprintf(buf, "Stack %ld\n", (par->stack < 4000) ? 4000 : par->stack);
+	sprintf(buf, "Stack %d\n", (par->stack < 4000) ? 4000 : par->stack);
 	IDOS->Write(funcdata->output_file, buf, strlen(buf));
 
 	if(par->pri != 0)
 	{
-		sprintf(buf, "ChangeTaskPri %ld\n", par->pri);
+		sprintf(buf, "ChangeTaskPri %d\n", par->pri);
 		IDOS->Write(funcdata->output_file, buf, strlen(buf));
 	}
 	IDOS->FreeDosObject(DOS_FIB, fileinfo);
@@ -1497,7 +1456,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 	struct MsgPort *msgport;
 	struct Message *msg;
 	char buf[256], buf2[512], portname[50], pubname[140];
-	int wb2f, setcust = 0, tnil = 0, otemp = 0, oldmodes, okayflag = 0, bit, flags = 0;
+	int wb2f, setcust = 0, tnil = 0, otemp = 0, oldmodes = 0, okayflag = 0, bit, flags = 0;
 
 	if(run > 0 && par && funcdata->output_file)
 	{
@@ -1518,7 +1477,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 			sprintf(buf2, "%s \"%s\" from %s", config->outputcmd, config->output, funcdata->scriptname);
 			if(!(flags & FLAG_ASYNC))
 			{
-				sprintf(portname, "dopus_run%ld", system_dopus_runcount);
+				sprintf(portname, "dopus_run%d", system_dopus_runcount);
 				if(!(msgport = IExec->CreatePort(portname, 0)))
 					goto freeargs;
 			}
@@ -1532,7 +1491,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 		{
 			if(par->delay != 0)
 			{
-				sprintf(buf, "\"%s\" -w %ld \"%s\"\n", str_dopusrt_path, par->delay, globstring[STR_PRESS_MOUSE_BUTTON]);
+				sprintf(buf, "\"%s\" -w %d \"%s\"\n", str_dopusrt_path, par->delay, globstring[STR_PRESS_MOUSE_BUTTON]);
 				IDOS->Write(funcdata->output_file, buf, strlen(buf));
 			}
 			if(msgport)
@@ -1558,17 +1517,9 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 			IIntuition->WBenchToFront();
 		if(flags & FLAG_OUTWIND && !wb2f && MainScreen)
 		{
-//            if (system_version2) {
 			oldmodes = IIntuition->SetPubScreenModes(SHANGHAI);
 			IIntuition->GetDefaultPubScreen(pubname);
-			IIntuition->SetDefaultPubScreen((UBYTE *) str_arexx_portname);
-/*            }
-            else {
-                Forbid();
-                MainScreen->Flags&=~CUSTOMSCREEN;
-                MainScreen->Flags|=WBENCHSCREEN;
-                Permit();
-            } */
+			IIntuition->SetDefaultPubScreen(str_arexx_portname);
 			setcust = 1;
 		}
 
@@ -1577,25 +1528,12 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 		if(!tnil)
 			tnil = IDOS->Open("NIL:", MODE_NEWFILE);
 
-//        Execute(buf2,0,(BPTR)tnil);
 		IDOS->SystemTags(buf2, SYS_Input, IDOS->Open("NIL:", MODE_OLDFILE), SYS_Output, tnil, SYS_Asynch, flags & FLAG_ASYNC, TAG_END);
 
-		if(flags & FLAG_OUTWIND && !wb2f &&
-#ifdef _USE_SMALL_Q
-		   !(status_flags & STATUS_IANSCRAP) &&
-#endif
-		   MainScreen)
+		if(flags & FLAG_OUTWIND && !wb2f && MainScreen)
 		{
-//            if (system_version2) {
 			IIntuition->SetDefaultPubScreen(pubname);
 			IIntuition->SetPubScreenModes(oldmodes);
-/*            }
-            else {
-                Forbid();
-                MainScreen->Flags&=~WBENCHSCREEN;
-                MainScreen->Flags|=CUSTOMSCREEN;
-                Permit();
-            } */
 			setcust = 0;
 		}
 
@@ -1628,16 +1566,8 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 
 		if(setcust)
 		{
-//            if (system_version2) {
 			IIntuition->SetDefaultPubScreen(pubname);
 			IIntuition->SetPubScreenModes(oldmodes);
-/*            }
-            else {
-                Forbid();
-                MainScreen->Flags&=~WBENCHSCREEN;
-                MainScreen->Flags|=CUSTOMSCREEN;
-                Permit();
-            } */
 		}
 
 		if(flags & FLAG_DOPUSF)
@@ -1730,7 +1660,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 {
 	struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);;
 
-	if(!(lockandexamine(name, /*&*/fib)))
+	if(!(lockandexamine(name, fib)))
 		return (0);
 	fbuf->last = fbuf->next = NULL;
 	strcpy(fbuf->name, fib->fib_FileName);

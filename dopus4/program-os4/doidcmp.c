@@ -32,15 +32,14 @@ the existing commercial status of Directory Opus 5.
 
 void doidcmp()
 {
-	int x, y, a, function, wmes, stringgd = 0, waitbits, b, x1, y1, c, win, dir, num;
-	ULONG class;
-	USHORT code, gadgetid, menunum, itemnum, qual;
-	char buf[80], ch;
+	int x, y, a, function, wmes, stringgd = 0, waitbits, b, x1, y1, c, win, dir, num, class;
+	USHORT code, gadgetid = 0, menunum, itemnum, qual;
+	uint8 buf[80], ch;
 	struct dopusgadgetbanks *bank, *bank1;
 	struct AppMessage *apmsg;
 	struct dopushotkey *hotkey;
 	struct dopusfuncpar par;
-	struct Gadget *gad;
+	struct Gadget *gad = NULL;
 	struct MenuItem *item;
 
 	for(;;)
@@ -545,7 +544,7 @@ void doidcmp()
 				}
 				if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
 				{
-					IDOpus->RawkeyToStr(code, qual, NULL, buf, 0);
+					IDOpus->RawkeyToStr(code, qual, NULL, (char *)buf, 0);
 					switch (IUtility->ToUpper(buf[0]))
 					{
 					case 'R':
@@ -663,7 +662,7 @@ void doidcmp()
 					default:
 						if(code < 0x40 && !(qual & IEQUALIFIER_CONTROL))
 						{	// a digit or char
-							IDOpus->RawkeyToStr(code, qual, NULL, buf, 0);
+							IDOpus->RawkeyToStr(code, qual, NULL, (char *)buf, 0);
 							ch = buf[0];
 							if(_isprint(ch))
 								findfirstchar(data_active_window, ch);
