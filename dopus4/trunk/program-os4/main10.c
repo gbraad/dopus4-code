@@ -109,55 +109,71 @@ void setcurdir(int rexx)
 	okay();
 }
 
-#warning Fix dodevicelist() ASAP
-
 void dodevicelist(int win)
 {
-/*	struct DeviceList *devlist;
-	struct RootNode *rootnode;
-	struct DosInfo *dosinfo;
-	char devname[32];
-	int type;
-	static char type_order[4] = { DLT_DEVICE, DLT_VOLUME, DLT_DIRECTORY, -1 };
+	struct DosList *dl = NULL;
+	char devname[32] = { 0, };
 	struct Directory *addafter = NULL;
 
 	if(status_iconified)
 		return;
+
 	makespecialdir(win, globstring[STR_DEVICE_LIST_TITLE]);
 
 	dostatustext(globstring[STR_SCANNING_DEVICE_LIST]);
 	busy();
-	rootnode = (struct RootNode *)DOSBase->dl_Root;
-	dosinfo = (struct DosInfo *)BADDR(rootnode->rn_Info);
-	for(type = 0; type < 4; type++)
+
+	dl = IDOS->LockDosList(LDF_DEVICES | LDF_READ);
+	while((dl = IDOS->NextDosEntry(dl, LDF_DEVICES)))
 	{
-		devlist = (struct DeviceList *)BADDR(dosinfo->di_DevInfo);
-		while(devlist)
+		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			if(status_haveaborted)
-			{
-				myabort();
+			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
+			IUtility->Strlcat(devname, ":", 32);
+			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
-			}
-			if(devlist->dl_Type == type_order[type] || (devlist->dl_Type > DLT_VOLUME && type_order[type] == -1))
-			{
-				if(devlist->dl_Type != DLT_DEVICE || devlist->dl_Task)
-				{
-					IDOpus->BtoCStr((BPTR) devlist->dl_Name, devname, 32);
-					strcat(devname, ":");
-					if(!(addfile(dopus_curwin[win], win, devname, devlist->dl_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
-						break;
-				}
-			}
-			devlist = (struct DeviceList *)BADDR(devlist->dl_Next);
 		}
-		if((addafter = dopus_curwin[win]->firstentry))
-			while(addafter->next)
-				addafter = addafter->next;
 	}
+	if((addafter = dopus_curwin[win]->firstentry))
+		while(addafter->next)
+			addafter = addafter->next;
+	IDOS->UnLockDosList(LDF_DEVICES | LDF_READ);
+
+	dl = IDOS->LockDosList(LDF_VOLUMES | LDF_READ);
+	while((dl = IDOS->NextDosEntry(dl, LDF_VOLUMES)))
+	{
+		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
+		{
+			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
+			IUtility->Strlcat(devname, ":", 32);
+			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
+				break;
+		}
+	}
+	if((addafter = dopus_curwin[win]->firstentry))
+		while(addafter->next)
+			addafter = addafter->next;
+	IDOS->UnLockDosList(LDF_VOLUMES | LDF_READ);
+
+	dl = IDOS->LockDosList(LDF_ASSIGNS | LDF_READ);
+	while((dl = IDOS->NextDosEntry(dl, LDF_ASSIGNS)))
+	{
+		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
+		{
+			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
+			IUtility->Strlcat(devname, ":", 32);
+			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
+				break;
+		}
+	}
+	if((addafter = dopus_curwin[win]->firstentry))
+		while(addafter->next)
+			addafter = addafter->next;
+	IDOS->UnLockDosList(LDF_ASSIGNS | LDF_READ);
+
 	refreshwindow(win, 3);
 	unbusy();
-	okay();*/
+	okay();
 }
 
 int huntfile(char *name, char *completename, int *aa)

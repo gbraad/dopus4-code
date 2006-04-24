@@ -104,10 +104,8 @@ int setupfontdisplay(int depth, UWORD *coltab)
 	font_scr.Width = ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns;
 	font_scr.Height = STDSCREENHEIGHT;
 	font_scr.Depth = depth;
-//    if (system_version2 >= OSVER_39)
 	{
 		font_scr.Extension[0].ti_Data = IGraphics->BestModeID(BIDTAG_DesiredWidth, font_scr.Width, BIDTAG_DesiredHeight, font_scr.Height, BIDTAG_Depth, font_scr.Depth, BIDTAG_MonitorID, IGraphics->GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK, TAG_END);
-//		D(bug("Font screen ModeID: %lx\n", font_scr.Extension[0].ti_Data));
 		if(font_scr.Extension[0].ti_Data == INVALID_ID)
 			font_scr.Extension[0].ti_Data = HIRES_KEY;
 		if(IGraphics->GetDisplayInfoData(NULL, (UBYTE *) & dims, sizeof(struct DimensionInfo), DTAG_DIMS, font_scr.Extension[0].ti_Data))
@@ -132,7 +130,6 @@ int setupfontdisplay(int depth, UWORD *coltab)
 		int a, num;
 
 		num = 1 << depth;
-//        if (num>16) num=16;
 		for(a = 0; a < num; a++)
 			coltab[a] = IGraphics->GetRGB4(fontscreen->ViewPort.ColorMap, a);
 	}

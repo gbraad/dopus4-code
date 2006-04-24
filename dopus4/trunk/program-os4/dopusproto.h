@@ -426,27 +426,7 @@ int isinwindow(int, int);
 
 /* iffload.c */
 int LoadPic(char *);
-int checkiff(void);
-void rletobuffer(STRPTR, int, int, struct BitMap *, char, char);
-void readpic(struct BitMapHeader *, STRPTR, struct BitMap *);
-void decoderle(struct RLEinfo *);
-void doanimframe(void);
-void doriff(STRPTR, struct BitMap *, int, int, int);
-void doriff7(STRPTR, struct BitMap *, int, int);
-void decode_riff_xor(UBYTE *, UBYTE *, int, int);
-void decode_riff_set(UBYTE *, UBYTE *, int, int);
-void decode_riff_short(USHORT *, unsigned char *, int, int);
-void decode_riff_long(ULONG *, unsigned char *, int, int);
-void decode_riff7_short(USHORT *, unsigned char *, unsigned char *, int, int);
-void decode_riff7_long(ULONG *, unsigned char *, unsigned char *, int, int);
 int WaitForMouseClick(int, struct Window *);
-int chunkread(void *, ULONG);
-void getcolstring(char *);
-int InitDHIRES(int);
-void getviewmodes(char *);
-int initsham(void);
-void iffinfotxt(struct RastPort *, char *, int, int);
-void build_palettes(STRPTR, int, UWORD *, uint32 *);
 
 /* rexx.c */
 void rexx_dispatch(int);
