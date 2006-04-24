@@ -59,5 +59,6 @@ extern ULONG RangeSeed;
 void _DOpus_Seed(struct DOpusIFace *Self, int seed)
 {
 	RangeSeed = FastRand(seed);
+	return;
 }
 

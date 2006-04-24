@@ -333,7 +333,7 @@ int SetUp(int tit)
 	status_configuring = -1;
 	status_iconified = 0;
 
-	main_scr.ViewModes = HIRES;
+	main_scr.ViewModes = 0; //HIRES;
 	config->screenmode = checkscreenmode(config->screenmode);
 
 	main_win.Flags = WFLG_NW_EXTENDED | WFLG_NEWLOOKMENUS;
@@ -353,7 +353,9 @@ int SetUp(int tit)
 	setup_draw_info();
 
 	if(config->screenmode == MODE_WORKBENCHUSE || config->screenmode == MODE_PUBLICSCREEN)
+	{
 		status_publicscreen = 1;
+	}
 	else
 	{
 		status_publicscreen = 0;
@@ -450,19 +452,19 @@ int SetUp(int tit)
 	if(tit > -1)
 	{
 		if(config->screenmode == MODE_WORKBENCHUSE)
+		{
 			main_win.Type = WBENCHSCREEN;
+		}
 		else if(pubscr)
 		{
 			main_win.Type = PUBLICSCREEN;
 			mainwindow_tags[0].ti_Tag = WA_PubScreen;
-			mainwindow_tags[0].ti_Data = (ULONG) pubscr;
+			mainwindow_tags[0].ti_Data = (uint32) pubscr;
 		}
 		else
 		{
 			main_win.Type = CUSTOMSCREEN;
 
-		main_scr.LeftEdge = (((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns - main_scr.Width) / 2;
-		if(main_scr.LeftEdge < 0)
 			main_scr.LeftEdge = 0;
 			main_scr.TopEdge = 0;
 			if(config->screenflags & SCRFLAGS_HALFHEIGHT)

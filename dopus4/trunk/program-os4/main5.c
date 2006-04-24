@@ -53,7 +53,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		for(a = 0; password[a]; a++)
 			encrypt *= password[a];
-		IDOpus->Seed(encrypt);
+		IDOpus->Seed(encrypt);       // IDOpus->Seed() useless?
 	}
 
 	suc = lockandexamine(src, cfinfo);
@@ -142,7 +142,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			{
 				for(a = 0; a < length; a++)
 				{
-					enbyte = IUtility->Random((struct RandomState *)9999);
+					enbyte = IDOpus->Random(9999);
 					buffer[a] += enbyte;
 				}
 			}
@@ -150,7 +150,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			{
 				for(a = 0; a < length; a++)
 				{
-					enbyte = IUtility->Random((struct RandomState *)9999);
+					enbyte = IDOpus->Random(9999);
 					buffer[a] -= enbyte;
 				}
 			}

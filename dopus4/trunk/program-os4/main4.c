@@ -30,9 +30,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 #include <ctype.h>
-#include <proto/xfdmaster.h>
-//#include <proto/cybergraphics.h>
-//#include <cybergraphx/cybergraphics.h>
 
 void makedir(int rexx)
 {
@@ -42,8 +39,7 @@ void makedir(int rexx)
 	BPTR lock;
 
 	win = data_active_window;
-	if(			/*(dopus_curwin[win] == dopus_specialwin[win]) || */
-		  (dopus_curwin[win]->directory[0] == 0))
+	if((dopus_curwin[win]->directory[0] == 0))
 		return;
 	dirname[0] = new_directory[0] = 0;
 
@@ -232,13 +228,13 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 {
 	int suc;
 	struct DiskObject *diskobj;
-	char /*buf[256], */ buf1[256], *ptr;
+	char buf[256], *ptr;
 
-	strcpy(buf1, srce);
-	if((ptr = strstri(buf1, ".info")))
+	IUtility->Strlcpy(buf, srce, 256);
+	if((ptr = strstri(buf, ".info")))
 		*ptr = 0;
 
-	if((diskobj = IIcon->GetDiskObject(buf1)))
+	if((diskobj = IIcon->GetDiskObject(buf)))
 	{
 		suc = IIcon->PutDiskObject(dest, diskobj);
 		IIcon->FreeDiskObject(diskobj);
@@ -329,33 +325,6 @@ int readfile(STRPTR name, STRPTR *buf, uint32 *size)
 	if((*buf = IExec->AllocVec(*size, MEMF_ANY)))
 	{
 		IDOS->Read(in, *buf, *size);
-
-/*		if(IxfdMaster)
-		{
-			struct xfdBufferInfo *xfdbi;
-
-			if((xfdbi = IxfdMaster->xfdAllocObject(XFDOBJ_BUFFERINFO)))
-			{
-				xfdbi->xfdbi_SourceBuffer = *buf;
-				xfdbi->xfdbi_SourceBufLen = *size;
-				if(IxfdMaster->xfdRecogBuffer(xfdbi))
-				{
-					xfdbi->xfdbi_TargetBufMemType = MEMF_ANY;
-					if(IxfdMaster->xfdDecrunchBuffer(xfdbi))
-					{
-						IExec->FreeVec(xfdbi->xfdbi_SourceBuffer);
-						*size = xfdbi->xfdbi_TargetBufSaveLen;
-						if((*buf = IExec->AllocVec(*size, MEMF_ANY)))
-							IExec->CopyMem(xfdbi->xfdbi_TargetBuffer, *buf, *size);
-						else
-							*buf = xfdbi->xfdbi_TargetBuffer;
-					}
-					else
-						retval = -2;
-				}
-				IxfdMaster->xfdFreeObject(xfdbi);
-			}
-		}*/
 	}
 	else
 	{
@@ -397,7 +366,7 @@ int dateformat(int flag)
 	return (a);
 }
 
-int checkscreenmode(int mode)
+int checkscreenmode(uint32 mode)
 {
 	DisplayInfoHandle *handle;
 	struct DimensionInfo *dimension;
@@ -406,35 +375,33 @@ int checkscreenmode(int mode)
 
 	if(mode == MODE_WORKBENCHUSE || mode == MODE_WORKBENCHCLONE || mode == MODE_PUBLICSCREEN)
 		return (mode);
-/*    if (!system_version2) {
-        if (mode==HIRES_KEY || mode==HIRESLACE_KEY) return(mode);
-        return(MODE_WORKBENCHCLONE);
-    } */
+
 	if(!(handle = IGraphics->FindDisplayInfo(mode)) || !(IGraphics->GetDisplayInfoData(handle, buf, 256, DTAG_DISP, 0)) || ((struct DisplayInfo *)buf)->NotAvailable)
 		return (MODE_WORKBENCHCLONE);
-/*	if(CyberGfxBase)
-	{
-		if(IsCyberModeID(mode))
-		{
-			if(GetCyberIDAttr(CYBRIDATTR_WIDTH, mode) >= 640)
-				return (mode);
-		}
-	}
-*/	flags = ((struct DisplayInfo *)buf)->PropertyFlags;
+
+	flags = ((struct DisplayInfo *)buf)->PropertyFlags;
+
 	if(flags & DIPF_IS_DUALPF || flags & DIPF_IS_PF2PRI || flags & DIPF_IS_HAM || !(IGraphics->GetDisplayInfoData(handle, buf, 256, DTAG_DIMS, 0)))
 		return (MODE_WORKBENCHCLONE);
+
 	dimension = (struct DimensionInfo *)buf;
+
 	if(mode & HIRES_KEY || mode & HIRESLACE_KEY)
+	{
 		minw = 640;
+	}
 	else
 	{
-		minw = dimension->MinRasterWidth;
+		minw = dimension->Nominal.MaxX + 1; //MinRasterWidth;
 		if(minw < 160)
 			minw *= 10;
 	}
-	defw = (dimension->TxtOScan.MaxX - dimension->TxtOScan.MinX) + 1;
+
+	defw = (dimension->Nominal.MaxX) /*TxtOScan.MaxX - dimension->TxtOScan.MinX)*/ + 1;
+
 	if((minw < 640 || defw < 640) && dimension->MaxDepth >= 5)
 		return (MODE_WORKBENCHCLONE);
+
 	return (mode);
 }
 

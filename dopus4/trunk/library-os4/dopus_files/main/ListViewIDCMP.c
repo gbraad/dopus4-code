@@ -172,8 +172,7 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 				}
 				else
 				{
-					if(view->topitem >
-					   view->count - (view->lines + 1))
+					if(view->topitem > view->count - (view->lines + 1))
 						break;
 					++view->topitem;
 				}
@@ -186,6 +185,33 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 			}
 			break;
 		}
+		IIntuition->ModifyIDCMP(view->window, idcmpflags);
+		return (NULL);
+	}
+	else if(class == IDCMP_EXTENDEDMOUSE)
+	{
+		struct IntuiWheelData *iwd = imsg->IAddress;
+		code = imsg->Code;
+		IExec->ReplyMsg((struct Message *)imsg);
+		if(code & IMSGCODE_INTUIWHEELDATA)
+		{
+			if(iwd->WheelY < 0)
+			{
+				if(view->topitem != 0)
+				--view->topitem;
+			}
+			else if(iwd->WheelY > 0)
+			{
+				if(view->topitem <= view->count - (view->lines + 1))
+				++view->topitem;
+			}
+		}
+		Self->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 1);
+		DisplayView(view);
+		if(view->flags & DLVF_SLOW)
+			IDOS->Delay(1);
+		else
+			IGraphics->WaitTOF();
 		IIntuition->ModifyIDCMP(view->window, idcmpflags);
 		return (NULL);
 	}

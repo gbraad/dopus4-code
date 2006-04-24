@@ -99,11 +99,11 @@ int main(int argc, char **argv)
 
 		if(wbmsg->sm_NumArgs > 1)
 		{
-			num = atoi(wbmsg->sm_ArgList[1].wa_Name);
-			sprintf(portname, "dopus4_config_port%ld", num);
+			IDOS->StrToLong(wbmsg->sm_ArgList[1].wa_Name, &num);
+			IUtility->SNPrintf(portname, 50, "dopus4_config_port%ld", num);
 			if(!(conport = IExec->CreatePort(portname, 20)))
 				quit();
-			sprintf(rportname, "dopus4_config_reply%ld", num);
+			IUtility->SNPrintf(rportname, 50, "dopus4_config_reply%ld", num);
 			IExec->Forbid();
 			if(!(cmdport = IExec->FindPort(rportname)))
 			{
@@ -310,13 +310,15 @@ void getconfig()
 		firsthotkey = cfg->firsthotkey;
 		typekey = cfg->typekey;
 		changed = cfg->changed;
-		strcpy(configname, cfg->configname);
+		IUtility->Strlcpy(configname, cfg->configname, 256);
 		IUtility->Strlcat(configname, ".CFG", 256);
 		IUtility->Strlcpy(loadnamebuf, configname, 256);
 		Screen = cfg->Screen;
 	}
 	else
+	{
 		readconfig();
+	}
 }
 
 void giveconfig()
@@ -1591,7 +1593,7 @@ void open_screen()
 		}
 		if((wbscreen = IIntuition->LockPubScreen(psname)))
 		{
-			if(wbscreen->Height > wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189)
+			if(wbscreen->Height > 480) //wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189)
 			{
 				int pen, num;
 				struct ColorMap *cm;
@@ -1604,15 +1606,19 @@ void open_screen()
 					screen_pens[pen].red = config->new_palette[(pen * 3)];
 					screen_pens[pen].green = config->new_palette[(pen * 3) + 1];
 					screen_pens[pen].blue = config->new_palette[(pen * 3) + 2];
-					if((screen_pens[pen].pen = IGraphics->ObtainPen(cm, -1, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, PEN_EXCLUSIVE)) == (unsigned char)-1)
+					if((screen_pens[pen].pen = IGraphics->ObtainPen(cm, -1, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, PEN_EXCLUSIVE)) == (uint8)-1)
 						break;
 					screen_pens[pen].alloc = 1;
 				}
 
 				if(pen < num)
+				{
 					free_colour_table(cm);
+				}
 				else
+				{
 					onworkbench = 1;
+				}
 			}
 		}
 
@@ -1621,7 +1627,9 @@ void open_screen()
 		{
 			scr_taglist[1].ti_Data = IGraphics->BestModeID(BIDTAG_DesiredWidth, configscr.Width, BIDTAG_DesiredHeight, configscr.Height, BIDTAG_Depth, configscr.Depth, wbscreen ? BIDTAG_MonitorID : TAG_IGNORE, wbscreen ? IGraphics->GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK : 0, TAG_END);
 			if(scr_taglist[1].ti_Data == INVALID_ID)
+			{
 				scr_taglist[1].ti_Data = HIRES_KEY;
+			}
 
 			while(!(Screen = IIntuition->OpenScreen((struct NewScreen *)&configscr)))
 			{
@@ -1633,7 +1641,9 @@ void open_screen()
 			usescreen = Screen;
 		}
 		else
+		{
 			usescreen = wbscreen;
+		}
 
 		vp = &usescreen->ViewPort;
 		config->scrdepth = configscr.Depth;
@@ -1642,15 +1652,15 @@ void open_screen()
 		configwin.Screen = usescreen;
 		configwin.Height = 480; //usescreen->WBorTop + usescreen->Font->ta_YSize + 189;
 
-		configwin.LeftEdge = (usescreen->Width - configwin.Width) >> 1;
-		configwin.TopEdge = ((usescreen->Height - configwin.Height - (usescreen->Font->ta_YSize + 1)) >> 1) + usescreen->Font->ta_YSize + 1;
+		configwin.LeftEdge = 100; //(usescreen->Width - configwin.Width) >> 1;
+		configwin.TopEdge = 100; //((usescreen->Height - configwin.Height - (usescreen->Font->ta_YSize + 1)) >> 1) + usescreen->Font->ta_YSize + 1;
 
 		if(!Screen)
 		{
 			if(config->config_x > -1)
-				configwin.LeftEdge = config->config_x;
+				configwin.LeftEdge = 100; //config->config_x;
 			if(config->config_y > -1)
-				configwin.TopEdge = config->config_y;
+				configwin.TopEdge = 100; //config->config_y;
 		}
 
 		if(configwin.Width + configwin.LeftEdge > usescreen->Width)

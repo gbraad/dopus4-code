@@ -31,7 +31,6 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "view.h"
 #include "searchdata.h"
-#include <proto/xfdmaster.h>
 #include <proto/gadtools.h>
 
 void view_file_process(void);
@@ -497,30 +496,6 @@ int view_loadfile(struct ViewData *vdata)
 	if(fsize == -1)
 		return 0;
 	view_busy(vdata);
-/*	if(IxfdMaster)
-	{
-		struct xfdBufferInfo *xfdbi;
-
-		if((xfdbi = IxfdMaster->xfdAllocObject(XFDOBJ_BUFFERINFO)))
-		{
-			xfdbi->xfdbi_SourceBuffer = vdata->view_text_buffer;
-			xfdbi->xfdbi_SourceBufLen = vdata->view_file_size;
-			if(IxfdMaster->xfdRecogBuffer(xfdbi))
-			{
-				xfdbi->xfdbi_TargetBufMemType = MEMF_ANY;
-				if(IxfdMaster->xfdDecrunchBuffer(xfdbi))
-				{
-					IExec->FreeMem(xfdbi->xfdbi_SourceBuffer, vdata->view_buffer_size);
-					vdata->view_text_buffer = xfdbi->xfdbi_TargetBuffer;
-					vdata->view_buffer_size = xfdbi->xfdbi_TargetBufLen;
-					vdata->view_file_size = xfdbi->xfdbi_TargetBufSaveLen;
-				}
-				else
-					view_status_text(vdata, globstring[STR_NO_MEMORY_TO_DECRUNCH]);
-			}
-			IxfdMaster->xfdFreeObject(xfdbi);
-		}
-	}*/
 	return 1;
 }
 
@@ -775,26 +750,13 @@ int view_idcmp(struct ViewData *vdata)
 				else
 					switch (code)
 					{
-/* Code added by Pavel Cizek, 28. 3. 2000:
-*   It enables to use backspace to goto one page up
-*/
 					case 0x08:	// BackSpace
-/* End of inserted code */
 						view_pageup(vdata);
 						break;
-/* Code added by Pavel Cizek, 28. 3. 2000:
-*   It enables to use space to goto one page down
-*   The code for scroll toggle had to be omitted.
-*/
 					case ' ':	// Space
-/* End of inserted code */
 						view_pagedown(vdata);
 						break;
-/* Code added by Pavel Cizek, 28. 3. 2000:
-*   It enables to use '/' to invoke search window
-*/
 					case '/':
-/* End of inserted code */
 						view_search(vdata, 1);
 						break;
 					case 0x1B:	// ESC

@@ -17,7 +17,6 @@ autoinit_layers_base.o autoinit_layers_main.o\
 autoinit_pm_base.o autoinit_pm_main.o\
 autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
-autoinit_xfdmaster_base.o autoinit_xfdmaster_main.o
 
 CFLAGS = -Wall -O3 -I../include-os4
 LDFLAGS = -lauto

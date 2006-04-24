@@ -638,7 +638,7 @@ int doscreenconfig()
 						}
 						if(a > 0 && curmode->name[a])
 						{
-							strncpy(config->pubscreen_name, curmode->name, a);
+							IUtility->Strlcpy(config->pubscreen_name, curmode->name, a);
 							config->pubscreen_name[a - 1] = 0;
 						}
 					}

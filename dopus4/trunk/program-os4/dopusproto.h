@@ -150,7 +150,7 @@ char *getarexxpath(int, int, int, int);
 int readfile(char *, char **, uint32 *);
 int getnewprot(int, int, int);
 int dateformat(int);
-int checkscreenmode(int);
+int checkscreenmode(uint32);
 void doarrowgadgets(struct Gadget *, int);
 void makermbgad(struct RMBGadget *, struct Gadget *, int);
 void dolittlegads(struct Gadget *, char *, int);

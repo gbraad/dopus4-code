@@ -157,7 +157,7 @@ int LoadPic(char *name)
 	if(!chunkread(chunkbuf, sizeof(ULONG) * 3) || chunkbuf[0] != ID_FORM || ((chunkbuf[2] != ID_ANIM) && (chunkbuf[2] != ID_ILBM)))
 	{
 	      DTload:
-		if(DataTypesBase)
+		if(DataTypesBase && IDataTypes)
 		{
 			if((dto = IDataTypes->NewDTObject(name, DTA_GroupID, GID_PICTURE, PDTA_FreeSourceBitMap, TRUE, TAG_END)))
 			{
@@ -344,11 +344,11 @@ int LoadPic(char *name)
 	imageheight = bmhd.bmh_Height;
 	screenheight = bmhd.bmh_Height;
 
-	minwidth = 320;
-	minheight = 200;
+	minwidth = 640; //320;
+	minheight = 480; //200;
 
-	maxwidth = 368;
-	maxheight = (scrdata_is_pal ? 281 : 241);
+	maxwidth = 1280; //368;
+	maxheight = 1024; //(scrdata_is_pal ? 281 : 241);
 
 	if(viewmode == -1 || brush)
 	{

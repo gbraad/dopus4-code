@@ -179,7 +179,6 @@ void drawgadgets(int addgads, int bankoffset)
 	int x, y, yoff, a, b, len, l, ty, num, uspos, x1, y1;
 	char buf[256];
 
-//D(bug("pageflip_data1 %lx, pageflip_data2 at %lx\n",pageflip_data1,pageflip_data2));
 	if(addgads)
 		allocate_borders();
 
@@ -399,7 +398,6 @@ void layout_menus()
 	{
 		fpen = screen_pens[config->menu[a].fpen].pen;
 		bpen = screen_pens[config->menu[a].bpen].pen;
-//D(bug("menu: %ld\tfpen: %ld,bpen: %ld\n",a,fpen,bpen));
 
 		menu_intuitext[a * 2].BackPen = (UBYTE) bpen;
 		menu_intuitext[(a * 2) + 1].FrontPen = (UBYTE) fpen;
@@ -506,22 +504,6 @@ void layout_menus()
 	}
 	if(firstmenu)
 	{
-/* do not enable - crash will happen
-      APTR vi;
-
-      if (GadToolsBase)
-       {
-        if (vi = GetVisualInfoA(Window->WScreen,NULL))
-         {
-          struct TextAttr ta = {scr_font[FONT_MENUS]->tf_Message.mn_Node.ln_Name,
-                                scr_font[FONT_MENUS]->tf_YSize,
-                                scr_font[FONT_MENUS]->tf_Style,
-                                scr_font[FONT_MENUS]->tf_Flags};
-          LayoutMenus(firstmenu,vi,GTMN_TextAttr,&ta,TAG_END);
-          FreeVisualInfo(vi);
-         }
-       }
-*/
 		IIntuition->SetMenuStrip(Window, firstmenu);
 	}
 	if(drinfo)

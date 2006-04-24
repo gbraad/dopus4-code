@@ -341,7 +341,6 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 		canchecklocks = 0;
 		expand_path(dirbuf, tempbuf);
 	}
-
 	IDOpus->TackOn(tempbuf, NULL, 300);
 
 	for(try = 0; try < 2; try++)

@@ -32,7 +32,7 @@ the existing commercial status of Directory Opus 5.
 
 int initscreenmodes()
 {
-	int pal, count, minw, minh, defw, depth, needdef = 0, overx, overy, oldcount = 0;
+	int count, minw, minh, depth, oldcount = 0;
 	struct Screen scrbuf, *wbscreen;
 	char buf[256], namebuf[180];
 	struct DimensionInfo *dimension;
@@ -60,43 +60,19 @@ int initscreenmodes()
 	modeid = INVALID_ID;
 	while((modeid = IGraphics->NextDisplayInfo(modeid)) != INVALID_ID)
 	{
-		if(!IGraphics->ModeNotAvailable(modeid) && (handle = IGraphics->FindDisplayInfo(modeid)) && (IGraphics->GetDisplayInfoData(handle, namebuf, /*128*/180, DTAG_NAME, 0)) && (IGraphics->GetDisplayInfoData(handle, buf, 256, DTAG_DIMS, 0)))
+		if(!IGraphics->ModeNotAvailable(modeid) && (handle = IGraphics->FindDisplayInfo(modeid)) && (IGraphics->GetDisplayInfoData(handle, namebuf, 180, DTAG_NAME, 0)) && (IGraphics->GetDisplayInfoData(handle, buf, 256, DTAG_DIMS, 0)))
 		{
-			if(modeid & (HIRES_KEY | HIRESLACE_KEY))
-			{
-				minw = 640;
-			}
-			else
-			{
-				minw = dimension->MinRasterWidth;
-				if(minw < 160)
-				{
-					minw *= 10;
-				}
-			}
+			minw = dimension->Nominal.MaxX + 1;
+			minh = dimension->Nominal.MaxY + 1;
 
-			minh = dimension->MinRasterHeight;
-
-			if(minh < 480)
-				minh = 480;
-			defw = (dimension->TxtOScan.MaxX - dimension->TxtOScan.MinX) + 1;
-
-			if(minw >= 640 && defw >= 640)
-			{
-				count += addscreenmode(((struct NameInfo *)namebuf)->Name, minw, minh, dimension->MaxRasterWidth, dimension->MaxRasterHeight, defw, (dimension->TxtOScan.MaxY - dimension->TxtOScan.MinY) + 1, dimension->MaxDepth, modeid);
-			}
+			if((dimension->Nominal.MaxX >= 639) && (dimension->Nominal.MaxY >= 479))
+				count += addscreenmode(((struct NameInfo *)namebuf)->Name, minw, minh, minw, minh, minw, minh, dimension->MaxDepth, modeid);
 		}
 	}
 
-	if(count == 0)
-	{
-		needdef = 1;
-	}
-	else
-	{
-		sortscreenmodes(count, 0);
-		oldcount = count;
-	}
+	sortscreenmodes(count, 0);
+	oldcount = count;
+
 	if((pubscreenlist = IIntuition->LockPubScreenList()))
 	{
 		pubscreen = (struct PubScreenNode *)pubscreenlist->lh_Head;
@@ -112,20 +88,6 @@ int initscreenmodes()
 			pubscreen = (struct PubScreenNode *)pubscreen->psn_Node.ln_Succ;
 		}
 		IIntuition->UnlockPubScreenList();
-	}
-
-	if(needdef)
-	{
-		pal = ((struct GfxBase *)(IGraphics->Data.LibBase))->DisplayFlags & PAL;
-		overx = 704 - ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns;
-		if(overx < 0)
-			overx = 0;
-		overy = ((pal) ? 290 : 240) - ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayRows;
-		if(overy < 0)
-			overy = 0;
-
-		count += addscreenmode(pal ? "PAL:High Res" : "NTSC:High Res", 640, 200, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns + overx, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayRows + overy, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayRows, 4, HIRES_KEY);
-		count += addscreenmode(pal ? "PAL:High Res Laced" : "NTSC:High Res Laced", 640, 200, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns + overx, (((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayRows + overy) * 2, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayColumns, ((struct GfxBase *)(IGraphics->Data.LibBase))->NormalDisplayRows * 2, 4, HIRESLACE_KEY);
 	}
 
 	count += addscreenmode(cfg_string[STR_MODE_WORKBENCH_USE], 640, 480, scrbuf.Width, scrbuf.Height, scrbuf.Width, scrbuf.Height, scrbuf.RastPort.BitMap->Depth, MODE_WORKBENCHUSE);
@@ -156,9 +118,11 @@ int addscreenmode(STRPTR name, UWORD minw, UWORD minh, UWORD maxw, UWORD maxh, U
 			screenmode->next = scrmode;
 		else
 			firstmode = scrmode;
-		strcpy(scrmode->name, name);
+
+		IUtility->Strlcpy(scrmode->name, name, 80);
 		scrmode->minw = minw;
 		scrmode->minh = minh;
+
 		if(maxw == 0)
 			scrmode->maxw = minw;
 		else
@@ -176,6 +140,8 @@ int addscreenmode(STRPTR name, UWORD minw, UWORD minh, UWORD maxw, UWORD maxh, U
 		else
 			scrmode->defh = defh;
 		scrmode->maxdepth = (depth > 8) ? 8 : depth;
+		scrmode->mode = mode;
+
 		return (1);
 	}
 	return (0);
@@ -184,7 +150,7 @@ int addscreenmode(STRPTR name, UWORD minw, UWORD minh, UWORD maxw, UWORD maxh, U
 struct ScreenMode *showdisplaydesc()
 {
 	struct ScreenMode *mode;
-	char buf[80] = { 0, };
+	char modebuf[80] = { 0, };
 
 	IGraphics->SetAPen(rp, screen_pens[0].pen);
 	IGraphics->RectFill(rp, x_off + 238, y_off + 140, x_off + 509, y_off + 179);
@@ -195,14 +161,14 @@ struct ScreenMode *showdisplaydesc()
 		return (NULL);
 	}
 
-	IUtility->SNPrintf(buf, 80, "%16s: %d %s %d", cfg_string[STR_MINIMUM_SIZE], mode->minw, cfg_string[STR_BY], mode->minh);
-	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 147, -1);
-	IUtility->SNPrintf(buf, 80, "%16s: %d %s %d", cfg_string[STR_MAXIMUM_SIZE], mode->maxw, cfg_string[STR_BY], mode->maxh);
-	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 155, -1);
-	IUtility->SNPrintf(buf, 80, "%16s: %d %s %d", cfg_string[STR_DEFAULT_SIZE], mode->defw, cfg_string[STR_BY], mode->defh);
-	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 163, -1);
-	IUtility->SNPrintf(buf, 80, "%16s: %d", cfg_string[STR_MAXIMUM_COLORS], (1 << mode->maxdepth));
-	IDOpus->UScoreText(rp, buf, x_off + 240, y_off + 171, -1);
+	sprintf(modebuf, "%16s: %d %s %d", cfg_string[STR_MINIMUM_SIZE], mode->minw, cfg_string[STR_BY], mode->minh);
+	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 147, -1);
+	sprintf(modebuf, "%16s: %d %s %d", cfg_string[STR_MAXIMUM_SIZE], mode->maxw, cfg_string[STR_BY], mode->maxh);
+	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 155, -1);
+	sprintf(modebuf, "%16s: %d %s %d", cfg_string[STR_DEFAULT_SIZE], mode->defw, cfg_string[STR_BY], mode->defh);
+	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 163, -1);
+	sprintf(modebuf, "%16s: %d", cfg_string[STR_MAXIMUM_COLORS], (1 << mode->maxdepth));
+	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 171, -1);
 
 	return (mode);
 }
@@ -216,7 +182,7 @@ void fixmodegads(struct ScreenMode *mode)
 		config->scrdepth += 2;
 	if(config->scrdepth > ((mode) ? mode->maxdepth : 8))
 		config->scrdepth = ((mode) ? mode->maxdepth : 8);
-//	config->scrdepth = 8;
+	config->scrdepth = 8;
 
 	IUtility->SNPrintf(screendepth_buf, 4, "%d", (1 << config->scrdepth));
 
@@ -247,6 +213,7 @@ void fixmodegads(struct ScreenMode *mode)
 			IDOpus->FixSliderBody(Window, &screenmodegads[SCREENMODE_SLIDER - 300], mode->maxdepth - 1, 1, 0);
 		}
 	}
+
 	IDOpus->FixSliderPot(Window, &screenmodegads[SCREENMODE_SLIDER - 300], config->scrdepth - 2, mode->maxdepth - 1, 1, 2);
 }
 
@@ -263,6 +230,7 @@ void fixdefaultgads(struct ScreenMode *mode)
 		screenmodegads[SCREENMODE_DEFWIDTH - 300].Flags &= ~GFLG_SELECTED;
 		IDOpus->EnableGadget(&screenmodegads[SCREENMODE_WIDTH - 300], rp, 0, 0);
 	}
+
 	if(config->screenflags & SCRFLAGS_DEFHEIGHT || mode->mode == MODE_WORKBENCHCLONE || mode->mode == MODE_PUBLICSCREENCLONE)
 	{
 		config->screenflags |= SCRFLAGS_DEFHEIGHT;
@@ -274,10 +242,12 @@ void fixdefaultgads(struct ScreenMode *mode)
 		screenmodegads[SCREENMODE_DEFHEIGHT - 300].Flags &= ~GFLG_SELECTED;
 		IDOpus->EnableGadget(&screenmodegads[SCREENMODE_HEIGHT - 300], rp, 0, 0);
 	}
+
 	if(mode->maxdepth == 2)
 		IDOpus->DisableGadget(&screenmodegads[SCREENMODE_DEPTH - 300], rp, 0, 0);
 	else
 		IDOpus->EnableGadget(&screenmodegads[SCREENMODE_DEPTH - 300], rp, 0, 0);
+
 
 	IDOpus->EnableGadget(&screenmodegads[SCREENMODE_DEFWIDTH - 300], rp, 2, 1);
 	IDOpus->EnableGadget(&screenmodegads[SCREENMODE_DEFHEIGHT - 300], rp, 2, 1);

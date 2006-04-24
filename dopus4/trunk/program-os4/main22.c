@@ -1711,7 +1711,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				FOREVER
 				{
-					if(copyfile(sourcename, destname, &err, /*-1,*/ buf2, data))
+					if(copyfile(sourcename, destname, &err, /*-1*/ buf2 /*NULL*/, data))
 					{
 						addfile(dwindow, inact, file->name, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 						okayflag = 1;
@@ -1732,7 +1732,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 			}
 			else
+			{
 				doerror(ERROR_OBJECT_EXISTS);
+			}
 			break;
 
 		case FUNC_DATESTAMP:

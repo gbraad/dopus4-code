@@ -27,7 +27,7 @@ DEBUG = -s # -g -DDEBUG
 CFLAGS = -Wall -I../../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 
 # Flags passed to gcc during linking
-LINK = 
+LINK =
 
 # Name of the "thing" to build
 TARGET = dopus.library

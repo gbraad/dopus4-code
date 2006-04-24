@@ -480,7 +480,7 @@ struct ConfigGadget
 
 struct ColourSel
 {
-	char item;
+	int8 item;
 	short x1, y1, x2, y2;
 };
 

@@ -77,6 +77,7 @@ void dosave(int new)
 		filereq.flags = DFRF_SAVE;
 		filereq.title = cfg_string[STR_ENTER_CONFIGURATION_FILENAME];
 		filereq.window = Window;
+
 		if(!(IDOpus->FileRequest(&filereq)))
 		{
 			unbusy();
@@ -88,7 +89,9 @@ void dosave(int new)
 			if(!(strstri(configname, ".CFG")))
 				IDOpus->StrConcat(configname, ".CFG", 256);
 	}
+
 	fixcstuff(&cstuff);
+
 	if(!IDOpus->SaveConfig(configname, &cstuff))
 	{
 		sprintf(buf, cfg_string[STR_SAVE_FAILED], IDOS->IoErr());
@@ -96,7 +99,10 @@ void dosave(int new)
 			goto trysave;
 	}
 	else
+	{
 		lchanged = changed = 0;
+	}
+
 	unbusy();
 }
 

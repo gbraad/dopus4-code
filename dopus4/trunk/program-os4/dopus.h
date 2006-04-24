@@ -77,6 +77,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/timer.h>
 #include <proto/utility.h>
 #include <proto/xadmaster.h>
+#include <proto/Picasso96API.h>
 
 #include <proto/dopus.h>
 
