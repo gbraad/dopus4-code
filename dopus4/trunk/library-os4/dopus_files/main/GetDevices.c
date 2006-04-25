@@ -143,6 +143,10 @@ int _DOpus_GetDevices(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 			AssignDrive(cstuff, i, NULL, NULL);
 	}
 
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
+	IExec->DropInterface((struct Interface *)IUtility);
+	IExec->CloseLibrary(UtilityBase);
 	return 1;
 }
 

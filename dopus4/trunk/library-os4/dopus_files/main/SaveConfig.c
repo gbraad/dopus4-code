@@ -136,6 +136,9 @@ int _DOpus_SaveConfig(struct DOpusIFace *Self, char *name, struct ConfigStuff *c
 	ret = 1;
       error:
 	IDOS->Close(out);
+
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return (ret);
 }
 

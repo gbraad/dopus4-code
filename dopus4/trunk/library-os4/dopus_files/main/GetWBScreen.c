@@ -66,5 +66,9 @@ void _DOpus_GetWBScreen(struct DOpusIFace *Self, struct Screen *scrbuf)
 		IExec->CopyMem(scr, scrbuf, sizeof(struct Screen));
 		IIntuition->UnlockPubScreen(NULL, scr);
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	return;
 }
 

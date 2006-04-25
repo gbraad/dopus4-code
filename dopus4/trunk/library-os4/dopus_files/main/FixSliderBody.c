@@ -126,4 +126,8 @@ void _DOpus_FixSliderBody(struct DOpusIFace *Self, struct Window *win, struct Ga
 		if(show && win && (oh != ih || show == 2))
 			Self->ShowSlider(win, gad);
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	return;
 }

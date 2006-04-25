@@ -26,6 +26,8 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
+#include "extras.h"
+
 /****** dopus/main/DrawRadioButton ******************************************
 *
 *   NAME
@@ -75,10 +77,15 @@ void _DOpus_DrawRadioButton(struct DOpusIFace *Self, struct RastPort *rp, int x,
 	drawline(rp,x-2,y+1,x-2,y+h-4);
 	drawline(rp,x-1,y+1,x-1,y+h-4);
 	drawline(rp,x-1,y+h-3,x,y+h-3);
+
 	IGraphics->SetAPen(rp,lo);
 	drawline(rp,x,y+h-2,x+w-3,y+h-2);
 	drawline(rp,x+w-3,y+h-3,x+w-2,y+h-3);
 	drawline(rp,x+w-1,y+h-4,x+w-1,y+1);
 	drawline(rp,x+w-2,y+h-4,x+w-2,y+1);
 	drawline(rp,x+w-3,y,x+w-2,y);
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }

@@ -74,7 +74,6 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 	struct AslIFace *IAsl = (struct AslIFace *)IExec->GetInterface(AslBase, "main", 1, NULL);
 	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
 	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-//	struct Library *AslBase;
 
 	if(freq->dirbuf[0] && (Self->CheckExist(freq->dirbuf, NULL) < 0))
 	{
@@ -163,33 +162,11 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			}
 			if(freq->dirbuf)
 			{
-//				asltags[6].ti_Tag = ASL_Dir;
 				asltags[6].ti_Tag = ASLFR_InitialDrawer;
 				asltags[6].ti_Data = (ULONG) freq->dirbuf;
 			}
 		}
 
-//		asltags[7].ti_Tag = ASL_FuncFlags;
-/*		asltags[7].ti_Tag = ASLFR_Flags1;
-
-		if(font)
-			asltags[7].ti_Data = FONF_NEWIDCMP;
-		else
-		{
-			if(freq->flags & DFRF_SAVE)
-				asltags[7].ti_Data = FILF_SAVE | FILF_NEWIDCMP;
-			else if(freq->flags & DFRF_MULTI)
-				asltags[7].ti_Data = FILF_MULTISELECT | FILF_NEWIDCMP;
-			else
-				asltags[7].ti_Data = FILF_NEWIDCMP;
-
-			if(freq->flags & DFRF_DIRREQ)
-			{
-				asltags[8].ti_Tag = ASL_ExtFlags1;
-				asltags[8].ti_Data |= FIL1F_NOFILES;
-			}
-		}
-*/
 		if((request = IAsl->AllocAslRequest((font) ? ASL_FontRequest : ASL_FileRequest, asltags)))
 		{
 			if(res = IAsl->AslRequest(request, NULL))
@@ -234,7 +211,12 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			}
 			IAsl->FreeAslRequest(request);
 		}
-//		CloseLibrary(AslBase);
+		IExec->DropInterface((struct Interface *)IIntuition);
+		IExec->CloseLibrary(IntuitionBase);
+		IExec->DropInterface((struct Interface *)IDOS);
+		IExec->CloseLibrary(DOSBase);
+		IExec->DropInterface((struct Interface *)IAsl);
+		IExec->CloseLibrary(AslBase);
 		return (res);
 	}
 	else
@@ -293,6 +275,12 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			else
 				ret = 0;
 		}
+		IExec->DropInterface((struct Interface *)IIntuition);
+		IExec->CloseLibrary(IntuitionBase);
+		IExec->DropInterface((struct Interface *)IDOS);
+		IExec->CloseLibrary(DOSBase);
+		IExec->DropInterface((struct Interface *)IAsl);
+		IExec->CloseLibrary(AslBase);
 		return (ret);
 	}
 }

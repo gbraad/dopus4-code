@@ -77,5 +77,9 @@ void _DOpus_DoCycleGadget(struct DOpusIFace *Self, struct Gadget *gad, struct Wi
 		IGraphics->Move(rp, gad->LeftEdge + 20 + ((gad->Width - 22 - ((a = strlen(choices[select])) * rp->Font->tf_XSize)) / 2), gad->TopEdge + rp->Font->tf_Baseline + ((gad->Height - rp->Font->tf_YSize) / 2));
 		IGraphics->Text(rp, choices[select], a);
 	}
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }
 

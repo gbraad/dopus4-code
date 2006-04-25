@@ -188,6 +188,10 @@ int _DOpus_AddGadgets(struct DOpusIFace *Self, struct Window *win, struct Gadget
 			gad = gad->NextGadget;
 		}
 	}
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return (realcount);
 }
 

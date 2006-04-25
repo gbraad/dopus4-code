@@ -58,8 +58,8 @@
 int _DOpus_GetSliderPos(struct DOpusIFace *Self, struct Gadget *gad, int count, int lines)
 {
 	int i;
-	USHORT vertpot;
-	struct PropInfo *pinfo;
+	uint16 vertpot;
+	struct PropInfo *pinfo = NULL;
 
 	pinfo = (struct PropInfo *)gad->SpecialInfo;
 	if(pinfo->Flags & FREEVERT)
@@ -69,7 +69,7 @@ int _DOpus_GetSliderPos(struct DOpusIFace *Self, struct Gadget *gad, int count, 
 
 	if(count < lines || vertpot == 0)
 		return (0);
-	i = (((count - lines) + 1) * (long long)vertpot) >> 16 /*/0xffff */ ;
+	i = (((count - lines) + 1) * (int64)vertpot) >> 16 /*/0xffff */ ;
 	if(i > (count - lines))
 		i = count - lines;
 	if(i < 0)

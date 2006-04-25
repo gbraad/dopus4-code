@@ -59,7 +59,10 @@ void _DOpus_SetBusyPointer(struct DOpusIFace *Self, struct Window *window)
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
 	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	const static struct TagItem busytags[2] = { { WA_BusyPointer, 1 }, { TAG_DONE, 0 } };
 	
-	IIntuition->SetWindowPointerA(window,busytags);
+	IIntuition->SetWindowPointer(window, WA_BusyPointer, 1, TAG_DONE, 0);
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	return;
 }

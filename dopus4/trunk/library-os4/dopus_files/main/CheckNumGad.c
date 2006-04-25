@@ -82,5 +82,7 @@ int _DOpus_CheckNumGad(struct DOpusIFace *Self, struct Gadget *gad, struct Windo
 			Self->RefreshStrGad(gad, win);
 		return(1);
 	}
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return(0);
 }

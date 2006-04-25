@@ -85,7 +85,9 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 		stringdata->string_table[defstr[a].string_id] = defstr[a].string;
 	}
 	if(filename)
+	{
 		if(filename[0])
+		{
 			if((stringdata->catalog = ILocale->OpenCatalogA(NULL, filename, NULL /*OC_Language,NULL,TAG_END */)))
 			{
 				for(a = 0;
@@ -96,6 +98,11 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 					stringdata->string_table[defstr[a].string_id] = ILocale->GetCatalogStr(stringdata->catalog, defstr[a].string_id, defstr[a].string);
 				}
 			}
+		}
+	}
+
+	IExec->DropInterface((struct Interface *)ILocale);
+	IExec->CloseLibrary(LocaleBase);
 	return (1);
 }
 

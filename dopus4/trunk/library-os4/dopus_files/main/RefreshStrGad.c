@@ -66,5 +66,9 @@ void _DOpus_RefreshStrGad(struct DOpusIFace *Self, struct Gadget *gad, struct Wi
 	gad->Flags |= GFLG_GADGHNONE;
 	IIntuition->RefreshGList(gad, win, NULL, 1);
 	gad->Flags &= ~GFLG_GADGHNONE;
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	return;
 }
 

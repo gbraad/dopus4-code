@@ -79,5 +79,9 @@ void _DOpus_UScoreText(struct DOpusIFace *Self, struct RastPort *rp, char *buf, 
 		IGraphics->Draw(rp, rp->cp_x + (IGraphics->TextLength(rp, &buf[up], 1)) - 1, rp->cp_y);
 	}
 	IGraphics->Move(rp, x1, y1);
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }
 

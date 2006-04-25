@@ -92,5 +92,8 @@ struct Image * _DOpus_GetCheckImage(struct DOpusIFace *Self, UBYTE fg, UBYTE bg,
 
 	image->LeftEdge = 7;
 	image->TopEdge = 2;
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return(image);
 }

@@ -83,5 +83,7 @@ int _DOpus_Assign(struct DOpusIFace *Self, char *name, char *dir)
 
 		return(ASSIGN_NODEV);
 	}
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return(ASSIGN_NODEV);
 }

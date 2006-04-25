@@ -28,6 +28,8 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
+#include "extras.h"
+
 /****** dopus/main/AddListView ******************************************
 *
 *   NAME
@@ -193,5 +195,9 @@ int _DOpus_AddListView(struct DOpusIFace *Self, struct DOpusListView *view, int 
 		view = view->next;
 		++addcount;
 	}
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return (addcount);
 }

@@ -104,5 +104,8 @@ struct Image * _DOpus_GetButtonImage(struct DOpusIFace *Self, int w, int h, int 
 
 	image->LeftEdge = -2;
 	image->TopEdge = -1;
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return(image);
 }

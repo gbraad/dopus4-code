@@ -62,7 +62,7 @@
 *
 */
 
-void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, short left, short top, short width, short height, char *text, unsigned short textpos)
+void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, short left, short top, short width, short height, char *text, uint16 textpos)
 {
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
@@ -129,4 +129,8 @@ void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, s
 	}
 
 	Self->UScoreText(rp, textbuf, x, y + rp->Font->tf_Baseline, got_uscore);
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }

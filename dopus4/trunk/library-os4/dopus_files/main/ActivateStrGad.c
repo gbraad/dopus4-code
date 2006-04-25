@@ -71,5 +71,7 @@ void _DOpus_ActivateStrGad(struct DOpusIFace *Self, struct Gadget *gad, struct W
 
 	IIntuition->RefreshGList(gad,win,NULL,1);
 	IIntuition->ActivateGadget(gad,win,NULL);
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
 }
 

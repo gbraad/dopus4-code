@@ -62,5 +62,9 @@ void _DOpus_StrToUpper(struct DOpusIFace *Self, char *from, char *to)
 	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 
 	while((*to++ = IUtility->ToUpper(*from++)));
+
+	IExec->DropInterface((struct Interface *)IUtility);
+	IExec->CloseLibrary(UtilityBase);
+	return;
 }
 

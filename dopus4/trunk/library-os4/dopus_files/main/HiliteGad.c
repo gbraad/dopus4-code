@@ -65,5 +65,8 @@ void _DOpus_HiliteGad(struct DOpusIFace *Self, struct Gadget *gad, struct RastPo
 	IGraphics->SetDrMd(rp, COMPLEMENT);
 	IGraphics->RectFill(rp, gad->LeftEdge, gad->TopEdge, gad->LeftEdge + gad->Width - 1, gad->TopEdge + gad->Height - 1);
 	IGraphics->SetDrMd(rp,old_drmd);
-}
 
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
+}

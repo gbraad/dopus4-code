@@ -84,11 +84,14 @@ void * _DOpus_LAllocRemember(struct DOpusIFace *Self, struct DOpusRemember **key
 	size += sizeof(ULONG);
 
 	if(*pool)
+	{
 		if((mem = IExec->AllocPooled(*pool, size)))
 		{
 			mem[0] = size;
 			return(mem+1);
 		}
+	}
+
 	return(0);
 }
 

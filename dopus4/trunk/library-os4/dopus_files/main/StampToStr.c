@@ -93,6 +93,9 @@ void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 		if((time = strchr(datetime->dat_StrDate, ' ')))
 			*time = 0;
 	}
+
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return;
 }
 

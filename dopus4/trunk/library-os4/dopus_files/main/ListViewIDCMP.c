@@ -428,5 +428,12 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 		}
 		return (NULL);
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return ((struct DOpusListView *)-1);
 }

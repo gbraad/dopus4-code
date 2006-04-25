@@ -589,6 +589,10 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 
 	cstuff->curbank = cstuff->firstbank;
 
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return (1);
 }
 

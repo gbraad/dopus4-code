@@ -190,5 +190,8 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 			Self->StrConcat(buf, "'", len);
 		}
 	}
+
+	IExec->DropInterface((struct Interface *)IUtility);
+	IExec->CloseLibrary(UtilityBase);
 	return (1);
 }

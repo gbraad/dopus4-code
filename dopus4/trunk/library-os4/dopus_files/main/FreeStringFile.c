@@ -76,5 +76,9 @@ void _DOpus_FreeStringFile(struct DOpusIFace *Self, struct StringData *stringdat
 		stringdata->catalog = NULL;
 		stringdata->LocaleBase = NULL;
 	}
+
+	IExec->DropInterface((struct Interface *)ILocale);
+	IExec->CloseLibrary(LocaleBase);
+	return;
 }
 

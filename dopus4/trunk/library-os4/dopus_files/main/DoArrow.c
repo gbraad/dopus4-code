@@ -80,11 +80,16 @@ void _DOpus_DoArrow(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, 
 		case 0:
 			y1=y+h-2;
 			y3=y+1;
-			goto sameupdown;
+			x1=x+2;
+			x2=xb-3;
+			x3=x+(w/2)-1;
+			x4=xb-(w/2);
+			y2=y1;
+			y4=y3;
+			break;
 		case 1:
 			y1=y+1;
 			y3=y+h-2;
-sameupdown:
 			x1=x+2;
 			x2=xb-3;
 			x3=x+(w/2)-1;
@@ -95,21 +100,33 @@ sameupdown:
 		case 2:
 			x1=x+1;
 			x3=xb-2;
-			goto sameleftright;
-		default:
-			x1=xb-2;
-			x3=x+1;
-sameleftright:
 			x2=x1;
 			y1=y+1;
 			y2=y+h-2;
 			y3=y+(h/2);
-			if (h%2==0) --y3;
+			if(h % 2 == 0)
+				--y3;
+			x4=x3;
+			y4=y3;
+			break;
+		default:
+			x1=xb-2;
+			x3=x+1;
+			x2=x1;
+			y1=y+1;
+			y2=y+h-2;
+			y3=y+(h/2);
+			if(h % 2 == 0)
+				--y3;
 			x4=x3;
 			y4=y3;
 			break;
 	}
 	drawline(rp,x1,y1,x3,y3);
 	drawline(rp,x2,y2,x4,y4);
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }
 

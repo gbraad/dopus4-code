@@ -120,5 +120,8 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 	}
 	IExec->Permit();
 	myproc->pr_WindowPtr = wsave;
+
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return(pass);
 }

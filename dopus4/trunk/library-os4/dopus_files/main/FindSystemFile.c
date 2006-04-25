@@ -165,6 +165,11 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, char *name, char *buf, int si
 			goto tryloop;
 	}
 	Self->LStrnCpy(buf, name, size);
+
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
+	IExec->DropInterface((struct Interface *)IUtility);
+	IExec->CloseLibrary(UtilityBase);
 	return (0);
 }
 

@@ -108,5 +108,8 @@ int _DOpus_PathName(struct DOpusIFace *Self, BPTR lock, char *buf, int len)
 	}
 	Self->LFreeRemember(&key);
 	IDOS->FreeDosObject(DOS_FIB, finfo);
+
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return((int)strlen(buf));
 }

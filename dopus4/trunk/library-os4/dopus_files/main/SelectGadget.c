@@ -84,5 +84,13 @@ void _DOpus_SelectGadget(struct DOpusIFace *Self, struct Window *window, struct 
 		Self->HiliteGad(gadget,window->RPort);
 		IGraphics->SetDrMd(window->RPort, old);
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
+	return;
 }
 

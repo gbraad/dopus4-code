@@ -87,4 +87,8 @@ void _DOpus_DoGlassImage(struct DOpusIFace *Self, struct RastPort *rp, struct Ga
 
 	IGraphics->SetAPen(rp, op);
 	IGraphics->SetDrMd(rp, om);
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }

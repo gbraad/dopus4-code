@@ -119,4 +119,10 @@ void _DOpus_ShowSlider(struct DOpusIFace *Self, struct Window *win, struct Gadge
 
 	IGraphics->SetAPen(r, old_pen);
 	IGraphics->SetDrMd(r, old_mode);
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }

@@ -30,7 +30,9 @@
 #include <dopus/stringdata.h>
 #include <proto/dopus.h>
 #include <stdarg.h>
+
 #include "main/extras.h"
+
 /****** dopus/main/DoSimpleRequest ******************************************
 *
 *   NAME
@@ -93,7 +95,6 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 		return(0);
 	if(!window)
 	{
-//		screen = IntuitionBase->FirstScreen;
 		screen = ((struct IntuitionBase *)(IIntuition->Data.LibBase))->FirstScreen;
 		fnt = ((struct GfxBase *)(IGraphics->Data.LibBase))->DefaultFont;
 	}
@@ -478,7 +479,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				FOREVER
 				{
 					IExec->Wait(1 << Window->UserPort->mp_SigBit);
-					while (Msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort))
+					while ((Msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
 					{
 						class = Msg->Class;
 						code = Msg->Code;
@@ -557,7 +558,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 	FOREVER
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(Msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort))
+		while((Msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
 		{
 			class = Msg->Class;
 			code = Msg->Code;
@@ -677,9 +678,18 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				IIntuition->CloseWindow(Window);
 				if(gadgetid && simple->strbuf)
 					Self->LStrCpy(simple->strbuf, strbuf);
-				Self->LFreeRemember(&key);
-				return(gadgetid);
 			}
 		}
 	}
+	Self->LFreeRemember(&key);
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
+	IExec->DropInterface((struct Interface *)IUtility);
+	IExec->CloseLibrary(UtilityBase);
+	return(gadgetid);
 }

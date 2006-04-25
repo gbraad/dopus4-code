@@ -67,9 +67,6 @@ void _DOpus_LFreeRemember(struct DOpusIFace *Self, struct DOpusRemember **key)
 	{
 		if(pool->fast)
 			IExec->FreeSysObject(ASOT_MEMPOOL, pool->fast);
-//			IExec->DeletePool(pool->fast);
-//		if(pool->chip)
-//			IExec->DeletePool(pool->chip);
 		IExec->FreeMem(*key, sizeof(struct DOpusPool));
 		*key = NULL;
 	}

@@ -122,4 +122,8 @@ void _DOpus_FixSliderPot(struct DOpusIFace *Self, struct Window *win, struct Gad
 		if(show && win && (oh != te || show == 2))
 			Self->ShowSlider(win, gad);
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	return;
 }

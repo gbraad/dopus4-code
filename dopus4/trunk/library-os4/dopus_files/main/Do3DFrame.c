@@ -87,4 +87,7 @@ void _DOpus_Do3DFrame(struct DOpusIFace *Self, struct RastPort *rp, int x, int y
 		IGraphics->Move(rp, x, y + 2);
 		IGraphics->Text(rp, title, a);
 	}
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }

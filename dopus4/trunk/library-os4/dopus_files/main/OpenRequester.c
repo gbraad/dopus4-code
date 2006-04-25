@@ -74,7 +74,7 @@ struct Window *_DOpus_OpenRequester(struct DOpusIFace *Self, struct RequesterBas
 	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
 	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct NewWindow newwin;
-	struct Screen *screen, screendata;
+	struct Screen *screen = NULL, screendata;
 	struct Window *window = NULL, *center_window = NULL;
 	short width, height, attempt;
 
@@ -259,5 +259,9 @@ struct Window *_DOpus_OpenRequester(struct DOpusIFace *Self, struct RequesterBas
 
 	reqbase->rb_window = window;
 
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return (window);
 }

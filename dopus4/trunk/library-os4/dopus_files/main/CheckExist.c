@@ -83,5 +83,7 @@ int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 	}
 	myproc->pr_WindowPtr = wsave;
 
+	IExec->DropInterface((struct Interface *)IDOS);
+	IExec->CloseLibrary(DOSBase);
 	return(a);
 }

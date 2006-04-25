@@ -83,5 +83,9 @@ void _DOpus_Do3DStringBox(struct DOpusIFace *Self, struct RastPort *rp, int x, i
 	IGraphics->Draw(rp,x+w+1,y-1);
 
 	drawline(rp,x+w,y+h,x+w,y);
+
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
+	return;
 }
 

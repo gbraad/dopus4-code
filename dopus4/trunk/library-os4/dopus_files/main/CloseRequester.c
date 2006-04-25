@@ -72,4 +72,8 @@ void _DOpus_CloseRequester(struct DOpusIFace *Self, struct RequesterBase *reqbas
 		IGraphics->CloseFont(reqbase->rb_font);
 
 	Self->LFreeRemember(&reqbase->rb_memory);
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 }

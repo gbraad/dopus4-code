@@ -171,5 +171,8 @@ int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Wi
 	IIntuition->RemoveGList(window, &dummy_gadget, 1);
 	IIntuition->ModifyIDCMP(window, idcmpflags);
 	window->Flags = windowflags;
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
 	return (ret);
 }

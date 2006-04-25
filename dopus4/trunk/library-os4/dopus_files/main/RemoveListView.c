@@ -70,5 +70,8 @@ int _DOpus_RemoveListView(struct DOpusIFace *Self, struct DOpusListView *view, i
 		view = view->next;
 		++realcount;
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
 	return(realcount);
 }

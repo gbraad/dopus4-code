@@ -213,5 +213,10 @@ int _DOpus_FSSetMenuStrip(struct DOpusIFace *Self, struct Window *window, struct
 		}
 		menu = menu->NextMenu;
 	}
+
+	IExec->DropInterface((struct Interface *)IIntuition);
+	IExec->CloseLibrary(IntuitionBase);
+	IExec->DropInterface((struct Interface *)IGraphics);
+	IExec->CloseLibrary(GfxBase);
 	return((int)IIntuition->SetMenuStrip(window, firstmenu));
 }
