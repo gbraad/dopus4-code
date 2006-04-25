@@ -782,8 +782,10 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 	case FUNC_PATTERNMATCH:
 		if(rexx_argcount < 2)
 			break;
-		IDOpus->LParsePatternI(rexx_args[0], buf);
-		rexx_return(msg, IDOpus->LMatchPatternI(buf, rexx_args[1]));
+//		IDOpus->LParsePatternI(rexx_args[0], buf);
+		IDOS->ParsePatternNoCase(rexx_args[0], buf, 520);
+//		rexx_return(msg, IDOpus->LMatchPatternI(buf, rexx_args[1]));
+		rexx_return(msg, IDOS->MatchPatternNoCase(buf, rexx_args[1]));
 		return (1);
 
 	case FUNC_BUSY:
@@ -1393,12 +1395,14 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 
 		case MOD_SHOWPATTERN:
 			strcpy(config->showpat, rexx_args[1]);
-			IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
+//			IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
+			IDOS->ParsePatternNoCase(config->showpat, config->showpatparsed, 40);
 			break;
 
 		case MOD_HIDEPATTERN:
 			strcpy(config->hidepat, rexx_args[1]);
-			IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
+//			IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
+			IDOS->ParsePatternNoCase(config->hidepat, config->hidepatparsed, 40);
 			break;
 
 		case MOD_ICONIFYFLAGS:
@@ -1489,7 +1493,8 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			if(str_filter[0])
 			{
 				screen_gadgets[SCRGAD_TINYFILTER].Flags |= GFLG_SELECTED;
-				IDOpus->LParsePatternI(str_filter, str_filter_parsed);
+//				IDOpus->LParsePatternI(str_filter, str_filter_parsed);
+				IDOS->ParsePatternNoCase(str_filter, str_filter_parsed, 84);
 			}
 			else
 			{

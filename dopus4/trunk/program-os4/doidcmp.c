@@ -491,7 +491,10 @@ void doidcmp()
 							str_filter_parsed[0] = 0;
 						}
 						else
-							IDOpus->LParsePatternI(str_filter, str_filter_parsed);
+						{
+//							IDOpus->LParsePatternI(str_filter, str_filter_parsed);
+							IDOS->ParsePatternNoCase(str_filter, str_filter_parsed, 84);
+						}
 						unbusy();
 					}
 					else

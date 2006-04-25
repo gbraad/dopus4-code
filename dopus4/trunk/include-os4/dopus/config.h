@@ -313,7 +313,7 @@ struct Config
 	char pad7[2];
 
 	char hiddenbit;
-	int8 showpat[40], hidepat[40];
+	char showpat[40], hidepat[40];
 	char showpatparsed[40], hidepatparsed[40];
 	char icontype, scrclktype, showfree;
 

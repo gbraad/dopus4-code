@@ -547,8 +547,10 @@ int dosystemconfig()
 						case SYS_OKAY:
 							if(gadgetid == SYS_OKAY)
 							{
-								IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
-								IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
+//								IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
+								IDOS->ParsePatternNoCase(config->showpat, config->showpatparsed, 40);
+//								IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
+								IDOS->ParsePatternNoCase(config->hidepat, config->hidepatparsed, 40);
 								config->hotkeycode = hotcode;
 								config->hotkeyqual = hotqual;
 								configmsg(CONFIG_NEW_HOTKEY);

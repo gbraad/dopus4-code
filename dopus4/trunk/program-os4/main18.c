@@ -474,7 +474,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						rec_firstpath = trec;
 				}
 			}
-			if(!str_filter_parsed[0] || IDOpus->LMatchPatternI(str_filter_parsed, enfinfo->fib_FileName))
+//			if(!str_filter_parsed[0] || IDOpus->LMatchPatternI(str_filter_parsed, enfinfo->fib_FileName))
+			if(!str_filter_parsed[0] || IDOS->MatchPatternNoCase(str_filter_parsed, enfinfo->fib_FileName))
 			{
 				if(dowhat & R_COPY)
 				{

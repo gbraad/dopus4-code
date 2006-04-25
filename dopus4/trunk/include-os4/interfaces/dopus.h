@@ -56,10 +56,6 @@ struct DOpusIFace
 	int APICALL (*LStrnCmpI)(struct DOpusIFace *Self, char * s1, char * s2, int len);
 	int APICALL (*StrCombine)(struct DOpusIFace *Self, char * s1, char * s2, char * s3, int len);
 	int APICALL (*StrConcat)(struct DOpusIFace *Self, char * s1, char * s2, int len);
-	void APICALL (*LParsePattern)(struct DOpusIFace *Self, char * pat, char * parsepat);
-	int APICALL (*LMatchPattern)(struct DOpusIFace *Self, char * parsepat, char * str);
-	void APICALL (*LParsePatternI)(struct DOpusIFace *Self, char * pat, char * parsepat);
-	int APICALL (*LMatchPatternI)(struct DOpusIFace *Self, char * parsepat, char * str);
 	void APICALL (*BtoCStr)(struct DOpusIFace *Self, BSTR bstr, char * cstr, int len);
 	int APICALL (*Assign)(struct DOpusIFace *Self, char * name, char * dir);
 	int APICALL (*PathName)(struct DOpusIFace *Self, BPTR lock, char * buffer, int len);

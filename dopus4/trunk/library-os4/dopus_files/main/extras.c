@@ -561,7 +561,7 @@ int view_valid(struct DOpusListView *view, int itemnum)
 /* END From listview.c */
 
 /* From wildcard.c */
-
+/*
 int DoMatchPattern(char *pat, char *str, int cas)
 {
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
@@ -590,5 +590,5 @@ void DoParsePattern(STRPTR pat, STRPTR patbuf, int cas)
 	else
 		IDOS->ParsePattern(pat, patbuf, len);
 }
-
+*/
 /* END From wildcard.c */

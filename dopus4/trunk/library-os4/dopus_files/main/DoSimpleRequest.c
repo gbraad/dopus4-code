@@ -31,7 +31,7 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
-#include "main/extras.h"
+#include "extras.h"
 
 /****** dopus/main/DoSimpleRequest ******************************************
 *
@@ -76,18 +76,18 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
 	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
-	int textlen, a, b, c, cw, cy, cb, sw, height, maxlen, llen, num, gwidth = 0, gspace, gx, ty, ac, ogy, gadgetid, ls, gy, last, gnum, lines, dl, strgad, sfy, hnum, rows = 1, macc, ogx, maxwidth, winwidth, winheight, xoffset, yoffset, d;
+	int textlen, a, b, c, cw, cy, cb, sw, height, maxlen, llen, num, gwidth = 0, gspace, gx, ty, ac, ogy, gadgetid = 0, ls, gy, last, gnum, lines, dl, strgad, sfy, hnum, rows = 1, macc, ogx, maxwidth, winwidth, winheight, xoffset, yoffset, d;
 	struct NewWindow *newwindow;
 	struct DOpusRemember *key;
-	struct Gadget *gadgets, *contgad, *gad, *glassgad = NULL;
+	struct Gadget *gadgets, *contgad, *gad = NULL, *glassgad = NULL;
 	struct Screen *screen;
 	struct Window *Window;
 	struct RastPort *rp, testrp;
 	struct TextFont *fnt, *tfnt;
-	struct StringInfo *sinfo;
+	struct StringInfo *sinfo = NULL;
 	struct IntuiMessage *Msg;
-	struct StringExtend *extend;
-	char *text, *keys, *buf, ch, *strbuf, **gadptr;
+	struct StringExtend *extend = NULL;
+	char *text, *keys, *buf, ch, *strbuf = NULL, **gadptr;
 	ULONG class;
 	USHORT code;
 
@@ -678,18 +678,18 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				IIntuition->CloseWindow(Window);
 				if(gadgetid && simple->strbuf)
 					Self->LStrCpy(simple->strbuf, strbuf);
+				Self->LFreeRemember(&key);
+
+				IExec->DropInterface((struct Interface *)IIntuition);
+				IExec->CloseLibrary(IntuitionBase);
+				IExec->DropInterface((struct Interface *)IGraphics);
+				IExec->CloseLibrary(GfxBase);
+				IExec->DropInterface((struct Interface *)IDOS);
+				IExec->CloseLibrary(DOSBase);
+				IExec->DropInterface((struct Interface *)IUtility);
+				IExec->CloseLibrary(UtilityBase);
+				return(gadgetid);
 			}
 		}
 	}
-	Self->LFreeRemember(&key);
-
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
-	IExec->DropInterface((struct Interface *)IUtility);
-	IExec->CloseLibrary(UtilityBase);
-	return(gadgetid);
 }

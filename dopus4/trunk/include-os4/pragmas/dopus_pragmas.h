@@ -20,10 +20,6 @@
 #pragma  libcall DOpusBase LStrnCmpI            090 09803
 #pragma  libcall DOpusBase StrCombine           096 0A9804
 #pragma  libcall DOpusBase StrConcat            09C 09803
-#pragma  libcall DOpusBase LParsePattern        0A2 9802
-#pragma  libcall DOpusBase LMatchPattern        0A8 9802
-#pragma  libcall DOpusBase LParsePatternI       0AE 9802
-#pragma  libcall DOpusBase LMatchPatternI       0B4 9802
 #pragma  libcall DOpusBase BtoCStr              0BA 09803
 #pragma  libcall DOpusBase Assign               0C0 9802
 #pragma  libcall DOpusBase PathName             0D2 09803

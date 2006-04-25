@@ -100,22 +100,6 @@
 			<arg name="s2" type="char *"/>
 			<arg name="len" type="int"/>
 		</method> -->
-		<method name="LParsePattern" result="int">
-			<arg name="pat" type="char *"/>
-			<arg name="parsepat" type="char *"/>
-		</method>
-		<method name="LMatchPattern" result="int">
-			<arg name="parsepat" type="char *"/>
-			<arg name="str" type="char *"/>
-		</method>
-		<method name="LParsePatternI" result="int">
-			<arg name="pat" type="char *"/>
-			<arg name="parsepat" type="char *"/>
-		</method>
-		<method name="LMatchPatternI" result="int">
-			<arg name="parsepat" type="char *"/>
-			<arg name="str" type="char *"/>
-		</method>
 		<method name="BtoCStr" result="void">
 			<arg name="bstr" type="BSTR"/>
 			<arg name="cstr" type="char *"/>

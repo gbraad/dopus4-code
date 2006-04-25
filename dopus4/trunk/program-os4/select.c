@@ -808,7 +808,8 @@ void doselect(int rexx)
 		switch (selecttype)
 		{
 		case 0:
-			IDOpus->LParsePatternI(str_select_pattern[0], buf);
+//			IDOpus->LParsePatternI(str_select_pattern[0], buf);
+			IDOS->ParsePatternNoCase(str_select_pattern[0], buf, 160);
 			wildselect(buf, boobs, 1, WILDSELECT_NAME);
 			findfirstsel(data_active_window, -2);
 			break;
@@ -827,7 +828,8 @@ void doselect(int rexx)
 			findfirstsel(data_active_window, -2);
 			break;
 		case 3:
-			IDOpus->LParsePatternI(str_select_pattern[3], buf);
+//			IDOpus->LParsePatternI(str_select_pattern[3], buf);
+			IDOS->ParsePatternNoCase(str_select_pattern[3], buf, 160);
 			wildselect(buf, boobs, 1, WILDSELECT_COMMENT);
 			findfirstsel(data_active_window, -2);
 			break;
@@ -920,7 +922,8 @@ void wildselect(STRPTR wild, int boobs, int and, int mode)
 				if(!temp->selected && temp->comment)
 				{
 					IDOpus->StrToUpper(temp->comment, buf);
-					if(IDOpus->LMatchPatternI(wild, buf))
+//					if(IDOpus->LMatchPatternI(wild, buf))
+					if(IDOS->MatchPatternNoCase(wild, buf))
 						wildselectthisone(temp, data_active_window, boobs);
 				}
 			}
@@ -929,7 +932,8 @@ void wildselect(STRPTR wild, int boobs, int and, int mode)
 				if(!temp->selected)
 				{
 					IDOpus->StrToUpper((mode == WILDSELECT_NAME) ? temp->name : temp->comment, buf);
-					if(IDOpus->LMatchPatternI(wild, buf))
+//					if(IDOpus->LMatchPatternI(wild, buf))
+					if(IDOS->MatchPatternNoCase(wild, buf))
 						wildselectthisone(temp, data_active_window, boobs);
 				}
 			}

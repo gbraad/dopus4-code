@@ -395,8 +395,10 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 					fail = 1;
 				break;
 			case FTYC_MATCHNAME:
-				IDOpus->LParsePatternI(buf, buf2);
-				if(!(IDOpus->LMatchPatternI(buf2, info->fib_FileName)))
+//				IDOpus->LParsePatternI(buf, buf2);
+				IDOS->ParsePatternNoCase(buf, buf2, 1024);
+//				if(!(IDOpus->LMatchPatternI(buf2, info->fib_FileName)))
+				if(!(IDOS->MatchPatternNoCase(buf2, info->fib_FileName)))
 					fail = 1;
 				break;
 			case FTYC_MATCHBITS:
@@ -406,8 +408,10 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 					fail = 1;
 				break;
 			case FTYC_MATCHCOMMENT:
-				IDOpus->LParsePatternI(buf, buf2);
-				if(!(IDOpus->LMatchPatternI(buf2, info->fib_Comment)))
+//				IDOpus->LParsePatternI(buf, buf2);
+				IDOS->ParsePatternNoCase(buf, buf2, 1024);
+//				if(!(IDOpus->LMatchPatternI(buf2, info->fib_Comment)))
+				if(!(IDOS->MatchPatternNoCase(buf2, info->fib_Comment)))
 					fail = 1;
 				break;
 			case FTYC_MATCHSIZE:

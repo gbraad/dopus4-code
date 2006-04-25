@@ -299,9 +299,11 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 
 	if(type <= ENTRY_FILE)
 	{
-		if(config->showpat[0] && !(IDOpus->LMatchPatternI(config->showpatparsed, name)))
+//		if(config->showpat[0] && !(IDOpus->LMatchPatternI(config->showpatparsed, name)))
+		if(config->showpat[0] && !(IDOS->MatchPatternNoCase(config->showpatparsed, name)))
 			return ((struct Directory *)-1);
-		if(config->hidepat[0] && (IDOpus->LMatchPatternI(config->hidepatparsed, name)))
+//		if(config->hidepat[0] && (IDOpus->LMatchPatternI(config->hidepatparsed, name)))
+		if(config->hidepat[0] && (IDOS->MatchPatternNoCase(config->hidepatparsed, name)))
 			return ((struct Directory *)-1);
 	}
 
