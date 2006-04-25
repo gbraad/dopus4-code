@@ -283,17 +283,11 @@ void SwapMem(char *src, char *dst, int size)
 	}
 }
 
-void stuffstuff(char c, char *buf)
-{
-	*buf++ = c;
-}
-
-/* changed by Joachim 'zerohero' Birging 2006-02-02 */
 void LSprintfA(char *buf, char *fmt, void *args)
 {
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 
-	IExec->RawDoFmt(fmt, args, /*(void (*)())&stuffstuff*/ NULL, buf);
+	IExec->RawDoFmt(fmt, args, NULL, buf);
 }
 
 void VARARGS68K LSprintf(char *buf, char *fmt, ...)
@@ -304,7 +298,6 @@ void VARARGS68K LSprintf(char *buf, char *fmt, ...)
 	LSprintfA(buf, fmt, va_getlinearva(args, void *));
 	va_end(args);
 }
-/* END changed by Joachim 'zerohero' Birging 2006-02-02 */
 /* END From functions.c */
 
 /* From imagery.c */
@@ -559,36 +552,3 @@ int view_valid(struct DOpusListView *view, int itemnum)
 }
 
 /* END From listview.c */
-
-/* From wildcard.c */
-/*
-int DoMatchPattern(char *pat, char *str, int cas)
-{
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	int suc;
-
-	suc = (cas ? IDOS->MatchPatternNoCase(pat, str) : IDOS->MatchPattern(pat, str));
-
-	return(suc);
-}
-
-void DoParsePattern(STRPTR pat, STRPTR patbuf, int cas)
-{
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	int len;//, old;
-
-	len = (strlen(pat) * 2) + 2;
-
-	(cas ? IDOS->ParsePatternNoCase(pat, patbuf, len) : IDOS->ParsePattern(pat, patbuf, len));
-
-	if(cas)
-		IDOS->ParsePatternNoCase(pat, patbuf, len);
-	else
-		IDOS->ParsePattern(pat, patbuf, len);
-}
-*/
-/* END From wildcard.c */

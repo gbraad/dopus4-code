@@ -87,13 +87,9 @@ void HighlightRMBGad(struct RastPort *rp, struct RMBGadget *gad, int state);
 
 void SwapMem(char *src, char *dst, int size);
 void stuffChar(char c, char *buf);
-
-
-/* changed by Joachim 'zerohero' Birging 2006-02-02 */
 void LSprintfA(char *buf, char *fmt, void *args);
 void VARARGS68K LSprintf(char *buf, char *fmt, ...);
 
-/* END changed by Joachim 'zerohero' Birging 2006-02-02 */
 /* END From functions.c */
 
 /* From imagery.c */
@@ -102,15 +98,8 @@ struct Image *get_image_data(struct DOpusRemember **key, int width, int height, 
 
 /* END From imagery.c */
 
-/* From language.c */
-
-//char **string_table;
-
-/* END From language.c */
 
 /* From listview.c */
-
-//const char nullstring[] = "                                                                                                                                ";
 
 void dohilite(struct DOpusListView *view, int a);
 void savepens(struct DOpusListView *view);
@@ -120,12 +109,5 @@ int scroll_view(struct DOpusListView *view, int offset, int *histate, int oldoff
 int view_valid(struct DOpusListView *view, int itemnum);
 
 /* END From listview.c */
-
-/* From wildcard.c */
-
-int DoMatchPattern(char *pat, char *str, int cas);
-void DoParsePattern(STRPTR pat, STRPTR patbuf, int cas);
-
-/* END From wildcard.c */
 
 /* END extras.h */
