@@ -72,8 +72,10 @@ int LoadPic(char *name)
 				winh = min(dtscreen->Height, bmhd->bmh_Height);
 				winx = (dtscreen->Width - winw) >> 1;
 				winy = (dtscreen->Height - winh) >> 1;
-dostatustext(name);
-				if((dtwin = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, dtscreen, WA_Left, winx, WA_Top, winy, WA_Width, winw, WA_Height, winh, WA_Flags, WFLG_ACTIVATE, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END)))
+				
+				dostatustext(name);
+				
+				if((dtwin = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, dtscreen, WA_Left, winx, WA_Top, winy, WA_InnerWidth, winw, WA_InnerHeight, winh, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END)))
 				{
 					IGraphics->BltBitMapRastPort(bm, 0, 0, dtwin->RPort, 0, 0, winw, winh, 0xC0);
 
