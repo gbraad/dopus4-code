@@ -299,10 +299,8 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 
 	if(type <= ENTRY_FILE)
 	{
-//		if(config->showpat[0] && !(IDOpus->LMatchPatternI(config->showpatparsed, name)))
 		if(config->showpat[0] && !(IDOS->MatchPatternNoCase(config->showpatparsed, name)))
 			return ((struct Directory *)-1);
-//		if(config->hidepat[0] && (IDOpus->LMatchPatternI(config->hidepatparsed, name)))
 		if(config->hidepat[0] && (IDOS->MatchPatternNoCase(config->hidepatparsed, name)))
 			return ((struct Directory *)-1);
 	}
@@ -849,7 +847,7 @@ void swapdirentries(struct DirectoryWindow *dir, struct Directory *e1, struct Di
 
 void sortdir(struct DirectoryWindow *dir, int win)
 {
-	struct Directory *entry1 = NULL, *entry2;
+	struct Directory *entry1 = NULL, *entry2 = NULL;
 	int swap, rerun = 1;
 
 	if(!dir->firstentry)

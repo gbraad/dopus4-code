@@ -52,7 +52,6 @@ ULONG MenuHandlerFunc(struct Hook *hook, struct PopupMenu *pm, APTR msg)
 	BOOL on;
 
 	IPopupMenu->PM_GetItemAttrs(pm, PM_ID, &id, PM_Checked, &on, TAG_END);
-//D(bug("&sortorder: %lx\tID: %ld\tFlags: %lx\n",hook->h_Data,id,on));
 	if(id == sbReverse)
 	{
 		if(on)

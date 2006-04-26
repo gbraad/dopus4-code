@@ -1493,7 +1493,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			if(str_filter[0])
 			{
 				screen_gadgets[SCRGAD_TINYFILTER].Flags |= GFLG_SELECTED;
-//				IDOpus->LParsePatternI(str_filter, str_filter_parsed);
 				IDOS->ParsePatternNoCase(str_filter, str_filter_parsed, 84);
 			}
 			else

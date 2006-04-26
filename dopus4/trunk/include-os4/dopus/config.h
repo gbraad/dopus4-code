@@ -286,7 +286,6 @@ struct Config
 
 	char scrdepth;
 	UBYTE screenflags;
-//	int screenmode;
 	uint32 screenmode;
 	int scrw, scrh;
 	char pad3a[40];
@@ -296,13 +295,11 @@ struct Config
 
 	char startupscript[80];
 	uint8 dirflags;
-//	unsigned char bufcount;
 	uint8 bufcount;
 
 	UBYTE listerdisplayflags[2];
 
-//	char autodirs[2][70];
-	int8 autodirs[2][70];
+	char autodirs[2][70];
 
 	UWORD hotkeycode, hotkeyqual;
 
