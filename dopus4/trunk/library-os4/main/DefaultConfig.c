@@ -60,7 +60,6 @@
 
 int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	int a, b, h, i;
 	struct Config *config;
 	struct dopusgadgetbanks *firstbank;

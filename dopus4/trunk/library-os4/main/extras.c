@@ -83,10 +83,8 @@ void fill_out_border(struct Border *border, int fpen, int bpen, short *shine, sh
 
 char *getstringcopy(char *str)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
-
 	char *newstr = NULL;
 
 	if(str && (newstr = IExec->AllocMem(strlen(str) + 1, 0)))
@@ -96,17 +94,12 @@ char *getstringcopy(char *str)
 
 void freestring(char *str)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	if(str)
 		IExec->FreeMem(str, strlen(str) + 1);
 }
 
 int writestring(int file, char *string)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-
 	int b;
 	char nl = 0;
 
@@ -142,10 +135,8 @@ int readline(STRPTR buf, int pos, STRPTR buf1, int size)
 
 void AssignDrive(struct ConfigStuff *cstuff, int drv, char *name, char *path)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
-
 	struct Config *config;
 
 	if(!(config = cstuff->config))
@@ -168,7 +159,6 @@ void AssignDrive(struct ConfigStuff *cstuff, int drv, char *name, char *path)
 
 void linkinnewfiletype(struct ConfigStuff *cstuff, struct dopusfiletype *temp)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct dopusfiletype *pos;
@@ -214,9 +204,6 @@ int makeusstring(char *from, char *to, int *uspos, int size)
 
 void ShowRMBGadName(struct RastPort *rp, struct RMBGadget *gad, int a)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct RMBGadgetText *text;
@@ -248,12 +235,6 @@ void ShowRMBGadName(struct RastPort *rp, struct RMBGadget *gad, int a)
 
 void HighlightRMBGad(struct RastPort *rp, struct RMBGadget *gad, int state)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-
 	if(gad->flags & RGF_ALTBORD)
 		IIntuition->DrawBorder(rp,gad->high_bord[state],gad->x,gad->y);
 	else
@@ -285,8 +266,6 @@ void SwapMem(char *src, char *dst, int size)
 
 void LSprintfA(char *buf, char *fmt, void *args)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-
 	IExec->RawDoFmt(fmt, args, NULL, buf);
 }
 
@@ -304,9 +283,6 @@ void VARARGS68K LSprintf(char *buf, char *fmt, ...)
 
 struct Image *get_image_data(struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct Image *image;
@@ -347,9 +323,6 @@ const char nullstring[] = "                                                     
 
 void dohilite(struct DOpusListView *view, int a)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int x, y, mode;
 
 	mode = view->window->RPort->DrawMode;
@@ -372,10 +345,6 @@ void savepens(struct DOpusListView *view)
 
 void restorepens(struct DOpusListView *view)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-
 	IGraphics->SetAPen(view->window->RPort, view->ofg);
 	IGraphics->SetBPen(view->window->RPort, view->obg);
 	IGraphics->SetDrMd(view->window->RPort, view->odm);
@@ -383,9 +352,6 @@ void restorepens(struct DOpusListView *view)
 
 void DisplayView(struct DOpusListView *view)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct RastPort *rp;
@@ -504,7 +470,6 @@ void DisplayView(struct DOpusListView *view)
 
 int scroll_view(struct DOpusListView *view, int offset, int *histate, int oldoffset)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	int draw = 0;

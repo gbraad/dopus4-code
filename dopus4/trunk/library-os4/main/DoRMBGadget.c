@@ -27,6 +27,8 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
+#include "extras.h"
+
 /****** dopus/main/DoRMBGadget ******************************************
 *
 *   NAME
@@ -60,9 +62,6 @@
 
 int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Window *window)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 	ULONG class;
 	USHORT code;
 	BOOL inside;
@@ -172,7 +171,5 @@ int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Wi
 	IIntuition->ModifyIDCMP(window, idcmpflags);
 	window->Flags = windowflags;
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
 	return (ret);
 }

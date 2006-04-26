@@ -61,9 +61,6 @@
 
 void _DOpus_FixSliderBody(struct DOpusIFace *Self, struct Window *win, struct Gadget *gad, int count, int lines, int show)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 	USHORT body, gh, ih, min;
 	struct Image *image;
 	struct PropInfo *pinfo;
@@ -127,7 +124,5 @@ void _DOpus_FixSliderBody(struct DOpusIFace *Self, struct Window *win, struct Ga
 			Self->ShowSlider(win, gad);
 	}
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
 	return;
 }

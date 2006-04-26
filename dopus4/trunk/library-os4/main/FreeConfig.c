@@ -57,7 +57,6 @@
 
 void _DOpus_FreeConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	int a;
 	struct Config *config;
 	struct dopusgadgetbanks *bank, *temp;

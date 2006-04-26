@@ -63,9 +63,6 @@
 
 void _DOpus_UScoreText(struct DOpusIFace *Self, struct RastPort *rp, char *buf, int xp, int yp, int up)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int a, x, x1, y1;
 
 	IGraphics->Move(rp, xp, yp);
@@ -80,8 +77,6 @@ void _DOpus_UScoreText(struct DOpusIFace *Self, struct RastPort *rp, char *buf, 
 	}
 	IGraphics->Move(rp, x1, y1);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

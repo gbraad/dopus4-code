@@ -49,6 +49,30 @@ the existing commercial status of Directory Opus 5.
 #include <dos/dos.h>
 #endif
 
+
+#include <proto/dos.h>
+#include <proto/exec.h>
+#include <proto/intuition.h>
+#include <proto/graphics.h>
+#include <proto/utility.h>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include <graphics/gfx.h>
 #include <dos/datetime.h>
 

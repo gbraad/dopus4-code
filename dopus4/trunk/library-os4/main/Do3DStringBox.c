@@ -65,10 +65,6 @@
 
 void _DOpus_Do3DStringBox(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, int w, int h, int tp, int bp)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-
 	Self->Do3DBox(rp,x-2,y-1,w+4,h+2,tp,bp);
 
 	IGraphics->SetAPen(rp,bp);
@@ -84,8 +80,6 @@ void _DOpus_Do3DStringBox(struct DOpusIFace *Self, struct RastPort *rp, int x, i
 
 	drawline(rp,x+w,y+h,x+w,y);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

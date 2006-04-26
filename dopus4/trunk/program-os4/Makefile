@@ -19,7 +19,7 @@ autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
 
 CFLAGS = -Wall -O3 -I../include-os4
-LDFLAGS = -lauto
+LDFLAGS = -lauto -lm
 FLEXCAT = flexcat
 
 APPNAME = DirectoryOpus

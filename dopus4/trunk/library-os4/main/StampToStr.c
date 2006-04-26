@@ -59,9 +59,6 @@
 
 void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	int hr, min, sec;
 	ULONG ds_minute, ds_tick;
 	STRPTR time;
@@ -94,8 +91,6 @@ void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 			*time = 0;
 	}
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return;
 }
 

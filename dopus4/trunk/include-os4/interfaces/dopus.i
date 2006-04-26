@@ -51,8 +51,6 @@ STRUCTURE DOpusIFace, InterfaceData_SIZE
 	    FPTR IDOpus_GetWBScreen
 	    FPTR IDOpus_SearchPathList
 	    FPTR IDOpus_CheckExist
-	    FPTR IDOpus_Seed
-	    FPTR IDOpus_Random
 	    FPTR IDOpus_StrToUpper
 	    FPTR IDOpus_StrToLower
 	    FPTR IDOpus_RawkeyToStr

@@ -66,8 +66,8 @@ void _DOpus_BtoCStr(struct DOpusIFace *Self, BSTR bstr, char *cstr, int len)
 	if(i < len)
 		len = i;
 	for(i = 0; i < len; i++)
-		*(cstr++)=*(c++);
-	*cstr=0;
+		*(cstr++) = *(c++);
+	*cstr = 0;
 
 }
 

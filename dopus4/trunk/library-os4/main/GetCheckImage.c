@@ -64,9 +64,6 @@ extern USHORT pdb_check[];
 
 struct Image * _DOpus_GetCheckImage(struct DOpusIFace *Self, UBYTE fg, UBYTE bg, int pen, struct DOpusRemember **key)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct Image *image;
 	int a, b, depth;
 	struct BitMap tbm;
@@ -93,7 +90,5 @@ struct Image * _DOpus_GetCheckImage(struct DOpusIFace *Self, UBYTE fg, UBYTE bg,
 	image->LeftEdge = 7;
 	image->TopEdge = 2;
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return(image);
 }

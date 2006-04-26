@@ -61,9 +61,6 @@ extern USHORT pdb_check[];
 
 void _DOpus_DrawCheckMark(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, int clear)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	UBYTE old_apen;
 	UBYTE old_drmd = IGraphics->GetDrMd(rp);
 
@@ -84,8 +81,6 @@ void _DOpus_DrawCheckMark(struct DOpusIFace *Self, struct RastPort *rp, int x, i
 	}
 	IGraphics->SetDrMd(rp, old_drmd);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

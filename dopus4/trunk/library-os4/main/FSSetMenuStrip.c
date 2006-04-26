@@ -59,11 +59,6 @@
 
 int _DOpus_FSSetMenuStrip(struct DOpusIFace *Self, struct Window *window, struct Menu *firstmenu)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct Menu *menu;
 	struct MenuItem *item;
 	struct DrawInfo *drinfo;
@@ -214,9 +209,5 @@ int _DOpus_FSSetMenuStrip(struct DOpusIFace *Self, struct Window *window, struct
 		menu = menu->NextMenu;
 	}
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return((int)IIntuition->SetMenuStrip(window, firstmenu));
 }

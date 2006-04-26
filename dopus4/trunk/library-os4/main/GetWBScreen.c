@@ -56,10 +56,7 @@
 
 void _DOpus_GetWBScreen(struct DOpusIFace *Self, struct Screen *scrbuf)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Screen *scr;
+	struct Screen *scr = NULL;
 
 	if((scr = IIntuition->LockPubScreen(NULL)))
 	{
@@ -67,8 +64,6 @@ void _DOpus_GetWBScreen(struct DOpusIFace *Self, struct Screen *scrbuf)
 		IIntuition->UnlockPubScreen(NULL, scr);
 	}
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
 	return;
 }
 

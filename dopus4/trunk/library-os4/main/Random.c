@@ -56,6 +56,6 @@
 
 int _DOpus_Random(struct DOpusIFace *Self, int limit)
 {
-	return(RangeRand(limit + 1));
+//	return(RangeRand(limit + 1));
 }
 

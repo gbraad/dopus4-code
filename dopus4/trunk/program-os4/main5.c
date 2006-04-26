@@ -39,7 +39,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
 	int inhandle, outhandle;
 	struct AsyncFile *infile = NULL;
-
 	struct DateStamp ds, *dsp;
 
 	buffer = NULL;
@@ -53,7 +52,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		for(a = 0; password[a]; a++)
 			encrypt *= password[a];
-		IDOpus->Seed(encrypt);       // IDOpus->Seed() useless?
+		srand(encrypt);
 	}
 
 	suc = lockandexamine(src, cfinfo);
@@ -142,7 +141,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			{
 				for(a = 0; a < length; a++)
 				{
-					enbyte = IDOpus->Random(9999);
+					enbyte = rand();
 					buffer[a] += enbyte;
 				}
 			}
@@ -150,7 +149,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			{
 				for(a = 0; a < length; a++)
 				{
-					enbyte = IDOpus->Random(9999);
+					enbyte = rand();
 					buffer[a] -= enbyte;
 				}
 			}

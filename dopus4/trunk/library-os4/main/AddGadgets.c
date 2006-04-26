@@ -65,12 +65,6 @@
 
 int _DOpus_AddGadgets(struct DOpusIFace *Self, struct Window *win, struct Gadget *firstgad, char **text, int count, int fg, int bg, int add)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-
 	int num = 0, realcount = 0, of, ob, a, x, y, b, c, up, xp, yp, bl, len, offset;
 	char buf[80];
 	struct RastPort *rp;
@@ -188,10 +182,6 @@ int _DOpus_AddGadgets(struct DOpusIFace *Self, struct Window *win, struct Gadget
 			gad = gad->NextGadget;
 		}
 	}
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return (realcount);
 }
 

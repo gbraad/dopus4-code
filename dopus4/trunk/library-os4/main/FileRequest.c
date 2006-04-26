@@ -67,13 +67,8 @@
 
 int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	struct Library *AslBase = IExec->OpenLibrary("asl.library", 50L);
 	struct AslIFace *IAsl = (struct AslIFace *)IExec->GetInterface(AslBase, "main", 1, NULL);
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 
 	if(freq->dirbuf[0] && (Self->CheckExist(freq->dirbuf, NULL) < 0))
 	{
@@ -151,7 +146,8 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			asltags[5].ti_Tag = ASLFO_InitialName;
 			asltags[5].ti_Data = (ULONG) initialfont;
 			asltags[6].ti_Tag = ASLFO_InitialSize;
-			asltags[6].ti_Data = atoi(freq->filebuf);
+//			asltags[6].ti_Data = atoi(freq->filebuf);
+			IDOS->StrToLong(freq->filebuf, &asltags[6].ti_Data);
 		}
 		else
 		{
@@ -275,12 +271,12 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			else
 				ret = 0;
 		}
-		IExec->DropInterface((struct Interface *)IIntuition);
+/*		IExec->DropInterface((struct Interface *)IIntuition);
 		IExec->CloseLibrary(IntuitionBase);
 		IExec->DropInterface((struct Interface *)IDOS);
 		IExec->CloseLibrary(DOSBase);
 		IExec->DropInterface((struct Interface *)IAsl);
 		IExec->CloseLibrary(AslBase);
-		return (ret);
+*/		return (ret);
 	}
 }

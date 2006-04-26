@@ -62,7 +62,6 @@ struct DOpusPool
 
 void _DOpus_LFreeRemEntry(struct DOpusIFace *Self, struct DOpusRemember **key, char *pointer)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct DOpusPool *pool;
 	ULONG *ptr = (ULONG *)pointer;
 

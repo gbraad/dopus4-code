@@ -61,9 +61,6 @@
 
 void _DOpus_DoCycleGadget(struct DOpusIFace *Self, struct Gadget *gad, struct Window *window, char **choices, int select)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int op, a;
 	struct RastPort *rp;
 
@@ -78,8 +75,6 @@ void _DOpus_DoCycleGadget(struct DOpusIFace *Self, struct Gadget *gad, struct Wi
 		IGraphics->Text(rp, choices[select], a);
 	}
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

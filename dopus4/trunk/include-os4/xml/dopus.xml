@@ -196,12 +196,6 @@
 			<arg name="name" type="char *"/>
 			<arg name="size" type="int *"/>
 		</method>
-		<method name="Seed" result="void">
-			<arg name="seed" type="int"/>
-		</method>
-		<method name="Random" result="int">
-			<arg name="limit" type="int"/>
-		</method>
 		<method name="StrToUpper" result="void">
 			<arg name="from" type="char *"/>
 			<arg name="to" type="char *"/>

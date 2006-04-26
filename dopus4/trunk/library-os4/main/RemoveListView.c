@@ -57,9 +57,6 @@
 
 int _DOpus_RemoveListView(struct DOpusIFace *Self, struct DOpusListView *view, int count)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 	int realcount = 0;
 
 	while(view && realcount < count)
@@ -71,7 +68,5 @@ int _DOpus_RemoveListView(struct DOpusIFace *Self, struct DOpusListView *view, i
 		++realcount;
 	}
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
 	return(realcount);
 }

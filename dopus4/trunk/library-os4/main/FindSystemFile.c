@@ -63,38 +63,21 @@
 const static char *look_dirs[] =
 {
 	"PROGDIR:C/",
-//	"C:",
-//	"DOpus:C/",
 
 	"PROGDIR:S/",
-//	"S:",
-//	"DOpus:S/",
 
 	"PROGDIR:Libs/",
-//	"LIBS:",
-//	"DOpus:Libs/",
 
 	"PROGDIR:Rexx/",
-//	"REXX:",
-//	"DOpus:Rexx/",
 
 	"PROGDIR:Modules/",
-//	"C:",
-//	"DOpus:Modules/",
 
 	"PROGDIR:Requesters/",
-//	"S:",
-//	"DOpus:Requesters/"
 };
 
 
 int _DOpus_FindSystemFile(struct DOpusIFace *Self, char *name, char *buf, int size, int type)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 	char temp[256];
 
       tryloop:
@@ -166,10 +149,6 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, char *name, char *buf, int si
 	}
 	Self->LStrnCpy(buf, name, size);
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
-	IExec->DropInterface((struct Interface *)IUtility);
-	IExec->CloseLibrary(UtilityBase);
 	return (0);
 }
 

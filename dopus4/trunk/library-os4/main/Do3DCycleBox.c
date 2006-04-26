@@ -67,9 +67,6 @@ extern USHORT pdb_cyclebot[];
 
 void _DOpus_Do3DCycleBox(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, int w, int h, int tp, int bp)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	UBYTE old_drmd;
 
 	Self->Do3DBox(rp, x, y, w, h, tp, bp);
@@ -97,8 +94,6 @@ void _DOpus_Do3DCycleBox(struct DOpusIFace *Self, struct RastPort *rp, int x, in
 	drawline(rp, x + 19, y + 1, x + 19, y + h - 2);
 
 	IGraphics->SetDrMd(rp, old_drmd);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

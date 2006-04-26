@@ -57,9 +57,6 @@
 
 int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	int a = 0;
 	BPTR lock;
 	struct Process *myproc;
@@ -83,7 +80,5 @@ int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 	}
 	myproc->pr_WindowPtr = wsave;
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return(a);
 }

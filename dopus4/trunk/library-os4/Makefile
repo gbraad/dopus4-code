@@ -33,7 +33,7 @@ LINK =
 TARGET = dopus.library
 
 # Additional linker libraries
-LIBS = -lamiga
+LIBS = #-lamiga
 
 # Version of the library to build
 VERSION = 51
@@ -57,8 +57,8 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/RefreshListView.c main/RemoveListView.c main/DrawCheckMark.c \
     main/FixSliderBody.c main/FixSliderPot.c main/GetSliderPos.c \
     main/LAllocRemember.c main/LFreeRemember.c main/SetBusyPointer.c \
-    main/GetWBScreen.c main/SearchPathList.c main/CheckExist.c main/Seed.c \
-    main/Random.c main/StrToUpper.c main/StrToLower.c main/RawkeyToStr.c \
+    main/GetWBScreen.c main/SearchPathList.c main/CheckExist.c \
+    main/StrToUpper.c main/StrToLower.c main/RawkeyToStr.c \
     main/DoRMBGadget.c main/AddGadgets.c main/ActivateStrGad.c \
     main/RefreshStrGad.c main/CheckNumGad.c main/CheckHexGad.c main/Atoh.c \
     main/HiliteGad.c main/DoSimpleRequest.c main/ReadConfig.c main/SaveConfig.c \

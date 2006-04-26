@@ -59,9 +59,6 @@
 
 int _DOpus_SaveConfig(struct DOpusIFace *Self, char *name, struct ConfigStuff *cstuff)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	int a, out, ret = 0;
 	struct dopusfiletype *type;
 	struct dopushotkey *hotkey;
@@ -137,8 +134,6 @@ int _DOpus_SaveConfig(struct DOpusIFace *Self, char *name, struct ConfigStuff *c
       error:
 	IDOS->Close(out);
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return (ret);
 }
 

@@ -61,9 +61,6 @@
 
 void _DOpus_GhostGadget(struct DOpusIFace *Self, struct Gadget *gad, struct RastPort *rp, int xoff, int yoff)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	ULONG old_drmd = IGraphics->GetDrMd(rp);
 	const UWORD ditherdata[] = { 0x8888, 0x2222 };
 
@@ -73,8 +70,6 @@ void _DOpus_GhostGadget(struct DOpusIFace *Self, struct Gadget *gad, struct Rast
 	SetAfPt(rp, NULL, 0);
 	IGraphics->SetDrMd(rp, old_drmd);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

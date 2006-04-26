@@ -58,9 +58,6 @@
 
 int _DOpus_Assign(struct DOpusIFace *Self, char *name, char *dir)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	BPTR lock;
 	char nname[FILEBUF_SIZE];
 	int len,found;
@@ -83,7 +80,5 @@ int _DOpus_Assign(struct DOpusIFace *Self, char *name, char *dir)
 
 		return(ASSIGN_NODEV);
 	}
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return(ASSIGN_NODEV);
 }

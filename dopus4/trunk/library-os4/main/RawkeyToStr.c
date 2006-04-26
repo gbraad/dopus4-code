@@ -64,9 +64,6 @@
 
 int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *buf, char *kbuf, int len)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 	struct Device *ConsoleDevice;
 	struct ConsoleIFace *IConsole;
 	struct InputEvent inev;
@@ -83,7 +80,6 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 		if(code & IECODE_UP_PREFIX)
 			code -= 0x80;
 		if(code >= 0x50 && code <= 0x59)
-//			LSprintf(cbuf, "F%ld", code - 0x4f);
 			IUtility->SNPrintf(cbuf, 20, "F%ld", code - 0x4f);
 		else if(code != (uint16)~0 && code != 0xff)
 		{
@@ -191,7 +187,5 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 		}
 	}
 
-	IExec->DropInterface((struct Interface *)IUtility);
-	IExec->CloseLibrary(UtilityBase);
 	return (1);
 }

@@ -57,18 +57,12 @@
 
 void _DOpus_RefreshStrGad(struct DOpusIFace *Self, struct Gadget *gad, struct Window *win)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-
 	((struct StringInfo *)(gad->SpecialInfo))->BufferPos = 0;
 
 	gad->Flags |= GFLG_GADGHNONE;
 	IIntuition->RefreshGList(gad, win, NULL, 1);
 	gad->Flags &= ~GFLG_GADGHNONE;
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
 	return;
 }
 

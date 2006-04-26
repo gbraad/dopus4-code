@@ -61,7 +61,6 @@ struct DOpusPool
 
 void _DOpus_LFreeRemember(struct DOpusIFace *Self, struct DOpusRemember **key)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct DOpusPool *pool = (struct DOpusPool *)(*key);
 	if(*key)
 	{

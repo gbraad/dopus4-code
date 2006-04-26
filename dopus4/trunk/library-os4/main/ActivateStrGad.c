@@ -57,9 +57,6 @@
 
 void _DOpus_ActivateStrGad(struct DOpusIFace *Self, struct Gadget *gad, struct Window *win)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 	struct StringInfo *si;
 
 	if(gad->Flags & GFLG_DISABLED)
@@ -71,7 +68,5 @@ void _DOpus_ActivateStrGad(struct DOpusIFace *Self, struct Gadget *gad, struct W
 
 	IIntuition->RefreshGList(gad,win,NULL,1);
 	IIntuition->ActivateGadget(gad,win,NULL);
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
 }
 

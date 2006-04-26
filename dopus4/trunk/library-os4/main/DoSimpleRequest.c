@@ -67,15 +67,6 @@ extern char **string_table;
 
 int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struct DOpusSimpleRequest *simple)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 	int textlen, a, b, c, cw, cy, cb, sw, height, maxlen, llen, num, gwidth = 0, gspace, gx, ty, ac, ogy, gadgetid = 0, ls, gy, last, gnum, lines, dl, strgad, sfy, hnum, rows = 1, macc, ogx, maxwidth, winwidth, winheight, xoffset, yoffset, d;
 	struct NewWindow *newwindow;
 	struct DOpusRemember *key;
@@ -680,14 +671,6 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					Self->LStrCpy(simple->strbuf, strbuf);
 				Self->LFreeRemember(&key);
 
-				IExec->DropInterface((struct Interface *)IIntuition);
-				IExec->CloseLibrary(IntuitionBase);
-				IExec->DropInterface((struct Interface *)IGraphics);
-				IExec->CloseLibrary(GfxBase);
-				IExec->DropInterface((struct Interface *)IDOS);
-				IExec->CloseLibrary(DOSBase);
-				IExec->DropInterface((struct Interface *)IUtility);
-				IExec->CloseLibrary(UtilityBase);
 				return(gadgetid);
 			}
 		}

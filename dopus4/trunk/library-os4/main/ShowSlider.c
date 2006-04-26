@@ -58,11 +58,6 @@
 
 void _DOpus_ShowSlider(struct DOpusIFace *Self, struct Window *win, struct Gadget *gad)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int ob, ot, y, old_pen, old_mode;
 	struct Image *image;
 	struct PropInfo *pinfo;
@@ -120,9 +115,5 @@ void _DOpus_ShowSlider(struct DOpusIFace *Self, struct Window *win, struct Gadge
 	IGraphics->SetAPen(r, old_pen);
 	IGraphics->SetDrMd(r, old_mode);
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }

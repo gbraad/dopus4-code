@@ -62,11 +62,6 @@
 
 int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *cstuff)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int a, in, size, pos, b, bk, gad, mv;
 	USHORT ver, mag;
 	STRPTR cbuf, buf, tbuf;
@@ -588,11 +583,6 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 	}
 
 	cstuff->curbank = cstuff->firstbank;
-
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return (1);
 }
 

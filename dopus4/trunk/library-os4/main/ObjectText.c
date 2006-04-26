@@ -64,9 +64,6 @@
 
 void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, short left, short top, short width, short height, char *text, uint16 textpos)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct RastPort *rp;
 	short x, y, text_width, text_height, cx, cy, len, got_uscore = -1, uscoreok = 1;
 	char *ptr, textbuf[82];
@@ -130,7 +127,5 @@ void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, s
 
 	Self->UScoreText(rp, textbuf, x, y + rp->Font->tf_Baseline, got_uscore);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }

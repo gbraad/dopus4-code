@@ -57,14 +57,7 @@
 
 void _DOpus_StrToLower(struct DOpusIFace *Self, char *from, char *to)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
-
 	while((*to++ = IUtility->ToLower(*from++)));
-
-	IExec->DropInterface((struct Interface *)IUtility);
-	IExec->CloseLibrary(UtilityBase);
 	return;
 }
 

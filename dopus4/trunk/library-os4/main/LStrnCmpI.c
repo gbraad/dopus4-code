@@ -58,9 +58,6 @@
 
 int _DOpus_LStrnCmpI(struct DOpusIFace *Self, char *s1, char *s2, int len)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 	int8 c1, c2, diff;
 
 	while(1)
@@ -79,8 +76,6 @@ int _DOpus_LStrnCmpI(struct DOpusIFace *Self, char *s1, char *s2, int len)
 		len--;
 	}
 
-	IExec->DropInterface((struct Interface *)IUtility);
-	IExec->CloseLibrary(UtilityBase);
 	return 0;
 }
 

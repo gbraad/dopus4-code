@@ -68,11 +68,6 @@ const struct TextAttr topazfont = { (STRPTR)"topaz.font", 8, 0, 0 };
 
 struct Window *_DOpus_OpenRequester(struct DOpusIFace *Self, struct RequesterBase *reqbase)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct NewWindow newwin;
 	struct Screen *screen = NULL, screendata;
 	struct Window *window = NULL, *center_window = NULL;
@@ -259,9 +254,5 @@ struct Window *_DOpus_OpenRequester(struct DOpusIFace *Self, struct RequesterBas
 
 	reqbase->rb_window = window;
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return (window);
 }

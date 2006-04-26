@@ -56,7 +56,6 @@
 
 int _DOpus_RefreshListView(struct DOpusIFace *Self, struct DOpusListView *view, int count)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	int realcount = 0;
 
 	while (view && realcount < count)

@@ -60,7 +60,6 @@
 
 int _DOpus_SendPacket(struct DOpusIFace *Self, struct MsgPort *port, int action, ULONG *args, int nargs)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct StandardPacket *packet;
 	struct MsgPort *repport;
 	struct Process *myproc;

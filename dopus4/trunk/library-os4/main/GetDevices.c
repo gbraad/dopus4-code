@@ -60,12 +60,6 @@
 
 int _DOpus_GetDevices(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
-
 	struct DosList *dl;
 	int a = 0;
 	int gap, i, j, k, p, l, d;
@@ -143,10 +137,6 @@ int _DOpus_GetDevices(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 			AssignDrive(cstuff, i, NULL, NULL);
 	}
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
-	IExec->DropInterface((struct Interface *)IUtility);
-	IExec->CloseLibrary(UtilityBase);
 	return 1;
 }
 

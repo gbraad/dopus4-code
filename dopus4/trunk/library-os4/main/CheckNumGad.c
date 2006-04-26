@@ -63,9 +63,6 @@
 
 int _DOpus_CheckNumGad(struct DOpusIFace *Self, struct Gadget *gad, struct Window *win, int min, int max)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	struct StringInfo *sinfo;
 	int a, b;
 
@@ -82,7 +79,5 @@ int _DOpus_CheckNumGad(struct DOpusIFace *Self, struct Gadget *gad, struct Windo
 			Self->RefreshStrGad(gad, win);
 		return(1);
 	}
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return(0);
 }

@@ -29,6 +29,17 @@
 #include "dopus.library_rev.h"
 STATIC CONST UBYTE __attribute__ ((used)) verstag[] = VERSTAG;
 
+struct Library *SysBase;
+struct ExecIFace *IExec;
+struct Library *DOSBase;
+struct DOSIFace *IDOS;
+struct Library *IntuitionBase;
+struct IntuitionIFace *IIntuition;
+struct Library *GfxBase;
+struct GraphicsIFace *IGraphics;
+struct Library *UtilityBase;
+struct UtilityIFace *IUtility;
+
 struct DOpusBase
 {
 	struct Library LibNode;
@@ -36,11 +47,6 @@ struct DOpusBase
 
 	UBYTE Flags;
 	UBYTE pad;
-//    struct ExecBase *ExecBase;
-//    struct DosLibrary *DOSBase;
-//    struct IntuitionBase *IntuitionBase;
-//    struct GfxBase *GfxBase;
-//    struct LayersBase *LayersBase;
 
 	/* Private stuff */
 	PLANEPTR pdb_cycletop;
@@ -85,6 +91,16 @@ STATIC struct Library *libOpen(struct LibraryManagerInterface *Self, ULONG versi
 
 	/* Add any specific open code here. Return 0 before incrementing OpenCnt to fail opening */
 
+	SysBase = (*(struct Library **)4);
+	IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+	DOSBase = IExec->OpenLibrary("dos.library", 50L);
+	IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
+	GfxBase = IExec->OpenLibrary("graphics.library", 50L);
+	IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
+	IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
+	IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
+	UtilityBase = IExec->OpenLibrary("utility.library", 50L);
+	IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 
 	/* Add up the open count */
 	libBase->lib_OpenCnt++;
@@ -113,11 +129,11 @@ STATIC APTR libExpunge(struct LibraryManagerInterface * Self)
 	/* If your library cannot be expunged, return 0 */
 	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	APTR result = (APTR) 0;
-	struct Library *libBase = (struct Library *)Self->Data.LibBase;
-	struct DOpusBase *DOBase = (struct DOpusBase *)libBase;
-	if(libBase->lib_OpenCnt == 0)
+	struct DOpusBase *libBase = (struct DOpusBase *)Self->Data.LibBase;
+
+	if(libBase->LibNode.lib_OpenCnt == 0)
 	{
-		result = (APTR) DOBase->SegList;
+		result = (APTR) libBase->SegList;
 		/* Undo what the init code did */
 
 		IExec->Remove((struct Node *)libBase);
@@ -126,7 +142,7 @@ STATIC APTR libExpunge(struct LibraryManagerInterface * Self)
 	else
 	{
 		result = (APTR) 0;
-		libBase->lib_Flags |= LIBF_DELEXP;
+		libBase->LibNode.lib_Flags |= LIBF_DELEXP;
 	}
 	return result;
 }

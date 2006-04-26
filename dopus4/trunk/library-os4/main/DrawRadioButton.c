@@ -67,10 +67,6 @@
 
 void _DOpus_DrawRadioButton(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, int w, int h, int hi, int lo)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-
 	IGraphics->SetAPen(rp,hi);
 	drawline(rp,x,y-1,x+w-3,y-1);
 	drawline(rp,x-1,y,x,y);
@@ -85,7 +81,5 @@ void _DOpus_DrawRadioButton(struct DOpusIFace *Self, struct RastPort *rp, int x,
 	drawline(rp,x+w-2,y+h-4,x+w-2,y+1);
 	drawline(rp,x+w-3,y,x+w-2,y);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }

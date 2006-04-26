@@ -65,9 +65,6 @@ struct PathList2
 
 int _DOpus_PathName(struct DOpusIFace *Self, BPTR lock, char *buf, int len)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	struct PathList2 *list = NULL, *temp, *first = NULL;
 	struct FileInfoBlock *finfo = IDOS->AllocDosObjectTags(DOS_FIB, NULL);
 	BPTR templock;
@@ -109,7 +106,5 @@ int _DOpus_PathName(struct DOpusIFace *Self, BPTR lock, char *buf, int len)
 	Self->LFreeRemember(&key);
 	IDOS->FreeDosObject(DOS_FIB, finfo);
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return((int)strlen(buf));
 }

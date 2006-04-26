@@ -83,7 +83,6 @@ extern char nullstring[];
 
 inline void doprops(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -92,7 +91,6 @@ inline void doprops(struct FileReqData *freqdata)
 
 inline void fixprop(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -101,7 +99,6 @@ inline void fixprop(struct FileReqData *freqdata)
 
 inline void activatefilegad(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -110,7 +107,6 @@ inline void activatefilegad(struct FileReqData *freqdata)
 
 void deallocate_entries(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -122,7 +118,6 @@ void deallocate_entries(struct FileReqData *freqdata)
 
 void freemulti(struct DOpusFileReq *freq)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -133,11 +128,8 @@ void freemulti(struct DOpusFileReq *freq)
 
 void close_req(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 
 	struct direntry *file;
 	struct DOpusFileReq *freq;
@@ -196,10 +188,6 @@ void close_req(struct FileReqData *freqdata)
 
 void displayfiles(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-
 	struct direntry *work;
 	struct RastPort *rp;
 	int a, b, y, nlim, slim;
@@ -269,7 +257,6 @@ void displayfiles(struct FileReqData *freqdata)
 
 void doposprop(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -279,11 +266,8 @@ void doposprop(struct FileReqData *freqdata)
 
 void addfileentry(struct FileReqData *freqdata, char *name, int type, int size)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 0L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 
 	struct direntry *add, *afterdir = NULL, *work, *new;
 	int adir = 0;
@@ -372,7 +356,6 @@ void addfileentry(struct FileReqData *freqdata, char *name, int type, int size)
 
 int getintuimsg(struct Window *win, ULONG * class, USHORT * code, USHORT * qual, USHORT * gadgetid)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct IntuiMessage *msg;
 
 	if(msg = (struct IntuiMessage *)IExec->GetMsg(win->UserPort))
@@ -391,17 +374,12 @@ int getintuimsg(struct Window *win, ULONG * class, USHORT * code, USHORT * qual,
 
 void refreshdrawergad(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-
 	freqdata->drawernamesinfo.BufferPos = strlen(freqdata->freq->dirbuf);
 	IIntuition->RefreshGList(&freqdata->reqgads[1], freqdata->fr_Window, NULL, 1);
 }
 
 void checkdrawer(char *buf)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -425,9 +403,6 @@ void clearfiles(struct FileReqData *freqdata)
 
 int get_filenames(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -472,7 +447,9 @@ int get_filenames(struct FileReqData *freqdata)
 		{
 			if(freqdata->flags & DFRF_FONT)
 			{
-				LSprintf(buf, "%ld", atoi(freqdata->finfo->fib_FileName));
+				int32 i;
+				IDOS->StrToLong(freqdata->finfo->fib_FileName, &i);
+				LSprintf(buf, "%ld", i);
 				if(IDOpus->LStrCmp(buf, freqdata->finfo->fib_FileName))
 					continue;
 			}
@@ -501,9 +478,6 @@ int getnewdrawer(struct FileReqData *freqdata)
 
 int getnew_file(struct FileReqData *freqdata, struct direntry *work)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
@@ -536,12 +510,6 @@ int getnew_file(struct FileReqData *freqdata, struct direntry *work)
 
 int listdevices(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-/*	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
-*/
 	IExec->DebugPrintF("listdevices() Needs Fixing ASAP\n");
 
 /*	char devname[32];
@@ -585,12 +553,6 @@ int listdevices(struct FileReqData *freqdata)
 
 
 /* this code works, needs adapting only:
-
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-	struct Library *UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-	struct UtilityIFace *IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
 
 	struct DosList *dl;
 	int a = 0;
@@ -688,10 +650,6 @@ int listdevices(struct FileReqData *freqdata)
 
 void repeatscroll(struct FileReqData *freqdata, int dir, int menu)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
-
 	ULONG class;
 	USHORT code, gadgetid;
 	int x, y, m;
@@ -732,10 +690,6 @@ void repeatscroll(struct FileReqData *freqdata, int dir, int menu)
 
 int doparent(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-
 	int i, b;
 
 	if((i = strlen(freqdata->freq->dirbuf)) < 2)
@@ -778,14 +732,8 @@ struct direntry *getfileentry(struct FileReqData *freqdata, int which)
 
 int do_idcmp(struct FileReqData *freqdata, ULONG class, USHORT code, USHORT qual, USHORT gadgetid)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-
 	int ret = 0, x, y, a, b, ty;
 	struct RastPort *rp;
 	struct direntry *file;
@@ -973,11 +921,6 @@ int gettingdirmsg(struct FileReqData *freqdata, ULONG class, USHORT code, USHORT
 
 int initrequester(struct FileReqData *freqdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
 	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 

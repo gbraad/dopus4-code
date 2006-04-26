@@ -66,9 +66,6 @@ const static char *pathlists[7] = { "Workbench", "Initial CLI", "Shell Process",
 
 int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int size)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	struct Process *proc, *myproc;
 	struct CommandLineInterface *cli;
 	struct PathList *wext;
@@ -121,7 +118,5 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 	IExec->Permit();
 	myproc->pr_WindowPtr = wsave;
 
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return(pass);
 }

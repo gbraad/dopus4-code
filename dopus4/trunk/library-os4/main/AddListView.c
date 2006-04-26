@@ -63,11 +63,6 @@
 
 int _DOpus_AddListView(struct DOpusIFace *Self, struct DOpusListView *view, int count)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	struct RastPort *rp;
 	int a, addcount = 0;
 
@@ -195,9 +190,5 @@ int _DOpus_AddListView(struct DOpusIFace *Self, struct DOpusListView *view, int 
 		view = view->next;
 		++addcount;
 	}
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return (addcount);
 }

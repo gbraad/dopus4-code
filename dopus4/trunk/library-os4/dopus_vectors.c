@@ -66,8 +66,6 @@ extern void                 VARARGS68K _DOpus_SetBusyPointer(struct DOpusIFace *
 extern void                 VARARGS68K _DOpus_GetWBScreen(struct DOpusIFace *, struct Screen * scrbuf);
 extern int                  VARARGS68K _DOpus_SearchPathList(struct DOpusIFace *, char * name, char * buffer, int size);
 extern int                  VARARGS68K _DOpus_CheckExist(struct DOpusIFace *, char * name, int * size);
-extern void                 VARARGS68K _DOpus_Seed(struct DOpusIFace *, int seed);
-extern int                  VARARGS68K _DOpus_Random(struct DOpusIFace *, int limit);
 extern void                 VARARGS68K _DOpus_StrToUpper(struct DOpusIFace *, char * from, char * to);
 extern void                 VARARGS68K _DOpus_StrToLower(struct DOpusIFace *, char * from, char * to);
 extern int                  VARARGS68K _DOpus_RawkeyToStr(struct DOpusIFace *, USHORT code, USHORT qual, char * buf, char * kbuf, int len);
@@ -158,8 +156,6 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_GetWBScreen,
     _DOpus_SearchPathList,
     _DOpus_CheckExist,
-    _DOpus_Seed,
-    _DOpus_Random,
     _DOpus_StrToUpper,
     _DOpus_StrToLower,
     _DOpus_RawkeyToStr,

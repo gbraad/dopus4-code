@@ -68,13 +68,6 @@
 
 struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpusListView *view, struct IntuiMessage *imsg)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-	struct Library *DOSBase = IExec->OpenLibrary("dos.library", 50L);
-	struct DOSIFace *IDOS = (struct DOSIFace *)IExec->GetInterface(DOSBase, "main", 1, NULL);
 	int gadgetid, list, x, y, rep, xo, histate = 0, offset, itemnum, newoffset, lastout = 0, temp;
 	ULONG class, idcmpflags;
 	USHORT code;
@@ -429,11 +422,5 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 		return (NULL);
 	}
 
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
-	IExec->DropInterface((struct Interface *)IDOS);
-	IExec->CloseLibrary(DOSBase);
 	return ((struct DOpusListView *)-1);
 }

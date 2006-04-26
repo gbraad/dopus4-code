@@ -66,9 +66,6 @@
 
 void _DOpus_DoArrow(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, int w, int h, int fg, int bg, int d)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int x1,y1,x2,y2,x3,y3,x4,y4,xb;
 
 	IGraphics->SetAPen(rp,bg);
@@ -125,8 +122,6 @@ void _DOpus_DoArrow(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, 
 	drawline(rp,x1,y1,x3,y3);
 	drawline(rp,x2,y2,x4,y4);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
 

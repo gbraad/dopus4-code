@@ -60,7 +60,6 @@
 
 void _DOpus_AssignGadget(struct DOpusIFace *Self, struct ConfigStuff *cstuff, int bk, int gad, char *name, char *func)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct dopusgadgetbanks *bank, *temp;
 	int a;
 

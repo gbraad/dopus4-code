@@ -56,7 +56,6 @@
 
 void _DOpus_FreeStringFile(struct DOpusIFace *Self, struct StringData *stringdata)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	struct Library *LocaleBase = IExec->OpenLibrary("locale.library", 50L);
 	struct LocaleIFace *ILocale = (struct LocaleIFace *)IExec->GetInterface(LocaleBase, "main", 1, NULL);
 	if(stringdata)

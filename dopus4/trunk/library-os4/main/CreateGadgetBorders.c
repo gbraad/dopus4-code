@@ -87,4 +87,5 @@ void _DOpus_CreateGadgetBorders(struct DOpusIFace *Self, struct DOpusRemember **
 			fill_out_border(*unselborder, shine, shadow, shine_data, shadow_data);
 		}
 	}
+	return;
 }

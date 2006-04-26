@@ -57,12 +57,6 @@
 
 void _DOpus_CloseRequester(struct DOpusIFace *Self, struct RequesterBase *reqbase)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *IntuitionBase = IExec->OpenLibrary("intuition.library", 50L);
-	struct IntuitionIFace *IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
-
 	if(reqbase->rb_window)
 	{
 		IIntuition->CloseWindow(reqbase->rb_window);
@@ -72,8 +66,4 @@ void _DOpus_CloseRequester(struct DOpusIFace *Self, struct RequesterBase *reqbas
 		IGraphics->CloseFont(reqbase->rb_font);
 
 	Self->LFreeRemember(&reqbase->rb_memory);
-	IExec->DropInterface((struct Interface *)IIntuition);
-	IExec->CloseLibrary(IntuitionBase);
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 }

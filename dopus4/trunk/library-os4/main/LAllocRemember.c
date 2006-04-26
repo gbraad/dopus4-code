@@ -64,7 +64,6 @@ struct DOpusPool
 
 void * _DOpus_LAllocRemember(struct DOpusIFace *Self, struct DOpusRemember **key, ULONG size, ULONG type)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	APTR *pool;
 	ULONG *mem;
 

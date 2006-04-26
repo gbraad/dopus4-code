@@ -41,8 +41,6 @@
 #pragma  libcall DOpusBase GetWBScreen          132 801
 #pragma  libcall DOpusBase SearchPathList       138 09803
 #pragma  libcall DOpusBase CheckExist           13E 9802
-#pragma  libcall DOpusBase Seed                 14A 001
-#pragma  libcall DOpusBase Random               150 001
 #pragma  libcall DOpusBase StrToUpper           156 9802
 #pragma  libcall DOpusBase StrToLower           15C 9802
 #pragma  libcall DOpusBase RawkeyToStr          162 2981005

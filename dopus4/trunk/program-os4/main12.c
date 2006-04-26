@@ -29,6 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include <dos/filehandler.h>
+#include <math.h>
 
 #include "dopus.h"
 
@@ -110,7 +111,7 @@ void dodiskinfo(char *path)
 		strcat(diskname, ":");
 		if((prt = (struct MsgPort *)IDOS->DeviceProc(diskname)))
 		{
-			if(lock = IDOS->Lock(diskname, ACCESS_READ))
+			if((lock = IDOS->Lock(diskname, ACCESS_READ)))
 			{
 				IExec->Forbid();
 				get_device_task(lock, disktxt[0], prt);
@@ -146,7 +147,7 @@ void dodiskinfo(char *path)
 					sprintf(buf1, "%lld", a);
 					b = strlen(buf1);
 					sprintf(buf, "%ld", infodata->id_NumBlocks);
-					sprintf(formstr, "%%%lds %s; %%%ldld %s; %%s", b, globstring[STR_DISKINFO_BYTES], strlen(buf), globstring[STR_DISKINFO_BLOCKS]);
+					sprintf(formstr, "%%%ds %s; %%%dld %s; %%s", b, globstring[STR_DISKINFO_BYTES], strlen(buf), globstring[STR_DISKINFO_BLOCKS]);
 					getsizestring(buf, a);
 					sprintf(disktxt[2], formstr, buf1, infodata->id_NumBlocks, buf);
 					a = ((int64)infodata->id_NumBlocksUsed) * infodata->id_BytesPerBlock;
@@ -187,15 +188,15 @@ void dodiskinfo(char *path)
 						struct DosEnvec *de;
 						char buf[32];
 
-						if(dl = IDOS->LockDosList(LDF_DEVICES | LDF_READ))
+						if((dl = IDOS->LockDosList(LDF_DEVICES | LDF_READ)))
 						{
 							strcpy(buf, disktxt[0]);
 							buf[strlen(buf) - 1] = 0;
-							if(dl = IDOS->FindDosEntry(dl, buf, LDF_DEVICES))
+							if((dl = IDOS->FindDosEntry(dl, buf, LDF_DEVICES)))
 							{
-								if(fssm = BADDR(((struct DeviceNode *)dl)->dn_Startup))
+								if((fssm = BADDR(((struct DeviceNode *)dl)->dn_Startup)))
 								{
-									if(de = BADDR(fssm->fssm_Environ))
+									if((de = BADDR(fssm->fssm_Environ)))
 										infodata->id_DiskType = de->de_DosType;
 								}
 								else
@@ -320,7 +321,6 @@ void dodiskinfo(char *path)
 	contgad.SpecialInfo = NULL;
 	contgad.GadgetID = 0;
 
-// StrCombine(buf,"_",globstring[STR_CONTINUE],256);
 	gad_gads[0] = globstring[STR_CONTINUE] /*buf */ ;
 	gad_gads[1] = NULL;
 
@@ -342,7 +342,7 @@ void dodiskinfo(char *path)
 	IDOpus->AddGadgets(fontwindow, &contgad, gad_gads, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
 	i = 0;
 
-	if(uscore = strchr(globstring[STR_CONTINUE], '_'))
+	if((uscore = strchr(globstring[STR_CONTINUE], '_')))
 		cont_key = uscore[1];
 	else
 		cont_key = globstring[STR_CONTINUE][0];
@@ -350,7 +350,7 @@ void dodiskinfo(char *path)
 
 	FOREVER
 	{
-		while(IMsg = (struct IntuiMessage *)IExec->GetMsg(fontwindow->UserPort))
+		while((IMsg = (struct IntuiMessage *)IExec->GetMsg(fontwindow->UserPort)))
 		{
 			class = IMsg->Class;
 			code = IMsg->Code;
@@ -417,29 +417,6 @@ void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 	strcat(buffer, ":");
 
 	IDOS->UnLockDosList(LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ);
-
-/*	struct DeviceList *devlist, *dl;
-	struct RootNode *rootnode;
-	struct DosInfo *dosinfo;
-	struct FileLock *lock2;
-
-	rootnode = (struct RootNode *)DOSBase->dl_Root;
-	dosinfo = (struct DosInfo *)BADDR(rootnode->rn_Info);
-	devlist = (struct DeviceList *)BADDR(dosinfo->di_DevInfo);
-	lock2 = (struct FileLock *)BADDR(lock);
-	dl = (struct DeviceList *)BADDR(lock2->fl_Volume);
-
-	while(devlist)
-	{
-		if(devlist->dl_Type == DLT_DEVICE && devlist->dl_Task == dl->dl_Task)
-			break;
-		devlist = (struct DeviceList *)BADDR(devlist->dl_Next);
-	}
-	if(devlist)
-		IDOpus->BtoCStr((BPTR) devlist->dl_Name, buffer, 31);
-	else
-		strcpy(buffer, ((struct Task *)port->mp_SigTask)->tc_Node.ln_Name);
-	strcat(buffer, ":");*/
 }
 
 void getsizestring(char *buf, uint64 a)
@@ -448,9 +425,9 @@ void getsizestring(char *buf, uint64 a)
 	if(a > 1073741824)
 		sprintf(buf, "HUGE");
 	else if(a > 1048576)
-		sprintf(buf, "%.1fG", (double)((double)a / 1048576));
+		sprintf(buf, "%.1f G", (double)((double)a / 1048576));
 	else if(a > 1024)
-		sprintf(buf, "%.1fM", (double)((double)a / 1024));
+		sprintf(buf, "%.1f M", (double)((double)a / 1024));
 	else
-		sprintf(buf, "%ldK", (long)a);
+		sprintf(buf, "%ld K", (long)a);
 }

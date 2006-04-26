@@ -73,8 +73,6 @@
 #define GetWBScreen(scrbuf) IDOpus->GetWBScreen(scrbuf) 
 #define SearchPathList(name, buffer, size) IDOpus->SearchPathList(name, buffer, size) 
 #define CheckExist(name, size) IDOpus->CheckExist(name, size) 
-#define Seed(seed) IDOpus->Seed(seed) 
-#define Random(limit) IDOpus->Random(limit) 
 #define StrToUpper(from, to) IDOpus->StrToUpper(from, to) 
 #define StrToLower(from, to) IDOpus->StrToLower(from, to) 
 #define RawkeyToStr(code, qual, buf, kbuf, len) IDOpus->RawkeyToStr(code, qual, buf, kbuf, len) 

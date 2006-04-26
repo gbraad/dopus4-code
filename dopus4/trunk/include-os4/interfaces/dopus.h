@@ -77,8 +77,6 @@ struct DOpusIFace
 	void APICALL (*GetWBScreen)(struct DOpusIFace *Self, struct Screen * scrbuf);
 	int APICALL (*SearchPathList)(struct DOpusIFace *Self, char * name, char * buffer, int size);
 	int APICALL (*CheckExist)(struct DOpusIFace *Self, char * name, int * size);
-	void APICALL (*Seed)(struct DOpusIFace *Self, int seed);
-	int APICALL (*Random)(struct DOpusIFace *Self, int limit);
 	void APICALL (*StrToUpper)(struct DOpusIFace *Self, char * from, char * to);
 	void APICALL (*StrToLower)(struct DOpusIFace *Self, char * from, char * to);
 	int APICALL (*RawkeyToStr)(struct DOpusIFace *Self, USHORT code, USHORT qual, char * buf, char * kbuf, int len);

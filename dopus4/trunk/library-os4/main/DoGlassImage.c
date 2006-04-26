@@ -64,9 +64,6 @@ extern USHORT glass_image2[];
 
 void _DOpus_DoGlassImage(struct DOpusIFace *Self, struct RastPort *rp, struct Gadget *gadget, int shine, int shadow, int type)
 {
-	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-	struct Library *GfxBase = IExec->OpenLibrary("graphics.library", 50L);
-	struct GraphicsIFace *IGraphics = (struct GraphicsIFace *)IExec->GetInterface(GfxBase, "main", 1, NULL);
 	int x, y;
 	char op, om;
 
@@ -88,7 +85,5 @@ void _DOpus_DoGlassImage(struct DOpusIFace *Self, struct RastPort *rp, struct Ga
 	IGraphics->SetAPen(rp, op);
 	IGraphics->SetDrMd(rp, om);
 
-	IExec->DropInterface((struct Interface *)IGraphics);
-	IExec->CloseLibrary(GfxBase);
 	return;
 }
