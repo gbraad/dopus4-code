@@ -83,8 +83,7 @@ STATIC struct Library *libOpen(struct LibraryManagerInterface *Self, ULONG versi
         return NULL;
     }
 
-    /* Add any specific open code here 
-       Return 0 before incrementing OpenCnt to fail opening */
+    /* Add any specific open code here. Return 0 before incrementing OpenCnt to fail opening */
 
 
     /* Add up the open count */
@@ -135,19 +134,20 @@ STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
 /* The ROMTAG Init Function */
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
-    struct Library *libBase = (struct Library *)LibraryBase;
+    struct DOpusBase *libBase = (struct DOpusBase *)LibraryBase;
     struct ExecIFace *IExec __attribute__((unused)) = (struct ExecIFace *)exec;
-    struct DOpusBase *DOBase = (struct DOpusBase *)libBase;
+//    struct DOpusBase *DOBase = (struct DOpusBase *)libBase;
 
-    libBase->lib_Node.ln_Type = NT_LIBRARY;
-    libBase->lib_Node.ln_Pri  = 0;
-    libBase->lib_Node.ln_Name = "dopus.library";
-    libBase->lib_Flags        = LIBF_SUMUSED|LIBF_CHANGED;
-    libBase->lib_Version      = VERSION;
-    libBase->lib_Revision     = REVISION;
-    libBase->lib_IdString     = VSTRING;
+    libBase->LibNode.lib_Node.ln_Type = NT_LIBRARY;
+    libBase->LibNode.lib_Node.ln_Pri  = 0;
+    libBase->LibNode.lib_Node.ln_Name = "dopus.library";
+    libBase->LibNode.lib_Flags        = LIBF_SUMUSED|LIBF_CHANGED;
+    libBase->LibNode.lib_Version      = VERSION;
+    libBase->LibNode.lib_Revision     = REVISION;
+    libBase->LibNode.lib_IdString     = VSTRING;
 
-    DOBase->SegList = (BPTR)seglist;
+//    DOBase->SegList = (BPTR)seglist;
+    libBase->SegList = (BPTR)seglist;
 
     /* Add additional init code here if you need it. For example, to open additional
        Libraries:
