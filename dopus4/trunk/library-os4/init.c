@@ -27,30 +27,30 @@
 
 /* Version Tag */
 #include "dopus.library_rev.h"
-STATIC CONST UBYTE __attribute__((used)) verstag[] = VERSTAG;
+STATIC CONST UBYTE __attribute__ ((used)) verstag[] = VERSTAG;
 
 struct DOpusBase
 {
-    struct Library LibNode;
-    BPTR SegList;
+	struct Library LibNode;
+	BPTR SegList;
 
-    UBYTE Flags;
-    UBYTE pad;
+	UBYTE Flags;
+	UBYTE pad;
 //    struct ExecBase *ExecBase;
 //    struct DosLibrary *DOSBase;
 //    struct IntuitionBase *IntuitionBase;
 //    struct GfxBase *GfxBase;
 //    struct LayersBase *LayersBase;
 
-    /* Private stuff */
-    PLANEPTR pdb_cycletop;
-    PLANEPTR pdb_cyclebot;
-    PLANEPTR pdb_check;
-    ULONG pad1;
-    ULONG pad2;
-    ULONG pad3;
-    ULONG pad4;
-    ULONG pdb_Flags;
+	/* Private stuff */
+	PLANEPTR pdb_cycletop;
+	PLANEPTR pdb_cyclebot;
+	PLANEPTR pdb_check;
+	ULONG pad1;
+	ULONG pad2;
+	ULONG pad3;
+	ULONG pad4;
+	ULONG pdb_Flags;
 };
 
 /*
@@ -68,27 +68,27 @@ int32 _start(void);
 
 int32 _start(void)
 {
-    /* If you feel like it, open DOS and print something to the user */
-    return 100;
+	/* If you feel like it, open DOS and print something to the user */
+	return 100;
 }
 
 
 /* Open the library */
 STATIC struct Library *libOpen(struct LibraryManagerInterface *Self, ULONG version)
 {
-    struct Library *libBase = (struct Library *)Self->Data.LibBase; 
+	struct Library *libBase = (struct Library *)Self->Data.LibBase;
 
-    if (version > VERSION)
-    {
-        return NULL;
-    }
+	if(version > VERSION)
+	{
+		return NULL;
+	}
 
-    /* Add any specific open code here. Return 0 before incrementing OpenCnt to fail opening */
+	/* Add any specific open code here. Return 0 before incrementing OpenCnt to fail opening */
 
 
-    /* Add up the open count */
-    libBase->lib_OpenCnt++;
-    return (struct Library *)libBase;
+	/* Add up the open count */
+	libBase->lib_OpenCnt++;
+	return (struct Library *)libBase;
 
 }
 
@@ -96,105 +96,93 @@ STATIC struct Library *libOpen(struct LibraryManagerInterface *Self, ULONG versi
 /* Close the library */
 STATIC APTR libClose(struct LibraryManagerInterface *Self)
 {
-    struct Library *libBase = (struct Library *)Self->Data.LibBase;
-    /* Make sure to undo what open did */
+	struct Library *libBase = (struct Library *)Self->Data.LibBase;
+	/* Make sure to undo what open did */
 
 
-    /* Make the close count */
-    ((struct Library *)libBase)->lib_OpenCnt--;
+	/* Make the close count */
+	((struct Library *)libBase)->lib_OpenCnt--;
 
-    return 0;
+	return 0;
 }
 
 
 /* Expunge the library */
-STATIC APTR libExpunge(struct LibraryManagerInterface *Self)
+STATIC APTR libExpunge(struct LibraryManagerInterface * Self)
 {
-    /* If your library cannot be expunged, return 0 */
-    struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
-    APTR result = (APTR)0;
-    struct Library *libBase = (struct Library *)Self->Data.LibBase;
-    struct DOpusBase *DOBase = (struct DOpusBase *)libBase;
-    if (libBase->lib_OpenCnt == 0)
-    {
-	     result = (APTR)DOBase->SegList;
-        /* Undo what the init code did */
+	/* If your library cannot be expunged, return 0 */
+	struct ExecIFace *IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
+	APTR result = (APTR) 0;
+	struct Library *libBase = (struct Library *)Self->Data.LibBase;
+	struct DOpusBase *DOBase = (struct DOpusBase *)libBase;
+	if(libBase->lib_OpenCnt == 0)
+	{
+		result = (APTR) DOBase->SegList;
+		/* Undo what the init code did */
 
-        IExec->Remove((struct Node *)libBase);
-        IExec->DeleteLibrary((struct Library *)libBase);
-    }
-    else
-    {
-        result = (APTR)0;
-        libBase->lib_Flags |= LIBF_DELEXP;
-    }
-    return result;
+		IExec->Remove((struct Node *)libBase);
+		IExec->DeleteLibrary((struct Library *)libBase);
+	}
+	else
+	{
+		result = (APTR) 0;
+		libBase->lib_Flags |= LIBF_DELEXP;
+	}
+	return result;
 }
 
 /* The ROMTAG Init Function */
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
-    struct DOpusBase *libBase = (struct DOpusBase *)LibraryBase;
-    struct ExecIFace *IExec __attribute__((unused)) = (struct ExecIFace *)exec;
-//    struct DOpusBase *DOBase = (struct DOpusBase *)libBase;
+	struct DOpusBase *libBase = (struct DOpusBase *)LibraryBase;
+	struct ExecIFace *IExec __attribute__ ((unused)) = (struct ExecIFace *)exec;
 
-    libBase->LibNode.lib_Node.ln_Type = NT_LIBRARY;
-    libBase->LibNode.lib_Node.ln_Pri  = 0;
-    libBase->LibNode.lib_Node.ln_Name = "dopus.library";
-    libBase->LibNode.lib_Flags        = LIBF_SUMUSED|LIBF_CHANGED;
-    libBase->LibNode.lib_Version      = VERSION;
-    libBase->LibNode.lib_Revision     = REVISION;
-    libBase->LibNode.lib_IdString     = VSTRING;
+	libBase->LibNode.lib_Node.ln_Type = NT_LIBRARY;
+	libBase->LibNode.lib_Node.ln_Pri = 0;
+	libBase->LibNode.lib_Node.ln_Name = "dopus.library";
+	libBase->LibNode.lib_Flags = LIBF_SUMUSED | LIBF_CHANGED;
+	libBase->LibNode.lib_Version = VERSION;
+	libBase->LibNode.lib_Revision = REVISION;
+	libBase->LibNode.lib_IdString = VSTRING;
 
-//    DOBase->SegList = (BPTR)seglist;
-    libBase->SegList = (BPTR)seglist;
+	libBase->SegList = (BPTR) seglist;
 
-    /* Add additional init code here if you need it. For example, to open additional
-       Libraries:
-       libBase->UtilityBase = IExec->OpenLibrary("utility.library", 50L);
-       if (libBase->UtilityBase)
-       {
-           libBase->IUtility = (struct UtilityIFace *)IExec->GetInterface(ElfBase->UtilityBase, "main", 1, NULL);
-           if (!libBase->IUtility)
-               return NULL;
-       } else return NULL; */
-
-       return (struct Library *)libBase;
+	return (struct Library *)libBase;
 }
 
 /* ------------------- Manager Interface ------------------------ */
 /* These are generic. Replace if you need more fancy stuff */
 STATIC LONG _manager_Obtain(struct LibraryManagerInterface *Self)
 {
-    return ++Self->Data.RefCount;
+	return ++Self->Data.RefCount;
 }
 
-STATIC ULONG _manager_Release(struct LibraryManagerInterface *Self)
+STATIC ULONG _manager_Release(struct LibraryManagerInterface * Self)
 {
-    return --Self->Data.RefCount;
+	return --Self->Data.RefCount;
 }
 
 /* Manager interface vectors */
 STATIC CONST APTR lib_manager_vectors[] =
 {
-    _manager_Obtain,
-    _manager_Release,
-    NULL,
-    NULL,
-    libOpen,
-    libClose,
-    libExpunge,
-    NULL,
-    (APTR)-1
+	_manager_Obtain,
+	_manager_Release,
+	NULL,
+	NULL,
+	libOpen,
+	libClose,
+	libExpunge,
+	NULL,
+	(APTR) - 1
 };
 
 /* "__library" interface tag list */
 STATIC CONST struct TagItem lib_managerTags[] =
 {
-    { MIT_Name,        (Tag)"__library"       },
-    { MIT_VectorTable, (Tag)lib_manager_vectors },
-    { MIT_Version,     1                        },
-    { TAG_DONE,        0                        }
+	{MIT_Name, (Tag) "__library"},
+	{MIT_VectorTable, (Tag) lib_manager_vectors},
+	{MIT_Version, 1},
+	{TAG_DONE, 0}
 };
 
 /* ------------------- Library Interface(s) ------------------------ */
@@ -206,42 +194,37 @@ STATIC CONST struct TagItem lib_managerTags[] =
 
 STATIC CONST struct TagItem mainTags[] =
 {
-    { MIT_Name,        (Tag)"main" },
-    { MIT_VectorTable, (Tag)main_vectors },
-    { MIT_Version,     1 },
-    { TAG_DONE,        0 }
+	{MIT_Name, (Tag) "main"},
+	{MIT_VectorTable, (Tag) main_vectors},
+	{MIT_Version, 1},
+	{TAG_DONE, 0}
 };
 
 STATIC CONST CONST_APTR libInterfaces[] =
 {
-    lib_managerTags,
-    mainTags,
-    NULL
+	lib_managerTags,
+	mainTags,
+	NULL
 };
 
 STATIC CONST struct TagItem libCreateTags[] =
 {
-    { CLT_DataSize,    sizeof(struct Library) },
-    { CLT_InitFunc,    (Tag)libInit },
-    { CLT_Interfaces,  (Tag)libInterfaces},
-    /* Uncomment the following line if you have a 68k jump table */
-    /* { CLT_Vector68K, (Tag)VecTable68K }, */
-    {TAG_DONE,         0 }
+	{CLT_DataSize, sizeof(struct Library)},
+	{CLT_InitFunc, (Tag) libInit},
+	{CLT_Interfaces, (Tag) libInterfaces},
+	/* Uncomment the following line if you have a 68k jump table */
+	/* { CLT_Vector68K, (Tag)VecTable68K }, */
+	{TAG_DONE, 0}
 };
 
 
 /* ------------------- ROM Tag ------------------------ */
-STATIC CONST struct Resident lib_res __attribute__((used)) =
+STATIC CONST struct Resident lib_res __attribute__ ((used)) =
 {
-    RTC_MATCHWORD,
-    (struct Resident *)&lib_res,
-    (APTR)(&lib_res + 1),
-    RTF_NATIVE|RTF_AUTOINIT, /* Add RTF_COLDSTART if you want to be resident */
-    VERSION,
-    NT_LIBRARY, /* Make this NT_DEVICE if needed */
-    0, /* PRI, usually not needed unless you're resident */
-    "dopus.library",
-    VSTRING,
-    (APTR)libCreateTags
+	RTC_MATCHWORD, (struct Resident *)&lib_res,
+	(APTR) (&lib_res + 1), RTF_NATIVE | RTF_AUTOINIT,	/* Add RTF_COLDSTART if you want to be resident */
+	VERSION, NT_LIBRARY,					/* Make this NT_DEVICE if needed */
+	0,							/* PRI, usually not needed unless you're resident */
+	"dopus.library", VSTRING,
+	(APTR) libCreateTags
 };
-

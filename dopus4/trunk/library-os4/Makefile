@@ -24,7 +24,7 @@ RM     = rm -f
 # Change these as required
 OPTIMIZE = -O3
 DEBUG = -s # -g -DDEBUG
-CFLAGS = -Wall -I../../include-os4 -I. $(OPTIMIZE) $(DEBUG)
+CFLAGS = -Wall -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 
 # Flags passed to gcc during linking
 LINK =
