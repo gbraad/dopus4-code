@@ -62,8 +62,9 @@ void about()
 void give_version_info()
 {
 	char buf[1024] = { 0, };
+	uint32 ver = DOpusBase->lib_Version, rev = DOpusBase->lib_Revision;
 
-	IUtility->SNPrintf(buf, 700, "%s\n\nCompiled with: %s\nCompilation date: %s\nCompilation time: %s\n", VERS, compiler, comp_date, comp_time);
+	IUtility->SNPrintf(buf, 1024, "%s\ndopus.library: %ld.%ld\n\nCompiled with: %s\nCompilation date: %s\nCompilation time: %s\n", VERS, ver, rev, compiler, comp_date, comp_time);
 
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);
 }

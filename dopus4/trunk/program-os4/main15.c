@@ -408,15 +408,19 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				doconfig();
 				break;
 			case FUNC_QUIT:
-				if(!(config->generalflags & GENERAL_FORCEQUIT) && !(simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
+				if(!(config->generalflags & GENERAL_FORCEQUIT) && (rexx_argcount < 1 || (IUtility->Stricmp(rexx_args[0], "force")) != 0) && !(simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
+				{
 					break;
-/*				if(!(config->generalflags & GENERAL_FORCEQUIT) && (rexx_argcount < 1 || (IUtility->Stricmp(rexx_args[0], "force")) != 0) && !(simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
-					break;
-*/
+				}
+
 				if(!checkwindowquit())
+				{
 					break;
+				}
 				if(config_changed && !(a = simplerequest(globstring[STR_CONFIG_CHANGED_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_SAVE_QUIT], NULL)))
+				{
 					break;
+				}
 				if(a == 2)
 				{
 					dostatustext(globstring[STR_SAVING_CONFIG]);

@@ -64,7 +64,6 @@ void quit()
 	}
 	if(dir_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, dir_memory_pool);
-//		IExec->DeletePool(dir_memory_pool);
 
 	for(a = 0; a < NUMFONTS; a++)
 		freefont(a);
@@ -122,7 +121,6 @@ void remclock()
 	if(clockmsg_port)
 	{
 		dotaskmsg(clockmsg_port, TASK_QUIT, 0, 0, NULL, 0);
-		/*DeleteTask(clock_task);*/
 		clock_task = NULL;
 	}
 }
@@ -206,12 +204,7 @@ void dotaskmsg(struct MsgPort *port, int command, int value, int total, char *da
 		IExec->PutMsg(port, (struct Message *)&taskmsg);
 		IExec->Permit();
 		IExec->WaitPort(general_port);
-/* cut by Jacek Rzeuski (31.03.2000) to avoid on-copy-exit crashes
-        GetMsg(general_port);
-*/
-/* inserted by Jacek Rzeuski (31.03.2000) to avoid on-copy-exit crashes */
 		while(IExec->GetMsg(general_port) != (struct Message *)&taskmsg);
-/* end of */
 	}
 }
 
