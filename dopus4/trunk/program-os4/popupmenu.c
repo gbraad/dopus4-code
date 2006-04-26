@@ -181,11 +181,11 @@ void handlelistermenu(int a)
 
 void initlistermenu(void)
 {
-/*	if(PopupMenuBase && IPopupMenu)
+	if(PopupMenuBase && IPopupMenu)
 	{
 		BOOL userinfo = FALSE;
 
-		sortmenu = IPopupMenu->PMMenu(globstring[STR_LISTER_MENU]),
+		sortmenu = PMMenu(globstring[STR_LISTER_MENU]),
 				PMInfo(globstring[STR_SORTBY]),
 				PM_Center, TRUE,
 			End,
@@ -229,13 +229,13 @@ void initlistermenu(void)
 			PMBar,
 			End,
 			PMCheckItem(globstring[STR_MIXDIRSFILES], sbMix),
-				PM_Exclude, PM_ExLst(sbDirF, sbFileF, 0),
+				PM_Exclude, IPopupMenu->PM_ExLst(sbDirF, sbFileF, 0),
 			End,
 			PMCheckItem(globstring[STR_DIRSFIRST], sbDirF),
-				PM_Exclude, PM_ExLst(sbMix, sbFileF, 0),
+				PM_Exclude, IPopupMenu->PM_ExLst(sbMix, sbFileF, 0),
 			End,
 			PMCheckItem(globstring[STR_FILESFIRST], sbFileF),
-				PM_Exclude, PM_ExLst(sbMix, sbDirF, 0),
+				PM_Exclude, IPopupMenu->PM_ExLst(sbMix, sbDirF, 0),
 			End,
 			PMBar,
 			End,
@@ -249,12 +249,12 @@ void initlistermenu(void)
 				PM_Exclude, IPopupMenu->PM_ExLst(sbSortA, sbSortH, 0),
 			End,
 			PMCheckItem(globstring[STR_SORTHEX], sbSortH),
-				PM_Exclude, PM_ExLst(sbSortA, sbSortD, 0),
+				PM_Exclude, IPopupMenu->PM_ExLst(sbSortA, sbSortD, 0),
 			End,
 			PMBar,
 			End,
 			PMCheckItem(globstring[STR_SIZE_AS_KMG], sbKMG),
 			End,
 		End;
-	}*/
+	}
 }
