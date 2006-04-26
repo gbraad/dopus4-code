@@ -84,7 +84,9 @@ void ftype_doubleclick(char *path, char *name, int state)
 			strcpy(func_single_file, name);
 			dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 			if(file && file->selected)
+			{
 				unselect(data_active_window, file);
+			}
 			func_single_file[0] = 0;
 			return;
 		}

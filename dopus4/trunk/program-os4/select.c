@@ -668,10 +668,6 @@ void globalselect(int win, int all)
 	{
 		while(temp)
 		{
-/*
-            if (temp->type!=ENTRY_CUSTOM || temp->subtype!=CUSTOMENTRY_USER ||
-                temp->size&CUSTENTRY_CANSELECT) temp->selected=all;
-*/
 			temp->selected = all;
 			temp = temp->next;
 		}
@@ -788,6 +784,8 @@ void doselect(int rexx)
 	struct DateStamp ds1, ds2;
 	int selecttype;
 
+	IDOS->DosControlTags(DC_WildStarW, TRUE, TAG_DONE, 0);
+
 	if(dopus_curwin[data_active_window]->total == 0 || dopus_curwin[data_active_window]->firstentry->type == ENTRY_CUSTOM)
 		return;
 
@@ -808,7 +806,6 @@ void doselect(int rexx)
 		switch (selecttype)
 		{
 		case 0:
-//			IDOpus->LParsePatternI(str_select_pattern[0], buf);
 			IDOS->ParsePatternNoCase(str_select_pattern[0], buf, 160);
 			wildselect(buf, boobs, 1, WILDSELECT_NAME);
 			findfirstsel(data_active_window, -2);
@@ -828,22 +825,23 @@ void doselect(int rexx)
 			findfirstsel(data_active_window, -2);
 			break;
 		case 3:
-//			IDOpus->LParsePatternI(str_select_pattern[3], buf);
 			IDOS->ParsePatternNoCase(str_select_pattern[3], buf, 160);
 			wildselect(buf, boobs, 1, WILDSELECT_COMMENT);
 			findfirstsel(data_active_window, -2);
 			break;
 		}
 	}
+
+	IDOS->DosControlTags(DC_WildStarW, FALSE, TAG_DONE, 0);
 }
 
 void getseldatestamps(STRPTR buf, struct DateStamp *ds1, struct DateStamp *ds2)
 {
 	char datebuf[2][85], timebuf[2][85], *ptr;
-	int a /*,b */ ;
+	int a;
 
-	datebuf[0][0] = datebuf[1][0] = timebuf[0][0] = timebuf[1][0] = a /*=b*/  = 0;
-	ptr = parsedatetime(buf /*str_select_pattern[1] */ , datebuf[0], timebuf[0], &a);
+	datebuf[0][0] = datebuf[1][0] = timebuf[0][0] = timebuf[1][0] = a = 0;
+	ptr = parsedatetime(buf, datebuf[0], timebuf[0], &a);
 	switch (a)
 	{
 	case 0:
@@ -855,16 +853,13 @@ void getseldatestamps(STRPTR buf, struct DateStamp *ds1, struct DateStamp *ds2)
 		strcpy(timebuf[1], timebuf[0]);
 		break;
 	default:
-		parsedatetime(ptr, datebuf[1], timebuf[1], &a /*&b */ );
+		parsedatetime(ptr, datebuf[1], timebuf[1], &a);
 		break;
 	}
-//	D(bug("getseldatestamps(%s,%s,%s,%s)\n", datebuf[0], timebuf[0], datebuf[1], timebuf[1]));
 	strtostamp(datebuf[0], timebuf[0], ds1);
 	strtostamp(datebuf[1], timebuf[1], ds2);
 	ds1->ds_Tick = ((ds1->ds_Tick / 50) * 50);
 	ds2->ds_Tick = ((ds2->ds_Tick / 50) * 50) + 49;
-//	D(bug("getseldatestamp: ds1=%ld,%ld,%ld\n", ds1->ds_Days, ds1->ds_Minute, ds1->ds_Tick));
-//	D(bug("getseldatestamp: ds2=%ld,%ld,%ld\n", ds2->ds_Days, ds2->ds_Minute, ds2->ds_Tick));
 }
 
 void getprotselvals(STRPTR buf, int *prot)
@@ -901,30 +896,27 @@ void wildselect(STRPTR wild, int boobs, int and, int mode)
 	struct Directory *temp;
 
 	temp = dopus_curwin[data_active_window]->firstentry;
-#ifdef __SASC__
 	if(!and)
 	{
-		dopus_curwin[data_active_window]->dirsel = dopus_curwin[data_active_window]->filesel = 0;
-		dopus_curwin[data_active_window]->bytessel = 0;
-	}
-#else
-	if(!and)
 		dopus_curwin[data_active_window]->dirsel = dopus_curwin[data_active_window]->filesel = dopus_curwin[data_active_window]->bytessel = 0;
-#endif
+	}
 	while(temp)
 	{
 		if(temp->type != ENTRY_CUSTOM || temp->subtype != CUSTOMENTRY_USER || temp->size & CUSTENTRY_CANSELECT)
 		{
 			if(!and)
+			{
 				temp->selected = 0;
+			}
 			if(temp->type == ENTRY_CUSTOM)
 			{
 				if(!temp->selected && temp->comment)
 				{
 					IDOpus->StrToUpper(temp->comment, buf);
-//					if(IDOpus->LMatchPatternI(wild, buf))
 					if(IDOS->MatchPatternNoCase(wild, buf))
+					{
 						wildselectthisone(temp, data_active_window, boobs);
+					}
 				}
 			}
 			else
@@ -932,9 +924,10 @@ void wildselect(STRPTR wild, int boobs, int and, int mode)
 				if(!temp->selected)
 				{
 					IDOpus->StrToUpper((mode == WILDSELECT_NAME) ? temp->name : temp->comment, buf);
-//					if(IDOpus->LMatchPatternI(wild, buf))
 					if(IDOS->MatchPatternNoCase(wild, buf))
+					{
 						wildselectthisone(temp, data_active_window, boobs);
+					}
 				}
 			}
 		}
@@ -1009,7 +1002,9 @@ void wildselectthisone(struct Directory *temp, int win, int boobs)
 		{
 			++dopus_curwin[win]->dirsel;
 			if(temp->size != -1)
+			{
 				dopus_curwin[win]->bytessel += temp->size;
+			}
 		}
 		else if(temp->type <= ENTRY_FILE)
 		{
@@ -1025,9 +1020,8 @@ void doselinfo(int win)
 
 	if(!dopus_curwin[win]->firstentry || dopus_curwin[win]->firstentry->type != ENTRY_CUSTOM)
 	{
-		buildkmgstring(b1, /*(long long) */ dopus_curwin[win]->bytessel, config->listerdisplayflags[win] & SIZE_KMG);
-		buildkmgstring(b2, /*(long long) */ dopus_curwin[win]->bytestot, config->listerdisplayflags[win] & SIZE_KMG);
-//		D(bug("doselinfo(): b1 = %s, b2 = %s\n", b1, b2));
+		buildkmgstring(b1, dopus_curwin[win]->bytessel, config->listerdisplayflags[win] & SIZE_KMG);
+		buildkmgstring(b2, dopus_curwin[win]->bytestot, config->listerdisplayflags[win] & SIZE_KMG);
 		sprintf(str_select_info, globstring[STR_DIRS_FILES_BYTES_COUNT], dopus_curwin[win]->dirsel, dopus_curwin[win]->dirtot, dopus_curwin[win]->filesel, dopus_curwin[win]->filetot, b1, b2);
 	}
 	else
