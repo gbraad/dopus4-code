@@ -153,17 +153,35 @@ void doidcmp()
 		if(wmes & (1 << count_port->mp_SigBit))
 		{
 			struct NotifyMessage *note;
+			int got = 0;
 			while((note = (struct NotifyMessage *)IExec->GetMsg(count_port)))
 			{
-				struct DirWindowPars notifypars;
+				if(config->dynamicflags & UPDATE_NOTIFY)
+				{
+					a = note->nm_NReq->nr_UserData;
+					IExec->ReplyMsg((struct Message *)note);
+					if(!(got & (1 << a)))
+					{
+						got |= 1 << a;
+						if(a == 0 || a == 1)
+						{
+							if(!(config->dirflags & DIRFLAGS_REREADOLD) || ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
+							{
+								struct DirWindowPars notifypars;
 
-				notifypars.reselection_list = NULL;
-				makereselect(&notifypars, 0);
-				makereselect(&notifypars, 1);
-				startgetdir(0, SGDFLAGS_CANMOVEEMPTY);
-				startgetdir(1, SGDFLAGS_CANMOVEEMPTY);
-				doreselect(&notifypars, 0);
-				makereselect(&notifypars, -1);
+								notifypars.reselection_list = NULL;
+								makereselect(&notifypars, a);
+								startgetdir(a, SGDFLAGS_CANMOVEEMPTY);
+								doreselect(&notifypars, 0);
+								makereselect(&notifypars, -1);
+							}
+						}
+					}
+				}
+				else
+				{
+					IExec->ReplyMsg((struct Message *)note);
+				}
 			}
 		}
 		while(getintuimsg())

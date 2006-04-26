@@ -161,8 +161,7 @@ void findemptybuffer(int win)
 				oldestdir = dir;
 				break;
 			}
-			if(IDOS->CompareDates(&oldestdir->dirstamp, &dir->dirstamp)
-			   < 0)
+			if(IDOS->CompareDates(&oldestdir->dirstamp, &dir->dirstamp) < 0)
 				oldestdir = dir;
 			dir = dir->next;
 		}
@@ -220,7 +219,7 @@ void copydirwin(struct DirectoryWindow *sourcewin, struct DirectoryWindow *destw
 	freedir(destwin, dest);
 	copy = sourcewin->firstentry;
 	strcpy(destwin->realdevice, sourcewin->realdevice);
-	while (copy)
+	while(copy)
 	{
 		if(!(addfile(destwin, dest, copy->name, copy->size, copy->type, &copy->date, copy->comment, copy->protection, copy->subtype, FALSE, copy->dispstr, NULL, copy->owner_id, copy->group_id)))
 			break;
@@ -492,7 +491,7 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 	int fail = 0;
 
 	/* If no customhandler installed or rexx library is not there, return */
-	if(!dir->custhandler[0]) // || !RexxSysBase)
+	if(!dir->custhandler[0])	// || !RexxSysBase)
 		return;
 
 	/* Attempt to create the message packet */
@@ -599,13 +598,55 @@ void makespecialdir(int win, char *title)
 
 void check_old_buffer(int win)
 {
-	struct DirWindowPars notifypars;
+	int reread = 0;
 
-	notifypars.reselection_list = NULL;
-	makereselect(&notifypars, win);
-	startgetdir(win, SGDFLAGS_REREADINGOLD);
-	doreselect(&notifypars, 0);
-	makereselect(&notifypars, -1);
+	if(config->dirflags & DIRFLAGS_REREADOLD && dopus_curwin[win]->directory[0])
+	{
+		if(dopus_curwin[win]->firstentry && ((dopus_curwin[win]->firstentry->type == ENTRY_CUSTOM) || (dopus_curwin[win]->firstentry->type == ENTRY_DEVICE) || (dopus_curwin[win]->flags & DWF_ARCHIVE)))
+		{
+			return;
+		}
+		else
+		{
+			struct FileInfoBlock *testinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+
+			main_proc->pr_WindowPtr = (APTR) - 1;
+			if(lockandexamine(dopus_curwin[win]->directory, testinfo))
+			{
+				if(IDOS->CompareDates(&dopus_curwin[win]->dirstamp, &testinfo->fib_Date) < 0)
+				{
+					reread = 1;
+				}
+				else if(!(config->dirflags & DIRFLAGS_EXPANDPATHS) && dopus_curwin[win]->volumename[0])
+				{
+
+					char rootname[256];
+
+					IUtility->Strlcpy(rootname, dopus_curwin[win]->directory, 256);
+					if(getroot(rootname, NULL) && (IUtility->Stricmp(rootname, dopus_curwin[win]->volumename)) != 0)
+					{
+						reread = 1;
+					}
+				}
+			}
+			if(config->errorflags & ERROR_ENABLE_DOS)
+			{
+				main_proc->pr_WindowPtr = (APTR)Window;
+			}
+			IDOS->FreeDosObject(DOS_FIB, testinfo);
+		}
+		if(reread)
+		{
+			struct DirWindowPars notifypars;
+
+			notifypars.reselection_list = NULL;
+			makereselect(&notifypars, win);
+			startgetdir(win, SGDFLAGS_REREADINGOLD);
+			doreselect(&notifypars, 0);
+			makereselect(&notifypars, -1);
+		}
+	}
+	return;
 }
 
 /* Refresh the display of a window */
