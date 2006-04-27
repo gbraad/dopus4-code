@@ -107,7 +107,7 @@ struct DOpusFileReq
 #define ASSIGN_CANCEL 3
 
 /* DOpusDateTime structure for StampToStr() and StrToStamp() */
-/*
+
 #define DDTB_SUBST  0
 #define DDTB_FUTURE 1
 
@@ -119,7 +119,7 @@ struct DOpusFileReq
 
 #define DDTF_CUSTOM (1<<DDTB_CUSTOM)
 #define DDTF_12HOUR (1<<DDTB_12HOUR)
-
+/*
 #define FORMAT_DOS 0
 #define FORMAT_INT 1
 #define FORMAT_USA 2

@@ -14,6 +14,7 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <proto/dos.h>
@@ -59,7 +60,7 @@
 
 void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 {
-	int hr, min, sec;
+	uint32 hr, min, sec;
 	ULONG ds_minute, ds_tick;
 	STRPTR time;
 
@@ -82,7 +83,28 @@ void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 		min = ds_minute % 60;
 		sec = ds_tick / 50;
 
-		LSprintf(datetime->dat_StrTime, "%02d:%02d:%02d", hr, min, sec);
+		if(datetime->dat_Flags & DDTF_12HOUR)
+		{
+			int ampm;
+
+			if(hr >= 12)
+			{
+				if(hr > 12)
+					hr -= 12;
+				ampm = 1;
+			}
+			else
+			{
+				if(hr == 0)
+					hr = 12;
+				ampm = 0;
+			}
+			sprintf(datetime->dat_StrTime, "%2ld:%02ld:%02ld%lc", hr, min, sec, (ampm) ? 'P' : 'A');
+		}
+		else
+		{
+			sprintf(datetime->dat_StrTime, "%02ld:%02ld:%02ld", hr, min, sec);
+		}
 	}
 
 	if(datetime->dat_StrDate)
@@ -93,4 +115,3 @@ void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 
 	return;
 }
-

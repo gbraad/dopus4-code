@@ -685,7 +685,7 @@ void clocktask()
 {
 	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, len, ct, chipnum, fastnum, a, active = 1, usage;
 	USHORT clock_width, clock_height, scr_height;
-	char buf[160], date[20], time[20], formstring[160], memstring[160];
+	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
 	struct MsgPort *clock_time_port;
 	struct timerequest ctimereq;
 	struct DateTime datetime = { { 0, } };
@@ -812,14 +812,27 @@ void clocktask()
 							}
 							if(config->scrclktype & SCRCLOCK_TIME)
 							{
-								if(config->dateformat)// & DATE_12HOUR)
+								if(config->dateformat & DATE_12HOUR)
 								{
 									h = datetime.dat_Stamp.ds_Minute / 60;
 									m = datetime.dat_Stamp.ds_Minute % 60;
 									s = datetime.dat_Stamp.ds_Tick / TICKS_PER_SECOND;
-									sprintf(time, "%02ld:%02ld:%02ld", h, m, s);
+									if(h > 11)
+									{
+										ampm = 'P';
+										h -= 12;
+									}
+									else
+									{
+										ampm = 'A';
+									}
+									if(h == 0)
+									{
+										h = 12;
+									}
+									sprintf(time, "%02ld:%02ld:%02ld%lc", h, m, s, ampm);
 								}
-								IUtility->Strlcat(formstring, time, 160);
+								strcat(formstring, time);
 							}
 						}
 					}

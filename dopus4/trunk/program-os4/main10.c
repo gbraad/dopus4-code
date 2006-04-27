@@ -37,7 +37,19 @@ void initdatetime(struct DateTime *datetime, STRPTR datebuf, STRPTR timebuf, int
 	datetime->dat_StrDate = datebuf;
 	datetime->dat_StrTime = timebuf;
 
-	datetime->dat_Flags = 0;
+	if(foo == -1 || (foo && config->dateformat & DATE_SUBST))
+	{
+		datetime->dat_Flags = DDTF_SUBST;
+	}
+	else
+	{
+		datetime->dat_Flags = 0;
+	}
+	if(foo > 0 && config->dateformat & DATE_12HOUR)
+	{
+		datetime->dat_Flags |= DDTF_12HOUR;
+	}
+
 	IDOpus->StampToStr(datetime);
 }
 
@@ -400,7 +412,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 	else
 		strcpy(tbuf, c ? (char *)mytmbuf : (char *)"00:00:00");
 
-//	D(bug("dbuf=%s\ttbuf=%s\nparsedatetime(%s)=%ld\n", dbuf, tbuf, buf, *dis));
+//      D(bug("dbuf=%s\ttbuf=%s\nparsedatetime(%s)=%ld\n", dbuf, tbuf, buf, *dis));
 	return (ptr);
 }
 
@@ -440,7 +452,7 @@ ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 		return (modes);
 	}
 
-	IIntuition->GetScreenData(/*(char *)*/&scrbuf, sizeof(struct Screen), (original) ? CUSTOMSCREEN : WBENCHSCREEN, original);
+	IIntuition->GetScreenData( /*(char *) */ &scrbuf, sizeof(struct Screen), (original) ? CUSTOMSCREEN : WBENCHSCREEN, original);
 
 	clone->Width = scrbuf.Width;
 	clone->Height = scrbuf.Height;
@@ -450,7 +462,7 @@ ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 	return ((ULONG) clone->ViewModes);
 }
 
-int copy_string(STRPTR string, STRPTR *copy, struct DOpusRemember **memkey)
+int copy_string(STRPTR string, STRPTR * copy, struct DOpusRemember **memkey)
 {
 	if(!string)
 	{
@@ -501,7 +513,7 @@ struct MsgPort *CreateUniquePort(STRPTR base, STRPTR buffer, int *count)
 		}
 	}
 	IExec->Permit();
-	return(port);
+	return (port);
 }
 
 int identify_and_load(int win, int unit)

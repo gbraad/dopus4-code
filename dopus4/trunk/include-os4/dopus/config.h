@@ -271,11 +271,12 @@ struct Config
 	char outputcmd[80], output[80];
 	int gadgetrows;
 
-	int8 separatemethod[2];
+//	int8 separatemethod[2];
+	char separatemethod[2];
 
 	char language[30];
 
-	int8 displaypos[2][16];
+	char displaypos[2][16];
 	UBYTE old_displaylength[2][16];
 
 	char pubscreen_name[80];

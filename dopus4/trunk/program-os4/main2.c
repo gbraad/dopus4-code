@@ -147,7 +147,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	}
 
 	IDOS->Examine(mylock, fileinfo);
-	if(FIB_IS_FILE(fileinfo)) //fileinfo->fib_DirEntryType < 0)
+	if(FIB_IS_FILE(fileinfo))	//fileinfo->fib_DirEntryType < 0)
 	{
 		IDOS->UnLock(mylock);
 		if(IxadMaster)
@@ -306,7 +306,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			tot = -1;
 			break;
 		}
-		if(!(addfile(dir, win, fileinfo->fib_FileName, FIB_IS_FILE(fileinfo) ? (int64)fileinfo->fib_Size : -1, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, subtype, FALSE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID)))
+		if(!(addfile(dir, win, fileinfo->fib_FileName, FIB_IS_FILE(fileinfo) ? (int64) fileinfo->fib_Size : -1, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, subtype, FALSE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID)))
 		{
 			if(Window)
 				doerror(-1);
@@ -882,7 +882,7 @@ void drawentry(char *text, int win)
 			if(!t)
 				t = &(c->type);
 			len++;
-//			c = (struct TextMode *)(&(c->code));
+//                      c = (struct TextMode *)(&(c->code));
 			c = (struct TextCode *)(&(c->code));
 			break;
 		}
@@ -1248,21 +1248,58 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 	*sbuf++ = TEXT_END;
 }
 
-static const UWORD testdays[] =
-{
+static const UWORD testdays[] = {
 	7695, 7726, 7754, 7785, 7815, 7846, 7876, 7907, 7938, 7968, 7999, 8029
 };
 
 void getprotdatelengths(struct RastPort *rp)
 {
 	struct DateTime dt;
-	char /*day[LEN_DATSTRING], */date[LEN_DATSTRING];
+	char day[LEN_DATSTRING], date[LEN_DATSTRING];
 	int a, b, l;
 
 	config->displaylength[0][DISPLAY_DATE] = 0;
 	IDOS->DateStamp(&dt.dat_Stamp);
 	dt.dat_Format = dateformat(config->dateformat);
 	dt.dat_Flags = 0;
+	if(config->dateformat & DATE_12HOUR)
+	{
+		dt.dat_Flags |= DDTF_12HOUR;
+	}
+	if(config->dateformat & DATE_SUBST)
+	{
+		dt.dat_Flags |= DDTF_SUBST;
+	}
+	if(dt.dat_Flags & DDTF_SUBST)
+	{
+		dt.dat_Stamp.ds_Days--;
+		dt.dat_StrDay = day;
+		dt.dat_StrDate = date;
+		dt.dat_StrTime = NULL;
+		for(a = 0; a < 7; a++)
+		{
+			IDOS->DateToStr(&dt);
+
+			for(l = 0; date[l] && (date[l] != ' '); l++);
+			b = IGraphics->TextLength(rp, date, l);
+			if(b > config->displaylength[0][DISPLAY_DATE])
+			{
+				config->displaylength[0][DISPLAY_DATE] = b;
+			}
+
+			if(a < 4)
+			{
+				for(l = 0; date[l] && (date[l] != ' '); l++);
+				b = IGraphics->TextLength(rp, date, l);
+				if(b > config->displaylength[0][DISPLAY_DATE])
+				{
+					config->displaylength[0][DISPLAY_DATE] = b;
+				}
+			}
+			dt.dat_Stamp.ds_Days++;
+		}
+
+	}
 
 	dt.dat_StrDay = NULL;
 	dt.dat_StrDate = date;
@@ -1274,8 +1311,11 @@ void getprotdatelengths(struct RastPort *rp)
 		for(l = 0; date[l] && (date[l] != ' '); l++);
 		b = IGraphics->TextLength(rp, date, l);
 		if(b > config->displaylength[0][DISPLAY_DATE])
+		{
 			config->displaylength[0][DISPLAY_DATE] = b;
+		}
 	}
+
 	dt.dat_StrDay = NULL;
 	dt.dat_StrDate = NULL;
 	dt.dat_StrTime = date;
