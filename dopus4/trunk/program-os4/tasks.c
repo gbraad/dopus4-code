@@ -46,15 +46,7 @@ struct ProgressBar
 };
 
 void progressbar(struct ProgressBar *bar);
-/*
-#ifdef INPUTDEV_HOTKEY
-#ifdef __MORPHOS__
-static struct InputEvent *keyhandler(void);
 
-static struct EmulLibEntry GATE_keyhandler = { TRAP_LIB, 0, (void (*)(void))keyhandler };
-#endif
-#endif
-*/
 struct Gadget abortopgad =
 {
 	NULL, 0, 0, 104, 0, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, NULL, NULL, 0, NULL
@@ -69,16 +61,8 @@ static struct Window *pwindow;
 static struct RastPort *prp;
 static struct DOpusRemember *prog_key;
 static struct ProgressBar bar[2];
-//int prog_barx[2],prog_bary[2],prog_texty[2],prog_val[2],prog_tot[2];
 static int prog_xoff, prog_yoff, prog_xextra, prog_yextra, prog_areax;
-/*
-#ifdef INPUTDEV_HOTKEY
-static struct Interrupt hotkey_interrupt =
-{
-	{ NULL, NULL, 2, 52, "hotkeez_port" }, NULL, (VOID *) keyhandler
-};
-#endif
-*/
+
 static struct NewBroker hotkey_broker =
 {
 	NB_VERSION,
@@ -160,27 +144,11 @@ void hotkeytaskcode()
 			ICommodities->DeleteCxObjAll(broker);
 		}
 	}
-/*
-#ifdef INPUTDEV_HOTKEY
-	if(!commodity)
-	{
-		inreq = (struct IOStdReq *)IExec->CreateIORequest(inputport, sizeof(struct IOStdReq));
-		IExec->OpenDevice("input.device", NULL, (struct IORequest *)inreq, NULL);
-		inreq->io_Data = (APTR) & hotkey_interrupt;
-		inreq->io_Command = IND_ADDHANDLER;
-		IExec->DoIO((struct IORequest *)inreq);
-	}
-#endif
-*/
-	waitbits = 1 << hotkeymsg_port->mp_SigBit /*|1<<idcmpport->mp_SigBit */ ;
+
+	waitbits = 1 << hotkeymsg_port->mp_SigBit;
 	if(commodity)
 		waitbits |= 1 << inputport->mp_SigBit;
-/*
-#ifdef INPUTDEV_HOTKEY
-	else
-		waitbits |= INPUTSIG_UNICONIFY | INPUTSIG_HOTKEY;
-#endif
-*/
+
 	while(run)
 	{
 		sig = IExec->Wait(waitbits);
@@ -236,17 +204,7 @@ void hotkeytaskcode()
 				}
 			}
 		}
-/*
-#ifdef INPUTDEV_HOTKEY
-		else
-		{
-			if(sig & INPUTSIG_UNICONIFY)
-				command = HOTKEY_UNICONIFY;
-			else if(sig & INPUTSIG_HOTKEY)
-				command = HOTKEY_HOTKEY;
-		}
-#endif
-*/
+
 		switch (command)
 		{
 		case HOTKEY_ABORT:
@@ -448,18 +406,7 @@ void hotkeytaskcode()
 		while((cxmsg = (CxMsg *)IExec->GetMsg(inputport)))
 			IExec->ReplyMsg((struct Message *)cxmsg);
 	}
-/*
-#ifdef INPUTDEV_HOTKEY
-	else
-	{
-		inreq->io_Data = (APTR) & hotkey_interrupt;
-		inreq->io_Command = IND_REMHANDLER;
-		IExec->DoIO((struct IORequest *)inreq);
-		IExec->CloseDevice((struct IORequest *)inreq);
-		IExec->DeleteIORequest((struct IORequest *)inreq);
-	}
-#endif
-*/
+
 	if(pwindow)
 		IIntuition->CloseWindow(pwindow);
 	IDOpus->LFreeRemember(&prog_key);
@@ -731,71 +678,12 @@ void progressbar(struct ProgressBar *bar)
 		bar->last_w = w;
 	}
 }
-/*
-#ifdef INPUTDEV_HOTKEY
-struct InputEvent *keyhandler(struct InputEvent *oldevent, APTR userdata)
-{
-	int wakeup = 0;
-	struct dopushotkey *hotkey;
-
-	if(oldevent->ie_Class == IECLASS_RAWKEY)
-	{
-		if((config->hotkeycode == (USHORT) ~ 0 || oldevent->ie_Code == config->hotkeycode) && (!config->hotkeyqual || (oldevent->ie_Qualifier & VALID_QUALIFIERS) == config->hotkeyqual))
-			wakeup = 1;
-		else
-		{
-			hotkey = dopus_firsthotkey;
-			while(hotkey)
-			{
-				if(oldevent->ie_Code == hotkey->code && (oldevent->ie_Qualifier & VALID_QUALIFIERS) == hotkey->qualifier)
-				{
-					dopus_globalhotkey = hotkey;
-					IExec->Signal(hotkey_task, INPUTSIG_HOTKEY);
-					oldevent->ie_Class = IECLASS_NULL;
-					break;
-				}
-				hotkey = hotkey->next;
-			}
-		}
-	}
-	else if(oldevent->ie_Class == IECLASS_RAWMOUSE)
-	{
-		if((oldevent->ie_Code & ~IECODE_UP_PREFIX) == IECODE_LBUTTON)
-		{
-			if(oldevent->ie_Qualifier & IEQUALIFIER_RBUTTON)
-				wakeup = 2;
-		}
-		else if(oldevent->ie_Code == IECODE_RBUTTON && oldevent->ie_Qualifier & IEQUALIFIER_LEFTBUTTON)
-			wakeup = 2;
-		else if(config->hotkeyflags & HOTKEY_USEMMB && oldevent->ie_Code == IECODE_MBUTTON)
-			wakeup = 1;
-	}
-	if(wakeup)
-	{
-		if(wakeup == 1 && hotkey_task)
-		{
-			IExec->Signal(hotkey_task, INPUTSIG_UNICONIFY);
-			oldevent->ie_Class = IECLASS_NULL;
-		}
-		else if(wakeup == 2)
-		{
-			if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
-			{
-				status_haveaborted = status_rexxabort = 1;
-				IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
-			}
-		}
-	}
-	return (oldevent);
-}
-#endif
-*/
 
 static char *Kstr = "K  ";
 
 void clocktask()
 {
-	ULONG chipc, fast, wmes, h, m, s, /*secs,micro, */ cx, sig, cy, len, ct, chipnum, fastnum, a, active = 1, usage;
+	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, len, ct, chipnum, fastnum, a, active = 1, usage;
 	USHORT clock_width, clock_height, scr_height;
 	char buf[160], date[20], time[20], formstring[160], memstring[160];
 	struct MsgPort *clock_time_port;
@@ -826,9 +714,9 @@ void clocktask()
 	ctimereq.tr_time.tv_micro = 2;
 	IExec->SendIO(&ctimereq.tr_node);
 
-	chipnum = getmaxmem(MEMF_CHIP /*,MEMF_ANY */ );
-	fastnum = getmaxmem(MEMF_FAST /*ANY,MEMF_CHIP */ );
-	a = getmaxmem(MEMF_ANY /*,MEMF_ANY */ );
+	chipnum = getmaxmem(MEMF_CHIP);
+	fastnum = getmaxmem(MEMF_FAST);
+	a = getmaxmem(MEMF_ANY);
 
 	m = (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0;
 	s = (config->scrclktype & SCRCLOCK_BYTES) ? 1 : 0;
@@ -907,7 +795,7 @@ void clocktask()
 						}
 						if(config->scrclktype & SCRCLOCK_CPU)
 						{
-							usage = getusage() /*/10 */ ;
+							usage = getusage();
 
 							sprintf(buf, "CPU:%3ld%%  ", usage);
 							strcat(formstring, buf);
@@ -924,21 +812,21 @@ void clocktask()
 							}
 							if(config->scrclktype & SCRCLOCK_TIME)
 							{
-								if(config->dateformat & DATE_12HOUR)
+								if(config->dateformat)// & DATE_12HOUR)
 								{
 									h = datetime.dat_Stamp.ds_Minute / 60;
 									m = datetime.dat_Stamp.ds_Minute % 60;
 									s = datetime.dat_Stamp.ds_Tick / TICKS_PER_SECOND;
 									IUtility->SNPrintf(time, 20, "%02ld:%02ld:%02ld", h, m, s);
 								}
-								strcat(formstring, time);
+								IUtility->Strlcat(formstring, time, 160);
 							}
 						}
 					}
 					len = strlen(formstring);
 					if(len > 1 && formstring[len - 2] == ' ')
 						len -= 2;
-					cx = (clock_width - dotextlength(&clock_rp, formstring, /*(int *)*/&len, clock_width - 4)) / 2;
+					cx = (clock_width - dotextlength(&clock_rp, formstring, &len, clock_width - 4)) / 2;
 					cx += scrdata_clock_xpos;
 					if(cx < scrdata_clock_xpos)
 						cx = scrdata_clock_xpos;

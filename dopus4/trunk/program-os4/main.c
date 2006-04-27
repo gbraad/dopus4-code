@@ -213,8 +213,8 @@ int main(int argc, char **argv)
 	}
 	ramdisk_lock = IDOS->Lock("RAM:", ACCESS_READ);
 
-	strcpy(str_select_pattern[0], "*");
-	strcpy(str_select_pattern[3], "*");
+	strcpy(str_select_pattern[0], "#?"); //"*");
+	strcpy(str_select_pattern[3], "#?"); //"*");
 
 	{
 		struct DateTime dt;
