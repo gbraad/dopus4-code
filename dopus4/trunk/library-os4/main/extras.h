@@ -77,7 +77,7 @@ void linkinnewfiletype(struct ConfigStuff *cstuff, struct dopusfiletype *temp);
 /* From gui.c */
 
 int makeusstring(char *from, char *to, int *uspos, int size);
-void ShowRMBGadName(struct RastPort *rp, struct RMBGadget *gad, int a);
+void ShowRMBGadName(struct DOpusIFace *IDOpus, struct RastPort *rp, struct RMBGadget *gad, int a);
 void HighlightRMBGad(struct RastPort *rp, struct RMBGadget *gad, int state);
 
 
@@ -94,7 +94,7 @@ void VARARGS68K LSprintf(char *buf, char *fmt, ...);
 
 /* From imagery.c */
 
-struct Image *get_image_data(struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp);
+struct Image *get_image_data(struct DOpusIFace *IDOpus, struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp);
 
 /* END From imagery.c */
 
@@ -104,8 +104,8 @@ struct Image *get_image_data(struct DOpusRemember **key, int width, int height, 
 void dohilite(struct DOpusListView *view, int a);
 void savepens(struct DOpusListView *view);
 void restorepens(struct DOpusListView *view);
-void DisplayView(struct DOpusListView *view);
-int scroll_view(struct DOpusListView *view, int offset, int *histate, int oldoffset);
+void DisplayView(struct DOpusIFace *IDOpus, struct DOpusListView *view);
+int scroll_view(struct DOpusIFace *IDOpus, struct DOpusListView *view, int offset, int *histate, int oldoffset);
 int view_valid(struct DOpusListView *view, int itemnum);
 
 /* END From listview.c */

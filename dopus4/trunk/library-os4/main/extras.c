@@ -83,12 +83,10 @@ void fill_out_border(struct Border *border, int fpen, int bpen, short *shine, sh
 
 char *getstringcopy(char *str)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	char *newstr = NULL;
 
 	if(str && (newstr = IExec->AllocMem(strlen(str) + 1, 0)))
-		IDOpus->LStrCpy(newstr, str);
+		IUtility->Strlcpy(newstr, str, strlen(str) + 1);
 	return (newstr);
 }
 
@@ -135,8 +133,6 @@ int readline(STRPTR buf, int pos, STRPTR buf1, int size)
 
 void AssignDrive(struct ConfigStuff *cstuff, int drv, char *name, char *path)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct Config *config;
 
 	if(!(config = cstuff->config))
@@ -146,7 +142,7 @@ void AssignDrive(struct ConfigStuff *cstuff, int drv, char *name, char *path)
 		if(!name)
 			config->drive[drv].name[0] = 0;
 		else
-			IDOpus->LStrCpy(config->drive[drv].name, name);
+			IUtility->Strlcpy(config->drive[drv].name, name, 16);
 	}
 	if(path != (char *)-1)
 	{
@@ -159,8 +155,6 @@ void AssignDrive(struct ConfigStuff *cstuff, int drv, char *name, char *path)
 
 void linkinnewfiletype(struct ConfigStuff *cstuff, struct dopusfiletype *temp)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct dopusfiletype *pos;
 
 	temp->next = NULL;
@@ -170,7 +164,7 @@ void linkinnewfiletype(struct ConfigStuff *cstuff, struct dopusfiletype *temp)
 	{
 		while (pos->next)
 		{
-			if(IDOpus->LStrCmp(pos->next->type, "Default") == 0)
+			if(IUtility->Stricmp(pos->next->type, "Default") == 0)
 			{
 				temp->next = pos->next;
 				break;
@@ -202,10 +196,8 @@ int makeusstring(char *from, char *to, int *uspos, int size)
 	return(len);
 }
 
-void ShowRMBGadName(struct RastPort *rp, struct RMBGadget *gad, int a)
+void ShowRMBGadName(struct DOpusIFace *IDOpus, struct RastPort *rp, struct RMBGadget *gad, int a)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct RMBGadgetText *text;
 	int len, l, uspos, old;
 	char buf[100];
@@ -281,10 +273,8 @@ void VARARGS68K LSprintf(char *buf, char *fmt, ...)
 
 /* From imagery.c */
 
-struct Image *get_image_data(struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp)
+struct Image *get_image_data(struct DOpusIFace *IDOpus, struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct Image *image;
 	USHORT *data;
 	short a, words;
@@ -350,10 +340,8 @@ void restorepens(struct DOpusListView *view)
 	IGraphics->SetDrMd(view->window->RPort, view->odm);
 }
 
-void DisplayView(struct DOpusListView *view)
+void DisplayView(struct DOpusIFace *IDOpus, struct DOpusListView *view)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	struct RastPort *rp;
 	int y, a, b, top, bot, dif, dir, start, end, step, w;
 	char buf[128];
@@ -468,10 +456,8 @@ void DisplayView(struct DOpusListView *view)
 	restorepens(view);
 }
 
-int scroll_view(struct DOpusListView *view, int offset, int *histate, int oldoffset)
+int scroll_view(struct DOpusIFace *IDOpus, struct DOpusListView *view, int offset, int *histate, int oldoffset)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	int draw = 0;
 
 	if(view->count < view->lines && offset >= view->count)
@@ -504,7 +490,7 @@ int scroll_view(struct DOpusListView *view, int offset, int *histate, int oldoff
 			dohilite(view, oldoffset);
 		}
 		IDOpus->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 1);
-		DisplayView(view);
+		DisplayView(IDOpus, view);
 	}
 	return (offset);
 }

@@ -97,7 +97,8 @@ int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Wi
 	if(isinside(x, y, gad->x, gad->y, x1, y1))
 	{
 		if(gad->flags & RGF_ALTTEXT)
-			ShowRMBGadName(rp, gad, 1);
+			ShowRMBGadName(Self, rp, gad, 1);
+//			ShowRMBGadName(rp, gad, 1);
 		HighlightRMBGad(rp, gad, 1);
 		inside = TRUE;
 	}
@@ -142,7 +143,8 @@ int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Wi
 					{
 						HighlightRMBGad(rp, gad, 0);
 						if(gad->flags & RGF_ALTTEXT)
-							ShowRMBGadName(rp, gad, 0);
+							ShowRMBGadName(Self, rp, gad, 0);
+//							ShowRMBGadName(rp, gad, 0);
 						inside = FALSE;
 					}
 				}
@@ -151,7 +153,8 @@ int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Wi
 					if(!inside)
 					{
 						if(gad->flags & RGF_ALTTEXT)
-							ShowRMBGadName(rp, gad, 1);
+							ShowRMBGadName(Self, rp, gad, 1);
+//							ShowRMBGadName(rp, gad, 1);
 						HighlightRMBGad(rp, gad, 1);
 						inside = TRUE;
 					}
@@ -165,7 +168,8 @@ int _DOpus_DoRMBGadget(struct DOpusIFace *Self, struct RMBGadget *gad, struct Wi
 	{
 		HighlightRMBGad(rp, gad, 0);
 		if(gad->flags & RGF_ALTTEXT)
-			ShowRMBGadName(rp, gad, 0);
+			ShowRMBGadName(Self, rp, gad, 0);
+//			ShowRMBGadName(rp, gad, 0);
 	}
 	IIntuition->RemoveGList(window, &dummy_gadget, 1);
 	IIntuition->ModifyIDCMP(window, idcmpflags);

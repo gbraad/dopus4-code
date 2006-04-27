@@ -101,7 +101,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 		{
 		case GAD_SLIDER:
 			view->topitem = Self->GetSliderPos(&view->listgads[0], view->count, view->lines);
-			DisplayView(view);
+			DisplayView(Self, view);
+//			DisplayView(view);
 			if(view->sliderbgcol)
 				Self->ShowSlider(view->window, &view->listgads[0]);
 			if(class == IDCMP_GADGETDOWN)
@@ -118,7 +119,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 							view->topitem = Self->GetSliderPos(&view->listgads[0], view->count, view->lines);
 							if(view->sliderbgcol)
 								Self->ShowSlider(view->window, &view->listgads[0]);
-							DisplayView(view);
+							DisplayView(Self, view);
+//							DisplayView(view);
 						}
 						else if(class == IDCMP_GADGETUP)
 							break;
@@ -129,7 +131,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 				view->topitem = Self->GetSliderPos(&view->listgads[0], view->count, view->lines);
 				if(view->sliderbgcol)
 					Self->ShowSlider(view->window, &view->listgads[0]);
-				DisplayView(view);
+				DisplayView(Self, view);
+//				DisplayView(view);
 			}
 			break;
 
@@ -145,7 +148,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 				++view->topitem;
 			}
 			Self->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 1);
-			DisplayView(view);
+			DisplayView(Self, view);
+//			DisplayView(view);
 			IDOS->Delay(5);
 			FOREVER
 			{
@@ -170,7 +174,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 					++view->topitem;
 				}
 				Self->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 1);
-				DisplayView(view);
+				DisplayView(Self, view);
+//				DisplayView(view);
 				if(view->flags & DLVF_SLOW)
 					IDOS->Delay(1);
 				else
@@ -200,7 +205,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 			}
 		}
 		Self->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 1);
-		DisplayView(view);
+		DisplayView(Self, view);
+//		DisplayView(view);
 		if(view->flags & DLVF_SLOW)
 			IDOS->Delay(1);
 		else
@@ -279,7 +285,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 				{
 					if((newoffset = ((y - view->yo) / view->fh)) != offset)
 					{
-						newoffset = scroll_view(view, newoffset, &histate, offset);
+						newoffset = scroll_view(Self, view, newoffset, &histate, offset);
+//						newoffset = scroll_view(view, newoffset, &histate, offset);
 						if(newoffset >= 0 && newoffset < view->lines)
 						{
 							offset = newoffset;
@@ -314,7 +321,8 @@ struct DOpusListView * _DOpus_ListViewIDCMP(struct DOpusIFace *Self, struct DOpu
 						}
 						if(x < xo || x >= view->mx)
 							continue;
-						newoffset = scroll_view(view, newoffset, &histate, 0);
+						newoffset = scroll_view(Self, view, newoffset, &histate, 0);
+//						newoffset = scroll_view(view, newoffset, &histate, 0);
 						if(newoffset >= 0 && newoffset < view->lines)
 						{
 							offset = newoffset;

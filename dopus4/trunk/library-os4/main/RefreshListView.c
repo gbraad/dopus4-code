@@ -77,7 +77,8 @@ int _DOpus_RefreshListView(struct DOpusIFace *Self, struct DOpusListView *view, 
 		Self->FixSliderBody(view->window, &view->listgads[0], view->count, view->lines, 0);
 		Self->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 2);
 		view->oldoffset = -1;
-		DisplayView(view);
+		DisplayView(Self, view);
+//		DisplayView(view);
 		view = view->next;
 		++realcount;
 	}

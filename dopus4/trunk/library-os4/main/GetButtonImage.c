@@ -82,7 +82,8 @@ struct Image * _DOpus_GetButtonImage(struct DOpusIFace *Self, int w, int h, int 
 		if(b & (1 << a))
 			depth = a + 1;
 
-	if(!(image = get_image_data(key, w, h, depth, &tbm, &trp)))
+	if(!(image = get_image_data(Self, key, w, h, depth, &tbm, &trp)))
+//	if(!(image = get_image_data(key, w, h, depth, &tbm, &trp)))
 		return(NULL);
 
 	IGraphics->SetAPen(&trp, bpen);

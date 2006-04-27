@@ -83,32 +83,32 @@ extern char nullstring[];
 
 inline void doprops(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	IDOpus->FixSliderPot(freqdata->fr_Window, &freqdata->reqgads[8], freqdata->fileoffset, freqdata->fileentries, freqdata->freq->lines, 1);
 }
 
 inline void fixprop(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	IDOpus->FixSliderBody(freqdata->fr_Window, &freqdata->reqgads[8], freqdata->fileentries, freqdata->freq->lines, 1);
 }
 
 inline void activatefilegad(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	IDOpus->ActivateStrGad(&freqdata->reqgads[(freqdata->flags & DFRF_DIRREQ) ? 1 : 0], freqdata->fr_Window);
 }
 
 void deallocate_entries(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	IDOpus->LFreeRemember(&freqdata->filekey);
 	freqdata->firstfile = freqdata->firstdir = NULL;
@@ -118,8 +118,8 @@ void deallocate_entries(struct FileReqData *freqdata)
 
 void freemulti(struct DOpusFileReq *freq)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	if(freq->flags & DFRF_MULTI)
 		IDOpus->LFreeRemember(&freq->filearraykey);
@@ -128,8 +128,8 @@ void freemulti(struct DOpusFileReq *freq)
 
 void close_req(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	struct direntry *file;
 	struct DOpusFileReq *freq;
@@ -257,8 +257,8 @@ void displayfiles(struct FileReqData *freqdata)
 
 void doposprop(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	freqdata->fileoffset = IDOpus->GetSliderPos(&freqdata->reqgads[8], freqdata->fileentries, freqdata->freq->lines);
 	displayfiles(freqdata);
@@ -266,8 +266,8 @@ void doposprop(struct FileReqData *freqdata)
 
 void addfileentry(struct FileReqData *freqdata, char *name, int type, int size)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	struct direntry *add, *afterdir = NULL, *work, *new;
 	int adir = 0;
@@ -380,8 +380,8 @@ void refreshdrawergad(struct FileReqData *freqdata)
 
 void checkdrawer(char *buf)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	int i;
 
@@ -403,8 +403,8 @@ void clearfiles(struct FileReqData *freqdata)
 
 int get_filenames(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	BPTR lock;
 	ULONG class;
@@ -478,8 +478,8 @@ int getnewdrawer(struct FileReqData *freqdata)
 
 int getnew_file(struct FileReqData *freqdata, struct direntry *work)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	int i, b;
 
@@ -732,8 +732,8 @@ struct direntry *getfileentry(struct FileReqData *freqdata, int which)
 
 int do_idcmp(struct FileReqData *freqdata, ULONG class, USHORT code, USHORT qual, USHORT gadgetid)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 	int ret = 0, x, y, a, b, ty;
 	struct RastPort *rp;
 	struct direntry *file;
@@ -921,8 +921,8 @@ int gettingdirmsg(struct FileReqData *freqdata, ULONG class, USHORT code, USHORT
 
 int initrequester(struct FileReqData *freqdata)
 {
-	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
-	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
+//	struct Library *DOpusBase = IExec->OpenLibrary("dopus.library", 0L);
+//	struct DOpusIFace *IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL);
 
 	int a, b;
 	struct DOpusFileReq *freq;

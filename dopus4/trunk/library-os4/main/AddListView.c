@@ -186,7 +186,8 @@ int _DOpus_AddListView(struct DOpusIFace *Self, struct DOpusListView *view, int 
 		restorepens(view);
 		Self->FixSliderBody(view->window, &view->listgads[0], view->count, view->lines, 0);
 		Self->FixSliderPot(view->window, &view->listgads[0], view->topitem, view->count, view->lines, 2);
-		DisplayView(view);
+		DisplayView(Self, view);
+//		DisplayView(view);
 		view = view->next;
 		++addcount;
 	}

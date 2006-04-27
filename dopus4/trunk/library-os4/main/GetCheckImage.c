@@ -75,7 +75,8 @@ struct Image * _DOpus_GetCheckImage(struct DOpusIFace *Self, UBYTE fg, UBYTE bg,
 		if(b & (1 << a))
 			depth = a + 1;
 
-	if(!(image = (struct Image *)get_image_data(key, 13, 7, depth, &tbm, &trp)))
+	if(!(image = (struct Image *)get_image_data(Self, key, 13, 7, depth, &tbm, &trp)))
+//	if(!(image = (struct Image *)get_image_data(key, 13, 7, depth, &tbm, &trp)))
 		return(NULL);
 
 	IGraphics->SetDrMd(&trp, JAM1);
