@@ -180,7 +180,7 @@ struct Gadget cmdcancelgad =
 struct NewWindow requestwin =
 {
 	0, 0, 0, 0, 255, 255,
-	IDCMP_MOUSEBUTTONS | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE | IDCMP_VANILLAKEY,
+	IDCMP_MOUSEBUTTONS | IDCMP_EXTENDEDMOUSE | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE | IDCMP_VANILLAKEY,
 	WFLG_ACTIVATE | WFLG_RMBTRAP | WFLG_DRAGBAR | WFLG_DEPTHGADGET,
 	NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
 };
@@ -225,7 +225,8 @@ struct ColourSel coloursel[] =
 char **screenmodelist;
 struct ScreenMode *firstmode, *screenmode;
 
-struct Image open_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, paste_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, erase_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, deleteclass_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL };
+struct Image open_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, paste_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL }, erase_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL },
+	     deleteclass_barimage = { 0, 0, 0, 0, 0, NULL, 0, 0, NULL };
 
 struct IntuiText newtext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
 		 opentext = { 0, 0, JAM1, 1, 1, NULL, NULL, NULL },
@@ -322,7 +323,7 @@ char *formatnames[FORMAT_MAXNUM + 1], *selectedformatnames[FORMAT_MAXNUM + 1];
 
 int rowtrans[5] = { 0, 1, 2, 3, 6 };
 struct TextFont *tfont;
-char *fontdatabuf = NULL, **fontlist, *(**fontsizelist), **noproplist, *(**nopropsizelist), **only8list, *only8sizelist[] = { "8", NULL};
+char *fontdatabuf = NULL, **fontlist, *(**fontsizelist), **noproplist, *(**nopropsizelist), **only8list, *only8sizelist[] = { "8", NULL };
 struct fileclass *firstclass;
 char classname[256];
 struct DOpusRemember *helpkey = NULL;

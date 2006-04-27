@@ -95,15 +95,11 @@ void startnotify(int win)
 			dos_notify_req[win]->nr_Flags = NRF_SEND_MESSAGE;
 			dos_notify_req[win]->nr_stuff.nr_Msg.nr_Port = count_port;
 			if(!(IDOS->StartNotify(dos_notify_req[win])))
-			{
 				dos_notify_names[win][0] = 0;
-			}
 		}
 	}
 	if(config->errorflags & ERROR_ENABLE_DOS)
-	{
 		main_proc->pr_WindowPtr = (APTR) Window;
-	}
 }
 
 void endnotify(int win)

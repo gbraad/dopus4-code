@@ -154,12 +154,11 @@ void doidcmp()
 		{
 			struct NotifyMessage *note;
 			int got = 0;
-
 			while((note = (struct NotifyMessage *)IExec->GetMsg(count_port)))
 			{
 				if(config->dynamicflags & UPDATE_NOTIFY)
 				{
-					a = note->nm_NReq->nr_UserData;
+					a = (int)((APTR)note->nm_NReq->nr_UserData);
 					IExec->ReplyMsg((struct Message *)note);
 					if(!(got & (1 << a)))
 					{

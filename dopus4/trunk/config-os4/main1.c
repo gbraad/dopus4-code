@@ -726,7 +726,7 @@ int dosystemconfig()
 								makestring(config->autodirs[0], config->autodirs[1], config->startupscript, config->uniconscript, config->configreturnscript, NULL);
 								break;
 							case SYS_DIRECTORIES:
-								IUtility->SNPrintf(buf, 80, "%d", config->bufcount);
+								sprintf(buf, "%d", config->bufcount);
 								makestring((int8 *)buf, NULL);
 								break;
 							case SYS_HOTKEYS:
