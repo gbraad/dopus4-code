@@ -603,7 +603,6 @@ void makespecialdir(int win, char *title)
 void check_old_buffer(int win)
 {
 	int reread = 0;
-
 	if(config->dirflags & DIRFLAGS_REREADOLD && dopus_curwin[win]->directory[0])
 	{
 		if(dopus_curwin[win]->firstentry && ((dopus_curwin[win]->firstentry->type == ENTRY_CUSTOM) || (dopus_curwin[win]->firstentry->type == ENTRY_DEVICE) || (dopus_curwin[win]->flags & DWF_ARCHIVE)))
@@ -617,7 +616,7 @@ void check_old_buffer(int win)
 			main_proc->pr_WindowPtr = (APTR) - 1;
 			if(lockandexamine(dopus_curwin[win]->directory, testinfo))
 			{
-				if(IDOS->CompareDates(&dopus_curwin[win]->dirstamp, &testinfo->fib_Date) < 0)
+				if(IDOS->CompareDates(&dopus_curwin[win]->dirstamp, &testinfo->fib_Date) != 0)
 				{
 					reread = 1;
 				}

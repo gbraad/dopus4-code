@@ -158,11 +158,12 @@ void doidcmp()
 			{
 				if(config->dynamicflags & UPDATE_NOTIFY)
 				{
+//					a = note->nm_NReq->nr_UserData;
 					a = (int)((APTR)note->nm_NReq->nr_UserData);
 					IExec->ReplyMsg((struct Message *)note);
-					if(!(got & (1 << a)))
+/*					if(!(got & (1 << a)))
 					{
-						got |= 1 << a;
+						got |= 1 << a;*/
 						if(a == 0 || a == 1)
 						{
 							if(!(config->dirflags & DIRFLAGS_REREADOLD) || ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
@@ -176,7 +177,7 @@ void doidcmp()
 								makereselect(&notifypars, -1);
 							}
 						}
-					}
+//					}
 				}
 				else
 				{

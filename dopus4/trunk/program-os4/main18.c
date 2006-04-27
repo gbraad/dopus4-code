@@ -293,7 +293,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		if(FIB_IS_DRAWER(enfinfo))
 		{
 			++dos_global_blocksneeded;
-//			if(enfinfo->fib_DirEntryType != 4)
 			if(!FIB_IS_LINKDIR(enfinfo))
 			{
 				adir = NULL;
@@ -474,7 +473,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						rec_firstpath = trec;
 				}
 			}
-//			if(!str_filter_parsed[0] || IDOpus->LMatchPatternI(str_filter_parsed, enfinfo->fib_FileName))
 			if(!str_filter_parsed[0] || IDOS->MatchPatternNoCase(str_filter_parsed, enfinfo->fib_FileName))
 			{
 				if(dowhat & R_COPY)

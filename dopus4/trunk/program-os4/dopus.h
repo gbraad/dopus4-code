@@ -161,7 +161,7 @@ the existing commercial status of Directory Opus 5.
 #define USERENTRY_DOUBLECLICK    1
 #define USERENTRY_CLICKMCLICK    2
 
-#define ENTRYTYPE(t) ((t==ENTRY_CUSTOM)?ENTRY_CUSTOM:((t==0)?ENTRY_DEVICE:((t<0)?ENTRY_FILE:ENTRY_DIRECTORY)))
+#define ENTRYTYPE(t) (( t == ENTRY_CUSTOM) ? ENTRY_CUSTOM : ((t == 0) ? ENTRY_DEVICE : (( t < 0) ? ENTRY_FILE : ENTRY_DIRECTORY)))
 
 #define MAXDISPLAYLENGTH  300
 

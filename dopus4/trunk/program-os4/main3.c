@@ -887,7 +887,7 @@ void sortdir(struct DirectoryWindow *dir, int win)
 	}
 	else
 	{
-		int /*a,b, */ reverse, check /*,sortmethod */ ;
+		int reverse, check;
 
 		switch (config->separatemethod[win])
 		{
@@ -901,50 +901,50 @@ void sortdir(struct DirectoryWindow *dir, int win)
 		}
 		reverse = (config->sortflags & (1 << win));
 
-			for(; 1; entry1 = entry2)
+		for(; 1; entry1 = entry2)
+		{
+			if(!(entry2 = entry1 ? entry1->next : NULL))
 			{
-				if(!(entry2 = entry1 ? entry1->next : NULL))
+				if(rerun)
 				{
-					if(rerun)
-					{
-						entry1 = dir->firstentry;
-						if(!(entry2 = entry1 ? entry1->next : NULL))
-							break;
-						rerun = 0;
-					}
-					else
+					entry1 = dir->firstentry;
+					if(!(entry2 = entry1 ? entry1->next : NULL))
 						break;
+					rerun = 0;
 				}
-				swap = 0;
-				if(check)
+				else
+					break;
+			}
+			swap = 0;
+			if(check)
+			{
+				if(entry1->type != entry2->type)
 				{
-					if(entry1->type != entry2->type)
+					switch (config->separatemethod[win])
 					{
-						switch (config->separatemethod[win])
-						{
-						case SEPARATE_DIRSFIRST:
-							if((entry1->type <= ENTRY_FILE) && (entry2->type >= ENTRY_DEVICE))
-								swap = 1;
-							else
-								swap = -1;
-							break;
-						case SEPARATE_FILESFIRST:
-							if((entry2->type <= ENTRY_FILE) && (entry1->type >= ENTRY_DEVICE))
-								swap = 1;
-							else
-								swap = -1;
-							break;
-						}
+					case SEPARATE_DIRSFIRST:
+						if((entry1->type <= ENTRY_FILE) && (entry2->type >= ENTRY_DEVICE))
+							swap = 1;
+						else
+							swap = -1;
+						break;
+					case SEPARATE_FILESFIRST:
+						if((entry2->type <= ENTRY_FILE) && (entry1->type >= ENTRY_DEVICE))
+							swap = 1;
+						else
+							swap = -1;
+						break;
 					}
-				}
-				if(!swap)
-					swap = entryorder(fixsortmethod(win, (entry1->type != entry2->type) ? ENTRY_DIRECTORY : entry1->type), reverse, entry1, entry2);
-				if(swap == 1)
-				{
-					swapdirentries(dir, entry1, entry2);
-					rerun = 1;
 				}
 			}
+			if(!swap)
+				swap = entryorder(fixsortmethod(win, (entry1->type != entry2->type) ? ENTRY_DIRECTORY : entry1->type), reverse, entry1, entry2);
+			if(swap == 1)
+			{
+				swapdirentries(dir, entry1, entry2);
+				rerun = 1;
+			}
+		}
 	}
 	unbusy();
 }
