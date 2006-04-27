@@ -39,21 +39,29 @@ int readarchive(struct DirectoryWindow *dir, int win)
 	long len, i;
 	struct xadFileInfo *xfi;
 	struct DateStamp ds;
-	char arcname[256], arcdir[256], buf[FILEBUF_SIZE], *c;
+	char arcname[256] = { 0, }, arcdir[256] = { 0, }, buf[FILEBUF_SIZE] = { 0, }, *c = NULL;
 	int type;
 
 	IUtility->Strlcpy(arcdir, "", 256);
 	IUtility->Strlcpy(arcname, dir->directory, 256);
 	if((len = strlen(arcname)))
+	{
 		if(arcname[len - 1] == '/')
+		{
 			arcname[len - 1] = 0;
-	while (!(lock = IDOS->Lock(arcname, ACCESS_READ)))
+		}
+	}
+	while(!(lock = IDOS->Lock(arcname, ACCESS_READ)))
 	{
 		c = IDOS->FilePart(arcname);
 		if(c == arcname)
+		{
 			return 0;
+		}
 		if(c > arcname)
+		{
 			*(c - 1) = 0;
+		}
 		IUtility->Strlcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname, 256);
 	}
 	len = strlen(arcdir);
@@ -66,11 +74,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 			strcpy(dir->arcname, arcname);
 			if((dir->xai = IxadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
 			{
-				struct TagItem ti[2];
-
-				ti[0].ti_Tag = XAD_INFILENAME;
-				ti[0].ti_Data = (Tag) arcname;
-				ti[1].ti_Tag = TAG_END;
+				struct TagItem ti[2] = { { XAD_INFILENAME, (Tag)arcname} , { TAG_END, 0 } };
 
 				if(!(IxadMaster->xadGetInfoA(dir->xai, ti)))
 				{
@@ -123,9 +127,10 @@ int readarchive(struct DirectoryWindow *dir, int win)
 		else
 			return (0);
 	}
-	else if((xfi = dir->xai->xai_FileInfo))
+
+	if((xfi = dir->xai->xai_FileInfo))
 	{
-		while (xfi)
+		while(xfi)
 		{
 			UBYTE c1, c2;
 			c = xfi->xfi_FileName;
@@ -134,37 +139,46 @@ int readarchive(struct DirectoryWindow *dir, int win)
 			{
 				c1 = IUtility->ToLower(arcdir[i]);
 				c2 = IUtility->ToLower(xfi->xfi_FileName[i]);
+
 				if(c1 == c2)
 				{
 					c++;
 					i++;
 				}
 			}
-			while (c1 == c2);
+			while(c1 == c2);
 
 			if(i >= len)
 			{
 				for(i = 0; *c && (*c != '/') && (i < (FILEBUF_SIZE - 1)); i++, c++)
+				{
 					buf[i] = *c;
+				}
 				buf[i] = 0;
 
 				if(!(findfile(dir, buf, NULL)))
 				{
 					if(*c == '/')
+					{
 						type = ST_USERDIR;
+					}
 					else
+					{
 						type = ST_FILE;
+					}
 
 					if((xfi->xfi_Flags & XADFIF_DIRECTORY) == XADFIF_DIRECTORY)
+					{
 						type = ST_USERDIR;
+					}
 
 					IxadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) & ds, TAG_END);
 
 					addfile(dir, win, buf, (type > 0) ? -1LL : xfi->xfi_Size, type, &ds, xfi->xfi_Comment, xfi->xfi_Protection, 0, FALSE, NULL, NULL, xfi->xfi_OwnerUID, xfi->xfi_OwnerGID);
 				}
 			}
+			xfi = xfi->xfi_Next;
 		}
-		xfi = xfi->xfi_Next;
 		dostatustext(globstring[STR_OKAY_TITLE]);
 		return (1);
 	}
@@ -215,18 +229,22 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 			if(dir->xai->xai_Flags & XADAIF_CRYPTED)
 			{
 				if(dir->arcpassword[0] == 0)
+				{
 					whatsit(globstring[STR_ENTER_PASSWORD], 32, dir->arcpassword, NULL);
+				}
 			}
 
 			IUtility->Strlcpy(arcname, dir->arcname, 256);
+			c = strstr(dir->directory, IDOS->FilePart(arcname));
+			if(c)
 			{
-				c = strstr(dir->directory, IDOS->FilePart(arcname));
-				if(c)
-					for(; c && (*c != '/'); c++);
-				if(c)
-					c++;
-				IUtility->Strlcpy(arcdir, c ? c : "", 256);
+				for(; c && (*c != '/'); c++);
 			}
+			if(c)
+			{
+				c++;
+			}
+			IUtility->Strlcpy(arcdir, c ? c : "", 256);
 
 			IDOS->AddPart(arcdir, file, 256);
 			strcpy(namebuf, "dopustmp");
@@ -234,14 +252,21 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 			strcat(namebuf, arcname);
 			c = strchr(file, '.');
 			if(c)
+			{
 				strcat(namebuf, c);
+			}
 			IUtility->Strlcpy(arcname, path, 256);
 			IUtility->Strlcat(arcname, namebuf, 256);
 			for(xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next)
+			{
 				if(IUtility->Stricmp(xfi->xfi_FileName, arcdir) == 0)
+				{
 					break;
+				}
+			}
 
 			if(xfi)
+			{
 				while (err != XADERR_OK)
 				{
 					err = IxadMaster->xadFileUnArc(dir->xai, XAD_ENTRYNUMBER, xfi->xfi_EntryNumber, XAD_OUTFILENAME, (ULONG) arcname, dir->arcpassword[0] ? XAD_PASSWORD : TAG_IGNORE, dir->arcpassword, TAG_END);
@@ -251,11 +276,13 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 						{
 							struct DateStamp ds;
 
-							IxadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) & ds, TAG_END);
+							IxadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) &ds, TAG_END);
 							IDOS->SetFileDate(arcname, &ds);
 							IDOS->SetProtection(arcname, xfi->xfi_Protection);
 							if(xfi->xfi_Comment)
+							{
 								IDOS->SetComment(arcname, xfi->xfi_Comment);
+							}
 
 							strcpy(str_arcorgname, file);
 							return TRUE;
@@ -268,6 +295,7 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 						err = XADERR_OK;
 					}
 				}
+			}
 		}
 	}
 	return FALSE;

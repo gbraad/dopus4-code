@@ -31,6 +31,14 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 #define CONFIG_VERSION         10022
 #define CONFIG_MAGIC          0xFACE
 

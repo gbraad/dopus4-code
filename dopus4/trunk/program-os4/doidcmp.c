@@ -154,6 +154,7 @@ void doidcmp()
 		{
 			struct NotifyMessage *note;
 			int got = 0;
+
 			while((note = (struct NotifyMessage *)IExec->GetMsg(count_port)))
 			{
 				if(config->dynamicflags & UPDATE_NOTIFY)

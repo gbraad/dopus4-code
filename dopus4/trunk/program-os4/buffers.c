@@ -178,9 +178,13 @@ void startgetdir(int win, int flags)
 	if(!(config->dirflags & DIRFLAGS_CHECKBUFS && (flags & SGDFLAGS_CANCHECKBUFS)) || !(findbuffer(str_pathbuffer[win], win, 1, 0)))
 	{
 		if((config->dirflags & DIRFLAGS_FINDEMPTY) && (flags & SGDFLAGS_CANMOVEEMPTY))
+		{
 			findemptybuffer(win);
+		}
 		if(str_pathbuffer[win][0] == 0)
+		{
 			expand_path("", str_pathbuffer[win]);
+		}
 		checkdir(str_pathbuffer[win], &path_strgadget[win]);
 		strcpy(dopus_curwin[win]->directory, str_pathbuffer[win]);
 		getdir(dopus_curwin[win], win, (flags & SGDFLAGS_REREADINGOLD));

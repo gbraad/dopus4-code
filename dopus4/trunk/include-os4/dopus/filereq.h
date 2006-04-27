@@ -41,6 +41,7 @@ the existing commercial status of Directory Opus 5.
 
 #define INTERRUPT 2000
 
+
 struct direntry
 {
 	struct direntry *last, *next;

@@ -103,6 +103,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	if(!(mylock = IDOS->Lock(dir->directory, ACCESS_READ)))
 	{
 		if(IxadMaster)
+		{
 			if(readarchive(dir, win))
 			{
 				unbusy();
@@ -111,15 +112,20 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				startnotify(win);
 				return (1);
 			}
+		}
 		if(Window)
+		{
 			doerror(-1);
+		}
 		for(a = 0; a < 30; a++)
 		{
 			if(str_pathbuffer[win][a] == ':' || str_pathbuffer[win][a] == 0)
 				break;
 		}
 		if(str_pathbuffer[win][a] == ':')
+		{
 			IDOpus->LStrnCpy(dir->realdevice, str_pathbuffer[win], a + 1);
+		}
 		return (0);
 	}
 

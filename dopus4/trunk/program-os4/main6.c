@@ -95,11 +95,15 @@ void startnotify(int win)
 			dos_notify_req[win]->nr_Flags = NRF_SEND_MESSAGE;
 			dos_notify_req[win]->nr_stuff.nr_Msg.nr_Port = count_port;
 			if(!(IDOS->StartNotify(dos_notify_req[win])))
+			{
 				dos_notify_names[win][0] = 0;
+			}
 		}
 	}
 	if(config->errorflags & ERROR_ENABLE_DOS)
+	{
 		main_proc->pr_WindowPtr = (APTR) Window;
+	}
 }
 
 void endnotify(int win)
@@ -206,7 +210,6 @@ int getpal()
 	struct DisplayInfo displayinfo;
 
 	p = (((struct GfxBase *)(IGraphics->Data.LibBase))->DisplayFlags & PAL) ? 1 : 0;
-//    if (system_version2>=OSVER_37) {
 	if((screen = IIntuition->LockPubScreen(NULL)))
 	{
 		if((modeid = IGraphics->GetVPModeID(&(screen->ViewPort))) != INVALID_ID)
@@ -223,11 +226,10 @@ int getpal()
 		else
 			p = 0;
 	}
-//    }
 	return (p);
 }
 
-void sendmouseevent(UBYTE class, UWORD code /*, int x, int y */ )
+void sendmouseevent(UBYTE class, UWORD code)
 {
 	struct InputEvent inputev;
 
@@ -235,11 +237,13 @@ void sendmouseevent(UBYTE class, UWORD code /*, int x, int y */ )
 	inputev.ie_Class = class;
 	inputev.ie_Code = code;
 	inputev.ie_Qualifier = 0;
-	inputev.ie_X = 0 /*x */ ;
-	inputev.ie_Y = 0 /*y */ ;
+	inputev.ie_X = 0;
+	inputev.ie_Y = 0;
 
-	if(/*CxBase*/ ICommodities)
+	if(CxBase && ICommodities)
+	{
 		ICommodities->AddIEvents(&inputev);
+	}
 	else
 	{
 		input_req->io_Command = IND_WRITEEVENT;

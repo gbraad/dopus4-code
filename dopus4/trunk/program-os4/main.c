@@ -194,6 +194,7 @@ int main(int argc, char **argv)
 		if(!(appmsg_port = IExec->CreatePort(0, 0)))
 			quit();
 	}
+
 	for(a = 0; a < 2; a++)
 	{
 		if((dos_notify_req[a] = IDOpus->LAllocRemember(&general_key, sizeof(struct NotifyRequest), MEMF_ANY | MEMF_CLEAR)))
