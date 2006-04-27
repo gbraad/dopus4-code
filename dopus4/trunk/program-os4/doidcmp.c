@@ -154,19 +154,19 @@ void doidcmp()
 		{
 			struct NotifyMessage *note;
 			int got = 0;
+
 			while((note = (struct NotifyMessage *)IExec->GetMsg(count_port)))
 			{
 				if(config->dynamicflags & UPDATE_NOTIFY)
 				{
-//					a = note->nm_NReq->nr_UserData;
-					a = (int)((APTR)note->nm_NReq->nr_UserData);
+					a = note->nm_NReq->nr_UserData;
 					IExec->ReplyMsg((struct Message *)note);
-/*					if(!(got & (1 << a)))
+					if(!(got & (1 << a)))
 					{
-						got |= 1 << a;*/
+						got |= 1 << a;
 						if(a == 0 || a == 1)
 						{
-							if(!(config->dirflags & DIRFLAGS_REREADOLD) || ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
+							if((config->dirflags & DIRFLAGS_REREADOLD))// || ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
 							{
 								struct DirWindowPars notifypars;
 
@@ -177,7 +177,7 @@ void doidcmp()
 								makereselect(&notifypars, -1);
 							}
 						}
-//					}
+					}
 				}
 				else
 				{
