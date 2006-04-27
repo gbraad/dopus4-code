@@ -46,7 +46,7 @@ void newcli(char *spec)
 {
 	char buf[200];
 
-	IUtility->SNPrintf(buf, 200, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
+	sprintf(buf, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
 	if(!(IDOS->Execute(buf, 0, nil_file_handle)))
 		doerror(-1);
 	else

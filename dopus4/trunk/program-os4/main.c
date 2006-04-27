@@ -1321,7 +1321,7 @@ int get_data_file(STRPTR buf, STRPTR suff, int fb)
 {
 	char temp[40];
 
-	IUtility->SNPrintf(temp, 40, "DO_%s.%s", config->language, suff);
+	sprintf(temp, "DO_%s.%s", config->language, suff);
 	if(!config->language[0] || !(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
 	{
 		if(!fb)
@@ -1329,7 +1329,7 @@ int get_data_file(STRPTR buf, STRPTR suff, int fb)
 			buf[0] = 0;
 			return (0);
 		}
-		IUtility->SNPrintf(temp, 20, "DirectoryOpus.%s", suff);
+		sprintf(temp, "DirectoryOpus.%s", suff);
 		IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA);
 	}
 	return (1);

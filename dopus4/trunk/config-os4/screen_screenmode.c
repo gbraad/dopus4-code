@@ -81,7 +81,7 @@ int initscreenmodes()
 			if(IUtility->Stricmp(pubscreen->psn_Node.ln_Name, "Workbench") != 0 && IUtility->Strnicmp(pubscreen->psn_Node.ln_Name, "DOPUS.", 6) != 0 && pubscreen->psn_Screen->Width >= 640 && pubscreen->psn_Screen->Height >= 480 && pubscreen->psn_Screen->RastPort.BitMap->Depth > 1)
 			{
 
-				IUtility->SNPrintf(namebuf, 180, "%s:%s", pubscreen->psn_Node.ln_Name, cfg_string[STR_SCREEN_MODE_USE]);
+				sprintf(namebuf, "%s:%s", pubscreen->psn_Node.ln_Name, cfg_string[STR_SCREEN_MODE_USE]);
 				count += addscreenmode(namebuf, 640, 480, pubscreen->psn_Screen->Width, pubscreen->psn_Screen->Height, pubscreen->psn_Screen->Width, pubscreen->psn_Screen->Height, pubscreen->psn_Screen->RastPort.BitMap->Depth, MODE_PUBLICSCREENUSE);
 
 			}
@@ -175,8 +175,8 @@ struct ScreenMode *showdisplaydesc()
 
 void fixmodegads(struct ScreenMode *mode)
 {
-	IUtility->SNPrintf(screenwidth_buf, 6, "%d", config->scrw);
-	IUtility->SNPrintf(screenheight_buf, 6, "%d", config->scrh);
+	sprintf(screenwidth_buf, "%d", config->scrw);
+	sprintf(screenheight_buf, "%d", config->scrh);
 
 	if(config->scrdepth < 2)
 		config->scrdepth += 2;
@@ -184,7 +184,7 @@ void fixmodegads(struct ScreenMode *mode)
 		config->scrdepth = ((mode) ? mode->maxdepth : 8);
 	config->scrdepth = 8;
 
-	IUtility->SNPrintf(screendepth_buf, 4, "%d", (1 << config->scrdepth));
+	sprintf(screendepth_buf, "%d", (1 << config->scrdepth));
 
 	if(mode && !(screenmodegads[SCREENMODE_WIDTH - 300].Flags & GFLG_DISABLED))
 	{

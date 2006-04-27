@@ -486,7 +486,7 @@ void showgadgets(struct dopusgadgetbanks *bank, int show)
 			++a;
 			bank2 = bank2->next;
 		}
-		IUtility->SNPrintf(buf, 60, "%s %ld", cfg_string[STR_GADGET_BANK_NUMBER], a + 1);
+		sprintf(buf, "%s %ld", cfg_string[STR_GADGET_BANK_NUMBER], a + 1);
 		if(paint_state)
 			strcat(buf, cfg_string[STR_PAINT_STATE]);
 		ptr = buf;

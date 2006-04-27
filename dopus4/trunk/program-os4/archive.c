@@ -248,7 +248,7 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 
 			IDOS->AddPart(arcdir, file, 256);
 			strcpy(namebuf, "dopustmp");
-			IUtility->SNPrintf(arcname, 256, "%04lx", IUtility->GetUniqueID());
+			sprintf(arcname, "%04lx", IUtility->GetUniqueID());
 			strcat(namebuf, arcname);
 			c = strchr(file, '.');
 			if(c)

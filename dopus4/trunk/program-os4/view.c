@@ -201,7 +201,7 @@ void view_file_process()
 	IExec->Forbid();
 	for(a = 0;; a++)
 	{
-		IUtility->SNPrintf(portname, 20, "DOPUS_VIEW%d", a);
+		sprintf(portname, "DOPUS_VIEW%d", a);
 		if(!(IExec->FindPort(portname)))
 			break;
 	}
@@ -253,7 +253,7 @@ void view_file_process()
 							goto view_end;
 					}
 
-					IUtility->SNPrintf(titlebuf, 300, "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
+					sprintf(titlebuf, "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
 					if(config->viewbits & VIEWBITS_INWINDOW)
 						IIntuition->SetWindowTitles(vdata->view_window, titlebuf, "Directory Opus Reader");
 					else
@@ -351,7 +351,7 @@ void view_file_process()
 										view_console_unit->cu_TabStops[a] = a * config->tabsize;
 									view_console_unit->cu_TabStops[MAXTABS - 1] = 0xffff;
 
-									IUtility->SNPrintf(buf, 60, "\x9b\x30\x20\x70\x9b%d\x75\x9b%d\x74", vdata->view_max_line_length + 1, vdata->view_lines_per_screen);
+									sprintf(buf, "\x9b\x30\x20\x70\x9b%d\x75\x9b%d\x74", vdata->view_max_line_length + 1, vdata->view_lines_per_screen);
 									view_print(vdata, buf, 1, strlen(buf));
 
 									vdata->view_max_line_length = 255;

@@ -776,7 +776,7 @@ void makescreenedit(int mode)
 				{
 					if(screenmode->mode == MODE_PUBLICSCREENUSE)
 					{
-						IUtility->SNPrintf(buf, 256, "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
+						sprintf(buf, "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
 						if(IUtility->Stricmp(buf, screenmode->name) == 0)
 							screenmodeview.itemselected = b;
 					}

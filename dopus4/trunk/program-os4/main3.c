@@ -970,7 +970,7 @@ int dorun(STRPTR name, int state, int workbench)
 	len = 256 - strlen(buf);
 	if(state)
 	{
-		IUtility->SNPrintf(louise, 80, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
+		sprintf(louise, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
 		if(!(rec = whatsit(louise, len, argbuf, globstring[STR_SKIP])))
 		{
 			myabort();

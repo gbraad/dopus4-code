@@ -100,10 +100,10 @@ int main(int argc, char **argv)
 		if(wbmsg->sm_NumArgs > 1)
 		{
 			IDOS->StrToLong(wbmsg->sm_ArgList[1].wa_Name, &num);
-			IUtility->SNPrintf(portname, 50, "dopus4_config_port%ld", num);
+			sprintf(portname, "dopus4_config_port%ld", num);
 			if(!(conport = IExec->CreatePort(portname, 20)))
 				quit();
-			IUtility->SNPrintf(rportname, 50, "dopus4_config_reply%ld", num);
+			sprintf(rportname, "dopus4_config_reply%ld", num);
 			IExec->Forbid();
 			if(!(cmdport = IExec->FindPort(rportname)))
 			{

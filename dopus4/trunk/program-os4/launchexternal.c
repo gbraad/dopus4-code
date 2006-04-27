@@ -140,12 +140,12 @@ void doconfig()
 	if(!(checkwindowquit()))
 		return;
 
-	IUtility->SNPrintf(replyname, 50, "%s%d", config_replyport_basename, system_dopus_runcount);
+	sprintf(replyname, "%s%d", config_replyport_basename, system_dopus_runcount);
 	if(!(conport = IExec->CreatePort(replyname, 20)))
 		return;
 
-	IUtility->SNPrintf(buf, 100, "%d", system_dopus_runcount);
-	IUtility->SNPrintf(buf1, 20, "dopus4_config%d", system_dopus_runcount);
+	sprintf(buf, "%d", system_dopus_runcount);
+	sprintf(buf1, "dopus4_config%d", system_dopus_runcount);
 
 	IUtility->Strlcpy(funcpath, "ConfigOpus", 80);
 
@@ -176,7 +176,7 @@ void doconfig()
 	}
 
 	dostatustext(globstring[STR_WAITING_FOR_PORT]);
-	IUtility->SNPrintf(portname, 50, "dopus4_config_port%d", system_dopus_runcount);
+	sprintf(portname, "dopus4_config_port%d", system_dopus_runcount);
 	cmdport = NULL;
 
 	for(a = 0; a < 100; a++)

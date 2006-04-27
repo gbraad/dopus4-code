@@ -181,8 +181,7 @@ int dooperationconfig()
 								a = 20;
 							else if(a > MAX_DISPLAYLENGTH)
 								a = MAX_DISPLAYLENGTH;
-//							sprintf(formatlen_buf[b], "%ld", a);
-							IUtility->SNPrintf(formatlen_buf[b], 8, "%ld", a);
+							sprintf(formatlen_buf[b], "%ld", a);
 							IDOpus->RefreshStrGad(gad, Window);
 							config->displaylength[formatwin][(uint32)displenmap[b]] = a;
 							if(code != 0x9)
@@ -547,9 +546,7 @@ int dosystemconfig()
 						case SYS_OKAY:
 							if(gadgetid == SYS_OKAY)
 							{
-//								IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
 								IDOS->ParsePatternNoCase(config->showpat, config->showpatparsed, 40);
-//								IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
 								IDOS->ParsePatternNoCase(config->hidepat, config->hidepatparsed, 40);
 								config->hotkeycode = hotcode;
 								config->hotkeyqual = hotqual;
@@ -719,7 +716,7 @@ int dosystemconfig()
 							switch (gadgetid)
 							{
 							case SYS_AMIGADOS:
-								IUtility->SNPrintf(buf, 80, "%d", config->priority);
+								sprintf(buf, "%d", config->priority);
 								makestring(config->outputcmd, config->output, config->shellstartup, buf, NULL);
 								break;
 							case SYS_STARTUP:
@@ -766,14 +763,14 @@ int dosystemconfig()
 //								IGraphics->BltTemplate((PLANEPTR) DOpusBase->pdb_check, 0, 2, rp, x_off + 208, y_off + 77, 13, 7);
 								break;
 							case SYS_VIEWPLAY:
-								IUtility->SNPrintf(buf, 80, "%d", config->showdelay);
+								sprintf(buf, "%d", config->showdelay);
 								sprintf(buf1, "%d", config->fadetime);
 								sprintf(buf2, "%d", config->tabsize);
 								sprintf(buf3, "%d", config->viewtext_topleftx);
 								sprintf(buf4, "%d", config->viewtext_toplefty);
 								sprintf(buf5, "%d", config->viewtext_width);
 								sprintf(buf6, "%d", config->viewtext_height);
-								makestring((int8 *)buf, buf1, buf2, buf3, buf4, buf5, buf6, NULL);
+								makestring(buf, buf1, buf2, buf3, buf4, buf5, buf6, NULL);
 								break;
 							case SYS_SHOWPATTERN:
 								makestring(config->showpat, config->hidepat, NULL);

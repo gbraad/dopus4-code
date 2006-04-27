@@ -196,7 +196,7 @@ int huntfile(char *name, char *completename, int *aa)
 
 		*aa = 1;
 
-		IUtility->SNPrintf(mesbuf, 300, globstring[STR_FOUND_A_MATCH], buf, completename);
+		sprintf(mesbuf, globstring[STR_FOUND_A_MATCH], buf, completename);
 		if((rec = simplerequest(mesbuf, str_okaystring, globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
 		{
 			if(!status_iconified)

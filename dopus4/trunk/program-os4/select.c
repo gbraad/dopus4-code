@@ -150,7 +150,7 @@ void doselection(int win, int state)
 								if(qual & IEQUALIFIER_ANYSHIFT && dopus_curwin[win]->filesel > 1)
 								{
 									multidrag = 1;
-									IUtility->SNPrintf(buf, 40, globstring[STR_MULTI_DRAG], dopus_curwin[win]->filesel);
+									sprintf(buf, globstring[STR_MULTI_DRAG], dopus_curwin[win]->filesel);
 									ptr = buf;
 									type = -1;
 								}

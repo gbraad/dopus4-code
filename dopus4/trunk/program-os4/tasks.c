@@ -817,7 +817,7 @@ void clocktask()
 									h = datetime.dat_Stamp.ds_Minute / 60;
 									m = datetime.dat_Stamp.ds_Minute % 60;
 									s = datetime.dat_Stamp.ds_Tick / TICKS_PER_SECOND;
-									IUtility->SNPrintf(time, 20, "%02ld:%02ld:%02ld", h, m, s);
+									sprintf(time, "%02ld:%02ld:%02ld", h, m, s);
 								}
 								IUtility->Strlcat(formstring, time, 160);
 							}
