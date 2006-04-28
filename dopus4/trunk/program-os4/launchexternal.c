@@ -328,7 +328,7 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 	char *args[16], portname[21], arglistbuf[20], funcpath[80];
 	struct dopus_func_start print_func;
 	int a, argcount, waitbits, abase = 3;
-IExec->DebugPrintF("dopus_print()\n");
+
 	if(!vdata)
 		dostatustext(globstring[STR_STARTING_PRINT_MODULE]);
 
