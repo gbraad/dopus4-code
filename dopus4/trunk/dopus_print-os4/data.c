@@ -28,38 +28,12 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#define FS_CURDIR   1
-#define FS_SEGMENT  2
-#define FS_LAUNCHED 3
+#include "print.h"
 
-#define FF_SAVESEG  1
+static const char *version __attribute__ ((used)) = "$VER: DOpus_Print 1.31 (" __DATE__ ")";
 
-struct DOpusStartup
-{
-	struct WBStartup wbstartup;
-	int retcode;
-};
-
-struct dopus_func_start
-{
-	BPTR segment;		/* Pointer to pre-loaded segment */
-	char *procname;		/* Name to start process as      */
-	char *segname;		/* Name to load segment from     */
-	int argcount;		/* Argument count                */
-	char **args;		/* Argument array                */
-	ULONG stack;		/* Stack size for process        */
-	char flags;		/* Function flags                */
-
-	struct DOpusRemember *key;	/* Memory key                    */
-	struct MsgPort *replyport;	/* Process reply port            */
-	struct DOpusStartup startup;	/* Process Startup message       */
-	char status;		/* Status byte                   */
-	BPTR olddir;		/* Old current directory         */
-	struct Segment *resseg;	/* Resident Segment pointer      */
-};
-
-#define SEG_PRINT 0
-
-/*#define SEG_DISK  0
-#define SEG_PRINT 1
-#define SEG_ICON  2*/
+//struct DOpusBase *DOpusBase;
+//struct IntuitionBase *IntuitionBase;
+//struct GfxBase *GfxBase = NULL;
+//struct Library *WorkbenchBase = NULL;
+// JRZ: struct PPBase *PPBase = NULL;

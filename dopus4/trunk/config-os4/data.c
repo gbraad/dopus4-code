@@ -150,18 +150,21 @@ struct DOpusListView cmdlist =
 char *external_module_list[] =
 {
 	"ConfigOpus",
+	"Print, Printdir",
 	NULL
 };
 
 char *external_module_name[] =
 {
 	"ConfigOpus",
+	"DOpus_Print",
 	NULL
 };
 
 int external_module_map[] =
 {
 	65536,
+	2
 };
 
 struct Gadget cmdcancelgad =

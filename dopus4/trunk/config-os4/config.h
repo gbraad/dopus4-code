@@ -62,7 +62,7 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/dopusmessage.h>
 #undef CONFIG_VERSION
 
-#define NUM_MODULES 1
+#define NUM_MODULES 2
 
 #define OSVER_34 0
 #define OSVER_37 1

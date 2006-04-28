@@ -83,7 +83,7 @@ int start_external(struct dopus_func_start *func)
 
 	func->startup.wbstartup.sm_Segment = func->segment;
 
-	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag)func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, TAG_END)->pr_MsgPort))
+	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag) func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, TAG_END)->pr_MsgPort))
 		return (0);
 
 	func->startup.wbstartup.sm_ToolWindow = NULL;
@@ -308,6 +308,151 @@ void doconfig()
 	status_configuring = 0;
 }
 
+static char *external_modules[1] = {
+//      "DOpus_Disk",
+	"DOpus_Print",
+//      "DOpus_Icon"
+};
+
+struct DiskData
+{
+	int function;
+	char funcpath[80];
+	char *args[16];
+	int argcount;
+	int background;
+};
+
+void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *port, struct ViewData *vdata)
+{
+	char *args[16], portname[21], arglistbuf[20], funcpath[80];
+	struct dopus_func_start print_func;
+	int a, argcount, waitbits, abase = 3;
+IExec->DebugPrintF("dopus_print()\n");
+	if(!vdata)
+		dostatustext(globstring[STR_STARTING_PRINT_MODULE]);
+
+	print_func.segment = external_mod_segment[SEG_PRINT];
+	print_func.procname = external_modules[SEG_PRINT];
+
+	strcpy(funcpath, external_modules[SEG_PRINT]);
+
+	if(!print_func.segment)
+		IDOpus->FindSystemFile(external_modules[SEG_PRINT], funcpath, 80, SYSFILE_MODULE);
+
+	print_func.segname = funcpath;
+
+	args[0] = print_func.segname;
+
+	IDOpus->StrCombine(portname, "&", port, 20);
+	args[1] = portname;
+
+	if(printdir)
+	{
+		int win;
+
+		if(!rexx || rexx_argcount < 1 || (win = atoi(rexx_args[0])) < 0 || win > 1)
+			win = data_active_window;
+		sprintf(arglistbuf, "@%d", win);
+		abase = 2;
+		--rexx_argcount;
+	}
+	else
+	{
+		sprintf(arglistbuf, "!%d", arglist);
+	}
+
+	args[2] = arglistbuf;
+	argcount = 3;
+
+	if(rexx && rexx_argcount > 0)
+	{
+		if((argcount += rexx_argcount) > 16)
+		{
+			argcount = 16;
+		}
+		for(a = 3; a < argcount; a++)
+		{
+			args[a] = rexx_args[a - abase];
+		}
+	}
+
+	for(a = argcount; a < 16; a++)
+	{
+		args[a] = "";
+	}
+
+	print_func.argcount = argcount;
+	print_func.args = args;
+	print_func.stack = 8192;
+	print_func.flags = (config->loadexternal & LOAD_PRINT) ? FF_SAVESEG : 0;
+
+	if(!(start_external(&print_func)))
+	{
+		close_external(&print_func, 0);
+		if(!vdata)
+		{
+			dostatustext(globstring[STR_UNABLE_TO_LOAD_MODULE]);
+		}
+		return;
+	}
+
+	waitbits = 1 << print_func.replyport->mp_SigBit;
+	if(vdata)
+	{
+		waitbits |= 1 << vdata->view_port->mp_SigBit;
+	}
+	else
+	{
+		waitbits |= rexx_signalbit;
+	}
+
+	for(;;)
+	{
+		if((IExec->Wait(waitbits)) & rexx_signalbit && !vdata)
+		{
+			rexx_dispatch(0);
+			continue;
+		}
+		if(vdata)
+		{
+			struct DOpusMessage *dmsg;
+			struct DOpusArgsList *arg;
+
+			while((dmsg = (struct DOpusMessage *)IExec->GetMsg(vdata->view_port)))
+			{
+				switch (dmsg->command)
+				{
+				case DOPUSMSG_GETVIS:
+					IExec->CopyMem((char *)&vdata->view_vis_info, (char *)dmsg->data, sizeof(struct VisInfo));
+					break;
+				case DOPUSMSG_GETNEXTFILE:
+					arg = (struct DOpusArgsList *)dmsg->data;
+					if(arg->single_file)
+					{
+						strcpy(arg->file_data, arg->single_file);
+						arg->single_file = NULL;
+					}
+					else
+						arg->file_data[0] = 0;
+					break;
+				}
+				IExec->ReplyMsg((struct Message *)dmsg);
+			}
+		}
+		if(IExec->GetMsg(print_func.replyport))
+			break;
+	}
+
+	close_external(&print_func, 0);
+	external_mod_segment[SEG_PRINT] = print_func.segment;
+
+	if(!vdata)
+	{
+		okay();
+	}
+}
+
 int dopus_iconinfo(char *filename)
 {
 	struct Screen *wbscreen = IIntuition->LockPubScreen(NULL);
@@ -333,6 +478,7 @@ int dopus_iconinfo(char *filename)
 
 void setup_externals()
 {
+	int a;
 	char funcbuf[256];
 	APTR wsave;
 
@@ -345,7 +491,22 @@ void setup_externals()
 		configopus_segment = IDOS->LoadSeg(funcbuf);
 	}
 	else
+	{
 		configopus_segment = 0L;
+	}
+
+	for(a = 0; a < 1; a++)
+	{
+		if(config->loadexternal & (1 << a))
+		{
+			IDOpus->FindSystemFile(external_modules[a], funcbuf, 256, SYSFILE_MODULE);
+			external_mod_segment[a] = IDOS->LoadSeg(funcbuf);
+		}
+		else
+		{
+			external_mod_segment[a] = 0L;
+		}
+	}
 
 	main_proc->pr_WindowPtr = wsave;
 }

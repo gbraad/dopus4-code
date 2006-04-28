@@ -205,8 +205,8 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	config->scr_winx = 0;
 	config->scr_winy = 0;
-	config->scr_winw = 800;//-1;
-	config->scr_winh = 600;//-1;
+	config->scr_winw = -1;
+	config->scr_winh = -1;
 
 	/* Misc Stuff */
 	config->gadgetrows = 6;

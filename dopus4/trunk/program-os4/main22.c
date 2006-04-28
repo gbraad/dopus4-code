@@ -52,6 +52,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	struct dopusfiletype *type;
 	struct dopusfuncpar par;
 	struct DirectoryWindow *swindow, *dwindow;
+	struct DOpusArgsList arglist;
 	struct ViewData *viewdata = NULL;
 	BPTR filelock;
 	static int entry_depth;
@@ -319,6 +320,23 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		IDOS->ParsePattern(str_hunt_name, str_hunt_name_parsed, 160);
 		IExec->CopyMem(str_hunt_name_parsed, buf2, 170);
 		candoicon = 0;
+		break;
+        case FUNC_PRINT:
+		if(globflag)
+		{
+			IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
+			arglist.single_file = sourcename;
+			arglist.file_list = NULL;
+			arglist.last_select = NULL;
+		}
+		else
+		{
+			arglist.single_file = NULL;
+			arglist.file_window = act;
+			arglist.file_list = (APTR)file;
+		}
+		dopus_print(rexx, &arglist, 0, str_arexx_portname, NULL);
+		goto endfunction;
 		break;
 	case FUNC_COMMENT:
 		candoicon = 0;

@@ -660,9 +660,9 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				case FUNC_PROTECT:
 					dofilefunction(FUNC_PROTECT, 0, spath, NULL, actwin, -1, rexx);
 					break;
-/*				case FUNC_PRINT:
+				case FUNC_PRINT:
 					dofilefunction(FUNC_PRINT, FUNCFLAGS_FILES, spath, NULL, actwin, -1, rexx);
-					break;*/
+					break;
 				case FUNC_HUNT:
 					dofilefunction(FUNC_HUNT, FUNCFLAGS_DIRS | FUNCFLAGS_DEVS, spath, NULL, actwin, -1, rexx);
 					break;

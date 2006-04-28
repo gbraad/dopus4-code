@@ -494,7 +494,7 @@ int set_wb_arg(struct WBArg *, char *, BPTR, int);
 void doconfig(void);
 //void dopus_diskop(int, int, int);
 //void launch_diskop(void);
-//void dopus_print(int, struct DOpusArgsList *, int, char *, struct ViewData *);
+void dopus_print(int, struct DOpusArgsList *, int, char *, struct ViewData *);
 int dopus_iconinfo(char *);
 void setup_externals(void);
 void fill_out_visinfo(struct VisInfo *, struct Screen *);

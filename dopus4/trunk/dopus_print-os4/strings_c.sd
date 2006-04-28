@@ -1,3 +1,15 @@
+##rem $Id: strings_c.sd,v 1.1 2002/01/28 11:35:07 jrzeuski Exp $
+##stringtype C
+##shortstrings
+/****************************************************************
+
+   This file was created automatically by `%fv'
+   from "..%f0".
+
+   Do NOT edit by hand!
+
+****************************************************************/
+
 /*
 
 Directory Opus 4
@@ -28,38 +40,13 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#define FS_CURDIR   1
-#define FS_SEGMENT  2
-#define FS_LAUNCHED 3
+#include "print.h"
 
-#define FF_SAVESEG  1
+char **string_table;
 
-struct DOpusStartup
+struct DefaultString default_strings[] =
 {
-	struct WBStartup wbstartup;
-	int retcode;
+	{ %i, %s },
+
+	{ STR_STRING_COUNT, NULL }
 };
-
-struct dopus_func_start
-{
-	BPTR segment;		/* Pointer to pre-loaded segment */
-	char *procname;		/* Name to start process as      */
-	char *segname;		/* Name to load segment from     */
-	int argcount;		/* Argument count                */
-	char **args;		/* Argument array                */
-	ULONG stack;		/* Stack size for process        */
-	char flags;		/* Function flags                */
-
-	struct DOpusRemember *key;	/* Memory key                    */
-	struct MsgPort *replyport;	/* Process reply port            */
-	struct DOpusStartup startup;	/* Process Startup message       */
-	char status;		/* Status byte                   */
-	BPTR olddir;		/* Old current directory         */
-	struct Segment *resseg;	/* Resident Segment pointer      */
-};
-
-#define SEG_PRINT 0
-
-/*#define SEG_DISK  0
-#define SEG_PRINT 1
-#define SEG_ICON  2*/
