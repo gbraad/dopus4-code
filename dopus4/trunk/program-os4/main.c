@@ -755,14 +755,28 @@ int SetUp(int tit)
 	scrdata_gadget_offset += scrdata_xoffset;
 	scrdata_gadget_xpos = scrdata_gadget_offset + scrdata_drive_width;
 
-	status_flags |= STATUS_NEWLOOK;
-	for(a = 0; a < 2; a++)
+	if(config->generalscreenflags&SCR_GENERAL_NEWLOOKPROP)
 	{
-		vert_propinfo[a].Flags = AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
-		horiz_propinfo[a].Flags = AUTOKNOB | PROPNEWLOOK | FREEHORIZ | PROPBORDERLESS;
+		status_flags |= STATUS_NEWLOOK;
+		for(a = 0; a < 2; a++)
+		{
+			vert_propinfo[a].Flags = AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
+			horiz_propinfo[a].Flags = AUTOKNOB | PROPNEWLOOK | FREEHORIZ | PROPBORDERLESS;
+		}
+		drive_propinfo.Flags |= AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
+		gadget_propinfo.Flags |= AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
 	}
-	drive_propinfo.Flags |= AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
-	gadget_propinfo.Flags |= AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
+	else
+	{
+		status_flags &= ~STATUS_NEWLOOK;
+		for(a = 0; a < 2; a++)
+		{
+			vert_propinfo[a].Flags=FREEVERT|PROPBORDERLESS;
+			horiz_propinfo[a].Flags=FREEHORIZ|PROPBORDERLESS;
+		}
+		drive_propinfo.Flags=FREEVERT|PROPBORDERLESS;
+		gadget_propinfo.Flags=FREEVERT|PROPBORDERLESS;
+	}
 
 	if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS && scr_gadget_rows)
 	{
