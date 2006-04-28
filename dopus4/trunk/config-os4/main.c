@@ -1593,7 +1593,7 @@ void open_screen()
 		}
 		if((wbscreen = IIntuition->LockPubScreen(psname)))
 		{
-			if(wbscreen->Height > 480) //wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189)
+			if(wbscreen->Height > /*480)*/ (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189))
 			{
 				int pen, num;
 				struct ColorMap *cm;
@@ -1650,17 +1650,17 @@ void open_screen()
 		screen_depth = configscr.Depth;
 
 		configwin.Screen = usescreen;
-		configwin.Height = 480; //usescreen->WBorTop + usescreen->Font->ta_YSize + 189;
+		configwin.Height = usescreen->WBorTop + usescreen->Font->ta_YSize + 200; //189;
 
-		configwin.LeftEdge = 100; //(usescreen->Width - configwin.Width) >> 1;
-		configwin.TopEdge = 100; //((usescreen->Height - configwin.Height - (usescreen->Font->ta_YSize + 1)) >> 1) + usescreen->Font->ta_YSize + 1;
+		configwin.LeftEdge = (usescreen->Width - configwin.Width) >> 1;
+		configwin.TopEdge = ((usescreen->Height - configwin.Height - (usescreen->Font->ta_YSize + 1)) >> 1) + usescreen->Font->ta_YSize + 1;
 
 		if(!Screen)
 		{
 			if(config->config_x > -1)
-				configwin.LeftEdge = 100; //config->config_x;
+				configwin.LeftEdge = config->config_x;
 			if(config->config_y > -1)
-				configwin.TopEdge = 100; //config->config_y;
+				configwin.TopEdge = config->config_y;
 		}
 
 		if(configwin.Width + configwin.LeftEdge > usescreen->Width)
