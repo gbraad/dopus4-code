@@ -166,7 +166,7 @@ void doidcmp()
 						got |= 1 << a;
 						if(a == 0 || a == 1)
 						{
-							if((config->dirflags & DIRFLAGS_REREADOLD))// || ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
+							if((config->dirflags & DIRFLAGS_REREADOLD) || ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
 							{
 								struct DirWindowPars notifypars;
 

@@ -40,10 +40,6 @@ struct GraphicsIFace *IGraphics;
 struct Library *UtilityBase;
 struct UtilityIFace *IUtility;
 
-//struct Library *DOpusBase;
-//struct DOpusIFace *IDOpus;
-
-
 struct DOpusBase
 {
 	struct Library LibNode;
@@ -105,8 +101,6 @@ STATIC struct Library *libOpen(struct LibraryManagerInterface *Self, ULONG versi
 	IIntuition = (struct IntuitionIFace *)IExec->GetInterface(IntuitionBase, "main", 1, NULL);
 	UtilityBase = IExec->OpenLibrary("utility.library", 50L);
 	IUtility = (struct UtilityIFace *)IExec->GetInterface(UtilityBase, "main", 1, NULL);
-//	DOpusBase = libBase; //IExec->OpenLibrary("dopus.library", 50L);
-//	IDOpus = (struct DOpusIFace *)Self; //IExec->GetInterface(libBase, "main", 1, NULL);
 
 	/* Add up the open count */
 	libBase->lib_OpenCnt++;
@@ -129,8 +123,6 @@ STATIC APTR libClose(struct LibraryManagerInterface *Self)
 	IExec->CloseLibrary(IntuitionBase);
 	IExec->DropInterface((struct Interface *)IUtility);
 	IExec->CloseLibrary(UtilityBase);
-//	IExec->DropInterface((struct Interface *)IDOpus);
-//	IExec->CloseLibrary(DOpusBase);
 
 	/* Make the close count */
 	((struct Library *)libBase)->lib_OpenCnt--;
