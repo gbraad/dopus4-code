@@ -55,7 +55,7 @@ int doparent(char *str)
 		char tempbuf[256];
 
 		expand_path(str, tempbuf);
-		if((IUtility->Stricmp(str, tempbuf)) == 0 || !(doparent(tempbuf)))
+		if((strcmp(str, tempbuf)) == 0 || !(doparent(tempbuf)))
 			return (0);
 		strcpy(str, tempbuf);
 		return (1);
@@ -116,7 +116,7 @@ int doroot(char *str)
 		char tempbuf[256];
 
 		expand_path(str, tempbuf);
-		if((IUtility->Stricmp(str, tempbuf)) == 0 || !(doroot(tempbuf)))
+		if((strcmp(str, tempbuf)) == 0 || !(doroot(tempbuf)))
 			return (0);
 		strcpy(str, tempbuf);
 		return (1);
@@ -189,7 +189,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 
 	case DISPLAY_FILETYPE:
 		if(entry2->description && entry1->description)
-			a = IUtility->Stricmp(entry2->description, entry1->description);
+			a = strcmp(entry2->description, entry1->description);
 		else if(entry2->description)
 			a = 1;
 		else if(entry1->description)
@@ -204,7 +204,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 
 	case DISPLAY_COMMENT:
 		if(entry2->comment && entry1->comment)
-			a = IUtility->Stricmp(entry2->comment, entry1->comment);
+			a = strcmp(entry2->comment, entry1->comment);
 		else if(entry2->comment)
 			a = 1;
 		else if(entry1->comment)
@@ -219,7 +219,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 
 	case DISPLAY_EXT:
 		if(entry2->extension && entry1->extension)
-			a = IUtility->Stricmp(entry2->extension, entry1->extension);
+			a = strcmp(entry2->extension, entry1->extension);
 		else if(entry2->extension)
 			a = 1;
 		else if(entry1->extension)
@@ -243,7 +243,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 
 	case DISPLAY_OWNER:
 		if(entry2->network && entry2->network->owner && entry1->network && entry1->network->owner)
-			a = IUtility->Stricmp(entry2->network->owner, entry1->network->owner);
+			a = strcmp(entry2->network->owner, entry1->network->owner);
 		else if(entry2->network && entry2->network->owner)
 			a = 1;
 		else if(entry1->network && entry1->network->owner)
@@ -258,7 +258,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 
 	case DISPLAY_GROUP:
 		if(entry2->network && entry2->network->group && entry1->network && entry1->network->group)
-			a = IUtility->Stricmp(entry2->network->group, entry1->network->group);
+			a = strcmp(entry2->network->group, entry1->network->group);
 		else if(entry2->network && entry2->network->group)
 			a = 1;
 		else if(entry1->network && entry1->network->group)
@@ -364,10 +364,14 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 					newentry->extension = c;
 				}
 				else
+				{
 					newentry->extension = NULL;
+				}
 			}
 			else
+			{
 				newentry->extension = NULL;
+			}
 
 			for(a = 0; a < DISPLAY_LAST + 1; a++)
 			{
@@ -452,7 +456,7 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 				entry = dir->firstentry;
 				while(entry)
 				{
-					if(IUtility->Stricmp(comment, entry->comment) <= 0)
+					if(strcmp(comment, entry->comment) <= 0)
 					{
 						if(entry->last)
 							addposition = entry->last;
@@ -661,9 +665,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 
 	if(newentry->next)
 	{
-		if(newentry->name[0] && (IUtility->Stricmp(newentry->name, newentry->next->name)) == 0)
+		if(newentry->name[0] && (strcmp(newentry->name, newentry->next->name)) == 0)
 			removefile(newentry->next, dir, win, 0);
-		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (IUtility->Stricmp(newentry->comment, newentry->next->comment)) == 0)
+		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (strcmp(newentry->comment, newentry->next->comment)) == 0)
 			removefile(newentry->next, dir, win, 0);
 	}
 
@@ -683,7 +687,7 @@ int namesort(STRPTR str1, STRPTR str2)
 	int n1, n2;
 
 	if(SORT_ISALPHA(config->sortflags))
-		return IUtility->Stricmp(str1, str2);
+		return strcmp(str1, str2);
 
 	if(((SORT_ISDEC(config->sortflags)) && _isdigit(str1[0]) && _isdigit(str2[0])) || ((SORT_ISHEX(config->sortflags)) && _isxdigit(str1[0]) && _isxdigit(str2[0])))
 	{
@@ -706,7 +710,7 @@ int namesort(STRPTR str1, STRPTR str2)
 		str1 = getstrafternum(str1);
 		str2 = getstrafternum(str2);
 	}
-	return (IUtility->Stricmp(str1, str2));
+	return (strcmp(str1, str2));
 }
 
 char *getstrafternum(STRPTR str)
@@ -876,7 +880,7 @@ void sortdir(struct DirectoryWindow *dir, int win)
 				swap = 0;
 
 				if(entry1->comment && entry2->comment)
-					if(IUtility->Stricmp(entry1->comment, entry2->comment) > 0)
+					if(strcmp(entry1->comment, entry2->comment) > 0)
 					{
 						swapdirentries(dir, entry1, entry2);
 						rerun = 1;
@@ -963,9 +967,9 @@ int dorun(STRPTR name, int state, int workbench)
 	}
 	else
 		buf[0] = 0;
-	IUtility->Strlcat(buf, "\"", 256);
-	IUtility->Strlcat(buf, name, 256);
-	IUtility->Strlcat(buf, "\"", 256);
+	strcat(buf, "\"");
+	strcat(buf, name);
+	strcat(buf, "\"");
 
 	len = 256 - strlen(buf);
 	if(state)
@@ -988,8 +992,8 @@ int dorun(STRPTR name, int state, int workbench)
 	}
 	if(argbuf[0])
 	{
-		IUtility->Strlcat(buf, " ", 256);
-		IUtility->Strlcat(buf, argbuf, 256);
+		strcat(buf, " ");
+		strcat(buf, argbuf);
 	}
 	defaultpar(&par);
 	dofunctionstring(buf, NULL, IDOS->FilePart(name), &par);

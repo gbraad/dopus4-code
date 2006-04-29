@@ -129,7 +129,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		return (0);
 	}
 
-	IUtility->Strlcpy(buf, str_pathbuffer[win], 256);
+	strcpy(buf, str_pathbuffer[win]);
 	if(getroot(buf, NULL))
 	{
 		strcpy(dir->volumename, buf);
@@ -147,7 +147,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	}
 
 	IDOS->Examine(mylock, fileinfo);
-	if(FIB_IS_FILE(fileinfo))	//fileinfo->fib_DirEntryType < 0)
+	if(FIB_IS_FILE(fileinfo))
 	{
 		IDOS->UnLock(mylock);
 		if(IxadMaster)
@@ -204,7 +204,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 	}
 
-	FOREVER
+	for(;;)	
 	{
 		if(use_exall)
 		{
@@ -314,8 +314,12 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			break;
 		}
 		else if(Window)
+		{
 			if(config->dynamicflags & UPDATE_QUIETGETDIR)
+			{
 				fixprop(win);
+			}
+		}
 	}
 	IDOS->UnLock(mylock);
 
@@ -515,7 +519,7 @@ void findfirstchar(int win, char c)
 	if(_isupper(c))
 	{
 		file = 0;
-		c = IUtility->ToLower(c);
+		c = tolower(c);
 	}
 	if(dopus_curwin[win]->total <= scrdata_dispwin_lines)
 		return;
@@ -523,7 +527,7 @@ void findfirstchar(int win, char c)
 	sel = dopus_curwin[win]->firstentry;
 	while(sel)
 	{
-		d = IUtility->ToLower(sel->name[0]);
+		d = tolower(sel->name[0]);
 		if((rev && (d <= c)) || (!rev && (d >= c)))
 		{
 			if(!file || ENTRYTYPE(sel->type) == ENTRY_FILE)

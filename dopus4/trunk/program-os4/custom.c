@@ -317,7 +317,7 @@ int getfunction(char *func, char **funcptr)
 			if(commandlist[b].name == NULL)
 				break;
 			a = strlen(commandlist[b].name);
-			if(IUtility->Strnicmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
+			if(strncmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
 			{
 				if(funcptr && func[a + 1])
 					*funcptr = &func[a + 1];
@@ -460,8 +460,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 	struct Directory *cust = NULL, dummy;
 	struct args *arg;
 
-	IUtility->ClearMem(buffer, MAXCOMMANDLEN);
-	IUtility->ClearMem(buf3, 256);
+	memset(buffer, 0, MAXCOMMANDLEN);
+	memset(buf3, 0, 256);
 
 	sblen = strlen(funcdata->source_path);
 
@@ -880,8 +880,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 
 			if((a = IDOS->GetVar(titlebuf, buf3, 256, 0)) > 0)
 			{
-//				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
-				IUtility->Strlcat(buffer, buf3, MAXCOMMANDLEN);
+				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
 				bufpos += a;
 			}
 			break;
@@ -1121,9 +1120,7 @@ void parserunline(STRPTR buf, STRPTR buf1)
 	int a, b, c, d;
 
 	a = strlen(buf);
-//	bzero(buf1, 256);
-	IUtility->ClearMem(buf1, 256);
-//	IUtility->SetMem(buf1, 0, 256);
+	memset(buf1, 0, 256);
 	c = 0;
 	for(b = 0; b < a; b++)
 	{

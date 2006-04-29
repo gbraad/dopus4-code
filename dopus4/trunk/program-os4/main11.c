@@ -102,16 +102,8 @@ void iconify(int louise, int buttons, int banknum)
 	struct AppMessage *amsg;
 	struct MenuItem *item;
 
-/*	if(louise == 3)
-	{
-		screennotify = TRUE;
-		louise = 2;
-	}
-	else
-		screennotify = FALSE;
-*/
 	endnotifies();
-	shutthingsdown(0 /*louise */ );
+	shutthingsdown(0);
 
 	status_iconified = 1;
 	status_flags &= ~STATUS_ISINBUTTONS;
@@ -274,7 +266,7 @@ void iconify(int louise, int buttons, int banknum)
 			if((icon_len = strlen(buf)) && buf[icon_len - 1] != ' ')
 				strcat(buf, " ");
 
-			IUtility->Strlcat(buf, "W", 50);
+			strcat(buf, "W");
 
 		}
 		icon_len = 0;
@@ -784,8 +776,7 @@ int getmaxmem(ULONG type)
 
 void iconstatustext(char *buf, int buttons)
 {
-//	strcpy(icontitletext, buf);
-	IUtility->Strlcpy(icontitletext, buf, 200);
+	strcpy(icontitletext, buf);
 	IIntuition->SetWindowTitles(Window, icontitletext, (char *)-1);
 }
 

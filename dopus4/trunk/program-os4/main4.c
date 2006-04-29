@@ -230,7 +230,7 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 	struct DiskObject *diskobj;
 	char buf[256], *ptr;
 
-	IUtility->Strlcpy(buf, srce, 256);
+	strcpy(buf, srce);
 	if((ptr = strstri(buf, ".info")))
 		*ptr = 0;
 
@@ -255,7 +255,7 @@ char *isicon(STRPTR name)
 
 	if((a = strlen(name)) < 6)
 		return (NULL);
-	if(IUtility->Stricmp(&name[a - 5], ".info") == 0)
+	if(strcmp(&name[a - 5], ".info") == 0)
 		return (&name[a - 5]);
 	return (NULL);
 }

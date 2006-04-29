@@ -321,8 +321,8 @@ int makelink(int rexx)
 
 	if(rexx)
 	{
-		IUtility->Strlcpy(name, rexx_args[0], 256);
-		IUtility->Strlcpy(path, rexx_args[1], 256);
+		strcpy(name, rexx_args[0]);
+		strcpy(path, rexx_args[1]);
 		if(atoi(rexx_args[2]))
 			mode = 1;
 	}

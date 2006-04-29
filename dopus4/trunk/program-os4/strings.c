@@ -276,7 +276,6 @@ static const struct DefaultString default_strings[] =
 	{ STR_SELECT_BITS, "Bits" },
 	{ STR_STARTING_PRINT_MODULE, "Starting print module..." },
 	{ STR_ABOUT, "%s\nBased on GPL release version 4.12\nmodified by %s\n\n"\
-	"AmigaOS 4 port and coding by Joachim Birging\n\n"\
 	"This program is free software; you can redistribute it and/or\n"\
 	"modify it under the terms of the GNU General Public License\n"\
 	"as published by the Free Software Foundation; either version 2\n"\
@@ -431,7 +430,7 @@ int getkeyshortcut(CONST_STRPTR str)
 	char *c;
 
 	if((c = strchr(str, '_')))
-		return IUtility->ToLower(c[1]);
+		return tolower(c[1]);
 	else
 		return 0;
 }

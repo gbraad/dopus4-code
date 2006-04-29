@@ -719,7 +719,7 @@ int view_idcmp(struct ViewData *vdata)
 				}
 				break;
 			case IDCMP_VANILLAKEY:
-				code = IUtility->ToUpper(code);
+				code = toupper(code);
 				if(strchr(globstring[STR_VIEW_BUTTONS], code))
 				{
 					switch ((ULONG) strchr(globstring[STR_VIEW_BUTTONS], code) - (ULONG) globstring[STR_VIEW_BUTTONS])

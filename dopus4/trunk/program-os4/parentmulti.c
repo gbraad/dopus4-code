@@ -185,7 +185,7 @@ int do_parent_multi(STRPTR path)
 			key[a] = uscore[1];
 		else
 			key[a] = globstring[a ? STR_CANCEL : STR_OKAY][0];
-		key[a] = IUtility->ToLower(key[a]);
+		key[a] = tolower(key[a]);
 	}
 
 	for(;;)
@@ -198,12 +198,12 @@ int do_parent_multi(STRPTR path)
 			{
 				if((class = IMsg->Class) == IDCMP_VANILLAKEY)
 				{
-					if((IMsg->Code == 0x1b) || (IUtility->ToLower(IMsg->Code) == key[1]))
+					if((IMsg->Code == 0x1b) || (tolower(IMsg->Code) == key[1]))
 					{
 						class = IDCMP_GADGETUP;
 						gadgetid = PM_CANCEL;
 					}
-					else if(IUtility->ToLower(IMsg->Code) == key[0])
+					else if(tolower(IMsg->Code) == key[0])
 					{
 						class = IDCMP_GADGETUP;
 						gadgetid = PM_OKAY;

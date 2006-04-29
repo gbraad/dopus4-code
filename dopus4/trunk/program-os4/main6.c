@@ -117,7 +117,7 @@ void startnotifies()
 
 	for(a = 0; a < 2; a++)
 	{
-		if(IUtility->Stricmp(dos_notify_names[a], str_pathbuffer[a]))
+		if(strcmp(dos_notify_names[a], str_pathbuffer[a]))
 			startnotify(a);
 	}
 }

@@ -61,7 +61,7 @@ void do_path_completion(int win, USHORT qual)
 		entry = completion[win].firstentry;
 		while (entry)
 		{
-			if(IUtility->Stricmp(match, entry->name) == 0)
+			if(strcmp(match, entry->name) == 0)
 				break;
 			entry = entry->next;
 		}
@@ -102,7 +102,7 @@ void do_path_completion(int win, USHORT qual)
 							while (addpos)
 							{
 								curentry = addpos;
-								if(IUtility->Stricmp(addpos->name, entry->name) > 0)
+								if(strcmp(addpos->name, entry->name) > 0)
 									break;
 								addpos = addpos->next;
 							}

@@ -40,7 +40,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 	struct dopusfuncpar par;
 	struct Directory *file;
 
-	IUtility->Strlcpy(buf, path, 256);
+	strcpy(buf, path);
 	IDOpus->TackOn(buf, name, 256);
 	threelongs[0] = 0;
 
@@ -66,7 +66,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		par.key = par.qual = 0;
 		par.type = 3;
 
-		if((IUtility->Stricmp(type->type, "Default") == 0) || (IUtility->Stricmp(type->type, globstring[STR_FTYPE_DEFAULT]) == 0))
+		if((strcmp(type->type, "Default") == 0) || (strcmp(type->type, globstring[STR_FTYPE_DEFAULT]) == 0))
 		{
 			dodef = 1;
 		}
@@ -119,7 +119,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 			IExec->FreeMem(mem, len);
 			if(cl)
 			{
-				IUtility->Strlcpy(str_pathbuffer[data_active_window], buf, 256);
+				strcpy(str_pathbuffer[data_active_window], buf);
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				return;
 			}
@@ -157,7 +157,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		if(threelongs[2] == ID_8SVX)
 		{
 			dostatustext(globstring[STR_PLAYING_FILE]);
-			IUtility->Strlcpy(func_single_file, name, FILEBUF_SIZE);
+			strcpy(func_single_file, name);
 			a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
 			kill8svx();
 			if(a == 1 || a == -1)
@@ -170,7 +170,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		else if(threelongs[2] == ID_ILBM || threelongs[2] == ID_ANIM)
 		{
 			dostatustext(globstring[(threelongs[2] == ID_ILBM) ? STR_SHOWING_FILE : STR_PLAYING_ANIM]);
-			IUtility->Strlcpy(func_single_file, name, FILEBUF_SIZE);
+			strcpy(func_single_file, name);
 			a = showpic(buf, 1);
 			if(a)
 				okay();
@@ -180,13 +180,13 @@ void ftype_doubleclick(char *path, char *name, int state)
 	}
 
 	a = strlen(name);
-	if(a > 5 && IUtility->Stricmp(&name[a - 5], ".info") == 0)
+	if(a > 5 && strcmp(&name[a - 5], ".info") == 0)
 	{
 		struct Screen *wbscreen = IIntuition->LockPubScreen(NULL);
 		BPTR plock, flock = IDOS->Lock(buf, ACCESS_READ);
 		char buffer[108] = { 0, };
 
-		IUtility->Strlcpy(buffer, buf, 108);
+		strcpy(buffer, buf);
 		b = strlen(buffer);
 		buffer[b - 5] = '\0';
 		plock = IDOS->ParentDir(flock);
@@ -212,13 +212,13 @@ void ftype_doubleclick(char *path, char *name, int state)
 			title[0] = 0;
 
 		if(!status_iconified)
-			IUtility->Strlcpy(func_single_file, name, 108);
+			strcpy(func_single_file, name);
 		dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 	}
 	else
 	{
 		dostatustext(globstring[STR_READING_SELECTED_FILE]);
-		IUtility->Strlcpy(func_single_file, name, 108);
+		strcpy(func_single_file, name);
 		if(viewfile(buf, str_arcorgname[0] ? str_arcorgname : name, FUNC_SMARTREAD, NULL, NULL, str_arcorgname[0] ? 1 : 0, 1))
 			okay();
 		func_single_file[0] = 0;
@@ -410,7 +410,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				doconfig();
 				break;
 			case FUNC_QUIT:
-				if(!(config->generalflags & GENERAL_FORCEQUIT) && (rexx_argcount < 1 || (IUtility->Stricmp(rexx_args[0], "force")) != 0) && !(simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
+				if(!(config->generalflags & GENERAL_FORCEQUIT) && (rexx_argcount < 1 || (strcmp(rexx_args[0], "force")) != 0) && !(simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
 				{
 					break;
 				}

@@ -49,7 +49,7 @@ void progressbar(struct ProgressBar *bar);
 
 struct Gadget abortopgad =
 {
-	NULL, 0, 0, 104, 0, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, NULL, NULL, 0, NULL
+	NULL, 0, 0, 104, 0, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, 0, NULL, 0, NULL
 };
 
 static struct NewWindow progresswindow =
@@ -82,9 +82,9 @@ void hotkeytaskcode()
 	struct MsgPort *inputport;
 	struct IntuiMessage *msg;
 	ULONG class, msgid, msgtype;
-	USHORT gadgetid;
+	USHORT gadgetid = 0;
 	struct dopushotkey *hotkey;
-	CxObj *broker, *hotkey_filter, *mmb_filter = NULL;
+	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
 	CxMsg *cxmsg;
 
 	hotkeymsg_port = IExec->CreatePort(NULL, 0);
@@ -97,7 +97,7 @@ void hotkeytaskcode()
 		{
 			char tmp[8];
 
-			sprintf(tmp, " (%ld)", system_dopus_runcount + 1);
+			sprintf(tmp, " (%d)", system_dopus_runcount + 1);
 			strcat(cxname, tmp);
 		}
 		hotkey_broker.nb_Name = cxname;
@@ -114,7 +114,6 @@ void hotkeytaskcode()
 				hotkey_ix.ix_QualMask = 0xffff & ~(IEQUALIFIER_LEFTBUTTON | IEQUALIFIER_RELATIVEMOUSE | IEQUALIFIER_CAPSLOCK);
 				if(set_dopus_filter(broker, inputport, "rawmouse lbutton", 0, 0, HOTKEY_ABORT, 0))
 				{
-
 					hotkey_ix.ix_Code = IECODE_RBUTTON;
 					hotkey_ix.ix_Qualifier = IEQUALIFIER_LEFTBUTTON;
 					hotkey_ix.ix_QualMask = 0xffff & ~(IEQUALIFIER_RBUTTON | IEQUALIFIER_RELATIVEMOUSE | IEQUALIFIER_CAPSLOCK);
@@ -683,7 +682,8 @@ static char *Kstr = "K  ";
 
 void clocktask()
 {
-	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, len, ct, chipnum, fastnum, a, active = 1, usage;
+	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, /*len,*/ ct, chipnum, fastnum, a, active = 1, usage;
+	int len;
 	USHORT clock_width, clock_height, scr_height;
 	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
 	struct MsgPort *clock_time_port;
@@ -830,7 +830,7 @@ void clocktask()
 									{
 										h = 12;
 									}
-									sprintf(time, "%02ld:%02ld:%02ld%lc", h, m, s, ampm);
+									sprintf(time, "%02ld:%02ld:%02ld%c", h, m, s, ampm);
 								}
 								strcat(formstring, time);
 							}

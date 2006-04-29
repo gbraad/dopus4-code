@@ -68,7 +68,7 @@ int showpic(STRPTR fullname, int np)
 		return ((showfont(buf, atoi(IDOS->FilePart(fullname)), np)));
 
 	a = strlen(fullname);
-	if(a > 5 && IUtility->Stricmp(&fullname[a - 5], ".info") == 0)
+	if(a > 5 && strcmp(&fullname[a - 5], ".info") == 0)
 	{
 		if((res = readicon(fullname, np)) == 0)
 			return (1);

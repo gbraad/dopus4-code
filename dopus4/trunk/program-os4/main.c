@@ -31,6 +31,11 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/locale.h>
 
+//#include <dos.h>
+//ULONG __break_signal_mask &= ~SIGBREAKF_CTRL_C;
+BOOL __check_abort_enabled = FALSE;
+void __check_abort(void) { return; }
+
 static BOOL staybehindWB;
 extern BOOL useAHI;
 
@@ -83,7 +88,7 @@ int main(int argc, char **argv)
 	iconstart = in = 0;
 	ck = 0;
 
-	IUtility->Strlcpy(str_config_basename, "DirectoryOpus", 256);
+	strcpy(str_config_basename, "DirectoryOpus");
 
 	if(argc >= 1)
 	{
@@ -103,7 +108,7 @@ int main(int argc, char **argv)
 					iconstart = 2;
 					break;
 				case 'c':
-					IUtility->Strlcpy(str_config_basename, &argv[a][2], 256);
+					strcpy(str_config_basename, &argv[a][2]);
 					break;
 				case 'C':
 					ck = 1;
@@ -129,7 +134,7 @@ int main(int argc, char **argv)
 			if((IIcon->FindToolType(toolarray, "BUTTONSTART")))
 				iconstart = 2;
 			if((s = (STRPTR)IIcon->FindToolType(toolarray, "CONFIGFILE")))
-				IUtility->Strlcpy(str_config_basename, s, 256);
+				strcpy(str_config_basename, s);
 			if((IIcon->FindToolType(toolarray, "CHECK")))
 				ck = 1;
 			if(IIcon->FindToolType(toolarray, "USEAHI"))
@@ -180,7 +185,7 @@ int main(int argc, char **argv)
 	read_configuration(0);
 
 	if(startdir)
-		IUtility->Strlcpy((char *)config->autodirs[0], startdir, 69);
+		strcpy((char *)config->autodirs[0], startdir);
 
 	initlistermenu();
 
@@ -287,7 +292,7 @@ int main(int argc, char **argv)
 		{
 			if(config->autodirs[a][0])
 			{
-				IUtility->Strlcpy(str_pathbuffer[a], (char *)config->autodirs[a], 256);
+				strcpy(str_pathbuffer[a], (char *)config->autodirs[a]);
 				checkdir(str_pathbuffer[a], (sup) ? &path_strgadget[a] : NULL);
 				strcpy(dopus_curwin[a]->directory, str_pathbuffer[a]);
 				getdir(dopus_curwin[a], a, 0);

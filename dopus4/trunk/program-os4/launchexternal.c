@@ -147,12 +147,12 @@ void doconfig()
 	sprintf(buf, "%d", system_dopus_runcount);
 	sprintf(buf1, "dopus4_config%d", system_dopus_runcount);
 
-	IUtility->Strlcpy(funcpath, "ConfigOpus", 80);
+	strcpy(funcpath, "ConfigOpus");
 
 	if(!configopus_segment)
 	{
 		dostatustext(globstring[STR_LOADING_CONFIG]);
-		IUtility->Strlcpy(funcpath, "PROGDIR:Modules/ConfigOpus", 80);
+		strcpy(funcpath, "PROGDIR:Modules/ConfigOpus");
 	}
 
 	func_args[0] = funcpath;
@@ -199,7 +199,7 @@ void doconfig()
 	status_configuring = -1;
 	shutthingsdown(1);
 	old_bufcount = config->bufcount;
-	IUtility->Strlcpy(old_language, config->language, 30);
+	strcpy(old_language, config->language);
 	dotaskmsg(hotkeymsg_port, HOTKEY_KILLHOTKEYS, 0, 0, NULL, 0);
 
 	endnotifies();
@@ -460,9 +460,9 @@ int dopus_iconinfo(char *filename)
 	char buffer[108] = { 0, };
 	int a;
 
-	IUtility->Strlcpy(buffer, filename, 108);
+	strcpy(buffer, filename);
 	a = strlen(buffer);
-	if(a > 5 && IUtility->Stricmp(&buffer[a - 5], ".info") == 0)
+	if(a > 5 && strcmp(&buffer[a - 5], ".info") == 0)
 	{
 		buffer[a - 5] = '\0';
 		plock = IDOS->ParentDir(flock);

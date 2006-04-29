@@ -42,8 +42,8 @@ int readarchive(struct DirectoryWindow *dir, int win)
 	char arcname[256] = { 0, }, arcdir[256] = { 0, }, buf[FILEBUF_SIZE] = { 0, }, *c = NULL;
 	int type;
 
-	IUtility->Strlcpy(arcdir, "", 256);
-	IUtility->Strlcpy(arcname, dir->directory, 256);
+	strcpy(arcdir, "");
+	strcpy(arcname, dir->directory);
 	if((len = strlen(arcname)))
 	{
 		if(arcname[len - 1] == '/')
@@ -62,7 +62,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 		{
 			*(c - 1) = 0;
 		}
-		IUtility->Strlcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname, 256);
+		strcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname);
 	}
 	len = strlen(arcdir);
 	IDOS->UnLock(lock);
@@ -137,8 +137,8 @@ int readarchive(struct DirectoryWindow *dir, int win)
 			i = 0;
 			do
 			{
-				c1 = IUtility->ToLower(arcdir[i]);
-				c2 = IUtility->ToLower(xfi->xfi_FileName[i]);
+				c1 = tolower(arcdir[i]);
+				c2 = tolower(xfi->xfi_FileName[i]);
 
 				if(c1 == c2)
 				{
@@ -234,7 +234,7 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 				}
 			}
 
-			IUtility->Strlcpy(arcname, dir->arcname, 256);
+			strcpy(arcname, dir->arcname);
 			c = strstr(dir->directory, IDOS->FilePart(arcname));
 			if(c)
 			{
@@ -244,7 +244,7 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 			{
 				c++;
 			}
-			IUtility->Strlcpy(arcdir, c ? c : "", 256);
+			strcpy(arcdir, c ? c : "");
 
 			IDOS->AddPart(arcdir, file, 256);
 			strcpy(namebuf, "dopustmp");
@@ -255,11 +255,11 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 			{
 				strcat(namebuf, c);
 			}
-			IUtility->Strlcpy(arcname, path, 256);
-			IUtility->Strlcat(arcname, namebuf, 256);
+			strcpy(arcname, path);
+			strcat(arcname, namebuf);
 			for(xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next)
 			{
-				if(IUtility->Stricmp(xfi->xfi_FileName, arcdir) == 0)
+				if(strcmp(xfi->xfi_FileName, arcdir) == 0)
 				{
 					break;
 				}

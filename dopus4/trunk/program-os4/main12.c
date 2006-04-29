@@ -119,7 +119,7 @@ void dodiskinfo(char *path)
 				for(i = 0; i < 4; i++)
 				{
 					sprintf(dname, "DF%ld:", i);
-					if(IUtility->Stricmp(disktxt[0], dname) == 0)
+					if(strcmp(disktxt[0], dname) == 0)
 					{
 						isd = i;
 						break;
@@ -346,7 +346,7 @@ void dodiskinfo(char *path)
 		cont_key = uscore[1];
 	else
 		cont_key = globstring[STR_CONTINUE][0];
-	cont_key = IUtility->ToLower(cont_key);
+	cont_key = tolower(cont_key);
 
 	FOREVER
 	{
@@ -373,7 +373,7 @@ void dodiskinfo(char *path)
 				}
 				break;
 			case IDCMP_VANILLAKEY:
-				if(code != '\r' && IUtility->ToLower(code) != cont_key)
+				if(code != '\r' && tolower(code) != cont_key)
 					break;
 				IDOpus->SelectGadget(fontwindow, &contgad);
 			case IDCMP_GADGETUP:

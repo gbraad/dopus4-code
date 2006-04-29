@@ -400,7 +400,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 			{
 				if(help->lookup[0] == '*' && func)
 				{
-					if(IUtility->Stricmp(help->lookup, func) == 0)
+					if(strcmp(help->lookup, func) == 0)
 					{
 						msg = help->message;
 						break;
@@ -408,7 +408,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 				}
 				else if(name)
 				{
-					if(IUtility->Stricmp(help->lookup, name) == 0)
+					if(strcmp(help->lookup, name) == 0)
 					{
 						msg = help->message;
 						break;

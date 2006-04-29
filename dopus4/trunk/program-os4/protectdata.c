@@ -294,7 +294,7 @@ int getprotectdata(int *prot, int *mask)
 			case IDCMP_VANILLAKEY:
 				for(a = 0; a < 8; a++)
 				{
-					if(IUtility->ToUpper(code) == prot_template[a])
+					if(toupper(code) == prot_template[a])
 					{
 						if(_isupper(code))
 						{
@@ -310,7 +310,7 @@ int getprotectdata(int *prot, int *mask)
 					}
 				}
 				gadgetid = 0;
-				code = IUtility->ToLower(code);
+				code = tolower(code);
 				if(code == getkeyshortcut(globstring[STR_PROTECT_ALL]))
 					gadgetid = PROTECT_ALL;
 				else if((code == getkeyshortcut(globstring[STR_PROTECT_OKAY])) || (code == '\r'))

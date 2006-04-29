@@ -55,33 +55,14 @@ char str_cancelstring[30];
 
 void readstrings(STRPTR file)
 {
-//	int a;
 	stringdata.default_table = default_strings;
 	stringdata.string_count = STR_STRING_COUNT;
 	stringdata.min_version = %v;
-//D(bug("readstrings(\%%%s)\\n",file);Delay(50);)
 
-//D(bug("STR_STRING_COUNT=\%%%ld\\n",STR_STRING_COUNT));
-//D(for(a=0;a<STR_STRING_COUNT;a++) bug("\%%%ld\\t\%%%s\\n",default_strings[a].string_id,default_strings[a].string));
 	if(!(IDOpus->ReadStringFile(&stringdata, file)))
 		quit();
 	globstring = stringdata.string_table;
-/*
-	for(a=0;a<12;a++)
-	{
-		date_months[a]=globstring[STR_MONTH_JANUARY+a];
-		date_shortmonths[a]=globstring[STR_MONTH_JAN+a];
-	}
-	date_weekdays[0]=globstring[STR_DAY_SUNDAY];
-	date_shortweekdays[0]=globstring[STR_DAY_SUN];
-	for(a=1;a<7;a++)
-	{
-		date_weekdays[a]=globstring[(STR_DAY_MONDAY-1)+a];
-		date_shortweekdays[a]=globstring[(STR_DAY_MON-1)+a];
-	}
-	for(a=0;a<4;a++)
-		date_special[a]=globstring[STR_DAY_YESTERDAY+a];
-*/
+
 	strcpy(str_okaystring, globstring[STR_OKAY]);
 	strcpy(str_cancelstring, globstring[STR_CANCEL]);
 }
@@ -91,7 +72,7 @@ int getkeyshortcut(CONST_STRPTR str)
 	char *c;
 
 	if((c = strchr(str, '_')))
-		return IUtility->ToLower(c[1]);
+		return tolower(c[1]);
 	else
 		return 0;
 }

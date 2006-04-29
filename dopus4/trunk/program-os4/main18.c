@@ -316,7 +316,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						}
 						else if(cur_recurse)
 						{
-							if(IUtility->Stricmp(new_rec->name, cur_recurse->name) < 0)
+							if(strcmp(new_rec->name, cur_recurse->name) < 0)
 							{
 								if(first_recurse == cur_recurse)
 									first_recurse = new_rec;
@@ -330,7 +330,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 								pos_rec = cur_recurse;
 								FOREVER
 								{
-									if(!pos_rec->next || (IUtility->Stricmp(new_rec->name, pos_rec->next->name) < 0))
+									if(!pos_rec->next || (strcmp(new_rec->name, pos_rec->next->name) < 0))
 									{
 										new_rec->next = pos_rec->next;
 										pos_rec->next = new_rec;

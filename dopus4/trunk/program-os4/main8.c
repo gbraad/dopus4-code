@@ -73,7 +73,7 @@ int getprotval(STRPTR buf)
 	a = strlen(buf);
 	for(b = 0; b < a; b++)
 	{
-		buf[b] = IUtility->ToUpper(buf[b]);
+		buf[b] = toupper(buf[b]);
 		for(c = 0; c < 8; c++)
 		{
 			if(buf[b] == str_protbits[7 - c])

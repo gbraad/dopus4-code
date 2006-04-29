@@ -511,7 +511,6 @@ void doidcmp()
 						}
 						else
 						{
-//							IDOpus->LParsePatternI(str_filter, str_filter_parsed);
 							IDOS->ParsePatternNoCase(str_filter, str_filter_parsed, 84);
 						}
 						unbusy();
@@ -567,7 +566,7 @@ void doidcmp()
 				if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
 				{
 					IDOpus->RawkeyToStr(code, qual, NULL, (char *)buf, 0);
-					switch (IUtility->ToUpper(buf[0]))
+					switch (toupper(buf[0]))
 					{
 					case 'R':
 						function = FUNC_RESELECT;

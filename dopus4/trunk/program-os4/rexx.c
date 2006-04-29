@@ -44,9 +44,9 @@ void rexx_dispatch(int allfuncs)
 	int dontreply, a, cmd;
 	char *command;
 
-	while(msg = (struct RexxMsg *)IExec->GetMsg(arexx_port))
+	while((msg = (struct RexxMsg *)IExec->GetMsg(arexx_port)))
 	{
-		if((!RexxSysBase || !(IRexxSys->IsRexxMsg(msg))) && msg->rm_Node.mn_Node.ln_Type != NT_REPLYMSG)
+		if((!RexxSysBase || !(IRexxSys->IsRexxMsg((struct Message *)msg))) && msg->rm_Node.mn_Node.ln_Type != NT_REPLYMSG)
 		{
 
 			struct DOpusMessage *dopusmsg;
@@ -128,7 +128,7 @@ void rexx_dispatch(int allfuncs)
 					for(cmd = 0; commandlist[cmd].name; cmd++)
 					{
 						a = strlen(commandlist[cmd].name);
-						if((IUtility->Strnicmp(commandlist[cmd].name, command, a)) == 0 && (command[a] == 0 || (_isspace(command[a]))))
+						if((strncmp(commandlist[cmd].name, command, a)) == 0 && (command[a] == 0 || (_isspace(command[a]))))
 						{
 							func_global_function = 0;
 							rexxdisp(msg, &commandlist[cmd], command + a);
@@ -181,7 +181,7 @@ struct RexxMsg *send_rexx_command(STRPTR command, int (*replyfunc) (), struct Re
 		RexxMsg->rm_Node.mn_Node.ln_Name = "REXX";
 
 		IExec->Forbid();
-		if(rxport = IExec->FindPort("REXX"))
+		if((rxport = IExec->FindPort("REXX")))
 			IExec->PutMsg(rxport, (struct Message *)RexxMsg);
 		IExec->Permit();
 		if(rxport)
@@ -226,7 +226,7 @@ void rexx_copyresult(char *result)
 	char *new_lrr;
 
 	if(result)
-		if(new_lrr = IExec->AllocVec(strlen(result) + 1, MEMF_ANY))
+		if((new_lrr = IExec->AllocVec(strlen(result) + 1, MEMF_ANY)))
 		{
 			strcpy(new_lrr, result);
 			IExec->FreeVec(str_last_rexx_result);

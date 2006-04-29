@@ -297,7 +297,7 @@ void relabel_disk(int rexx, char *path)
 */
 	else if((!status_iconified) && (dopus_curwin[data_active_window] != dopus_specialwin[data_active_window]))
 	{
-		if((IUtility->Strnicmp(str_pathbuffer[data_active_window], oldname, strlen(oldname))) == 0 && str_pathbuffer[data_active_window][strlen(oldname)] == ':')
+		if((strncmp(str_pathbuffer[data_active_window], oldname, strlen(oldname))) == 0 && str_pathbuffer[data_active_window][strlen(oldname)] == ':')
 		{
 			strcpy(buf, name);
 			IDOpus->StrConcat(buf, &str_pathbuffer[data_active_window][strlen(oldname)], 256);

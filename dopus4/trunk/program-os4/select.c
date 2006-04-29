@@ -871,7 +871,7 @@ void getprotselvals(STRPTR buf, int *prot)
 	b = strlen(buf);
 	for(a = 0; a < b; a++)
 	{
-		ch = IUtility->ToUpper(buf[a]);
+		ch = toupper(buf[a]);
 		if(ch == '-')
 			notflag = 1;
 		else if(ch == '+')

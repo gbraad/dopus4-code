@@ -88,7 +88,7 @@ void doreselect(struct DirWindowPars *winpar, int moveold)
 				dir->selected = 0;
 				updateselectinfo(dir, winpar->reselection_win, 0);
 			}
-			if(top == -1 && winpar->top_name[0] && (IUtility->Stricmp(dir->name, winpar->top_name)) == 0)
+			if(top == -1 && winpar->top_name[0] && (strcmp(dir->name, winpar->top_name)) == 0)
 				top = num;
 			++num;
 			dir = dir->next;
@@ -100,7 +100,7 @@ void doreselect(struct DirWindowPars *winpar, int moveold)
 				dir = dopus_curwin[winpar->reselection_win]->firstentry;
 				while(dir)
 				{
-					if(IUtility->Stricmp(&winpar->reselection_list[a], dir->name) == 0)
+					if(strcmp(&winpar->reselection_list[a], dir->name) == 0)
 					{
 						dir->selected = 1;
 						updateselectinfo(dir, winpar->reselection_win, 0);
@@ -572,8 +572,8 @@ int checktypechars(int file, UBYTE *match, int nocase)
 			{
 				if(nocase)
 				{
-					c1 = IUtility->ToUpper(match[a]);
-					c2 = IUtility->ToUpper(matchbuf[m]);
+					c1 = toupper(match[a]);
+					c2 = toupper(matchbuf[m]);
 					if(c1 == c2)
 						continue;
 				}
@@ -620,7 +620,7 @@ int typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 				}
 			}
 			else if(flags & SEARCH_NOCASE)
-				matchbuf[matchsize++] = IUtility->ToUpper(find[a]);
+				matchbuf[matchsize++] = toupper(find[a]);
 			else
 				matchbuf[matchsize++] = find[a];
 		}
@@ -673,7 +673,7 @@ int searchbuffer(char *findbuf, int size, char *matchbuf, int matchsize, int fla
 	{
 		if(status_haveaborted)
 			return (-1);
-		if((mchar = (flags & SEARCH_NOCASE) ? IUtility->ToUpper(findbuf[a]) : findbuf[a]) == 10)
+		if((mchar = (flags & SEARCH_NOCASE) ? toupper(findbuf[a]) : findbuf[a]) == 10)
 		{
 			++search_found_lines;
 			search_last_line_pos = a + 1;

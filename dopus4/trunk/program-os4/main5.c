@@ -315,7 +315,7 @@ struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 /*
             if (find->name && (LMatchPatternI(parsebuf,find->name))) return(find);
 */
-			if(find->name && !(IUtility->Stricmp(name, find->name)))
+			if(find->name && !(strcmp(name, find->name)))
 				return (find);
 
 			find = find->next;
@@ -401,12 +401,12 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 			b++;
 			spat++;
 			if(*spat)
-				for(c1 = IUtility->ToLower(*spat); c1 != IUtility->ToLower(*sn); sn++);
+				for(c1 = tolower(*spat); c1 != tolower(*sn); sn++);
 		}
 		else
 		{
-			c1 = IUtility->ToLower(*spat);
-			c2 = IUtility->ToLower(*sn);
+			c1 = tolower(*spat);
+			c2 = tolower(*sn);
 
 			if(c1 == c2)
 			{
@@ -420,13 +420,11 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 			}
 		}
 	}
-//	D(bug("getwildrename(): <%smatch>, %ld asterisks in source pattern\n", a ? "" : "no ", b));
 
 /* count asterisks in destination pattern */
 	for(c = 0; *dpat; dpat++)
 		if(*dpat == '*')
 			c++;
-//	D(bug("getwildrename(): %ld asterisks in destination pattern\n", c));
 
 	if(a && (b == c))	// try to build destination filename
 	{
@@ -452,41 +450,13 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 			}
 			// copy wildcard part of source filename
 			if(*sn)
-				for(c1 = IUtility->ToLower(*spat); c1 != IUtility->ToLower(*sn); sn++)
+				for(c1 = tolower(*spat); c1 != tolower(*sn); sn++)
 					if(*spat != '*')
 						*dn++ = *sn;
 			*dn = 0;
-//			D(bug("getwildrename(): spat = %s, dpat = %s, sn = %s, destination name: %s\n", spat, dpat, sn, newn));
 		}
 		return 1;
 	}
-/*
-    b=strlen(sname); sfirst[0]=slast[0]=0;
-    for (a=0;a<b;a++)
-        if (sname[a]=='*') {
-            strcpy(sfirst,sname); sfirst[(flen=a)]=0;
-            strcpy(slast,(char *)&sname[a+1]);
-            llen=b-a;
-            break;
-        }
-    b=strlen(dname);
-    for (a=0;a<b;a++)
-        if (dname[a]=='*') {
-            strcpy(dfirst,dname); dfirst[a]=0;
-            strcpy(dlast,(char *)&dname[a+1]);
-            break;
-        }
-    a=strlen(sfirst); b=strlen(slast);
-    if ((!a || (Strnicmp(name,sfirst,flen))==0) &&
-        (!b || ((d=strlen(name))>=llen && (Stricmp(&name[(d-llen)+1],slast))==0))) {
-        c=strlen(name)-a-b;
-        CopyMem((char *)&name[a],foon,c);
-        foon[c]=0;
-        strcpy(newn,dfirst); strcat(newn,foon); strcat(newn,dlast);
-D(bug("getwildrename(): newname = %s\n",newn));
-        if (newn[0]!=0) return(1);
-    }
-*/
 	return (0);
 }
 
@@ -542,7 +512,7 @@ void update_buffer_stamp(int win, int true)
 		{
 			if(!(dirwin = dirwin->next) || dirwin == dopus_curwin[win])
 				break;
-			if(IUtility->Strnicmp(dirwin->directory, dirbuf, strlen(dirbuf)) == 0)
+			if(strncmp(dirwin->directory, dirbuf, strlen(dirbuf)) == 0)
 			{
 				dirwin->dirstamp.ds_Days = 0;
 				dirwin->dirstamp.ds_Minute = 0;
@@ -556,9 +526,7 @@ void update_buffer_stamp(int win, int true)
 
 int check_key_press(struct dopusfunction *func, USHORT code, USHORT qual)
 {
-	if(!func->function || !func->function[0] || (func->key == 0xff && func->qual == 0) ||
-//        func->key==0 ||
-	   func->qual != qual)
+	if(!func->function || !func->function[0] || (func->key == 0xff && func->qual == 0) || func->qual != qual)
 		return (0);
 	if(func->key == 0xff || func->key == code)
 		return (1);

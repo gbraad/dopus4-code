@@ -95,15 +95,15 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			rexx_arg_value[0] = 1;
 			for(a = 0; a < rexx_argcount; a++)
 			{
-				if((IUtility->Stricmp(rexx_args[a], "onlyfiles")) == 0)
+				if((strcmp(rexx_args[a], "onlyfiles")) == 0)
 					rexx_arg_value[0] = 2;
-				else if((IUtility->Stricmp(rexx_args[a], "onlydirs")) == 0)
+				else if((strcmp(rexx_args[a], "onlydirs")) == 0)
 					rexx_arg_value[0] = 3;
-				else if((IUtility->Stricmp(rexx_args[a], "name")) == 0)
+				else if((strcmp(rexx_args[a], "name")) == 0)
 					rexx_arg_value[1] = 0;
-				else if((IUtility->Stricmp(rexx_args[a], "date")) == 0)
+				else if((strcmp(rexx_args[a], "date")) == 0)
 					rexx_arg_value[1] = 1;
-				else if((IUtility->Stricmp(rexx_args[a], "protection")) == 0)
+				else if((strcmp(rexx_args[a], "protection")) == 0)
 					rexx_arg_value[1] = 2;
 			}
 			return (0);
@@ -113,11 +113,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				search_flags = SEARCH_NOCASE;
 				for(a = 2; a < rexx_argcount; a++)
 				{
-					if((IUtility->Stricmp(rexx_args[a], "ucnlc")) == 0)
+					if((strcmp(rexx_args[a], "ucnlc")) == 0)
 						search_flags &= ~SEARCH_NOCASE;
-					else if((IUtility->Stricmp(rexx_args[a], "wild")) == 0)
+					else if((strcmp(rexx_args[a], "wild")) == 0)
 						search_flags |= SEARCH_WILDCARD;
-					else if((IUtility->Stricmp(rexx_args[a], "byword")) == 0)
+					else if((strcmp(rexx_args[a], "byword")) == 0)
 						search_flags |= SEARCH_ONLYWORDS;
 				}
 			}
@@ -427,14 +427,14 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		statval = atoi(rexx_args[0]);
 		d = 0;
 		buf1 = buf3 = NULL;
-		if((IUtility->Stricmp(rexx_args[1], "set")) == 0)
+		if((strcmp(rexx_args[1], "set")) == 0)
 		{
 			f = 1;
 			c = 0;
 			val = atoi(rexx_args[2]);
 			buf3 = rexx_args[2];
 		}
-		else if((IUtility->Stricmp(rexx_args[2], "set")) == 0)
+		else if((strcmp(rexx_args[2], "set")) == 0)
 		{
 			c = atoi(rexx_args[1]);
 			f = 1;
@@ -782,18 +782,16 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 	case FUNC_PATTERNMATCH:
 		if(rexx_argcount < 2)
 			break;
-//		IDOpus->LParsePatternI(rexx_args[0], buf);
 		IDOS->ParsePatternNoCase(rexx_args[0], buf, 520);
-//		rexx_return(msg, IDOpus->LMatchPatternI(buf, rexx_args[1]));
 		rexx_return(msg, IDOS->MatchPatternNoCase(buf, rexx_args[1]));
 		return (1);
 
 	case FUNC_BUSY:
 		if(rexx_argcount < 1 || status_iconified)
 			break;
-		if((IUtility->Strnicmp(rexx_args[0], "on", 2)) == 0)
+		if((strncmp(rexx_args[0], "on", 2)) == 0)
 			busy();
-		else if((IUtility->Strnicmp(rexx_args[0], "off", 3)) == 0)
+		else if((strncmp(rexx_args[0], "off", 3)) == 0)
 			unbusy();
 		break;
 
@@ -1065,7 +1063,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				val = -1;
 				break;
 			}
-			if(IUtility->Stricmp(modifynames[val], rexx_args[0]) == 0)
+			if(strcmp(modifynames[val], rexx_args[0]) == 0)
 				break;
 		}
 		b = atoi(rexx_args[1]);
@@ -1769,7 +1767,7 @@ int checkkeyword(char **keywords, int num, int rem)
 	{
 		if(!keywords[a] || !keywords[a][0])
 			return (0);
-		if(IUtility->Stricmp(rexx_args[num], keywords[a]) == 0)
+		if(strcmp(rexx_args[num], keywords[a]) == 0)
 		{
 			rexx_arg_value[a] = 1;
 			if(rem)

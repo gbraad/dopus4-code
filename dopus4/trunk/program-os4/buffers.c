@@ -106,7 +106,7 @@ int bringinbuffer(char *dirbuf, int win, int read)
 		dir = dopus_firstwin[otherwin];
 		for(a = 0; a < data_buffer_count[otherwin]; a++, dir = dir->next)
 		{
-			if((IUtility->Stricmp(dirbuf, dir->directory)) == 0)
+			if((strcmp(dirbuf, dir->directory)) == 0)
 			{
 				incrementbuf(data_active_window, 1, 0);
 				copydirwin(dir, dopus_curwin[data_active_window], data_active_window);
@@ -144,7 +144,7 @@ void findemptybuffer(int win)
 
 	for(a = 0; a < data_buffer_count[win]; a++)
 	{
-		if(IUtility->Stricmp(dir->directory, str_pathbuffer[win]) == 0 || IUtility->Stricmp(dir->directory, fullbuf) == 0)
+		if(strcmp(dir->directory, str_pathbuffer[win]) == 0 || strcmp(dir->directory, fullbuf) == 0)
 		{
 			ok = 1;
 			break;
@@ -363,7 +363,7 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 					if(!founddir)
 						continue;
 				}
-				if(founddir || (IUtility->Stricmp(tempbuf, dir->directory)) == 0)
+				if(founddir || (strcmp(tempbuf, dir->directory)) == 0)
 				{
 					if(!(lockandexamine(tempbuf, fblock)) || (IDOS->CompareDates(&fblock->fib_Date, &dir->dirstamp) != 0))
 						continue;
@@ -417,7 +417,7 @@ int replacepart(char *string, char *old, char *new)
 	char tempbuf[256];
 
 	oldlen = strlen(old);
-	if(IUtility->Strnicmp(string, old, oldlen))
+	if(strncmp(string, old, oldlen))
 		return (0);
 	if((stringlen = strlen(string)) > oldlen)
 	{
@@ -561,8 +561,7 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 
 	FOREVER
 	{
-		/* If abort sequence hit, break out immediately. The message is now
-		   lost to us, we can never free it */
+		/* If abort sequence hit, break out immediately. The message is now lost to us, we can never free it */
 		if((IExec->Wait(1 << general_port->mp_SigBit | INPUTSIG_ABORT)) & INPUTSIG_ABORT)
 		{
 			status_haveaborted = status_justabort = 0;
@@ -625,8 +624,8 @@ void check_old_buffer(int win)
 
 					char rootname[256];
 
-					IUtility->Strlcpy(rootname, dopus_curwin[win]->directory, 256);
-					if(getroot(rootname, NULL) && (IUtility->Stricmp(rootname, dopus_curwin[win]->volumename)) != 0)
+					strcpy(rootname, dopus_curwin[win]->directory);
+					if(getroot(rootname, NULL) && (strcmp(rootname, dopus_curwin[win]->volumename)) != 0)
 					{
 						reread = 1;
 					}

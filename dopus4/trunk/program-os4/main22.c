@@ -29,7 +29,6 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-//#include <proto/inovamusic.h>
 #include "view.h"
 
 int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int act, int inact, int rexx)
@@ -1015,7 +1014,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					if(file->type >= ENTRY_DIRECTORY)
 					{
 						a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
-//						D(bug("recursedir returned %ld\n", a));
 						if(a == 0)
 						{
 							if(!func_external_file[0])
@@ -1154,7 +1152,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						oldiconname[0] = 0;
 						break;
 					}
-					if((IUtility->Stricmp(sourcedir, destdir) == 0) && (IUtility->Stricmp(namebuf, file->name) == 0))
+					if((strcmp(sourcedir, destdir) == 0) && (strcmp(namebuf, file->name) == 0))
 					{
 						okayflag = 1;
 						oldiconname[0] = 0;
@@ -1349,9 +1347,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(a != -2)
 			{
 				if(a != -3)
+				{
 					++count;
+				}
 				else if(count == 0)
+				{
 					unselect(act, file);
+				}
 				if(file->selected)
 				{
 					file->selected = 0;
@@ -1361,11 +1363,15 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						swindow->bytessel -= file->size;
 					}
 				}
-				IDOpus->SetBusyPointer(Window);
+//				IDOpus->SetBusyPointer(Window);
 				if(a == -1)
+				{
 					status_justabort = 1;
+				}
 				else
+				{
 					okayflag = 1;
+				}
 			}
 			else
 			{
@@ -1415,7 +1421,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 		case FUNC_ICONINFO:
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
-			if(IUtility->Stricmp(file->name, ".info") == 0)
+			if(strcmp(file->name, ".info") == 0)
 			{
 				okayflag = 1;
 			}

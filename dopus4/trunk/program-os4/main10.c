@@ -141,7 +141,7 @@ void dodevicelist(int win)
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
 			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
-			IUtility->Strlcat(devname, ":", 32);
+			strcat(devname, ":");
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
 		}
@@ -157,7 +157,7 @@ void dodevicelist(int win)
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
 			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
-			IUtility->Strlcat(devname, ":", 32);
+			strcat(devname, ":");
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
 		}
@@ -173,7 +173,7 @@ void dodevicelist(int win)
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
 			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
-			IUtility->Strlcat(devname, ":", 32);
+			strcat(devname, ":");
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
 		}
@@ -200,7 +200,7 @@ int huntfile(char *name, char *completename, int *aa)
 
 		if((ptr = IDOS->FilePart(completename)))
 		{
-			IUtility->Strlcpy(buf, IDOS->FilePart(completename), FILEBUF_SIZE);
+			strcpy(buf, IDOS->FilePart(completename));
 			*ptr = 0;
 		}
 		else
@@ -485,7 +485,7 @@ char *strstri(char *string, char *substring)
 
 	for(a = 0; a < len; a++)
 	{
-		if(IUtility->Strnicmp(&string[a], substring, sublen) == 0)
+		if(strncmp(&string[a], substring, sublen) == 0)
 			return (string + a);
 	}
 	return (NULL);
