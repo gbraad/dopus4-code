@@ -1393,13 +1393,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 
 		case MOD_SHOWPATTERN:
 			strcpy(config->showpat, rexx_args[1]);
-//			IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
 			IDOS->ParsePatternNoCase(config->showpat, config->showpatparsed, 40);
 			break;
 
 		case MOD_HIDEPATTERN:
 			strcpy(config->hidepat, rexx_args[1]);
-//			IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
 			IDOS->ParsePatternNoCase(config->hidepat, config->hidepatparsed, 40);
 			break;
 
@@ -1767,7 +1765,8 @@ int checkkeyword(char **keywords, int num, int rem)
 	{
 		if(!keywords[a] || !keywords[a][0])
 			return (0);
-		if(strcmp(rexx_args[num], keywords[a]) == 0)
+//		if(strcmp(rexx_args[num], keywords[a]) == 0)
+		if(IUtility->Stricmp(rexx_args[num], keywords[a]) == 0)
 		{
 			rexx_arg_value[a] = 1;
 			if(rem)
