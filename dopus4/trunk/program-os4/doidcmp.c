@@ -134,7 +134,6 @@ void doidcmp()
 								if(apmsg->am_ArgList[a].wa_Name[0])
 								{
 									char pathbuf[256];
-
 									IDOpus->PathName(apmsg->am_ArgList[a].wa_Lock, pathbuf, 256);
 									strcpy(func_external_file, pathbuf);
 									IDOpus->TackOn(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);

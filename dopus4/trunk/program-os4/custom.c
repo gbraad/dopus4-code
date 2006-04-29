@@ -317,7 +317,8 @@ int getfunction(char *func, char **funcptr)
 			if(commandlist[b].name == NULL)
 				break;
 			a = strlen(commandlist[b].name);
-			if(strncmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
+//			if(strncmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
+			if(IUtility->Strnicmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
 			{
 				if(funcptr && func[a + 1])
 					*funcptr = &func[a + 1];

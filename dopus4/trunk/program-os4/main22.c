@@ -470,7 +470,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		}
 		nextfile = file->next;
 
-//		if((!file->selected && !globflag) || ((file->type <= ENTRY_FILE) && str_filter_parsed[0] && (IDOpus->LMatchPatternI(str_filter_parsed, file->name) == FALSE)))
 		if((!file->selected && !globflag) || ((file->type <= ENTRY_FILE) && str_filter_parsed[0] && (IDOS->MatchPatternNoCase(str_filter_parsed, file->name) == FALSE)))
 		{
 			file = nextfile;
