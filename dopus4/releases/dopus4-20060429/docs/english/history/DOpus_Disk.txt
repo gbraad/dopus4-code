@@ -1,0 +1,26 @@
+3.0beta (03.02.03):
+- Format supports PFS specific options
+- Format supports SFS specific options
+- Gadtools GUI
+
+2.6 (13.01.2001):
+- removed some OS1.3 code
+- localization updated
+
+2.5 (27.09.2001):
+- can work as preloaded module again
+
+2.4 (02.06.2001):
+- localization updated
+
+2.3f (12.05.2001):
+- some fixes in key shortcuts and localization
+
+2.3e (04.05.2001):
+- keyboard shortcuts localized
+
+2.3d (25.02.2001):
+- .STR file is no longer used in favor of dopus4_disk.catalog
+
+2.3c (14.02.2001):
+- system compliant localization
