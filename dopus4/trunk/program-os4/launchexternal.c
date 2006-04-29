@@ -455,10 +455,19 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 int dopus_iconinfo(char *filename)
 {
-	struct Screen *wbscreen = IIntuition->LockPubScreen(NULL);
+	struct Screen *infoscreen = NULL;
 	BPTR plock, flock = IDOS->Lock(filename, ACCESS_READ);
 	char buffer[108] = { 0, };
 	int a;
+
+	if(MainScreen)
+	{
+		infoscreen = MainScreen;
+	}
+	else
+	{
+		infoscreen = IIntuition->LockPubScreen(NULL);
+	}
 
 	strcpy(buffer, filename);
 	a = strlen(buffer);
@@ -467,11 +476,14 @@ int dopus_iconinfo(char *filename)
 		buffer[a - 5] = '\0';
 		plock = IDOS->ParentDir(flock);
 		dostatustext(globstring[STR_SHOWING_FILE]);
-		if(wbscreen && plock)
-			IWorkbench->WBInfo(plock, buffer, wbscreen);
+		if(infoscreen && plock)
+			IWorkbench->WBInfo(plock, buffer, infoscreen);
 		IDOS->UnLock(plock);
 	}
-	IIntuition->UnlockPubScreen(NULL, wbscreen);
+	if(!MainScreen)
+	{
+		IIntuition->UnlockPubScreen(NULL, infoscreen);
+	}
 	IDOS->UnLock(flock);
 	return 0;
 }

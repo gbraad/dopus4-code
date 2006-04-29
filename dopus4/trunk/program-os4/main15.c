@@ -182,18 +182,30 @@ void ftype_doubleclick(char *path, char *name, int state)
 	a = strlen(name);
 	if(a > 5 && strcmp(&name[a - 5], ".info") == 0)
 	{
-		struct Screen *wbscreen = IIntuition->LockPubScreen(NULL);
+		struct Screen *infoscreen = NULL;
 		BPTR plock, flock = IDOS->Lock(buf, ACCESS_READ);
 		char buffer[108] = { 0, };
+
+		if(MainScreen)
+		{
+			infoscreen = MainScreen;
+		}
+		else
+		{
+			infoscreen = IIntuition->LockPubScreen(NULL);
+		}
 
 		strcpy(buffer, buf);
 		b = strlen(buffer);
 		buffer[b - 5] = '\0';
 		plock = IDOS->ParentDir(flock);
 		dostatustext(globstring[STR_SHOWING_FILE]);
-		if(wbscreen && plock)
-			IWorkbench->WBInfo(plock, buffer, wbscreen);
-		IIntuition->UnlockPubScreen(NULL, wbscreen);
+		if(infoscreen && plock)
+			IWorkbench->WBInfo(plock, buffer, infoscreen);
+		if(!MainScreen)
+		{
+			IIntuition->UnlockPubScreen(NULL, infoscreen);
+		}
 		IDOS->UnLock(plock);
 		IDOS->UnLock(flock);
 		return;
