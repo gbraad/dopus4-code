@@ -1,0 +1,29 @@
+1.8 (15.07.2001):
+- can work as preloaded module again
+- Enforcer hit removed
+
+1.7h (28.04.2001):
+- All gadgets have working key shortcuts (localizable)
+
+1.7g (25.02.2001):
+- .STR file is no longer used in favor of dopus4_icon.catalog
+
+1.7f (14.02.2001):
+- localization code unified with other DOpus parts.
+
+1.7e (22.01.2001):
+- removed unused variable (Paul Huxham).
+
+1.7d (19.09.2000):
+- all icons work now.
+
+1.7c:
+- fixed OS3.5 icon support. NewIcons still do not work :(
+
+1.7b:
+- OS 3.5 icon support changed
+- key shortcuts obey localization
+
+1.7a:
+- true localization
+- experimental OS 3.5 icon support.

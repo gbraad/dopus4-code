@@ -1,0 +1,120 @@
+4.17a (08.08.2002):
+- separate version with debug enabled (use it with Sushi/Sashimi tools to report
+bugs)
+
+4.17a (11.06.2002):
+- "Operation/General/Single MMB click selects lister" option
+- support for MakeLink command
+
+4.17 (19.05.2002):
+- support for MMB-click filetype action
+
+4.17 (18.02.2002):
+- display fixes for fonts with width other than 8 (ie. XEN)
+
+4.16 (18.02.2002):
+- uses ConfigOpus.info as an icon for "Drop a tool here" icon (if
+available)
+- Gadget "Okay" renamed to "Use" on main page
+- "Operation/General/Don't ask on quit" option added
+- If ConfigOpus works on its own screen then the window is centered on the
+screen
+- Save button saves and then quits the ConfigOpus.
+- DOpus public screens are filtered out from available screens on
+System/Screenmode page.
+- MultiUser support
+- allows saving default config (DirectoryOpus.defCFG)
+- allows lister column widths wider than 255 pixels
+- requires dopus.library 22.20+
+
+4.15k (01.09.2001):
+- "Copy archive bit too" option in Operation/Copy to fully control A bit.
+
+4.15j (17.08.2001):
+- column size in Operation/ListFormat uses pixels instead of characters now.
+Minimum width: 20, maximum width: 255.
+- allows selecting proportional font for lister
+- "Operation/General/FileMaster-like Parent" switch
+- Default path for saving .CLA file corrected.
+
+4.15i (15.07.2001):
+- can work as preloaded module again
+
+4.15h:
+- 'Execute' added to command list in action definition.
+
+4.15g (03.06.2001)
+- new look menus switch removed
+- color fixes in menu edit screen.
+
+4.15f (24.05.2001):
+- existing keyboard shortcuts follow localization
+- requires dopus.library 22.18+
+- removed all pre-OS3.x code
+- new filetype recognition command "MatchI". It does exactly the same as
+"Match" but is case-insensitive.
+- displaying '~' as a hotkey in ConfigOpus enabled.
+
+4.15e (4.03.2001):
+- OS3.5 icons should be displayed correctly now.
+- fixed 'missing filetype length edit gadget' bug introduced by Paul.
+Window layout redesigned too to avoid overlapping gadgets when Envoy was
+installed (Paul should pay an attention to that).
+
+4.14d (25.02.2001):
+- help works again
+- removed language selection. Now the language is automatically selected by
+locale.library
+- .STR file is no longer used in favor of dopus4_config.catalog
+
+4.14c (31.01.2001):
+- system-compliant localization
+- removed DOpus: assign in .STR file search path
+
+4.14b (22.01.2001):
+* Added configuration item: "System/View & Play/View in window". This
+  replaces the old tooltype VIEWONWB which has now been removed. 0 in
+  width or height equals maximum distance in that direction. Negative
+  values are subtracted from the maximum available size. The window cannot
+  be made smaller than 50 x 50.
+* Added a define (NODOPUSASSIGN) to enable using PROGDIR: instead of DOpus:
+* Localized all hard coded english strings
+* Added configuration item: "Operation/Update/Update listview slider while
+  scanning". This replaces the old tooltype QUIETGETDIR which has now been
+  removed.
+* Added configuration item: "Operation/List format/Show entries as K/M/G"
+  which can be used to set the default display mode of the list for bytes
+  or K/M/G. Each lister can be set independently.
+
+4.14a (02.10.2000):
+- v44 icon support for icon preview (System/Icons).
+
+4.14:
+- public release
+
+4.13d:
+- removed bug in command list (the list was too long)
+
+4.13c:
+- fixed bug in filetype editing hex view.
+
+4.13b:
+- Increased maximum displayed file name characters to 64.
+
+4.13a:
+- fixed bug in screenmode selection for ConfigOpus. Sometimes it preferred
+PAL over CGX
+- removed 16 color limit for custom DOpus screen. DOpus still uses upto 16
+colors for its GUI.
+
+4.13:
+- public release
+
+4.12b:
+- CHIP RAM bug removed. No more trashed graphic on native displays.
+
+4.12a:
+- if config window cannot be opened on WB due to insufficient number of
+free pens it tries to find best screenmode using BestModeID() under OS3.0+.
+No more annoying PAL screenmode.
+- screenmode filter allows CGX/P96 modes now (still upto 16 colors).
