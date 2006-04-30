@@ -159,7 +159,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 			dostatustext(globstring[STR_PLAYING_FILE]);
 			strcpy(func_single_file, name);
 			a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
-			kill8svx();
+//			kill8svx();
 			if(a == 1 || a == -1)
 				okay();
 			else
