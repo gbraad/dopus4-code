@@ -1710,6 +1710,9 @@ LoadStrings   -    Load a new string file
 STR_FUNCTIONLIST_LOOPPLAY (//)
 LoopPlay      -     Loop-play sound files
 ;
+STR_FUNCTIONLIST_LOOPPLAY8SVX (//)
+LoopPlay8svx  -     Loop-play sound files
+;
 STR_FUNCTIONLIST_MAKEDIR (//)
 Makedir       -    Create a new directory
 ;
@@ -1736,6 +1739,9 @@ Parent        -     Read parent directory
 ;
 STR_FUNCTIONLIST_PLAY (//)
 Play          - Play selected sound files
+;
+STR_FUNCTIONLIST_PLAY8SVX (//)
+Play8svx      - Play selected sound files
 ;
 STR_FUNCTIONLIST_PLAYST (//)
 PlayST        -      Play ST modules only

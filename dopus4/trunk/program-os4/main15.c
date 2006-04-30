@@ -731,7 +731,9 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					unbyte(a);
 					break;
 				case FUNC_PLAY:
+				case FUNC_PLAY8SVX:
 				case FUNC_LOOPPLAY:
+				case FUNC_LOOPPLAY8SVX:
 				case FUNC_PLAYST:
 					dofilefunction(function, FUNCFLAGS_FILES, spath, NULL, actwin, -1, rexx);
 					break;

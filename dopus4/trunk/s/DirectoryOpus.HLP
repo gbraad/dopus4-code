@@ -366,11 +366,18 @@ using the cursor keys, or by moving the mouse. This function will also show
 pictures crunched with PowerPacker or similar packers, provided you have
 the xfdmaster.library present (see the manual).^
 **Play
+This function allows you to play samples using the datatypes system.
+To stop a sound while it is playing, press the left mouse button.^
+**Play8svx
 This function allows you to play IFF 8SVX sampled sounds and other files.
 To stop a sound while it is playing, press the left mouse button.
 If you have a copy of the inovamusic.library in your LIBS: directory, this
 function will also play sound modules.^
 **LoopPlay
+This function allows you to play samples using the datatypes system.
+Each sound is played continuously; to advance to the next sound, you must
+press the left mouse button.^
+**LoopPlay8svx
 This function allows you to play IFF 8SVX sampled sounds and other files.
 Each sound is played continuously; to advance to the next sound, you must
 press the left mouse button.^

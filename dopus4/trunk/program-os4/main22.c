@@ -1430,6 +1430,34 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				a = dopus_iconinfo(sourcename);
 			}
 			break;
+		case FUNC_PLAY8SVX:
+		case FUNC_LOOPPLAY8SVX:
+			if(file->type >= ENTRY_DEVICE || file->size < 1)
+			{
+				okayflag = 1;
+				file = NULL;
+				break;
+			}
+			a = doplay8svxold(sourcename, (function == FUNC_LOOPPLAY8SVX));
+			kill8svx();
+			if(a == -1)
+			{
+				myabort();
+				break;
+			}
+			else
+			{
+				if(a == 1)
+				{
+					okayflag = 1;
+				}
+				else
+				{
+					handle8svxerror(a);
+					file = NULL;
+				}
+			}
+			break;
 		case FUNC_PLAYST:
 			a = 1;
 		case FUNC_PLAY:

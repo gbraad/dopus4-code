@@ -199,11 +199,12 @@ int showpic(char *, int);
 int readicon(char *, int);
 void drawrecaround(struct RastPort *, int, int, int, int, int, int);
 int doplay8svx(char *, int);
-//void kill8svx(void);
+int doplay8svxold(char *, int);
+void kill8svx(void);
 void handle8svxerror(int);
 void dosound(int);
 int playmod(char *);
-//char DUnpack(char *, int, char *, char);
+char DUnpack(char *, int, char *, char);
 int check_is_module(char *);
 //int EnvoyPacket(char *, ULONG, ULONG, UWORD, APTR);
 
