@@ -160,10 +160,10 @@ void ftype_doubleclick(char *path, char *name, int state)
 			strcpy(func_single_file, name);
 			a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
 //			kill8svx();
-			if(a == 1 || a == -1)
+/*			if(a == 1 || a == -1)
 				okay();
 			else
-				handle8svxerror(a);
+				handle8svxerror(a);*/
 			func_single_file[0] = 0;
 			return;
 		}

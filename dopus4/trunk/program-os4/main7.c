@@ -311,7 +311,7 @@ int doplay8svx(STRPTR fname, int loop)
 	}
 	else
 	{
-		return -1;
+		return 0;
 	}
 		
 	return 1;

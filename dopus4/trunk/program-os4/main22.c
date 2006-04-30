@@ -1493,12 +1493,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				else
 				{
 					if(a == 1)
+					{
 						okayflag = 1;
-					else
+					}
+/*					else
 					{
 						handle8svxerror(a);
 						file = NULL;
-					}
+					}*/
 				}
 			}
 			break;

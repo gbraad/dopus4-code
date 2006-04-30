@@ -665,9 +665,11 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 
 	if(newentry->next)
 	{
-		if(newentry->name[0] && (strcmp(newentry->name, newentry->next->name)) == 0)
+//		if(newentry->name[0] && (strcmp(newentry->name, newentry->next->name)) == 0)
+		if(newentry->name[0] && (IUtility->Stricmp(newentry->name, newentry->next->name)) == 0)
 			removefile(newentry->next, dir, win, 0);
-		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (strcmp(newentry->comment, newentry->next->comment)) == 0)
+//		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (strcmp(newentry->comment, newentry->next->comment)) == 0)
+		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (IUtility->Stricmp(newentry->comment, newentry->next->comment)) == 0)
 			removefile(newentry->next, dir, win, 0);
 	}
 
@@ -687,7 +689,7 @@ int namesort(STRPTR str1, STRPTR str2)
 	int n1, n2;
 
 	if(SORT_ISALPHA(config->sortflags))
-		return strcmp(str1, str2);
+		return IUtility->Stricmp(str1, str2);
 
 	if(((SORT_ISDEC(config->sortflags)) && _isdigit(str1[0]) && _isdigit(str2[0])) || ((SORT_ISHEX(config->sortflags)) && _isxdigit(str1[0]) && _isxdigit(str2[0])))
 	{
@@ -710,7 +712,7 @@ int namesort(STRPTR str1, STRPTR str2)
 		str1 = getstrafternum(str1);
 		str2 = getstrafternum(str2);
 	}
-	return (strcmp(str1, str2));
+	return (IUtility->Stricmp(str1, str2));
 }
 
 char *getstrafternum(STRPTR str)
