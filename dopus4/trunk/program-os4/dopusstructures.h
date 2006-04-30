@@ -64,7 +64,8 @@ struct dopusfuncpar
 {
 	int which, stack;
 	unsigned char key, qual;
-	char type, pri, delay;
+//	char type, pri, delay;
+	int8 type, pri, delay;
 };
 
 struct recpath

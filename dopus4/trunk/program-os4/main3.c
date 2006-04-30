@@ -665,10 +665,8 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 
 	if(newentry->next)
 	{
-//		if(newentry->name[0] && (strcmp(newentry->name, newentry->next->name)) == 0)
 		if(newentry->name[0] && (IUtility->Stricmp(newentry->name, newentry->next->name)) == 0)
 			removefile(newentry->next, dir, win, 0);
-//		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (strcmp(newentry->comment, newentry->next->comment)) == 0)
 		else if(type == ENTRY_CUSTOM && subtype == CUSTOMENTRY_BUFFERLIST && (IUtility->Stricmp(newentry->comment, newentry->next->comment)) == 0)
 			removefile(newentry->next, dir, win, 0);
 	}
