@@ -301,8 +301,32 @@ ULONG AHISoundFunc(struct AHIAudioCtrl *actrl, struct AHISoundMessage *smsg)
 	return 0;
 }
 
-static struct Hook AHISoundHook;
+//static struct Hook AHISoundHook;
 
+int doplay8svx(STRPTR fname, int loop)
+{
+	Object *o;
+	BYTE sig;
+
+	if((o = IDataTypes->NewDTObject(fname, DTA_GroupID, GID_SOUND, TAG_END)))
+	{
+		if((sig = IExec->AllocSignal(-1)) != -1)
+		{
+			IIntuition->SetAttrs(o, SDTA_SignalTask, IExec->FindTask(NULL), SDTA_SignalBit, 1L << sig, DTA_Repeat, loop ? TRUE : FALSE, TAG_END);
+			IDataTypes->DoDTMethod(o, NULL, NULL, DTM_TRIGGER, NULL, STM_PLAY, NULL);
+			IExec->Wait((1L << sig) | SIGBREAKF_CTRL_C);
+			IExec->FreeSignal(sig);
+		}
+		IDataTypes->DisposeDTObject(o);
+	}
+	else
+	{
+		return -1;
+	}
+		
+	return 1;
+}
+/*
 int doplay8svx(STRPTR fname, int loop)
 {
 	struct VoiceHeader *vhdr = NULL;
@@ -475,9 +499,13 @@ int doplay8svx(STRPTR fname, int loop)
 
 	waitbits = 1 << Window->UserPort->mp_SigBit;
 	if(actrl == NULL)
+	{
 		waitbits |= 1 << audio_port[0]->mp_SigBit | 1 << audio_port[1]->mp_SigBit;
+	}
 	else if(!loop)
+	{
 		waitbits |= 1 << AHIsignal;
+	}
 
 	{
 		ry = psample;
@@ -575,7 +603,7 @@ int doplay8svx(STRPTR fname, int loop)
 		}
 	}
 }
-
+*/
 void kill8svx()
 {
 	int a;
@@ -740,7 +768,7 @@ char DUnpack(STRPTR source, int n, STRPTR dest, char x)
 	}
 	return (x);
 }
-
+/*
 int EnvoyPacket(STRPTR device, uint32 action, uint32 action2, UWORD data, APTR buffer)
 {
 	struct MsgPort *handler;
@@ -758,4 +786,4 @@ int EnvoyPacket(STRPTR device, uint32 action, uint32 action2, UWORD data, APTR b
 		return (1);
 	}
 	return (0);
-}
+}*/

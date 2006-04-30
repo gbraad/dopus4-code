@@ -1442,13 +1442,15 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
 			if(entry_depth < 2 && checkfiletypefunc(sourcename, (function == FUNC_PLAY) ? FTFUNC_PLAY : FTFUNC_LOOPPLAY))
+			{
 				okayflag = 1;
-			else if(a || check_is_module(sourcename))
+			}
+/*			else if(a || check_is_module(sourcename))
 			{
 				if((a = playmod(sourcename)) && swindow && swindow->filesel > 1)
 				{
 					a = -1;
-					FOREVER
+					for(;;)
 					{
 						IExec->Wait(1 << Window->UserPort->mp_SigBit);
 						while(getintuimsg())
@@ -1471,14 +1473,18 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						okayflag = 1;
 				}
 				else if(a)
+				{
 					okayflag = 1;
+				}
 				else
+				{
 					file = NULL;
-			}
+				}
+			}*/
 			else
 			{
 				a = doplay8svx(sourcename, (function == FUNC_LOOPPLAY));
-				kill8svx();
+//				kill8svx();
 				if(a == -1)
 				{
 					myabort();
