@@ -109,12 +109,6 @@
 			<arg name="buf" type="char *"/>
 			<arg name="len" type="int"/>
 		</method>
-		<method name="SendPacket" result="int">
-			<arg name="port" type="struct MsgPort *"/>
-			<arg name="action" type="int"/>
-			<arg name="args" type="ULONG *"/>
-			<arg name="nargs" type="int"/>
-		</method>
 	<!--	<method name="TackOn" result="int">
 			<arg name="path" type="char *"/>
 			<arg name="file" type="char *"/>

@@ -59,7 +59,7 @@ struct DOpusIFace
 //	void APICALL (*BtoCStr)(struct DOpusIFace *Self, BSTR bstr, char * cstr, int len);
 	int APICALL (*Assign)(struct DOpusIFace *Self, char * name, char * dir);
 	int APICALL (*PathName)(struct DOpusIFace *Self, BPTR lock, char * buffer, int len);
-	int APICALL (*SendPacket)(struct DOpusIFace *Self, struct MsgPort * port, int action, ULONG * args, int nargs);
+//	int APICALL (*SendPacket)(struct DOpusIFace *Self, struct MsgPort * port, int action, ULONG * args, int nargs);
 	int APICALL (*TackOn)(struct DOpusIFace *Self, char * path, char * name, int len);
 	void APICALL (*StampToStr)(struct DOpusIFace *Self, struct DateTime * datetime);
 	int APICALL (*StrToStamp)(struct DOpusIFace *Self, struct DateTime * datetime);

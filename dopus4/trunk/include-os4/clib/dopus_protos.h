@@ -72,7 +72,7 @@ int RefreshListView(struct DOpusListView *,int);
 void RefreshStrGad(struct Gadget *,struct Window *);
 int RemoveListView(struct DOpusListView *,int);
 int SearchPathList(char *,char *,int);
-int SendPacket(struct MsgPort *,int,ULONG *,int);
+//int SendPacket(struct MsgPort *,int,ULONG *,int);
 void SetBusyPointer(struct Window *);
 void ShowSlider(struct Window *,struct Gadget *);
 void StampToStr(struct DateTime *);

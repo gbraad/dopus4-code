@@ -73,18 +73,9 @@ struct InputEvent *InputHandler(struct InputEvent *ie, struct Task *task)
 	return(ie);
 }
 
-static inline LONG atoi(char *str)
-{
-	LONG i;
-
-	IDOS->StrToLong((STRPTR) str, &i);
-
-	return i;
-}
-
 int main(int argc, char **argv)
 {
-	int a, out, x, y, flag;
+	int32 a, out, x, y, flag;
 	struct MsgPort *port, *port1, *cont;
 	struct Process *myproc;
 	struct Message msg;
@@ -92,17 +83,15 @@ int main(int argc, char **argv)
 	struct CommandLineInterface *cli;
 	struct Interrupt *interrupt;
 	struct IOStdReq *inputreq;
+	struct ConsoleWindowData *cwd = NULL;
 
 	myproc = (struct Process *)IExec->FindTask(NULL);
 	cli = BADDR(myproc->pr_CLI);
 
 	if((cont = IDOS->GetConsoleTask()))
 	{
-		struct InfoData ind;
-		ULONG arg = MKBADDR(&ind);
-
-		if(IDOpus->SendPacket(cont, ACTION_DISK_INFO, &arg, 1))
-			win = (struct Window *)ind.id_VolumeNode;
+		if(IDOS->DoPkt(cont, ACTION_OBTAIN_CON_INFO, (ULONG)&cwd, 1, 0, 0, 0))
+			win = cwd->ConsoleWindow;
 	}
 	out = IDOS->Output();
 
@@ -131,10 +120,17 @@ int main(int argc, char **argv)
 			}
 			break;
 		case 'w':
-			if((a = atoi(argv[2])) > 60)
-				a = 60;
+			if(IDOS->StrToLong(argv[2], &a))
+			{
+				if(a > 60)
+				{
+					a = 60;
+				}
+			}
 			if(a > 0)
+			{
 				IDOS->Delay(a * 50);
+			}
 			else if(a == -1)
 			{
 				if(out)

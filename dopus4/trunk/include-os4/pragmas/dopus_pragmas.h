@@ -23,7 +23,7 @@
 //#pragma  libcall DOpusBase BtoCStr              0BA 09803
 #pragma  libcall DOpusBase Assign               0C0 9802
 #pragma  libcall DOpusBase PathName             0D2 09803
-#pragma  libcall DOpusBase SendPacket           0D8 190804
+//#pragma  libcall DOpusBase SendPacket           0D8 190804
 #pragma  libcall DOpusBase TackOn               0DE 09803
 #pragma  libcall DOpusBase StampToStr           0E4 801
 #pragma  libcall DOpusBase StrToStamp           0EA 801

@@ -55,7 +55,7 @@
 //#define BtoCStr(bstr, cstr, len) IDOpus->BtoCStr(bstr, cstr, len) 
 #define Assign(name, dir) IDOpus->Assign(name, dir) 
 #define PathName(lock, buffer, len) IDOpus->PathName(lock, buffer, len) 
-#define SendPacket(port, action, args, nargs) IDOpus->SendPacket(port, action, args, nargs) 
+//#define SendPacket(port, action, args, nargs) IDOpus->SendPacket(port, action, args, nargs) 
 #define TackOn(path, name, len) IDOpus->TackOn(path, name, len) 
 #define StampToStr(datetime) IDOpus->StampToStr(datetime) 
 #define StrToStamp(datetime) IDOpus->StrToStamp(datetime) 
