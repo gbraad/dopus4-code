@@ -30,7 +30,7 @@ int AddGadgets(struct Window *,struct Gadget *,char **,int,int,int,int);
 int AddListView(struct DOpusListView *,int);
 int Assign(char *,char *);
 int Atoh(char *,int);
-void BtoCStr(BSTR,char *,int);
+//void BtoCStr(BSTR,char *,int);
 int CheckExist(char *,int *);
 int CheckHexGad(struct Gadget *,struct Window *,int,int);
 int CheckNumGad(struct Gadget *,struct Window *,int,int);

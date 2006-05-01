@@ -45,7 +45,7 @@ extern int                  VARARGS68K _DOpus_LStrCmpI(struct DOpusIFace *, char
 extern int                  VARARGS68K _DOpus_LStrnCmpI(struct DOpusIFace *, char * s1, char * s2, int len);
 extern int                  VARARGS68K _DOpus_StrCombine(struct DOpusIFace *, char * s1, char * s2, char * s3, int len);
 extern int                  VARARGS68K _DOpus_StrConcat(struct DOpusIFace *, char * s1, char * s2, int len);
-extern void                 VARARGS68K _DOpus_BtoCStr(struct DOpusIFace *, BSTR bstr, char * cstr, int len);
+//extern void                 VARARGS68K _DOpus_BtoCStr(struct DOpusIFace *, BSTR bstr, char * cstr, int len);
 extern int                  VARARGS68K _DOpus_Assign(struct DOpusIFace *, char * name, char * dir);
 extern int                  VARARGS68K _DOpus_PathName(struct DOpusIFace *, BPTR lock, char * buffer, int len);
 extern int                  VARARGS68K _DOpus_SendPacket(struct DOpusIFace *, struct MsgPort * port, int action, ULONG * args, int nargs);
@@ -135,7 +135,7 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_LStrnCmpI,
     _DOpus_StrCombine,
     _DOpus_StrConcat,
-     _DOpus_BtoCStr,
+//     _DOpus_BtoCStr,
     _DOpus_Assign,
     _DOpus_PathName,
     _DOpus_SendPacket,

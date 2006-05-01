@@ -20,7 +20,7 @@
 #pragma  libcall DOpusBase LStrnCmpI            090 09803
 #pragma  libcall DOpusBase StrCombine           096 0A9804
 #pragma  libcall DOpusBase StrConcat            09C 09803
-#pragma  libcall DOpusBase BtoCStr              0BA 09803
+//#pragma  libcall DOpusBase BtoCStr              0BA 09803
 #pragma  libcall DOpusBase Assign               0C0 9802
 #pragma  libcall DOpusBase PathName             0D2 09803
 #pragma  libcall DOpusBase SendPacket           0D8 190804

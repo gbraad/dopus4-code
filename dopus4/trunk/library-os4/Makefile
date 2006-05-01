@@ -51,7 +51,7 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/Do3DStringBox.c main/Do3DCycleBox.c main/DoArrow.c main/LStrCat.c \
     main/LStrnCat.c main/LStrCpy.c main/LStrnCpy.c main/LStrCmp.c \
     main/LStrnCmp.c main/LStrCmpI.c main/LStrnCmpI.c main/StrCombine.c \
-    main/StrConcat.c main/BtoCStr.c main/Assign.c \
+    main/StrConcat.c main/Assign.c \
     main/PathName.c main/SendPacket.c main/TackOn.c main/StampToStr.c \
     main/StrToStamp.c main/AddListView.c main/ListViewIDCMP.c \
     main/RefreshListView.c main/RemoveListView.c main/DrawCheckMark.c \
@@ -73,6 +73,8 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/FreeStringFile.c main/LFreeRemEntry.c main/AddGadgetBorders.c \
     main/CreateGadgetBorders.c main/SelectGadget.c main/FSSetMenuStrip.c \
     main/extras.c main/data.c
+
+#    main/StrConcat.c main/BtoCStr.c main/Assign.c \
 
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 # Rules for building

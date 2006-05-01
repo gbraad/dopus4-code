@@ -30,7 +30,6 @@ STRUCTURE DOpusIFace, InterfaceData_SIZE
 	    FPTR IDOpus_LStrnCmpI
 	    FPTR IDOpus_StrCombine
 	    FPTR IDOpus_StrConcat
-	    FPTR IDOpus_BtoCStr
 	    FPTR IDOpus_Assign
 	    FPTR IDOpus_PathName
 	    FPTR IDOpus_SendPacket

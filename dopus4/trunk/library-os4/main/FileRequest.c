@@ -567,7 +567,7 @@ int listdevices(struct FileReqData *freqdata)
 		}
 		if(devlist->dl_Type != DLT_DEVICE || devlist->dl_Task)
 		{
-			BtoCStr(devlist->dl_Name, devname, 32);
+			IDOS->CopyStringBSTRToC(devlist->dl_Name, devname, 32);
 			LStrCat(devname, ":");
 			addfileentry(freqdata, devname, 0, devlist->dl_Type);
 		}
@@ -600,7 +600,7 @@ int listdevices(struct FileReqData *freqdata)
 	{
 		if(dl->dol_Type == DLT_DEVICE && dl->dol_Task)
 		{
-			Self->BtoCStr((BPTR) dl->dol_Name, pathname, 256);
+			IDOS->CopyStringBSTRToC(dl->dol_Name, pathname, 256);
 			Self->LStrCat(pathname, ":");
 			Self->LStrnCpy(devname, pathname, 15);
 			devname[15] = 0;
@@ -631,7 +631,7 @@ int listdevices(struct FileReqData *freqdata)
 		dl = IDOS->LockDosList(LDF_ASSIGNS | LDF_READ);
 		while((dl = IDOS->NextDosEntry(dl, LDF_ASSIGNS)))
 		{
-			Self->BtoCStr((BPTR) dl->dol_Name, pathname, 256);
+			IDOS->CopyStringBSTRToC(dl->dol_Name, pathname, 256);
 			Self->LStrCat(pathname, ":");
 			Self->LStrnCpy(devname, pathname, 15);
 			devname[15] = 0;

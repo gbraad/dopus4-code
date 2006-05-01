@@ -95,6 +95,7 @@ int main(int argc, char **argv)
 
 	myproc = (struct Process *)IExec->FindTask(NULL);
 	cli = BADDR(myproc->pr_CLI);
+
 	if((cont = IDOS->GetConsoleTask()))
 	{
 		struct InfoData ind;

@@ -100,11 +100,6 @@
 			<arg name="s2" type="char *"/>
 			<arg name="len" type="int"/>
 		</method> -->
-		<method name="BtoCStr" result="void">
-			<arg name="bstr" type="BSTR"/>
-			<arg name="cstr" type="char *"/>
-			<arg name="len" type="int"/>
-		</method>
 		<method name="Assign" result="int">
 			<arg name="name" type="char *"/>
 			<arg name="dir" type="char *"/>

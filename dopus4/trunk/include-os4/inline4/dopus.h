@@ -52,7 +52,7 @@
 #define LStrnCmpI(s1, s2, len) IDOpus->LStrnCmpI(s1, s2, len) 
 #define StrCombine(s1, s2, s3, len) IDOpus->StrCombine(s1, s2, s3, len) 
 #define StrConcat(s1, s2, len) IDOpus->StrConcat(s1, s2, len) 
-#define BtoCStr(bstr, cstr, len) IDOpus->BtoCStr(bstr, cstr, len) 
+//#define BtoCStr(bstr, cstr, len) IDOpus->BtoCStr(bstr, cstr, len) 
 #define Assign(name, dir) IDOpus->Assign(name, dir) 
 #define PathName(lock, buffer, len) IDOpus->PathName(lock, buffer, len) 
 #define SendPacket(port, action, args, nargs) IDOpus->SendPacket(port, action, args, nargs) 
