@@ -28,7 +28,6 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-//#include <fctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -44,7 +43,6 @@ the existing commercial status of Directory Opus 5.
 #include <devices/printer.h>
 #include <devices/prtbase.h>
 #include <datatypes/datatypesclass.h>
-//#include <proto/all.h>
 
 #include <proto/dos.h>
 #include <proto/exec.h>
@@ -56,16 +54,6 @@ the existing commercial status of Directory Opus 5.
 #include <proto/dopus.h>
 #include <dopus/dopusmessage.h>
 #include "printstrings.h"
-
-/*
-extern struct DOpusBase *DOpusBase;
-extern struct IntuitionBase *IntuitionBase;
-extern struct GfxBase *GfxBase;
-extern struct Library *IconBase;
-extern struct ExecBase *SysBase;
-extern struct DosLibrary *DOSBase;
-extern struct Library *WorkbenchBase;*/
-// JRZ extern struct PPBase *PPBase;
 
 #define PRINTFLAG_EJECT    1
 #define PRINTFLAG_FILE     2

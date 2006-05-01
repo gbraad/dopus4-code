@@ -31,8 +31,6 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/locale.h>
 
-//#include <dos.h>
-//ULONG __break_signal_mask &= ~SIGBREAKF_CTRL_C;
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }
 
