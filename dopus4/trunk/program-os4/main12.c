@@ -411,9 +411,13 @@ void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 	}
 
 	if(dl)
-		IDOpus->BtoCStr((BPTR) dl->dol_Name, buffer, 31);
+	{
+		IDOS->CopyStringBSTRToC(dl->dol_Name, buffer, 31);
+	}
 	else
+	{
 		strcpy(buffer, ((struct Task *)port->mp_SigTask)->tc_Node.ln_Name);
+	}
 	strcat(buffer, ":");
 
 	IDOS->UnLockDosList(LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ);

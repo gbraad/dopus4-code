@@ -32,7 +32,7 @@ the existing commercial status of Directory Opus 5.
 
 void seedate(struct DateStamp *ds, char *date, int pad)
 {
-	char timebuf[16], datebuf[16] /*,buf[40] */ ;
+	char timebuf[16], datebuf[16];
 	struct DateTime dt;
 
 	copy_datestamp(ds, &dt.dat_Stamp);
@@ -50,7 +50,7 @@ int setdate(char *name, struct DateStamp *date)
 void seename(int win)
 {
 	long long tot;
-	int bl, a;
+	int bl, a = 0;
 	static char buf[256];
 
 	if(win < 0 || status_iconified)
@@ -75,7 +75,6 @@ void seename(int win)
 				{
 					char *c;
 
-//D(bug("path: %s",dopus_curwin[win]->arcname));
 					c = strstr(dopus_curwin[win]->directory, IDOS->FilePart(dopus_curwin[win]->arcname));
 					if(c)
 						for(a = 0; c && (*c != '/') && (a < 31); c++)
@@ -98,9 +97,8 @@ void seename(int win)
 				return;
 			}
 			strcpy(dopus_curwin[win]->diskname, buf);
-/* */
 			strcpy(dopus_curwin[win]->volumename, buf);
-/* */
+
 			dopus_curwin[win]->diskfree = bytes(str_pathbuffer[win], &tot, &bl);
 			dopus_curwin[win]->disktot = tot;
 			dopus_curwin[win]->diskblock = bl;
@@ -118,7 +116,7 @@ void seename(int win)
 void displayname(int win, int clear)
 {
 	long long free, tot;
-	int b, x, nn = 0, len, len2, len3, x1, cx1, cx2;
+	int b, x = 0, nn = 0, len, len2, len3, x1, cx1, cx2;
 	static char buf[30], buf2[80], buf3[20];
 	double pct;
 
@@ -166,9 +164,9 @@ void displayname(int win, int clear)
 			else if(config->showfree & SHOWFREE_BLOCKS)
 			{
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%ld)", dopus_curwin[win]->diskblock);
+					sprintf(buf, " (%d)", dopus_curwin[win]->diskblock);
 				else
-					sprintf(buf, " %ld", dopus_curwin[win]->diskblock);
+					sprintf(buf, " %d", dopus_curwin[win]->diskblock);
 			}
 			else if(config->showfree & SHOWFREE_PERCENT)
 			{
@@ -183,9 +181,9 @@ void displayname(int win, int clear)
 				if(b > 100)
 					b = 100;
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%ld%%)", b);
+					sprintf(buf, " (%d%%)", b);
 				else
-					sprintf(buf, " %ld%%", b);
+					sprintf(buf, " %d%%", b);
 			}
 			IDOpus->StrCombine(buf3, buf, str_space_string, 14);
 			len2 = 12;
@@ -253,21 +251,16 @@ void displayname(int win, int clear)
 
 void relabel_disk(int rexx, char *path)
 {
-//    struct MsgPort *port;
-	char oldname[36], name[36] /*,*bstr */ ;
-//    ULONG arg;
+	char oldname[36], name[36];
 	char buf[256];
-//    int a;
 
 	strcpy(buf, rexx ? rexx_args[0] : path);
-//	D(bug("relabel(%ld,%s)\n", rexx, buf));
 	if(!(getroot(buf, NULL)))
 	{
 		doerror(-1);
 		return;
 	}
 	strcat(buf, ":");
-//    if (!(port=(struct MsgPort *) DeviceProc(buf))) return;
 	getroot(buf, NULL);
 
 	strcpy(name, buf);
@@ -284,17 +277,10 @@ void relabel_disk(int rexx, char *path)
 		name[strlen(name) - 1] = 0;
 
 	strcat(buf, ":");
-//	D(bug("Relabel(%s,%s)\n", buf, name));
 	if(!IDOS->Relabel(buf, name))
+	{
 		doerror(-1);
-/*
-    a=strlen(name);
-    bstr=(char *) AllocMem(a+2,MEMF_CLEAR))
-    bstr[0]=(char)a;
-    strcpy(bstr+1,name);
-    arg=(ULONG)bstr>>2;
-    if (!(SendPacket(port,ACTION_RENAME_DISK,&arg,1))) doerror(-1);
-*/
+	}
 	else if((!status_iconified) && (dopus_curwin[data_active_window] != dopus_specialwin[data_active_window]))
 	{
 		if((strncmp(str_pathbuffer[data_active_window], oldname, strlen(oldname))) == 0 && str_pathbuffer[data_active_window][strlen(oldname)] == ':')
@@ -307,7 +293,6 @@ void relabel_disk(int rexx, char *path)
 		}
 		seename(data_active_window);
 	}
-//  FreeMem(bstr,a+2);
 }
 
 int getroot(char *name, struct DateStamp *ds)

@@ -140,7 +140,7 @@ void dodevicelist(int win)
 	{
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
+			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, 32);
 			strcat(devname, ":");
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
@@ -156,7 +156,7 @@ void dodevicelist(int win)
 	{
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
+			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, 32);
 			strcat(devname, ":");
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
@@ -172,7 +172,7 @@ void dodevicelist(int win)
 	{
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			IDOpus->BtoCStr((BPTR) dl->dol_Name, devname, 32);
+			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, 32);
 			strcat(devname, ":");
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
