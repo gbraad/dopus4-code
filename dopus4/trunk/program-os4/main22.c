@@ -1162,7 +1162,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 		case FUNC_COPY:
 			if(lastfile)
+			{
 				strcpy(destname, newiconname);
+			}
 			else
 			{
 				IDOpus->StrCombine(destname, destdir, namebuf, 256);
@@ -1231,7 +1233,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					exist = 0;
 				}
 				else
+				{
 					byte = dos_global_copiedbytes;
+				}
 				if(config->copyflags & COPY_DATE)
 					setdate(destname, &file->date);
 

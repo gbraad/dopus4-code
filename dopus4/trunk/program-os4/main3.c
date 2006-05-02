@@ -338,7 +338,7 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 	}
 	else
 	{
-		IDOpus->LStrnCpy(newentry->name, name, FILEBUF_SIZE - 2);
+		IUtility->Strlcpy(newentry->name, name, FILEBUF_SIZE - 2);
 		if(type != ENTRY_DEVICE)
 		{
 			/* get missing data for the new entry */
@@ -501,7 +501,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 						}
 					}
 					else
+					{
 						workfirst = dir->firstentry;
+					}
 				}
 				check = 1;
 				break;
@@ -520,7 +522,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 						}
 					}
 					else
+					{
 						workfirst = dir->firstentry;
+					}
 				}
 				check = 1;
 				break;
@@ -533,7 +537,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 		if(workfirst && !addposition)
 		{
 			if(config->sortflags & (1 << win))
+			{
 				reverse = 1;
+			}
 
 			sortmethod = fixsortmethod(win, type);
 			entry = workfirst;
@@ -582,7 +588,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 			}
 		}
 		else
+		{
 			workfirst = NULL;
+		}
 	}
 
 	/* Link the new entry */

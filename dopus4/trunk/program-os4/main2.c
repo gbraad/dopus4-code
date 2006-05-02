@@ -31,8 +31,8 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/locale.h>
 
-#define EXALL_NUM 2
-#define EXALL_BUFSIZE ((sizeof(struct ExAllData)+160)*EXALL_NUM)
+#define EXALL_NUM 1
+#define EXALL_BUFSIZE (sizeof(struct ExAllData) * EXALL_NUM)
 
 void freedir(struct DirectoryWindow *dir, int win)
 {
@@ -81,13 +81,13 @@ void freedir(struct DirectoryWindow *dir, int win)
 int getdir(struct DirectoryWindow *dir, int win, int incmess)
 {
 	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int tot = 1, a, use_exall = 0, exall_entry = 0, exall_continue = 0, subtype, exall_type = ED_OWNER;
+	int tot = 1, a, exall_entry = 0, exall_type = ED_OWNER, subtype = 0;
 	BPTR mylock;
-	char buf[256];
+	char buf[256], commentbuf[80];
 	struct ExAllControl *exall_control = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL);
-	struct ExAllData *exall_buffer = NULL, *exall_current = NULL;
+	struct ExAllData *exall_current = NULL, EABuff[EXALL_BUFSIZE];
 	struct MsgPort *deviceport;
-
+	BOOL exall_continue = TRUE;
 	endnotify(win);
 	freedir(dir, win);
 
@@ -102,7 +102,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 	if(!(mylock = IDOS->Lock(dir->directory, ACCESS_READ)))
 	{
-		if(IxadMaster)
+		if(IxadMaster && xadMasterBase)
 		{
 			if(readarchive(dir, win))
 			{
@@ -135,7 +135,9 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		strcpy(dir->volumename, buf);
 		strcat(buf, ":");
 		if((deviceport = (struct MsgPort *)IDOS->DeviceProc(buf)))
+		{
 			get_device_task(mylock, dir->realdevice, deviceport);
+		}
 	}
 
 	if(config->dirflags & DIRFLAGS_EXPANDPATHS)
@@ -174,153 +176,126 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	if(Window)
 	{
 		if(incmess)
+		{
 			dostatustext(globstring[STR_READING_CHANGED_DIRECTORY]);
+		}
 		else
+		{
 			dostatustext(globstring[STR_READING_DIRECTORY]);
+		}
 		busy();
 	}
 	copy_datestamp(&fileinfo->fib_Date, &dir->dirstamp);
 
-	if(config->dirflags & DIRFLAGS_EXALL)
+	if((exall_control = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
 	{
-		if((exall_control = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
+		exall_control->eac_LastKey = 0;
+		while(exall_continue)
 		{
-			if((exall_buffer = (struct ExAllData *)IExec->AllocMem(EXALL_BUFSIZE, MEMF_CLEAR)))
+			exall_continue = IDOS->ExAll(mylock, EABuff, sizeof(EABuff), ED_OWNER, exall_control);
+			if(!exall_continue && (IDOS->IoErr() != ERROR_NO_MORE_ENTRIES))
 			{
-				use_exall = 1;
-				exall_entry = 0;
-				exall_continue = 1;
-				exall_control->eac_Entries = 0;
-				exall_control->eac_LastKey = 0;
-				exall_control->eac_MatchString = NULL;
-				exall_control->eac_MatchFunc = NULL;
-				exall_current = NULL;
-			}
-			else
-			{
-				IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
-				exall_control = NULL;
-			}
-		}
-	}
-
-	for(;;)	
-	{
-		if(use_exall)
-		{
-			if(exall_entry >= exall_control->eac_Entries || !exall_current)
-			{
-				if(!exall_continue)
-					break;
-				exall_continue = IDOS->ExAll(mylock, exall_buffer, EXALL_BUFSIZE, exall_type, exall_control);
-				if(!exall_continue)
-				{
-					if(IDOS->IoErr() == ERROR_BAD_NUMBER)
-						exall_continue = IDOS->ExAll(mylock, exall_buffer, EXALL_BUFSIZE, exall_type = ED_COMMENT, exall_control);
-				}
-				exall_entry = 0;
-				exall_current = exall_buffer;
-				continue;
-			}
-			if(exall_current->ed_Name)
-				strcpy(fileinfo->fib_FileName, exall_current->ed_Name);
-			else
-				fileinfo->fib_FileName[0] = 0;
-
-			fileinfo->fib_DirEntryType = exall_current->ed_Type;
-			fileinfo->fib_Size = exall_current->ed_Size;
-			fileinfo->fib_Protection = exall_current->ed_Prot;
-			fileinfo->fib_Date.ds_Days = exall_current->ed_Days;
-			fileinfo->fib_Date.ds_Minute = exall_current->ed_Mins;
-			fileinfo->fib_Date.ds_Tick = exall_current->ed_Ticks;
-			fileinfo->fib_OwnerUID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerUID : 0;
-			fileinfo->fib_OwnerGID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerGID : 0;
-			if(exall_current->ed_Comment)
-				strcpy(fileinfo->fib_Comment, exall_current->ed_Comment);
-			else
-				fileinfo->fib_Comment[0] = 0;
-			++exall_entry;
-			exall_current = exall_current->ed_Next;
-		}
-		else
-		{
-			if(!(IDOS->ExNext(mylock, fileinfo)))
 				break;
-		}
-
-		subtype = fileinfo->fib_DirEntryType;
-		if(subtype == ST_SOFTLINK)
-		{
-			struct FileInfoBlock *fib = fileinfo;
-			struct DevProc *dp;
-			BPTR ld, lf;
-			char linkbuf[512];
-
-			IDOS->NameFromLock(mylock, linkbuf, 512);
-			do
-			{
-				ld = IDOS->Lock(linkbuf, ACCESS_READ);
-				if((dp = IDOS->GetDeviceProc(linkbuf, NULL)))
-				{
-					if(IDOS->ReadLink(dp->dvp_Port, ld, fib->fib_FileName, buf, 256))
-					{
-						IDOS->AddPart(linkbuf, buf, 512);
-						if((lf = IDOS->Lock(linkbuf, ACCESS_READ)))
-						{
-							if(IDOS->Examine(lf, fib))
-							{
-								switch (fib->fib_DirEntryType)
-								{
-								case ST_ROOT:
-								case ST_USERDIR:
-								case ST_LINKDIR:
-									fileinfo->fib_DirEntryType = ENTRY_DIRECTORY;
-									break;
-								case ST_SOFTLINK:
-									IDOS->NameFromLock(lf, linkbuf, 512);
-									*IDOS->PathPart(linkbuf) = 0;
-									break;
-								default:
-									fileinfo->fib_DirEntryType = ENTRY_FILE;
-									break;
-								}
-							}
-							IDOS->UnLock(lf);
-						}
-						else
-						{
-							fileinfo->fib_DirEntryType = fib->fib_DirEntryType = ENTRY_FILE;
-							fileinfo->fib_Size = 0;
-						}
-					}
-					IDOS->FreeDeviceProc(dp);
-					IDOS->UnLock(ld);
-				}
 			}
-			while(fib->fib_DirEntryType == ST_SOFTLINK);
-		}
-		if(status_haveaborted && Window)
-		{
-			myabort();
-			dir->flags |= DWF_ABORTED;
-			tot = -1;
-			break;
-		}
-		if(!(addfile(dir, win, fileinfo->fib_FileName, FIB_IS_FILE(fileinfo) ? (int64) fileinfo->fib_Size : -1, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, subtype, FALSE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID)))
-		{
-			if(Window)
-				doerror(-1);
-			tot = 0;
-			break;
-		}
-		else if(Window)
-		{
-			if(config->dynamicflags & UPDATE_QUIETGETDIR)
+			if(exall_control->eac_Entries == 0)
 			{
-				fixprop(win);
+				break;
+			}
+			exall_entry = 0;
+			exall_current = EABuff;
+
+			while(exall_current)
+			{
+				if(exall_current->ed_Name)
+				{
+					strcpy(fileinfo->fib_FileName, exall_current->ed_Name);
+				}
+				else
+				{
+					fileinfo->fib_FileName[0] = 0;
+				}
+
+				fileinfo->fib_DirEntryType = exall_current->ed_Type;
+				fileinfo->fib_Size = exall_current->ed_Size;
+				fileinfo->fib_Protection = exall_current->ed_Prot;
+				fileinfo->fib_Date.ds_Days = exall_current->ed_Days;
+				fileinfo->fib_Date.ds_Minute = exall_current->ed_Mins;
+				fileinfo->fib_Date.ds_Tick = exall_current->ed_Ticks;
+				fileinfo->fib_OwnerUID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerUID : 0;
+				fileinfo->fib_OwnerGID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerGID : 0;
+				if(exall_current->ed_Comment)
+				{
+					strcpy(fileinfo->fib_Comment, exall_current->ed_Comment);
+					IUtility->SNPrintf(commentbuf, 80, "%s", exall_current->ed_Comment);
+				}
+				else
+				{
+					fileinfo->fib_Comment[0] = 0;
+				}
+				++exall_entry;
+
+				if(EAD_IS_LINK(exall_current))
+				{
+					subtype = ST_SOFTLINK;
+					if(EAD_IS_LINK(exall_current) && EAD_IS_LINKDIR(exall_current))
+					{
+						fileinfo->fib_DirEntryType = ENTRY_DIRECTORY;
+					}
+					if(EAD_IS_LINK(exall_current) && !EAD_IS_LINKDIR(exall_current))
+					{
+						fileinfo->fib_DirEntryType = ENTRY_FILE;
+					}
+					IUtility->ClearMem(commentbuf, 80);
+					IUtility->Strlcpy(commentbuf, "--> ", 80);
+
+					{
+						struct DevProc *dp;
+						BPTR ld;
+						char linkbuf[512];
+
+						IDOS->NameFromLock(mylock, linkbuf, 512);
+						ld = IDOS->Lock(linkbuf, ACCESS_READ);
+						if((dp = IDOS->GetDeviceProc(linkbuf, NULL)))
+						{
+							if(IDOS->ReadLink(dp->dvp_Port, ld, fileinfo->fib_FileName, buf, 256))
+							{
+								IDOS->AddPart(linkbuf, buf, 512);
+								IUtility->Strlcat(commentbuf, linkbuf, 80);
+							}
+						}
+						IDOS->FreeDeviceProc(dp);
+						IDOS->UnLock(ld);
+					}
+				}
+					
+				if(status_haveaborted && Window)
+				{
+					myabort();
+					dir->flags |= DWF_ABORTED;
+					tot = -1;
+					break;
+				}
+				if(!(addfile(dir, win, fileinfo->fib_FileName, FIB_IS_FILE(fileinfo) ? (int64) fileinfo->fib_Size : -1, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, commentbuf, fileinfo->fib_Protection, exall_current->ed_Type, FALSE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID)))
+				{
+					if(Window)
+					{
+						doerror(-1);
+					}
+					tot = 0;
+					break;
+				}
+				else if(Window)
+				{
+					if(config->dynamicflags & UPDATE_QUIETGETDIR)
+					{
+						fixprop(win);
+					}
+				}
+				exall_current = exall_current->ed_Next;
 			}
 		}
 	}
+
 	IDOS->UnLock(mylock);
 
 	if(Window)
@@ -334,12 +309,9 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 		refreshwindow(win, 1);
 	}
-	if(use_exall)
+	if(exall_control)
 	{
-		if(exall_control)
-			IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
-		if(exall_buffer)
-			IExec->FreeMem(exall_buffer, EXALL_BUFSIZE);
+		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
 	}
 
 	IDOS->FreeDosObject(DOS_FIB, fileinfo);
@@ -987,7 +959,75 @@ void buildkmgstring(char *buf, uint64 size, int kmgmode)
 			sprintf(buf, "%4lld", size);
 	}
 	else
+	{
 		sprintf(buf, DISPLAYSIZEFORMAT, size);
+	}
+}
+
+void buildkmgstringnew(char *buf, uint64 size, int kmgmode, uint32 type)
+{
+	if(kmgmode)
+	{
+		if(size > 1024)
+		{
+
+			char tmp[16], c;
+			float div;
+
+			if(size > 1024 * 1024)
+			{
+				if(size > 1024 * 1024 * 1024)
+				{
+					div = 1024 * 1024 * 1024;
+					c = 'G';
+				}
+				else
+				{
+					div = 1024 * 1024;
+					c = 'M';
+				}
+			}
+			else
+			{
+				div = 1024;
+				c = 'K';
+			}
+			sprintf(tmp, "%.1f", size / div);
+
+			if(tmp[3] == '.')
+				tmp[3] = 0;
+			else if(tmp[4] == '.')
+				tmp[4] = 0;
+			sprintf(buf, "%4s%lc", tmp, c);
+		}
+		else
+		{
+			switch (type)
+			{
+			case ST_SOFTLINK:
+			case ST_LINKDIR:
+			case ST_LINKFILE:
+				sprintf(buf, "<LINK>");
+				break;
+			default:
+//				sprintf(buf, DISPLAYSIZEFORMAT, size);
+				sprintf(buf, "%4lld", size);
+			}
+		}
+	}
+	else
+	{
+		switch (type)
+		{
+		case ST_SOFTLINK:
+		case ST_LINKDIR:
+		case ST_LINKFILE:
+			sprintf(buf, "<LINK>");
+			break;
+		default:
+			sprintf(buf, DISPLAYSIZEFORMAT, size);
+		}
+	}
 }
 
 void builddisplaystring(struct Directory *display, char *sbuf, int win)
@@ -1122,7 +1162,8 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 			PUTCODE(&sbuf, TEXT_PENS, fg << 8 | bg);
 
 			if(display->type < ENTRY_DEVICE || (display->type > ENTRY_DEVICE && display->size >= 0))
-				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG);
+//				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG);
+				buildkmgstringnew(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG, display->subtype);
 			else
 				sizebuf[0] = 0;
 
@@ -1145,7 +1186,9 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 							l = 0;
 						}
 						if(l)
+						{
 							PUTCODE(&sbuf, TEXT_STYL, FSF_UNDERLINED << 8 | FSF_UNDERLINED);
+						}
 
 						w = IGraphics->TextLength(&dir_rp[win], sptr, b = strlen(sptr));
 						if(w > (config->displaylength[win][DISPLAY_NAME] - scrdata_font_xsize))

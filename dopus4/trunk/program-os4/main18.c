@@ -371,7 +371,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						break;
 					}
 					else if(a == 0)
+					{
 						adir = NULL;
+					}
 				}
 				if(dowhat & R_DELETE)
 				{
@@ -447,7 +449,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				}
 			}
 		}
-		if(FIB_IS_FILE(enfinfo))
+		if(FIB_IS_FILE(enfinfo) || (FIB_IS_LINK(enfinfo) && !FIB_IS_LINKDIR(enfinfo)))
 		{
 			a = 0;
 			dos_global_bytecount += enfinfo->fib_Size;

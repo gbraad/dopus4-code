@@ -83,15 +83,19 @@ int main(int argc, char **argv)
 	struct CommandLineInterface *cli;
 	struct Interrupt *interrupt;
 	struct IOStdReq *inputreq;
-	struct ConsoleWindowData *cwd = NULL;
 
 	myproc = (struct Process *)IExec->FindTask(NULL);
 	cli = BADDR(myproc->pr_CLI);
 
 	if((cont = IDOS->GetConsoleTask()))
 	{
-		if(IDOS->DoPkt(cont, ACTION_OBTAIN_CON_INFO, (ULONG)&cwd, 1, 0, 0, 0))
-			win = cwd->ConsoleWindow;
+		struct InfoData *ind = IDOS->AllocDosObject(DOS_INFODATA, NULL);
+
+		if(IDOS->DoPkt(cont, ACTION_DISK_INFO, MKBADDR(ind), 0, 0, 0, 0))
+		{
+			win = (struct Window *)ind->id_VolumeNode;
+		}
+		IDOS->FreeDosObject(DOS_INFODATA, ind);
 	}
 	out = IDOS->Output();
 
@@ -101,8 +105,7 @@ int main(int argc, char **argv)
 		case 's':
 			if(win)
 			{
-				if((win->WScreen->Flags & SCREENTYPE) !=
-				   WBENCHSCREEN)
+				if((win->WScreen->Flags & SCREENTYPE) != WBENCHSCREEN)
 				{
 					myproc->pr_WindowPtr = (APTR) win;
 					IGraphics->SetFont(win->RPort, ((struct GfxBase *)(IGraphics->Data.LibBase))->DefaultFont);
