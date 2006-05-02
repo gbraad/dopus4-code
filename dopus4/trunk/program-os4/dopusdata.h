@@ -50,7 +50,9 @@ extern struct Screen *MainScreen;	/* Main screen */
 extern struct Screen *iffscreen;	/* IFF display screen */
 extern struct Screen *fontscreen;	/* Font display screen */
 extern struct Screen *blankscreen;	/* Blank screen for IFF viewer */
-extern struct Window *Window;	/* Main window */
+extern struct Window *Window;		/* Main window */
+extern struct Image *iconifyimage;	/* Iconify Image for main window */
+extern struct Gadget *iconifygadget;	/* Iconify Gagdet for main window */
 extern struct Window *fontwindow;	/* Window for font display */
 extern struct Window *ansiread_window;	/* Window for rendering ANSI text */
 extern struct Window *reqoverride;	/* Pointer for SimpleRequest window */

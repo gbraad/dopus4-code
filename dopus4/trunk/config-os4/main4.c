@@ -516,7 +516,7 @@ void showdrivename(struct dopusfunction *drive, struct Gadget *gadget)
 	}
 }
 
-doinitdrivetext(int id)
+int doinitdrivetext(int id)
 {
 	int mode = -1;
 
@@ -554,7 +554,7 @@ doinitdrivetext(int id)
 	return (mode);
 }
 
-docolourgad(struct RastPort *r, int x, int y, int mx, int my, STRPTR name, int *fp, int *bp, int type)
+int docolourgad(struct RastPort *r, int x, int y, int mx, int my, STRPTR name, int *fp, int *bp, int type)
 {
 	int num, box;
 

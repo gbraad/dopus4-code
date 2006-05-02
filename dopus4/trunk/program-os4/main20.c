@@ -211,7 +211,9 @@ void dotaskmsg(struct MsgPort *port, int command, int value, int total, char *da
 void closedisplay()
 {
 	if(status_iconified)
+	{
 		cleanupiconify();
+	}
 	else
 	{
 		if(MainScreen)
@@ -228,6 +230,10 @@ void closedisplay()
 				dopus_appwindow = NULL;
 			}
 			free_colour_table();
+			IIntuition->RemoveGadget(Window, iconifygadget);
+			IIntuition->DisposeObject(iconifygadget);
+			IIntuition->DisposeObject(iconifyimage);
+
 			IIntuition->CloseWindow(Window);
 			Window = NULL;
 		}

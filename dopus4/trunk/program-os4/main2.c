@@ -246,7 +246,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 						fileinfo->fib_DirEntryType = ENTRY_FILE;
 					}
 					IUtility->ClearMem(commentbuf, 80);
-					IUtility->Strlcpy(commentbuf, "--> ", 80);
+					IUtility->Strlcpy(commentbuf, "> ", 80);
 
 					{
 						struct DevProc *dp;
@@ -259,8 +259,20 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 						{
 							if(IDOS->ReadLink(dp->dvp_Port, ld, fileinfo->fib_FileName, buf, 256))
 							{
+								struct FileInfoBlock *linkfib = IDOS->AllocDosObject(DOS_FIB, NULL);
+								BPTR linklock;
+
 								IDOS->AddPart(linkbuf, buf, 512);
 								IUtility->Strlcat(commentbuf, linkbuf, 80);
+								if((linklock = IDOS->Lock(linkbuf, ACCESS_READ)))
+								{
+									if((IDOS->Examine(linklock, linkfib)))
+									{
+										fileinfo->fib_Size = linkfib->fib_Size;
+									}
+									IDOS->UnLock(linklock);
+								}
+								IDOS->FreeDosObject(DOS_FIB, linkfib);
 							}
 						}
 						IDOS->FreeDeviceProc(dp);
@@ -963,7 +975,7 @@ void buildkmgstring(char *buf, uint64 size, int kmgmode)
 		sprintf(buf, DISPLAYSIZEFORMAT, size);
 	}
 }
-
+/*
 void buildkmgstringnew(char *buf, uint64 size, int kmgmode, uint32 type)
 {
 	if(kmgmode)
@@ -1010,7 +1022,6 @@ void buildkmgstringnew(char *buf, uint64 size, int kmgmode, uint32 type)
 				sprintf(buf, "<LINK>");
 				break;
 			default:
-//				sprintf(buf, DISPLAYSIZEFORMAT, size);
 				sprintf(buf, "%4lld", size);
 			}
 		}
@@ -1029,7 +1040,7 @@ void buildkmgstringnew(char *buf, uint64 size, int kmgmode, uint32 type)
 		}
 	}
 }
-
+*/
 void builddisplaystring(struct Directory *display, char *sbuf, int win)
 {
 	char sizebuf[20];
@@ -1162,8 +1173,8 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 			PUTCODE(&sbuf, TEXT_PENS, fg << 8 | bg);
 
 			if(display->type < ENTRY_DEVICE || (display->type > ENTRY_DEVICE && display->size >= 0))
-//				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG);
-				buildkmgstringnew(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG, display->subtype);
+				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG);
+//				buildkmgstringnew(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG, display->subtype);
 			else
 				sizebuf[0] = 0;
 

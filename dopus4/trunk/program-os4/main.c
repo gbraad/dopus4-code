@@ -28,8 +28,18 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+struct MyCon
+{
+	struct Window *Win;
+	struct Image *IcoImg;
+	struct Gadget *IcoGad;
+	struct DrawInfo *DRI;
+};
+
 #include "dopus.h"
 #include <proto/locale.h>
+
+#include <intuition/imageclass.h>
 
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }
@@ -894,6 +904,25 @@ int SetUp(int tit)
 					IIntuition->UnlockPubScreen(NULL, pubscr);
 				return (SetUp(tit));
 			}
+
+			{
+				struct DrawInfo *DRI;
+				
+				DRI = IIntuition->GetScreenDrawInfo(Window->WScreen);
+				iconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
+				if(iconifyimage)
+				{
+					iconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, FUNC_ICONIFY, GA_RelVerify, TRUE, GA_Image, iconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
+					if(iconifygadget)
+					{
+						IIntuition->AddGadget(Window, iconifygadget, ~0);
+						IIntuition->RefreshGadgets(iconifygadget, Window, NULL);
+					}
+				}
+				IIntuition->FreeScreenDrawInfo(Window->WScreen, DRI);
+				
+			}
+			
 			main_win.Width = Window->Width;
 			main_win.Height = Window->Height;
 			if(pubscr)
@@ -988,7 +1017,9 @@ int SetUp(int tit)
 		}
 
 		if(scrdata_status_height > 0)
+		{
 			scrdata_status_width = scrdata_width - 4;
+		}
 		else
 		{
 			struct Gadget *gad;

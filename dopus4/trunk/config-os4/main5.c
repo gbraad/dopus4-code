@@ -30,7 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "config.h"
 
-dofiletypeconfig()
+int dofiletypeconfig()
 {
 	ULONG class;
 	USHORT code, gadgetid;
@@ -387,7 +387,7 @@ void showtypelist(STRPTR *list)
 	IDOpus->RefreshListView(&filetypeactionlist, 1);
 }
 
-doinitfiletypetext(int id)
+int doinitfiletypetext(int id)
 {
 	int mode = -1;
 
@@ -420,7 +420,7 @@ void filetypetitle(struct dopusfiletype *type)
 	doscreentitle(title);
 }
 
-editfiletype(struct dopusfiletype *type, struct DOpusRemember **key, int new)
+int editfiletype(struct dopusfiletype *type, struct DOpusRemember **key, int new)
 {
 	struct dopusfunction editbuf;
 	char *func[FILETYPE_FUNCNUM], *oldfunc[FILETYPE_FUNCNUM];
@@ -465,7 +465,7 @@ editfiletype(struct dopusfiletype *type, struct DOpusRemember **key, int new)
 	return (b);
 }
 
-editclass(struct fileclass *class, int new)
+int editclass(struct fileclass *class, int new)
 {
 	struct fileclass editbuf;
 	int b, c;
@@ -1256,7 +1256,6 @@ int editfileclass(struct fileclass *fclass, int new)
 						strcpy(edit_funcbuf, classlist[selitem]);
 					else
 						edit_funcbuf[0] = 0;
-//kprintf("selitem: %ld\tedit_funcbuf: %s\n",selitem,edit_funcbuf);
 					IDOpus->RefreshStrGad(&editclassgadgets[7], Window);
 					showclassop(classtype[selitem]);
 					IDOpus->ActivateStrGad(&editclassgadgets[7], Window);
@@ -1427,10 +1426,9 @@ void endclassedit(int item, STRPTR *classlist, STRPTR classtype, STRPTR *displis
 }
 
 void makeclassrecog(struct fileclass *class, STRPTR *classlist, STRPTR classtype)
-//     unsigned char **classlist, *classtype;
 {
 	int size, num, a;
-	/*unsigned*/ char *buf, buf2[2];
+	char *buf, buf2[2];
 
 	size = num = 0;
 	for(a = 0; a < MAXFUNCS; a++)
