@@ -65,7 +65,7 @@ void doidcmp()
 				continue;
 			hotkey = dopus_globalhotkey;
 			dopus_globalhotkey = NULL;
-			IExec->CopyMem((STRPTR)&hotkey->func.which, (STRPTR)&par, sizeof(struct dopusfuncpar));
+			IExec->CopyMem((STRPTR) & hotkey->func.which, (STRPTR) & par, sizeof(struct dopusfuncpar));
 			par.which &= FLAG_OUTWIND | FLAG_NOQUOTE | FLAG_SHELLUP | FLAG_DOPUSUP;
 			par.which |= FLAG_ASYNC;
 			if(par.which & FLAG_OUTWIND)
@@ -634,20 +634,70 @@ void doidcmp()
 						}
 						verticalscroll(win, 1);
 						break;
-					case CURSOR_LEFT:
-						IExec->DebugPrintF("CURSOR_LEFT\n");
+					case RAWKEY_CRSRLEFT:	//CURSOR_LEFT:
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, -1, 1);
 							break;
 						}
-					case CURSOR_RIGHT:
-						IExec->DebugPrintF("CURSOR_RIGHT\n");
+						if(win == -1)
+						{
+							win = data_active_window;
+						}
+						if(dopus_curwin[win]->total == 0)
+						{
+							break;
+						}
+						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+						{
+							if(qual & IEQUALIFIER_CONTROL)
+							{
+								dopus_curwin[win]->hoffset = 0;
+							}
+							else
+							{
+								dopus_curwin[win]->hoffset -= scrdata_dispwin_nchars[win];
+								if(dopus_curwin[win]->hoffset < 0)
+									dopus_curwin[win]->hoffset = 0;
+							}
+							refreshwindow(win, 1);
+							break;
+						}
+						horizontalscroll(win, -1);
+						break;
+					case RAWKEY_CRSRRIGHT:	//CURSOR_RIGHT:
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, 1, 1);
 							break;
 						}
+						if(win == -1)
+						{
+							win = data_active_window;
+						}
+						if(dopus_curwin[win]->total == 0)
+						{
+							break;
+						}
+						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+						{
+							if(qual & IEQUALIFIER_CONTROL)
+							{
+								dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
+								if(dopus_curwin[win]->hoffset < 0)
+									dopus_curwin[win]->hoffset = 0;
+							}
+							else
+							{
+								dopus_curwin[win]->hoffset += scrdata_dispwin_nchars[win];
+								if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
+									dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
+							}
+							refreshwindow(win, 1);
+							break;
+						}
+						horizontalscroll(win, 1);
+						break;
 					}
 					switch (code)
 					{
@@ -724,7 +774,7 @@ void doidcmp()
 				}
 				if(code == SELECTDOWN)
 				{
-					if(y >= scrdata_diskname_ypos && y < scrdata_diskname_ypos + scrdata_diskname_height)  // disknamebar
+					if(y >= scrdata_diskname_ypos && y < scrdata_diskname_ypos + scrdata_diskname_height)	// disknamebar
 					{
 						a = (x < scrdata_dispwin_center) ? 0 : 1;
 						if(data_active_window == 1 - a)
@@ -750,13 +800,13 @@ void doidcmp()
 						checksize(a);
 						break;
 					}
-					else if(x > scrdata_dispwin_center - 3 && x < scrdata_dispwin_center + 2 && y >= scrdata_dispwin_ypos && y < scrdata_dispwin_height + scrdata_dispwin_ypos)  // lister inner edge
+					else if(x > scrdata_dispwin_center - 3 && x < scrdata_dispwin_center + 2 && y >= scrdata_dispwin_ypos && y < scrdata_dispwin_height + scrdata_dispwin_ypos)	// lister inner edge
 					{
 						dosizedirwindows(65536);
 					}
-					else if((a = isinwindow(x, y)) != -1)  // lister area
+					else if((a = isinwindow(x, y)) != -1)	// lister area
 						doselection(a, TRUE);
-					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)  // buttonbank area
+					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)	// buttonbank area
 					{
 					      nextgadgetbank:
 						if((data_gadgetrow_offset += scr_gadget_rows) >= 6)
@@ -777,7 +827,7 @@ void doidcmp()
 				}
 				else if(code == MENUDOWN)
 				{
-					if((a = IDOpus->DoRMBGadget(mainrmbgads, Window)) > -1)  // check buttons reacting on RMB click
+					if((a = IDOpus->DoRMBGadget(mainrmbgads, Window)) > -1)	// check buttons reacting on RMB click
 					{
 						if(a == FUNC_ROOT)
 						{
@@ -802,10 +852,10 @@ void doidcmp()
 						}
 						function = a;
 					}
-					else if(y < scrdata_diskname_ypos || y > scrdata_yoffset + scrdata_height || x < scrdata_xoffset || x > scrdata_xoffset + scrdata_width)  // window frame
+					else if(y < scrdata_diskname_ypos || y > scrdata_yoffset + scrdata_height || x < scrdata_xoffset || x > scrdata_xoffset + scrdata_width)	// window frame
 						quickfixmenus();
 
-					else if(y >= scrdata_diskname_ypos && y <= scrdata_dispwin_ypos)  // diskname bar
+					else if(y >= scrdata_diskname_ypos && y <= scrdata_dispwin_ypos)	// diskname bar
 					{
 						if(x < scrdata_dispwin_center)
 							a = 1;
@@ -829,7 +879,7 @@ void doidcmp()
 						}
 						checksize(1 - a);
 					}
-					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)  // clock bar
+					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)	// clock bar
 					{
 						if(qual & IEQUALIFIER_ANYSHIFT)
 						{
@@ -872,7 +922,7 @@ void doidcmp()
 							fixgadgetprop();
 						}
 					}
-					else if(y > scrdata_dispwin_ypos + 1 && y < scrdata_dispwin_height + scrdata_dispwin_ypos + 2)  // lister area
+					else if(y > scrdata_dispwin_ypos + 1 && y < scrdata_dispwin_height + scrdata_dispwin_ypos + 2)	// lister area
 					{
 						if(x > 1 && x < scrdata_dispwin_center - 13)
 						{
@@ -895,7 +945,7 @@ void doidcmp()
 							}
 						}
 					}
-					else if(x >= scrdata_gadget_xpos && y >= scrdata_gadget_ypos && y < scrdata_gadget_ypos + (scr_gadget_rows * scrdata_gadget_height) + 1 && dopus_curgadbank)  // gadget bank area
+					else if(x >= scrdata_gadget_xpos && y >= scrdata_gadget_ypos && y < scrdata_gadget_ypos + (scr_gadget_rows * scrdata_gadget_height) + 1 && dopus_curgadbank)	// gadget bank area
 					{
 
 						if((c = gadgetfrompos(x, y)) > -1)
