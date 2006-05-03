@@ -122,7 +122,7 @@ struct ConfigGadget op_copygadgets[] =
 	{ CTYPE_TEXT, 0, STR_MISC_FLAGS, -1, -1},
 	{ CTYPE_GAD, 0, STR_OP_UPDATE_STARTNOTIFY, 237, -1, -1, -1, 8, 0},
 	{ CTYPE_GAD, 0, STR_OP_UPDATE_REDRAWMORE, 237, -1, -1, -1, 4, 0},
-	{ CTYPE_GAD, 0, STR_OP_UPDATE_QUIETGETDIR, 237, -1, -1, -1, 128, 0},	// HUX
+	{ CTYPE_GAD, 0, STR_OP_UPDATE_QUIETGETDIR, 237, -1, -1, -1, 128, 0},
 	{ 0, 0, -1 }
 }, *operationgadgets[8] =
 { op_copygadgets, op_dategadgets, op_deletegadgets, op_errorgadgets, op_generalgadgets, op_icongadgets, NULL, op_updategadgets}, sys_amigadosgadgets[] =
@@ -176,7 +176,7 @@ struct ConfigGadget op_copygadgets[] =
 	{ CTYPE_GAD, 0, STR_SYS_DIR_AUTODISKCHANGE, 189, 142, -1, -1, 4, 0},
 	{ CTYPE_GAD, 0, STR_SYS_DIR_AUTODISKLOAD, 189, 155, -1, -1, 8, 0},
 	{ CTYPE_GAD, 0, STR_SYS_DIR_EXPANDPATHS, 189, 168, -1, -1, 128, 0},
-//	{ CTYPE_GAD, 0, STR_SYS_DIR_USEEXALL, 189, 181, -1, -1, 2, 0},
+	{ CTYPE_GAD, 0, STR_SYS_DIR_USEEXALL, 189, 181, -1, -1, 2, 0},
 	{ CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 377, 148},
 	{ CTYPE_RAD, 1, STR_SYS_CLOCK_BYTES, 392, 153, -1, -1, 1, 15},
 	{ CTYPE_RAD, 1, STR_SYS_CLOCK_KILOBYTES, 392, 163, -1, -1, 2, 15},
@@ -209,7 +209,7 @@ struct ConfigGadget op_copygadgets[] =
 {
 	{ CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_TITLE, 169, 22},
 	{ CTYPE_MOVE, 0, -1, 27},
-/*	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BLACK, 248, -1, -1, -1, 1, 0},
+	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BLACK, 248, -1, -1, -1, 1, 0},
 	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_PAUSED, 248, -1, -1, -1, 32, 0},
 	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_8BITCOL, 248, -1, -1, -1, 4, 0},
 	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BESTMODEID, 248, -1, -1, -1, 64, 0},
@@ -219,7 +219,7 @@ struct ConfigGadget op_copygadgets[] =
 	{ CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_SOUNDPLAYER, 169, -1},
 	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_FILTER, 248, -1, -1, -1, 2, 0},
 	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_LOOP, 248, -1, -1, -1, 8, 0},
-	{ CTYPE_MOVEREL, 0, -1, 5},*/
+	{ CTYPE_MOVEREL, 0, -1, 5},
 	{ CTYPE_TEXT, 0, STR_SYS_VIEWPLAY_TEXTVIEW, 169, -1},
 	{ CTYPE_GAD, 0, STR_SYS_VIEWPLAY_BORDERS, 248, -1, -1, -1, 16, 0},
 	{ CTYPE_MOVEREL, 0, -1, -13},

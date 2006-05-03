@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 
 #define NUM_TYPES 5
 
-editfunction(struct dopusfunction *func, int type, APTR data)
+int editfunction(struct dopusfunction *func, int type, APTR data)
 {
 	int a, selitem, x, y, b, ofp, obp, curtype = 0, tof, waitbits;
 	ULONG class;

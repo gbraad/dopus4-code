@@ -635,12 +635,14 @@ void doidcmp()
 						verticalscroll(win, 1);
 						break;
 					case CURSOR_LEFT:
+						IExec->DebugPrintF("CURSOR_LEFT\n");
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, -1, 1);
 							break;
 						}
 					case CURSOR_RIGHT:
+						IExec->DebugPrintF("CURSOR_RIGHT\n");
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, 1, 1);

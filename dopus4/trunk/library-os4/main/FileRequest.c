@@ -1215,7 +1215,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 
 		if((request = IAsl->AllocAslRequest((font) ? ASL_FontRequest : ASL_FileRequest, asltags)))
 		{
-			if(res = IAsl->AslRequest(request, NULL))
+			if((res = IAsl->AslRequest(request, NULL)))
 			{
 				if(font)
 				{
@@ -1257,10 +1257,6 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			}
 			IAsl->FreeAslRequest(request);
 		}
-		IExec->DropInterface((struct Interface *)IIntuition);
-		IExec->CloseLibrary(IntuitionBase);
-		IExec->DropInterface((struct Interface *)IDOS);
-		IExec->CloseLibrary(DOSBase);
 		IExec->DropInterface((struct Interface *)IAsl);
 		IExec->CloseLibrary(AslBase);
 		return (res);

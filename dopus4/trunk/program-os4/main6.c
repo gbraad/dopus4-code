@@ -83,8 +83,10 @@ void get_printdir_data(struct PrintDirData *pddata)
 void startnotify(int win)
 {
 	if(!dos_notify_req[win])
+	{
 		return;
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	}
+	main_proc->pr_WindowPtr = (APTR)-1;
 	endnotify(win);
 	if(config->dynamicflags & UPDATE_NOTIFY && str_pathbuffer[win][0])
 	{
@@ -95,11 +97,15 @@ void startnotify(int win)
 			dos_notify_req[win]->nr_Flags = NRF_SEND_MESSAGE;
 			dos_notify_req[win]->nr_stuff.nr_Msg.nr_Port = count_port;
 			if(!(IDOS->StartNotify(dos_notify_req[win])))
+			{
 				dos_notify_names[win][0] = 0;
+			}
 		}
 	}
 	if(config->errorflags & ERROR_ENABLE_DOS)
+	{
 		main_proc->pr_WindowPtr = (APTR) Window;
+	}
 }
 
 void endnotify(int win)
@@ -117,8 +123,11 @@ void startnotifies()
 
 	for(a = 0; a < 2; a++)
 	{
-		if(strcmp(dos_notify_names[a], str_pathbuffer[a]))
+//		if(strcmp(dos_notify_names[a], str_pathbuffer[a]))
+		if(IUtility->Stricmp(dos_notify_names[a], str_pathbuffer[a]))
+		{
 			startnotify(a);
+		}
 	}
 }
 
@@ -127,7 +136,9 @@ void endnotifies()
 	int a;
 
 	for(a = 0; a < 2; a++)
+	{
 		endnotify(a);
+	}
 }
 
 int dormbgadget(int x1, int y1, struct newdopusfunction *gad1, struct newdopusfunction *gad2)

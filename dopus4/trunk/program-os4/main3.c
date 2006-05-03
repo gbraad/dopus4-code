@@ -134,13 +134,17 @@ int fixsortmethod(int win, int type)
 
 	selsortmethod = config->sortmethod[win];
 	if(selsortmethod < 0 || selsortmethod > DISPLAY_LAST)
+	{
 		return DISPLAY_NAME;
+	}
 
 	if(type == ENTRY_DEVICE)
+	{
 		return DISPLAY_NAME;
+	}
 	else if(type >= ENTRY_DIRECTORY)
 	{
-		switch (selsortmethod)
+		switch(selsortmethod)
 		{
 		case DISPLAY_FILETYPE:
 			return DISPLAY_NAME;
@@ -163,7 +167,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 {
 	int a, b;
 
-	switch (sortmethod)
+	switch(sortmethod)
 	{
 	case DISPLAY_NAME:
 	      sortname:
@@ -859,8 +863,8 @@ void swapdirentries(struct DirectoryWindow *dir, struct Directory *e1, struct Di
 
 void sortdir(struct DirectoryWindow *dir, int win)
 {
-	struct Directory *entry1 = NULL, *entry2 = NULL;
-	int swap, rerun = 1;
+	struct Directory *entry1 = NULL, *entry2;
+	int swap = 0, rerun = 1;
 
 	if(!dir->firstentry)
 		return;
@@ -868,7 +872,7 @@ void sortdir(struct DirectoryWindow *dir, int win)
 	busy();
 	if(dir->firstentry->type == ENTRY_CUSTOM)
 	{
-		switch (dir->firstentry->subtype)
+		switch(dir->firstentry->subtype)
 		{
 		case CUSTOMENTRY_BUFFERLIST:
 			for(; 1; entry1 = entry2)
@@ -901,7 +905,7 @@ void sortdir(struct DirectoryWindow *dir, int win)
 	{
 		int reverse, check;
 
-		switch (config->separatemethod[win])
+		switch(config->separatemethod[win])
 		{
 		case SEPARATE_DIRSFIRST:
 		case SEPARATE_FILESFIRST:
@@ -921,11 +925,15 @@ void sortdir(struct DirectoryWindow *dir, int win)
 				{
 					entry1 = dir->firstentry;
 					if(!(entry2 = entry1 ? entry1->next : NULL))
+					{
 						break;
+					}
 					rerun = 0;
 				}
 				else
+				{
 					break;
+				}
 			}
 			swap = 0;
 			if(check)
@@ -936,21 +944,31 @@ void sortdir(struct DirectoryWindow *dir, int win)
 					{
 					case SEPARATE_DIRSFIRST:
 						if((entry1->type <= ENTRY_FILE) && (entry2->type >= ENTRY_DEVICE))
+						{
 							swap = 1;
+						}
 						else
+						{
 							swap = -1;
+						}
 						break;
 					case SEPARATE_FILESFIRST:
 						if((entry2->type <= ENTRY_FILE) && (entry1->type >= ENTRY_DEVICE))
+						{
 							swap = 1;
+						}
 						else
+						{
 							swap = -1;
+						}
 						break;
 					}
 				}
 			}
 			if(!swap)
+			{
 				swap = entryorder(fixsortmethod(win, (entry1->type != entry2->type) ? ENTRY_DIRECTORY : entry1->type), reverse, entry1, entry2);
+			}
 			if(swap == 1)
 			{
 				swapdirentries(dir, entry1, entry2);
