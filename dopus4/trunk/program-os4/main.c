@@ -932,6 +932,7 @@ int SetUp(int tit)
 		else
 		{
 			IIntuition->RefreshWindowFrame(Window);
+			IIntuition->RefreshGadgets(iconifygadget, Window, NULL);
 			IGraphics->SetAPen(main_rp, 0);
 			rectfill(main_rp, scrdata_xoffset, scrdata_yoffset, scrdata_width, scrdata_height);
 		}

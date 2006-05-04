@@ -50,6 +50,7 @@ the existing commercial status of Directory Opus 5.
 #include <libraries/commodities.h>
 #include <workbench/workbench.h>
 #include <workbench/startup.h>
+#include <libraries/application.h>
 
 #include <devices/audio.h>
 #include <devices/input.h>
@@ -79,6 +80,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/utility.h>
 #include <proto/xadmaster.h>
 #include <proto/Picasso96API.h>
+#include <proto/application.h>
 
 #include <proto/dopus.h>
 

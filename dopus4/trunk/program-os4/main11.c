@@ -71,7 +71,7 @@ struct NewWindow icon_win =
 	0, 0, 1, 1, 255, 255, ICON_IDCMP, WFLG_BACKDROP | WFLG_BORDERLESS | WFLG_SIMPLE_REFRESH | WFLG_NOCAREREFRESH, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, WBENCHSCREEN
 };
 
-static int /*icon_tx, */ icon_ty, icon_len;
+static int icon_ty, icon_len;
 static UBYTE icon_fpen, icon_bpen;
 static int icon_type, icon_gotclock;
 static struct TextFont *winfont;
@@ -154,7 +154,9 @@ void iconify(int louise, int buttons, int banknum)
 			}
 		}
 		else
+		{
 			bankcount = 0;
+		}
 		icon_win.LeftEdge = config->iconbutx;
 		icon_win.TopEdge = config->iconbuty;
 		icon_type &= ~(ICON_NOWINDOW | ICON_APPICON);
@@ -165,9 +167,13 @@ void iconify(int louise, int buttons, int banknum)
 				buttonrows = config->gadgetrows;
 		}
 		else
+		{
 			buttonrows = config->gadgetrows;
+		}
 		if(buttonrows < 2)
+		{
 			buttonrows = 2;
+		}
 		config->gadgetrows = buttonrows;
 		scr_gadget_rows = buttonrows;
 		bankstep = 6 / buttonrows;
@@ -366,8 +372,10 @@ void iconify(int louise, int buttons, int banknum)
 				IIntuition->SetWindowTitles(Window, "DirOpus", (char *)-1);
 		}
 	}
-	else if(icon_type & ICON_APPICON )
+	else if(icon_type & ICON_APPICON)
+	{
 		Window = IIntuition->OpenWindowTags(&appicon_win, WA_PubScreenName, (Tag) "Workbench", WA_PubScreenFallBack, TRUE, TAG_END);
+	}
 
 	if(!(status_flags & STATUS_DONEREXX))
 	{
@@ -375,13 +383,15 @@ void iconify(int louise, int buttons, int banknum)
 		rexx_command(config->startupscript, NULL);
 	}
 
-	FOREVER
+	for(;;)
 	{
 		waitbits = 0;
 		if(IWorkbench)
 		{
 			if(icon_type & ICON_APPICON || dopus_appwindow)
+			{
 				waitbits |= 1 << appmsg_port->mp_SigBit;
+			}
 		}
 		if(icon_gotclock)
 		{
@@ -493,8 +503,10 @@ void iconify(int louise, int buttons, int banknum)
 			if((icon_type & ICON_APPICON || dopus_appwindow) && wmes & 1 << appmsg_port->mp_SigBit)
 			{
 				if(dopus_appwindow)
+				{
 					IIntuition->ActivateWindow(Window);
-				while(amsg = (struct AppMessage *)IExec->GetMsg(appmsg_port))
+				}
+				while((amsg = (struct AppMessage *)IExec->GetMsg(appmsg_port)))
 				{
 					if((amsg->am_Type == AMTYPE_APPICON && amsg->am_NumArgs == 0) || (amsg->am_Type == AMTYPE_APPMENUITEM))
 					{
