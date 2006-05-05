@@ -174,31 +174,6 @@ int main(int argc, char **argv)
 		user_appicon->do_CurrentY = NO_ICON_POSITION;
 	}
 
-	/* application.library testcode */
-	if(docky)
-	{
-		appID = 0;
-		if(WBmsg)
-		{
-			appID = IApplication->RegisterApplication("DOpus", REGAPP_URLIdentifier, "zerohero.se", REGAPP_WBStartup, WBmsg, TAG_DONE);
-		}
-		else
-		{
-			BPTR applock = IDOS->Lock(argv[0], ACCESS_READ);
-			if(applock)
-			{
-				appID = IApplication->RegisterApplication("DOpus", REGAPP_URLIdentifier, "zerohero.se", REGAPP_FileLock, applock, TAG_DONE);
-				IDOS->UnLock(applock);
-			}
-		}
-	}
-	if(appID)
-	{
-		IApplication->GetApplicationAttrs(appID, APPATTR_Port, (uint32)&applibport, TAG_DONE);
-	}
-
-	/* application.library testcode */
-
 	old_pr_cis = main_proc->pr_CIS;
 	old_pr_cos = main_proc->pr_COS;
 	old_pr_consoletask = main_proc->pr_ConsoleTask;
@@ -227,7 +202,9 @@ int main(int argc, char **argv)
 	read_configuration(0);
 
 	if(startdir)
+	{
 		strcpy((char *)config->autodirs[0], startdir);
+	}
 
 	initlistermenu();
 
@@ -308,17 +285,47 @@ int main(int argc, char **argv)
 	do_remember_config(remember_data);
 
 	if(!(dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 1024, TAG_DONE)))
+	{
 		quit();
+	}
 
 	allocdirbuffers(config->bufcount);
 
 	for(a = 0; a < 2; a++)
+	{
 		horiz_propimage[a].Width = 65;
+	}
 
 	hotkey_task = (struct Task *)IExec->CreateTask("dopus_hotkeez", config->priority + 1, hotkeytaskcode, 8192, NULL);
 
+	/* application.library testcode */
+	if((config->icontype & ICON_APPICON) && docky)
+	{
+		appID = 0;
+		if(WBmsg)
+		{
+			appID = IApplication->RegisterApplication("DOpus", REGAPP_URLIdentifier, "zerohero.se", REGAPP_WBStartup, WBmsg, TAG_DONE);
+		}
+		else
+		{
+			BPTR applock = IDOS->Lock(argv[0], ACCESS_READ);
+			if(applock)
+			{
+				appID = IApplication->RegisterApplication("DOpus", REGAPP_URLIdentifier, "zerohero.se", REGAPP_FileLock, applock, TAG_DONE);
+				IDOS->UnLock(applock);
+			}
+		}
+		if(appID)
+		{
+			IApplication->GetApplicationAttrs(appID, APPATTR_Port, (uint32)&applibport, TAG_DONE);
+		}
+	}
+	/* application.library testcode */
+
 	if(iconstart)
+	{
 		SetUp(-1);
+	}
 
 	sup = nsee = 0;
 	if(config->autodirs[0][0] || config->autodirs[1][0])
