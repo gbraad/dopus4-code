@@ -47,7 +47,7 @@ void doidcmp()
 		waitbits = 1 << Window->UserPort->mp_SigBit | 1 << count_port->mp_SigBit | rexx_signalbit | INPUTSIG_HOTKEY;
 		if(WorkbenchBase && IWorkbench && dopus_appwindow)
 			waitbits |= 1 << appmsg_port->mp_SigBit;
-		if(ApplicationBase && IApplication && docky)
+		if(ApplicationBase && IApplication && (config->icontype & ICON_APPICON) && docky)
 			waitbits |= 1 << applibport->mp_SigBit;
 		if((wmes = IExec->Wait(waitbits)) & INPUTSIG_HOTKEY)
 		{

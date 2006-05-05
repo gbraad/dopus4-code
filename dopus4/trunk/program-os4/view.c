@@ -125,8 +125,7 @@ static struct Image *viewiconifyimage;
 
 static struct DiskObject *viewdobj;
 static struct AppIcon *viewappicon;
-static struct MsgPort *viewappport;
-
+static struct MsgPort *view_appport;
 
 int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, struct ViewData *viewdata, int wait, int noftype)
 {
@@ -609,15 +608,21 @@ int view_idcmp(struct ViewData *vdata)
 				switch (gadgetid)
 				{
 				case VIEW_ICONIFY:
-					viewappport = IExec->CreatePort(NULL, 0);
-					viewdobj = IIcon->GetDiskObject("ENV:Sys/def_ascii");
-					if(viewdobj && viewappport)
+					if(!view_appport)
+					{
+						view_appport = IExec->CreatePort(NULL, 0);
+					}
+					if(!viewdobj)
+					{
+						viewdobj = IIcon->GetDiskObject("ENV:Sys/def_ascii");
+					}
+					if(viewdobj && view_appport)
 					{
 						struct AppMessage *viewappmsg;
-						viewappicon = IWorkbench->AddAppIcon(0, 0, vdata->view_file_name, viewappport, 0, viewdobj, NULL);
+						viewappicon = IWorkbench->AddAppIcon(0, 0, vdata->view_file_name, view_appport, 0, viewdobj, NULL);
 						IIntuition->HideWindow(vdata->view_window);
-						IExec->Wait(1 << viewappport->mp_SigBit);
-						while((viewappmsg = (struct AppMessage *)IExec->GetMsg(viewappport)))
+						IExec->Wait(1 << view_appport->mp_SigBit);
+						while((viewappmsg = (struct AppMessage *)IExec->GetMsg(view_appport)))
 						{
 							switch(viewappmsg->am_Type)
 							{
@@ -627,7 +632,7 @@ int view_idcmp(struct ViewData *vdata)
 									IWorkbench->RemoveAppIcon(viewappicon);
 									IIcon->FreeDiskObject(viewdobj);
 									IIntuition->ShowWindow(vdata->view_window, WINDOW_FRONTMOST);
-									IExec->DeletePort(viewappport);
+									IExec->DeletePort(view_appport);
 								}
 								break;
 							}
@@ -638,7 +643,7 @@ int view_idcmp(struct ViewData *vdata)
 					else
 					{
 						IIcon->FreeDiskObject(viewdobj);
-						IExec->DeletePort(viewappport);
+						IExec->DeletePort(view_appport);
 					}
 					break;
 				case VIEW_SCROLLGADGET:
@@ -904,7 +909,6 @@ int view_idcmp(struct ViewData *vdata)
 				break;
 			}
 		}
-//		if(
 		if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == vdata->view_window && vdata->view_scroll)
 		{
 			a = vdata->view_window->MouseY;
