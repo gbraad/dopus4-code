@@ -481,7 +481,9 @@ int SetUp(int tit)
 	}
 
 	if(Window && count)
+	{
 		unbusy();
+	}
 
 	scrdata_font_xsize = scr_font[FONT_DIRS]->tf_XSize;
 	scrdata_font_ysize = scr_font[FONT_DIRS]->tf_YSize;
@@ -673,7 +675,7 @@ int SetUp(int tit)
 	scrdata_scr_height = scrdata_height;
 	scrdata_gadget_height = scr_font[FONT_GADGETS]->tf_YSize + 2;
 
-	FOREVER
+	for(;;)
 	{
 		other_offset = (scrdata_diskname_ypos - scrdata_yoffset) + scrdata_diskname_height + scrdata_string_height + config->sliderheight + (scr_gadget_rows * scrdata_gadget_height) + scrdata_clock_height + 9;
 
@@ -696,7 +698,9 @@ int SetUp(int tit)
 			continue;
 		}
 		else
+		{
 			break;
+		}
 	}
 
 	scrdata_dispwin_lines = scrdata_dispwin_height / scrdata_font_ysize;
@@ -935,23 +939,23 @@ int SetUp(int tit)
 				return (SetUp(tit));
 			}
 
+			/* Iconify Gadget Code */
 			{
-				struct DrawInfo *DRI;
-				
 				DRI = IIntuition->GetScreenDrawInfo(Window->WScreen);
 				iconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
 				if(iconifyimage)
 				{
 					iconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, FUNC_ICONIFY, GA_RelVerify, TRUE, GA_Image, iconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
-					if(iconifygadget)
+/*					if(iconifygadget)
 					{
-						IIntuition->AddGadget(Window, iconifygadget, ~0);
+						IIntuition->AddGadget(Window, iconifygadget, -1); //~0);
 						IIntuition->RefreshGadgets(iconifygadget, Window, NULL);
-					}
+					}*/
 				}
 				IIntuition->FreeScreenDrawInfo(Window->WScreen, DRI);
 				
 			}
+			/* Iconify Gadget Code */
 			
 			main_win.Width = Window->Width;
 			main_win.Height = Window->Height;
@@ -1131,16 +1135,22 @@ void setupdisplay(int all)
 	for(a = 0; a < 2; a++)
 	{
 		if(config->generalscreenflags & SCR_GENERAL_NEWLOOKPROP)
+		{
 			IIntuition->RefreshGList(horiz_propgad, Window, NULL, 2);
+		}
 		fixhorizprop(a);
 		if(!all)
+		{
 			doposhprop(a);
+		}
 	}
 	setupgadgets();
 	drawgadgets((all) ? 1 : -1, 0);
 	fix_rmb_gadgets();
 	if(config->generalscreenflags & SCR_GENERAL_TINYGADS)
+	{
 		dolittlegads(&screen_gadgets[SCRGAD_TINYFILTER], &globstring[STR_TINY_BUTTONS][6], 1);
+	}
 
 	if(scr_gadget_rows)
 	{

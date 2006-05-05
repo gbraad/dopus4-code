@@ -350,7 +350,9 @@ void view_file_process()
 								vdata->view_console_request.io_Length = sizeof(struct Window);
 
 								if(IExec->OpenDevice("console.device", CONU_STANDARD, (struct IORequest *)&vdata->view_console_request, 0))
+								{
 									vdata->view_display_as_ansi = 0;
+								}
 								else
 								{
 									view_console_unit = (struct ConUnit *)vdata->view_console_request.io_Unit;
@@ -366,10 +368,14 @@ void view_file_process()
 								}
 							}
 							else
+							{
 								vdata->view_display_as_ansi = 0;
+							}
 						}
 						else
+						{
 							vdata->view_display_as_ansi = 0;
+						}
 
 						vdata->view_scroll_width = vdata->view_char_width * vdata->view_font->tf_XSize;
 
@@ -1050,12 +1056,16 @@ int view_setupdisplay(struct ViewData *vdata)
 	}
 
 	if(config->viewbits & VIEWBITS_TEXTBORDERS)
+	{
 		viewwin.IDCMPFlags |= ARROWIDCMP | SCROLLERIDCMP | NUMBERIDCMP | TEXTIDCMP;
+	}
 
 	if(!(vdata->view_window = IIntuition->OpenWindowTags(&viewwin, WA_AutoAdjust, TRUE, TAG_END)))
 	{
 		if(!(config->viewbits & VIEWBITS_INWINDOW))
+		{
 			IIntuition->CloseScreen(vdata->view_screen);
+		}
 		IDOpus->LFreeRemember(&vdata->view_memory);
 		return -4;
 	}
@@ -1065,10 +1075,10 @@ int view_setupdisplay(struct ViewData *vdata)
 
 		DRI = IIntuition->GetScreenDrawInfo(vdata->view_window->WScreen);
 		viewiconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
-		if(iconifyimage)
+		if(viewiconifyimage)
 		{
-			viewiconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, iconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
-			if(iconifygadget)
+			viewiconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, viewiconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
+			if(viewiconifygadget)
 			{
 				IIntuition->AddGadget(vdata->view_window, viewiconifygadget, ~0);
 				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);

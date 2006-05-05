@@ -99,8 +99,14 @@ void setupgadgets()
 	IIntuition->AddGList(Window, &horiz_propgad[0], -1, 2, NULL);
 	IIntuition->AddGList(Window, screen_gadgets, -1, (config->generalscreenflags & SCR_GENERAL_TINYGADS) ? 24 : 18, NULL);
 	if(status_publicscreen)
+	{
 		IIntuition->AddGList(Window, size_gadgets, -1, 2, NULL);
+	}
 	IIntuition->RefreshGList(&path_strgadget[0], Window, NULL, 2);
+
+	IIntuition->AddGadget(Window, iconifygadget, -1); //~0);
+	IIntuition->RefreshGadgets(iconifygadget, Window, NULL);
+
 	for(a = 0; a < 2; a++)
 	{
 		IDOpus->ShowSlider(Window, &vert_propgad[a]);

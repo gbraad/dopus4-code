@@ -228,7 +228,9 @@ void closedisplay()
 		if(Window)
 		{
 			if(Window->MenuStrip)
+			{
 				IIntuition->ClearMenuStrip(Window);
+			}
 			if(IWorkbench && dopus_appwindow)
 			{
 				IWorkbench->RemoveAppWindow(dopus_appwindow);

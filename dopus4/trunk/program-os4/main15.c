@@ -80,7 +80,9 @@ void ftype_doubleclick(char *path, char *name, int state)
 				dostatustext(title);
 			}
 			else
+			{
 				title[0] = 0;
+			}
 			strcpy(func_single_file, name);
 			dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 			if(file && file->selected)
