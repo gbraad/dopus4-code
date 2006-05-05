@@ -50,8 +50,8 @@ extern BOOL useAHI;
 int main(int argc, char **argv)
 {
 	uint32 a, in, iconstart, sup, ck, nsee;
-	struct WBStartup *WBmsg;
-	struct WBArg *p;
+	struct WBStartup *WBmsg = NULL;
+	struct WBArg *p = NULL;
 	char **toolarray, *s, *startdir = NULL;
 	char buf[1024];
 
@@ -87,9 +87,13 @@ int main(int argc, char **argv)
 
 	/* Initialise various data */
 	if((str_last_rexx_result = IExec->AllocVec(256, MEMF_ANY)))
+	{
 		str_last_rexx_result[0] = 0;
+	}
 	else
+	{
 		quit();
+	}
 
 	scrdata_is_pal = getpal();
 
@@ -101,7 +105,9 @@ int main(int argc, char **argv)
 	if(argc >= 1)
 	{
 		if(IconBase && IIcon)
+		{
 			user_appicon = IIcon->GetDiskObject(argv[0]);
+		}
 
 		for(a = 1; a < argc; a++)
 		{
@@ -121,16 +127,17 @@ int main(int argc, char **argv)
 				case 'C':
 					ck = 1;
 					break;
-
 				case 'B':
 					staybehindWB = TRUE;
+				case 'd':
+					docky = TRUE;
 				}
 			}
 			else
 				startdir = argv[a];
 		}
 	}
-	else if(argc==0 && IconBase && IIcon)
+	else if(argc == 0 && IconBase && IIcon)
 	{
 		WBmsg = (struct WBStartup *)argv;
 		p = WBmsg->sm_ArgList;
@@ -149,6 +156,8 @@ int main(int argc, char **argv)
 				useAHI = TRUE;
 			if(IIcon->FindToolType(toolarray,"BEHINDWB"))
 				staybehindWB = TRUE;
+			if(IIcon->FindToolType(toolarray,"DOCKY"))
+				docky = TRUE;
 		}
 		if(WBmsg->sm_NumArgs > 1)
 			for(a = 1; a < WBmsg->sm_NumArgs; a++)
@@ -164,6 +173,31 @@ int main(int argc, char **argv)
 		user_appicon->do_CurrentX = NO_ICON_POSITION;
 		user_appicon->do_CurrentY = NO_ICON_POSITION;
 	}
+
+	/* application.library testcode */
+	if(docky)
+	{
+		appID = 0;
+		if(WBmsg)
+		{
+			appID = IApplication->RegisterApplication("DOpus", REGAPP_URLIdentifier, "zerohero.se", REGAPP_WBStartup, WBmsg, TAG_DONE);
+		}
+		else
+		{
+			BPTR applock = IDOS->Lock(argv[0], ACCESS_READ);
+			if(applock)
+			{
+				appID = IApplication->RegisterApplication("DOpus", REGAPP_URLIdentifier, "zerohero.se", REGAPP_FileLock, applock, TAG_DONE);
+				IDOS->UnLock(applock);
+			}
+		}
+	}
+	if(appID)
+	{
+		IApplication->GetApplicationAttrs(appID, APPATTR_Port, (uint32)&applibport, TAG_DONE);
+	}
+
+	/* application.library testcode */
 
 	old_pr_cis = main_proc->pr_CIS;
 	old_pr_cos = main_proc->pr_COS;

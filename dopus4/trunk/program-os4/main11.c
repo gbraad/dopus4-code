@@ -183,7 +183,7 @@ void iconify(int louise, int buttons, int banknum)
 		icon_win.LeftEdge = config->iconx;
 		icon_win.TopEdge = config->icony;
 
-		if(icon_type & ICON_APPICON)
+		if((icon_type & ICON_APPICON) && !docky)
 		{
 			if(!IWorkbench || !(appmenu = IWorkbench->AddAppMenuItemA(0, 0, str_arexx_portname, appmsg_port, 0)) || !(appicon = IWorkbench->AddAppIconA(0, 0, "Directory Opus", appmsg_port, 0, user_appicon == NULL ? &iconify_appicon : user_appicon, NULL)))
 			{
@@ -199,6 +199,10 @@ void iconify(int louise, int buttons, int banknum)
 					appmenu = NULL;
 				}
 			}
+		}
+		else if(docky)
+		{
+			IApplication->SetApplicationAttrs(appID, REGAPP_Hidden, TRUE, TAG_DONE);
 		}
 	}
 
@@ -393,6 +397,13 @@ void iconify(int louise, int buttons, int banknum)
 				waitbits |= 1 << appmsg_port->mp_SigBit;
 			}
 		}
+		if(IApplication && appID)
+		{
+			if(docky)
+			{
+				waitbits |= 1 << applibport->mp_SigBit;
+			}
+		}
 		if(icon_gotclock)
 		{
 			formstring[0] = 0;
@@ -498,9 +509,50 @@ void iconify(int louise, int buttons, int banknum)
 			}
 		}
 
+		if(IApplication && appID && (wmes & (1 << applibport->mp_SigBit)))
+		{
+			struct ApplicationMsg *applibmsg;
+			while((applibmsg = (struct ApplicationMsg *)IExec->GetMsg(applibport)))
+			{
+				ULONG applibmsgtype = applibmsg->type;
+				switch(applibmsgtype)
+				{
+				case APPLIBMT_Unhide:
+				case APPLIBMT_Quit:
+					IApplication->SetApplicationAttrs(appID, REGAPP_Hidden, FALSE, TAG_DONE);
+					IExec->ReplyMsg((struct Message *)applibmsg);
+					goto deiconify;
+					break;
+				case APPLIBMT_ToFront:
+					IApplication->SetApplicationAttrs(appID, REGAPP_Hidden, FALSE, TAG_DONE);
+					IExec->ReplyMsg((struct Message *)applibmsg);
+					goto deiconify;
+					break;
+				case APPLIBMT_OpenDoc:
+					{
+						char pathbuf[768], filebuf[256];
+						struct ApplicationOpenPrintDocMsg *aopdm = (struct ApplicationOpenPrintDocMsg *)&applibmsg->msg;
+
+						IUtility->Strlcpy(pathbuf, aopdm->fileName, 768);
+						IUtility->Strlcpy(filebuf, IDOS->FilePart(aopdm->fileName), 256);
+						*IDOS->PathPart(pathbuf) = 0;
+						strcpy(func_external_file, aopdm->fileName);
+						ftype_doubleclick(pathbuf, filebuf, 0);
+					}
+					break;
+//				case APPLIBMT_Quit:
+//					function = FUNC_QUIT;
+//					IExec->ReplyMsg((struct Message *)applibmsg);
+//					goto deiconify;
+//					break;
+				}
+				IExec->ReplyMsg((struct Message *)applibmsg);
+			}
+		}
+
 		if(IWorkbench)
 		{
-			if((icon_type & ICON_APPICON || dopus_appwindow) && wmes & 1 << appmsg_port->mp_SigBit)
+			if((((icon_type & ICON_APPICON) && !docky) || dopus_appwindow) && wmes & 1 << appmsg_port->mp_SigBit)
 			{
 				if(dopus_appwindow)
 				{

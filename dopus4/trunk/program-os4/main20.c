@@ -38,6 +38,11 @@ void quit()
 {
 	int a;
 
+	if(appID)
+	{
+		IApplication->UnregisterApplication(appID, TAG_DONE);
+	}
+
 	remclock();
 	removehotkeys();
 	endnotifies();

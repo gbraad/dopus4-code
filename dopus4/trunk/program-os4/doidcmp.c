@@ -47,6 +47,8 @@ void doidcmp()
 		waitbits = 1 << Window->UserPort->mp_SigBit | 1 << count_port->mp_SigBit | rexx_signalbit | INPUTSIG_HOTKEY;
 		if(WorkbenchBase && IWorkbench && dopus_appwindow)
 			waitbits |= 1 << appmsg_port->mp_SigBit;
+		if(ApplicationBase && IApplication && docky)
+			waitbits |= 1 << applibport->mp_SigBit;
 		if((wmes = IExec->Wait(waitbits)) & INPUTSIG_HOTKEY)
 		{
 			if(dopus_globalhotkey == (struct dopushotkey *)-1)
@@ -83,6 +85,58 @@ void doidcmp()
 			status_haveaborted = 0;
 			continue;
 		}
+
+/// "application.library"
+		if(IApplication && appID && (wmes & (1 << applibport->mp_SigBit)))
+		{
+			struct ApplicationMsg *applibmsg;
+			while((applibmsg = (struct ApplicationMsg *)IExec->GetMsg(applibport)))
+			{
+				ULONG applibmsgtype = applibmsg->type;
+				switch(applibmsgtype)
+				{
+				case APPLIBMT_Hide:
+					function = FUNC_ICONIFY;
+					IExec->ReplyMsg((struct Message *)applibmsg);
+					goto foobarbaz;
+					break;
+				case APPLIBMT_Unhide:
+					break;
+				case APPLIBMT_Quit:
+					function = FUNC_QUIT;
+					IExec->ReplyMsg((struct Message *)applibmsg);
+					goto foobarbaz;
+					break;
+				case APPLIBMT_OpenDoc:
+					{
+						char pathbuf[768], filebuf[256];
+						struct ApplicationOpenPrintDocMsg *aopdm = (struct ApplicationOpenPrintDocMsg *)&applibmsg->msg;
+
+						IUtility->Strlcpy(pathbuf, aopdm->fileName, 768);
+						IUtility->Strlcpy(filebuf, IDOS->FilePart(aopdm->fileName), 256);
+						*IDOS->PathPart(pathbuf) = 0;
+						strcpy(func_external_file, aopdm->fileName);
+						ftype_doubleclick(pathbuf, filebuf, 0);
+					}
+					break;
+				case APPLIBMT_ToFront:
+					if(status_iconified == -1)
+					{
+						IIntuition->WindowToFront(Window);
+						IIntuition->ActivateWindow(Window);
+					}
+					else
+					{
+						function = FUNC_ICONIFY;
+						IExec->ReplyMsg((struct Message *)applibmsg);
+						goto foobarbaz;
+					}
+					break;
+				}
+				IExec->ReplyMsg((struct Message *)applibmsg);
+			}
+		}
+			
 /// "AppMessage"
 		if(WorkbenchBase && IWorkbench && dopus_appwindow && (wmes & (1 << appmsg_port->mp_SigBit)))
 		{
@@ -1007,7 +1061,9 @@ void doidcmp()
 										dostatustext(buf);
 									}
 									else
+									{
 										buf[0] = 0;
+									}
 									strcpy(func_single_file, file->name);
 									dofunctionstring(type->function[FTFUNC_MMBCLICK], file->name, buf, &par);
 									func_single_file[0] = 0;

@@ -59,6 +59,12 @@ struct Window *ansiread_window /*=NULL*/ ;	/* Window for rendering ANSI text */
 struct Window *reqoverride /*=NULL*/ ;		/* Pointer for SimpleRequest window */
 struct PopupMenu *sortmenu /*=NULL*/ ;		/* Sort pop-up menu */
 
+/* application.library stuff */
+
+ULONG appID;
+BOOL docky;
+struct MsgPort *applibport;
+
 /* Graphics objects */
 
 //struct ViewPort *main_vp=NULL;		/* Main screen ViewPort */

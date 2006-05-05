@@ -58,6 +58,12 @@ extern struct Window *ansiread_window;	/* Window for rendering ANSI text */
 extern struct Window *reqoverride;	/* Pointer for SimpleRequest window */
 extern struct PopupMenu *sortmenu;	/* Sort pop-up menu */
 
+/* application.library stuff */
+
+extern ULONG appID;
+extern BOOL docky;
+extern struct MsgPort *applibport;
+
 /* Graphics objects */
 
 //extern struct ViewPort *main_vp;                 /* Main screen ViewPort */
