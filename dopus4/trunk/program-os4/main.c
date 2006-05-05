@@ -28,18 +28,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-struct MyCon
-{
-	struct Window *Win;
-	struct Image *IcoImg;
-	struct Gadget *IcoGad;
-	struct DrawInfo *DRI;
-};
-
 #include "dopus.h"
-#include <proto/locale.h>
-
-#include <intuition/imageclass.h>
 
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }

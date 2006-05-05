@@ -31,7 +31,6 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "view.h"
 #include "searchdata.h"
-#include <proto/gadtools.h>
 
 void view_file_process(void);
 int view_loadfile(struct ViewData *);
@@ -109,6 +108,7 @@ enum
 	VIEW_JUMPTOLINE2,
 	VIEW_LINECOUNT,
 	VIEW_FILENAME,
+	VIEW_ICONIFY,
 
 	VIEW_GAD_COUNT
 };
@@ -118,7 +118,15 @@ static struct NewWindow viewwin =
 	0, 0, 0, 0, 255, 255, IDCMP_RAWKEY | IDCMP_VANILLAKEY | IDCMP_MOUSEBUTTONS | IDCMP_EXTENDEDMOUSE | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
 };
 
+/* iconifygagdet stuff */ 
 static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
+static struct Gadget *viewiconifygadget;
+static struct Image *viewiconifyimage;
+
+static struct DiskObject *viewdobj;
+static struct AppIcon *viewappicon;
+static struct MsgPort *viewappport;
+
 
 int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, struct ViewData *viewdata, int wait, int noftype)
 {
@@ -421,6 +429,10 @@ void cleanupviewfile(struct ViewData *vdata)
 		{
 			config->viewtext_topleftx = vdata->view_window->LeftEdge;
 			config->viewtext_toplefty = vdata->view_window->TopEdge;
+			IIntuition->RemoveGadget(vdata->view_window, viewiconifygadget);
+			IIntuition->DisposeObject(viewiconifygadget);
+			IIntuition->DisposeObject(viewiconifyimage);
+
 			IIntuition->CloseWindow(vdata->view_window);
 		}
 	}
@@ -477,6 +489,7 @@ int view_loadfile(struct ViewData *vdata)
 			{
 				IGadTools->GT_BeginRefresh(vdata->view_window);
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
+				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 			}
 			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == MENUDOWN))
 			{
@@ -529,8 +542,8 @@ int view_idcmp(struct ViewData *vdata)
 			case IDCMP_REFRESHWINDOW:
 				IGadTools->GT_BeginRefresh(vdata->view_window);
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
+				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 				break;
-
 			case IDCMP_CLOSEWINDOW:
 				retcode = -1;
 				quit = TRUE;
@@ -540,7 +553,6 @@ int view_idcmp(struct ViewData *vdata)
 				if(gadget->GadgetID == VIEW_SCROLLGADGET)
 					view_fix_scroll_gadget(vdata);
 				break;
-
 			case IDCMP_EXTENDEDMOUSE:
 				{
 					struct IntuiWheelData *iwd = msg->IAddress;
@@ -557,7 +569,6 @@ int view_idcmp(struct ViewData *vdata)
 					}
 				}
 				break;
-
 			case IDCMP_MOUSEBUTTONS:
 				if(code == SELECTDOWN)
 					view_togglescroll(vdata);
@@ -591,6 +602,39 @@ int view_idcmp(struct ViewData *vdata)
 			      testgad:
 				switch (gadgetid)
 				{
+				case VIEW_ICONIFY:
+					viewappport = IExec->CreatePort(NULL, 0);
+					viewdobj = IIcon->GetDiskObject("ENV:Sys/def_ascii");
+					if(viewdobj && viewappport)
+					{
+						struct AppMessage *viewappmsg;
+						viewappicon = IWorkbench->AddAppIcon(0, 0, vdata->view_file_name, viewappport, 0, viewdobj, NULL);
+						IIntuition->HideWindow(vdata->view_window);
+						IExec->Wait(1 << viewappport->mp_SigBit);
+						while((viewappmsg = (struct AppMessage *)IExec->GetMsg(viewappport)))
+						{
+							switch(viewappmsg->am_Type)
+							{
+							case AMTYPE_APPICON:
+								if((viewappmsg->am_NumArgs == 0) && (viewappmsg->am_ArgList == NULL))
+								{
+									IWorkbench->RemoveAppIcon(viewappicon);
+									IIcon->FreeDiskObject(viewdobj);
+									IIntuition->ShowWindow(vdata->view_window, WINDOW_FRONTMOST);
+									IExec->DeletePort(viewappport);
+								}
+								break;
+							}
+							IExec->ReplyMsg((struct Message *)viewappmsg);
+						}
+
+					}
+					else
+					{
+						IIcon->FreeDiskObject(viewdobj);
+						IExec->DeletePort(viewappport);
+					}
+					break;
 				case VIEW_SCROLLGADGET:
 					view_fix_scroll_gadget(vdata);
 					break;
@@ -854,6 +898,7 @@ int view_idcmp(struct ViewData *vdata)
 				break;
 			}
 		}
+//		if(
 		if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == vdata->view_window && vdata->view_scroll)
 		{
 			a = vdata->view_window->MouseY;
@@ -915,7 +960,7 @@ int view_idcmp(struct ViewData *vdata)
 			}
 			continue;
 		}
-		IExec->Wait(1 << vdata->view_window->UserPort->mp_SigBit);
+		IExec->Wait((1 << vdata->view_window->UserPort->mp_SigBit));
 	}
 	return retcode;
 }
@@ -1013,6 +1058,23 @@ int view_setupdisplay(struct ViewData *vdata)
 			IIntuition->CloseScreen(vdata->view_screen);
 		IDOpus->LFreeRemember(&vdata->view_memory);
 		return -4;
+	}
+	else
+	{
+		struct DrawInfo *DRI;
+
+		DRI = IIntuition->GetScreenDrawInfo(vdata->view_window->WScreen);
+		viewiconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
+		if(iconifyimage)
+		{
+			viewiconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, iconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
+			if(iconifygadget)
+			{
+				IIntuition->AddGadget(vdata->view_window, viewiconifygadget, ~0);
+				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
+			}
+		}
+		IIntuition->FreeScreenDrawInfo(vdata->view_window->WScreen, DRI);
 	}
 	vdata->view_screen = vdata->view_window->WScreen;
 	vdata->view_rastport = vdata->view_window->RPort;
@@ -1179,6 +1241,7 @@ int view_setupdisplay(struct ViewData *vdata)
 	IIntuition->AddGList(vdata->view_window, vdata->view_gadgets, -1, -1, NULL);
 	IIntuition->RefreshGList(vdata->view_gadgets, vdata->view_window, NULL, -1);
 	IGadTools->GT_RefreshWindow(vdata->view_window, NULL);
+	IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 
 	vdata->view_vis_info.vi_font = vdata->view_font;
 	vdata->view_vis_info.vi_language = config->language;

@@ -535,6 +535,7 @@ void iconify(int louise, int buttons, int banknum)
 						*IDOS->PathPart(pathbuf) = 0;
 						strcpy(func_external_file, aopdm->fileName);
 						ftype_doubleclick(pathbuf, filebuf, 0);
+						unbusy();
 					}
 					break;
 				case APPLIBMT_Quit:
