@@ -39,7 +39,7 @@ the existing commercial status of Directory Opus 5.
 #define DRIVES 1007
 #define PARENT 1008
 
-#define INTERRUPT 2000
+//#define INTERRUPT 2000
 
 
 struct direntry

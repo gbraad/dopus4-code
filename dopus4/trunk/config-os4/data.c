@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "config.h"
 #define VERSION "4.17a"
 
-char *version = "$VER: ConfigOpus " VERSION " (" __DATE__ ")";
+char *version = "$VER: ConfigOpus " VERSION " (" __DATE__ ") OS4";
 
 UWORD drawinfo[] =
 {

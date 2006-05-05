@@ -48,7 +48,7 @@ the existing commercial status of Directory Opus 5.
   #endif
 #endif
 
-static const char * const version __attribute__ ((used)) = VERSTAG;
+static const char * const version __attribute__ ((used)) = VERSTAG " OS4";
 STRPTR comp_date = __DATE__, comp_time = __TIME__;
 
 void about()

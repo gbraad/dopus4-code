@@ -27,7 +27,7 @@
 
 /* Version Tag */
 #include "dopus.library_rev.h"
-STATIC CONST UBYTE __attribute__ ((used)) verstag[] = VERSTAG;
+STATIC CONST UBYTE __attribute__ ((used)) verstag[] = VERSTAG " OS4";
 
 struct Library *SysBase;
 struct ExecIFace *IExec;

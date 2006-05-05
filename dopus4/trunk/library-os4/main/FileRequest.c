@@ -64,6 +64,7 @@
 *****************************************************************************
 *
 */
+/*
 struct DOpusIFace *IDOpus;
 
 int gettingdirmsg(struct FileReqData *freqdata, ULONG class, USHORT code, USHORT qual, USHORT gadgetid);
@@ -544,7 +545,7 @@ int listdevices(struct FileReqData *freqdata)
 {
 	IExec->DebugPrintF("listdevices() Needs Fixing ASAP\n");
 
-/*	char devname[32];
+*//*	char devname[32];
 	struct DeviceList *devlist;
 	struct RootNode *rootnode;
 	struct DosInfo *dosinfo;
@@ -576,7 +577,7 @@ int listdevices(struct FileReqData *freqdata)
 	freqdata->oldfileoffset = -1;
 	fixprop(freqdata);
 	doposprop(freqdata);
-*/	return(-1);
+*///	return(-1);
 
 
 
@@ -677,7 +678,7 @@ int listdevices(struct FileReqData *freqdata)
 
 
 
-
+/*
 }
 
 void repeatscroll(struct FileReqData *freqdata, int dir, int menu)
@@ -1114,17 +1115,18 @@ int initrequester(struct FileReqData *freqdata)
 	activatefilegad(freqdata);
 	return (1);
 }
-
+*/
 int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 {
 	struct Library *AslBase = IExec->OpenLibrary("asl.library", 50L);
 	struct AslIFace *IAsl = (struct AslIFace *)IExec->GetInterface(AslBase, "main", 1, NULL);
-	IDOpus = Self;
+//	IDOpus = Self;
+	int res = FALSE;
 
 	if(freq->dirbuf[0] && (Self->CheckExist(freq->dirbuf, NULL) < 0))
 	{
 		char *ptr;
-		if(ptr = IDOS->FilePart(freq->dirbuf))
+		if((ptr = IDOS->FilePart(freq->dirbuf)))
 		{
 			if(freq->filebuf)
 			{
@@ -1143,7 +1145,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 	{
 		struct TagItem asltags[10];
 		struct FileRequester *fr;
-		int font, res = FALSE, a;
+		int font, /*res = FALSE, */a;
 		char initialfont[40], *ptr;
 		APTR request;
 
@@ -1185,7 +1187,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 
 		if(font)
 		{
-			if(ptr = IDOS->FilePart(freq->dirbuf))
+			if((ptr = IDOS->FilePart(freq->dirbuf)))
 			{
 				Self->LStrCpy(initialfont, ptr);
 				a = strlen(initialfont);
@@ -1197,7 +1199,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 			asltags[5].ti_Tag = ASLFO_InitialName;
 			asltags[5].ti_Data = (ULONG) initialfont;
 			asltags[6].ti_Tag = ASLFO_InitialSize;
-			IDOS->StrToLong(freq->filebuf, &asltags[6].ti_Data);
+			IDOS->StrToLong(freq->filebuf, (LONG *)&asltags[6].ti_Data);
 		}
 		else
 		{
@@ -1246,7 +1248,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 						{
 							for(a = 0; a < fr->fr_NumArgs; a++)
 							{
-								if(freq->filearray[a] = Self->LAllocRemember(&freq->filearraykey, strlen(fr->fr_ArgList[a].wa_Name) + 1, MEMF_CLEAR))
+								if((freq->filearray[a] = Self->LAllocRemember(&freq->filearraykey, strlen(fr->fr_ArgList[a].wa_Name) + 1, MEMF_CLEAR)))
 								{
 									Self->LStrCpy(freq->filearray[a], fr->fr_ArgList[a].wa_Name);
 								}
@@ -1259,9 +1261,9 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 		}
 		IExec->DropInterface((struct Interface *)IAsl);
 		IExec->CloseLibrary(AslBase);
-		return (res);
+//		return(res);
 	}
-	else
+/*	else
 	{
 		ULONG class;
 		USHORT code, gadgetid, qual;
@@ -1318,5 +1320,6 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 				ret = 0;
 		}
 		return (ret);
-	}
+	}*/
+	return(res);
 }

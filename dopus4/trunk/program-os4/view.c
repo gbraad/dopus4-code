@@ -126,6 +126,7 @@ static struct Image *viewiconifyimage;
 static struct DiskObject *viewdobj;
 static struct AppIcon *viewappicon;
 static struct MsgPort *view_appport;
+ULONG view_runcount;
 
 int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, struct ViewData *viewdata, int wait, int noftype)
 {
@@ -435,8 +436,11 @@ void cleanupviewfile(struct ViewData *vdata)
 			config->viewtext_topleftx = vdata->view_window->LeftEdge;
 			config->viewtext_toplefty = vdata->view_window->TopEdge;
 			IIntuition->RemoveGadget(vdata->view_window, viewiconifygadget);
-			IIntuition->DisposeObject(viewiconifygadget);
-			IIntuition->DisposeObject(viewiconifyimage);
+			if(view_runcount == 0)
+			{
+				IIntuition->DisposeObject(viewiconifygadget);
+				IIntuition->DisposeObject(viewiconifyimage);
+			}
 
 			IIntuition->CloseWindow(vdata->view_window);
 		}
@@ -530,7 +534,11 @@ int view_idcmp(struct ViewData *vdata)
 	BOOL quit = FALSE;
 
 	for(a = 0; a < 7; a++)
+	{
 		scroll_pos[a] = (vdata->view_window->Height / 8) * (a + 1);
+	}
+
+	view_runcount++;
 
 	while(!quit)
 	{
@@ -550,6 +558,7 @@ int view_idcmp(struct ViewData *vdata)
 				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 				break;
 			case IDCMP_CLOSEWINDOW:
+				view_runcount--;
 				retcode = -1;
 				quit = TRUE;
 				break;
@@ -2156,9 +2165,13 @@ int view_simplerequest(struct ViewData *vdata, char *txt, ...)
 	for(a = 0; a < 3; a++)
 	{
 		if(!(gad = (char *)va_arg(ap, char *)))
+		{
 			  break;
+		}
 		if(a == 1)
+		{
 			cancelgad = gad;
+		}
 		else
 		{
 			gads[num] = gad;

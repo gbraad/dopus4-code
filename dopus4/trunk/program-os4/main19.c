@@ -181,9 +181,13 @@ int simplerequest(STRPTR txt, ...)
 	for(a = 0; a < 10; a++)
 	{
 		if(!(gad = (STRPTR)va_arg(ap, STRPTR)))
+		{
 			  break;
+		}
 		if(a == 1)
+		{
 			cancelgad = gad;
+		}
 		else
 		{
 			gads[gnum++] = gad;
