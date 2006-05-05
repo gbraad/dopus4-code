@@ -82,21 +82,19 @@ static struct timerequest iconify_timereq;
 
 static struct DiskObject iconify_appicon =
 {
-	0, 0,
-	{ NULL, 0, 0, 80, 41, GADGBACKFILL, 0, 0, (APTR) & appicon_image, NULL, NULL, 0, NULL, 0, NULL },
-	0, NULL, NULL, NO_ICON_POSITION, NO_ICON_POSITION, NULL, NULL, 0//NULL
+	0, 0, { NULL, 0, 0, 80, 41, GADGBACKFILL, 0, 0, (APTR)&appicon_image, NULL, NULL, 0, NULL, 0, NULL }, 0, NULL, NULL, NO_ICON_POSITION, NO_ICON_POSITION, NULL, NULL, 0
 };
 
 void iconify(int louise, int buttons, int banknum)
 {
 	ULONG class;
-	USHORT code, gadgetid;
+	USHORT code, gadgetid = 0;
 	struct DateTime dt;
 	struct Screen scrbuf, *sptr;
 	struct DrawInfo *drinfo;
-	int wmes, chipc, fast, h, m, s, waitbits, a, b, nheight, nwidth, buttonrows, oldrows, olddata_gadgetrow_offset, x, y, x1, y1, c, d, w, fastnum, chipnum, bankcount, bankstep, menunum, itemnum, num, cdelay, usage, oldusage = 100;
-	char date[16], time[16], buf[50], buf1[50], buf2[50], ampm, formstring[100], *old;
-	struct dopusgadgetbanks *bank, *oldbank, **bankarray;
+	int wmes, chipc, fast, h, m, s, waitbits, a = 0, b, nheight, nwidth, buttonrows = 0, oldrows, olddata_gadgetrow_offset, x, y, x1, y1, c, d, w, fastnum = 0, chipnum = 0, bankcount = 0, bankstep = 0, menunum, itemnum, num, cdelay, usage, oldusage = 100;
+	char date[16], time[16], buf[50], buf1[50], buf2[50], /*ampm, */formstring[100], *old;
+	struct dopusgadgetbanks *bank, *oldbank, **bankarray = { NULL, };
 	struct dopushotkey *hotkey;
 	struct dopusfuncpar par;
 	struct AppMessage *amsg;
@@ -518,7 +516,6 @@ void iconify(int louise, int buttons, int banknum)
 				switch(applibmsgtype)
 				{
 				case APPLIBMT_Unhide:
-				case APPLIBMT_Quit:
 					IApplication->SetApplicationAttrs(appID, REGAPP_Hidden, FALSE, TAG_DONE);
 					IExec->ReplyMsg((struct Message *)applibmsg);
 					goto deiconify;
@@ -540,11 +537,12 @@ void iconify(int louise, int buttons, int banknum)
 						ftype_doubleclick(pathbuf, filebuf, 0);
 					}
 					break;
-//				case APPLIBMT_Quit:
-//					function = FUNC_QUIT;
-//					IExec->ReplyMsg((struct Message *)applibmsg);
-//					goto deiconify;
-//					break;
+				case APPLIBMT_Quit:
+					IExec->ReplyMsg((struct Message *)applibmsg);
+					cleanupiconify();
+					status_iconified = 0;
+					quit();
+					break;
 				}
 				IExec->ReplyMsg((struct Message *)applibmsg);
 			}
