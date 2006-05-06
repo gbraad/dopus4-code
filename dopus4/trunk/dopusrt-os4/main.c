@@ -44,11 +44,14 @@ the existing commercial status of Directory Opus 5.
 
 #include "DOpusRT_rev.h"
 
+struct Library *DOpusBase = NULL;
+struct DOpusIFace *IDOpus = NULL;
+
 void WBRun(int, char **);
 int setarg(struct WBArg *, char *, BPTR);
 BPTR CloneCommandDir(const char *);
 
-static const char version[] __attribute__ ((used)) = VERSTAG;
+static const char version[] __attribute__ ((used)) = VERSTAG " OS4";
 
 static const char *pathlists[7] =
 {
@@ -83,6 +86,31 @@ int main(int argc, char **argv)
 	struct CommandLineInterface *cli;
 	struct Interrupt *interrupt;
 	struct IOStdReq *inputreq;
+
+	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
+	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 0)))
+		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:/libs/dopus.library", 0)))
+		{
+			DOpusBase = NULL;
+			IDOS->Printf("Can't Open dopus.library\n");
+			return 5;
+		}
+	if(!(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
+	{
+		IDOpus = NULL;
+		IDOS->Printf("Can't get IDOpus interface\n");
+		IExec->CloseLibrary(DOpusBase);
+		return 5;
+	}
+	
+	if(!DOpusBase || !IDOpus)
+	{
+		IDOS->Printf("Can't Open dopus.library and get IDOpus interface\n");
+		IExec->DropInterface((struct Interface *)IDOpus);
+		IExec->CloseLibrary(DOpusBase);
+		return 5;
+	}
+	/* OpenLibrary() GetInterface() above  */
 
 	myproc = (struct Process *)IExec->FindTask(NULL);
 	cli = BADDR(myproc->pr_CLI);
@@ -222,6 +250,12 @@ int main(int argc, char **argv)
 			WBRun(argc - 2, &argv[2]);
 			break;
 		}
+
+	if(IDOpus)
+		IExec->DropInterface((struct Interface *)IDOpus);
+	if(DOpusBase)
+		IExec->CloseLibrary(DOpusBase);
+
 	return(0);
 }
 

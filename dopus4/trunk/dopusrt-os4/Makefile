@@ -4,7 +4,7 @@ STRIP = ppc-amigaos-strip
 CFLAGS = -O3 -Wall -I../include-os4
 LDFLAGS = -lauto
 
-DOpusRT: main.o autoinit_dopus_base.o autoinit_dopus_main.o
+DOpusRT: main.o
 	$(CC) -o $@.debug $^ $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
