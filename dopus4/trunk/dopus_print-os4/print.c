@@ -42,6 +42,27 @@ int main(int argc, char **argv)
 	struct StringData *stringdata;
 	struct DOpusRemember *memkey = NULL;
 
+	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
+	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 0)))
+	{
+		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:/libs/dopus.library", 0)))
+		{
+			DOpusBase = NULL;
+		}
+	}
+	if(DOpusBase && !(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
+	{
+		IDOpus = NULL;
+	}
+	if(!DOpusBase || !IDOpus)
+	{
+		IDOS->Printf("Can't Open dopus.library and get IDOpus interface\n");
+		IExec->DropInterface((struct Interface *)IDOpus);
+		IExec->CloseLibrary(DOpusBase);
+		return 5;
+	}
+	/* OpenLibrary() GetInterface() above  */
+
 	if((dummy_args = IDOpus->LAllocRemember(&memkey, 16 * sizeof(char *), MEMF_CLEAR)) && (dirlocks = IDOpus->LAllocRemember(&memkey, 16 * sizeof(BPTR), MEMF_CLEAR)) && (stringname = IDOpus->LAllocRemember(&memkey, 256, 0)) && (stringdata = IDOpus->LAllocRemember(&memkey, sizeof(struct StringData), MEMF_CLEAR)))
 	{
 
@@ -106,7 +127,14 @@ int main(int argc, char **argv)
 		}
 	}
 	IDOpus->LFreeRemember(&memkey);
-	exit(0);
+
+	if(IDOpus)
+		IExec->DropInterface((struct Interface *)IDOpus);
+	if(DOpusBase)
+		IExec->CloseLibrary(DOpusBase);
+
+	return(0);
+//	exit(0);
 }
 
 void get_vis_info(struct VisInfo *vis, char *portname)

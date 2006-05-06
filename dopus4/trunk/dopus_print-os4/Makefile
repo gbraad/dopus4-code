@@ -4,7 +4,7 @@ STRIP = ppc-amigaos-strip
 CFLAGS = -Wall -O3 -I../include-os4
 LDFLAGS = -lauto -lm
 
-OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o autoinit_dopus_base.o autoinit_dopus_main.o
+OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
 
 FLEXCAT = flexcat
 
