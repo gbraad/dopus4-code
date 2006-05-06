@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "config.h"
 
 #define LIB_VER 22
-#define LIB_REV 20
+#define LIB_REV 25
 
 int onworkbench = 0;
 
@@ -46,20 +46,16 @@ int main(int argc, char **argv)
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", LIB_VER)))
+	{
 		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:/libs/dopus.library", LIB_VER)))
 		{
 			DOpusBase = NULL;
-			IDOS->Printf("Can't Open dopus.library\n");
-			return 5;
 		}
-	if(!(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
+	}
+	if(DOpusBase && !(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
 	{
 		IDOpus = NULL;
-		IDOS->Printf("Can't get IDOpus interface\n");
-		IExec->CloseLibrary(DOpusBase);
-		return 5;
 	}
-	
 	if(!DOpusBase || !IDOpus)
 	{
 		IDOS->Printf("Can't Open dopus.library and get IDOpus interface\n");
@@ -1089,7 +1085,7 @@ void copyfiletypes(struct dopusfiletype *oldfirst, struct dopusfiletype **newfir
 		{
 			for(a = 0; a < FILETYPE_FUNCNUM; a++)
 				newtype->function[a] = getcopy(type->function[a], -1, key);
-			newtype->recognition = (UBYTE *)getcopy((char *)type->recognition, -1, key);
+			newtype->recognition = getcopy(type->recognition, -1, key);
 			newtype->iconpath = getcopy(type->iconpath, -1, key);
 			if(curtype)
 				curtype->next = newtype;
