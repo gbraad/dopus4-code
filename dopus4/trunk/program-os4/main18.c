@@ -58,10 +58,10 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	struct FileInfoBlock *myfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	struct FileInfoBlock *enfinfo = IExec->AllocVec(sizeof(struct FileInfoBlock), MEMF_CLEAR); //IDOS->AllocDosObject(DOS_FIB, NULL);
 	BPTR mylock;
-	char *name, *dir, *dest, *dname, *ddir, *adir, *adest, *ndir, *ndest;
-	int suc, to_do, ret = 0, a, err, adata, depth = 0, b, rtry, data = fdata, *pstuff, blocks;
-	struct recpath *crec = NULL, *trec;
-	struct RecursiveDirectory *cur_recurse, *addparent_recurse, *new_rec, *pos_rec, *cur_parent, *cur_lastparent = NULL;
+	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL, *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
+	int suc = 0, to_do, ret = 0, a, err, adata =0, depth = 0, b, rtry, data = fdata, *pstuff, blocks;
+	struct recpath *crec = NULL, *trec = NULL;
+	struct RecursiveDirectory *cur_recurse = NULL, *addparent_recurse = NULL, *new_rec = NULL, *pos_rec = NULL, *cur_parent = NULL, *cur_lastparent = NULL;
 	APTR data2 = NULL, adata2 = NULL, data3 = NULL, adata3 = NULL;
 	struct DOpusRemember *memkey = NULL;
 	struct makedirlist *first_makedir = NULL;
@@ -99,7 +99,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			entry = entry->next;
 		arcfillfib(myfinfo, entry);
 
-		mylock = 0; //NULL;
+		mylock = 0;
 	}
 	else
 	{
@@ -257,7 +257,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				}
 
 				if(mylock)
+				{
 					to_do = IDOS->ExNext(mylock, myfinfo);
+				}
 				else
 				{
 					arcfillfib(myfinfo, entry = entry->next);

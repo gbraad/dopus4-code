@@ -140,8 +140,7 @@ static int select_base, select_type;
 
 int getselectdata(STRPTR *buffer, int *selbase)
 {
-	ULONG class;
-	USHORT gadgetid, code;
+	uint32 class = 0, gadgetid = 0, code = 0;
 	struct Window *swindow;
 	struct Gadget *gadlist, *sel_type_gad;
 	char *select_base_array[4], *select_type_array[3];

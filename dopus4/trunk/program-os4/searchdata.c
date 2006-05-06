@@ -141,7 +141,7 @@ static struct TagItem search_title[] =
 int get_search_data(STRPTR buffer, int *flagptr, struct Window *window, struct TextFont *font)
 {
 	ULONG class;
-	USHORT gadgetid;
+	USHORT gadgetid = 0;
 	struct Window *swindow;
 	struct Gadget *gadlist;
 	struct RequesterBase search_req;
@@ -218,7 +218,7 @@ int get_search_data(STRPTR buffer, int *flagptr, struct Window *window, struct T
 
 	FOREVER
 	{
-		while(IMsg = (struct IntuiMessage *)IExec->GetMsg(swindow->UserPort))
+		while((IMsg = (struct IntuiMessage *)IExec->GetMsg(swindow->UserPort)))
 		{
 			class = IMsg->Class;
 			if(class == IDCMP_GADGETUP)

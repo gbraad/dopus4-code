@@ -358,11 +358,11 @@ void init_menus()
 	{
 		menu_intuitext[a * 2].DrawMode = JAM2;
 		menu_intuitext[a * 2].ITextFont = &menu_attr;
-		menu_intuitext[a * 2].IText = (UBYTE *) menu_spaceitemnames[a / 20];
+		menu_intuitext[a * 2].IText = menu_spaceitemnames[a / 20];
 		menu_intuitext[a * 2].NextText = &menu_intuitext[(a * 2) + 1];
 		menu_intuitext[(a * 2) + 1].DrawMode = JAM2;
 		menu_intuitext[(a * 2) + 1].ITextFont = &menu_attr;
-		menu_intuitext[(a * 2) + 1].IText = (UBYTE *) & menu_itemnames[a * MAXMENULENGTH];
+		menu_intuitext[(a * 2) + 1].IText = &menu_itemnames[a * MAXMENULENGTH];
 		menu_menuitem[a].Flags = ITEMTEXT | ITEMENABLED | HIGHCOMP;
 		menu_menuitem[a].ItemFill = (APTR) & menu_intuitext[a * 2];
 	}
@@ -680,9 +680,9 @@ void drawcornerimage(struct RastPort *r, int x1, int y1, int bg, int bc, int tc)
 	rectfill(r, x1 - 5, y1 - 1, 5, 4);
 	IGraphics->SetDrMd(r, JAM1);
 	IGraphics->SetAPen(r, bc);
-	IGraphics->BltTemplate((char *)pageflip_data1, 0, 2, r, x1 - 6, y1 - 1, 6, 5);
+	IGraphics->BltTemplate((uint8 *)pageflip_data1, 0, 2, r, x1 - 6, y1 - 1, 6, 5);
 	IGraphics->SetAPen(r, tc);
-	IGraphics->BltTemplate((char *)pageflip_data2, 0, 2, r, x1 - 6, y1, 6, 3);
+	IGraphics->BltTemplate((uint8 *)pageflip_data2, 0, 2, r, x1 - 6, y1, 6, 3);
 	IGraphics->SetDrMd(r, JAM2);
 }
 

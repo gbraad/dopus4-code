@@ -34,9 +34,8 @@ static struct Directory *selectedentry;
 
 void doselection(int win, int state)
 {
-	int a, b, c, d, e, x, y, ox, oy, fa, la, juststart, atot, drag, offx, offy, candrag, comp = -1, oc, gad, multidrag = 0, type, okrepeatdrag = 0;
-	ULONG class;
-	USHORT code, qual;
+	int a, b, c, d, e, x, y, ox, oy, fa, la, juststart, atot, drag, offx = 0, offy = 0, candrag, comp = -1, oc, gad, multidrag = 0, type, okrepeatdrag = 0;
+	ULONG class = 0, code = 0, qual = 0;
 	char buf[40], *ptr;
 	struct Directory *next;
 

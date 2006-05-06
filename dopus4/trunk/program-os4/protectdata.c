@@ -234,7 +234,7 @@ static char prot_template[9];
 int getprotectdata(int *prot, int *mask)
 {
 	ULONG class;
-	USHORT gadgetid, code;
+	USHORT gadgetid = 0, code;
 	int oldprot, a, x, y;
 	struct Gadget *gadlist;
 	Object_Border *old_text, *new_text, *mask_text;
@@ -270,7 +270,7 @@ int getprotectdata(int *prot, int *mask)
 
 	FOREVER
 	{
-		while(IMsg = (struct IntuiMessage *)IExec->GetMsg(pwindow->UserPort))
+		while((IMsg = (struct IntuiMessage *)IExec->GetMsg(pwindow->UserPort)))
 		{
 			class = IMsg->Class;
 			code = IMsg->Code;

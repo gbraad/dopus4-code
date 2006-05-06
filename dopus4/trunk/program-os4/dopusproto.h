@@ -312,7 +312,7 @@ void dopustofront(void);
 void dopustoback(void);
 int checkkeyword(char **, int, int);
 void removeargstring(int);
-void modify(unsigned char *);
+void modify(uint8 *);
 void rexx_return(struct RexxMsg *, long long);
 
 /* main18.c */

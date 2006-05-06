@@ -132,8 +132,7 @@ struct TagItem rename_oldname_gadget[] =
 
 int getrenamedata(STRPTR src, STRPTR dst)
 {
-	ULONG class;
-	USHORT code, gadgetid, qual;
+	uint32 class, code, gadgetid = 0, qual;
 	struct Window *rwindow;
 	struct Gadget *gadlist;
 
@@ -152,9 +151,9 @@ int getrenamedata(STRPTR src, STRPTR dst)
 	IDOS->Delay(3);
 	IDOpus->ActivateStrGad(gadlist->NextGadget, rwindow);
 
-	FOREVER
+	for(;;)
 	{
-		while(IMsg = (struct IntuiMessage *)IExec->GetMsg(rwindow->UserPort))
+		while((IMsg = (struct IntuiMessage *)IExec->GetMsg(rwindow->UserPort)))
 		{
 			class = IMsg->Class;
 			code = IMsg->Code;

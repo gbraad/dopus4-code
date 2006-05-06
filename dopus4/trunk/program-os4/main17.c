@@ -1788,7 +1788,7 @@ void removeargstring(int num)
 	}
 }
 
-void modify(UBYTE *flag)
+void modify(uint8 *flag)
 {
 	int a;
 
