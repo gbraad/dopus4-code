@@ -810,10 +810,14 @@ void doidcmp()
 						{
 							win = data_active_window;
 							verticalscroll(win, -1);
+							verticalscroll(win, -1);
+							verticalscroll(win, -1);
 						}
 						else if(iwd->WheelY > 0)
 						{
 							win = data_active_window;
+							verticalscroll(win, 1);
+							verticalscroll(win, 1);
 							verticalscroll(win, 1);
 						}
 					}

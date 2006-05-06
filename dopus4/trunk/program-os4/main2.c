@@ -412,12 +412,12 @@ void checkdir(char *str, struct Gadget *gad)
 
 void verticalscroll(int win, int dir)
 {
-	int i;
+//	int i;
 	if(win < 0 || dopus_curwin[win]->total <= scrdata_dispwin_lines)
 		return;
 
-	for(i = 0; i < 3; i++)
-	{
+//	for(i = 0; i < 3; i++)
+//	{
 		if(dir < 0)
 		{
 			--dopus_curwin[win]->offset;
@@ -438,7 +438,7 @@ void verticalscroll(int win, int dir)
 		}
 		fixvertprop(win);
 		displaydir(win);
-	}
+//	}
 }
 
 void horizontalscroll(int win, int dir)

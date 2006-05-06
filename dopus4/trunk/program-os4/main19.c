@@ -371,8 +371,8 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 
 int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInfoBlock *info)
 {
-	unsigned char buf[514], buf2[1024], *recog;
-	int a, b, c, d, len, operation, fail, prot[2], tprot, equ, val, oldpos, err, gotone = 0, test;
+	char buf[514], buf2[1024], *recog;
+	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, val = 0, oldpos, err = 0, gotone = 0, test;
 	struct DateStamp ds1, ds2;
 
 	len = strlen((recog = type->recognition)) + 1;
@@ -384,7 +384,9 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 		if(!operation)
 		{
 			if(recog[a] > 0 && recog[a] < FTYC_COMMANDOK)
+			{
 				operation = recog[a];
+			}
 		}
 		else if(b == 511 || recog[a] > FTYC_ENDLIMIT || !recog[a])
 		{
@@ -513,9 +515,9 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 	return (0);
 }
 
-int checktypechars(int file, UBYTE *match, int nocase)
+int checktypechars(int file, char *match, int nocase)
 {
-	unsigned char matchbuf[258], c1, c2;
+	/*unsigned*/ char matchbuf[258], c1, c2;
 	int len, clen, a, first = 1, m, val, bpos;
 
 	len = strlen(match);
@@ -591,7 +593,7 @@ int checktypechars(int file, UBYTE *match, int nocase)
 
 int typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 {
-	unsigned char *findbuf, matchbuf[256];
+	char *findbuf, matchbuf[256];
 	int matchsize, a, len, size, oldpos;
 
 	len = strlen(find);
