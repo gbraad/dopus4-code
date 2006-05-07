@@ -1591,7 +1591,11 @@ void open_screen()
 		}
 		if((wbscreen = IIntuition->LockPubScreen(psname)))
 		{
-			if(wbscreen->Height > /*480)*/ (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189))
+			configscr.Width = wbscreen->Width;
+			configscr.Height = wbscreen->Height;
+			configscr.Font = wbscreen->Font;
+
+			if(wbscreen->Height > (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189))
 			{
 				int pen, num;
 				struct ColorMap *cm;

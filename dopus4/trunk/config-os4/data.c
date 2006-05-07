@@ -59,7 +59,7 @@ struct TagItem scr_taglist[] =
 
 struct ExtNewScreen configscr =
 {
-	0, 0, 800, 600, 0, 0, 1, HIRES, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, "ConfigOpus " VERSION, NULL, NULL, scr_taglist
+	0, 0, 800, 600, 0, 0, 1, 0 /*HIRES*/, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, "ConfigOpus " VERSION, NULL, NULL, scr_taglist
 };
 
 struct NewWindow configwin =
@@ -88,7 +88,7 @@ APTR wsave, realwsave;
 char *spacestring = "                                                                                                                                                      ";
 
 char fontbuf[50];
-struct TextAttr sfont = { (STRPTR) fontbuf, 8, 0, 0 }, bsfont = { (STRPTR) fontbuf, 8, FSF_BOLD, 0 };
+struct TextAttr sfont = { (STRPTR)fontbuf, 8, 0, 0 }, bsfont = { (STRPTR)fontbuf, 8, FSF_BOLD, 0 };
 struct Config *config = NULL, *undoconfig = NULL;
 struct dopusfiletype *firsttype = NULL;
 struct dopushotkey *firsthotkey = NULL;
