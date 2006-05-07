@@ -123,9 +123,6 @@ static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
 static struct Gadget *viewiconifygadget;
 static struct Image *viewiconifyimage;
 
-static struct DiskObject *viewdobj;
-static struct AppIcon *viewappicon;
-static struct MsgPort *view_appport;
 ULONG view_runcount;
 
 int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, struct ViewData *viewdata, int wait, int noftype)
@@ -532,6 +529,10 @@ int view_idcmp(struct ViewData *vdata)
 	int a, b, c;
 	int retcode = 1;
 	BOOL quit = FALSE;
+
+	struct DiskObject *viewdobj = NULL;
+	struct AppIcon *viewappicon = NULL;
+	struct MsgPort *view_appport = NULL;
 
 	for(a = 0; a < 7; a++)
 	{
@@ -1002,6 +1003,7 @@ int view_setupdisplay(struct ViewData *vdata)
 	struct NewGadget ng = { 0 };
 	int tc = 0;
 	short int a, width, fontx;
+	uint16 zoom[4] = { ~0, ~0, config->viewtext_width, config->viewtext_height };
 
 	vdata->view_colour_table[PEN_BACKGROUND] = 0;
 	vdata->view_colour_table[PEN_SHADOW] = config->gadgetbotcol;
@@ -1073,7 +1075,7 @@ int view_setupdisplay(struct ViewData *vdata)
 		viewwin.IDCMPFlags |= ARROWIDCMP | SCROLLERIDCMP | NUMBERIDCMP | TEXTIDCMP;
 	}
 
-	if(!(vdata->view_window = IIntuition->OpenWindowTags(&viewwin, WA_AutoAdjust, TRUE, TAG_END)))
+	if(!(vdata->view_window = IIntuition->OpenWindowTags(&viewwin, WA_AutoAdjust, TRUE, WA_Zoom, &zoom, TAG_END)))
 	{
 		if(!(config->viewbits & VIEWBITS_INWINDOW))
 		{
@@ -1084,20 +1086,23 @@ int view_setupdisplay(struct ViewData *vdata)
 	}
 	else
 	{
-		struct DrawInfo *DRI;
-
-		DRI = IIntuition->GetScreenDrawInfo(vdata->view_window->WScreen);
-		viewiconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
-		if(viewiconifyimage)
+		if(config->viewbits & VIEWBITS_INWINDOW)
 		{
-			viewiconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, viewiconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
-			if(viewiconifygadget)
+			struct DrawInfo *DRI;
+
+			DRI = IIntuition->GetScreenDrawInfo(vdata->view_window->WScreen);
+			viewiconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
+			if(viewiconifyimage)
 			{
-				IIntuition->AddGadget(vdata->view_window, viewiconifygadget, ~0);
-				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
+				viewiconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, viewiconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
+				if(viewiconifygadget)
+				{
+					IIntuition->AddGadget(vdata->view_window, viewiconifygadget, ~0);
+					IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
+				}
 			}
+			IIntuition->FreeScreenDrawInfo(vdata->view_window->WScreen, DRI);
 		}
-		IIntuition->FreeScreenDrawInfo(vdata->view_window->WScreen, DRI);
 	}
 	vdata->view_screen = vdata->view_window->WScreen;
 	vdata->view_rastport = vdata->view_window->RPort;
