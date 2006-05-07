@@ -699,14 +699,18 @@ int namesort(STRPTR str1, STRPTR str2)
 	int n1, n2;
 
 	if(SORT_ISALPHA(config->sortflags))
+	{
 		return IUtility->Stricmp(str1, str2);
+	}
 
 	if(((SORT_ISDEC(config->sortflags)) && _isdigit(str1[0]) && _isdigit(str2[0])) || ((SORT_ISHEX(config->sortflags)) && _isxdigit(str1[0]) && _isxdigit(str2[0])))
 	{
 		for(n1 = 0; str1[n1] && (str1[n1] == '0'); n1++);
 		for(n2 = 0; str2[n2] && (str2[n2] == '0'); n2++);
 		if(n1 != n2)
+		{
 			return (n2 - n1);
+		}
 		if(SORT_ISDEC(config->sortflags))
 		{
 			n1 = atoi(str1);
@@ -718,7 +722,9 @@ int namesort(STRPTR str1, STRPTR str2)
 			n2 = strtol(str2, NULL, 16);
 		}
 		if(n1 != n2)
+		{
 			return ((n1 - n2));
+		}
 		str1 = getstrafternum(str1);
 		str2 = getstrafternum(str2);
 	}

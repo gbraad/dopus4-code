@@ -222,7 +222,7 @@ struct dopusfiletype
 	int which[FILETYPE_FUNCNUM], stack[FILETYPE_FUNCNUM];
 //	char pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
 	int8 pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
-	unsigned char *recognition;
+	char *recognition;
 	char *function[FILETYPE_FUNCNUM];
 	char *iconpath;
 };
@@ -282,7 +282,8 @@ struct Config
 
 	char language[30];
 
-	char displaypos[2][16];
+//	char displaypos[2][16];
+	int8 displaypos[2][16];
 	UBYTE old_displaylength[2][16];
 
 	char pubscreen_name[80];
@@ -324,7 +325,8 @@ struct Config
 
 	char pad7[2];
 
-	char hiddenbit;
+//	char hiddenbit;
+	uint8 hiddenbit;
 	char showpat[40], hidepat[40];
 	char showpatparsed[40], hidepatparsed[40];
 	char icontype, scrclktype, showfree;

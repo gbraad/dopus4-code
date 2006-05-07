@@ -1059,7 +1059,7 @@ int view_setupdisplay(struct ViewData *vdata)
 	}
 	else
 	{
-		if(!(vdata->view_screen = open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE], scr_font[FONT_GENERAL], &vdata->view_memory, NULL)) || !(vdata->view_font = IGraphics->OpenFont(vdata->view_screen->Font)))
+		if(!(vdata->view_screen = open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE], scr_font[FONT_TEXT], &vdata->view_memory, NULL)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
 		{
 			return -4;
 		}

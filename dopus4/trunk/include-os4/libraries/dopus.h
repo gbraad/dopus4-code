@@ -119,13 +119,6 @@ struct DOpusFileReq
 
 #define DDTF_CUSTOM (1<<DDTB_CUSTOM)
 #define DDTF_12HOUR (1<<DDTB_12HOUR)
-/*
-#define FORMAT_DOS 0
-#define FORMAT_INT 1
-#define FORMAT_USA 2
-#define FORMAT_CDN 3
-#define FORMAT_AUS FORMAT_CDN
-*/
 
 /* ListView definition structure */
 

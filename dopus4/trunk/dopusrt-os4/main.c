@@ -92,17 +92,11 @@ int main(int argc, char **argv)
 		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:/libs/dopus.library", 0)))
 		{
 			DOpusBase = NULL;
-			IDOS->Printf("Can't Open dopus.library\n");
-			return 5;
 		}
-	if(!(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
+	if(DOpusBase && !(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
 	{
 		IDOpus = NULL;
-		IDOS->Printf("Can't get IDOpus interface\n");
-		IExec->CloseLibrary(DOpusBase);
-		return 5;
 	}
-	
 	if(!DOpusBase || !IDOpus)
 	{
 		IDOS->Printf("Can't Open dopus.library and get IDOpus interface\n");

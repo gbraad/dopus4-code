@@ -334,15 +334,21 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 	int file;
 
 	if(!(lockandexamine(fullname, info)))
+	{
 		return (NULL);
+	}
 	if(!(file = IDOS->Open(fullname, MODE_OLDFILE)))
+	{
 		return (NULL);
+	}
 
 	type = dopus_firsttype;
 	while(type)
 	{
 		if(status_haveaborted)
+		{
 			break;
+		}
 		if(ftype == -2)
 		{
 			if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, info)))
@@ -398,7 +404,9 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 			case FTYC_MATCH:
 			case FTYC_MATCHI:
 				if(!(checktypechars(file, buf, (operation == FTYC_MATCHI) ? 1 : 0)))
+				{
 					fail = 1;
+				}
 				break;
 			case FTYC_MATCHNAME:
 				IDOS->ParsePatternNoCase(buf, buf2, 1024);
@@ -490,34 +498,46 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 					IDOS->Seek(file, oldpos, OFFSET_BEGINNING);
 				}
 				else
+				{
 					IDOS->Seek(file, val, OFFSET_BEGINNING);
+				}
 				break;
 			default:
 				test = 0;
 				break;
 			}
 			if(!fail && test && recog[a] == FTYC_OR)
+			{
 				gotone = 1;
+			}
 			else if(fail)
 			{
 				while(recog[a] != FTYC_OR && recog[a] != FTYC_AND && recog[a])
+				{
 					++a;
+				}
 				if(recog[a] == FTYC_AND)
+				{
 					break;
+				}
 			}
 			operation = b = 0;
 		}
 		else
+		{
 			buf[b++] = recog[a];
+		}
 	}
 	if(!fail || gotone)
+	{
 		return (1);
+	}
 	return (0);
 }
 
 int checktypechars(int file, char *match, int nocase)
 {
-	/*unsigned*/ char matchbuf[258], c1, c2;
+	char matchbuf[258], c1, c2;
 	int len, clen, a, first = 1, m, val, bpos;
 
 	len = strlen(match);

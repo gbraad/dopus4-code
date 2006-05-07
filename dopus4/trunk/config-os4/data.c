@@ -59,7 +59,7 @@ struct TagItem scr_taglist[] =
 
 struct ExtNewScreen configscr =
 {
-	0, 0, 640, 200, 0, 0, 1, HIRES, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, "ConfigOpus " VERSION, NULL, NULL, scr_taglist
+	0, 0, 800, 600, 0, 0, 1, HIRES, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, "ConfigOpus " VERSION, NULL, NULL, scr_taglist
 };
 
 struct NewWindow configwin =

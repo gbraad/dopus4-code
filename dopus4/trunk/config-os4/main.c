@@ -1564,7 +1564,9 @@ void open_screen()
 
 		onworkbench = 0;
 		if(tfont)
+		{
 			IGraphics->CloseFont(tfont);
+		}
 		a = 8;
 		tfont = getfont(config->fontbufs[0], &a, FFLAG_8ONLY);
 		strcpy(sfont.ta_Name, tfont->tf_Message.mn_Node.ln_Name);
@@ -1680,9 +1682,13 @@ void open_screen()
 		y_bot = Window->Height - Window->BorderBottom - 1;
 
 		if(tfont)
+		{
 			IGraphics->SetFont(rp, tfont);
+		}
 		if(wbscreen)
+		{
 			IIntuition->UnlockPubScreen(NULL, wbscreen);
+		}
 	}
 
 	load_palette(Screen, config->new_palette, 1 << ((screen_depth > 4) ? 4 : screen_depth));
@@ -1690,7 +1696,9 @@ void open_screen()
 	doradiobuttons();
 	fix_gadget_positions();
 	if(Screen || cmdport)
+	{
 		IIntuition->ScreenToFront(Window->WScreen);
+	}
 }
 
 void close_screen()
@@ -1699,7 +1707,9 @@ void close_screen()
 	if(Window)
 	{
 		if(Window->MenuStrip)
+		{
 			IIntuition->ClearMenuStrip(Window);
+		}
 		IIntuition->CloseWindow(Window);
 		Window = NULL;
 	}

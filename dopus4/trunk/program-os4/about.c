@@ -66,6 +66,10 @@ void give_version_info()
 
 //	sprintf(buf,globstring[STR_VERSION_CONTENTS],globstring[STR_VERSION_HEADER], 
 
-	sprintf(buf, "%s\ndopus.library: %ld.%ld\n\nCompiled with: %s\nCompilation date: %s\nCompilation time: %s\n", VERS, ver, rev, compiler, comp_date, comp_time);
+	sprintf(buf, "DirectoryOpus: %d.%d\n" \
+		     "dopus.library: %ld.%ld\n\n" \
+		     "Compiled with: %s\n" \
+		     "Compilation date: %s\n" \
+		     "Compilation time: %s\n", VERSION, REVISION, ver, rev, compiler, comp_date, comp_time);
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);
 }
