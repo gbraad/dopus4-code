@@ -75,13 +75,19 @@ int main(int argc, char **argv)
 	if(!(IDOpus->FindSystemFile("DirectoryOpus.CFG", configname, 256, SYSFILE_DATA)))
 	{
 		if(IDOpus->CheckExist("PROGDIR:/S", NULL))
+		{
 			IUtility->Strlcpy(configname, "PROGDIR:/S/DirectoryOpus.CFG", 256);
+		}
 		else
+		{
 			IUtility->Strlcpy(configname, "s:DirectoryOpus.CFG", 256);
+		}
 	}
 
 	if(!(IDOpus->FindSystemFile("DirectoryOpus.CLA", classname, 256, SYSFILE_DATA)))
+	{
 		classname[0] = 0;
+	}
 
 	if(argc)
 	{
@@ -98,7 +104,9 @@ int main(int argc, char **argv)
 			IDOS->StrToLong(wbmsg->sm_ArgList[1].wa_Name, &num);
 			sprintf(portname, "dopus4_config_port%ld", num);
 			if(!(conport = IExec->CreatePort(portname, 20)))
+			{
 				quit();
+			}
 			sprintf(rportname, "dopus4_config_reply%ld", num);
 			IExec->Forbid();
 			if(!(cmdport = IExec->FindPort(rportname)))
@@ -110,19 +118,27 @@ int main(int argc, char **argv)
 		}
 	}
 	if(!dropboxicon)
+	{
 		dropboxicon = &dropboxobj;
+	}
 
 	myproc = (struct Process *)IExec->FindTask(0);
 	wsave = myproc->pr_WindowPtr;
 	myproc->pr_WindowPtr = (APTR) - 1;
 
 	for(a = 0; a < 13; a++)
+	{
 		if(!(functypelist[a] = IDOpus->LAllocRemember(&mainkey, 40, MEMF_CLEAR)))
+		{
 			quit();
+		}
+	}
 	functypelist[13] = NULL;
 
 	if(!cmdport && !(config = (struct Config *)IExec->AllocMem(sizeof(struct Config), MEMF_CLEAR)))
+	{
 		quit();
+	}
 	getconfig();
 	IUtility->Strlcpy(oldconfigname, configname, 256);
 
@@ -133,7 +149,9 @@ int main(int argc, char **argv)
 	readhelp();
 
 	if(config->scrdepth < 2)
+	{
 		config->scrdepth += 2;
+	}
 
 	open_screen();
 
@@ -1591,10 +1609,6 @@ void open_screen()
 		}
 		if((wbscreen = IIntuition->LockPubScreen(psname)))
 		{
-			configscr.Width = wbscreen->Width;
-			configscr.Height = wbscreen->Height;
-			configscr.Font = wbscreen->Font;
-
 			if(wbscreen->Height > (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189))
 			{
 				int pen, num;
@@ -1608,8 +1622,11 @@ void open_screen()
 					screen_pens[pen].red = config->new_palette[(pen * 3)];
 					screen_pens[pen].green = config->new_palette[(pen * 3) + 1];
 					screen_pens[pen].blue = config->new_palette[(pen * 3) + 2];
-					if((screen_pens[pen].pen = IGraphics->ObtainPen(cm, -1, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, PEN_EXCLUSIVE)) == (uint8)-1)
+//					if((screen_pens[pen].pen = IGraphics->ObtainPen(cm, -1, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, 0/*PEN_EXCLUSIVE*/)) == (uint8)-1)
+					if((screen_pens[pen].pen = IGraphics->ObtainBestPenA(cm, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, NULL)) == (uint8)-1)
+					{
 						break;
+					}
 					screen_pens[pen].alloc = 1;
 				}
 
@@ -1660,9 +1677,13 @@ void open_screen()
 		if(!Screen)
 		{
 			if(config->config_x > -1)
+			{
 				configwin.LeftEdge = config->config_x;
+			}
 			if(config->config_y > -1)
+			{
 				configwin.TopEdge = config->config_y;
+			}
 		}
 
 		if(configwin.Width + configwin.LeftEdge > usescreen->Width)
@@ -1672,10 +1693,14 @@ void open_screen()
 			configwin.TopEdge = usescreen->Height - configwin.Height;
 
 		if(!(Window = IIntuition->OpenWindow(&configwin)))
+		{
 			quit();
+		}
 
 		if(!Screen)
+		{
 			IIntuition->SetWindowTitles(Window, (char *)-1, configscr.DefaultTitle);
+		}
 
 		rp = Window->RPort;
 		IDOpus->FSSetMenuStrip(Window, &projectmenu);

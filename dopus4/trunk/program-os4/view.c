@@ -1075,7 +1075,15 @@ int view_setupdisplay(struct ViewData *vdata)
 		viewwin.IDCMPFlags |= ARROWIDCMP | SCROLLERIDCMP | NUMBERIDCMP | TEXTIDCMP;
 	}
 
-	if(!(vdata->view_window = IIntuition->OpenWindowTags(&viewwin, WA_AutoAdjust, TRUE, WA_Zoom, &zoom, TAG_END)))
+	if(config->viewbits & VIEWBITS_INWINDOW)
+	{
+		vdata->view_window = IIntuition->OpenWindowTags(&viewwin, WA_AutoAdjust, TRUE, WA_Zoom, &zoom, TAG_END);
+	}
+	else
+	{
+		vdata->view_window = IIntuition->OpenWindowTags(&viewwin, WA_AutoAdjust, TRUE, TAG_END);
+	}
+	if(!(vdata->view_window))
 	{
 		if(!(config->viewbits & VIEWBITS_INWINDOW))
 		{

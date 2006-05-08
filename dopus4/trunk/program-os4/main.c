@@ -499,7 +499,7 @@ int SetUp(int tit)
 		{
 			main_win.Type = PUBLICSCREEN;
 			mainwindow_tags[0].ti_Tag = WA_PubScreen;
-			mainwindow_tags[0].ti_Data = (uint32) pubscr;
+			mainwindow_tags[0].ti_Data = (uint32)pubscr;
 		}
 		else
 		{
@@ -533,7 +533,9 @@ int SetUp(int tit)
 					config->scrdepth = 2;
 					config->screenflags = 0;
 					if(pubscr)
+					{
 						IIntuition->UnlockPubScreen(NULL, pubscr);
+					}
 					return (SetUp(tit));
 				}
 				load_palette(MainScreen, config->new_palette);
