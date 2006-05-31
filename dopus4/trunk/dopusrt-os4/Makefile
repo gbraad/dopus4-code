@@ -1,8 +1,8 @@
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -O3 -Wall -I../include-os4
-LDFLAGS = -lauto
+CFLAGS = -mcrt=clib2 -O3 -Wall -I../include-os4
+LDFLAGS = -mcrt=clib2 -lauto
 
 DOpusRT: main.o
 	$(CC) -o $@.debug $^ $(LDFLAGS)

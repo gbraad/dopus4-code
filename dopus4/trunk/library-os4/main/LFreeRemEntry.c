@@ -68,10 +68,17 @@ void _DOpus_LFreeRemEntry(struct DOpusIFace *Self, struct DOpusRemember **key, c
 	if((*key) == NULL)
 		return;
 	if(IExec->TypeOfMem(pointer) & MEMF_CHIP)
+	{
 		pool = ((struct DOpusPool *)(*key))->chip;
+	}
 	else
+	{
 		pool = ((struct DOpusPool *)(*key))->fast;
+	}
 
-	IExec->FreePooled(pool, ptr - 1, *(ptr - 1));
+	if(pool)
+	{
+		IExec->FreePooled(pool, ptr - 1, *(ptr - 1));
+	}
 }
 

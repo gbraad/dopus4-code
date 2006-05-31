@@ -4,8 +4,8 @@ ASMOPTS = M=68020 SYMDEBUG SC SD 4
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -O3 -Wall -I../include-os4
-LDFLAGS = -lauto
+CFLAGS = -mcrt=clib2 -O3 -Wall -I../include-os4
+LDFLAGS = -mcrt=clib2 -lauto
 
 FLEXCAT = flexcat
 

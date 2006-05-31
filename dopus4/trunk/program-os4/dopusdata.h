@@ -226,7 +226,7 @@ extern BOOL global_swap_window;	/* Active window changed */
 extern struct Directory dos_global_entry;	/* Global single file entry */
 
 extern struct NotifyRequest *dos_notify_req[2];	/* Notify requests for both windows */
-extern char dos_notify_names[2][256];	/* Notify requests name buffers */
+extern char dos_notify_names[2][1024];	/* Notify requests name buffers */
 
 extern struct recpath *rec_firstpath;	/* Directory path list pointer */
 extern struct DOpusRemember *rec_pathkey;	/* Memory key for dir list */

@@ -208,15 +208,13 @@ const char *config_replyport_basename = "dopus4_config_reply";
 
 UBYTE disk_change_state /*=0*/ ;		/* Lower bits indicate change state */
 
-#ifdef __GNUC__
-unsigned long long dos_global_bytecount /*=0*/ ;	/* Global byte count from recursive op */
-unsigned long long dos_global_copiedbytes /*=0*/ ;	/* Bytes copied in a recursive op */
-unsigned long long dos_global_deletedbytes /*=0*/ ;	/* Bytes copied in a recursive op */
-#else
-ULONG dos_global_bytecount /*=0*/ ;		/* Global byte count from recursive op */
-ULONG dos_global_copiedbytes /*=0*/ ;		/* Bytes copied in a recursive op */
-ULONG dos_global_deletedbytes /*=0*/ ;		/* Bytes copied in a recursive op */
-#endif
+//unsigned long long dos_global_bytecount /*=0*/ ;	/* Global byte count from recursive op */
+uint64 dos_global_bytecount /*=0*/ ;			/* Global byte count from recursive op */
+//unsigned long long dos_global_copiedbytes /*=0*/ ;	/* Bytes copied in a recursive op */
+uint64 dos_global_copiedbytes /*=0*/ ;			/* Bytes copied in a recursive op */
+//unsigned long long dos_global_deletedbytes /*=0*/ ;	/* Bytes copied in a recursive op */
+uint64 dos_global_deletedbytes /*=0*/ ;			/* Bytes copied in a recursive op */
+
 ULONG dos_global_blocksneeded /*=0*/ ;		/* Number of blocks needed to copy */
 ULONG dos_global_files /*=0*/ ;			/* Number of files found in a recursive op */
 
@@ -231,7 +229,7 @@ BOOL global_swap_window = FALSE;		/* Active window changed */
 struct Directory dos_global_entry /*={0}*/ ;	/* Global single file entry */
 
 struct NotifyRequest *dos_notify_req[2] /*={0}*/ ;	/* Notify requests for both windows */
-char dos_notify_names[2][256] /*={{0},{0}}*/ ;		/* Notify requests name buffers */
+char dos_notify_names[2][1024] /*={{0},{0}}*/ ;		/* Notify requests name buffers */
 
 struct recpath *rec_firstpath /*=NULL*/ ;	/* Directory path list pointer */
 struct DOpusRemember *rec_pathkey /*=NULL*/ ;	/* Memory key for dir list */

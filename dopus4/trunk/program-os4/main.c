@@ -30,8 +30,11 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+/* BEGIN CLib2 stuff */
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }
+BOOL __detach = TRUE;
+/* END CLib2 stuff */
 
 static BOOL staybehindWB;
 extern BOOL useAHI;

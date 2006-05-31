@@ -267,7 +267,9 @@ int main(int argc, char **argv)
 void quit()
 {
 	if(Window)
+	{
 		IDOpus->SetBusyPointer(Window);
+	}
 	if(cmdport)
 	{
 		giveconfig();
@@ -278,24 +280,40 @@ void quit()
 		fixcstuff(&cstuff);
 		IDOpus->FreeConfig(&cstuff);
 		if(config)
+		{
 			IExec->FreeMem(config, sizeof(struct Config));
+		}
 	}
 	if(myproc)
+	{
 		myproc->pr_WindowPtr = wsave;
+	}
 	if(firstclip)
+	{
 		save_clips();
+	}
 	if(Screen && !onworkbench)
+	{
 		IIntuition->ScreenToBack(Screen);
+	}
 	close_screen();
 	IDOpus->FreeStringFile(&stringdata);
 	if(conport)
+	{
 		IExec->DeletePort(conport);
+	}
 	if(appport)
+	{
 		IExec->DeletePort(appport);
+	}
 	if(tfont)
+	{
 		IGraphics->CloseFont(tfont);
+	}
 	if(dropboxicon != &dropboxobj)
+	{
 		IIcon->FreeDiskObject(dropboxicon);
+	}
 
 	IDOpus->LFreeRemember(&mainkey);
 	IDOpus->LFreeRemember(&clipkey);
