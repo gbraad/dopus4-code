@@ -1,0 +1,3 @@
+- deleted OCS support, MEMF_PUBLIC, MEMF_CHIP
+- deleted redundant AllocDosObject() calls (uses stack instead)
+- disabled screen depth gadget in DopusConfig
