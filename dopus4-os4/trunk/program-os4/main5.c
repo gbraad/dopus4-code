@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <proto/asyncio.h>
+//#include <proto/asyncio.h>
 
 int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate)
 {
@@ -37,8 +37,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	char *buffer;
 	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size = 0, size;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
-	int inhandle, outhandle;
-	struct AsyncFile *infile = NULL;
+	BPTR inhandle, outhandle;
 	struct DateStamp ds, *dsp;
 
 	buffer = NULL;
@@ -51,7 +50,9 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		int a, encrypt = 1;
 
 		for(a = 0; password[a]; a++)
+		{
 			encrypt *= password[a];
+		}
 		srand(encrypt);
 	}
 
@@ -65,9 +66,9 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 	if(!(size = cfinfo->fib_Size))
 	{
-		if(!(out = IDOS->Open(dst, MODE_NEWFILE)))
+		if(!(out = IDOS->FOpen(dst, MODE_NEWFILE, 0)))
 			goto failed;
-		IDOS->Close(out);
+		IDOS->FClose(out);
 		if(config->copyflags & COPY_DATE)
 			setdate(dst, &(cfinfo->fib_Date));
 		if(config->copyflags & COPY_PROT)
@@ -84,21 +85,28 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		prog = 0;
 	}
 	else
+	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
+	}
 
-	infile = IAsyncIO->OpenAsync(src, MODE_READ, ASYNC_READ_SIZE);
-	if(!infile && (!(inhandle = IDOS->Open(src, MODE_OLDFILE))))
+	if(!(inhandle = IDOS->FOpen(src, MODE_OLDFILE, 0)))
 		goto failed;
 
-	if(!(outhandle = IDOS->Open(dst, MODE_NEWFILE)))
+	if(!(outhandle = IDOS->FOpen(dst, MODE_NEWFILE, 0)))
 		goto failed;
 
 	if(size > (64 * 1024))
+	{
 		buffer_size = size / 2;
+	}
 	else
+	{
 		buffer_size = size;
+	}
 	if(buffer_size > (128 * 1024))
+	{
 		buffer_size = 128 * 1024;
+	}
 
 	while(buffer_size > 0)
 	{
@@ -107,7 +115,9 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		buffer_size /= 2;
 	}
 	if(!buffer)
+	{
 		goto failed;
+	}
 
 	size_read = size_write = 0;
 	size_total = size * 2;
@@ -115,16 +125,15 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	while(size > 0)
 	{
 		readsize = (size > buffer_size) ? buffer_size : size;
-		if(infile)
-			length = IAsyncIO->ReadAsync(infile, buffer, readsize);
-		else
-			length = IDOS->Read(inhandle, buffer, readsize);
+		length = IDOS->FRead(inhandle, buffer, 1, readsize);
 
 		size -= readsize;
 		size_read += length;
 
 		if(prog)
+		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
+		}
 
 		if(status_haveaborted)
 		{
@@ -157,13 +166,15 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		if(length > 0)
 		{
-			if((IDOS->Write(outhandle, buffer, length)) == -1)
+			if((IDOS->FWrite(outhandle, buffer, 1, length)) == -1)
 				goto failed;
 		}
 		size_write += length;
 
 		if(prog)
+		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
+		}
 
 		if(status_haveaborted)
 		{
@@ -172,12 +183,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		}
 	}
 
-	if(infile)
-		IAsyncIO->CloseAsync(infile);
-	else
-		IDOS->Close(inhandle);
-
-	IDOS->Close(outhandle);
+	IDOS->FClose(inhandle);
+	IDOS->FClose(outhandle);
 
 	IExec->FreeMem(buffer, buffer_size);
 
@@ -203,7 +210,9 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		strcpy(dos_copy_comment, cfinfo->fib_Comment);
 	}
 	else
+	{
 		dos_copy_comment[0] = 0;
+	}
 
 	return (1);
 
@@ -211,13 +220,11 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	*err = IDOS->IoErr();
 	if(buffer)
 		IExec->FreeMem(buffer, buffer_size);
-	if(infile)
-		IAsyncIO->CloseAsync(infile);
 	if(inhandle)
-		IDOS->Close(inhandle);
+		IDOS->FClose(inhandle);
 	if(outhandle)
 	{
-		IDOS->Close(outhandle);
+		IDOS->FClose(outhandle);
 		IDOS->DeleteFile(dst);
 	}
 

@@ -10,7 +10,6 @@ main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 autoinit_amigaguide_base.o autoinit_amigaguide_main.o\
-autoinit_asyncio_base.o autoinit_asyncio_main.o\
 autoinit_commodities_base.o autoinit_commodities_main.o\
 autoinit_gadtools_base.o autoinit_gadtools_main.o\
 autoinit_layers_base.o autoinit_layers_main.o\
@@ -18,6 +17,8 @@ autoinit_pm_base.o autoinit_pm_main.o\
 autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
 autoinit_application_application.o autoinit_application_base.o autoinit_application_prefsobjects.o
+
+#autoinit_asyncio_base.o autoinit_asyncio_main.o\
 
 CFLAGS = -mcrt=clib2 -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=clib2 -lauto -lm
