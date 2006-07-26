@@ -226,18 +226,7 @@ void sendmouseevent(UBYTE class, UWORD code)
 	inputev.ie_X = 0;
 	inputev.ie_Y = 0;
 
-	if(CxBase)
-	{
-		AddIEvents(&inputev);
-	}
-	else
-	{
-		input_req->io_Command = IND_WRITEEVENT;
-		input_req->io_Flags = 0;
-		input_req->io_Length = sizeof(struct InputEvent);
-		input_req->io_Data = (APTR) & inputev;
-		DoIO((struct IORequest *)input_req);
-	}
+	AddIEvents(&inputev);
 }
 
 void quickfixmenus()

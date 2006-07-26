@@ -28,7 +28,33 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <proto/alib.h>
+#include <proto/muimaster.h>
+
 #include "dopus.h"
+#include "mui.h"
+
+#ifndef MUIA_Application_NoIconify
+#define MUIA_Application_NoIconify 0x80426a3b
+#endif
+#ifndef MUIA_Window_ShowIconify
+#define MUIA_Window_ShowIconify 0x8042bc26
+#endif
+#ifndef MUIA_Window_ShowAbout
+#define MUIA_Window_ShowAbout 0x80429c1e
+#endif
+#ifndef MUIA_Window_ShowPrefs
+#define MUIA_Window_ShowPrefs 0x8042e262
+#endif
+#ifndef MUIA_Window_ShowJump
+#define MUIA_Window_ShowJump 0x80422f40
+#endif
+#ifndef MUIA_Window_ShowSnapshot
+#define MUIA_Window_ShowSnapshot 0x80423c55
+#endif
+#ifndef MUIA_Window_ShowPopup
+#define MUIA_Window_ShowPopup 0x8042324e
+#endif
 
 #define HOTKEY_UNICONIFY   1
 #define HOTKEY_ABORT     3
@@ -37,31 +63,19 @@ the existing commercial status of Directory Opus 5.
 
 struct ProgressBar
 {
-	int barX, barY;
-	int descY;
 	int curr, max;
-	int last_w;
 	BOOL incignore;
 	BOOL hide;
 };
 
-void progressbar(struct ProgressBar *bar);
+#define ID_ABORT 0xc000
 
-struct Gadget abortopgad =
-{
-	NULL, 0, 0, 104, 0, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, 0, NULL, 0, NULL
-};
+static APTR openprogresswindow(APTR app, CONST_STRPTR title, int value, int total, int flag);
+static void progressbar(struct ProgressBar *bar);
+static void progresstext(int val, int total, CONST_STRPTR text);
 
-static struct NewWindow progresswindow =
-{
-	0, 0, 0, 0, 255, 255, IDCMP_GADGETUP | IDCMP_RAWKEY, WFLG_RMBTRAP | WFLG_ACTIVATE, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
-};
-
-static struct Window *pwindow;
-static struct RastPort *prp;
 static struct DOpusRemember *prog_key;
 static struct ProgressBar bar[2];
-static int prog_xoff, prog_yoff, prog_xextra, prog_yextra, prog_areax;
 
 static struct NewBroker hotkey_broker =
 {
@@ -73,6 +87,7 @@ static struct NewBroker hotkey_broker =
 };
 
 static IX hotkey_ix = { IX_VERSION };
+static APTR mui_gauge, mui_text;
 
 void hotkeytaskcode()
 {
@@ -80,17 +95,17 @@ void hotkeytaskcode()
 	int top, sig, waitbits, commodity = 0, command, x, run = 1;
 	struct dopustaskmsg *hmsg;
 	struct MsgPort *inputport;
-	struct IntuiMessage *msg;
-	ULONG class, msgid, msgtype;
-	USHORT gadgetid = 0;
+	ULONG msgid, msgtype;
 	struct dopushotkey *hotkey;
 	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
 	CxMsg *cxmsg;
+	APTR muiapp, pwindow;
 
 	hotkeymsg_port = CreateMsgPort();
 	inputport = CreateMsgPort();
 
-	if(CxBase)
+	pwindow = NULL;
+
 	{
 		strcpy(cxname, "Directory Opus");
 		if(system_dopus_runcount)
@@ -144,13 +159,36 @@ void hotkeytaskcode()
 		}
 	}
 
+	muiapp = ApplicationObject,
+		MUIA_Application_NoIconify, TRUE,
+		MUIA_Application_UseRexx, FALSE,
+		End;
+
 	waitbits = 1 << hotkeymsg_port->mp_SigBit;
 	if(commodity)
 		waitbits |= 1 << inputport->mp_SigBit;
 
+	NewRawDoFmt("DOPUS: muiapp is %08lx\n", (APTR)1, NULL, muiapp);
+
+	sig = 0;
+
 	while(run)
 	{
-		sig = Wait(waitbits);
+		for (;;)
+		{
+			ULONG ret = DoMethod(muiapp, MUIM_Application_NewInput, &sig);
+
+			if (ret == ID_ABORT)
+			{
+				status_haveaborted = status_rexxabort = 1;
+				Signal((struct Task *)main_proc, INPUTSIG_ABORT);
+			}
+
+			if (sig)
+				break;
+		}
+
+		sig = Wait(waitbits | sig);
 		command = 0;
 
 		if(commodity)
@@ -279,21 +317,6 @@ void hotkeytaskcode()
 			break;
 		}
 
-		if(pwindow)
-		{
-			while((msg = (struct IntuiMessage *)GetMsg(pwindow->UserPort)))
-			{
-				if((class = msg->Class) == IDCMP_GADGETUP)
-					gadgetid = ((struct Gadget *)msg->IAddress)->GadgetID;
-				ReplyMsg((struct Message *)msg);
-				if(class == IDCMP_GADGETUP && gadgetid == 0)
-				{
-					status_haveaborted = status_rexxabort = 1;
-					Signal((struct Task *)main_proc, INPUTSIG_ABORT);
-				}
-			}
-		}
-
 		while((hmsg = (struct dopustaskmsg *)GetMsg(hotkeymsg_port)))
 		{
 
@@ -314,7 +337,7 @@ void hotkeytaskcode()
 					if(bar[BAR_ID].hide)
 						break;
 					if(BAR_ID == 0 || hmsg->data)
-						progresstext(bar[BAR_ID].descY, hmsg->value, hmsg->total, hmsg->data);
+						progresstext(hmsg->value, hmsg->total, hmsg->data);
 				}
 				break;
 
@@ -331,28 +354,28 @@ void hotkeytaskcode()
 					progressbar(&bar[BAR_ID]);
 					if(bar[BAR_ID].hide)
 						break;
-					progresstext(bar[BAR_ID].descY, bar[BAR_ID].curr, bar[BAR_ID].max, NULL);
+					progresstext(bar[BAR_ID].curr, bar[BAR_ID].max, NULL);
 				}
 				break;
 
 			case PROGRESS_OPEN:
 				if(!pwindow)
 				{
-					openprogresswindow(hmsg->data, hmsg->value, hmsg->total, BAR_ID);
-					if(pwindow)
-					{
-						SetBusyPointer(pwindow);
-						waitbits |= 1 << pwindow->UserPort->mp_SigBit;
-					}
+					pwindow = openprogresswindow(muiapp, hmsg->data, hmsg->value, hmsg->total, BAR_ID);
 				}
+
+				if (pwindow)
+				{
+					SetAttrs(mui_gauge, MUIA_Gauge_InfoText, "", MUIA_Gauge_Current, 0, TAG_DONE);
+					SetAttrs(pwindow, MUIA_Window_Open, TRUE, TAG_DONE);
+				}
+
 				break;
 
 			case PROGRESS_CLOSE:
 				if(pwindow)
 				{
-					waitbits &= ~(1 << pwindow->UserPort->mp_SigBit);
-					CloseWindow(pwindow);
-					pwindow = NULL;
+					set(pwindow, MUIA_Window_Open, FALSE);
 				}
 				LFreeRemember(&prog_key);
 				break;
@@ -406,8 +429,8 @@ void hotkeytaskcode()
 			ReplyMsg((struct Message *)cxmsg);
 	}
 
-	if(pwindow)
-		CloseWindow(pwindow);
+	MUI_DisposeObject(muiapp);
+
 	LFreeRemember(&prog_key);
 	DeleteMsgPort(inputport);
 	DeleteMsgPort(hotkeymsg_port);
@@ -504,183 +527,90 @@ void set_hotkey(CxObj *filter, USHORT code, USHORT qual)
 	}
 }
 
-void openprogresswindow(STRPTR title, int value, int total, int flag)
+static APTR openprogresswindow(APTR muiapp, CONST_STRPTR title, int value, int total, int flag)
 {
-	struct TextFont *font;
-	char *gadtxt[] = { globstring[STR_ABORT], NULL };
-	int a, incignore = 0;
+	APTR win, abort;
+	LONG reqwin, incignore = 0, a;
 
-	if(flag & 0x80)
+	if (flag & 0x80)
 	{
 		incignore = 1;
-		flag &= ~0x80;
+		flag ^= 0x80;
 	}
 
-	if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
+	reqwin = config->generalscreenflags & SCR_GENERAL_REQDRAG;
+
+	win = WindowObject,
+			MUIA_Window_Width, MUIV_Window_Width_Visible(40),
+			MUIA_Window_CloseGadget, FALSE,
+			MUIA_Window_ShowAbout, FALSE,
+			MUIA_Window_ShowIconify, FALSE,
+			MUIA_Window_ShowJump, FALSE,
+			MUIA_Window_ShowPopup, FALSE,
+			MUIA_Window_ShowPrefs, FALSE,
+			MUIA_Window_ShowSnapshot, FALSE,
+
+			reqwin ? MUIA_Window_Title : TAG_IGNORE, title,
+			!reqwin ? MUIA_Window_DragBar : TAG_IGNORE, FALSE,
+			!reqwin ? MUIA_Window_DepthGadget : TAG_IGNORE, FALSE,
+
+			WindowContents, VGroup,
+				Child, mui_gauge = GaugeObject, MUIA_Gauge_Horiz, TRUE, End,
+				Child, mui_text = TextObject, MUIA_Text_Copy, FALSE, End,
+				Child, HCenter(abort = MakeButton(globstring[STR_ABORT])),
+			End,
+		End;
+
+	if (win)
 	{
-		prog_xoff = Window->WScreen->WBorLeft + 2;
-		prog_yoff = Window->WScreen->WBorTop + Window->WScreen->Font->ta_YSize + 2;
-		prog_xextra = prog_xoff + Window->WScreen->WBorRight - 2;
+		DoMethod(muiapp, OM_ADDMEMBER, win);
+		DoMethod(abort, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, ID_ABORT);
 	}
-	else
-	{
-		prog_xoff = 2;
-		prog_yoff = 1;
-		prog_xextra = 0;
-	}
-
-	progresswindow.Width = 384 + (scr_font[FONT_REQUEST]->tf_XSize * 8) + prog_xextra;
-
-	if(progresswindow.Width > Window->WScreen->Width)
-	{
-		font = scr_font[FONT_GENERAL];
-		progresswindow.Width = 432;
-		if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
-			progresswindow.Width += prog_xextra;
-	}
-	else
-		font = scr_font[FONT_REQUEST];
-
-	progresswindow.Height = (font->tf_YSize * 5) + 22;
-	if(flag)
-	{
-		progresswindow.Height += (font->tf_YSize * 2) + 8;
-		prog_yextra = (font->tf_YSize * 2) + 8;
-	}
-	else
-		prog_yextra = 0;
-
-	if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
-	{
-		progresswindow.Height += prog_yoff + Window->WScreen->WBorBottom - 1;
-		progresswindow.Flags |= WFLG_DRAGBAR | WFLG_DEPTHGADGET;
-		progresswindow.Title = title;
-	}
-	else
-	{
-		progresswindow.Flags |= WFLG_BORDERLESS;
-		progresswindow.Title = NULL;
-	}
-
-	centerwindow(&progresswindow);
-	if(!(pwindow = OpenWindow(&progresswindow)))
-		return;
-	prp = pwindow->RPort;
-	setupwindreq(pwindow);
-	SetFont(prp, font);
-
-	Do3DBox(prp, 26 + prog_xoff, 6 + prog_yoff, pwindow->Width - prog_xextra - 56, (font->tf_YSize * 4) + prog_yextra, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
-	SetAPen(prp, screen_pens[config->requestfg].pen);
-
-	abortopgad.LeftEdge = (pwindow->Width - abortopgad.Width) / 2;
-	abortopgad.Height = font->tf_YSize + 4;
-	abortopgad.TopEdge = pwindow->Height - pwindow->BorderBottom - 9 - font->tf_YSize;
-	AddGadgetBorders(&prog_key, &abortopgad, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
-	AddGadgets(pwindow, &abortopgad, gadtxt, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
-
-	SetAPen(prp, screen_pens[0].pen);
-	SetDrMd(prp, JAM2);
-	RectFill(prp, 26 + prog_xoff, 6 + prog_yoff, (prog_areax = prog_xoff + pwindow->Width - prog_xextra - 31), prog_yoff + (font->tf_YSize * 4) + prog_yextra + 5);
 
 	for(a = 0; a < 2; a++)
 	{
-		bar[a].last_w = 0;
 		bar[a].curr = value;
 		bar[a].max = total;
 		bar[a].incignore = incignore;
 		bar[a].hide = (a == 0) ? 0 : !flag;
-		bar[a].barX = (((pwindow->Width - 356) / 2) + 28) - font->tf_XSize;
-		bar[a].barY = font->tf_YSize + 3 + prog_yoff;
-		if(a == 0)
-			bar[a].barY += prog_yextra + 3;
-
-		if(!bar[a].hide)
-		{
-			Do3DBox(prp, bar[a].barX, bar[a].barY, 300, font->tf_YSize, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
-
-			bar[a].descY = bar[a].barY + font->tf_YSize + (font->tf_YSize / 2) + font->tf_Baseline;
-
-			SetAPen(prp, screen_pens[1].pen);
-			SetBPen(prp, screen_pens[0].pen);
-			Move(prp, bar[a].barX - (TextLength(prp, "0% ", 3)) - 4, bar[a].barY + font->tf_Baseline);
-			Text(prp, "0%", 2);
-			Move(prp, bar[a].barX + 302 + font->tf_XSize, bar[a].barY + font->tf_Baseline);
-			Text(prp, "100%", 4);
-
-			if(a == 0)
-				progresstext(bar[a].descY, value, total, NULL);
-			progressbar(&bar[a]);
-		}
 	}
+
+//	centerwindow(&progresswindow);
+	return win;
 }
 
-void progresstext(int y, int val, int total, STRPTR text)
+static void progresstext(int val, int total, CONST_STRPTR text)
 {
-	char buf[80], *ptr;
-	int x, y1, len;
+	static char buf[80], *ptr;
 
 	if(val == -1)
 		ptr = globstring[total ? STR_ABORTED : STR_COMPLETED];
 	else
 	{
 		if(text)
-			LStrnCpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
+			stccpy(buf, text, 80);
 		else
 			sprintf(buf, globstring[STR_REMAINING], val, total);
 		ptr = buf;
 	}
-	x = 26 + ((pwindow->Width - prog_xextra - 56 - TextLength(prp, ptr, (len = strlen(ptr)))) / 2) + prog_xoff;
-	y1 = y - prp->Font->tf_Baseline;
 
-	if(x > prog_xoff + 26)
-	{
-		SetAPen(prp, screen_pens[0].pen);
-		RectFill(prp, prog_xoff + 26, y1, x - 1, y1 + prp->Font->tf_YSize);
-	}
-
-	SetAPen(prp, screen_pens[1].pen);
-	Move(prp, x, y);
-	Text(prp, ptr, len);
-
-	if(prp->cp_x <= prog_areax)
-	{
-		SetAPen(prp, screen_pens[0].pen);
-		RectFill(prp, prp->cp_x, y1, prog_areax - 1, y1 + prp->Font->tf_YSize);
-	}
+	SetAttrs(mui_text, MUIA_Text_Contents, ptr, TAG_DONE);
 }
 
-void progressbar(struct ProgressBar *bar)
+static void progressbar(struct ProgressBar *bar)
 {
-	int w;
-	BOOL draw;
+	LONG max, curr;
 
 	if(bar->hide)
 		return;
-	if(bar->curr > 0)
-	{
-		float f = (float)(bar->curr) / (float)(bar->max);
 
-		if((w = (int)(300 * f)) > 300)
-			w = 300;
-		else if(w < 1)
-			w = 1;
-		draw = (w != bar->last_w);
-		SetAPen(prp, screen_pens[3].pen);
-	}
-	else
-	{
-		draw = TRUE;
-		w = 300;
-		SetAPen(prp, screen_pens[0].pen);
-	}
-	if(draw)
-	{
-		RectFill(prp, bar->barX, bar->barY, bar->barX + w - 1, bar->barY + prp->Font->tf_YSize - 1);
-		bar->last_w = w;
-	}
+	max = bar->max;
+	curr = bar->curr;
+
+	SetAttrs(mui_gauge, MUIA_Gauge_Max, max, MUIA_Gauge_Current, curr, TAG_DONE);
 }
 
-static char *Kstr = "K  ";
+static const char *Kstr = "K  ";
 
 void clocktask()
 {

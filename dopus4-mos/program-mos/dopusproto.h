@@ -480,8 +480,6 @@ void set_hotkey(CxObj *, USHORT, USHORT);
 void dummy_idcmp(struct MsgPort *, ULONG, USHORT, APTR, int, int);
 void clocktask(void);
 struct InputEvent *keyhandler(struct InputEvent *, APTR);
-void openprogresswindow(STRPTR, int, int, int);
-void progresstext(int, int, int, STRPTR);
 
 /* view.c */
 int viewfile(STRPTR, STRPTR, int, STRPTR, struct ViewData *, int, int);

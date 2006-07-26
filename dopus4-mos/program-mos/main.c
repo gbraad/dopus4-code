@@ -85,10 +85,7 @@ int main(int argc, char **argv)
 
 	if(argc >= 1)
 	{
-		if(IconBase)
-		{
-			user_appicon = GetDiskObject(argv[0]);
-		}
+		user_appicon = GetDiskObject(argv[0]);
 
 		for(a = 1; a < argc; a++)
 		{
@@ -208,17 +205,6 @@ int main(int argc, char **argv)
 			dos_notify_req[a]->nr_Name = dos_notify_names[a];
 	}
 
-	if(!CxBase)
-	{
-		if(!(input_req = (struct IOStdReq *)CreateIORequest(general_port, sizeof(struct IOStdReq))))
-			quit();
-		if((OpenDevice("input.device", 0, (struct IORequest *)input_req, 0)) != 0)
-		{
-			DeleteIORequest((struct IORequest *)input_req);
-			input_req = NULL;
-			quit();
-		}
-	}
 	ramdisk_lock = Lock("RAM:", ACCESS_READ);
 
 	strcpy(str_select_pattern[0], "#?"); //"*");
@@ -239,16 +225,13 @@ int main(int argc, char **argv)
 		{
 		case 2:
 			{
-				if(CxBase)
-				{
-					struct InputEvent ie;
+				struct InputEvent ie;
 
-					ie.ie_NextEvent = NULL;
-					ie.ie_Class = IECLASS_RAWKEY;
-					ie.ie_Code = config->hotkeycode;
-					ie.ie_Qualifier = config->hotkeyqual;
-					AddIEvents(&ie);
-				}
+				ie.ie_NextEvent = NULL;
+				ie.ie_Class = IECLASS_RAWKEY;
+				ie.ie_Code = config->hotkeycode;
+				ie.ie_Qualifier = config->hotkeyqual;
+				AddIEvents(&ie);
 			}
 		case 0:
 			quit();

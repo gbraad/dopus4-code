@@ -9,26 +9,38 @@ main10.o main11.o main12.o main13.o main14.o main15.o main16.o main17.o\
 main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
-init_libs.o
+init_libs.o mui.o
 
-CFLAGS = -Wall -O3 -I../include-os4 -Iusr:local/include -DUSE_INLINE_STDARG
+CFLAGS = -Wall -O3 -I../include-mos -Iusr:local/include
 LDFLAGS = -Llib
 FLEXCAT = flexcat
 
 APPNAME = DirectoryOpus
 
+ECHO = echo
+ECHE = echo -e
+BOLD = \033[1m
+NRML = \033[22m
+
+COMPILING = @$(ECHE) "compiling $(BOLD)$@$(NRML)..."
+LINKING = @$(ECHE) "linking $(BOLD)$@$(NRML)..."
+STRIPPING = @$(ECHE) "stripping $(BOLD)$@$(NRML)..."
+ARCHIVING = @$(ECHE) "archiving $(BOLD)$@$(NRML)..."
+
 all : $(APPNAME).debug
 
 $(APPNAME).debug : $(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS) -lpopupmenu
-	$(STRIP) --remove-section=.comment $@ -o $(APPNAME)
+	$(LINKING)
+	@$(CC) -o $@ $^ $(LDFLAGS) -lpopupmenu
+	$(STRIPPING)
+	@$(STRIP) --remove-section=.comment $@ -o $(APPNAME)
 	@chmod 744 $(APPNAME)
 
 strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
-	$(FLEXCAT) ../catalogs/DOpus4.cd strings.c=strings_c.sd
+	$(FLEXCAT) /catalogs/DOpus4.cd strings.c=strings_c.sd
 
 dopusstrings.h: ../catalogs/DOpus4.cd dopusstrings_h.sd
-	$(FLEXCAT) ../catalogs/DOpus4.cd dopusstrings.h=dopusstrings_h.sd
+	$(FLEXCAT) /catalogs/DOpus4.cd dopusstrings.h=dopusstrings_h.sd
 
 clean:
 	@rm -f *.o $(APPNAME) $(APPNAME).debug $(APPNAME).s
