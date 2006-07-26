@@ -1096,28 +1096,7 @@ int view_setupdisplay(struct ViewData *vdata)
 		LFreeRemember(&vdata->view_memory);
 		return -4;
 	}
-	else
-	{
-		#if 0
-		if(config->viewbits & VIEWBITS_INWINDOW)
-		{
-			struct DrawInfo *DRI;
 
-			DRI = GetScreenDrawInfo(vdata->view_window->WScreen);
-			viewiconifyimage = (struct Image *)NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
-			if(viewiconifyimage)
-			{
-				viewiconifygadget = (struct Gadget *)NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, viewiconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
-				if(viewiconifygadget)
-				{
-					AddGadget(vdata->view_window, viewiconifygadget, ~0);
-					RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
-				}
-			}
-			FreeScreenDrawInfo(vdata->view_window->WScreen, DRI);
-		}
-		#endif
-	}
 	vdata->view_screen = vdata->view_window->WScreen;
 	vdata->view_rastport = vdata->view_window->RPort;
 

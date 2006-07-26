@@ -34,11 +34,6 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "mui.h"
 
-long min(long a, long b)
-{
-	return (a < b ? a : b);
-}
-
 int LoadPic(CONST_STRPTR name)
 {
 	APTR app, win;

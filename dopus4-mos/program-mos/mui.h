@@ -2,6 +2,7 @@
 #define __MUI_H__
 
 APTR MakeButton(CONST_STRPTR str);
+APTR MakeLLabel(CONST_STRPTR str);
 
 #ifndef MUIA_Application_NoIconify
 #define MUIA_Application_NoIconify 0x80426a3b

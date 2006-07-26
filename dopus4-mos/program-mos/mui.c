@@ -10,3 +10,8 @@ APTR MakeButton(CONST_STRPTR str)
 
 	return obj;
 }
+
+APTR MakeLLabel(CONST_STRPTR str)
+{
+    return MUI_MakeObject(MUIO_Label, (IPTR)str, MUIO_Label_LeftAligned | MUIO_Label_DontCopy);
+}

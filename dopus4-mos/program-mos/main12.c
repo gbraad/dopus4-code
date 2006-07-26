@@ -28,10 +28,13 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include <dos/filehandler.h>
 #include <math.h>
+#include <dos/filehandler.h>
+#include <proto/alib.h>
+#include <proto/muimaster.h>
 
 #include "dopus.h"
+#include "mui.h"
 
 void setupchangestate(void)
 {
@@ -58,7 +61,7 @@ void setupchangestate(void)
 
 #define ITEM_NUM 11
 
-static short diskinfo_heads[] =
+static const short diskinfo_heads[] =
 {
 	STR_DISKINFO_DEVICE,
 	STR_DISKINFO_NAME,
@@ -76,24 +79,24 @@ static short diskinfo_heads[] =
 void dodiskinfo(STRPTR path)
 {
 	struct InfoData infodata;
-	struct RastPort *dirp;
 	long i;
 	UQUAD a;
-	int b, c, isd = -1, cx, cy, fail = 0, xoffset, yoffset, titwidth;
+	int b, c, isd = -1, cx, cy, fail = 0, titwidth;
 	static char disktxt[11][60], buf[256], formstr[80], diskname[256], dname[10], buf1[40];
 	float f;
 	struct DateStamp ds;
 	struct MsgPort *prt;
-	struct Gadget contgad;
-	char *gad_gads[2], *uscore, cont_key;
 	BPTR lock;
-	UBYTE old_change_state;
-	ULONG class;
-	USHORT code;
+//	UBYTE old_change_state;
 	struct DOpusRemember *key = NULL;
+	APTR app, win, cont, group;
+	ULONG ok;
+	LONG reqwin;
 
 	if(!path || !path[0])
 		return;
+
+	reqwin = config->generalscreenflags & SCR_GENERAL_REQDRAG;
 
 	cx = scr_font[FONT_REQUEST]->tf_XSize;
 	cy = scr_font[FONT_REQUEST]->tf_YSize;
@@ -104,7 +107,8 @@ void dodiskinfo(STRPTR path)
 		disktxt[i][1] = 0;
 	}
 	main_proc->pr_WindowPtr = (APTR) - 1;
-      getnewdisk:
+
+getnewdisk:
 	strcpy(diskname, path);
 	if(getroot(diskname, &ds))
 	{
@@ -284,79 +288,90 @@ void dodiskinfo(STRPTR path)
 			titwidth = c;
 	}
 
-	disk_win.Width = ((b + titwidth + 3) * cx) + 16;
-	disk_win.Height = (ITEM_NUM * (cy + 1)) + 19;
-	if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
-	{
-		disk_win.Flags = WFLG_RMBTRAP | WFLG_ACTIVATE | WFLG_DRAGBAR | WFLG_DEPTHGADGET;
-		xoffset = Window->WScreen->WBorLeft;
-		yoffset = Window->WScreen->WBorTop + Window->WScreen->Font->ta_YSize + 1;
-		disk_win.Width += xoffset + Window->WScreen->WBorRight;
-		disk_win.Height += yoffset + Window->WScreen->WBorBottom;
-		disk_win.Title = "DiskInfo";
-	}
-	else
-	{
-		disk_win.Flags = WFLG_BORDERLESS | WFLG_RMBTRAP | WFLG_ACTIVATE;
-		xoffset = 2;
-		yoffset = 1;
-		disk_win.Width += 4;
-		disk_win.Height += 2;
-		disk_win.Title = NULL;
-	}
-	centerwindow(&disk_win);
+	app = ApplicationObject,
+			MUIA_Application_NoIconify, TRUE,
+			MUIA_Application_UseRexx, FALSE,
+			SubWindow, win = WindowObject,
+				MUIA_Window_ShowAbout, FALSE,
+				MUIA_Window_ShowIconify, FALSE,
+				MUIA_Window_ShowJump, FALSE,
+				MUIA_Window_ShowPopup, FALSE,
+				MUIA_Window_ShowPrefs, FALSE,
+				MUIA_Window_ShowSnapshot, FALSE,
 
-	contgad.NextGadget = NULL;
-	contgad.Width = (strlen(globstring[STR_CONTINUE]) + 4) * cx;
-	contgad.Height = cy + 5;
-	contgad.LeftEdge = (disk_win.Width - contgad.Width) / 2;
-	contgad.TopEdge = disk_win.Height - cy - 10;
-	contgad.Flags = GFLG_GADGHCOMP;
-	contgad.Activation = GACT_RELVERIFY;
-	contgad.GadgetType = GTYP_BOOLGADGET;
-	contgad.GadgetRender = NULL;
-	contgad.SelectRender = NULL;
-	contgad.GadgetText = NULL;
-	contgad.MutualExclude = 0;
-	contgad.SpecialInfo = NULL;
-	contgad.GadgetID = 0;
+				reqwin ? MUIA_Window_Title : TAG_IGNORE, "DiskInfo",
+				!reqwin ? MUIA_Window_DragBar : TAG_IGNORE, FALSE,
+				!reqwin ? MUIA_Window_DepthGadget : TAG_IGNORE, FALSE,
 
-	gad_gads[0] = globstring[STR_CONTINUE] /*buf */ ;
-	gad_gads[1] = NULL;
+				WindowContents, VGroup,
+					Child, group = ColGroup(3), End,
+					Child, HCenter(cont = MakeButton(globstring[STR_CONTINUE])),
+				End,
+			End,
+		End;
 
-	if(!(fontwindow = OpenWindow(&disk_win)))
+	if (!app)
 		return;
 
-	dirp = fontwindow->RPort;
-	setupwindreq(fontwindow);
-	SetFont(dirp, scr_font[FONT_REQUEST]);
+//	centerwindow(&disk_win);
+
+	DoMethod(group, MUIM_Group_InitChange);
+
 	for(i = 0; i < ITEM_NUM; i++)
 	{
-		Move(dirp, xoffset + 8, yoffset + 5 + (i * cy) + scr_font[FONT_REQUEST]->tf_Baseline);
-		Text(dirp, globstring[diskinfo_heads[i]], strlen(globstring[diskinfo_heads[i]]));
-		Move(dirp, xoffset + 8 + (titwidth * cx), yoffset + 5 + (i * cy) + scr_font[FONT_REQUEST]->tf_Baseline);
-		Text(dirp, " : ", 3);
-		Text(dirp, disktxt[i], strlen(disktxt[i]));
-	}
-	AddGadgetBorders(&key, &contgad, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
-	AddGadgets(fontwindow, &contgad, gad_gads, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
-	i = 0;
+		APTR obj1, obj2, obj3;
 
-	if((uscore = strchr(globstring[STR_CONTINUE], '_')))
-		cont_key = uscore[1];
-	else
-		cont_key = globstring[STR_CONTINUE][0];
-	cont_key = tolower(cont_key);
+		obj1 = MakeLLabel(globstring[diskinfo_heads[i]]);
 
-	FOREVER
-	{
-		while((IMsg = (struct IntuiMessage *)GetMsg(fontwindow->UserPort)))
+		if (obj1)
 		{
-			class = IMsg->Class;
-			code = IMsg->Code;
-			ReplyMsg((struct Message *)IMsg);
-			switch (class)
+			obj2 = TextObject, MUIA_Text_Contents, ":", MUIA_Weight, 0, End;
+
+			if (obj2)
 			{
+				obj3 = TextObject, MUIA_Text_Contents, disktxt[i], End;
+
+				if (obj3)
+				{
+					DoMethod(group, OM_ADDMEMBER, obj1);
+					DoMethod(group, OM_ADDMEMBER, obj2);
+					DoMethod(group, OM_ADDMEMBER, obj3);
+					continue;
+				}
+
+				MUI_DisposeObject(obj2);
+			}
+
+			MUI_DisposeObject(obj1);
+		}
+	}
+
+	DoMethod(group, MUIM_Group_ExitChange);
+
+	DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+	DoMethod(cont, MUIM_Notify, MUIA_Pressed, FALSE, app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+	set(win, MUIA_Window_Open, TRUE);
+	GetAttr(MUIA_Window_Open, win, &ok);
+
+	if (ok)
+	{
+		ULONG sigs = 0;
+
+		i = 0;
+
+		for (;;)
+		{
+			ULONG ret = DoMethod(app, MUIM_Application_NewInput, &sigs);
+
+			if (ret == MUIV_Application_ReturnID_Quit)
+			{
+				break;
+			}
+
+			if (sigs)
+				sigs = Wait(sigs);
+
+			#if 0
 			case IDCMP_DISKREMOVED:
 				setupchangestate();
 				break;
@@ -372,21 +387,12 @@ void dodiskinfo(STRPTR path)
 					}
 				}
 				break;
-			case IDCMP_VANILLAKEY:
-				if(code != '\r' && tolower(code) != cont_key)
-					break;
-				SelectGadget(fontwindow, &contgad);
-			case IDCMP_GADGETUP:
-				i = 1;
-				break;
-			}
+			#endif
 		}
-		if(i)
-			break;
-		Wait(1 << fontwindow->UserPort->mp_SigBit);
 	}
-	CloseWindow(fontwindow);
-	fontwindow = NULL;
+
+	MUI_DisposeObject(app);
+
 	LFreeRemember(&key);
 	if(i == 2)
 		goto getnewdisk;
