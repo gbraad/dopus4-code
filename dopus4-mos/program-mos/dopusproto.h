@@ -426,7 +426,7 @@ void flushidcmp(void);
 int isinwindow(int, int);
 
 /* iffload.c */
-int LoadPic(char *);
+int LoadPic(CONST_STRPTR);
 int WaitForMouseClick(int, struct Window *);
 
 /* rexx.c */

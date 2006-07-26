@@ -239,12 +239,12 @@ void arbiter_process()
 struct Screen *open_subprocess_screen(char *title, struct TextFont *font, struct DOpusRemember **memkey, short *pens)
 {
 	struct ExtNewScreen newscreen;
-	struct TagItem *screentags;
+	struct TagItem screentags[4];
 	struct TextAttr *screenattr;
 	struct Screen *screen;
 	UWORD *screen_drawinfo;
 
-	if(!(screenattr = LAllocRemember(memkey, sizeof(struct TextAttr), MEMF_CLEAR)) || !(screentags = LAllocRemember(memkey, sizeof(struct TagItem) * 5, MEMF_CLEAR)) || !(screen_drawinfo = LAllocRemember(memkey, sizeof(scr_drawinfo), 0)))
+	if(!(screenattr = LAllocRemember(memkey, sizeof(struct TextAttr), MEMF_CLEAR)) || !(screen_drawinfo = LAllocRemember(memkey, sizeof(scr_drawinfo), 0)))
 		return (NULL);
 
 	CopyMem((char *)scr_drawinfo, (char *)screen_drawinfo, sizeof(scr_drawinfo));
@@ -261,26 +261,7 @@ struct Screen *open_subprocess_screen(char *title, struct TextFont *font, struct
 	screentags[1].ti_Data = (ULONG) screen_drawinfo;
 	screentags[2].ti_Tag = SA_AutoScroll;
 	screentags[2].ti_Data = TRUE;
-	screentags[3].ti_Tag = SA_Interleaved;
-	screentags[3].ti_Data = TRUE;
-	screentags[4].ti_Tag = TAG_END;
-	screentags[4].ti_Data = 0;
-
-	{
-		struct DimensionInfo dimbuf;
-		int width, height;
-
-		if((GetDisplayInfoData(NULL, (char *)&dimbuf, sizeof(struct DimensionInfo), DTAG_DIMS, screentags[0].ti_Data)))
-		{
-
-			width = (dimbuf.TxtOScan.MaxX - dimbuf.TxtOScan.MinX) + 1;
-			height = (dimbuf.TxtOScan.MaxY - dimbuf.TxtOScan.MinY) + 1;
-			if(newscreen.Width > width)
-				newscreen.Width = width;
-			if(newscreen.Height > height)
-				newscreen.Height = height;
-		}
-	}
+	screentags[3].ti_Tag = TAG_END;
 
 	screenattr->ta_Name = font->tf_Message.mn_Node.ln_Name;
 	screenattr->ta_YSize = font->tf_YSize;

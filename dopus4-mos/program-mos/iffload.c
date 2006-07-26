@@ -28,91 +28,79 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <proto/alib.h>
+#include <proto/muimaster.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 long min(long a, long b)
 {
 	return (a < b ? a : b);
 }
 
-int LoadPic(char *name)
+int LoadPic(CONST_STRPTR name)
 {
-	int retcode = 1;
-	APTR dto = NULL;
-	struct Screen *dtscreen = NULL;
+	APTR app, win;
 
-	if(MainScreen)
-	{
-		dtscreen = MainScreen;
-	}
-	else
-	{
-		dtscreen = LockPubScreen(NULL);
-	}
+	app = ApplicationObject,
+			MUIA_Application_NoIconify, TRUE,
+			MUIA_Application_UseRexx, FALSE,
+			SubWindow, win = WindowObject,
+				MUIA_Window_UseBottomBorderScroller, TRUE,
+				MUIA_Window_UseRightBorderScroller, TRUE,
+				MUIA_Window_ShowAbout, FALSE,
+				MUIA_Window_ShowIconify, FALSE,
+				MUIA_Window_ShowJump, FALSE,
+				MUIA_Window_ShowPopup, FALSE,
+				MUIA_Window_ShowPrefs, FALSE,
+				MUIA_Window_ShowSnapshot, FALSE,
+				MUIA_Window_Title, name,
 
-	if(dtscreen)
-	{
+				WindowContents, VGroup,
+					Child, ScrollgroupObject,
+						MUIA_Scrollgroup_UseWinBorder, TRUE,
+						MUIA_Scrollgroup_Contents, VirtgroupObject,
+							Child, MUI_NewObject(MUIC_Dtpic, MUIA_Dtpic_Name, name, TAG_DONE),
+						End,
+					End,
+				End,
+			End,
+		End;
 
-		if(DataTypesBase)
+	if (app)
+	{
+		ULONG ok;
+
+		dostatustext(name);
+
+		DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+		set(win, MUIA_Window_Open, TRUE);
+
+		GetAttr(MUIA_Window_Open, win, &ok);
+
+		if (ok)
 		{
-			if((dto = NewDTObject(name, DTA_GroupID, GID_PICTURE, PDTA_Remap, TRUE, PDTA_Screen, dtscreen, PDTA_DestMode,PMODE_V43, TAG_END)))
+			ULONG sigs = 0;
+
+			for (;;)
 			{
-				struct BitMapHeader *bmhd = NULL;
-				struct BitMap *bm = NULL;
-				LONG winw, winh, winx, winy;
-				struct Window *dtwin = NULL;
-				BOOL cont;
-				struct IntuiMessage *mess;
+				ULONG ret = DoMethod(app, MUIM_Application_NewInput, &sigs);
 
-				DoDTMethod(dto, NULL, NULL, DTM_PROCLAYOUT, NULL, TRUE);
-
-				GetDTAttrs(dto, PDTA_BitMapHeader, &bmhd, PDTA_DestBitMap, &bm, TAG_DONE);
-
-				winw = min(dtscreen->Width, bmhd->bmh_Width);
-				winh = min(dtscreen->Height, bmhd->bmh_Height);
-				winx = (dtscreen->Width - winw) >> 1;
-				winy = (dtscreen->Height - winh) >> 1;
-				
-				dostatustext(name);
-				
-				if((dtwin = OpenWindowTags(NULL, WA_CustomScreen, dtscreen, WA_Left, winx, WA_Top, winy, WA_InnerWidth, winw, WA_InnerHeight, winh, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END)))
+				if (ret == MUIV_Application_ReturnID_Quit)
 				{
-					BltBitMapRastPort(bm, 0, 0, dtwin->RPort, 0, 0, winw, winh, 0xC0);
-
-					cont = TRUE;
-					do
-					{
-						WaitPort(dtwin->UserPort);
-						while((mess = (struct IntuiMessage *)GetMsg(dtwin->UserPort)))
-						{
-							switch (mess->Class)
-							{
-							case IDCMP_MOUSEBUTTONS:
-								if(mess->Code == IECODE_LBUTTON)
-									cont = FALSE;
-								if(mess->Code == IECODE_RBUTTON)
-									cont = FALSE;
-								break;
-							case IDCMP_VANILLAKEY:
-								if(mess->Code == 0x1b)
-									cont = FALSE;
-								break;
-							}
-							ReplyMsg((struct Message *)mess);
-						}
-					}
-					while(cont);
-
-					CloseWindow(dtwin);
+					break;
 				}
-				DisposeDTObject(dto);
+
+				if (sigs)
+					sigs = Wait(sigs);
 			}
 		}
-		if(dtscreen != MainScreen)
-			UnlockPubScreen(NULL, dtscreen);
+
+		MUI_DisposeObject(app);
 	}
 
-	return (retcode);
+	return (1);
 }
 
 int WaitForMouseClick(int tits, struct Window *wind)
