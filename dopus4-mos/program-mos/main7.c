@@ -57,8 +57,6 @@ static struct AHIRequest *AHIio;
 static BYTE AHIDevice = -1;
 static struct AHIAudioCtrl *actrl;
 
-BOOL useAHI = FALSE;
-
 int showpic(STRPTR fullname, int np)
 {
 	int res, a;
@@ -404,7 +402,6 @@ int doplay8svxold(STRPTR fname, int loop)
 	else
 		stereo = 0;
 
-	if(useAHI)
 	{
 		if(OpenAHI())
 		{
@@ -451,46 +448,6 @@ int doplay8svxold(STRPTR fname, int loop)
 		}
 		else
 			CloseAHI();
-	}
-	if(actrl == NULL)
-	{
-		static UBYTE audiochannels[2][4] = { {8 + 1, 1, 8, 4}, {4 + 2, 2, 4, 8} };
-
-		for(a = 0; a < 2; a++)
-		{
-			if(!(audio_req1[a] = LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_req2[a] = LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_port[a] = CreateMsgPort()))
-				return (-2);
-		}
-
-		for(a = 0; a < 2; a++)
-		{
-			audio_req1[a]->ioa_Request.io_Message.mn_ReplyPort = audio_port[a];
-			audio_req1[a]->ioa_Request.io_Message.mn_Node.ln_Pri = 75;
-			audio_req1[a]->ioa_Data = audiochannels[a];
-			audio_req1[a]->ioa_Length = sizeof(audiochannels[a]);
-			if(OpenDevice("audio.device", 0, (struct IORequest *)audio_req1[a], 0))
-				return (-6);
-		}
-
-		playsize = (size < 25600) ? size : 25600;
-		for(a = 0; a < 2; a++)
-		{
-			if(!(playdata[a] = LAllocRemember(&audio_key, playsize, MEMF_ANY)))
-				return (-2);
-		}
-
-		for(a = 0; a < 2; a++)
-		{
-			audio_req1[a]->ioa_Request.io_Command = CMD_WRITE;
-			audio_req1[a]->ioa_Request.io_Flags = ADIOF_PERVOL;
-			audio_req1[a]->ioa_Volume = 64 * (a ? Unity - pan : pan) / Unity;
-			audio_req1[a]->ioa_Period = data_colorclock / (vhdr ? vhdr->vh_SamplesPerSec : 10000);
-			audio_req1[a]->ioa_Cycles = 1;
-			CopyMem((char *)audio_req1[a], (char *)audio_req2[a], sizeof(struct IOAudio));
-			audio_req1[a]->ioa_Data = (UBYTE *) playdata[a];
-			audio_req2[a]->ioa_Data = (UBYTE *) playdata[a] + playsize / 2;
-			audioptr[a] = audio_req2[a];
-		}
 	}
 
 	waitbits = 1 << Window->UserPort->mp_SigBit;
@@ -598,41 +555,11 @@ int doplay8svxold(STRPTR fname, int loop)
 
 void kill8svx()
 {
-	int a;
-
 	if(actrl)
 	{
 		AHI_ControlAudio(actrl, AHIC_Play, FALSE, TAG_DONE);
 		FreeSignal(AHIsignal);
 		CloseAHI();
-	}
-	else
-	{
-		for(a = 0; a < 2; a++)
-		{
-			if(audio_req2[a] && audio_req2[a]->ioa_Request.io_Device)
-			{
-				audio_req2[a]->ioa_Request.io_Command = CMD_FLUSH;
-				DoIO((struct IORequest *)audio_req2[a]);
-			}
-			if(audio_req1[a] && audio_req1[a]->ioa_Request.io_Device)
-			{
-				audio_req1[a]->ioa_Request.io_Command = CMD_FLUSH;
-				DoIO((struct IORequest *)audio_req1[a]);
-				CloseDevice((struct IORequest *)audio_req1[a]);
-			}
-			audio_req1[a] = NULL;
-			audio_req2[a] = NULL;
-		}
-		for(a = 0; a < 2; a++)
-		{
-			//if(audio_port[a])
-			{
-				//while(GetMsg(audio_port[a]));
-				DeleteMsgPort(audio_port[a]);
-				audio_port[a] = NULL;
-			}
-		}
 	}
 	if(audiodata && audio_size)
 		FreeVec(audiodata);
@@ -664,11 +591,8 @@ void dosound(int type)
 {
 	if(type)
 	{
-		struct IOAudio audio;
-		static UBYTE achannels[8] = { 1 + 2, 1 + 4, 2 + 8, 4 + 8, 1, 2, 4, 8 };
 		int a;
 
-		if(useAHI)
 		{
 			if(OpenAHI())
 			{
@@ -701,32 +625,7 @@ void dosound(int type)
 			else
 				CloseAHI();
 		}
-		audio.ioa_Request.io_Message.mn_ReplyPort = general_port;
-		audio.ioa_Request.io_Message.mn_Node.ln_Pri = 90;
-		audio.ioa_Data = achannels;
-		audio.ioa_Length = sizeof(achannels);
-		if(OpenDevice("audio.device", 0, (struct IORequest *)&audio, 0) == 0)
-		{
-			audio.ioa_Request.io_Command = CMD_WRITE;
-			audio.ioa_Request.io_Flags = ADIOF_PERVOL;
-			audio.ioa_Volume = 64;
-			audio.ioa_Data = (UBYTE *) beepwave;
-			audio.ioa_Length = 16;
-			audio.ioa_Cycles = 60;
-
-			for(a = 0; a < 11; a++)
-			{
-				audio.ioa_Period = (a % 2) ? 600 : 400;
-				BeginIO((struct IORequest *)&audio);
-				WaitIO((struct IORequest *)&audio);
-			}
-
-			CloseDevice((struct IORequest *)&audio);
-		}
-		else
-		{
-			dostatustext(globstring[STR_CANT_ALLOCATE_AUDIO]);
-		}
+		dostatustext(globstring[STR_CANT_ALLOCATE_AUDIO]);
 	}
 	else
 	{

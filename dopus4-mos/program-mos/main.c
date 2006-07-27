@@ -33,7 +33,6 @@ the existing commercial status of Directory Opus 5.
 #include <proto/alib.h>
 
 static BOOL staybehindWB;
-extern BOOL useAHI;
 
 void __chkabort(void) { }
 
@@ -128,8 +127,6 @@ int main(int argc, char **argv)
 				strcpy(str_config_basename, s);
 			if((FindToolType(toolarray, "CHECK")))
 				ck = 1;
-			if(FindToolType(toolarray, "USEAHI"))
-				useAHI = TRUE;
 			if(FindToolType(toolarray,"BEHINDWB"))
 				staybehindWB = TRUE;
 		}
