@@ -28,9 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
-
 #include <proto/alib.h>
+#include <proto/muimaster.h>
+
+#include "dopus.h"
+#include "mui.h"
 
 static BOOL staybehindWB;
 
@@ -54,14 +56,16 @@ int main(int argc, char **argv)
 		return 20;
 	}
 
-	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	DOpusBase = OpenLibrary("dopus.library", DOPUSLIB_VERSION);
 
 	if(!DOpusBase)
 	{
 		PutStr("Can't Open dopus.library\n");
-		return 5;
+		return 20;
 	}
+
+	if (!init_classes())
+		return 20;
 
 	/* status_flags contains various flags; initialise it to 0 to start with */
 
@@ -190,11 +194,8 @@ int main(int argc, char **argv)
 
 	rexx_signalbit = 1 << arexx_port->mp_SigBit;
 
-	if(WorkbenchBase)
-	{
-		if(!(appmsg_port = CreateMsgPort()))
-			quit();
-	}
+	if(!(appmsg_port = CreateMsgPort()))
+		quit();
 
 	for(a = 0; a < 2; a++)
 	{
@@ -295,7 +296,6 @@ int main(int argc, char **argv)
 	if(iconstart)
 	{
 		status_configuring = 0;
-		iconify(sup + 1, iconstart - 1, 0);
 	}
 	else if(!sup)
 		SetUp(1);
@@ -317,10 +317,9 @@ int main(int argc, char **argv)
 
 int SetUp(int tit)
 {
+	STATIC CONST CONST_STRPTR classlist[] = { NULL };
 	int y, a, b, c, count = 0, lim = 48, num, other_offset;
-	struct Screen scrbuf, *pubscr = NULL;
-	struct DimensionInfo dims;
-	DisplayInfoHandle *handle;
+	struct Screen scrbuf;
 	struct dopusgadgetbanks *bank;
 	struct RastPort testrastport;
 
@@ -335,59 +334,17 @@ int SetUp(int tit)
 	main_scr.ViewModes = 0; //HIRES;
 	config->screenmode = checkscreenmode(config->screenmode);
 
-	main_win.Flags = WFLG_NW_EXTENDED | WFLG_NEWLOOKMENUS;
+	main_win.Flags = WFLG_NW_EXTENDED;
 	mainwindow_tags[0].ti_Tag = TAG_SKIP;
 
-	if(config->screenmode == MODE_PUBLICSCREEN && (pubscr = LockPubScreen(config->pubscreen_name)))
-	{
-		CopyMem((char *)pubscr, (char *)&scrbuf, sizeof(struct Screen));
-	}
-	else
-	{
-		GetWBScreen(&scrbuf);
-		if(config->screenmode == MODE_PUBLICSCREEN)
-			config->screenmode = MODE_WORKBENCHUSE;
-	}
+	GetWBScreen(&scrbuf);
+	config->screenmode = MODE_WORKBENCHUSE;
 
 	setup_draw_info();
 
-	if(config->screenmode == MODE_WORKBENCHUSE || config->screenmode == MODE_PUBLICSCREEN)
-	{
-		status_publicscreen = 1;
-	}
-	else
-	{
-		status_publicscreen = 0;
-		if(config->screenmode == MODE_WORKBENCHCLONE)
-		{
-			mainscreen_tags[SCREENTAGS_DISPLAYID].ti_Data = clone_screen(NULL, &main_scr);
-		}
-		else
-		{
-			if((handle = FindDisplayInfo(config->screenmode)) && (GetDisplayInfoData(handle, (UBYTE *)&dims, sizeof(struct DimensionInfo), DTAG_DIMS, 0)))
-			{
-				mainscreen_tags[SCREENTAGS_DISPLAYID].ti_Data = (ULONG) config->screenmode;
-				if(config->screenflags & SCRFLAGS_DEFWIDTH)
-					main_scr.Width = (dims.TxtOScan.MaxX - dims.TxtOScan.MinX) + 1;
-				else
-					main_scr.Width = config->scrw;
-				if(config->screenflags & SCRFLAGS_DEFHEIGHT)
-					main_scr.Height = (dims.TxtOScan.MaxY - dims.TxtOScan.MinY) + 1;
-				else
-					main_scr.Height = config->scrh;
-			}
-			else
-			{
-				main_scr.Width = scrbuf.Width;
-				main_scr.Height = scrbuf.Height;
-				main_scr.ViewModes = scrbuf.ViewPort.Modes;
-			}
-		}
-	}
+	status_publicscreen = 1;
 
-	if(config->scrdepth < 2)
-		config->scrdepth = 2;
-	main_scr.Depth = config->scrdepth;
+	main_scr.Depth = 32;
 
 	if(config->gadgetrows < 0 || config->gadgetrows > 6)
 		config->gadgetrows = 6;
@@ -395,7 +352,7 @@ int SetUp(int tit)
 	if(data_gadgetrow_offset + scr_gadget_rows > 6)
 		data_gadgetrow_offset = 0;
 
-      tryfonts:
+tryfonts:
 	if(count == 5)
 	{
 		status_iconified = 1;
@@ -452,61 +409,7 @@ int SetUp(int tit)
 
 	if(tit > -1)
 	{
-		if(config->screenmode == MODE_WORKBENCHUSE)
-		{
-			main_win.Type = WBENCHSCREEN;
-		}
-		else if(pubscr)
-		{
-			main_win.Type = PUBLICSCREEN;
-			mainwindow_tags[0].ti_Tag = WA_PubScreen;
-			mainwindow_tags[0].ti_Data = (IPTR)pubscr;
-		}
-		else
-		{
-			main_win.Type = CUSTOMSCREEN;
-
-			main_scr.LeftEdge = 0;
-			main_scr.TopEdge = 0;
-			if(config->screenflags & SCRFLAGS_HALFHEIGHT)
-			{
-				if(main_scr.Height < 400)
-					config->screenflags &= ~SCRFLAGS_HALFHEIGHT;
-				else
-				{
-					main_scr.Height /= 2;
-					main_scr.TopEdge = main_scr.Height;
-				}
-			}
-
-			if(!MainScreen)
-			{
-				if(!(MainScreen = (struct Screen *)OpenScreen((struct NewScreen *)&main_scr)))
-				{
-					status_iconified = 1;
-					simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
-					status_iconified = 0;
-					if(config->screenmode == HIRES_KEY && config->scrw == 640 && config->scrh == 200 + (scrdata_is_pal * 56) && config->screenflags == 0 && config->scrdepth == 2)
-						quit();
-					config->screenmode = HIRES_KEY;
-					config->scrw = 640;
-					config->scrh = 200 + (scrdata_is_pal * 56);
-					config->scrdepth = 2;
-					config->screenflags = 0;
-					if(pubscr)
-					{
-						UnlockPubScreen(NULL, pubscr);
-					}
-					return (SetUp(tit));
-				}
-				load_palette(MainScreen, config->new_palette);
-
-				main_win.Screen = MainScreen;
-
-				PubScreenStatus(MainScreen, 0);
-				CopyMem((char *)MainScreen, (char *)&scrbuf, sizeof(struct Screen));
-			}
-		}
+		main_win.Type = WBENCHSCREEN;
 	}
 
 	if(config->generalscreenflags & SCR_GENERAL_WINBORDERS && MainScreen)
@@ -866,12 +769,73 @@ int SetUp(int tit)
 			main_win.Flags |= WFLG_ACTIVATE | WFLG_RMBTRAP | WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET;
 			main_win.Title = str_arexx_portname;
 		}
-		else
+
+		dopusapp = NewObject(CL_App->mcc_Class, NULL,
+				MUIA_Application_Version, "Directory Opus 4",
+				MUIA_Application_Copyright, "Something",
+				MUIA_Application_Author, "Jonathan Potter",
+				MUIA_Application_Base, "DOPUS",
+				MUIA_Application_UsedClasses, classlist,
+				MUIA_Application_Title, "Directory Opus 4",
+				MUIA_Application_Description, "File manager",
+				SubWindow, dopuswin = WindowObject,
+					MUIA_Window_Title, "Directory Opus 4",
+					MUIA_Window_ID, MAKE_ID('M','A','I','N'),
+					WindowContents, VGroup, MUIA_Group_Spacing, 0,
+						Child, dopusstatus = TextObject, TextFrame, MUIA_Background, MUII_TextBack, MUIA_Text_PreParse, "\033c", End,
+						Child, ColGroup(2),
+							Child, VGroup, MUIA_Group_Spacing, 0,
+								Child, MakeText(),
+								Child, ListObject, End,
+								Child, MakeString(512),
+							End,
+
+							Child, VGroup, MUIA_Group_Spacing, 0,
+								Child, MakeText(),
+								Child, ListObject, End,
+								Child, MakeString(512),
+							End,
+						End,
+
+						Child, dopusgads = VGroup, MUIA_Group_Spacing, 0, End,
+						Child, MakeText(),
+					End,
+				End,
+			End;
+
+		if (dopusapp)
 		{
-			main_win.LeftEdge = 0;
-			main_win.TopEdge = 0;
-			main_win.Flags |= WFLG_ACTIVATE | WFLG_BACKDROP | WFLG_RMBTRAP | WFLG_BORDERLESS;
-			main_win.Title = NULL;
+			if (scr_gadget_rows > 0)
+			{
+				LONG i;
+
+				DoMethod(dopusgads, MUIM_Group_InitChange);
+
+				for (i = 0; i < scr_gadget_rows; i++)
+				{
+					APTR obj;
+
+					obj = HGroup, MUIA_Group_Spacing, 0,
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+						Child, MakeButton(NULL),
+					End;
+
+					if (obj)
+					{
+						DoMethod(dopusgads, OM_ADDMEMBER, obj);
+					}
+				}
+
+				DoMethod(dopusgads, MUIM_Group_ExitChange);
+			}
+
+			SetAttrs(dopuswin, MUIA_Window_Open, TRUE, TAG_DONE);
 		}
 
 		if(!Window)
@@ -880,36 +844,13 @@ int SetUp(int tit)
 
 			if(!(Window = OpenWindow((struct NewWindow *)&main_win)))
 			{
-				if(MainScreen)
-					ScreenToFront(MainScreen);
 				simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
-				if(config->screenmode == HIRES_KEY && config->scr_winw == 640 && config->scr_winh == 200 + (scrdata_is_pal * 56) && config->scrdepth == 2 && config->screenflags == 0)
-					quit();
-				config->screenmode = HIRES_KEY;
-				config->scr_winw = 640;
-				config->scr_winh = 200 + (scrdata_is_pal * 56);
-				config->scrdepth = 2;
-				config->screenflags = 0;
-				if(MainScreen)
-					CloseScreen(MainScreen);
-				MainScreen = NULL;
-				if(pubscr)
-					UnlockPubScreen(NULL, pubscr);
-				return (SetUp(tit));
+				quit();
 			}
 
 			main_win.Width = Window->Width;
 			main_win.Height = Window->Height;
-			if(pubscr)
-				ScreenToFront(pubscr);
 			get_colour_table();
-		}
-		else
-		{
-			RefreshWindowFrame(Window);
-			RefreshGadgets(iconifygadget, Window, NULL);
-			SetAPen(main_rp, 0);
-			rectfill(main_rp, scrdata_xoffset, scrdata_yoffset, scrdata_width, scrdata_height);
 		}
 
 		main_rp = Window->RPort;
@@ -937,7 +878,7 @@ int SetUp(int tit)
 
 		if(status_publicscreen)
 		{
-			if(WorkbenchBase && !dopus_appwindow)
+			if(!dopus_appwindow)
 				dopus_appwindow = AddAppWindowA(APPWINID, 0, Window, appmsg_port, NULL);
 
 			SetWindowTitles(Window, (char *)-1, str_arexx_portname);
@@ -1040,8 +981,6 @@ int SetUp(int tit)
 		scrdata_status_xpos = 2 + scrdata_xoffset;
 		scrdata_status_ypos = 1 + scrdata_yoffset;
 
-		if(MainScreen && !staybehindWB)
-			ScreenToFront(MainScreen);
 		main_proc->pr_WindowPtr = (config->errorflags & ERROR_ENABLE_DOS) ? Window : (APTR) - 1L;
 
 		layout_menus();
@@ -1063,8 +1002,6 @@ int SetUp(int tit)
 	}
 	status_configuring = 0;
 
-	if(pubscr)
-		UnlockPubScreen(NULL, pubscr);
 	return (1);
 }
 
@@ -1183,7 +1120,7 @@ struct TextFont *getfont(STRPTR font, int *size, int noprop)
 	if((tf = OpenFont(&sfont)) && tf->tf_YSize == sfont.ta_YSize && (!(tf->tf_Flags & FPF_PROPORTIONAL) || !noprop))
 		return (tf);
 
-	if(!DiskfontBase || !(tf = OpenDiskFont(&sfont)))
+	if(!(tf = OpenDiskFont(&sfont)))
 	{
 		if((tf = OpenFont(&sfont)))
 			*size = tf->tf_YSize;

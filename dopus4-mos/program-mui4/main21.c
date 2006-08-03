@@ -645,7 +645,7 @@ void fixgadgetprop()
 		}
 		if(!a)
 		{
-			FixSliderPot(Window, (status_iconified && status_flags & STATUS_ISINBUTTONS) ? &iconbutpropgad : &gadget_propgad, (num * (6 / scr_gadget_rows)) + (data_gadgetrow_offset / scr_gadget_rows), (bankcount * 6) / scr_gadget_rows, 1, 1);
+			FixSliderPot(Window, &gadget_propgad, (num * (6 / scr_gadget_rows)) + (data_gadgetrow_offset / scr_gadget_rows), (bankcount * 6) / scr_gadget_rows, 1, 1);
 		}
 	}
 }

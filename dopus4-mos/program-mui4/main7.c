@@ -59,12 +59,13 @@ static struct AHIAudioCtrl *actrl;
 
 int showpic(STRPTR fullname, int np)
 {
-	int res, a;
+	int res;
 	char buf[256];
 
 	if(checkexec(fullname) && checkisfont(fullname, buf))
 		return ((showfont(buf, atoi(FilePart(fullname)), np)));
 
+	#if 0
 	a = strlen(fullname);
 	if(a > 5 && strcmp(&fullname[a - 5], ".info") == 0)
 	{
@@ -82,6 +83,7 @@ int showpic(STRPTR fullname, int np)
 		}
 		return (res);
 	}
+	#endif
 
 	if(!(res = LoadPic(fullname)))
 		doerror(-1);
@@ -105,7 +107,7 @@ int showpic(STRPTR fullname, int np)
 int checkisfont(STRPTR pathname, STRPTR fontname)
 {
 	int a;
-	char fontsize[36], fontpath[256], *ptr;
+	char fontsize[108], fontpath[256], *ptr;
 
 	strcpy(fontpath, pathname);
 	if((ptr = FilePart(fontpath)))
@@ -131,90 +133,6 @@ int checkisfont(STRPTR pathname, STRPTR fontname)
 		}
 	}
 	return (0);
-}
-
-int readicon(STRPTR name, int np)
-{
-	struct DiskObject *dobj;
-	struct Gadget *gad;
-	struct Image *icon_image[2];
-	UWORD coltab[256];
-	int fred, ret, width, height, x, y, x1, y1, imagenum, depth;
-
-	if(!IconBase)
-		return (0);
-
-	name[(strlen(name) - 5)] = 0;
-	dobj = GetIconTags(name, ICONGETA_Screen, NULL, ICONGETA_GenerateImageMasks, FALSE, TAG_END);
-
-	if(dobj == NULL)
-		return (-2);
-
-	gad = &(dobj->do_Gadget);
-
-	icon_image[0] = (struct Image *)1;
-	depth = 8;
-
-	if(!icon_image[0] || !(setupfontdisplay(depth, coltab)))
-	{
-		FreeDiskObject(dobj);
-		return (-3);
-	}
-
-	LoadRGB4(&fontscreen->ViewPort, coltab, 256);
-	LayoutIconA(dobj, fontscreen, NULL);
-	LoadRGB4(&fontscreen->ViewPort, nullpalette, 256);
-	icon_image[0] = (struct Image *)(gad->GadgetRender);
-
-	if(gad->Flags & GFLG_GADGHIMAGE)
-		icon_image[1] = (struct Image *)gad->SelectRender;
-	else
-		icon_image[1] = icon_image[0];
-
-	for(x = 0; x < 2; x++)
-		icon_image[x]->NextImage = NULL;
-
-	imagenum = 0;
-
-	ScreenToFront(fontscreen);
-	ActivateWindow(fontwindow);
-
-	width = fontscreen->Width;
-	height = fontscreen->Height;
-
-	DrawImage(fontwindow->RPort, icon_image[0], ((width - icon_image[0]->Width) / 2), ((height - icon_image[0]->Height) / 2));
-
-	FadeRGB4(fontscreen, coltab, (1 << depth), 1, config->fadetime);
-	show_global_icon = dobj;
-	show_global_icon_name = FilePart(name);
-
-	FOREVER
-	{
-		if((fred = WaitForMouseClick(2, fontwindow)) == -2)
-		{
-			imagenum = 1 - imagenum;
-			x = (width - icon_image[imagenum]->Width) / 2;
-			y = (height - icon_image[imagenum]->Height) / 2;
-			x1 = x + icon_image[imagenum]->Width;
-			y1 = y + icon_image[imagenum]->Height;
-			DrawImage(fontwindow->RPort, icon_image[imagenum], x, y);
-			drawrecaround(fontwindow->RPort, x, y, x1, y1, width, height);
-		}
-		else
-		{
-			if(fred == 0 || fred == -3)
-				ret = TRUE;
-			else
-				ret = -1;
-			break;
-		}
-	}
-	show_global_icon = NULL;
-	if(fred != -3)
-		FadeRGB4(fontscreen, coltab, (1 << depth), -1, config->fadetime);
-	FreeDiskObject(dobj);
-	cleanup_fontdisplay();
-	return (ret);
 }
 
 void drawrecaround(struct RastPort *r, int x, int y, int x1, int y1, int width, int height)

@@ -28,8 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
+#define USE_INLINE_STDARG
+
 #include <proto/xadmaster.h>
+
+#include "dopus.h"
 
 #define EXALL_NUM 2
 

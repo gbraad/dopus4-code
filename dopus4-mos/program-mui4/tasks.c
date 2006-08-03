@@ -590,6 +590,19 @@ static void progressbar(struct ProgressBar *bar)
 
 static const char *Kstr = "K  ";
 
+static int getmaxmem(ULONG type)
+{
+	ULONG size = 0;
+	int a;
+
+	size = AvailMem(type | MEMF_TOTAL);
+	size = (size + 1023) / 1024;
+	for(a = 1;; a++)
+		if(!(size /= 10))
+			break;
+	return (a);
+}
+
 void clocktask()
 {
 	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, /*len,*/ ct, chipnum, fastnum, a, active = 1, usage;

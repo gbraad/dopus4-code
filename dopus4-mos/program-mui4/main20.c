@@ -28,11 +28,13 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
-
 #include <proto/alib.h>
 #include <proto/locale.h>
+#include <proto/muimaster.h>
 #include <proto/popupmenu.h>
+
+#include "dopus.h"
+#include "mui.h"
 
 void quit()
 {
@@ -102,6 +104,10 @@ void quit()
 
 	if(sortmenu)
 		PM_FreePopupMenu(sortmenu);
+
+	MUI_DisposeObject(dopusapp);
+
+	delete_classes();
 
 	CloseLocale(locale);
 	CloseLibrary(DOpusBase);
@@ -217,11 +223,6 @@ void dotaskmsg(struct MsgPort *port, int command, int value, int total, STRPTR d
 
 void closedisplay()
 {
-	if(status_iconified)
-	{
-		cleanupiconify();
-	}
-	else
 	{
 		if(MainScreen)
 			ScreenToBack(MainScreen);

@@ -3,6 +3,11 @@
 
 APTR MakeButton(CONST_STRPTR str);
 APTR MakeLLabel(CONST_STRPTR str);
+APTR MakeText(void);
+APTR MakeString(ULONG maxlen);
+
+ULONG init_classes(void);
+VOID delete_classes(void);
 
 #ifndef MUIA_Application_NoIconify
 #define MUIA_Application_NoIconify 0x80426a3b
@@ -25,5 +30,19 @@ APTR MakeLLabel(CONST_STRPTR str);
 #ifndef MUIA_Window_ShowPopup
 #define MUIA_Window_ShowPopup 0x8042324e
 #endif
+
+#define ITIX_BASE (0xfece0000)
+
+enum
+{
+	MM_Application_DeleteWindow = ITIX_BASE,
+};
+
+struct MUIP_Application_DeleteWindow { ULONG MethodID; APTR window; };
+
+
+extern struct MUI_CustomClass *CL_App;
+extern APTR dopusapp, dopuswin;
+extern APTR dopusgads, dopusstatus;
 
 #endif /* __MUI_H__ */

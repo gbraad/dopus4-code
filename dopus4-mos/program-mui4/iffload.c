@@ -36,63 +36,41 @@ the existing commercial status of Directory Opus 5.
 
 int LoadPic(CONST_STRPTR name)
 {
-	APTR app, win;
+	APTR win;
 
-	app = ApplicationObject,
-			MUIA_Application_NoIconify, TRUE,
-			MUIA_Application_UseRexx, FALSE,
-			SubWindow, win = WindowObject,
-				MUIA_Window_UseBottomBorderScroller, TRUE,
-				MUIA_Window_UseRightBorderScroller, TRUE,
-				MUIA_Window_ShowAbout, FALSE,
-				MUIA_Window_ShowIconify, FALSE,
-				MUIA_Window_ShowJump, FALSE,
-				MUIA_Window_ShowPopup, FALSE,
-				MUIA_Window_ShowPrefs, FALSE,
-				MUIA_Window_ShowSnapshot, FALSE,
-				MUIA_Window_Title, name,
+	win = WindowObject,
+			MUIA_Window_UseBottomBorderScroller, TRUE,
+			MUIA_Window_UseRightBorderScroller, TRUE,
+			MUIA_Window_Title, name,
 
-				WindowContents, VGroup,
-					Child, ScrollgroupObject,
-						MUIA_Scrollgroup_UseWinBorder, TRUE,
-						MUIA_Scrollgroup_Contents, VirtgroupObject,
-							Child, MUI_NewObject(MUIC_Dtpic, MUIA_Dtpic_Name, name, TAG_DONE),
-						End,
+			WindowContents, VGroup,
+				Child, ScrollgroupObject,
+					MUIA_Scrollgroup_UseWinBorder, TRUE,
+					MUIA_Scrollgroup_Contents, VirtgroupObject,
+						Child, MUI_NewObject(MUIC_Dtpic, MUIA_Dtpic_Name, name, TAG_DONE),
 					End,
 				End,
 			End,
 		End;
 
-	if (app)
+	if (win)
 	{
 		ULONG ok;
 
+		DoMethod(dopusapp, OM_ADDMEMBER, win);
+
 		dostatustext(name);
 
-		DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+		DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Application, 5, MUIM_Application_PushMethod, dopusapp, 2, MM_Application_DeleteWindow, win);
 		set(win, MUIA_Window_Open, TRUE);
 
 		GetAttr(MUIA_Window_Open, win, &ok);
 
-		if (ok)
+		if (!ok)
 		{
-			ULONG sigs = 0;
-
-			for (;;)
-			{
-				ULONG ret = DoMethod(app, MUIM_Application_NewInput, &sigs);
-
-				if (ret == MUIV_Application_ReturnID_Quit)
-				{
-					break;
-				}
-
-				if (sigs)
-					sigs = Wait(sigs);
-			}
+			DoMethod(dopusapp, OM_REMMEMBER, win);
+			MUI_DisposeObject(win);
 		}
-
-		MUI_DisposeObject(app);
 	}
 
 	return (1);

@@ -29,7 +29,11 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include <devices/rawkeycodes.h>
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 void doidcmp()
 {
@@ -43,12 +47,27 @@ void doidcmp()
 	struct Gadget *gad = NULL;
 	struct MenuItem *item;
 
+	wmes = 0;
+
 	for(;;)
 	{
+		for (;;)
+		{
+			ULONG ret = DoMethod(dopusapp, MUIM_Application_NewInput, &wmes);
+
+			if (ret == MUIV_Application_ReturnID_Quit)
+			{
+				break;
+			}
+
+			if (wmes)
+				break;
+		}
+
 		waitbits = 1 << Window->UserPort->mp_SigBit | 1 << count_port->mp_SigBit | rexx_signalbit | INPUTSIG_HOTKEY;
-		if(WorkbenchBase && dopus_appwindow)
+		if (dopus_appwindow)
 			waitbits |= 1 << appmsg_port->mp_SigBit;
-		if((wmes = Wait(waitbits)) & INPUTSIG_HOTKEY)
+		if((wmes = Wait(waitbits | wmes)) & INPUTSIG_HOTKEY)
 		{
 			if(dopus_globalhotkey == (struct dopushotkey *)-1)
 			{
@@ -86,7 +105,7 @@ void doidcmp()
 		}
 			
 /// "AppMessage"
-		if(WorkbenchBase && dopus_appwindow && (wmes & (1 << appmsg_port->mp_SigBit)))
+		if(dopus_appwindow && (wmes & (1 << appmsg_port->mp_SigBit)))
 		{
 			ActivateWindow(Window);
 			while((apmsg = (struct AppMessage *)GetMsg(appmsg_port)))

@@ -1617,8 +1617,6 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 	{
 		if(Window && !status_iconified && !(status_flags & STATUS_FROMHOTKEY))
 			okay();
-		if(flags & FLAG_ICONIFY && checkwindowquit())
-			iconify(2, 0, 0);
 		else
 			startnotifies();
 	}

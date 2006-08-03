@@ -84,13 +84,17 @@ struct ExtNewScreen main_scr =
 	(STRPTR) str_arexx_portname,
 	NULL, NULL,
 	mainscreen_tags
-}, font_scr =
+}
+#if 0
+, font_scr =
 {
 	0, 0, 640, 0, 1, 0, 1,	/* Font screen */
 	HIRES, CUSTOMSCREEN | SCREENBEHIND | SCREENQUIET | NS_EXTENDED,
 	NULL, NULL, NULL, NULL,
 	stdscreen_tags
-}, blank_scr =
+}
+#endif
+, blank_scr =
 {	/* Blank screen */
 	0, 0, 320, STDSCREENHEIGHT, 1, 0, 1, 0, CUSTOMSCREEN | SCREENQUIET, NULL, NULL, NULL, NULL, NULL
 };
@@ -106,6 +110,7 @@ struct ExtNewWindow main_win =
 	mainwindow_tags
 };
 
+#if 0
 struct NewWindow font_win =
 {	/* Font window */
 	0, 0, 640, 200, 255, 255,
@@ -120,6 +125,7 @@ struct NewWindow font_win =
 	0, 0, 0, 0,
 	CUSTOMSCREEN
 };
+#endif
 
 struct AppWindow *dopus_appwindow = NULL;	/* AppWindow when on Workbench screen */
 

@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/intuition.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 int doerror(int err)
 {
@@ -56,62 +60,12 @@ void geterrorstring(char *buf, int err)
 	strcat(buf, buf2);
 }
 
-void dostatustext(char *text)
+void dostatustext(CONST_STRPTR text)
 {
-	int x, len, l;
-	struct RastPort *r;
-
-	if(status_iconified)
-	{
-		if(status_flags & STATUS_ISINBUTTONS)
-			iconstatustext(text, 1);
-		return;
-	}
 	if(status_flags & STATUS_FROMHOTKEY)
 		return;
-	strcpy(str_last_statustext, text);
-	if(scrdata_status_height > 0)
-	{
-		r = main_rp;
-		SetDrawModes(r, config->statusfg, config->statusbg, JAM2);
-		SetFont(r, scr_font[FONT_STATUS]);
-		len = 0;
-		l = dotextlength(r, text, &len, scrdata_status_width - 4);
-		switch (scrdata_statustext_pos)
-		{
-		case TOPTEXT_CENTER:
-			x = ((scrdata_status_width - l) / 2) + scrdata_status_xpos;
-			break;
-		case TOPTEXT_RIGHT:
-			x = (scrdata_status_width - l) + scrdata_status_xpos;
-			break;
-		default /*case TOPTEXT_LEFT */ :
-			x = scrdata_status_xpos + 2;
-			break;
-		}
-		if(x < scrdata_status_xpos)
-			x = scrdata_status_xpos;
-		Move(r, x, scr_font[FONT_STATUS]->tf_Baseline + 2 + scrdata_yoffset);
-		Text(r, text, len);
-		SetFont(r, scr_font[FONT_GENERAL]);
-		SetAPen(r, screen_pens[config->statusbg].pen);
-		if(x > scrdata_status_xpos)
-			RectFill(r, scrdata_status_xpos, scrdata_status_ypos + 1, x - 1, scrdata_yoffset + scrdata_status_height - 2);
-		if(x + l < scrdata_status_xpos + scrdata_status_width)
-			RectFill(r, x + l, scrdata_status_ypos + 1, scrdata_status_xpos + scrdata_status_width - 1, scrdata_yoffset + scrdata_status_height - 2);
-	}
-	else
-	{
-		if(status_publicscreen)
-			SetWindowTitles(Window, str_last_statustext, (char *)-1);
-		else
-		{
-			SetWindowTitles(Window, (char *)-1, str_last_statustext);
-			if(IntuitionBase->ActiveScreen == MainScreen && IntuitionBase->ActiveWindow != Window)
-				SetWindowTitles(IntuitionBase->ActiveWindow, (char *)-1, str_last_statustext);
-			MainScreen->DefaultTitle = str_last_statustext;
-		}
-	}
+
+	set(dopusstatus, MUIA_Text_Contents, text);
 }
 
 void okay()

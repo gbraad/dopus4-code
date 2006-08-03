@@ -196,7 +196,6 @@ void change_port_name(STRPTR);
 
 /* main7.c */
 int showpic(STRPTR, int);
-int readicon(STRPTR, int);
 void drawrecaround(struct RastPort *, int, int, int, int, int, int);
 int doplay8svx(STRPTR, int);
 int doplay8svxold(STRPTR, int);
@@ -295,8 +294,6 @@ void dragcompgad(int, int);
 
 /* main16.c */
 int showfont(STRPTR, int, int);
-int setupfontdisplay(int, UWORD *);
-void cleanup_fontdisplay(void);
 void readhelp(STRPTR);
 void doreadhelp(STRPTR);
 void dohelp(STRPTR, STRPTR, int, int, STRPTR);
@@ -327,14 +324,14 @@ void doreselect(struct DirWindowPars *, int);
 void shutthingsdown(int);
 void setupwindreq(struct Window *);
 void hilite_req_gadget(struct Window *, USHORT);
-int simplerequest(STRPTR, ...);
+int simplerequest(CONST_STRPTR, ...);
 int whatsit(STRPTR, int, STRPTR, STRPTR);
 struct dopusfiletype *checkfiletype(STRPTR, int, int);
 int checkfiletypefunc(STRPTR, int);
 int dochecktype(struct dopusfiletype *, STRPTR, int, struct FileInfoBlock *);
 int checktypechars(int, STRPTR, int);
 int typesearch(int, STRPTR, int, STRPTR, int);
-int dorequest(struct DOpusSimpleRequest *, STRPTR, STRPTR *, int *, struct Window *);
+int dorequest(struct DOpusSimpleRequest *, CONST_STRPTR, CONST_STRPTR *, int *, APTR);
 int searchbuffer(STRPTR, int, STRPTR, int, int);
 
 /* main20.c */
@@ -412,7 +409,7 @@ int checkcycling(void);
 /* doerror.c */
 int doerror(int);
 void geterrorstring(char *, int);
-void dostatustext(char *);
+void dostatustext(CONST_STRPTR);
 void okay(void);
 void myabort(void);
 void dofilename(char *);

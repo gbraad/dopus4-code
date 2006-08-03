@@ -28,8 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
+#define USE_INLINE_STDARG
+
 #include <proto/xadmaster.h>
+
+#include "dopus.h"
 
 void ftype_doubleclick(STRPTR path, STRPTR name, int state)
 {
@@ -290,7 +293,7 @@ void initclock()
 	{
 		clockmsg_port = NULL;
 		clock_task = (struct Task *)CreateNewProcTags(
-			NP_Name, "dopus_clock",
+			NP_Name, (IPTR)"dopus_clock",
 			NP_Priority, config->priority + 1,
 			NP_Entry, &clocktask,
 			NP_CodeType, CODETYPE_PPC,
@@ -300,7 +303,7 @@ void initclock()
 
 int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 {
-	int a, b, actwin = -1, inactwin = -1, flag = 0;
+	int a, actwin = -1, inactwin = -1, flag = 0;
 	char buf[256], buf2[256], *spath = NULL, *dpath = NULL;
 	struct Directory dummy_entry;
 	struct CommandList *command = NULL;
@@ -362,20 +365,6 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 			case FUNC_SETCURDIR:
 				setcurdir(rexx);
 				break;
-			case FUNC_ICONIFYBUTTONS:
-				if(rexx)
-				{
-					a = atoi(rexx_args[0]) + 1;
-					b = atoi(rexx_args[1]) - 1;
-				}
-				else
-				{
-					a = 1;
-					b = 0;
-				}
-				if(!status_iconified && checkwindowquit())
-					iconify(2, a, b);
-				break;
 			case FUNC_ERRORHELP:
 				geterrorhelp(rexx);
 				break;
@@ -414,10 +403,6 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 					doreselect(&rescanpars, 0);
 					makereselect(&rescanpars, -1);
 				}
-				break;
-			case FUNC_ICONIFY:
-				if(!status_iconified && checkwindowquit())
-					iconify(2, 0, 0);
 				break;
 			case FUNC_ABOUT:
 				about();

@@ -4,12 +4,14 @@
 struct Library *PopupMenuBase;
 struct Library *AsyncIOBase;
 struct Library *xadMasterBase;
+struct Library *MUIMasterBase;
 
 void close_libs(void)
 {
 	CloseLibrary(PopupMenuBase);
 	CloseLibrary(AsyncIOBase);
 	CloseLibrary(xadMasterBase);
+	CloseLibrary(MUIMasterBase);
 }
 
 int open_libs(void)
@@ -19,15 +21,13 @@ int open_libs(void)
 	PopupMenuBase = OpenLibrary("popupmenu.library", 1);
 	AsyncIOBase = OpenLibrary("asyncio.library", 1);
 	xadMasterBase = OpenLibrary("xadmaster.library", 1);
+	MUIMasterBase = OpenLibrary("muimaster.library", 20);
 
-	if (!PopupMenuBase || !AsyncIOBase || !xadMasterBase)
+	if (!PopupMenuBase || !AsyncIOBase || !xadMasterBase || !MUIMasterBase)
 	{
-		struct Library *MUIMasterBase = OpenLibrary("muimaster.library", 0);
-
 		if (MUIMasterBase)
 		{
 			MUI_RequestA(NULL, NULL, 0, "Directory Opus", "Abort", "Need version 1 of popupmenu.library and version 1 of xadmaster.library", NULL);
-			CloseLibrary(MUIMasterBase);
 			close_libs();
 		}
 		rc = 0;

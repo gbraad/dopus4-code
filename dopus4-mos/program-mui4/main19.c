@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <proto/alib.h>
+#include <proto/muimaster.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 void makereselect(struct DirWindowPars *winpar, int win)
 {
@@ -170,7 +174,7 @@ void hilite_req_gadget(struct Window *win, USHORT gadid)
 	}
 }
 
-int simplerequest(STRPTR txt, ...)
+int simplerequest(CONST_STRPTR txt, ...)
 {
 	char *gads[11], *cancelgad = NULL, *gad;
 	int a, r = 1, rets[10], gnum = 0, rnum = 0;
@@ -239,63 +243,176 @@ int whatsit(STRPTR txt, int max, STRPTR buffer, STRPTR skiptxt)
 	return (dorequest(&request, txt, gads, rets, NULL));
 }
 
-int dorequest(struct DOpusSimpleRequest *request, STRPTR txt, STRPTR *gads, int *rets, struct Window *window)
+int dorequest(struct DOpusSimpleRequest *request, CONST_STRPTR txt, CONST_STRPTR *gads, int *rets, APTR window)
 {
-	int a;
-	struct Window *win = NULL;
+	APTR win, grp;
+	ULONG i, ac, macc, num, hnum, gnum, rows, ok, rc;
+	LONG dragwin;
 
-	request->text = txt;
-	request->gads = gads;
-	request->rets = rets;
+#warning fixme: center on window
 
-	if(window)
+	dragwin = config->generalscreenflags & SCR_GENERAL_REQDRAG;
+
+	rows = 1;
+	ac = macc = 0;
+	rc = 0;
+
+	for (i = 0, num = 0, hnum = 0; ; i++)
 	{
-		win = window;
-		request->font = window->RPort->Font;
-	}
-	else if(reqoverride)
-	{
-		request->font = scr_font[FONT_GENERAL];
-		request->hi = 2;
-		request->lo = 1;
-		request->fg = 1;
-		request->bg = 0;
-		win = reqoverride;
-	}
-	else
-	{
-		if(!status_iconified || status_flags & STATUS_ISINBUTTONS)
-			win = Window;
-		if(win)
+		if (!gads[i])
+			break;
+
+		if (gads[i][0])
 		{
-			request->hi = screen_pens[config->gadgettopcol].pen;
-			request->lo = screen_pens[config->gadgetbotcol].pen;
-			request->fg = screen_pens[config->requestfg].pen;
-			request->bg = screen_pens[config->requestbg].pen;
+			if (gads[i][0] == '\n')
+			{
+				rows++;
+				hnum++;
+
+				if (ac > macc)
+					macc = ac;
+
+				ac = 0;
+			}
+			else
+			{
+				num++;
+				ac++;
+			}
 		}
 		else
 		{
-			request->hi = -1;
-			request->lo = -1;
-			request->fg = -1;
-			request->bg = -1;
+			hnum++;
+			ac++;
 		}
-		request->font = scr_font[FONT_REQUEST];
 	}
-	if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
+
+	gnum = num;
+
+	if(ac > macc)
+		macc = ac;
+
+	win = WindowObject,
+			dragwin ? MUIA_Window_Title : TAG_IGNORE, globstring[STR_DIRECTORY_OPUS_REQUEST],
+			!dragwin ? MUIA_Window_DepthGadget : TAG_IGNORE, FALSE,
+			!dragwin ? MUIA_Window_DragBar : TAG_IGNORE, FALSE,
+			WindowContents, grp = VGroup,
+
+				Child, TextObject, TextFrame, MUIA_Background, MUII_TextBack, MUIA_Text_Contents, txt, End,
+
+			End,
+		End;
+
+	if (win)
 	{
-		request->flags |= SRF_BORDERS;
-		request->title = globstring[STR_DIRECTORY_OPUS_REQUEST];
+		APTR string;
+		ULONG a;
+
+		DoMethod(grp, MUIM_Group_InitChange);
+
+		string = NULL;
+
+		if (request->strbuf)
+		{
+			string = StringObject, StringFrame,
+					MUIA_String_MaxLen, request->strlen + 1,
+					MUIA_String_AdvanceOnCR, TRUE,
+					request->flags & SRF_LONGINT ? MUIA_String_Integer : TAG_IGNORE, 0,
+					request->flags & (GACT_STRINGCENTER | GACT_STRINGRIGHT) ? MUIA_String_Format : TAG_IGNORE, request->flags & GACT_STRINGCENTER ? MUIV_String_Format_Center : MUIV_String_Format_Right,
+				End;
+
+			if (string)
+			{
+				DoMethod(string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, 0xc0ffff);
+				DoMethod(grp, OM_ADDMEMBER, string);
+				set(win, MUIA_Window_ActiveObject, string);
+			}
+		}
+
+		num = a = 0;
+
+		while (rows && gads[num])
+		{
+			APTR obj;
+
+			rows--;
+
+			obj = HGroup, End;
+
+			if (obj)
+			{
+				for (i = 0; i < macc && gads[num]; i++)
+				{
+					if (gads[num][0])
+					{
+						if (gads[num][0] != '\n')
+						{
+							APTR o = MakeButton(gads[num]);
+
+							if (o)
+							{
+								DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, 0xc00000 | a);
+								DoMethod(obj, OM_ADDMEMBER, o);
+							}
+
+							a++;
+						}
+					}
+
+					num++;
+				}
+
+				DoMethod(grp, OM_ADDMEMBER, obj);
+			}
+		}
+
+		DoMethod(grp, MUIM_Group_ExitChange);
+		DoMethod(dopusapp, OM_ADDMEMBER, win);
+
+		set(win, MUIA_Window_Open, TRUE);
+		GetAttr(MUIA_Window_Open, win, &ok);
+
+		if (ok)
+		{
+			ULONG sigs = 0;
+
+			i = 0;
+
+			for (;;)
+			{
+				rc = DoMethod(dopusapp, MUIM_Application_NewInput, &sigs);
+
+				if (rc >= 0xc000)
+				{
+					rc &= 0xffff;
+
+					if (rc == 65535)
+						rc = 1;
+					else
+						rc = rets[rc];
+
+					break;
+				}
+
+				if (sigs)
+					sigs = Wait(sigs);
+			}
+
+			if (string && rc)
+			{
+				ULONG str;
+
+				GetAttr(MUIA_String_Contents, string, &str);
+
+				strcpy(request->strbuf, (char *)str);
+			}
+		}
+
+		DoMethod(dopusapp, OM_REMMEMBER, win);
+		MUI_DisposeObject(win);
 	}
-	else
-		request->flags &= ~SRF_BORDERS;
 
-	request->flags |= SRF_RECESSHI | SRF_EXTEND;
-	request->value = (int)&requester_stringex;
-	fix_stringex(&requester_stringex);
-
-	a = DoSimpleRequest(win, request);
-	return (((a == 65535) ? 1 : a));
+	return rc;
 }
 
 int checkfiletypefunc(STRPTR name, int fn)

@@ -35,7 +35,6 @@ the existing commercial status of Directory Opus 5.
 /* SAS Detach information */
 
 #if 0
-unsigned long __stack = 16384;			/* Stack size needed */
 long __priority = 0;				/* Default task priority */
 //long __BackGroundIO = 0;			/* IO off for non-beta */
 char *__procname = "dopus_task";		/* Task name */

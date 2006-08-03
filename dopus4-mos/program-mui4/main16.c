@@ -28,132 +28,116 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
+#include <proto/alib.h>
 #include <proto/amigaguide.h>
+#include <proto/muimaster.h>
+
+#include "dopus.h"
+#include "mui.h"
+
+static APTR setupfontdisplay(CONST_STRPTR name, struct TextFont *font, CONST_STRPTR text);
+static void cleanup_fontdisplay(APTR win);
 
 struct Library *AmigaGuideBase;
 
 int showfont(STRPTR name, int size, int np)
 {
-	int base, y, fred, t, len;
-	unsigned char a;
+	UBYTE viewstr[256+2];
 	struct TextFont *font;
-	char fontbuf[256], *fontptr;
-	static UWORD fcols[2] = { 0xfff, 0 };
 	struct TextAttr sfattr = { (STRPTR) name, size, 0, 0 };
-	struct RastPort *font_rp;
 
-	font = DiskfontBase ? OpenDiskFont(&sfattr) : OpenFont(&sfattr);
-	if(!font || !(setupfontdisplay(1, NULL)))
+	font = OpenDiskFont(&sfattr);
+
+	if (font)
 	{
-		doerror(-1);
-		return (0);
-	}
+		APTR win;
+		LONG i, x, lo, hi;
 
-	base = font->tf_Baseline;
-	SetFont(font_rp = fontwindow->RPort, font);
-	SetAPen(font_rp, 1);
-	SetDrMd(font_rp, JAM1);
+		lo = font->tf_LoChar;
+		hi = font->tf_HiChar;
 
-	y = base;
-	a = font->tf_LoChar;
-	len = t = 0;
+		x = 2;
 
-	Move(font_rp, 0, y);
-	fontptr = fontbuf;
+		viewstr[0] = 27;		// disable text engine
+		viewstr[1] = '-';
 
-	FOREVER
-	{
-		len += TextLength(font_rp, (char *)&a, 1);
-		if(len > fontscreen->Width || t > 254)
+		for (i = lo; i <= hi; i++)
 		{
-			Text(font_rp, fontbuf, t);
-			y += size;
-			Move(font_rp, 0, y);
-			len = t = 0;
-			fontptr = fontbuf;
-			if(y - base > fontscreen->Height)
-				break;
+			viewstr[x] = i;
+			x++;
 		}
-		*(fontptr++) = a;
-		++t;
-		if((++a) > font->tf_HiChar)
-			a = font->tf_LoChar;
+
+		viewstr[x] = 0;
+
+		set(dopusapp, MUIA_Application_Sleep, TRUE);
+
+		if ((win = setupfontdisplay(name, font, viewstr)))
+		{
+			ULONG sigs = 0;
+
+			DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+			for (;;)
+			{
+				ULONG ret = DoMethod(dopusapp, MUIM_Application_NewInput, &sigs);
+
+				if (ret == MUIV_Application_ReturnID_Quit)
+				{
+					break;
+				}
+
+				if (sigs)
+					sigs = Wait(sigs);
+			}
+
+			cleanup_fontdisplay(win);
+		}
+
+		set(dopusapp, MUIA_Application_Sleep, FALSE);
+
+		CloseFont(font);
 	}
 
-	ScreenToFront(fontscreen);
-	ActivateWindow(fontwindow);
-	FadeRGB4(fontscreen, fcols, 2, 1, config->fadetime);
-	show_global_font = font;
-
-	fred = WaitForMouseClick(0, fontwindow);
-
-	show_global_font = NULL;
-	if(fred != -3)
-		FadeRGB4(fontscreen, fcols, 2, -1, config->fadetime);
-
-	cleanup_fontdisplay();
-	CloseFont(font);
-
-	return ((fred == 0) ? 1 : -1);
+	return 1;
 }
 
-int setupfontdisplay(int depth, UWORD *coltab)
+static APTR setupfontdisplay(CONST_STRPTR name, struct TextFont *font, CONST_STRPTR text)
 {
-	struct DimensionInfo dims;
-	struct RastPort *font_rp;
+	APTR win;
 
-	font_scr.Width = GfxBase->NormalDisplayColumns;
-	font_scr.Height = STDSCREENHEIGHT;
-	font_scr.Depth = depth;
+	win = WindowObject,
+		MUIA_Window_ID, MAKE_ID('F','O','N','T'),
+		MUIA_Window_Title, name,
+		WindowContents, VGroup,
+			Child, FloattextObject,
+				MUIA_Font, font,
+				MUIA_Floattext_Text, text,
+				End,
+		End,
+	End;
+
+	if (win)
 	{
-		font_scr.Extension[0].ti_Data = BestModeID(BIDTAG_DesiredWidth, font_scr.Width, BIDTAG_DesiredHeight, font_scr.Height, BIDTAG_Depth, font_scr.Depth, BIDTAG_MonitorID, GetVPModeID(&Window->WScreen->ViewPort) & MONITOR_ID_MASK, TAG_END);
-		if(font_scr.Extension[0].ti_Data == INVALID_ID)
-			font_scr.Extension[0].ti_Data = HIRES_KEY;
-		if(GetDisplayInfoData(NULL, (UBYTE *) & dims, sizeof(struct DimensionInfo), DTAG_DIMS, font_scr.Extension[0].ti_Data))
+		ULONG ok;
+
+		DoMethod(dopusapp, OM_ADDMEMBER, win);
+		set(win, MUIA_Window_Open, TRUE);
+		GetAttr(MUIA_Window_Open, win, &ok);
+
+		if (!ok)
 		{
-			font_scr.Width = dims.Nominal.MaxX - dims.Nominal.MinX + 1;
-			font_scr.Height = dims.Nominal.MaxY - dims.Nominal.MinY + 1;
+			cleanup_fontdisplay(win);
+			win = NULL;
 		}
 	}
-	if(!(fontscreen = OpenScreen((struct NewScreen *)&font_scr)))
-		return (0);
-	font_win.Width = fontscreen->Width;
-	font_win.Height = fontscreen->Height;
-	font_win.Screen = fontscreen;
-	if(!(fontwindow = OpenWindow(&font_win)))
-	{
-		CloseScreen(fontscreen);
-		return (0);
-	}
-	font_rp = fontwindow->RPort;
-	if(coltab)
-	{
-		int a, num;
 
-		num = 1 << depth;
-		for(a = 0; a < num; a++)
-			coltab[a] = GetRGB4(fontscreen->ViewPort.ColorMap, a);
-	}
-	LoadRGB4(&fontscreen->ViewPort, nullpalette, 1 << depth);
-	setnullpointer(fontwindow);
-	return (1);
+	return win;
 }
 
-void cleanup_fontdisplay()
+static void cleanup_fontdisplay(APTR win)
 {
-	ScreenToFront(blankscreen ? blankscreen : Window->WScreen);
-	if(fontwindow)
-	{
-		CloseWindow(fontwindow);
-		fontwindow = NULL;
-	}
-	if(fontscreen)
-	{
-		CloseScreen(fontscreen);
-		fontscreen = NULL;
-	}
-	ActivateWindow(Window);
+	DoMethod(dopusapp, OM_REMMEMBER, win);
+	MUI_DisposeObject(win);
 }
 
 void readhelp(STRPTR file)
