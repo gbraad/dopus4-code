@@ -98,22 +98,38 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	struct DateStamp ds;
 
 	if(!(lockandexamine(sourcename, s_fib)))
+	{
+		IDOS->FreeDosObject(DOS_FIB, d_fib);
+		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (REPLACE_OK);
+	}
 	if(!(suc_dfib = lockandexamine(destname, d_fib)))
+	{
+		IDOS->FreeDosObject(DOS_FIB, d_fib);
+		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (REPLACE_OK);
+	}
 
 	if(suc_dfib && d_fib->fib_DirEntryType > 0)
 	{
 		if(s_fib->fib_DirEntryType < 0)
 		{
 			doerror(ERROR_OBJECT_EXISTS);
+			IDOS->FreeDosObject(DOS_FIB, d_fib);
+			IDOS->FreeDosObject(DOS_FIB, s_fib);
 			return (REPLACE_ABORT);
 		}
+		IDOS->FreeDosObject(DOS_FIB, d_fib);
+		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (REPLACE_OK);
 	}
 
 	if(config->existflags & REPLACE_ALWAYS)
+	{
+		IDOS->FreeDosObject(DOS_FIB, d_fib);
+		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (REPLACE_OK);
+	}
 	else if(config->existflags & REPLACE_NEVER)
 	{
 		doerror(ERROR_OBJECT_EXISTS);
@@ -128,7 +144,11 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		if(suc_dfib)
 		{
 			if(IDOS->CompareDates(date, &(d_fib->fib_Date)) > 0)
+			{
+				IDOS->FreeDosObject(DOS_FIB, d_fib);
+				IDOS->FreeDosObject(DOS_FIB, s_fib);
 				return (REPLACE_OK);
+			}
 			doerror(ERROR_OBJECT_EXISTS);
 		}
 	}
@@ -187,8 +207,12 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 				break;
 		}
 		while(IDOpus->CheckExist(destname, NULL));
+		IDOS->FreeDosObject(DOS_FIB, d_fib);
+		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (a);
 	}
+	IDOS->FreeDosObject(DOS_FIB, d_fib);
+	IDOS->FreeDosObject(DOS_FIB, s_fib);
 	return REPLACE_SKIP;
 }
 

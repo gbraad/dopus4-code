@@ -335,10 +335,12 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 
 	if(!(lockandexamine(fullname, info)))
 	{
+		IDOS->FreeDosObject(DOS_FIB, info);
 		return (NULL);
 	}
 	if(!(file = IDOS->Open(fullname, MODE_OLDFILE)))
 	{
+		IDOS->FreeDosObject(DOS_FIB, info);
 		return (NULL);
 	}
 
@@ -354,6 +356,7 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 			if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, info)))
 			{
 				IDOS->Close(file);
+				IDOS->FreeDosObject(DOS_FIB, info);
 				return (type);
 			}
 		}
@@ -364,6 +367,7 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 				if(type->recognition && dochecktype(type, fullname, file, info) && (ftype == -1 || (type->function[ftype] && type->function[ftype][0])))
 				{
 					IDOS->Close(file);
+					IDOS->FreeDosObject(DOS_FIB, info);
 					return (type);
 				}
 			}

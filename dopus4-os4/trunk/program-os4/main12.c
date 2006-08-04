@@ -93,7 +93,10 @@ void dodiskinfo(char *path)
 	struct DOpusRemember *key = NULL;
 
 	if(!path || !path[0])
+	{
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return;
+	}
 
 	cx = scr_font[FONT_REQUEST]->tf_XSize;
 	cy = scr_font[FONT_REQUEST]->tf_YSize;
@@ -271,6 +274,7 @@ void dodiskinfo(char *path)
 	if(fail)
 	{
 		doerror(-1);
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return;
 	}
 
@@ -325,7 +329,10 @@ void dodiskinfo(char *path)
 	gad_gads[1] = NULL;
 
 	if(!(fontwindow = IIntuition->OpenWindow(&disk_win)))
+	{
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return;
+	}
 
 	dirp = fontwindow->RPort;
 	setupwindreq(fontwindow);

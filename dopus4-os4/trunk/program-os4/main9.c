@@ -40,6 +40,7 @@ int64 bytes(STRPTR name, int64 *total, int *block)
 	{
 		*total = 0;
 		*block = 0;
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return (0);
 	}
 	IDOS->Info(mylock, infodata);
@@ -55,6 +56,7 @@ int64 bytes(STRPTR name, int64 *total, int *block)
 			*total = free;
 			*block = free / infodata->id_BytesPerBlock;
 			IDOS->UnLock(mylock);
+			IDOS->FreeDosObject(DOS_INFODATA, infodata);
 			return (free);
 		}
 	}
@@ -62,6 +64,7 @@ int64 bytes(STRPTR name, int64 *total, int *block)
 	free = *total - (infodata->id_BytesPerBlock * ((int64)infodata->id_NumBlocksUsed));
 	*block = infodata->id_NumBlocks - infodata->id_NumBlocksUsed;
 	IDOS->UnLock(mylock);
+	IDOS->FreeDosObject(DOS_INFODATA, infodata);
 	return (free);
 }
 
@@ -83,7 +86,6 @@ void get_colour_table()
 		screen_pens[a].red = config->new_palette[(a * 3)];
 		screen_pens[a].green = config->new_palette[(a * 3) + 1];
 		screen_pens[a].blue = config->new_palette[(a * 3) + 2];
-//        screen_pens[a].pen=a;
 		screen_pens[a].alloc = 0;
 	}
 
@@ -100,26 +102,22 @@ void get_colour_table()
 			screen_pens[a].pen = pen;
 			screen_pens[a].alloc = 1;
 		}
-//D(bug("pen[%lu] = %lu\n",(int)a,(int)screen_pens[a].pen));
 	}
 }
 
 void free_colour_table()
 {
-/*    if (system_version2>=OSVER_39)*/
+	int a;
+	struct ColorMap *cm;
+
+	cm = Window->WScreen->ViewPort.ColorMap;
+
+	for(a = 0; a < 16; a++)
 	{
-		int a;
-		struct ColorMap *cm;
-
-		cm = Window->WScreen->ViewPort.ColorMap;
-
-		for(a = 0; a < 16; a++)
+		if(screen_pens[a].alloc)
 		{
-			if(screen_pens[a].alloc)
-			{
-				IGraphics->ReleasePen(cm, screen_pens[a].pen);
-				screen_pens[a].alloc = 0;
-			}
+			IGraphics->ReleasePen(cm, screen_pens[a].pen);
+			screen_pens[a].alloc = 0;
 		}
 	}
 }

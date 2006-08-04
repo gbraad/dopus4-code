@@ -110,6 +110,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				seename(win);
 				refreshwindow(win, 1);
 				startnotify(win);
+				IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (1);
 			}
 		}
@@ -126,6 +128,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		{
 			IDOpus->LStrnCpy(dir->realdevice, str_pathbuffer[win], a + 1);
 		}
+		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
 
@@ -160,6 +164,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				seename(win);
 				refreshwindow(win, 1);
 				startnotify(win);
+				IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (1);
 			}
 		}
@@ -167,6 +173,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		{
 			doerror(ERROR_OBJECT_WRONG_TYPE);
 		}
+		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
 	dir->flags = 0;
@@ -187,7 +195,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	}
 	copy_datestamp(&fileinfo->fib_Date, &dir->dirstamp);
 
-	if((exall_control = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
+	if((exall_control))// = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
 	{
 		exall_control->eac_LastKey = 0;
 		while(exall_continue)
@@ -412,33 +420,29 @@ void checkdir(char *str, struct Gadget *gad)
 
 void verticalscroll(int win, int dir)
 {
-//	int i;
 	if(win < 0 || dopus_curwin[win]->total <= scrdata_dispwin_lines)
 		return;
 
-//	for(i = 0; i < 3; i++)
-//	{
-		if(dir < 0)
+	if(dir < 0)
+	{
+		--dopus_curwin[win]->offset;
+		if(dopus_curwin[win]->offset < 0)
 		{
-			--dopus_curwin[win]->offset;
-			if(dopus_curwin[win]->offset < 0)
-			{
-				dopus_curwin[win]->offset = 0;
-				return;
-			}
+			dopus_curwin[win]->offset = 0;
+			return;
 		}
-		else
+	}
+	else
+	{
+		++dopus_curwin[win]->offset;
+		if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
 		{
-			++dopus_curwin[win]->offset;
-			if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-			{
-				dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-				return;
-			}
+			dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+			return;
 		}
-		fixvertprop(win);
-		displaydir(win);
-//	}
+	}
+	fixvertprop(win);
+	displaydir(win);
 }
 
 void horizontalscroll(int win, int dir)
@@ -975,72 +979,7 @@ void buildkmgstring(char *buf, uint64 size, int kmgmode)
 		sprintf(buf, DISPLAYSIZEFORMAT, size);
 	}
 }
-/*
-void buildkmgstringnew(char *buf, uint64 size, int kmgmode, uint32 type)
-{
-	if(kmgmode)
-	{
-		if(size > 1024)
-		{
 
-			char tmp[16], c;
-			float div;
-
-			if(size > 1024 * 1024)
-			{
-				if(size > 1024 * 1024 * 1024)
-				{
-					div = 1024 * 1024 * 1024;
-					c = 'G';
-				}
-				else
-				{
-					div = 1024 * 1024;
-					c = 'M';
-				}
-			}
-			else
-			{
-				div = 1024;
-				c = 'K';
-			}
-			sprintf(tmp, "%.1f", size / div);
-
-			if(tmp[3] == '.')
-				tmp[3] = 0;
-			else if(tmp[4] == '.')
-				tmp[4] = 0;
-			sprintf(buf, "%4s%lc", tmp, c);
-		}
-		else
-		{
-			switch (type)
-			{
-			case ST_SOFTLINK:
-			case ST_LINKDIR:
-			case ST_LINKFILE:
-				sprintf(buf, "<LINK>");
-				break;
-			default:
-				sprintf(buf, "%4lld", size);
-			}
-		}
-	}
-	else
-	{
-		switch (type)
-		{
-		case ST_SOFTLINK:
-		case ST_LINKDIR:
-		case ST_LINKFILE:
-			sprintf(buf, "<LINK>");
-			break;
-		default:
-			sprintf(buf, DISPLAYSIZEFORMAT, size);
-		}
-	}
-}
-*/
 void builddisplaystring(struct Directory *display, char *sbuf, int win)
 {
 	char sizebuf[20];
@@ -1174,7 +1113,6 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 
 			if(display->type < ENTRY_DEVICE || (display->type > ENTRY_DEVICE && display->size >= 0))
 				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG);
-//				buildkmgstringnew(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG, display->subtype);
 			else
 				sizebuf[0] = 0;
 
@@ -1306,9 +1244,7 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 	*sbuf++ = TEXT_END;
 }
 
-static const UWORD testdays[] = {
-	7695, 7726, 7754, 7785, 7815, 7846, 7876, 7907, 7938, 7968, 7999, 8029
-};
+static const UWORD testdays[] = { 7695, 7726, 7754, 7785, 7815, 7846, 7876, 7907, 7938, 7968, 7999, 8029 };
 
 void getprotdatelengths(struct RastPort *rp)
 {

@@ -122,16 +122,6 @@ struct DirectoryWindow
 #define DWF_READONLY 2
 #define DWF_ARCHIVE  4
 
-struct RLEinfo
-{
-	STRPTR sourceptr;
-	UBYTE **destplanes;
-	USHORT imagebpr, imageheight, imagedepth;
-	USHORT destbpr, destheight, destdepth;
-	char masking, compression;
-	int offset;
-};
-
 struct args
 {
 	char argstring[256];

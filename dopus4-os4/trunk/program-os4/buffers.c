@@ -331,10 +331,14 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	char tempbuf[300];
 
 	if(status_iconified)
-		return (NULL);
+	{
+		goto failed;
+	}
 	dir = dopus_curwin[win];
 	if(dir->flags & DWF_ARCHIVE)
-		return NULL;
+	{
+		goto failed;
+	}
 	main_proc->pr_WindowPtr = (APTR) - 1;
 
 	strcpy(tempbuf, dirbuf);
@@ -385,7 +389,12 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	IDOS->FreeDosObject(DOS_FIB, fblock);
 	if(config->errorflags & ERROR_ENABLE_DOS)
 		main_proc->pr_WindowPtr = (APTR) Window;
+
 	return ((ret) ? dir : NULL);
+
+failed:
+	IDOS->FreeDosObject(DOS_FIB, fblock);
+	return NULL;
 }
 
 /* Checks all buffers for a pathname and changes it to the new

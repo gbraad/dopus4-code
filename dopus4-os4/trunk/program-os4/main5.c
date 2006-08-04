@@ -29,21 +29,15 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-//#include <proto/asyncio.h>
 
 int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate)
 {
 	struct FileInfoBlock *cfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	char *buffer;
+	char *buffer = NULL;
 	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size = 0, size;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
-	BPTR inhandle, outhandle;
+	BPTR inhandle = 0, outhandle = 0;
 	struct DateStamp ds, *dsp;
-
-	buffer = NULL;
-
-	inhandle = 0;
-	outhandle = 0;
 
 	if(password)
 	{
@@ -61,14 +55,15 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	if(!suc)
 	{
 		*err = IDOS->IoErr();
+		IDOS->FreeDosObject(DOS_FIB, cfinfo);
 		return (0);
 	}
 
 	if(!(size = cfinfo->fib_Size))
 	{
-		if(!(out = IDOS->FOpen(dst, MODE_NEWFILE, 0)))
+		if(!(out = IDOS->Open(dst, MODE_NEWFILE)))
 			goto failed;
-		IDOS->FClose(out);
+		IDOS->Close(out);
 		if(config->copyflags & COPY_DATE)
 			setdate(dst, &(cfinfo->fib_Date));
 		if(config->copyflags & COPY_PROT)
@@ -76,41 +71,27 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		if(config->copyflags & COPY_NOTE)
 			IDOS->SetComment(dst, cfinfo->fib_Comment);
 		IDOS->SetOwner(dst, (cfinfo->fib_OwnerUID << 16) | cfinfo->fib_OwnerGID);
+		IDOS->FreeDosObject(DOS_FIB, cfinfo);
 		return (1);
 	}
 
-	if(size <= COPY_BUF_SIZE)
-	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, NULL, 1);
-		prog = 0;
-	}
-	else
-	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
-	}
+	dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
 
-	if(!(inhandle = IDOS->FOpen(src, MODE_OLDFILE, 0)))
+	if(!(inhandle = IDOS->Open(src, MODE_OLDFILE)))
 		goto failed;
 
-	if(!(outhandle = IDOS->FOpen(dst, MODE_NEWFILE, 0)))
+	if(!(outhandle = IDOS->Open(dst, MODE_NEWFILE)))
 		goto failed;
 
-	if(size > (64 * 1024))
+	buffer_size = size;
+	if(buffer_size > (10 * 1024 *1024))
 	{
-		buffer_size = size / 2;
-	}
-	else
-	{
-		buffer_size = size;
-	}
-	if(buffer_size > (128 * 1024))
-	{
-		buffer_size = 128 * 1024;
+		buffer_size = 10 * 1024 * 1024;
 	}
 
 	while(buffer_size > 0)
 	{
-		if((buffer = IExec->AllocMem(buffer_size, MEMF_ANY)))
+		if((buffer = IExec->AllocVec(buffer_size, MEMF_ANY)))
 			break;
 		buffer_size /= 2;
 	}
@@ -125,7 +106,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	while(size > 0)
 	{
 		readsize = (size > buffer_size) ? buffer_size : size;
-		length = IDOS->FRead(inhandle, buffer, 1, readsize);
+		length = IDOS->Read(inhandle, buffer, readsize);
 
 		size -= readsize;
 		size_read += length;
@@ -166,7 +147,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		if(length > 0)
 		{
-			if((IDOS->FWrite(outhandle, buffer, 1, length)) == -1)
+			if((IDOS->Write(outhandle, buffer, length)) == -1)
 				goto failed;
 		}
 		size_write += length;
@@ -183,10 +164,12 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		}
 	}
 
-	IDOS->FClose(inhandle);
-	IDOS->FClose(outhandle);
+	IDOS->Close(inhandle);
+	IDOS->Close(outhandle);
 
-	IExec->FreeMem(buffer, buffer_size);
+	IDOS->FreeDosObject(DOS_FIB, cfinfo);
+
+	IExec->FreeVec(buffer);
 
 	if(config->copyflags & COPY_DATE)
 	{
@@ -219,16 +202,23 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
       failed:
 	*err = IDOS->IoErr();
 	if(buffer)
-		IExec->FreeMem(buffer, buffer_size);
+	{
+		IExec->FreeVec(buffer);
+	}
 	if(inhandle)
-		IDOS->FClose(inhandle);
+	{
+		IDOS->Close(inhandle);
+	}
 	if(outhandle)
 	{
-		IDOS->FClose(outhandle);
+		IDOS->Close(outhandle);
 		IDOS->DeleteFile(dst);
 	}
 
-	IDOS->FreeDosObject(DOS_FIB, cfinfo);
+	if(cfinfo)
+	{
+		IDOS->FreeDosObject(DOS_FIB, cfinfo);
+	}
 
 	return (ret);
 }
@@ -297,32 +287,24 @@ struct Directory *checkalltot(struct DirectoryWindow *dir)
 	return (first);
 }
 
-/* Enforcer HIT: with ARexx script sameselect.dopus */
-
 struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 {
 	struct Directory *find;
-/*
-    char parsebuf[100];
 
-    LParsePatternI(name,parsebuf);
-*/
-
-//	D(bug("findfile(%s)\n", name ? name : "<NULL>"));
 	if(dir)
 	{
 		if(str_arcorgname[0])
-			name = str_arcorgname;	/* required for double-click */
+		{
+			name = str_arcorgname;
+		} /* required for double-click */
 
 		find = dir->firstentry;
 		if(count)
 			*count = 0;
 		while(find)
 		{
-/*
-            if (find->name && (LMatchPatternI(parsebuf,find->name))) return(find);
-*/
 			if(find->name && !(strcmp(name, find->name)))
+//			if(find->name && !(IUtility->Stricmp(name, find->name)))
 				return (find);
 
 			find = find->next;
@@ -391,13 +373,11 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 
 int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 {
-//    char sfirst[FILEBUF_SIZE],slast[FILEBUF_SIZE],dfirst[FILEBUF_SIZE],dlast[FILEBUF_SIZE],foon[FILEBUF_SIZE];
-	int a, b, c /*,flen,llen,d */ ;
+	int a, b, c;
 
 	char *spat = sname, *dpat = dname, *sn = name, *dn = newn;
 	char c1, c2;
 
-//	D(bug("getwildrename(%s,%s,%s,)\n", sname, dname, name));
 /* check if filename matches source pattern */
 	a = 1;
 	b = 0;
@@ -502,7 +482,10 @@ void update_buffer_stamp(int win, int true)
 	struct DirectoryWindow *dirwin;
 
 	if(win == -1 || !(config->dirflags & DIRFLAGS_REREADOLD))
+	{
+		IDOS->FreeDosObject(DOS_FIB, fib);
 		return;
+	}
 
 	dirwin = dopus_curwin[win];
 	strcpy(dirbuf, str_pathbuffer[win]);

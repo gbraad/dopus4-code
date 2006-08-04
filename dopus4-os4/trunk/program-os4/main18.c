@@ -55,8 +55,8 @@ struct recurse *current_recurse;
 
 int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 {
-	struct FileInfoBlock *myfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	struct FileInfoBlock *enfinfo = IExec->AllocVec(sizeof(struct FileInfoBlock), MEMF_CLEAR); //IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct FileInfoBlock * const myfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct FileInfoBlock * const enfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	BPTR mylock;
 	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL, *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
 	int suc = 0, to_do, ret = 0, a, err, adata =0, depth = 0, b, rtry, data = fdata, *pstuff, blocks;
@@ -106,6 +106,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		if(!(mylock = IDOS->Lock(fdir, ACCESS_READ)))
 		{
 			doerror(-1);
+			IDOS->FreeDosObject(DOS_FIB, myfinfo);
+			IDOS->FreeDosObject(DOS_FIB, enfinfo);
 			return (-1);
 		}
 		IDOS->Examine(mylock, myfinfo);
@@ -113,6 +115,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	if(!(name = IDOpus->LAllocRemember(&memkey, 5 * 512, MEMF_CLEAR)))
 	{
 		doerror(-1);
+		IDOS->FreeDosObject(DOS_FIB, myfinfo);
+		IDOS->FreeDosObject(DOS_FIB, enfinfo);
 		return (-1);
 	}
 	dir = name + 512;
@@ -173,7 +177,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					lister = current_recurse->lister;
 					for(to_do = lister.total, t_entry = lister.firstentry; t_entry != entry; to_do--, t_entry = t_entry->next);
 				}
-				myfinfo = &current_recurse->info;
+				IExec->CopyMemQuick(&current_recurse->info, myfinfo, sizeof(struct FileInfoBlock));
 				strcpy(dir, current_recurse->dir);
 				strcpy(dest, current_recurse->dest);
 				data = current_recurse->data;
@@ -722,10 +726,10 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	if(memkey)
 		IDOpus->LFreeRemember(&memkey);
 
-//	if(myfinfo)
-//		IDOS->FreeDosObject(DOS_FIB, myfinfo);
+	if(myfinfo)
+		IDOS->FreeDosObject(DOS_FIB, myfinfo);
 	if(enfinfo)
-		IExec->FreeVec(enfinfo);
+		IDOS->FreeDosObject(DOS_FIB, enfinfo);
 
 	return (ret);
 }

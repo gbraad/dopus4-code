@@ -70,6 +70,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(destdir && (dwindow->flags & DWF_ARCHIVE))
 	{
 		dostatustext(globstring[STR_OPERATION_NOT_SUPPORTED]);
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return 0;
 	}
 
@@ -140,10 +142,19 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	}
 
 	if(!file)
+	{
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return (0);	/* No files selected, return */
+	}
 
 	if(!(database = IDOpus->LAllocRemember(&funckey, 3000, MEMF_CLEAR)))
+	{
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return (0);
+	}
+
 	sourcename = database;
 	destname = database + 300;
 	oldiconname = database + 600;
@@ -1477,46 +1488,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				okayflag = 1;
 			}
-/*			else if(a || check_is_module(sourcename))
-			{
-				if((a = playmod(sourcename)) && swindow && swindow->filesel > 1)
-				{
-					a = -1;
-					for(;;)
-					{
-						IExec->Wait(1 << Window->UserPort->mp_SigBit);
-						while(getintuimsg())
-						{
-							class = IMsg->Class;
-							code = IMsg->Code;
-							IExec->ReplyMsg((struct Message *)IMsg);
-							if(class == IDCMP_MOUSEBUTTONS)
-							{
-								a = (code == SELECTDOWN);
-								break;
-							}
-						}
-						if(a != -1)
-							break;
-					}
-					if(!a)
-						myabort();
-					else
-						okayflag = 1;
-				}
-				else if(a)
-				{
-					okayflag = 1;
-				}
-				else
-				{
-					file = NULL;
-				}
-			}*/
 			else
 			{
 				a = doplay8svx(sourcename, (function == FUNC_LOOPPLAY));
-//				kill8svx();
 				if(a == -1)
 				{
 					myabort();
@@ -1528,11 +1502,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						okayflag = 1;
 					}
-/*					else
-					{
-						handle8svxerror(a);
-						file = NULL;
-					}*/
 				}
 			}
 			break;

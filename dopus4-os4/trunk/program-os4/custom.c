@@ -1327,13 +1327,17 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	int a;
 
 	if(funcdata->output_file)
+	{
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (1);
+	}
 
 	if(par->which & FLAG_CDSOURCE && !funcdata->source_path[0])
 	{
 		if(!(simplerequest(globstring[STR_NO_SOURCE_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
 		{
 			myabort();
+			IDOS->FreeDosObject(DOS_FIB, fileinfo);
 			return (0);
 		}
 	}
@@ -1342,6 +1346,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		if(!(simplerequest(globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
 		{
 			myabort();
+			IDOS->FreeDosObject(DOS_FIB, fileinfo);
 			return (0);
 		}
 	}
@@ -1350,9 +1355,13 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	main_proc->pr_WindowPtr = (APTR) - 1;
 	if(IDOpus->CheckExist("T:", NULL))
+	{
 		strcpy(buf, "T:");
+	}
 	else
+	{
 		strcpy(buf, "RAM:");
+	}
 
 	if((lock = IDOS->Lock(buf, ACCESS_READ)))
 	{
@@ -1362,14 +1371,22 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 			FOREVER
 			{
 				if(IDOpus->LStrnCmp(fileinfo->fib_FileName, "dopustemp", 9) == 0)
+				{
 					sprintf(funcdata->scriptname, "%s%s", buf, fileinfo->fib_FileName);
+				}
 				else
+				{
 					funcdata->scriptname[0] = 0;
+				}
 				a = IDOS->ExNext(lock, fileinfo);
 				if(funcdata->scriptname[0])
+				{
 					IDOS->DeleteFile(funcdata->scriptname);
+				}
 				if(!a)
+				{
 					break;
+				}
 			}
 		}
 		IDOS->UnLock(lock);
@@ -1381,11 +1398,14 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	{
 		sprintf(funcdata->scriptname, "%sdopustemp.tmp%d", buf, a);
 		if((funcdata->output_file = IDOS->Open(funcdata->scriptname, MODE_NEWFILE)))
+		{
 			break;
+		}
 	}
 	if(!funcdata->output_file)
 	{
 		doerror(-1);
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
 
@@ -1430,7 +1450,10 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		else if(par->which & FLAG_CDDEST)
 		{
 			if(!(check_dest_path(funcdata)))
+			{
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (0);
+			}
 			sprintf(buf, "CD \"%s\"\n", funcdata->dest_path);
 		}
 	}
@@ -1659,7 +1682,10 @@ int filloutdummy(char *name, struct Directory *fbuf)
 	struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);;
 
 	if(!(lockandexamine(name, fib)))
+	{
+		IDOS->FreeDosObject(DOS_FIB, fib);
 		return (0);
+	}
 	fbuf->last = fbuf->next = NULL;
 	strcpy(fbuf->name, fib->fib_FileName);
 	fbuf->type = fib->fib_DirEntryType;

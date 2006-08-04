@@ -1765,8 +1765,8 @@ int checkkeyword(char **keywords, int num, int rem)
 	{
 		if(!keywords[a] || !keywords[a][0])
 			return (0);
-//		if(strcmp(rexx_args[num], keywords[a]) == 0)
-		if(IUtility->Stricmp(rexx_args[num], keywords[a]) == 0)
+		if(strcmp(rexx_args[num], keywords[a]) == 0)
+//		if(IUtility->Stricmp(rexx_args[num], keywords[a]) == 0)
 		{
 			rexx_arg_value[a] = 1;
 			if(rem)

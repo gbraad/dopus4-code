@@ -305,7 +305,10 @@ int getroot(char *name, struct DateStamp *ds)
 	int a;
 
 	if(!(lock1 = IDOS->Lock(name, ACCESS_READ)))
+	{
+		IDOS->FreeDosObject(DOS_INFODATA, info);
 		return (0);
+	}
 	lock2 = (struct FileLock *)BADDR(lock1);
 	for(a = 0; a < FILEBUF_SIZE; a++)
 		name[a] = 0;
@@ -317,6 +320,7 @@ int getroot(char *name, struct DateStamp *ds)
 		IExec->CopyMem((char *)&dl->dl_VolumeDate, (char *)ds, sizeof(struct DateStamp));
 	IDOS->Info(lock1, info);
 	IDOS->UnLock(lock1);
+	IDOS->FreeDosObject(DOS_INFODATA, info);
 	return (info->id_DiskState);
 }
 

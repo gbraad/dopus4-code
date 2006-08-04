@@ -85,10 +85,10 @@ void do_path_completion(int win, USHORT qual)
 		busy();
 		if((lock = IDOS->Lock(path, ACCESS_READ)))
 		{
-			IDOS->Examine(lock, /*&*/finfo);
+			IDOS->Examine(lock, finfo);
 			if(finfo->fib_DirEntryType > 0)
 			{
-				while(IDOS->ExNext(lock, /*&*/finfo))
+				while(IDOS->ExNext(lock, finfo))
 				{
 					if(status_haveaborted)
 						break;

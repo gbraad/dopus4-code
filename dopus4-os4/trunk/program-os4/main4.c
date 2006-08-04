@@ -40,7 +40,10 @@ void makedir(int rexx)
 
 	win = data_active_window;
 	if((dopus_curwin[win]->directory[0] == 0))
+	{
+		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return;
+	}
 	dirname[0] = new_directory[0] = 0;
 
 	FOREVER
@@ -55,7 +58,10 @@ void makedir(int rexx)
 			if(!rexx_args[0][a])
 			{
 				if(!(isvalidwindow(data_active_window)))
+				{
+					IDOS->FreeDosObject(DOS_FIB, fileinfo);
 					return;
+				}
 				strcpy(new_directory, str_pathbuffer[data_active_window]);
 				IDOpus->TackOn(new_directory, rexx_args[0], 256);
 				if(rexx_args[1][0] && (rexx_args[1][0] == '1'))
@@ -70,18 +76,25 @@ void makedir(int rexx)
 		else if(status_iconified)
 		{
 			if(!(status_flags & STATUS_ISINBUTTONS) || (!(getdummypath(new_directory, STR_ENTER_DIRECTORY_NAME))))
+			{
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
+			}
 			win = -1;
 		}
 		else
 		{
 			if(!(isvalidwindow(data_active_window)))
+			{
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
+			}
 			strcpy(new_directory, str_pathbuffer[data_active_window]);
 
 			if(!(whatsit(globstring[STR_ENTER_DIRECTORY_NAME], config->iconflags & ICONFLAG_MAKEDIRICON ? FILEBUF_SIZE - 7 : FILEBUF_SIZE - 2, dirname, NULL)) || !dirname[0])
 			{
 				myabort();
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			for(a = 0; dirname[a]; a++)
@@ -95,6 +108,7 @@ void makedir(int rexx)
 			if(!dirname[0])
 			{
 				myabort();
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			IDOpus->TackOn(new_directory, dirname, 256);
@@ -106,6 +120,7 @@ void makedir(int rexx)
 			if(rexx || (a = checkerror(globstring[STR_CREATING_DIRECTORY], IDOS->FilePart(new_directory), -err)) == 3)
 			{
 				myabort();
+				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			continue;
@@ -268,7 +283,10 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 	APTR save;
 
 	if(!rexx || !rexx_argcount)
+	{
+		IDOS->FreeDosObject(DOS_FIB, fblock);
 		return (str_pathbuffer[win]);
+	}
 	if((strchr(rexx_args[argnum], ':') || strchr(rexx_args[argnum], '/')) && (a = IDOpus->CheckExist(rexx_args[argnum], &b)))
 	{
 		if(!num)
@@ -303,6 +321,7 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 			dos_global_entry.size = b;
 			func_single_entry = &dos_global_entry;
 			removeargstring(argnum);
+			IDOS->FreeDosObject(DOS_FIB, fblock);
 			return (rexx_pathbuffer[win]);
 		}
 		else
@@ -310,9 +329,11 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 			strcpy(rexx_pathbuffer[win], rexx_args[argnum]);
 			IDOpus->TackOn(rexx_pathbuffer[win], NULL, 256);
 			removeargstring(argnum);
+			IDOS->FreeDosObject(DOS_FIB, fblock);
 			return (rexx_pathbuffer[win]);
 		}
 	}
+	IDOS->FreeDosObject(DOS_FIB, fblock);
 	return (str_pathbuffer[win]);
 }
 
