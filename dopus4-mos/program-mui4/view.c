@@ -35,7 +35,7 @@ the existing commercial status of Directory Opus 5.
 #include <devices/rawkeycodes.h>
 #include <proto/alib.h>
 
-void view_file_process(void);
+static void view_file_process(void);
 int view_loadfile(struct ViewData *);
 int view_idcmp(struct ViewData *);
 void view_display(struct ViewData *, int, int);
@@ -156,7 +156,6 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 
 	if((view_message = LAllocRemember(&memkey, sizeof(struct ViewMessage), MEMF_CLEAR)) && copy_string(filename, &view_message->filename, &memkey) && copy_string(name, &view_message->name, &memkey) && copy_string(initialsearch, &view_message->initialsearch, &memkey))
 	{
-
 		launch.launch_code = (void *)&view_file_process;
 		launch.launch_name = "dopus_view";
 		launch.launch_memory = memkey;
@@ -179,7 +178,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 	return (0);
 }
 
-void view_file_process()
+static void view_file_process()
 {
 	int a, size, retcode = 100;
 	char buf[60];

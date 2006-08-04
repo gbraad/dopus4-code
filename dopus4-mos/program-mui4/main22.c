@@ -544,7 +544,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 					par.pri = type->pri[a];
 					par.delay = type->delay[a];
 					status_previousabort = 0;
-					if(status_iconified && status_flags & STATUS_ISINBUTTONS)
+					if(status_flags & STATUS_ISINBUTTONS)
 						strcpy(func_external_file, sourcename);
 					if(type->actionstring[a][0])
 					{

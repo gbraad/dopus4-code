@@ -73,15 +73,12 @@ void dofunctionstring(STRPTR func, STRPTR name, STRPTR title, struct dopusfuncpa
 		if((ptr = FilePart(funcdata->source_path)))
 			*ptr = 0;
 		norm = 0;
-		if(!status_iconified)
-			strcpy(funcdata->dest_path, str_pathbuffer[data_active_window]);
+		strcpy(funcdata->dest_path, str_pathbuffer[data_active_window]);
 		funcdata->activewin = 1 - data_active_window;
 		funcdata->inactivewin = data_active_window;
 	}
 	else if(func_single_file[0])
 		noloop = 1;
-	else if(status_iconified)
-		norm = 0;
 	else
 		funcdata->entry_first = checkalltot(dopus_curwin[funcdata->activewin]);
 
@@ -340,7 +337,7 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 
 	if((!name || !name[0]) && (!function || !function[0]))
 		return (1);
-	if(Window && !status_iconified && !(status_flags & STATUS_FROMHOTKEY))
+	if(Window && !(status_flags & STATUS_FROMHOTKEY))
 	{
 		if(title)
 			dostatustext(title);
@@ -475,7 +472,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 		case FUNC_ONEFILE_NO:
 			if(!func_single_file[0])
 			{
-				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
+				if(status_flags & STATUS_FROMHOTKEY)
 				{
 					if(getdummyfile(&dummy, dirbuf, &funcdata->file_request))
 						cust = &dummy;
@@ -544,7 +541,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			if(!func_single_file[0])
 			{
 				a = d = strlen(buffer);
-				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
+				if(status_flags & STATUS_FROMHOTKEY)
 				{
 					if(getdummyfile(&dummy, dirbuf, &funcdata->file_request))
 						cust = &dummy;
@@ -631,7 +628,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 		case FUNC_ONEPATH_NO:
 			if(!func_single_file[0])
 			{
-				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
+				if(status_flags & STATUS_FROMHOTKEY)
 				{
 					if(getdummyfile(&dummy, dirbuf, &funcdata->file_request))
 						cust = &dummy;
@@ -708,7 +705,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			if(!func_single_file[0])
 			{
 				a = d = strlen(buffer);
-				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
+				if(status_flags & STATUS_FROMHOTKEY)
 				{
 					if(getdummyfile(&dummy, dirbuf, &funcdata->file_request))
 						cust = &dummy;
@@ -800,7 +797,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 		case FUNC_SOURCE:
 		case FUNC_SOURCE_RR:
 			strcpy(buf3, funcdata->source_path);
-			if((status_iconified || status_flags & STATUS_FROMHOTKEY))
+			if((status_flags & STATUS_FROMHOTKEY))
 			{
 				if(dirrequester(&funcdata->file_request, buf3, globstring[STR_SELECT_SOURCE_DIR]))
 				{
@@ -1263,7 +1260,7 @@ void custunselect(struct Directory *dir, int rel, struct function_data *funcdata
 
 	win = funcdata->activewin;
 
-	if(!status_iconified && !(status_flags & STATUS_FROMHOTKEY) && !func_external_file[0])
+	if(!(status_flags & STATUS_FROMHOTKEY) && !func_external_file[0])
 	{
 		if(rel && dir->name[0])
 		{
@@ -1578,7 +1575,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 				WindowToFront(Window);
 		}
 
-		if(!status_iconified && !(status_flags & STATUS_FROMHOTKEY))
+		if(!(status_flags & STATUS_FROMHOTKEY))
 		{
 			if(funcdata->rereadsource || flags & FLAG_SCANSRCE)
 			{
@@ -1615,7 +1612,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 		myabort();
 	else if(okayflag)
 	{
-		if(Window && !status_iconified && !(status_flags & STATUS_FROMHOTKEY))
+		if(Window && !(status_flags & STATUS_FROMHOTKEY))
 			okay();
 		else
 			startnotifies();
@@ -1777,7 +1774,7 @@ int check_dest_path(struct function_data *funcdata)
 {
 	if(funcdata->dest_path[0])
 		return (1);
-	if((status_iconified || status_flags & STATUS_FROMHOTKEY) && ((dirrequester(&funcdata->file_request, funcdata->dest_path, globstring[STR_SELECT_DESTINATION_DIR])) || !funcdata->dest_path[0]))
+	if((status_flags & STATUS_FROMHOTKEY) && ((dirrequester(&funcdata->file_request, funcdata->dest_path, globstring[STR_SELECT_DESTINATION_DIR])) || !funcdata->dest_path[0]))
 	{
 		myabort();
 		return (0);

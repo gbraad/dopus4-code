@@ -228,8 +228,7 @@ void ftype_doubleclick(STRPTR path, STRPTR name, int state)
 		else
 			title[0] = 0;
 
-		if(!status_iconified)
-			strcpy(func_single_file, name);
+		strcpy(func_single_file, name);
 		dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 	}
 	else
@@ -287,26 +286,12 @@ int filesearch(STRPTR name, int *found, int skipall)
 	return (1);
 }
 
-void initclock()
-{
-	if(!clock_task)
-	{
-		clockmsg_port = NULL;
-		clock_task = (struct Task *)CreateNewProcTags(
-			NP_Name, (IPTR)"dopus_clock",
-			NP_Priority, config->priority + 1,
-			NP_Entry, &clocktask,
-			NP_CodeType, CODETYPE_PPC,
-			TAG_DONE);
-	}
-}
-
 int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 {
 	int a, actwin = -1, inactwin = -1, flag = 0;
 	char buf[256], buf2[256], *spath = NULL, *dpath = NULL;
 	struct Directory dummy_entry;
-	struct CommandList *command = NULL;
+	const struct CommandList *command = NULL;
 
 	for(a = 0;; a++)
 	{
@@ -318,7 +303,7 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 			break;
 		}
 	}
-	if(status_iconified && command && command->flags & RCL_NOBUTTON)
+	if(command && command->flags & RCL_NOBUTTON)
 		return (0);
 	status_justabort = status_haveaborted = 0;
 	if(function == FUNC_HELP && !dopus_firsthelp)
@@ -569,18 +554,15 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 				{
 					spath = source;
 					dpath = dest;
-					if(!status_iconified)
-					{
-						actwin = 0;
-						inactwin = data_active_window;
-					}
+					actwin = 0;
+					inactwin = data_active_window;
 				}
-				else if(!status_iconified)
+				else
 				{
 					actwin = ((spath = getarexxpath(rexx, data_active_window, 0, 0)) != str_pathbuffer[data_active_window]) ? -1 : data_active_window;
 					inactwin = ((dpath = getarexxpath(rexx, 1 - data_active_window, 1, (actwin != -1))) != str_pathbuffer[1 - data_active_window]) ? -1 : 1 - data_active_window;
 				}
-				if(status_iconified)
+
 				{
 					if(rexx && rexx_argcount > 0 && (CheckExist(rexx_args[0], NULL)))
 					{

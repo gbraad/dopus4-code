@@ -128,10 +128,8 @@ void doreselect(struct DirWindowPars *winpar, int moveold)
 
 void shutthingsdown(int louise)
 {
-	remclock();
-
 	main_proc->pr_WindowPtr = windowptr_save;
-	if(!status_iconified && status_publicscreen && Window)
+	if(status_publicscreen && Window)
 	{
 		if(MainScreen)
 		{

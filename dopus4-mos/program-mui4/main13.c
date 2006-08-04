@@ -53,7 +53,7 @@ void seename(int win)
 	int bl, a = 0;
 	static char buf[256];
 
-	if(win < 0 || status_iconified)
+	if(win < 0)
 		return;
 	if(!dopus_curwin[win]->firstentry || (dopus_curwin[win]->firstentry->type != ENTRY_DEVICE && dopus_curwin[win]->firstentry->type != ENTRY_CUSTOM))
 	{
@@ -120,7 +120,7 @@ void displayname(int win, int clear)
 	static char buf[30], buf2[80], buf3[20];
 	double pct;
 
-	if(status_iconified || win < 0)
+	if(win < 0)
 		return;
 	if(str_pathbuffer[win][0] == 0)
 	{
@@ -281,7 +281,7 @@ void relabel_disk(int rexx, STRPTR path)
 	{
 		doerror(-1);
 	}
-	else if((!status_iconified) && (dopus_curwin[data_active_window] != dopus_specialwin[data_active_window]))
+	else if(dopus_curwin[data_active_window] != dopus_specialwin[data_active_window])
 	{
 		if((strncmp(str_pathbuffer[data_active_window], oldname, strlen(oldname))) == 0 && str_pathbuffer[data_active_window][strlen(oldname)] == ':')
 		{

@@ -92,7 +92,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	freedir(dir, win);
 
 	vert_propinfo[win].VertPot = 0;
-	if(Window && !status_iconified)
+	if(Window)
 	{
 		refreshwindow(win, 1);
 		SetAPen(main_rp, screen_pens[(win == data_active_window) ? config->disknameselbg : config->disknamebg].pen);
@@ -331,7 +331,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 void fixprop(int win)
 {
-	if(win > -1 && !status_iconified)
+	if(win > -1)
 	{
 		FixSliderBody(Window, &vert_propgad[win], dopus_curwin[win]->total, scrdata_dispwin_lines, 0);
 		fixvertprop(win);
@@ -340,7 +340,7 @@ void fixprop(int win)
 
 void fixvertprop(int win)
 {
-	if(win > -1 && !status_iconified)
+	if(win > -1)
 	{
 		FixSliderPot(Window, &vert_propgad[win], dopus_curwin[win]->offset, dopus_curwin[win]->total, scrdata_dispwin_lines, 2);
 	}
@@ -348,7 +348,7 @@ void fixvertprop(int win)
 
 void fixhorizprop(int win)
 {
-	if(win > -1 && !status_iconified)
+	if(win > -1)
 	{
 		fixhlen(win);
 		if(Window)
@@ -363,7 +363,7 @@ int doposprop(int win)
 {
 	int i;
 
-	if(win < 0 || status_iconified)
+	if(win < 0)
 		return (0);
 	if(!(status_flags & STATUS_NEWLOOK) && vert_propgad[win].MutualExclude)
 		ShowSlider(Window, &vert_propgad[win]);
@@ -379,7 +379,7 @@ void doposhprop(int win)
 {
 	int i;
 
-	if(!status_iconified && win > -1)
+	if(win > -1)
 	{
 		if(!(status_flags & STATUS_NEWLOOK) && horiz_propgad[win].MutualExclude)
 			ShowSlider(Window, &horiz_propgad[win]);
@@ -619,7 +619,7 @@ void displaydir(int win)
 	struct Region *oldreg = NULL, *newreg;
 	struct Rectangle rect;
 
-	if(win < 0 || status_iconified)
+	if(win < 0)
 		return;
 	l = dopus_curwin[win]->oldoff - dopus_curwin[win]->offset;
 	entry = dopus_curwin[win]->firstentry;

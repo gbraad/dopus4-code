@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 #define OLD_ACTION_Dummy            20000
 
@@ -295,7 +299,7 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, QUAD
 	struct Directory *addposition = NULL, *entry, *workfirst, *newentry;
 	char *description = NULL, *owner = NULL, *group = NULL;
 
-	if(status_iconified && status_flags & STATUS_ISINBUTTONS)
+	if(status_flags & STATUS_ISINBUTTONS)
 		return ((struct Directory *)1);
 
 	if(win < 0 || !dir || (type != ENTRY_CUSTOM && protection & 128 && config->hiddenbit))
@@ -446,6 +450,15 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, QUAD
 	}
 
 	/* locate insert position */
+
+	if (/*type <= ENTRY_FILE && */ win >=0 && win <= 1)
+	{
+		APTR obj;
+
+		obj = dopusdirlist[win];
+
+		DoMethod(obj, MUIM_List_InsertSingle, newentry, MUIV_List_Insert_Sorted);
+	}
 
 	if(type == ENTRY_CUSTOM)
 	{
@@ -749,7 +762,7 @@ void removefile(struct Directory *file, struct DirectoryWindow *dir, int win, in
 	int ty = file->type, se = file->selected;
 	QUAD sz = file->size;
 
-	if(win < 0 || !dir || (status_iconified && status_flags & STATUS_ISINBUTTONS))
+	if(win < 0 || !dir || (status_flags & STATUS_ISINBUTTONS))
 		return;
 
 	if(file == last_selected_entry)

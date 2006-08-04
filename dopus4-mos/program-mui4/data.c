@@ -74,7 +74,6 @@ struct TextFont *scr_font[NUMFONTS] /*={0}*/ ;	/* Fonts used in screen display *
 
 struct Process *main_proc /*=NULL*/ ;		/* Main Process */
 struct Task *hotkey_task /*=NULL*/ ;		/* HotKey Task */
-struct Task *clock_task /*=NULL*/ ;		/* Clock Task */
 
 struct MsgPort *count_port /*=NULL*/ ;		/* Port to establish run count */
 struct MsgPort *general_port /*=NULL*/ ;	/* General Message Port */
@@ -159,7 +158,6 @@ const char *str_protbits = "HSPARWED";
 
 /* Various data */
 
-BYTE status_iconified /*=0*/ ;			/* Current iconified status */
 BYTE status_configuring = -1;			/* Configuring status */
 BYTE status_justabort /*=0*/ ;			/* Have we just aborted? */
 BYTE status_haveaborted /*=0*/ ;		/* The abort sequence has been hit */
@@ -172,7 +170,6 @@ BYTE data_active_window /*=0*/ ;		/* Active directory window */
 UBYTE data_buffer_count[2] /*={0}*/ ;		/* Number of buffers in each window */
 BYTE data_gadgetrow_offset /*=0*/ ;		/* Gadget row offset */
 SHORT data_drive_offset /*=0*/ ;		/* Current drive offset */
-ULONG data_colorclock /*=0*/ ;			/* Color clock value for this system */
 
 ULONG time_current_sec /*=0*/ ;			/* Current Second (from Intuition) */
 ULONG time_current_micro /*=0*/ ;		/* Current Micro (from Intuition) */

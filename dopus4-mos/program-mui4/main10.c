@@ -129,9 +129,6 @@ void dodevicelist(int win)
 	char devname[32] = { 0, };
 	struct Directory *addafter = NULL;
 
-	if(status_iconified)
-		return;
-
 	makespecialdir(win, globstring[STR_DEVICE_LIST_TITLE]);
 
 	dostatustext(globstring[STR_SCANNING_DEVICE_LIST]);
@@ -219,7 +216,6 @@ int huntfile(STRPTR name, STRPTR completename, int *aa)
 		sprintf(mesbuf, globstring[STR_FOUND_A_MATCH], buf, completename);
 		if((rec = simplerequest(mesbuf, str_okaystring, globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
 		{
-			if(!status_iconified)
 			{
 				unbusy();
 				advancebuf(data_active_window, 1);
@@ -259,7 +255,7 @@ void centerwindow(struct NewWindow *wind)
 {
 	int h, w, pw, ph;
 
-	if(!status_iconified && Window)
+	if(Window)
 	{
 		w = Window->WScreen->Width;
 		h = Window->WScreen->Height;
@@ -291,7 +287,7 @@ void centerwindow(struct NewWindow *wind)
 			wind->Screen = Window->WScreen;
 		else
 			wind->Type = WBENCHSCREEN;
-		if(!status_iconified && Window)
+		if(Window)
 		{
 			wind->LeftEdge += Window->LeftEdge;
 			wind->TopEdge += Window->TopEdge;

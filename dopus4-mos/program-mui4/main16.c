@@ -36,13 +36,12 @@ the existing commercial status of Directory Opus 5.
 #include "mui.h"
 
 static APTR setupfontdisplay(CONST_STRPTR name, struct TextFont *font, CONST_STRPTR text);
-static void cleanup_fontdisplay(APTR win);
 
 struct Library *AmigaGuideBase;
 
 int showfont(STRPTR name, int size, int np)
 {
-	UBYTE viewstr[256+2];
+	UBYTE viewstr[256+4];
 	struct TextFont *font;
 	struct TextAttr sfattr = { (STRPTR) name, size, 0, 0 };
 
@@ -69,33 +68,10 @@ int showfont(STRPTR name, int size, int np)
 
 		viewstr[x] = 0;
 
-		set(dopusapp, MUIA_Application_Sleep, TRUE);
-
 		if ((win = setupfontdisplay(name, font, viewstr)))
 		{
-			ULONG sigs = 0;
-
-			DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
-
-			for (;;)
-			{
-				ULONG ret = DoMethod(dopusapp, MUIM_Application_NewInput, &sigs);
-
-				if (ret == MUIV_Application_ReturnID_Quit)
-				{
-					break;
-				}
-
-				if (sigs)
-					sigs = Wait(sigs);
-			}
-
-			cleanup_fontdisplay(win);
+			DoMethod(win, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Application, 6, MUIM_Application_PushMethod, dopusapp, 3, MM_Application_DeleteFontWindow, win, font);
 		}
-
-		set(dopusapp, MUIA_Application_Sleep, FALSE);
-
-		CloseFont(font);
 	}
 
 	return 1;
@@ -126,18 +102,14 @@ static APTR setupfontdisplay(CONST_STRPTR name, struct TextFont *font, CONST_STR
 
 		if (!ok)
 		{
-			cleanup_fontdisplay(win);
+			DoMethod(dopusapp, OM_REMMEMBER, win);
+			MUI_DisposeObject(win);
+			CloseFont(font);
 			win = NULL;
 		}
 	}
 
 	return win;
-}
-
-static void cleanup_fontdisplay(APTR win)
-{
-	DoMethod(dopusapp, OM_REMMEMBER, win);
-	MUI_DisposeObject(win);
 }
 
 void readhelp(STRPTR file)
@@ -461,7 +433,7 @@ void checkstringgads(int a)
 
 void setdirsize(struct Directory *dir, long long byte, int win)
 {
-	if(status_iconified || win == -1)
+	if(win == -1)
 		return;
 
 	if(dir->size > 0)

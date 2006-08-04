@@ -520,7 +520,7 @@ void dosizedirwindows(int size)
 		SetDrMd(main_rp, JAM2);
 		Window->Flags &= ~WFLG_REPORTMOUSE;
 	}
-	if(fail == -1 && ox != config->windowdelta && !status_iconified)
+	if(fail == -1 && ox != config->windowdelta)
 	{
 		busy();
 		layoutcenter((config->windowdelta = ox));

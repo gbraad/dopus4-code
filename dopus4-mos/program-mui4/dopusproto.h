@@ -254,7 +254,6 @@ int identify_and_load(int, int);
 /* main11.c */
 void iconify(int, int, int);
 void remiclock(void);
-int getmaxmem(ULONG /*,ULONG */ );
 void iconstatustext(STRPTR, int);
 void cleanupiconify(void);
 

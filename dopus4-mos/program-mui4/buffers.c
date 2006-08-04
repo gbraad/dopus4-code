@@ -97,7 +97,7 @@ int bringinbuffer(char *dirbuf, int win, int read)
 	int a, otherwin;
 	struct DirectoryWindow *dir;
 
-	if(status_iconified || !dirbuf)
+	if(!dirbuf)
 		return (0);
 	checkcurrentbuffer(win);
 	if(!(findbuffer(dirbuf, win, 0, 0)))
@@ -217,8 +217,6 @@ void copydirwin(struct DirectoryWindow *sourcewin, struct DirectoryWindow *destw
 {
 	struct Directory *copy;
 
-	if(status_iconified)
-		return;
 	busy();
 	freedir(destwin, dest);
 	copy = sourcewin->firstentry;
@@ -249,9 +247,6 @@ void swapdirwin()
 {
 	int tmp;
 	struct DirectoryWindow tempwin;
-
-	if(status_iconified)
-		return;
 
 	CopyMem((char *)dopus_curwin[0], (char *)&tempwin, sizeof(struct DirectoryWindow));
 	tempwin.next = dopus_curwin[1]->next;
@@ -330,8 +325,6 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	BPTR lock = 0, testlock;
 	char tempbuf[300];
 
-	if(status_iconified)
-		return (NULL);
 	dir = dopus_curwin[win];
 	if(dir->flags & DWF_ARCHIVE)
 		return NULL;
@@ -441,8 +434,6 @@ void dolistbuffers(int destwin)
 	struct DirectoryWindow *dir;
 	char name[2];
 
-	if(status_iconified)
-		return;
 	makespecialdir(destwin, globstring[STR_BUFFER_LIST_TITLE]);
 
 	busy();

@@ -67,12 +67,6 @@ void makedir(int rexx)
 				win = -1;
 			}
 		}
-		else if(status_iconified)
-		{
-			if(!(status_flags & STATUS_ISINBUTTONS) || (!(getdummypath(new_directory, STR_ENTER_DIRECTORY_NAME))))
-				return;
-			win = -1;
-		}
 		else
 		{
 			if(!(isvalidwindow(data_active_window)))
@@ -437,7 +431,7 @@ void dolittlegads(struct Gadget *gad, CONST_STRPTR txt, int num)
 	int a, y;
 	struct TextFont *font;
 
-	if(status_iconified || !Window)
+	if(!Window)
 		return;
 
 	font = main_rp->Font;

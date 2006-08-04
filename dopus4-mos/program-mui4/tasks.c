@@ -55,87 +55,17 @@ static void progresstext(int val, int total, CONST_STRPTR text);
 static struct DOpusRemember *prog_key;
 static struct ProgressBar bar[2];
 
-static struct NewBroker hotkey_broker =
-{
-	NB_VERSION,
-	NULL,
-	"Directory Opus © Jonathan Potter",
-	"The most amazing program ever written",
-	0, COF_SHOW_HIDE, 100, NULL, 0
-};
-
-static IX hotkey_ix = { IX_VERSION };
 static APTR mui_gauge, mui_text;
 
 void hotkeytaskcode()
 {
-	char cxname[20];
-	int top, sig, waitbits, commodity = 0, command, x, run = 1;
+	int sig, waitbits, run = 1;
 	struct dopustaskmsg *hmsg;
-	struct MsgPort *inputport;
-	ULONG msgid, msgtype;
-	struct dopushotkey *hotkey;
-	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
-	CxMsg *cxmsg;
 	APTR muiapp, pwindow;
 
 	hotkeymsg_port = CreateMsgPort();
-	inputport = CreateMsgPort();
 
 	pwindow = NULL;
-
-	{
-		strcpy(cxname, "Directory Opus");
-		if(system_dopus_runcount)
-		{
-			char tmp[8];
-
-			sprintf(tmp, " (%d)", system_dopus_runcount + 1);
-			strcat(cxname, tmp);
-		}
-		hotkey_broker.nb_Name = cxname;
-		hotkey_broker.nb_Port = inputport;
-		if((broker = CxBroker(&hotkey_broker, NULL)))
-		{
-
-			/* Initialise main hotkey */
-			if((hotkey_filter = set_dopus_filter(broker, inputport, NULL, config->hotkeycode, config->hotkeyqual, HOTKEY_UNICONIFY, 1)))
-			{
-
-				hotkey_ix.ix_Code = IECODE_LBUTTON;
-				hotkey_ix.ix_Qualifier = IEQUALIFIER_RBUTTON;
-				hotkey_ix.ix_QualMask = 0xffff & ~(IEQUALIFIER_LEFTBUTTON | IEQUALIFIER_RELATIVEMOUSE | IEQUALIFIER_CAPSLOCK);
-				if(set_dopus_filter(broker, inputport, "rawmouse lbutton", 0, 0, HOTKEY_ABORT, 0))
-				{
-					hotkey_ix.ix_Code = IECODE_RBUTTON;
-					hotkey_ix.ix_Qualifier = IEQUALIFIER_LEFTBUTTON;
-					hotkey_ix.ix_QualMask = 0xffff & ~(IEQUALIFIER_RBUTTON | IEQUALIFIER_RELATIVEMOUSE | IEQUALIFIER_CAPSLOCK);
-					if(set_dopus_filter(broker, inputport, "rawmouse rbutton", 0, 0, HOTKEY_ABORT, 0))
-					{
-
-						if(config->hotkeyflags & HOTKEY_USEMMB)
-						{
-							hotkey_ix.ix_Code = IECODE_MBUTTON;
-							hotkey_ix.ix_Qualifier = IEQUALIFIER_MIDBUTTON;
-							hotkey_ix.ix_QualMask = 0xffff & ~(IEQUALIFIER_RELATIVEMOUSE | IEQUALIFIER_CAPSLOCK);
-							mmb_filter = set_dopus_filter(broker, inputport, "rawmouse midbutton", 0, 0, HOTKEY_MMB, 1);
-						}
-
-						add_hotkey_objects(broker, inputport, 1);
-						set_hotkey(hotkey_filter, config->hotkeycode, config->hotkeyqual);
-
-						ActivateCxObj(broker, 1);
-						commodity = 1;
-					}
-				}
-			}
-		}
-		if(broker && (!commodity))
-		{
-			add_hotkey_objects(broker, inputport, 0);
-			DeleteCxObjAll(broker);
-		}
-	}
 
 	muiapp = ApplicationObject,
 		MUIA_Application_NoIconify, TRUE,
@@ -143,10 +73,6 @@ void hotkeytaskcode()
 		End;
 
 	waitbits = 1 << hotkeymsg_port->mp_SigBit;
-	if(commodity)
-		waitbits |= 1 << inputport->mp_SigBit;
-
-	NewRawDoFmt("DOPUS: muiapp is %08lx\n", (APTR)1, NULL, muiapp);
 
 	sig = 0;
 
@@ -167,58 +93,9 @@ void hotkeytaskcode()
 		}
 
 		sig = Wait(waitbits | sig);
+
+		#if 0
 		command = 0;
-
-		if(commodity)
-		{
-			while((cxmsg = (CxMsg *)GetMsg(inputport)))
-			{
-				msgid = CxMsgID(cxmsg);
-				msgtype = CxMsgType(cxmsg);
-				ReplyMsg((struct Message *)cxmsg);
-				switch(msgtype)
-				{
-				case CXM_IEVENT:
-					if((command = msgid) >= HOTKEY_HOTKEY)
-					{
-						x = command - HOTKEY_HOTKEY;
-						command = HOTKEY_HOTKEY;
-						hotkey = dopus_firsthotkey;
-						while(x-- && hotkey)
-							hotkey = hotkey->next;
-						dopus_globalhotkey = hotkey;
-					}
-					break;
-
-				case CXM_COMMAND:
-					switch (msgid)
-					{
-					case CXCMD_KILL:
-						command = HOTKEY_HOTKEY;
-						dopus_globalhotkey = (struct dopushotkey *)-1;
-						break;
-
-					case CXCMD_DISABLE:
-						ActivateCxObj(broker, 0);
-						break;
-
-					case CXCMD_ENABLE:
-						ActivateCxObj(broker, 1);
-						break;
-
-					case CXCMD_APPEAR:
-						command = HOTKEY_UNICONIFY;
-						break;
-
-					case CXCMD_DISAPPEAR:
-						command = HOTKEY_HOTKEY;
-						dopus_globalhotkey = (struct dopushotkey *)-2;
-						break;
-					}
-					break;
-				}
-			}
-		}
 
 		switch (command)
 		{
@@ -233,67 +110,12 @@ void hotkeytaskcode()
 		case HOTKEY_MMB:
 			if(!(config->hotkeyflags & HOTKEY_USEMMB))
 				break;
-		case HOTKEY_UNICONIFY:
-			if(status_configuring == -1)
-				break;
-			if(status_iconified == 1)
-				Signal((struct Task *)main_proc, INPUTSIG_UNICONIFY);
-			else if(status_iconified == 0)
-			{
-				if(MainScreen)
-				{
-					if(!status_configuring && config->screenflags & SCRFLAGS_HALFHEIGHT)
-						top = main_scr.TopEdge;
-					else
-						top = 0;
-
-					if(IntuitionBase->FirstScreen == MainScreen && MainScreen->TopEdge == top && (!(IntuitionBase->ActiveWindow || IntuitionBase->ActiveWindow->WScreen == MainScreen)))
-					{
-						ScreenToBack(MainScreen);
-						if(Window->Parent && Window->Parent->WScreen == IntuitionBase->FirstScreen)
-							ActivateWindow(Window->Parent);
-						else
-							ActivateWindow(IntuitionBase->FirstScreen->FirstWindow);
-					}
-					else
-					{
-						struct Window *window;
-
-						ScreenToFront(MainScreen);
-						if(MainScreen->FirstWindow == ansiread_window)
-							window = Window;
-						else
-							window = MainScreen->FirstWindow;
-
-						if(!(window->Flags & WFLG_BACKDROP))
-							WindowToFront(window);
-						ActivateWindow(window);
-					}
-					MoveScreen(MainScreen, 0, top - MainScreen->TopEdge);
-				}
-				else
-				{
-					if(IntuitionBase->ActiveWindow == Window && IntuitionBase->FirstScreen == Window->WScreen && Window->WScreen->LayerInfo.top_layer == Window->RPort->Layer)
-					{
-						WindowToBack(Window);
-						if(Window->Parent)
-							ActivateWindow(Window->Parent);
-					}
-					else
-					{
-						ScreenToFront(Window->WScreen);
-						WindowToFront(Window);
-						ActivateWindow(Window);
-					}
-				}
-			}
-			break;
-
 		case HOTKEY_HOTKEY:
 			if(!status_configuring)
 				Signal((struct Task *)main_proc, INPUTSIG_HOTKEY);
 			break;
 		}
+		#endif
 
 		while((hmsg = (struct dopustaskmsg *)GetMsg(hotkeymsg_port)))
 		{
@@ -361,62 +183,21 @@ void hotkeytaskcode()
 			case TASK_QUIT:
 				run = 0;
 				break;
-
-			case HOTKEY_HOTKEYCHANGE:
-				if(commodity)
-				{
-					set_hotkey(hotkey_filter, config->hotkeycode, config->hotkeyqual);
-
-					if(config->hotkeyflags & HOTKEY_USEMMB)
-					{
-						if(!mmb_filter)
-						{
-							hotkey_ix.ix_Code = IECODE_MBUTTON;
-							hotkey_ix.ix_Qualifier = IEQUALIFIER_MIDBUTTON;
-							hotkey_ix.ix_QualMask = 0xffff & ~(IEQUALIFIER_RELATIVEMOUSE | IEQUALIFIER_CAPSLOCK);
-							mmb_filter = set_dopus_filter(broker, inputport, "rawmouse midbutton", 0, 0, HOTKEY_MMB, 1);
-						}
-					}
-					else if(mmb_filter)
-					{
-						DeleteCxObjAll(mmb_filter);
-						mmb_filter = NULL;
-					}
-				}
-				break;
-
-			case HOTKEY_KILLHOTKEYS:
-				if(commodity)
-					add_hotkey_objects(broker, inputport, 0);
-				break;
-
-			case HOTKEY_NEWHOTKEYS:
-				if(commodity)
-					add_hotkey_objects(broker, inputport, 1);
-				break;
 			}
 			ReplyMsg((struct Message *)hmsg);
 		}
 	}
 
-	if(commodity)
-	{
-		add_hotkey_objects(broker, inputport, 0);
-		DeleteCxObjAll(broker);
-		while((cxmsg = (CxMsg *)GetMsg(inputport)))
-			ReplyMsg((struct Message *)cxmsg);
-	}
-
 	MUI_DisposeObject(muiapp);
 
 	LFreeRemember(&prog_key);
-	DeleteMsgPort(inputport);
 	DeleteMsgPort(hotkeymsg_port);
 //	Wait(0);
 	Forbid();
 	hotkeymsg_port = NULL;
 }
 
+#if 0
 void add_hotkey_objects(CxObj *broker, struct MsgPort *port, int add)
 {
 	static CxObj **filter_table;
@@ -504,6 +285,7 @@ void set_hotkey(CxObj *filter, USHORT code, USHORT qual)
 		SetFilterIX(filter, &hotkey_ix);
 	}
 }
+#endif
 
 static APTR openprogresswindow(APTR muiapp, CONST_STRPTR title, int value, int total, int flag)
 {
@@ -586,201 +368,4 @@ static void progressbar(struct ProgressBar *bar)
 	curr = bar->curr;
 
 	SetAttrs(mui_gauge, MUIA_Gauge_Max, max, MUIA_Gauge_Current, curr, TAG_DONE);
-}
-
-static const char *Kstr = "K  ";
-
-static int getmaxmem(ULONG type)
-{
-	ULONG size = 0;
-	int a;
-
-	size = AvailMem(type | MEMF_TOTAL);
-	size = (size + 1023) / 1024;
-	for(a = 1;; a++)
-		if(!(size /= 10))
-			break;
-	return (a);
-}
-
-void clocktask()
-{
-	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, /*len,*/ ct, chipnum, fastnum, a, active = 1, usage;
-	int len;
-	USHORT clock_width, clock_height, scr_height;
-	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
-	struct MsgPort *clock_time_port;
-	struct timerequest ctimereq;
-	struct DateTime datetime = { { 0, } };
-	struct dopustaskmsg *cmsg;
-	struct RastPort clock_rp;
-
-	Forbid();
-	CopyMem((STRPTR)main_rp, (STRPTR)&clock_rp, sizeof(struct RastPort));
-	SetDrawModes(&clock_rp, config->clockfg, config->clockbg, JAM2);
-	SetFont(&clock_rp, scr_font[FONT_CLOCK]);
-	scr_height = scrdata_height + scrdata_yoffset;
-	clock_width = scrdata_clock_width;
-	clock_height = scrdata_clock_height;
-	ct = scr_height - (clock_height - 1);
-	cy = scrdata_clock_ypos + scr_font[FONT_CLOCK]->tf_Baseline - 1;
-	Permit();
-
-	clockmsg_port = CreateMsgPort();
-	clock_time_port = CreateMsgPort();
-
-	OpenDevice(TIMERNAME, UNIT_VBLANK, (struct IORequest *)&ctimereq, 0);
-	ctimereq.tr_node.io_Message.mn_ReplyPort = clock_time_port;
-	ctimereq.tr_node.io_Command = TR_ADDREQUEST;
-	ctimereq.tr_node.io_Flags = 0;
-	ctimereq.tr_time.tv_secs = 0;
-	ctimereq.tr_time.tv_micro = 2;
-	SendIO(&ctimereq.tr_node);
-
-	chipnum = getmaxmem(MEMF_CHIP);
-	fastnum = getmaxmem(MEMF_FAST);
-	a = getmaxmem(MEMF_ANY);
-
-	m = (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0;
-	s = (config->scrclktype & SCRCLOCK_BYTES) ? 1 : 0;
-
-	if(config->scrclktype & SCRCLOCK_C_AND_F)
-	{
-		sprintf(memstring, "%lc:%%-%ldld%s", globstring[STR_CLOCK_CHIP][0], chipnum + m, Kstr + s);
-		if(fastnum > 1)
-		{
-			sprintf(memstring + strlen(memstring), "%lc:%%-%ldld%s", globstring[STR_CLOCK_FAST][0], fastnum + m, Kstr + s);
-			sprintf(memstring + strlen(memstring), "%lc:%%-%ldld%s", globstring[STR_CLOCK_TOTAL][0], a + m, Kstr + s);
-		}
-	}
-	else
-	{
-		sprintf(memstring, "%s%%-%ldld%s", globstring[STR_CLOCK_CHIP], chipnum + m, Kstr + s);
-		if(fastnum > 1)
-		{
-			sprintf(memstring + strlen(memstring), "%s%%-%ldld%s", globstring[STR_CLOCK_FAST], fastnum + m, Kstr + s);
-			sprintf(memstring + strlen(memstring), "%s%%-%ldld%s", globstring[STR_CLOCK_TOTAL], a + m, Kstr + s);
-		}
-	}
-
-	if(!(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME)))
-		sprintf(formstring, "Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
-
-	sig = 1 << clock_time_port->mp_SigBit | 1 << clockmsg_port->mp_SigBit;
-
-	FOREVER
-	{
-		wmes = Wait(sig);
-		if(wmes & 1 << clockmsg_port->mp_SigBit)
-		{
-			while((cmsg = (struct dopustaskmsg *)GetMsg(clockmsg_port)))
-			{
-				switch (cmsg->command)
-				{
-				case TASK_QUIT:
-					if(!(CheckIO(&ctimereq.tr_node)))
-						AbortIO(&ctimereq.tr_node);
-					WaitIO(&ctimereq.tr_node);
-					CloseDevice((struct IORequest *)&ctimereq);
-					DeleteMsgPort(clock_time_port);
-					DeleteMsgPort(clockmsg_port);
-					clockmsg_port = NULL;
-					ReplyMsg((struct Message *)cmsg);
-					Forbid();
-					return;
-				case CLOCK_ACTIVE:
-					active = cmsg->value;
-					break;
-				}
-				ReplyMsg((struct Message *)cmsg);
-			}
-		}
-		if(wmes & 1 << clock_time_port->mp_SigBit)
-		{
-			if(active && !(Window->Flags & WFLG_MENUSTATE))
-			{
-				if(scr_height > ct + 1)
-				{
-					if(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME))
-					{
-						formstring[0] = 0;
-						if(config->scrclktype & SCRCLOCK_MEMORY)
-						{
-							chipc = AvailMem(MEMF_CHIP);
-							fast = AvailMem(MEMF_FAST);
-							if(!(config->scrclktype & SCRCLOCK_BYTES))
-							{
-								chipc /= 1024;
-								fast /= 1024;
-							}
-							sprintf(buf, memstring, chipc, fast, chipc + fast);
-							strcat(formstring, buf);
-						}
-						if(config->scrclktype & SCRCLOCK_CPU)
-						{
-							usage = getusage();
-
-							sprintf(buf, "CPU:%3ld%%  ", usage);
-							strcat(formstring, buf);
-						}
-						if(config->scrclktype & (SCRCLOCK_DATE | SCRCLOCK_TIME))
-						{
-							DateStamp(&(datetime.dat_Stamp));
-							initdatetime(&datetime, date, time, 0);
-
-							if(config->scrclktype & SCRCLOCK_DATE)
-							{
-								sprintf(buf, "%-9s  ", date);
-								strcat(formstring, buf);
-							}
-							if(config->scrclktype & SCRCLOCK_TIME)
-							{
-								if(config->dateformat & DATE_12HOUR)
-								{
-									h = datetime.dat_Stamp.ds_Minute / 60;
-									m = datetime.dat_Stamp.ds_Minute % 60;
-									s = datetime.dat_Stamp.ds_Tick / TICKS_PER_SECOND;
-									if(h > 11)
-									{
-										ampm = 'P';
-										h -= 12;
-									}
-									else
-									{
-										ampm = 'A';
-									}
-									if(h == 0)
-									{
-										h = 12;
-									}
-									sprintf(time, "%02ld:%02ld:%02ld%c", h, m, s, ampm);
-								}
-								strcat(formstring, time);
-							}
-						}
-					}
-					len = strlen(formstring);
-					if(len > 1 && formstring[len - 2] == ' ')
-						len -= 2;
-					cx = (clock_width - dotextlength(&clock_rp, formstring, &len, clock_width - 4)) / 2;
-					cx += scrdata_clock_xpos;
-					if(cx < scrdata_clock_xpos)
-						cx = scrdata_clock_xpos;
-
-					SetAPen(&clock_rp, screen_pens[config->clockfg].pen);
-					Move(&clock_rp, cx, cy);
-					Text(&clock_rp, formstring, len);
-					SetAPen(&clock_rp, screen_pens[config->clockbg].pen);
-
-					if(cx > scrdata_clock_xpos)
-						RectFill(&clock_rp, scrdata_clock_xpos, ct, cx - 1, scr_height - 2);
-					if(clock_rp.cp_x < clock_width - 1)
-						RectFill(&clock_rp, clock_rp.cp_x, ct, clock_width - 2, scr_height - 2);
-				}
-			}
-			ctimereq.tr_time.tv_secs = 1;
-			ctimereq.tr_time.tv_micro = 0;
-			SendIO(&ctimereq.tr_node);
-		}
-	}
 }

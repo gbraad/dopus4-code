@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 static unsigned char displenmap[] =
 {
@@ -206,8 +210,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 				win = data_active_window;
 			strcpy(str_pathbuffer[win], rexx_args[0]);
-			if(!status_iconified)
-				startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
+			startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 		}
 		break;
 
@@ -237,8 +240,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			rexx_set_return(msg, 1, NULL);
 		else
 			rexx_set_return(msg, 0, buf);
-		if(!status_iconified)
-			unbusy();
+		unbusy();
 		return (1);
 
 	case FUNC_LOADCONFIG:
@@ -270,8 +272,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		else
 			++command;
 		rexx_return(msg, (simplerequest(command, str_okaystring, str_cancelstring, NULL)));
-		if(!status_iconified)
-			unbusy();
+		unbusy();
 		return (1);
 
 	case FUNC_DOPUSTOFRONT:
@@ -463,7 +464,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			buf1 = str_version_string;
 			break;
 		case RXSTATUS_ACTIVE_WINDOW:
-			if(f && !status_iconified)
+			if(f)
 				makeactive(val, 0);
 			else
 				d = data_active_window;
@@ -520,8 +521,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			if(f)
 			{
 				strcpy(str_pathbuffer[c], buf3);
-				if(!status_iconified)
-					startgetdir(c, 0);
+				startgetdir(c, 0);
 			}
 			else
 				buf1 = str_pathbuffer[c];
@@ -596,7 +596,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 						break;
 					dirwin = dirwin->next;
 				}
-				if(dirwin && !status_iconified)
+				if(dirwin)
 					go_to_buffer(c, dirwin);
 			}
 			break;
@@ -610,11 +610,8 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 					dopus_curwin[c]->offset = 0;
 				else if(dopus_curwin[c]->offset > dopus_curwin[c]->total - scrdata_dispwin_lines)
 					dopus_curwin[c]->offset = dopus_curwin[c]->total - scrdata_dispwin_lines;
-				if(!status_iconified)
-				{
-					fixvertprop(c);
-					displaydir(c);
-				}
+				fixvertprop(c);
+				displaydir(c);
 			}
 			else
 				d = dopus_curwin[c]->offset + 1;
@@ -643,7 +640,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 				buf1 = str_cancelstring;
 			break;
 		case RXSTATUS_ICONIFIED:
-			d = status_iconified;
+			{
+				ULONG stat;
+				GetAttr(MUIA_Application_Iconified, dopusapp, &stat);
+				d = stat;
+			}
 			break;
 		case RXSTATUS_TOP_TEXT_JUSTIFY:
 			if(f)
@@ -689,7 +690,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 				bank = bank->next;
 			if(bank != dopus_curgadbank)
 				a = -1;
-			sprintf(buf, "%ld", a);
+			sprintf(buf, "%d", a);
 			buf1 = buf;
 			break;
 		}
@@ -718,7 +719,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		break;
 
 	case FUNC_SCROLLV:
-		if(status_iconified || rexx_argcount < 1)
+		if(rexx_argcount < 1)
 			break;
 		if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 			win = data_active_window;
@@ -737,7 +738,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		return (1);
 
 	case FUNC_SCROLLH:
-		if(status_iconified || rexx_argcount < 1)
+		if(rexx_argcount < 1)
 			break;
 		if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 			win = data_active_window;
@@ -755,7 +756,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		return (1);
 
 	case FUNC_SCROLLTOSHOW:
-		if(status_iconified || rexx_argcount < 1)
+		if(rexx_argcount < 1)
 			break;
 		if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 			win = data_active_window;
@@ -787,7 +788,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		return (1);
 
 	case FUNC_BUSY:
-		if(rexx_argcount < 1 || status_iconified)
+		if(rexx_argcount < 1)
 			break;
 		if((strncmp(rexx_args[0], "on", 2)) == 0)
 			busy();
@@ -813,8 +814,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		}
 		goto doentryselection;
 	case FUNC_SELECTFILE:
-		if(status_iconified)
-			strcpy(rexx_args[2], "0");
 		if(!(entry = findfile(dopus_curwin[data_active_window], rexx_args[0], NULL)))
 			d = -1;
 		else
@@ -856,7 +855,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 					dopus_curwin[data_active_window]->bytessel += entry->size;
 				}
 			}
-			if(rexx_argcount > 2 && atoi(rexx_args[2]) && !status_iconified)
+			if(rexx_argcount > 2 && atoi(rexx_args[2]))
 			{
 				refreshwindow(data_active_window, 0);
 				if(entry->type != ENTRY_CUSTOM)
@@ -867,8 +866,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		return (1);
 
 	case FUNC_DISPLAYDIR:
-		if(status_iconified)
-			break;
 		if(rexx_argcount < 1 || (win = atoi(rexx_args[0])) < 0 || win > 1)
 			win = data_active_window;
 		refreshwindow(win, 1);
@@ -888,8 +885,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			d = 0;
 		else
 		{
-			if(status_iconified)
-				strcpy(rexx_args[7], "0");
 			d = (int)addfile(dopus_curwin[data_active_window], data_active_window, rexx_args[0], atoi(rexx_args[1]), b, &ds, rexx_args[4], getprotval(rexx_args[5]), 0, atoi(rexx_args[7]), NULL, NULL, 0, 0);
 			fixprop(data_active_window);
 			doposprop(data_active_window);
@@ -898,8 +893,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		return (1);
 
 	case FUNC_REMOVEFILE:
-		if(status_iconified)
-			strcpy(rexx_args[1], "0");
 		if((entry = findfile(dopus_curwin[data_active_window], rexx_args[0], NULL)))
 		{
 			removefile(entry, dopus_curwin[data_active_window], data_active_window, atoi(rexx_args[1]));
@@ -913,8 +906,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 /* AddCustEntry "text" <userdata> <fgpen> <bkpen> <selectable> <show> <before> */
 
 	case FUNC_ADDCUSTENTRY:
-		if(status_iconified)
-			strcpy(rexx_args[2], "0");
 		DateStamp(&ds);
 		buf2[0] = 0;
 		if(dopus_curwin[data_active_window]->firstentry && (dopus_curwin[data_active_window]->firstentry->type != ENTRY_CUSTOM || dopus_curwin[data_active_window]->firstentry->subtype != CUSTOMENTRY_USER))
@@ -986,8 +977,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 	case FUNC_REMOVEENTRY:
 		if(rexx_argcount < 1)
 			break;
-		if(status_iconified)
-			strcpy(rexx_args[1], "0");
 		entry = dopus_curwin[data_active_window]->firstentry;
 		b = atoi(rexx_args[0]);
 		for(a = 0; a < b; a++)
@@ -1011,8 +1000,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			win = data_active_window;
 		LStrnCpy(dopus_curwin[win]->diskname, rexx_args[0], 32);
 		dopus_curwin[win]->diskfree = dopus_curwin[win]->disktot = dopus_curwin[win]->diskblock = -1;
-		if(!status_iconified)
-			displayname(win, 1);
+		displayname(win, 1);
 		break;
 
 	case FUNC_ADDCUSTHANDLER:
@@ -1024,29 +1012,21 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		return (1);
 
 	case FUNC_COPYWINDOW:
-		if(status_iconified)
-			break;
 		if(rexx_argcount < 1 || (win = atoi(rexx_args[0])) < 0 || win > 1)
 			win = data_active_window;
 		copydirwin(dopus_curwin[win], dopus_curwin[1 - win], 1 - win);
 		break;
 
 	case FUNC_SWAPWINDOW:
-		if(status_iconified)
-			break;
 		swapdirwin();
 		break;
 
 	case FUNC_TOPTEXT:
-		if(status_iconified)
-			break;
 		if(rexx_argcount > 0)
 			dostatustext(command + 1);
 		break;
 
 	case FUNC_DIRTREE:
-		if(status_iconified)
-			break;
 		if(rexx_argcount < 1 || (win = atoi(rexx_args[0])) < 0 || win > 1)
 			win = data_active_window;
 		dotree(win);
@@ -1236,7 +1216,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 				break;
 
 			case MOD_WINDOWXY:
-				if(!status_iconified && status_publicscreen && Window)
+				if(status_publicscreen && Window)
 					sprintf(buf, "%d %d", Window->LeftEdge, Window->TopEdge);
 				else
 					sprintf(buf, "%d %d", config->wbwinx, config->wbwiny);
@@ -1244,7 +1224,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 				break;
 
 			case MOD_WINDOWSIZE:
-				if(!status_iconified && status_publicscreen && Window)
+				if(status_publicscreen && Window)
 					sprintf(buf, "%d %d", Window->Width, Window->Height);
 				else
 					sprintf(buf, "%d %d", config->scr_winw, config->scr_winh);
@@ -1256,7 +1236,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 				break;
 
 			case MOD_WINDOWXYWH:
-				if(!status_iconified && status_publicscreen && Window)
+				if(status_publicscreen && Window)
 				{
 					sprintf(buf, "%d %d %d %d", Window->LeftEdge, Window->TopEdge, Window->Width, Window->Height);
 				}
@@ -1525,7 +1505,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 					else
 						y = config->wbwiny;
 				}
-				if(!status_iconified && status_publicscreen && Window)
+				if(status_publicscreen && Window)
 				{
 					if(Window->Width + x > Window->WScreen->Width)
 						x = Window->WScreen->Width - Window->Width;
@@ -1564,7 +1544,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 					else
 						h = config->scr_winh;
 				}
-				if(!status_iconified && status_publicscreen && Window)
+				if(status_publicscreen && Window)
 				{
 					int dx = 0, dy = 0;
 
@@ -1597,7 +1577,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 							config->scrh = config->scr_winh;
 						}
 						config->screenflags &= ~(SCRFLAGS_DEFWIDTH | SCRFLAGS_DEFHEIGHT);
-						remclock();
 						SetUp(0);
 						dostatustext(str_last_statustext);
 					}
@@ -1615,7 +1594,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			config->wbwiny = atoi(rexx_args[2]);
 			config->scr_winw = atoi(rexx_args[3]);
 			config->scr_winh = atoi(rexx_args[4]);
-			if(!status_iconified && status_publicscreen && Window)
+			if(status_publicscreen && Window)
 				ChangeWindowBox(Window, config->wbwinx, config->wbwiny, config->scr_winw, config->scr_winh);
 			break;
 
@@ -1720,39 +1699,14 @@ char *dosstatus(int f, STRPTR buf, STRPTR buf1)
 
 void dopustofront()
 {
-	int top;
-
-	if(!status_iconified)
-	{
-		if(MainScreen)
-		{
-			ScreenToFront(MainScreen);
-			if(!status_configuring && config->screenflags & SCRFLAGS_HALFHEIGHT)
-				top = scrdata_norm_height;
-			else
-				top = 0;
-			MoveScreen(MainScreen, 0, top - MainScreen->TopEdge);
-		}
-		if(Window)
-		{
-			if(!Window->Flags & WFLG_BACKDROP)
-				WindowToFront(Window);
-			ActivateWindow(Window);
-		}
-	}
+	DoMethod(dopuswin, MUIM_Window_ToFront);
+	DoMethod(dopuswin, MUIM_Window_ScreenToFront);
 }
 
 void dopustoback()
 {
-	if(!status_iconified)
-	{
-		if(MainScreen)
-			ScreenToBack(MainScreen);
-		else if(Window)
-			WindowToBack(Window);
-		if(Window->Parent)
-			ActivateWindow(Window->Parent);
-	}
+	DoMethod(dopuswin, MUIM_Window_ScreenToBack);
+	DoMethod(dopuswin, MUIM_Window_ToBack);
 }
 
 int checkkeyword(STRPTR *keywords, int num, int rem)

@@ -64,7 +64,7 @@ int savesetup(CONST_STRPTR path)
 	int a;
 
 	fixcstuff(&cstuff);
-	if(!status_iconified && status_publicscreen && Window)
+	if(status_publicscreen && Window)
 	{
 		if(MainScreen)
 		{

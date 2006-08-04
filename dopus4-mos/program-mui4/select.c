@@ -411,7 +411,6 @@ int select(int win, int o)
 		sel = temp->selected;
 		temp->selected = sel ? FALSE : TRUE;
 		updateselectinfo(temp, win, 1);
-		if(!status_iconified)
 		{
 			display_entry(temp, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
 			if(config->iconflags & ICONFLAG_AUTOSELECT)
@@ -599,10 +598,7 @@ int unselect(int win, struct Directory *file)
 	if(a < dopus_curwin[win]->offset || a > (dopus_curwin[win]->offset + scrdata_dispwin_lines - 1))
 		return (0);
 	a -= dopus_curwin[win]->offset;
-	if(!status_iconified)
-	{
-		display_entry(t, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * a) + scrdata_dirwin_ypos[win]);
-	}
+	display_entry(t, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * a) + scrdata_dirwin_ypos[win]);
 	return (1);
 }
 
@@ -630,10 +626,7 @@ void defselect(int win, int o, int state)
 		{
 			temp->selected = state;
 			updateselectinfo(temp, win, 1);
-			if(!status_iconified)
-			{
-				display_entry(temp, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
-			}
+			display_entry(temp, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
 		}
 		if(config->iconflags & ICONFLAG_AUTOSELECT)
 		{
@@ -646,11 +639,8 @@ void defselect(int win, int o, int state)
 					updateselectinfo(temp2, win, 1);
 					if(foundcount >= dopus_curwin[win]->offset && foundcount < dopus_curwin[win]->offset + scrdata_dispwin_lines)
 					{
-						if(!status_iconified)
-						{
-							o = foundcount - dopus_curwin[win]->offset;
-							display_entry(temp2, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
-						}
+						o = foundcount - dopus_curwin[win]->offset;
+						display_entry(temp2, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
 					}
 				}
 			}
@@ -1058,8 +1048,6 @@ int doactive(int state, int showinfo)
 	struct dopusfuncpar par;
 	struct Directory *entry;
 
-	if(status_iconified)
-		return (0);
 	if(showinfo)
 		doselinfo(data_active_window);
 	if(last_selected_entry && last_selected_entry->type <= ENTRY_FILE)

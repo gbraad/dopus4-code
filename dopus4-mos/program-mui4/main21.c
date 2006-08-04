@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 void fixdrivegadgets()
 {
@@ -83,10 +87,9 @@ void nextdrives()
 		}
 		if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS)
 		{
-			FixSliderPot(Window, &drive_propgad, data_drive_offset, USEDRIVECOUNT, scr_gadget_rows, !status_iconified);
+			FixSliderPot(Window, &drive_propgad, data_drive_offset, USEDRIVECOUNT, scr_gadget_rows, TRUE);
 		}
-		if(!status_iconified)
-			fixdrivegadgets();
+		fixdrivegadgets();
 	}
 }
 
@@ -190,13 +193,9 @@ void drawgadgets(int addgads, int bankoffset)
 
 	if(!scr_gadget_rows)
 		return;
-	if(status_iconified > 0)
-		yoff = Window->BorderTop + 1;
-	else
-	{
-		yoff = scrdata_gadget_ypos;
-		SetFont(main_rp, scr_font[FONT_GADGETS]);
-	}
+
+	yoff = scrdata_gadget_ypos;
+	SetFont(main_rp, scr_font[FONT_GADGETS]);
 
 	if(addgads != -1)
 	{
@@ -215,10 +214,7 @@ void drawgadgets(int addgads, int bankoffset)
 		}
 	}
 
-	if(status_iconified > 0)
-		ty = Window->BorderTop + main_rp->Font->tf_Baseline + 1;
-	else
-		ty = yoff + scr_font[FONT_GADGETS]->tf_Baseline + ((scrdata_gadget_height - 2 - scr_font[FONT_GADGETS]->tf_YSize) / 2);
+	ty = yoff + scr_font[FONT_GADGETS]->tf_Baseline + ((scrdata_gadget_height - 2 - scr_font[FONT_GADGETS]->tf_YSize) / 2);
 
 	num = 0;
 	if(addgads != -1)
@@ -231,10 +227,31 @@ void drawgadgets(int addgads, int bankoffset)
 				main_gadgets[num].Flags = GFLG_GADGHNONE;
 				if(dopus_curgadbank)
 				{
+					ULONG idx;
+					APTR obj;
+
+					idx = y * 8 + x + 1;
+					obj = NULL;
+
+					if (dopusgadarray)
+						obj = dopusgadarray[idx];
+
 					SetAPen(main_rp, screen_pens[dopus_curgadbank->gadgets[a].bpen].pen);
 					rectfill(main_rp, (x1 = ((x * scrdata_gadget_width) + scrdata_gadget_xpos + 2)), (y1 = ((y * scrdata_gadget_height) + yoff)), scrdata_gadget_width - 4, scrdata_gadget_height - 2);
+
+					if (obj)
+					{
+						DoMethod(obj, MUIM_KillNotify, MUIA_Pressed);
+						DoMethod(obj, MUIM_Notify, MUIA_Pressed, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, MAIN_GAD_BASE + a);
+					}
+
 					if(dopus_curgadbank->gadgets[a].name && dopus_curgadbank->gadgets[a].name[0])
 					{
+						if (obj)
+						{
+							set(obj, MUIA_Text_Contents, dopus_curgadbank->gadgets[a].name);
+						}
+
 						SetAPen(main_rp, screen_pens[dopus_curgadbank->gadgets[a].fpen].pen);
 						SetBPen(main_rp, screen_pens[dopus_curgadbank->gadgets[a].bpen].pen);
 						len = makeusstring(dopus_curgadbank->gadgets[a].name, buf, &uspos);
@@ -307,8 +324,7 @@ void drawgadgets(int addgads, int bankoffset)
 			AddGList(Window, drive_gadgets, -1, scr_gadget_rows, NULL);
 		}
 	}
-	if(status_iconified < 1)
-		SetFont(main_rp, scr_font[FONT_GENERAL]);
+	SetFont(main_rp, scr_font[FONT_GENERAL]);
 }
 
 void fix_gadget_highlight(struct newdopusfunction *func, struct Gadget *gad, int rmb)
@@ -629,7 +645,7 @@ void fixgadgetprop()
 	struct dopusgadgetbanks *bank;
 	int a, bankcount, num;
 
-	if(scr_gadget_rows && ((status_iconified && status_flags & STATUS_ISINBUTTONS) || (scr_gadget_bank_count > 1 && config->generalscreenflags & SCR_GENERAL_GADSLIDERS)))
+	if(scr_gadget_rows && ((status_flags & STATUS_ISINBUTTONS) || (scr_gadget_bank_count > 1 && config->generalscreenflags & SCR_GENERAL_GADSLIDERS)))
 	{
 		bank = dopus_firstgadbank;
 		num = bankcount = 0;

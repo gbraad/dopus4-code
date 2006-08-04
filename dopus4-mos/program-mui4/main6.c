@@ -174,11 +174,9 @@ int dormbgadget(int x1, int y1, struct newdopusfunction *gad1, struct newdopusfu
 	rmbgad.txt[1].fg = screen_pens[gad2->fpen].pen;
 	rmbgad.txt[1].bg = screen_pens[gad2->bpen].pen;
 	rmbgad.txt[1].text = gad2->name;
-	if(status_iconified < 1)
-		SetFont(main_rp, scr_font[FONT_GADGETS]);
+	SetFont(main_rp, scr_font[FONT_GADGETS]);
 	a = DoRMBGadget(&rmbgad, Window);
-	if(status_iconified < 1)
-		SetFont(main_rp, scr_font[FONT_GENERAL]);
+	SetFont(main_rp, scr_font[FONT_GENERAL]);
 	if(config->generalscreenflags & SCR_GENERAL_INDICATERMB)
 		drawgadgetcorner(main_rp, x1 + 2, y1 + 1);
 	return (a);
@@ -207,12 +205,6 @@ int gadgetfrompos(int x, int y)
 int isvalidgad(struct newdopusfunction *gad)
 {
 	return ((gad->name && gad->name[0] && gad->function && gad->function[0]));
-}
-
-int getpal()
-{
-	// AGA is obsolete -itix
-	return 1;
 }
 
 void sendmouseevent(UBYTE class, UWORD code)

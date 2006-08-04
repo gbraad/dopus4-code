@@ -39,7 +39,7 @@ void dotree(int win)
 	struct Directory *entry;
 	char *name;
 
-	if(status_iconified || dopus_curwin[win]->total == 0 || str_pathbuffer[win][0] == 0 || (dopus_curwin[win]->flags & DWF_ARCHIVE))
+	if(dopus_curwin[win]->total == 0 || str_pathbuffer[win][0] == 0 || (dopus_curwin[win]->flags & DWF_ARCHIVE))
 		return;
 
 	name = dopus_curwin[win]->directory;

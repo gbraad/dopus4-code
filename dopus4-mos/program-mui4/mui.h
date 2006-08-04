@@ -36,13 +36,20 @@ VOID delete_classes(void);
 enum
 {
 	MM_Application_DeleteWindow = ITIX_BASE,
+	MM_Application_DeleteFontWindow,
+	MM_Clock_Update,
 };
 
 struct MUIP_Application_DeleteWindow { ULONG MethodID; APTR window; };
+struct MUIP_Application_DeleteFontWindow { ULONG MethodID; APTR window; APTR font; };
 
 
 extern struct MUI_CustomClass *CL_App;
+extern struct MUI_CustomClass *CL_FileList;
+extern struct MUI_CustomClass *CL_Clock;
 extern APTR dopusapp, dopuswin;
 extern APTR dopusgads, dopusstatus;
+extern APTR *dopusgadarray;
+extern APTR dopusdirlist[2];
 
 #endif /* __MUI_H__ */

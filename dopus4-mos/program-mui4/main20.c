@@ -40,7 +40,6 @@ void quit()
 {
 	int a;
 
-	remclock();
 	removehotkeys();
 	endnotifies();
 
@@ -122,15 +121,6 @@ void quit()
 		Close(nil_file_handle);
 
 	exit(0);
-}
-
-void remclock()
-{
-	if(clockmsg_port)
-	{
-		dotaskmsg(clockmsg_port, TASK_QUIT, 0, 0, NULL, 0);
-		clock_task = NULL;
-	}
 }
 
 void removehotkeys()

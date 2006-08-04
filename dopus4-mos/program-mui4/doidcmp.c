@@ -60,6 +60,16 @@ void doidcmp()
 				break;
 			}
 
+			if (ret >= MAIN_GAD_BASE && ret < (MAIN_GAD_BASE + GADCOUNT))
+			{
+				ULONG a = (ret - MAIN_GAD_BASE) + (data_gadgetrow_offset * 7);
+
+				if(!dopus_curgadbank || !(isvalidgad(&dopus_curgadbank->gadgets[a])))
+					break;
+				dofunctionstring(dopus_curgadbank->gadgets[a].function, dopus_curgadbank->gadgets[a].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[a].which);
+				break;
+			}
+
 			if (wmes)
 				break;
 		}
@@ -230,21 +240,6 @@ void doidcmp()
 			case IDCMP_ACTIVEWINDOW:
 				for(a = 0; a < 2; a++)
 					check_old_buffer(a);
-				break;
-
-/// "IDCMP_NEWSIZE"
-			case IDCMP_NEWSIZE:
-				config->scr_winw = Window->Width;
-				config->scr_winh = Window->Height;
-				if(!MainScreen)
-				{
-					config->scrw = config->scr_winw;
-					config->scrh = config->scr_winh;
-				}
-				config->screenflags &= ~(SCRFLAGS_DEFWIDTH | SCRFLAGS_DEFHEIGHT);
-				remclock();
-				SetUp(0);
-				dostatustext(str_last_statustext);
 				break;
 
 /// "IDCMP_CLOSEWINDOW"

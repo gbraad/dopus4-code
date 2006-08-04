@@ -37,9 +37,6 @@ void doassign(int rexx)
 	struct Directory *dev, *next;
 	BPTR lock;
 
-	if(status_iconified)
-		return;
-
 	buf[0] = 0;
 	if(checkdevtot(dopus_curwin[data_active_window]))
 	{
@@ -125,7 +122,7 @@ void doassign(int rexx)
 
 int checkdest(int w)
 {
-	if(!status_iconified && w > -1 && str_pathbuffer[w][0] == 0)
+	if(w > -1 && str_pathbuffer[w][0] == 0)
 	{
 		dostatustext(globstring[STR_NO_DESTINATION_SELECTED]);
 		simplerequest(globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], NULL);

@@ -317,7 +317,6 @@ void doconfig()
 	}
 	else
 	{
-		initclock();
 		fixcstuff(&cstuff);
 		setupdisplay(1);
 		dostatustext(globstring[STR_WELCOME_BACK_TO_DOPUS]);

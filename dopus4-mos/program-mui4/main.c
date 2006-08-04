@@ -79,8 +79,6 @@ int main(int argc, char **argv)
 		quit();
 	}
 
-	scrdata_is_pal = getpal();
-
 	iconstart = in = 0;
 	ck = 0;
 
@@ -216,6 +214,7 @@ int main(int argc, char **argv)
 
 	init_menus();
 
+	#if 0
 	if(ck && (FindTask("dopus_hotkeez")))
 	{
 		status_iconified = 1;
@@ -238,9 +237,9 @@ int main(int argc, char **argv)
 			status_iconified = 0;
 		}
 	}
-	hotkey_task = NULL;
+	#endif
 
-	data_colorclock = (scrdata_is_pal ? 3546895 : 3579545);
+	hotkey_task = NULL;
 
 	setup_externals();
 
@@ -329,7 +328,6 @@ int SetUp(int tit)
 	if(hotkey_task)
 		SetTaskPri(hotkey_task, config->priority + 1);
 	status_configuring = -1;
-	status_iconified = 0;
 
 	main_scr.ViewModes = 0; //HIRES;
 	config->screenmode = checkscreenmode(config->screenmode);
@@ -355,9 +353,7 @@ int SetUp(int tit)
 tryfonts:
 	if(count == 5)
 	{
-		status_iconified = 1;
 		simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
-		status_iconified = 0;
 		quit();
 	}
 	else if(count == 4)
@@ -770,6 +766,8 @@ tryfonts:
 			main_win.Title = str_arexx_portname;
 		}
 
+		// name, size, prot, date, time, comment
+
 		dopusapp = NewObject(CL_App->mcc_Class, NULL,
 				MUIA_Application_Version, "Directory Opus 4",
 				MUIA_Application_Copyright, "Something",
@@ -786,55 +784,80 @@ tryfonts:
 						Child, ColGroup(2),
 							Child, VGroup, MUIA_Group_Spacing, 0,
 								Child, MakeText(),
-								Child, ListObject, End,
+								Child, dopusdirlist[0] = NewObject(CL_FileList->mcc_Class, NULL, TAG_DONE),
 								Child, MakeString(512),
 							End,
 
 							Child, VGroup, MUIA_Group_Spacing, 0,
 								Child, MakeText(),
-								Child, ListObject, End,
+								Child, dopusdirlist[1] = NewObject(CL_FileList->mcc_Class, NULL, TAG_DONE),
 								Child, MakeString(512),
 							End,
 						End,
 
 						Child, dopusgads = VGroup, MUIA_Group_Spacing, 0, End,
-						Child, MakeText(),
+						Child, NewObject(CL_Clock->mcc_Class, NULL, TAG_DONE),
 					End,
 				End,
 			End;
 
 		if (dopusapp)
 		{
-			if (scr_gadget_rows > 0)
+			if (dopusgadarray)
 			{
-				LONG i;
-
-				DoMethod(dopusgads, MUIM_Group_InitChange);
-
-				for (i = 0; i < scr_gadget_rows; i++)
-				{
-					APTR obj;
-
-					obj = HGroup, MUIA_Group_Spacing, 0,
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-						Child, MakeButton(NULL),
-					End;
-
-					if (obj)
-					{
-						DoMethod(dopusgads, OM_ADDMEMBER, obj);
-					}
-				}
-
-				DoMethod(dopusgads, MUIM_Group_ExitChange);
+				FreeVecTaskPooled(dopusgadarray);
+				dopusgadarray = NULL;
 			}
 
+			if (scr_gadget_rows > 0)
+			{
+				APTR *array;
+
+				array = AllocVecTaskPooled(scr_gadget_rows * 8 * sizeof(APTR));
+
+				if (array)
+				{
+					LONG i;
+
+					dopusgadarray = array;
+
+					DoMethod(dopusgads, MUIM_Group_InitChange);
+
+					for (i = 0; i < scr_gadget_rows; i++)
+					{
+						APTR obj;
+
+						obj = HGroup, MUIA_Group_Spacing, 0,
+							Child, array[0] = MakeButton(NULL),
+							Child, array[1] = MakeButton(NULL),
+							Child, array[2] = MakeButton(NULL),
+							Child, array[3] = MakeButton(NULL),
+							Child, array[4] = MakeButton(NULL),
+							Child, array[5] = MakeButton(NULL),
+							Child, array[6] = MakeButton(NULL),
+							Child, array[7] = MakeButton(NULL),
+						End;
+
+						if (obj)
+						{
+							DoMethod(dopusgads, OM_ADDMEMBER, obj);
+						}
+						else
+						{
+							ULONG j;
+
+							for (j = 0; j < 8; j++)
+								array[j] = NULL;
+						}
+
+						array += 8;
+					}
+
+					DoMethod(dopusgads, MUIM_Group_ExitChange);
+				}
+			}
+
+			DoMethod(dopuswin, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
 			SetAttrs(dopuswin, MUIA_Window_Open, TRUE, TAG_DONE);
 		}
 
@@ -986,11 +1009,8 @@ tryfonts:
 		layout_menus();
 
 		setupdisplay(1);
-
-		initclock();
 	}
 
-	status_iconified = 0;
 	if(tit == 1)
 		dostatustext(globstring[STR_WELCOME_TO_DOPUS]);
 	else if(tit == 2)
@@ -1095,14 +1115,6 @@ void drawscreen()
 		do3dbox(main_rp, scrdata_status_xpos, scrdata_status_ypos, scrdata_status_width, scrdata_status_height - 2);
 		SetAPen(main_rp, screen_pens[config->statusbg].pen);
 		rectfill(main_rp, scrdata_status_xpos, scrdata_status_ypos, scrdata_status_width, scrdata_status_height - 2);
-	}
-
-	/* Clock bar */
-	if(!clock_task)
-	{
-		SetAPen(main_rp, screen_pens[config->clockbg].pen);
-		rectfill(main_rp, scrdata_clock_xpos, scrdata_clock_ypos, scrdata_clock_width - 3, scrdata_clock_height - 2);
-		do3dbox(main_rp, scrdata_clock_xpos, scrdata_clock_ypos - 1, scrdata_clock_width - 3, scrdata_clock_height - 2);
 	}
 
 	doactive(0, 0);

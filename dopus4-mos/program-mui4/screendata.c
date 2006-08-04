@@ -84,17 +84,7 @@ struct ExtNewScreen main_scr =
 	(STRPTR) str_arexx_portname,
 	NULL, NULL,
 	mainscreen_tags
-}
-#if 0
-, font_scr =
-{
-	0, 0, 640, 0, 1, 0, 1,	/* Font screen */
-	HIRES, CUSTOMSCREEN | SCREENBEHIND | SCREENQUIET | NS_EXTENDED,
-	NULL, NULL, NULL, NULL,
-	stdscreen_tags
-}
-#endif
-, blank_scr =
+}, blank_scr =
 {	/* Blank screen */
 	0, 0, 320, STDSCREENHEIGHT, 1, 0, 1, 0, CUSTOMSCREEN | SCREENQUIET, NULL, NULL, NULL, NULL, NULL
 };
@@ -109,23 +99,6 @@ struct ExtNewWindow main_win =
 	NULL, NULL, NULL, NULL, NULL, 640, 200, 65535, 65535, CUSTOMSCREEN,
 	mainwindow_tags
 };
-
-#if 0
-struct NewWindow font_win =
-{	/* Font window */
-	0, 0, 640, 200, 255, 255,
-	IDCMP_MOUSEBUTTONS | IDCMP_RAWKEY | IDCMP_INACTIVEWINDOW,
-	WFLG_RMBTRAP | WFLG_BORDERLESS | WFLG_SIMPLE_REFRESH | WFLG_NOCAREREFRESH,
-	NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
-}, disk_win =
-{	/* DiskInfo window */
-	0, 0, 0, 0, 255, 255,
-	IDCMP_RAWKEY | IDCMP_DISKINSERTED | IDCMP_DISKREMOVED | IDCMP_GADGETUP | IDCMP_VANILLAKEY, WFLG_BORDERLESS | WFLG_RMBTRAP | WFLG_ACTIVATE,
-	NULL, NULL, NULL, NULL, NULL,
-	0, 0, 0, 0,
-	CUSTOMSCREEN
-};
-#endif
 
 struct AppWindow *dopus_appwindow = NULL;	/* AppWindow when on Workbench screen */
 
@@ -192,7 +165,6 @@ USHORT scrdata_font_xsize;	/* X-Size of the dir window font */
 USHORT scrdata_font_ysize;	/* Y-Size of the dir window font */
 USHORT scrdata_font_baseline;	/* Baseline of the dir window font */
 
-UBYTE scrdata_is_pal;		/* Indicates PAL or NTSC system */
 UBYTE scrdata_statustext_pos = 0;	/* Status text positioning */
 LONG scrdata_old_offset_store = -1;	/* Stored offset in directory window */
 
