@@ -303,8 +303,7 @@ struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 			*count = 0;
 		while(find)
 		{
-			if(find->name && !(strcmp(name, find->name)))
-//			if(find->name && !(IUtility->Stricmp(name, find->name)))
+			if(find->name && !(IUtility->Stricmp(name, find->name)))
 				return (find);
 
 			find = find->next;
