@@ -9,22 +9,19 @@
 # $Log
 # 
 
-# Uncomment the next line if you are cross compiling
-CROSS_COMPILE = ppc-morphos-
-
-CC     = $(CROSS_COMPILE)gcc -noixemul
-CXX    = $(CROSS_COMPILE)c++ -noixemul
-AS     = $(CROSS_COMPILE)as 
-LD     = $(CROSS_COMPILE)ld 
-RANLIB = $(CROSS_COMPILE)ranlib 
-STRIP  = $(CROSS_COMPILE)strip
+CC     = ppc-morphos-gcc -noixemul
+CXX    = ppc-morphos-c++ -noixemul
+AS     = ppc-morphos-as 
+LD     = ppc-morphos-ld 
+RANLIB = ppc-morphos-ranlib 
+STRIP  = ppc-morphos-strip
 # RM     = delete
 RM     = rm -f
 
 # Change these as required
 OPTIMIZE = -O3
 DEBUG =
-CFLAGS = -Wall -I../include-os4 -I. $(OPTIMIZE) $(DEBUG) -DUSE_INLINE_STDARG
+CFLAGS = -Wall -I../include-mos -I. $(OPTIMIZE) $(DEBUG) -DUSE_INLINE_STDARG
 
 # Flags passed to gcc during linking
 LINK =
