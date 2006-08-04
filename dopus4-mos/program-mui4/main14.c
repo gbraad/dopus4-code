@@ -89,8 +89,6 @@ void doassign(int rexx)
 					tot = 1;
 					if(blank)
 						removefile(dev, dopus_curwin[data_active_window], data_active_window, TRUE);
-					else
-						unselect(data_active_window, dev);
 				}
 			}
 			dev = next;

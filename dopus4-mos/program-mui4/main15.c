@@ -52,11 +52,9 @@ void ftype_doubleclick(STRPTR path, STRPTR name, int state)
 		doerror(ERROR_OBJECT_NOT_FOUND);
 		return;
 	}
-	if(!size)
-	{
-		doselinfo(data_active_window);
+	if (!size)
 		return;
-	}
+
 	dostatustext(globstring[STR_INTERROGATING_FILES]);
 	file = findfile(dopus_curwin[data_active_window], name, NULL);
 	busy();
@@ -88,10 +86,6 @@ void ftype_doubleclick(STRPTR path, STRPTR name, int state)
 			}
 			strcpy(func_single_file, name);
 			dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
-			if(file && file->selected)
-			{
-				unselect(data_active_window, file);
-			}
 			func_single_file[0] = 0;
 			return;
 		}
@@ -474,12 +468,9 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 				break;
 			case FUNC_ALL:
 				globalselect(data_active_window, 1);
-				refreshwindow(data_active_window, 0);
 				break;
 			case FUNC_NONE:
 				globalselect(data_active_window, 0);
-				globalselect(data_active_window, 0);
-				refreshwindow(data_active_window, 0);
 				break;
 			case FUNC_TOGGLE:
 				globaltoggle(data_active_window);
@@ -632,7 +623,6 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 									if(!strcmp(entry->comment, "<VOL>"))
 									{
 										relabel_disk(0, entry->name);
-										unselect(actwin, entry);
 									}
 						}
 						dodevicelist(actwin);

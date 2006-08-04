@@ -43,12 +43,6 @@ void quit()
 	removehotkeys();
 	endnotifies();
 
-	if(input_req)
-	{
-		CloseDevice((struct IORequest *)input_req);
-		DeleteIORequest((struct IORequest *)input_req);
-	}
-
 	close_rexx_port();
 
 	main_proc->pr_WindowPtr = windowptr_save;
@@ -99,7 +93,6 @@ void quit()
 		DeleteMsgPort(arexx_port);
 	}
 	DeleteMsgPort(general_port);
-	DeleteMsgPort(appmsg_port);
 
 	if(sortmenu)
 		PM_FreePopupMenu(sortmenu);
@@ -224,15 +217,7 @@ void closedisplay()
 			{
 				ClearMenuStrip(Window);
 			}
-			if(dopus_appwindow)
-			{
-				RemoveAppWindow(dopus_appwindow);
-				dopus_appwindow = NULL;
-			}
 			free_colour_table();
-			RemoveGadget(Window, iconifygadget);
-			DisposeObject(iconifygadget);
-			DisposeObject(iconifyimage);
 
 			CloseWindow(Window);
 			Window = NULL;

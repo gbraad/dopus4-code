@@ -107,9 +107,6 @@ void setupgadgets()
 	}
 	RefreshGList(&path_strgadget[0], Window, NULL, 2);
 
-	AddGadget(Window, iconifygadget, -1); //~0);
-	RefreshGadgets(iconifygadget, Window, NULL);
-
 	for(a = 0; a < 2; a++)
 	{
 		ShowSlider(Window, &vert_propgad[a]);

@@ -43,19 +43,26 @@ QUAD bytes(STRPTR name, QUAD *total, int *block)
 		return (0);
 	}
 	Info(mylock, &infodata);
-	if(ramdisk_lock)
+
+	if (infodata.id_NumBlocks == infodata.id_NumBlocksUsed)
 	{
-		testlock = DupLock(mylock);
-		testlock = getrootlock(testlock);
-		if(SameLock(testlock, ramdisk_lock) == LOCK_SAME)
-			free = AvailMem(0);
-		UnLock(testlock);
-		if(free > -1)
+		BPTR lock = Lock("RAM:", ACCESS_READ);
+
+		if (lock)
 		{
-			*total = free;
-			*block = free / infodata.id_BytesPerBlock;
-			UnLock(mylock);
-			return (free);
+			testlock = DupLock(mylock);
+			testlock = getrootlock(testlock);
+			if(SameLock(testlock, lock) == LOCK_SAME)
+				free = AvailMem(0);
+			UnLock(testlock);
+			UnLock(lock);
+			if(free > -1)
+			{
+				*total = free;
+				*block = free / infodata.id_BytesPerBlock;
+				UnLock(mylock);
+				return (free);
+			}
 		}
 	}
 	*total = ((QUAD)infodata.id_BytesPerBlock) * infodata.id_NumBlocks;
@@ -68,7 +75,6 @@ QUAD bytes(STRPTR name, QUAD *total, int *block)
 struct TagItem obtain_tags[] =
 {
 	{ OBP_Precision, PRECISION_EXACT },
-	{ OBP_FailIfBad, TRUE },
 	{ TAG_DONE, 0 }
 };
 
@@ -87,15 +93,13 @@ void get_colour_table()
 		screen_pens[a].alloc = 0;
 	}
 
-	num = 1 << ((config->scrdepth > 4) ? 4 : config->scrdepth);
+	num = 1 << 4;
 	cm = Window->WScreen->ViewPort.ColorMap;
 
 	for(a = 0; a < num; a++)
 	{
 		pen = ObtainBestPenA(cm, screen_pens[a].red, screen_pens[a].green, screen_pens[a].blue, (MainScreen) ? obtain_tags : NULL);
-		if(pen == -1)
-			screen_pens[a].pen = FindColor(cm, screen_pens[a].red, screen_pens[a].green, screen_pens[a].blue, -1);
-		else
+
 		{
 			screen_pens[a].pen = pen;
 			screen_pens[a].alloc = 1;
@@ -106,7 +110,6 @@ void get_colour_table()
 
 void free_colour_table()
 {
-/*    if (system_version2>=OSVER_39)*/
 	{
 		int a;
 		struct ColorMap *cm;
@@ -115,11 +118,8 @@ void free_colour_table()
 
 		for(a = 0; a < 16; a++)
 		{
-			if(screen_pens[a].alloc)
-			{
-				ReleasePen(cm, screen_pens[a].pen);
-				screen_pens[a].alloc = 0;
-			}
+			ReleasePen(cm, screen_pens[a].pen);
+			screen_pens[a].alloc = 0;
 		}
 	}
 }

@@ -50,21 +50,15 @@ struct DOpusIFace *IDOpus = NULL;		/* dopus interface */
 
 struct IntuiMessage *IMsg /*=NULL*/ ;		/* Main IntuiMessage pointer */
 struct Screen *MainScreen /*=NULL*/ ;		/* Main screen */
-struct Screen *iffscreen /*=NULL*/ ;		/* IFF display screen */
-struct Screen *fontscreen /*=NULL*/ ;		/* Font display screen */
 struct Screen *blankscreen /*=NULL*/ ;		/* Blank screen for IFF viewer */
 struct Window *Window /*=NULL*/ ;		/* Main window */
-struct Image *iconifyimage /*=NULL*/ ;		/* Iconify Image for main window */
-struct Gadget *iconifygadget /*=NULL */ ;	/* Iconify Gagdet for main window */
 struct DrawInfo *DRI /*=NULL */ ;
-struct Window *fontwindow /*=NULL*/ ;		/* Window for font display */
 struct Window *ansiread_window /*=NULL*/ ;	/* Window for rendering ANSI text */
 struct Window *reqoverride /*=NULL*/ ;		/* Pointer for SimpleRequest window */
 struct PopupMenu *sortmenu /*=NULL*/ ;		/* Sort pop-up menu */
 
 /* Graphics objects */
 
-//struct ViewPort *main_vp=NULL;		/* Main screen ViewPort */
 struct RastPort *main_rp /*=NULL*/ ;		/* Main window RastPort */
 struct RastPort dir_rp[2] /*={{0},{0}}*/ ;	/* Directory window RastPorts */
 
@@ -77,14 +71,9 @@ struct Task *hotkey_task /*=NULL*/ ;		/* HotKey Task */
 
 struct MsgPort *count_port /*=NULL*/ ;		/* Port to establish run count */
 struct MsgPort *general_port /*=NULL*/ ;	/* General Message Port */
-struct MsgPort *appmsg_port /*=NULL*/ ;		/* AppObject Message Port */
 struct MsgPort *arexx_port /*=NULL*/ ;		/* ARexx Port */
 
 struct MsgPort *hotkeymsg_port /*=NULL*/ ;	/* Messages to the hotkey task */
-struct MsgPort *clockmsg_port /*=NULL*/ ;	/* Messages to the clock task */
-
-//struct IOStdReq *keyboard_req/*=NULL*/;	/* Keyboard IO Request block */
-struct IOStdReq *input_req /*=NULL*/ ;		/* Input IO Request block */
 
 /* DOS objects */
 
@@ -102,8 +91,6 @@ struct DOpusRemember *general_key /*=NULL*/ ;	/* General memory key */
 struct DOpusRemember *help_key /*=NULL*/ ;	/* Memory key for help files */
 struct DOpusRemember *filetype_key /*=NULL*/ ;	/* Memory key for filetype list */
 struct DOpusRemember *menu_key /*=NULL*/ ;	/* Memory key for menus */
-
-USHORT *nullpalette /*=NULL*/ ;			/* Pointer to a black palette */
 
 //struct UserInfo *user_info /*=NULL*/ ;		/* UserInfo for envoy */
 //struct GroupInfo *group_info /*=NULL*/ ;	/* GroupInfo for envoy */
@@ -176,7 +163,6 @@ ULONG time_current_micro /*=0*/ ;		/* Current Micro (from Intuition) */
 ULONG time_previous_sec /*=0*/ ;		/* Previous Second (from Intuition) */
 ULONG time_previous_micro /*=0*/ ;		/* Previous Micro (from Intuition) */
 
-UBYTE system_version2 /*=0*/ ;			/* OS version 2 or greater */
 int system_dopus_runcount /*=0*/ ;		/* Run count of this copy */
 
 USHORT scr_gadget_rows /*=0*/ ;			/* Number of button rows */
@@ -247,6 +233,4 @@ struct path_complete completion[2] /*={{0},{0}}*/ ;	/* Path-name completion data
 
 struct StringData stringdata;
 
-extern UWORD appicon_data[];
-struct Image appicon_image = { 0, 0, 80, 40, 2, appicon_data, 3, 0, 0 };
 struct DiskObject *user_appicon;

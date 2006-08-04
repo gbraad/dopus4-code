@@ -165,7 +165,7 @@ void handlelistermenu(int a)
 			config->listerdisplayflags[a] &= ~SIZE_KMG;
 
 		setsizedisplen(&dir_rp[a]);
-		doselinfo(a);
+		//doselinfo(a);
 		fixhlen(a);
 		if(!changed)
 			refreshwindow(a, 1);

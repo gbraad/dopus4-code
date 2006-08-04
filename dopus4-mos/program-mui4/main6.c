@@ -28,7 +28,10 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 void get_printdir_data(struct PrintDirData *pddata)
 {
@@ -317,51 +320,14 @@ void fixhlen(int win)
 /* Get the name of the screen we are currently on */
 char *get_our_pubscreen()
 {
-	char *name = NULL;
+	CONST_STRPTR name;
 
-	if(Window)
-	{
-		struct List *pubscreenlist;
-		struct PubScreenNode *node;
+	GetAttr(MUIA_Window_PublicScreen, dopuswin, (IPTR *)&name);
 
-		if((pubscreenlist = LockPubScreenList()))
-		{
-			for(node = (struct PubScreenNode *)pubscreenlist->lh_Head; node->psn_Node.ln_Succ; node = (struct PubScreenNode *)node->psn_Node.ln_Succ)
-			{
-				/* See if this node is our screen */
-				if(node->psn_Screen == Window->WScreen)
-				{
-					/* Get name pointer */
-					name = node->psn_Node.ln_Name;
-					break;
-				}
-			}
-			UnlockPubScreenList();
-		}
-
-		/* Otherwise use default title */
-		if(!name)
-		{
-			name = Window->WScreen->DefaultTitle;
-		}
-	}
-
-	/* If no window open, use port name */
-	else
+	if (!name)
 	{
 		name = str_arexx_portname;
 	}
 
 	return (name);
-}
-
-/* Change name of arexx port */
-
-void change_port_name(STRPTR name)
-{
-	Forbid();
-	RemPort(arexx_port);
-	stccpy(str_arexx_portname, name, 30);
-	AddPort(arexx_port);
-	Permit();
 }

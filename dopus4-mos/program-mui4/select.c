@@ -28,579 +28,13 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 static struct Directory *selectedentry;
-
-void doselection(int win, int state)
-{
-	int a, b, c, d, e, x, y, ox, oy, fa, la, juststart, atot, drag, offx = 0, offy = 0, candrag, comp = -1, oc, gad, multidrag = 0, type, okrepeatdrag = 0;
-	ULONG class = 0, code = 0, qual = 0;
-	char buf[40], *ptr;
-	struct Directory *next;
-
-	candrag = drag = (config->generalflags & GENERAL_DRAG && drag_bob_buffer) ? 1 : 0;
-	atot = dopus_curwin[win]->total - scrdata_dispwin_lines;
-	a = makeactive(win, 1);
-	if(dopus_curwin[win]->total == 0)
-		return;
-	ox = x = Window->MouseX;
-	oy = y = Window->MouseY;
-	selectedentry = NULL;
-	if(!a)
-	{
-		a = (y - scrdata_dirwin_ypos[data_active_window]) / scrdata_font_ysize;
-		if(drag)
-		{
-			offx = x - scrdata_dirwin_xpos[data_active_window];
-			if(offx < 0)
-				offx = 0;
-			else if(offx > drag_sprite.Width * 16)
-				offx = drag_sprite.Width * 16;
-			offy = y - (scrdata_dirwin_ypos[data_active_window] + (a * scrdata_font_ysize));
-		}
-		if((b = select(win, a)) == 2)
-		{
-			return;
-		}
-		if(!b || !selectedentry)
-			drag = 0;
-		a = juststart = 0;
-		Window->Flags |= WFLG_REPORTMOUSE;
-
-		for(;;)
-		{
-			while(getintuimsg())
-			{
-			      gotmsgloop:
-				class = IMsg->Class;
-				code = IMsg->Code;
-				qual = IMsg->Qualifier;
-				ReplyMsg((struct Message *)IMsg);
-			      getcoordsloop:
-				x = Window->MouseX;
-				y = Window->MouseY;
-				okrepeatdrag = 0;
-				if(class == IDCMP_MOUSEBUTTONS)
-				{
-					if(code == MENUDOWN && candrag && selectedentry)
-					{
-						status_haveaborted = status_justabort = 0;
-						if(drag != 2)
-							goto startdragging;
-						else
-						{
-							drag = 0;
-							goto enddragging;
-						}
-					}
-					else if(code == SELECTUP)
-					{
-						a = 1;
-						break;
-					}
-				}
-				else if(class == IDCMP_MOUSEMOVE)
-				{
-					if(drag == 2)
-					{
-						if(x != ox || y != oy)
-						{
-							if(scr_gadget_rows && dopus_curgadbank)
-							{
-								oc = gadgetfrompos(x, y);
-								gad = oc + (data_gadgetrow_offset * 7);
-								if(oc > -1 && !(isvalidgad(&dopus_curgadbank->gadgets[gad])))
-									oc = -1;
-								if(oc != comp)
-								{
-									RemIBob(&drag_bob, main_rp, ViewPortAddress(Window));
-									if(comp > -1)
-										dragcompgad(comp, 0);
-									if(oc > -1 && isvalidgad(&dopus_curgadbank->gadgets[gad]))
-									{
-										dragcompgad(oc, 1);
-										comp = oc;
-									}
-									else
-										comp = -1;
-									AddBob(&drag_bob, main_rp);
-								}
-							}
-							drag_sprite.X = x - offx;
-							drag_sprite.Y = y - offy;
-							SortGList(main_rp);
-							DrawGList(main_rp, ViewPortAddress(Window));
-							WaitTOF();
-						}
-						ox = x;
-						oy = y;
-					}
-					else
-					{
-						fa = (y - scrdata_dirwin_ypos[data_active_window]) / scrdata_font_ysize;
-						la = (oy - scrdata_dirwin_ypos[data_active_window]) / scrdata_font_ysize;
-						if(fa == la && drag && selectedentry)
-						{
-							if(x < scrdata_dirwin_xpos[data_active_window] || x > scrdata_dirwin_xpos[data_active_window] + scrdata_dirwin_width[data_active_window])
-							{
-							      startdragging:
-								ptr = NULL;
-								if(qual & IEQUALIFIER_ANYSHIFT && dopus_curwin[win]->filesel > 1)
-								{
-									multidrag = 1;
-									sprintf(buf, globstring[STR_MULTI_DRAG], dopus_curwin[win]->filesel);
-									ptr = buf;
-									type = -1;
-								}
-								else
-								{
-									if(selectedentry->type == ENTRY_CUSTOM)
-									{
-										switch (selectedentry->subtype)
-										{
-										case CUSTOMENTRY_BUFFERLIST:
-											ptr = selectedentry->comment;
-											break;
-										case CUSTOMENTRY_DIRTREE:
-											ptr = selectedentry->dispstr;
-											break;
-										case CUSTOMENTRY_USER:
-											if(selectedentry->size & CUSTENTRY_CANSELECT)
-												ptr = selectedentry->comment;
-											break;
-										}
-									}
-									else
-										ptr = selectedentry->name;
-									type = selectedentry->type;
-								}
-								if(ptr)
-								{
-									dotaskmsg(clockmsg_port, CLOCK_ACTIVE, 0, 0, NULL, 0);
-									SetAPen(&drag_bob_rastport, (type <= ENTRY_FILE || (type == ENTRY_DEVICE && (selectedentry->size == DLT_DEVICE || selectedentry->size == DLT_VOLUME))) ? screen_pens[config->filesselfg].pen : screen_pens[config->dirsselfg].pen);
-									SetRast(&drag_bob_rastport, (type <= ENTRY_FILE || (type == ENTRY_DEVICE && (selectedentry->size == DLT_DEVICE || selectedentry->size == DLT_VOLUME))) ? screen_pens[config->filesselbg].pen : screen_pens[config->dirsselbg].pen);
-									Move(&drag_bob_rastport, 0, scr_font[FONT_DIRS]->tf_Baseline);
-									c = (drag_sprite.Width * 16) / scrdata_font_xsize;
-									d = strlen(ptr);
-									if(d > c)
-										e = d - c;
-									else
-									{
-										e = 0;
-										c = d;
-									}
-									Text(&drag_bob_rastport, &ptr[e], c);
-									drag_sprite.X = x - offx;
-									drag_sprite.Y = y - offy;
-									AddBob(&drag_bob, main_rp);
-									SortGList(main_rp);
-									DrawGList(main_rp, ViewPortAddress(Window));
-									WaitTOF();
-									drag = 2;
-									y = -1;
-								}
-							}
-						}
-						else
-						{
-							if(drag)
-								drag = 0;
-							if(la < fa)
-							{
-								++fa;
-								++la;
-								d = la;
-								la = fa;
-								fa = d;
-							}
-							if(y >= scrdata_dispwin_ypos && y < scrdata_dispwin_height + scrdata_dispwin_ypos)
-							{
-								if(state)
-								{
-									for(d = fa; d < la; d++)
-										defselect(win, d, b);
-								}
-							}
-							else if(y < scrdata_dispwin_ypos)
-							{
-								if(juststart != -1)
-								{
-									if(fa < 0)
-										fa = 0;
-									if(la >= scrdata_dispwin_lines)
-										la = scrdata_dispwin_lines;
-									if(state)
-									{
-										for(d = fa; d < la; d++)
-											defselect(win, d, b);
-										defselect(win, 0, b);
-									}
-									juststart = -1;
-								}
-								if(dopus_curwin[win]->offset == 0)
-									continue;
-								verticalscroll(win, -1);
-								if(state)
-									defselect(win, 0, b);
-								okrepeatdrag = 1;
-							}
-							else if(y >= scrdata_dispwin_height + scrdata_dispwin_ypos)
-							{
-								if(juststart != 1)
-								{
-									if(fa < 0)
-										fa = 0;
-									if(la >= scrdata_dispwin_lines)
-										la = scrdata_dispwin_lines;
-									if(state)
-									{
-										for(d = fa; d < la; d++)
-											defselect(win, d, b);
-										defselect(win, scrdata_dispwin_lines - 1, b);
-									}
-									juststart = 1;
-								}
-								if(dopus_curwin[win]->offset == atot)
-									continue;
-								verticalscroll(win, 1);
-								if(state)
-									defselect(win, scrdata_dispwin_lines - 1, b);
-								okrepeatdrag = 1;
-							}
-						}
-						oy = y;
-					}
-				}
-			}
-			if(a)
-				break;
-			if(getintuimsg())
-				goto gotmsgloop;
-			if(okrepeatdrag)
-				goto getcoordsloop;
-			Wait(1 << Window->UserPort->mp_SigBit);
-		}
-		if(drag == 2)
-		{
-		      enddragging:
-			RemIBob(&drag_bob, main_rp, ViewPortAddress(Window));
-			if(comp > -1)
-				dragcompgad(comp, 0);
-			dotaskmsg(clockmsg_port, CLOCK_ACTIVE, 1, 0, NULL, 0);
-			if(x >= scrdata_dirwin_xpos[1 - data_active_window] && x <= scrdata_dirwin_xpos[1 - data_active_window] + scrdata_dirwin_width[1 - data_active_window] && y >= scrdata_dirwin_ypos[1 - data_active_window] && y <= scrdata_dirwin_ypos[1 - data_active_window] + scrdata_dirwin_height && drag == 2)
-			{
-				if(multidrag)
-				{
-					last_selected_entry = dopus_curwin[win]->firstentry;
-					while(last_selected_entry)
-					{
-						if(status_haveaborted || status_justabort)
-						{
-							myabort();
-							break;
-						}
-						next = last_selected_entry->next;
-						if(last_selected_entry->type <= ENTRY_FILE && last_selected_entry->selected)
-						{
-							CurrentTime(&time_previous_sec, &time_previous_micro);
-							time_current_sec = time_previous_sec;
-							time_current_micro = time_previous_micro;
-							makeactive(1 - data_active_window, 1);
-						}
-						last_selected_entry = next;
-					}
-				}
-				else
-				{
-					time_previous_sec = time_current_sec;
-					time_previous_micro = time_current_micro;
-					last_selected_entry = selectedentry;
-					makeactive(1 - data_active_window, 1);
-				}
-			}
-			else if(comp > -1)
-			{
-				gad = comp + (data_gadgetrow_offset * 7);
-				if(dopus_curgadbank && isvalidgad(&dopus_curgadbank->gadgets[gad]))
-				{
-					if(multidrag)
-					{
-						last_selected_entry = NULL;
-						func_single_file[0] = 0;
-						status_flags |= STATUS_GLOBALFILE;
-					}
-					else
-					{
-						last_selected_entry = selectedentry;
-						strcpy(func_single_file, selectedentry->name);
-						if(selectedentry->selected)
-							unselect(data_active_window, selectedentry);
-					}
-					dofunctionstring(dopus_curgadbank->gadgets[gad].function, dopus_curgadbank->gadgets[gad].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[gad].which);
-					status_flags &= ~STATUS_GLOBALFILE;
-					if(!multidrag)
-						checkselection(selectedentry);
-				}
-			}
-		}
-		Window->Flags &= ~WFLG_REPORTMOUSE;
-	}
-}
-
-void dormbscroll(int win)
-{
-	ULONG class;
-	USHORT code;
-	int x, y, d, ret = 0;
-
-	if(data_active_window != win)
-	{
-		makeactive(win, 0);
-		ret = 1;
-	}
-	FOREVER
-	{
-		while(!getintuimsg())
-		{
-			x = Window->MouseX;
-			y = Window->MouseY;
-			d = 0;
-			if(y < scr_scroll_borders[win].MinY)
-			{
-				verticalscroll(win, -1);
-				if(y > scr_scroll_borders[win].MinY - (scrdata_font_ysize * 4))
-					d = 1;
-			}
-			else if(y > scr_scroll_borders[win].MaxY)
-			{
-				verticalscroll(win, 1);
-				if(y < scr_scroll_borders[win].MaxY + (scrdata_font_ysize * 4))
-					d = 1;
-			}
-			else if(x < scr_scroll_borders[win].MinX)
-				horizontalscroll(win, -1);
-			else if(x > scr_scroll_borders[win].MaxX)
-				horizontalscroll(win, 1);
-			if(d)
-				Delay(d);
-		}
-		class = IMsg->Class;
-		code = IMsg->Code;
-		ReplyMsg((struct Message *)IMsg);
-		if(class == IDCMP_MOUSEBUTTONS && code == MENUUP)
-			break;
-	}
-}
-
-int select(int win, int o)
-{
-	int a, dbclick, sel = 1, foundcount;
-	char sbuf[FILEBUF_SIZE], *dir;
-	struct Directory *temp, *temp2;
-
-	a = o + dopus_curwin[win]->offset;
-	if(o >= scrdata_dispwin_lines || a >= dopus_curwin[win]->total)
-		return (0);
-	temp = dopus_curwin[win]->firstentry;
-	while(a--)
-		temp = temp->next;
-	selectedentry = temp;
-	if(temp && ((ENTRYTYPE(temp->type) != ENTRY_CUSTOM) || (temp->subtype != CUSTOMENTRY_USER) || (temp->size & CUSTENTRY_CANSELECT)))
-	{
-		sel = temp->selected;
-		temp->selected = sel ? FALSE : TRUE;
-		updateselectinfo(temp, win, 1);
-		{
-			display_entry(temp, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
-			if(config->iconflags & ICONFLAG_AUTOSELECT)
-			{
-				StrCombine(sbuf, temp->name, ".info", FILEBUF_SIZE - 1);
-				if((temp2 = findfile(dopus_curwin[win], sbuf, &foundcount)))
-				{
-					if(temp2->selected != temp->selected)
-					{
-						temp2->selected = temp->selected;
-						updateselectinfo(temp2, win, 1);
-						if(foundcount >= dopus_curwin[win]->offset && foundcount < dopus_curwin[win]->offset + scrdata_dispwin_lines)
-						{
-							o = foundcount - dopus_curwin[win]->offset;
-							display_entry(temp2, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
-						}
-					}
-				}
-			}
-		}
-
-		if(sel)
-		{
-			dbclick = DoubleClick(time_previous_sec, time_previous_micro, time_current_sec, time_current_micro);
-		}
-		else
-		{
-			dbclick = -1;
-			time_previous_sec = time_current_sec;
-			time_previous_micro = time_current_micro;
-		}
-
-		switch (ENTRYTYPE(temp->type))
-		{
-		case ENTRY_DEVICE:
-		case ENTRY_DIRECTORY:
-			if(dbclick == -1)
-				last_selected_entry = temp;
-			else if(dbclick && last_selected_entry == temp)
-			{
-				dir = dopus_curwin[win]->directory;
-				if(!(dopus_curwin[win]->flags & DWF_ARCHIVE))
-					advancebuf(win, 1);
-				if(temp->type == ENTRY_DEVICE)
-					strcpy(str_pathbuffer[win], temp->name);
-				else
-				{
-					if(temp->subtype == ST_SOFTLINK)
-					{
-						struct FileInfoBlock fib;
-						struct DevProc *dp;
-						BPTR ld, lf;
-						char linkbuf[512], buf[256];
-
-						strcpy(linkbuf, dir);
-						do
-						{
-							ld = Lock(linkbuf, ACCESS_READ);
-							if((dp = GetDeviceProc(linkbuf, NULL)))
-							{
-								if(ReadLink(dp->dvp_Port, ld, temp->name, buf, 256))
-								{
-									AddPart(linkbuf, buf, 512);
-									if((lf = Lock(linkbuf, ACCESS_READ)))
-									{
-										NameFromLock(lf, linkbuf, 512);
-										if(Examine(lf, &fib))
-										{
-											if(fib.fib_DirEntryType == ST_SOFTLINK)
-												*PathPart(linkbuf) = 0;
-										}
-										UnLock(lf);
-									}
-									else
-									{
-										fib.fib_DirEntryType = ST_USERDIR;
-									}
-								}
-								FreeDeviceProc(dp);
-								UnLock(ld);
-							}
-						}
-						while(fib.fib_DirEntryType == ST_SOFTLINK);
-						strcpy(str_pathbuffer[win], linkbuf);
-					}
-					else
-					{
-						strcpy(str_pathbuffer[win], dir);
-						TackOn(str_pathbuffer[win], temp->name, 256);
-					}
-				}
-				startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
-				time_previous_sec = 0;
-				return (2);
-			}
-			break;
-
-		case ENTRY_CUSTOM:
-			if(dbclick == -1)
-				last_selected_entry = temp;
-			else if(dbclick && last_selected_entry == temp)
-			{
-				if(temp->subtype == CUSTOMENTRY_BUFFERLIST || temp->subtype == CUSTOMENTRY_DIRTREE)
-				{
-					if(temp->subtype == CUSTOMENTRY_BUFFERLIST)
-						bringinbuffer(last_selected_entry->dispstr, win, 1);
-					else
-					{
-						strcpy(str_pathbuffer[win], last_selected_entry->dispstr);
-						startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
-					}
-					time_previous_sec = 0;
-					return (2);
-				}
-				else if(temp->subtype == CUSTOMENTRY_USER)
-				{
-					userentrymessage(dopus_curwin[win], temp, USERENTRY_DOUBLECLICK);
-					time_previous_sec = 0;
-					return (2);
-				}
-			}
-			break;
-
-		case ENTRY_FILE:
-			if(dbclick == -1)
-				last_selected_entry = temp;
-			else if(dbclick && last_selected_entry == temp)
-			{
-				if(config->generalflags & GENERAL_DOUBLECLICK)
-				{
-					if(dopus_curwin[win]->flags & DWF_ARCHIVE)
-					{
-						char path[256], tempname[FILEBUF_SIZE];
-
-						strcpy(path, "T:");
-						if(unarcfiledir(dopus_curwin[win], path, tempname, temp->name))
-						{
-							ftype_doubleclick(path, tempname, 1);
-							AddPart(path, tempname, 256);
-							removetemparcfile(path);
-						}
-					}
-					else
-						ftype_doubleclick(str_pathbuffer[win], temp->name, 1);
-					unbusy();
-					time_previous_sec = 0;
-					return (2);
-				}
-			}
-			break;
-		}
-	}
-	return (!sel);
-}
-
-int unselect(int win, struct Directory *file)
-{
-	int a = 0;
-	struct Directory *t;
-
-	if(win == -1 || !file->selected)
-		return (0);
-	t = dopus_curwin[win]->firstentry;
-	while(t != file && t)
-	{
-		++a;
-		t = t->next;
-	}
-	if(!t)
-		return (0);
-	switch (ENTRYTYPE(file->type))
-	{
-	case ENTRY_DIRECTORY:
-	case ENTRY_DEVICE:
-		--dopus_curwin[win]->dirsel;
-		if(file->type > 0 && file->size != -1)
-			dopus_curwin[win]->bytessel -= file->size;
-		break;
-	case ENTRY_FILE:
-		--dopus_curwin[win]->filesel;
-		dopus_curwin[win]->bytessel -= file->size;
-		break;
-	}
-	file->selected = FALSE;
-	if(a < dopus_curwin[win]->offset || a > (dopus_curwin[win]->offset + scrdata_dispwin_lines - 1))
-		return (0);
-	a -= dopus_curwin[win]->offset;
-	display_entry(t, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * a) + scrdata_dirwin_ypos[win]);
-	return (1);
-}
 
 void defselect(int win, int o, int state)
 {
@@ -651,14 +85,19 @@ void defselect(int win, int o, int state)
 void globalselect(int win, int all)
 {
 	struct Directory *temp;
+	APTR obj;
 
-	if((temp = dopus_curwin[win]->firstentry) && temp->type != ENTRY_CUSTOM)
+	if (win > 1)
+		return;
+
+	obj = dopusdirlist[win];
+
+	DoMethod(obj, MUIM_List_GetEntry, 0, &temp);
+
+	if (temp && temp->type != ENTRY_CUSTOM)
 	{
-		while(temp)
-		{
-			temp->selected = all;
-			temp = temp->next;
-		}
+		DoMethod(obj, MUIM_List_Select, MUIV_List_Select_All, all ? MUIV_List_Select_On : MUIV_List_Select_Off, NULL);
+
 		if(all)
 		{
 			dopus_curwin[win]->filesel = dopus_curwin[win]->filetot;
@@ -671,7 +110,6 @@ void globalselect(int win, int all)
 			dopus_curwin[win]->dirsel = 0;
 			dopus_curwin[win]->bytessel = 0;
 		}
-		doselinfo(win);
 	}
 }
 
@@ -697,7 +135,9 @@ void updateselectinfo(struct Directory *temp, int win, int show)
 			if(config->generalflags & GENERAL_DISPLAYINFO)
 				doinfodisplay(temp, TRUE);
 			else
-				doselinfo(data_active_window);
+			{
+				//doselinfo(data_active_window);
+			}
 		}
 	}
 	else
@@ -715,8 +155,8 @@ void updateselectinfo(struct Directory *temp, int win, int show)
 			dopus_curwin[win]->bytessel -= temp->size;
 			break;
 		}
-		if(show)
-			doselinfo(data_active_window);
+//		if(show)
+//			doselinfo(data_active_window);
 	}
 }
 
@@ -762,7 +202,7 @@ void globaltoggle(int win)
 		}
 		temp = temp->next;
 	}
-	doselinfo(win);
+//	doselinfo(win);
 }
 
 void doselect(int rexx)
@@ -771,8 +211,6 @@ void doselect(int rexx)
 	int boobs, prot[2];
 	struct DateStamp ds1, ds2;
 	int selecttype;
-
-//	DosControlTags(DC_WildStarW, TRUE, TAG_DONE, 0); // User setting, SYS:Prefs/DOS on AmigaOS4. This would override that.
 
 	if(dopus_curwin[data_active_window]->total == 0 || dopus_curwin[data_active_window]->firstentry->type == ENTRY_CUSTOM)
 		return;
@@ -819,8 +257,6 @@ void doselect(int rexx)
 			break;
 		}
 	}
-
-//	DosControlTags(DC_WildStarW, FALSE, TAG_DONE, 0);
 }
 
 void getseldatestamps(STRPTR buf, struct DateStamp *ds1, struct DateStamp *ds2)
@@ -922,7 +358,7 @@ void wildselect(STRPTR wild, int boobs, int and, int mode)
 		temp = temp->next;
 	}
 	refreshwindow(data_active_window, 0);
-	doselinfo(data_active_window);
+//	doselinfo(data_active_window);
 }
 
 void dateselect(struct DateStamp *ds1, struct DateStamp *ds2, int boobs, int and)
@@ -946,7 +382,7 @@ void dateselect(struct DateStamp *ds1, struct DateStamp *ds2, int boobs, int and
 		temp = temp->next;
 	}
 	refreshwindow(data_active_window, 0);
-	doselinfo(data_active_window);
+//	doselinfo(data_active_window);
 }
 
 void protselect(int protyes, int protno, int boobs, int and)
@@ -973,7 +409,7 @@ void protselect(int protyes, int protno, int boobs, int and)
 		temp = temp->next;
 	}
 	refreshwindow(data_active_window, 0);
-	doselinfo(data_active_window);
+//	doselinfo(data_active_window);
 }
 
 void wildselectthisone(struct Directory *temp, int win, int boobs)
@@ -1002,6 +438,7 @@ void wildselectthisone(struct Directory *temp, int win, int boobs)
 	}
 }
 
+#if 0
 void doselinfo(int win)
 {
 	char b1[24], b2[24];
@@ -1029,6 +466,7 @@ void doselinfo(int win)
 	}
 	dostatustext(str_select_info);
 }
+#endif
 
 int makeactive(int win, int state)
 {
@@ -1048,8 +486,8 @@ int doactive(int state, int showinfo)
 	struct dopusfuncpar par;
 	struct Directory *entry;
 
-	if(showinfo)
-		doselinfo(data_active_window);
+//	if(showinfo)
+//		doselinfo(data_active_window);
 	if(last_selected_entry && last_selected_entry->type <= ENTRY_FILE)
 	{
 		if(state && config->generalflags & GENERAL_DOUBLECLICK)
@@ -1057,7 +495,6 @@ int doactive(int state, int showinfo)
 			if(DoubleClick(time_previous_sec, time_previous_micro, time_current_sec, time_current_micro))
 			{
 				data_active_window = 1 - data_active_window;
-				unselect(data_active_window, last_selected_entry);
 				entry = last_selected_entry;
 				dostatustext(globstring[STR_INTERROGATING_FILE]);
 				StrCombine(buf, str_pathbuffer[data_active_window], last_selected_entry->name, 256);
@@ -1109,7 +546,6 @@ int doactive(int state, int showinfo)
 			}
 			else
 			{
-				unselect(1 - data_active_window, last_selected_entry);
 				advancebuf(data_active_window, 1);
 				if(last_selected_entry->type == ENTRY_CUSTOM)
 				{
@@ -1153,8 +589,8 @@ void unbyte(int win)
 			entry = NULL;
 	}
 	refreshwindow(win, 0);
-	if(win == data_active_window)
-		doselinfo(win);
+//	if(win == data_active_window)
+//		doselinfo(win);
 }
 
 void checkselection(struct Directory *entry)
@@ -1170,6 +606,4 @@ void checkselection(struct Directory *entry)
 			break;
 		temp = temp->next;
 	}
-	if(temp && temp->selected)
-		unselect(data_active_window, temp);
 }

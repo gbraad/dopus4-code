@@ -1,6 +1,7 @@
 #ifndef __MUI_H__
 #define __MUI_H__
 
+ULONG getv(APTR obj, ULONG attr);
 APTR MakeButton(CONST_STRPTR str);
 APTR MakeLLabel(CONST_STRPTR str);
 APTR MakeText(void);
@@ -38,6 +39,9 @@ enum
 	MM_Application_DeleteWindow = ITIX_BASE,
 	MM_Application_DeleteFontWindow,
 	MM_Clock_Update,
+	MA_FileList_WindowNumber,
+	MM_FileList_DoubleClick,
+	MM_FileList_SelectChange,
 };
 
 struct MUIP_Application_DeleteWindow { ULONG MethodID; APTR window; };

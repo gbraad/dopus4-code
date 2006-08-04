@@ -855,12 +855,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 					dopus_curwin[data_active_window]->bytessel += entry->size;
 				}
 			}
-			if(rexx_argcount > 2 && atoi(rexx_args[2]))
-			{
-				refreshwindow(data_active_window, 0);
-				if(entry->type != ENTRY_CUSTOM)
-					doselinfo(data_active_window);
-			}
 		}
 		rexx_return(msg, d);
 		return (1);
@@ -1588,7 +1582,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			break;
 
 		case MOD_WINDOWXYWH:
-			if(rexx_argcount < 4 || !system_version2)
+			if(rexx_argcount < 4)
 				break;
 			config->wbwinx = b;
 			config->wbwiny = atoi(rexx_args[2]);
@@ -1596,10 +1590,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			config->scr_winh = atoi(rexx_args[4]);
 			if(status_publicscreen && Window)
 				ChangeWindowBox(Window, config->wbwinx, config->wbwiny, config->scr_winw, config->scr_winh);
-			break;
-
-		case MOD_PORTNAME:
-			change_port_name(rexx_args[1]);
 			break;
 
 		case MOD_OUTPUTCMD:

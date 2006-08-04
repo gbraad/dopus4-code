@@ -100,9 +100,6 @@ struct ExtNewWindow main_win =
 	mainwindow_tags
 };
 
-struct AppWindow *dopus_appwindow = NULL;	/* AppWindow when on Workbench screen */
-
-
 /* Definitions for the custom menus */
 
 struct Menu menu_menus[5];	/* Custom menus */

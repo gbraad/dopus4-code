@@ -37,11 +37,10 @@ the existing commercial status of Directory Opus 5.
 
 void doidcmp()
 {
-	int x, y, a, function, wmes, stringgd = 0, waitbits, b, x1, y1, c, win, dir, num, class;
+	int x, y, a, function, wmes, stringgd = 0, waitbits, x1, y1, c, win, dir, num, class;
 	USHORT code, gadgetid = 0, menunum, itemnum, qual;
 	UBYTE buf[80], ch;
 	struct dopusgadgetbanks *bank, *bank1;
-	struct AppMessage *apmsg;
 	struct dopushotkey *hotkey;
 	struct dopusfuncpar par;
 	struct Gadget *gad = NULL;
@@ -64,10 +63,10 @@ void doidcmp()
 			{
 				ULONG a = (ret - MAIN_GAD_BASE) + (data_gadgetrow_offset * 7);
 
-				if(!dopus_curgadbank || !(isvalidgad(&dopus_curgadbank->gadgets[a])))
-					break;
-				dofunctionstring(dopus_curgadbank->gadgets[a].function, dopus_curgadbank->gadgets[a].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[a].which);
-				break;
+				if(dopus_curgadbank && isvalidgad(&dopus_curgadbank->gadgets[a]))
+				{
+					dofunctionstring(dopus_curgadbank->gadgets[a].function, dopus_curgadbank->gadgets[a].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[a].which);
+				}
 			}
 
 			if (wmes)
@@ -75,8 +74,7 @@ void doidcmp()
 		}
 
 		waitbits = 1 << Window->UserPort->mp_SigBit | 1 << count_port->mp_SigBit | rexx_signalbit | INPUTSIG_HOTKEY;
-		if (dopus_appwindow)
-			waitbits |= 1 << appmsg_port->mp_SigBit;
+
 		if((wmes = Wait(waitbits | wmes)) & INPUTSIG_HOTKEY)
 		{
 			if(dopus_globalhotkey == (struct dopushotkey *)-1)
@@ -115,6 +113,8 @@ void doidcmp()
 		}
 			
 /// "AppMessage"
+		#if 0
+		// fixme
 		if(dopus_appwindow && (wmes & (1 << appmsg_port->mp_SigBit)))
 		{
 			ActivateWindow(Window);
@@ -179,6 +179,8 @@ void doidcmp()
 				ReplyMsg((struct Message *)apmsg);
 			}
 		}
+		#endif
+
 /// "DOS notify"
 		if(wmes & (1 << count_port->mp_SigBit))
 		{
@@ -372,35 +374,6 @@ void doidcmp()
 					doposprop(a);
 					break;
 
-				case SCRGAD_LEFTHPROP:
-				case SCRGAD_RIGHTHPROP:
-					if(gadgetid == SCRGAD_LEFTHPROP)
-						a = 0;
-					else
-						a = 1;
-					if(config->generalflags & GENERAL_ACTIVATE)
-						makeactive(a, 0);
-					doposhprop(a);
-					FOREVER
-					{
-						Wait(1 << Window->UserPort->mp_SigBit);
-						class = 0;
-						while(getintuimsg())
-						{
-							class = IMsg->Class;
-							ReplyMsg((struct Message *)IMsg);
-							if(class == IDCMP_MOUSEMOVE)
-								doposhprop(a);
-							else if(class == IDCMP_GADGETUP)
-								break;
-						}
-						if(class == IDCMP_GADGETUP)
-							break;
-					}
-					dopus_curwin[a]->hoffset = -1;
-					doposhprop(a);
-					break;
-
 				case SCRGAD_DRIVEPROP:
 					if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS)
 					{
@@ -548,19 +521,6 @@ void doidcmp()
 					break;
 				}
 				qual &= VALID_QUALIFIERS;
-				bank = dopus_firstgadbank;
-				while(bank)
-				{
-					for(a = 0; a < GADCOUNT; a++)
-					{
-						if(check_key_press((struct dopusfunction *)&bank->gadgets[a], code, qual))
-						{
-							dofunctionstring(bank->gadgets[a].function, bank->gadgets[a].name, NULL, (struct dopusfuncpar *)&bank->gadgets[a].which);
-							goto foobarbaz;
-						}
-					}
-					bank = bank->next;
-				}
 				for(a = 0; a < MENUCOUNT; a++)
 				{
 					if(check_key_press((struct dopusfunction *)&config->menu[a], code, qual))
@@ -608,20 +568,6 @@ void doidcmp()
 					win = -1;
 					switch (code)
 					{
-					case RAWKEY_NM_WHEEL_DOWN:
-						win = data_active_window;
-						verticalscroll(win, -1);
-						verticalscroll(win, -1);
-						verticalscroll(win, -1);
-						break;
-
-					case RAWKEY_NM_WHEEL_UP:
-						win = data_active_window;
-						verticalscroll(win, 1);
-						verticalscroll(win, 1);
-						verticalscroll(win, 1);
-						break;
-
 					case CURSOR_UP:
 						if(win == -1)
 							win = data_active_window;
@@ -815,8 +761,6 @@ void doidcmp()
 					{
 						dosizedirwindows(65536);
 					}
-					else if((a = isinwindow(x, y)) != -1)	// lister area
-						doselection(a, TRUE);
 					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)	// buttonbank area
 					{
 					      nextgadgetbank:
@@ -941,8 +885,6 @@ void doidcmp()
 								function = FUNC_PARENT;
 							else
 							{
-								dormbscroll(0);
-								doselinfo(0);
 							}
 						}
 						else if(x > scrdata_dispwin_center + 12 && x < screen_gadgets[SCRGAD_RIGHTPARENT].LeftEdge)
@@ -951,8 +893,6 @@ void doidcmp()
 								function = FUNC_PARENT;
 							else
 							{
-								doselinfo(1);
-								dormbscroll(1);
 							}
 						}
 					}
@@ -996,7 +936,6 @@ void doidcmp()
 								struct dopusfiletype *type;
 								struct Directory *file;
 
-								select(win, a - dopus_curwin[win]->offset);
 								for(file = dopus_curwin[win]->firstentry; a--; file = file->next);
 								strcpy(buf, str_pathbuffer[win]);
 								TackOn(buf, file->name, 256);
@@ -1025,7 +964,6 @@ void doidcmp()
 									dofunctionstring(type->function[FTFUNC_MMBCLICK], file->name, buf, &par);
 									func_single_file[0] = 0;
 								}
-								unselect(win, file);
 							}
 							data_active_window = owin;
 							time_previous_sec = 0;

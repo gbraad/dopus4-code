@@ -5,6 +5,7 @@
 #include <proto/graphics.h>
 #include <proto/intuition.h>
 #include <proto/muimaster.h>
+#include <proto/utility.h>
 
 #include "libraries/dopus.h"
 #include	"dopus/dopusmessage.h"
@@ -24,14 +25,32 @@ APTR dopusdirlist[2];
 	ListClass
 **********************************************************************/
 
+struct FileList_Data
+{
+	ULONG winnumber;
+};
+
 STATIC ULONG mListNew(struct IClass *cl, APTR obj, struct opSet *msg)
 {
-	return (ULONG)DoSuperNew(cl, obj,
+	obj = DoSuperNew(cl, obj,
 		InputListFrame,
 		MUIA_Font, MUIV_Font_Fixed,
 		MUIA_List_Format, ",PREPARSE=\33r,PREPARSE=\33c,,",
 		MUIA_List_Title, TRUE,
+		MUIA_List_MultiSelect, MUIV_List_MultiSelect_Default,
 		TAG_MORE, msg->ops_AttrList);
+
+	if (obj)
+	{
+		struct FileList_Data *data = (struct FileList_Data *)INST_DATA(cl, obj);
+
+		data->winnumber = FindTagItem(MA_FileList_WindowNumber, msg->ops_AttrList)->ti_Data;
+
+		DoSuperMethod(cl, obj, MUIM_Notify, MUIA_List_DoubleClick, TRUE, MUIV_Notify_Self, 1, MM_FileList_DoubleClick);
+		DoSuperMethod(cl, obj, MUIM_Notify, MUIA_List_SelectChange, TRUE, MUIV_Notify_Self, 1, MM_FileList_SelectChange);
+	}
+
+	return (ULONG)obj;
 }
 
 STATIC ULONG mListConstruct(APTR obj, struct MUIP_List_Construct *msg)
@@ -51,7 +70,6 @@ STATIC ULONG mListConstruct(APTR obj, struct MUIP_List_Construct *msg)
 STATIC ULONG mListDestruct(APTR obj, struct MUIP_List_Construct *msg)
 {
 	FreeVecPooled(msg->pool, msg->entry);
-
 	return 0;
 }
 
@@ -108,6 +126,212 @@ STATIC ULONG mListDisplay(APTR obj, struct MUIP_List_Display *msg)
 	return 0;
 }
 
+STATIC ULONG mListDoubleClick(struct IClass *cl, APTR obj)
+{
+	struct Directory *entry;
+
+	DoMethod(obj, MUIM_List_GetEntry, MUIV_List_GetEntry_Active, &entry);
+
+	if ((ENTRYTYPE(entry->type) != ENTRY_CUSTOM) || (entry->subtype != CUSTOMENTRY_USER) || (entry->size & CUSTENTRY_CANSELECT))
+	{
+		struct FileList_Data *data = (struct FileList_Data *)INST_DATA(cl, obj);
+		ULONG win;
+
+		win = data->winnumber;
+
+		switch (ENTRYTYPE(entry->type))
+		{
+			case ENTRY_DEVICE:
+			case ENTRY_DIRECTORY:
+			{
+				STRPTR dir;
+
+				dir = dopus_curwin[win]->directory;
+
+				if (!(dopus_curwin[win]->flags & DWF_ARCHIVE))
+					advancebuf(win, 1);
+
+				if (entry->type == ENTRY_DEVICE)
+				{
+						strcpy(str_pathbuffer[win], entry->name);
+				}
+				else
+				{
+					if (entry->subtype == ST_SOFTLINK)
+					{
+						struct FileInfoBlock fib;
+						struct DevProc *dp;
+						BPTR ld, lf;
+						TEXT linkbuf[512], buf[256];
+
+						stccpy(linkbuf, dir, sizeof(linkbuf));
+
+						do
+						{
+							ld = Lock(linkbuf, ACCESS_READ);
+							if ((dp = GetDeviceProc(linkbuf, NULL)))
+							{
+								if (ReadLink(dp->dvp_Port, ld, entry->name, buf, 256))
+								{
+									AddPart(linkbuf, buf, 512);
+
+									if ((lf = Lock(linkbuf, ACCESS_READ)))
+									{
+										NameFromLock(lf, linkbuf, 512);
+										if (Examine(lf, &fib))
+										{
+											if (fib.fib_DirEntryType == ST_SOFTLINK)
+												*PathPart(linkbuf) = 0;
+										}
+										UnLock(lf);
+									}
+									else
+									{
+										fib.fib_DirEntryType = ST_USERDIR;
+									}
+								}
+								FreeDeviceProc(dp);
+								UnLock(ld);
+							}
+						}
+						while (fib.fib_DirEntryType == ST_SOFTLINK);
+
+						strcpy(str_pathbuffer[win], linkbuf);
+					}
+					else
+					{
+						strcpy(str_pathbuffer[win], dir);
+						TackOn(str_pathbuffer[win], entry->name, 256);
+					}
+				}
+
+				startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
+			}
+			break;
+
+			case ENTRY_CUSTOM:
+				if (entry->subtype == CUSTOMENTRY_BUFFERLIST || entry->subtype == CUSTOMENTRY_DIRTREE)
+				{
+					if (entry->subtype == CUSTOMENTRY_BUFFERLIST)
+					{
+						bringinbuffer(last_selected_entry->dispstr, win, 1);
+					}
+					else
+					{
+						strcpy(str_pathbuffer[win], last_selected_entry->dispstr);
+						startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
+					}
+				}
+				else if (entry->subtype == CUSTOMENTRY_USER)
+				{
+					userentrymessage(dopus_curwin[win], entry, USERENTRY_DOUBLECLICK);
+				}
+				break;
+
+			case ENTRY_FILE:
+				if (config->generalflags & GENERAL_DOUBLECLICK)
+				{
+					if (dopus_curwin[win]->flags & DWF_ARCHIVE)
+					{
+						TEXT path[256], tempname[FILEBUF_SIZE];
+
+						strcpy(path, "T:");
+
+						if (unarcfiledir(dopus_curwin[win], path, tempname, entry->name))
+						{
+							ftype_doubleclick(path, tempname, 1);
+							AddPart(path, tempname, 256);
+							removetemparcfile(path);
+						}
+					}
+					else
+					{
+						ftype_doubleclick(str_pathbuffer[win], entry->name, 1);
+					}
+
+					unbusy();
+				}
+				break;
+		}
+	}
+
+	return 0;
+}
+
+STATIC ULONG mListSelectChange(struct IClass *cl, APTR obj)
+{
+	struct FileList_Data *data = (struct FileList_Data *)INST_DATA(cl, obj);
+	TEXT b1[24], b2[24];
+	UQUAD bytes;
+	ULONG files, dirs, total, win;
+	LONG id, dofiles = 1;
+
+	id = MUIV_List_NextSelected_Start;
+
+	bytes = 0;
+	files = 0;
+	dirs = 0;
+	total = 0;
+
+	win = data->winnumber;
+
+	for (;;)
+	{
+		struct Directory *entry;
+
+		DoMethod(obj, MUIM_List_NextSelected, &id);
+
+		if (id == MUIV_List_NextSelected_End)
+			break;
+
+		DoMethod(obj, MUIM_List_GetEntry, id, &entry);
+
+		if (entry->type == ENTRY_CUSTOM)
+		{
+			dofiles = 0;
+
+			switch (entry->subtype)
+			{
+				case CUSTOMENTRY_DIRTREE:
+					sprintf(str_select_info, globstring[STR_ENTRIES_IN_TREE], dopus_curwin[win]->total);
+					break;
+
+				case CUSTOMENTRY_BUFFERLIST:
+					sprintf(str_select_info, globstring[STR_DIRS_IN_BUFFERS], dopus_curwin[win]->total);
+					break;
+
+				case CUSTOMENTRY_USER:
+					sprintf(str_select_info, globstring[STR_USER_ENTRIES], dopus_curwin[win]->total);
+					break;
+			}
+		}
+		else if (ENTRYTYPE(entry->type) == ENTRY_FILE)
+		{
+			bytes += entry->size;
+			files++;
+		}
+		else
+		{
+			dirs++;
+		}
+	}
+
+	if (dofiles)
+	{
+		dopus_curwin[win]->bytessel = bytes;
+		dopus_curwin[win]->dirsel = dirs;
+		dopus_curwin[win]->filesel = files;
+
+		buildkmgstring(b1, dopus_curwin[win]->bytessel, config->listerdisplayflags[win] & SIZE_KMG);
+		buildkmgstring(b2, dopus_curwin[win]->bytestot, config->listerdisplayflags[win] & SIZE_KMG);
+		sprintf(str_select_info, globstring[STR_DIRS_FILES_BYTES_COUNT], dopus_curwin[win]->dirsel, dopus_curwin[win]->dirtot, dopus_curwin[win]->filesel, dopus_curwin[win]->filetot, b1, b2);
+	}
+
+	dostatustext(str_select_info);
+
+	return 0;
+}
+
 STATIC ULONG mListDispatcher(void)
 {
 	struct IClass *cl;
@@ -120,11 +344,13 @@ STATIC ULONG mListDispatcher(void)
 
 	switch (msg->MethodID)
 	{
-		case OM_NEW					: return mListNew			(cl, obj, (APTR)msg);
-		case MUIM_List_Compare	: return mListCompare	(obj, (APTR)msg);
-		case MUIM_List_Construct: return mListConstruct	(obj, (APTR)msg);
-		case MUIM_List_Destruct	: return mListDestruct	(obj, (APTR)msg);
-		case MUIM_List_Display	: return mListDisplay	(obj, (APTR)msg);
+		case OM_NEW							: return mListNew				(cl, obj, (APTR)msg);
+		case MUIM_List_Compare			: return mListCompare		(obj, (APTR)msg);
+		case MUIM_List_Construct		: return mListConstruct		(obj, (APTR)msg);
+		case MUIM_List_Destruct			: return mListDestruct		(obj, (APTR)msg);
+		case MUIM_List_Display			: return mListDisplay		(obj, (APTR)msg);
+		case MM_FileList_DoubleClick	: return mListDoubleClick	(cl, obj);
+		case MM_FileList_SelectChange	: return mListSelectChange	(cl, obj);
 	}
 
 	return DoSuperMethodA(cl, obj, msg);
@@ -370,6 +596,13 @@ STATIC ULONG mDispatcher(void)
 	MUI
 **********************************************************************/
 
+ULONG getv(APTR obj, ULONG attr)
+{
+	ULONG x;
+	GetAttr(attr, obj, &x);
+	return x;
+}
+
 APTR MakeButton(CONST_STRPTR str)
 {
 	APTR	obj;
@@ -412,7 +645,7 @@ ULONG init_classes(void)
 {
 	if ((CL_App = MUI_CreateCustomClass(NULL, MUIC_Application, NULL, 0, (APTR)&mDispatcherTrap)))
 	{
-		if ((CL_FileList = MUI_CreateCustomClass(NULL, MUIC_List, NULL, 0, (APTR)&mListDispatcherTrap)))
+		if ((CL_FileList = MUI_CreateCustomClass(NULL, MUIC_List, NULL, sizeof(struct FileList_Data), (APTR)&mListDispatcherTrap)))
 		{
 			if ((CL_Clock = MUI_CreateCustomClass(NULL, MUIC_Text, NULL, sizeof(struct Clock_Data), (APTR)&mClockDispatcherTrap)))
 			{

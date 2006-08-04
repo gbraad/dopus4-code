@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 				startdir = argv[a];
 		}
 	}
-	else if(argc == 0 && IconBase)
+	else if(argc == 0)
 	{
 		WBmsg = (struct WBStartup *)argv;
 		p = WBmsg->sm_ArgList;
@@ -141,12 +141,6 @@ int main(int argc, char **argv)
 			}
 	}
 
-	if(user_appicon)
-	{
-		user_appicon->do_CurrentX = NO_ICON_POSITION;
-		user_appicon->do_CurrentY = NO_ICON_POSITION;
-	}
-
 	old_pr_cis = main_proc->pr_CIS;
 	old_pr_cos = main_proc->pr_COS;
 	old_pr_consoletask = main_proc->pr_ConsoleTask;
@@ -166,8 +160,6 @@ int main(int argc, char **argv)
 	}
 
 	allocstrings();
-
-	nullpalette = (UWORD *)astring(sizeof(UWORD) * 256);
 
 	// pffft... what an ancient shit -itix
 
@@ -191,9 +183,6 @@ int main(int argc, char **argv)
 		quit();
 
 	rexx_signalbit = 1 << arexx_port->mp_SigBit;
-
-	if(!(appmsg_port = CreateMsgPort()))
-		quit();
 
 	for(a = 0; a < 2; a++)
 	{
@@ -769,6 +758,7 @@ tryfonts:
 		// name, size, prot, date, time, comment
 
 		dopusapp = NewObject(CL_App->mcc_Class, NULL,
+				MUIA_Application_DiskObject, user_appicon,
 				MUIA_Application_Version, "Directory Opus 4",
 				MUIA_Application_Copyright, "Something",
 				MUIA_Application_Author, "Jonathan Potter",
@@ -784,13 +774,13 @@ tryfonts:
 						Child, ColGroup(2),
 							Child, VGroup, MUIA_Group_Spacing, 0,
 								Child, MakeText(),
-								Child, dopusdirlist[0] = NewObject(CL_FileList->mcc_Class, NULL, TAG_DONE),
+								Child, dopusdirlist[0] = NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, 0, TAG_DONE),
 								Child, MakeString(512),
 							End,
 
 							Child, VGroup, MUIA_Group_Spacing, 0,
 								Child, MakeText(),
-								Child, dopusdirlist[1] = NewObject(CL_FileList->mcc_Class, NULL, TAG_DONE),
+								Child, dopusdirlist[1] = NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, 1, TAG_DONE),
 								Child, MakeString(512),
 							End,
 						End,
@@ -899,11 +889,7 @@ tryfonts:
 			horiz_propgad[y].MutualExclude = screen_pens[config->sliderbgcol].pen;
 		}
 
-		if(status_publicscreen)
 		{
-			if(!dopus_appwindow)
-				dopus_appwindow = AddAppWindowA(APPWINID, 0, Window, appmsg_port, NULL);
-
 			SetWindowTitles(Window, (char *)-1, str_arexx_portname);
 			screen_gadgets[SCRGAD_LEFTPARENT].Width = Window->BorderLeft + 2;
 			screen_gadgets[SCRGAD_RIGHTPARENT].Width = Window->BorderRight + 2;
@@ -917,11 +903,6 @@ tryfonts:
 			size_gadgets[1].TopEdge = Window->Height - Window->BorderBottom - 1;
 			size_gadgets[1].Width = 33;
 			size_gadgets[1].Height = Window->BorderBottom + 1;
-		}
-		else
-		{
-			screen_gadgets[SCRGAD_LEFTPARENT].Width = 2;
-			screen_gadgets[SCRGAD_RIGHTPARENT].Width = 2;
 		}
 
 		if((Window->WScreen->Width / Window->WScreen->Height) == 1)

@@ -1353,10 +1353,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 				{
 					++count;
 				}
-				else if(count == 0)
-				{
-					unselect(act, file);
-				}
 				if(file->selected)
 				{
 					file->selected = 0;
@@ -1991,9 +1987,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			break;
 		if(file && okayflag)
 		{
-			if(file->selected)
-				unselect(act, file);
-			else
+			if(!file->selected)
 				refreshwindow(act, 0);
 		}
 		if(status_justabort || breakout == 2)
@@ -2141,7 +2135,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			}
 			else
 			{
-				doselinfo(act);
+				//doselinfo(act);
 				strcat(str_select_info, (value <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT]);
 				dostatustext(str_select_info);
 			}

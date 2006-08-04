@@ -206,7 +206,7 @@ void incrementbuf(int win, int dir, int show)
 	{
 		seename(win);
 		refreshwindow(win, 1);
-		doselinfo(win);
+		//doselinfo(win);
 	}
 	startnotify(win);
 }
@@ -675,6 +675,6 @@ void go_to_buffer(int win, struct DirectoryWindow *dir)
 	checksize(win);
 	check_old_buffer(win);
 	refreshwindow(win, 1);
-	doselinfo(win);
+	//doselinfo(win);
 	startnotify(win);
 }

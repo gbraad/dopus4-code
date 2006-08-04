@@ -122,7 +122,6 @@ void doreselect(struct DirWindowPars *winpar, int moveold)
 			dopus_curwin[winpar->reselection_win]->hoffset = winpar->hoffset;
 		}
 		refreshwindow(winpar->reselection_win, 1);
-		doselinfo(winpar->reselection_win);
 	}
 }
 

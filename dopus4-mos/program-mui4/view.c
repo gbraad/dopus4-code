@@ -123,8 +123,6 @@ static struct NewWindow viewwin =
 
 /* iconifygagdet stuff */ 
 static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
-static struct Gadget *viewiconifygadget;
-static struct Image *viewiconifyimage;
 
 ULONG view_runcount;
 
@@ -439,12 +437,6 @@ void cleanupviewfile(struct ViewData *vdata)
 		{
 			config->viewtext_topleftx = vdata->view_window->LeftEdge;
 			config->viewtext_toplefty = vdata->view_window->TopEdge;
-			RemoveGadget(vdata->view_window, viewiconifygadget);
-			if(view_runcount == 0)
-			{
-				DisposeObject(viewiconifygadget);
-				DisposeObject(viewiconifyimage);
-			}
 
 			CloseWindow(vdata->view_window);
 		}
@@ -502,7 +494,6 @@ int view_loadfile(struct ViewData *vdata)
 			{
 				GT_BeginRefresh(vdata->view_window);
 				GT_EndRefresh(vdata->view_window, TRUE);
-				RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 			}
 			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == MENUDOWN))
 			{
@@ -537,12 +528,6 @@ int view_idcmp(struct ViewData *vdata)
 	int retcode = 1;
 	BOOL quit = FALSE;
 
-	#if 0
-	struct DiskObject *viewdobj = NULL;
-	struct AppIcon *viewappicon = NULL;
-	struct MsgPort *view_appport = NULL;
-	#endif
-
 	for(a = 0; a < 7; a++)
 	{
 		scroll_pos[a] = (vdata->view_window->Height / 8) * (a + 1);
@@ -565,7 +550,6 @@ int view_idcmp(struct ViewData *vdata)
 			case IDCMP_REFRESHWINDOW:
 				GT_BeginRefresh(vdata->view_window);
 				GT_EndRefresh(vdata->view_window, TRUE);
-				RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 				break;
 			case IDCMP_CLOSEWINDOW:
 				view_runcount--;
@@ -610,48 +594,6 @@ int view_idcmp(struct ViewData *vdata)
 			      testgad:
 				switch (gadgetid)
 				{
-				#warning disabled iconify code, HideWindow() keeps screen locked
-				#if 0
-				case VIEW_ICONIFY:
-					if(!view_appport)
-					{
-						view_appport = CreatePort(NULL, 0);
-					}
-					if(!viewdobj)
-					{
-						viewdobj = GetDiskObject("ENV:Sys/def_ascii");
-					}
-					if(viewdobj && view_appport)
-					{
-						struct AppMessage *viewappmsg;
-						viewappicon = AddAppIcon(0, 0, vdata->view_file_name, view_appport, 0, viewdobj, NULL);
-						HideWindow(vdata->view_window);
-						Wait(1 << view_appport->mp_SigBit);
-						while((viewappmsg = (struct AppMessage *)GetMsg(view_appport)))
-						{
-							switch(viewappmsg->am_Type)
-							{
-							case AMTYPE_APPICON:
-								if((viewappmsg->am_NumArgs == 0) && (viewappmsg->am_ArgList == NULL))
-								{
-									RemoveAppIcon(viewappicon);
-									FreeDiskObject(viewdobj);
-									ShowWindow(vdata->view_window, WINDOW_FRONTMOST);
-									DeletePort(view_appport);
-								}
-								break;
-							}
-							ReplyMsg((struct Message *)viewappmsg);
-						}
-
-					}
-					else
-					{
-						FreeDiskObject(viewdobj);
-						DeletePort(view_appport);
-					}
-					break;
-				#endif
 				case VIEW_SCROLLGADGET:
 					view_fix_scroll_gadget(vdata);
 					break;
@@ -1261,7 +1203,6 @@ int view_setupdisplay(struct ViewData *vdata)
 	AddGList(vdata->view_window, vdata->view_gadgets, -1, -1, NULL);
 	RefreshGList(vdata->view_gadgets, vdata->view_window, NULL, -1);
 	GT_RefreshWindow(vdata->view_window, NULL);
-	RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 
 	vdata->view_vis_info.vi_font = vdata->view_font;
 	vdata->view_vis_info.vi_language = config->language;

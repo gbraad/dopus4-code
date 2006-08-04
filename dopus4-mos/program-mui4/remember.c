@@ -138,5 +138,4 @@ void do_restore_config(struct RememberData *data)
 	config->scr_winw = data->scr_winw;
 	config->scr_winh = data->scr_winh;
 	strcpy(config->pubscreen_name, data->pubscreen_name);
-	change_port_name(data->portname);
 }

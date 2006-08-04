@@ -1275,7 +1275,6 @@ void custunselect(struct Directory *dir, int rel, struct function_data *funcdata
 				temp->next = NULL;
 			}
 		}
-		unselect(win, dir);
 	}
 }
 

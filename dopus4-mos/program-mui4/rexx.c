@@ -91,7 +91,7 @@ void rexx_dispatch(int allfuncs)
 				arglist = (struct DOpusArgsList *)dopusmsg->data;
 				if(arglist->last_select)
 				{
-					unselect(arglist->file_window, arglist->last_select);
+					// fixme: should unselect specified file
 					arglist->last_select = NULL;
 				}
 				break;
