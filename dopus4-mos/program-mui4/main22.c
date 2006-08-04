@@ -192,7 +192,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			displaydirgiven(act, file, 0);
 			if(!(a = simplerequest(globstring[STR_REALLY_DELETE], globstring[STR_DELETE], str_cancelstring, globstring[STR_ALL], NULL)))
 			{
-				endfollow(act);
 				myabort();
 				goto endfunction;
 			}
@@ -228,7 +227,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 					displaydirgiven(act, file, 0);
 					if(!(a = getrenamedata(srename, drename)) || !srename[0] || !drename[0])
 					{
-						endfollow(act);
 						myabort();
 						goto endfunction;
 					}
@@ -252,7 +250,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			}
 		if(!file)
 		{
-			endfollow(act);
 			goto endfunction;
 		}
 		askeach = 1;
@@ -578,7 +575,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 				file->userdata = dos_global_blocksneeded;
 				file->userdata2 = blocksize;
 				setdirsize(file, dos_global_bytecount, act);
-				refreshwindow(act, 0);
 			}
 			if(file->type >= ENTRY_DIRECTORY)
 				data += file->userdata + 1;
@@ -716,7 +712,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 						else
 						{
 							setdirsize(file, file->size - dos_global_deletedbytes, act);
-							refreshwindow(act, 0);
 						}
 					}
 					else
@@ -909,8 +904,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 						}
 						else
 							strcpy(file->name, namebuf);
-						if(lastfile)
-							refreshwindow(act, 0);
 					}
 					okayflag = 1;
 				}
@@ -1030,7 +1023,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 							if(!func_external_file[0])
 							{
 								setdirsize(file, file->size - dos_global_deletedbytes, act);
-								refreshwindow(act, 0);
 							}
 							if(CheckExist(destname, NULL))
 							{
@@ -1054,7 +1046,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 						else
 						{
 							setdirsize(tempfile, exist ? -1 : dos_global_copiedbytes, act);
-							refreshwindow(inact, 0);
 						}
 						if((a = delfile(sourcename, file->name, globstring[STR_DELETING], 1, 1)) == -1)
 						{
@@ -1242,7 +1233,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 				if(!a && !func_external_file[0])
 				{
 					setdirsize(file, dos_global_bytecount, act);
-					refreshwindow(act, 0);
 					filloutcopydata(file);
 				}
 				else if(a == -1 || a == -10)
@@ -1397,7 +1387,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 					{
 						if((blankscreen = OpenScreen((struct NewScreen *)&blank_scr)))
 							SetRGB4(&blankscreen->ViewPort, 0, 0, 0, 0);
-						setnullpointer(Window);
 						pt = 0;
 					}
 					data = 1;
@@ -1723,8 +1712,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 				if(!a && !func_external_file[0])
 					setdirsize(file, dos_global_bytecount, act);
 			}
-			if(!file->selected)
-				refreshwindow(act, 0);
 			okayflag = 1;
 			break;
 
@@ -1985,11 +1972,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			seename(show);
 		if(breakout == 1)
 			break;
-		if(file && okayflag)
-		{
-			if(!file->selected)
-				refreshwindow(act, 0);
-		}
 		if(status_justabort || breakout == 2)
 			break;
 
@@ -2062,8 +2044,6 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 	case FUNC_HEXREAD:
 	case FUNC_ANSIREAD:
 	case FUNC_SMARTREAD:
-		if(act > -1)
-			refreshwindow(act, 0);
 		if(viewdata)
 			cleanupviewfile(viewdata);
 		if(status_justabort)
@@ -2148,13 +2128,10 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 		okay();
 	if(!noshow)
 	{
-		endfollow(act);
-		displaydir(act);
 		seename(act);
 	}
 	if(inact > -1)
 	{
-		displaydir(inact);
 		seename(inact);
 	}
 	switch (function)

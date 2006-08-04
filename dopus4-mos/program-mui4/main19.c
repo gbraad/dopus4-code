@@ -121,26 +121,12 @@ void doreselect(struct DirWindowPars *winpar, int moveold)
 			dopus_curwin[winpar->reselection_win]->offset = top;
 			dopus_curwin[winpar->reselection_win]->hoffset = winpar->hoffset;
 		}
-		refreshwindow(winpar->reselection_win, 1);
 	}
 }
 
 void shutthingsdown(int louise)
 {
 	main_proc->pr_WindowPtr = windowptr_save;
-	if(status_publicscreen && Window)
-	{
-		if(MainScreen)
-		{
-			config->scr_winx = Window->LeftEdge;
-			config->scr_winy = Window->TopEdge;
-		}
-		else
-		{
-			config->wbwinx = Window->LeftEdge;
-			config->wbwiny = Window->TopEdge;
-		}
-	}
 	if(louise < 1)
 		closedisplay();
 }

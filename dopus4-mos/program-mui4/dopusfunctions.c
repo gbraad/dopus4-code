@@ -224,7 +224,6 @@ char *modifynames[] =
 	"ShowPatBits",		/* hiddenbit */
 	"ShowPattern",		/* showpat */
 	"HidePattern",		/* hidepat */
-	"IconifyFlags",		/* icontype */
 	"ScrClockFlags",	/* scrclktype */
 	"ShowFreeFlags",	/* showfree */
 	"Font",			/* fontsizes/fontbufs */

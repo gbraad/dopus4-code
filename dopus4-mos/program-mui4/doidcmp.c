@@ -37,7 +37,7 @@ the existing commercial status of Directory Opus 5.
 
 void doidcmp()
 {
-	int x, y, a, function, wmes, stringgd = 0, waitbits, x1, y1, c, win, dir, num, class;
+	int x, y, a, function, wmes, stringgd = 0, waitbits, x1, y1, c, win, num, class;
 	USHORT code, gadgetid = 0, menunum, itemnum, qual;
 	UBYTE buf[80], ch;
 	struct dopusgadgetbanks *bank, *bank1;
@@ -56,7 +56,28 @@ void doidcmp()
 
 			if (ret == MUIV_Application_ReturnID_Quit)
 			{
-				break;
+				ULONG a = 1;
+
+				if (!getv(dopusapp, MUIA_Application_ForceQuit))
+				{
+					set(dopusapp, MUIA_Application_Sleep, TRUE);
+
+					if(!(config->generalflags & GENERAL_FORCEQUIT))
+						a = simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_ICONIFY], NULL);
+
+					set(dopusapp, MUIA_Application_Sleep, FALSE);
+				}
+
+				if (a == 2)
+				{
+					set(dopusapp, MUIA_Application_Iconified, TRUE);
+				}
+				else if (a == 1)
+				{
+					rexx_argcount = 1;
+					strcpy(rexx_args[0], "force");
+					internal_function(FUNC_QUIT, 0, NULL, NULL);
+				}
 			}
 
 			if (ret >= MAIN_GAD_BASE && ret < (MAIN_GAD_BASE + GADCOUNT))
@@ -68,6 +89,10 @@ void doidcmp()
 					dofunctionstring(dopus_curgadbank->gadgets[a].function, dopus_curgadbank->gadgets[a].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[a].which);
 				}
 			}
+			else if (ret >= 200 && ret < 250)
+			{
+				internal_function(ret - 200 + DRIVE1, 0, NULL, NULL);
+			}
 
 			if (wmes)
 				break;
@@ -77,19 +102,7 @@ void doidcmp()
 
 		if((wmes = Wait(waitbits | wmes)) & INPUTSIG_HOTKEY)
 		{
-			if(dopus_globalhotkey == (struct dopushotkey *)-1)
-			{
-				function = FUNC_QUIT;
-				dopus_globalhotkey = NULL;
-				goto foobarbaz;
-			}
-			else if(dopus_globalhotkey == (struct dopushotkey *)-2)
-			{
-				function = FUNC_ICONIFY;
-				dopus_globalhotkey = NULL;
-				goto foobarbaz;
-			}
-			else if(!dopus_globalhotkey)
+			if(!dopus_globalhotkey)
 				continue;
 			hotkey = dopus_globalhotkey;
 			dopus_globalhotkey = NULL;
@@ -244,25 +257,6 @@ void doidcmp()
 					check_old_buffer(a);
 				break;
 
-/// "IDCMP_CLOSEWINDOW"
-			case IDCMP_CLOSEWINDOW:
-				busy();
-				if(!(config->generalflags & GENERAL_FORCEQUIT))
-					a = simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_ICONIFY], NULL);
-				else
-					a = 1;
-
-				if(a == 2)
-					function = FUNC_ICONIFY;
-				else if(a == 1)
-				{
-					function = FUNC_QUIT;
-					rexx_argcount = 1;
-					strcpy(rexx_args[0], "force");
-				}
-				unbusy();
-				break;
-
 /// "IDCMP_MENUPICK"
 			case IDCMP_MENUPICK:
 				Window->Flags |= WFLG_RMBTRAP;
@@ -298,131 +292,6 @@ void doidcmp()
 				{
 					checkstringgads(stringgd);
 					stringgd = 0;
-				}
-				switch (gadgetid)
-				{
-				case SCRGAD_MOVEUP1:
-				case SCRGAD_MOVEDOWN1:
-				case SCRGAD_MOVEUP2:
-				case SCRGAD_MOVEDOWN2:
-					if(gadgetid == SCRGAD_MOVEUP1 || gadgetid == SCRGAD_MOVEUP2)
-						dir = -1;
-					else
-						dir = 1;
-					if(gadgetid == SCRGAD_MOVEUP1 || gadgetid == SCRGAD_MOVEDOWN1)
-						win = 0;
-					else
-						win = 1;
-					if(config->generalflags & GENERAL_ACTIVATE)
-						makeactive(win, 0);
-					verticalscroll(win, dir);
-//                            Delay(5);
-					while(!getintuimsg())
-						if(gad->Flags & GFLG_SELECTED)
-							verticalscroll(win, dir);
-					ReplyMsg((struct Message *)IMsg);
-					break;
-
-				case SCRGAD_MOVELEFT1:
-				case SCRGAD_MOVERIGHT1:
-				case SCRGAD_MOVELEFT2:
-				case SCRGAD_MOVERIGHT2:
-					if(gadgetid == SCRGAD_MOVELEFT1 || gadgetid == SCRGAD_MOVELEFT2)
-						dir = -1;
-					else
-						dir = 1;
-					if(gadgetid == SCRGAD_MOVELEFT1 || gadgetid == SCRGAD_MOVERIGHT1)
-						win = 0;
-					else
-						win = 1;
-					if(config->generalflags & GENERAL_ACTIVATE)
-						makeactive(win, 0);
-					horizontalscroll(win, dir);
-//                            Delay(5);
-					while(!getintuimsg())
-						if(gad->Flags & GFLG_SELECTED)
-							horizontalscroll(win, dir);
-					ReplyMsg((struct Message *)IMsg);
-					break;
-
-				case SCRGAD_LEFTPROP:
-				case SCRGAD_RIGHTPROP:
-					if(gadgetid == SCRGAD_LEFTPROP)
-						a = 0;
-					else
-						a = 1;
-					if(config->generalflags & GENERAL_ACTIVATE)
-						makeactive(a, 0);
-					doposprop(a);
-					FOREVER
-					{
-						Wait(1 << Window->UserPort->mp_SigBit);
-						class = 0;
-						while(getintuimsg())
-						{
-							class = IMsg->Class;
-							ReplyMsg((struct Message *)IMsg);
-							if(class == IDCMP_MOUSEMOVE)
-								doposprop(a);
-							else if(class == IDCMP_GADGETUP)
-								break;
-						}
-						if(class == IDCMP_GADGETUP)
-							break;
-					}
-					dopus_curwin[a]->offset = -1;
-					doposprop(a);
-					break;
-
-				case SCRGAD_DRIVEPROP:
-					if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS)
-					{
-						doposdriveprop();
-						FOREVER
-						{
-							Wait(1 << Window->UserPort->mp_SigBit);
-							class = 0;
-							while(getintuimsg())
-							{
-								class = IMsg->Class;
-								ReplyMsg((struct Message *)IMsg);
-								if(class == IDCMP_MOUSEMOVE)
-									doposdriveprop();
-								else if(class == IDCMP_GADGETUP)
-									break;
-							}
-							if(class == IDCMP_GADGETUP)
-								break;
-						}
-						doposdriveprop();
-					}
-					break;
-
-				case SCRGAD_GADGETPROP:
-					if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS)
-					{
-						FOREVER
-						{
-							doposgadgetprop(0);
-							if(getintuimsg())
-							{
-								class = IMsg->Class;
-								ReplyMsg((struct Message *)IMsg);
-								if(class == IDCMP_MOUSEMOVE)
-									continue;
-								else if(class == IDCMP_GADGETUP)
-									break;
-							}
-							Wait(1 << Window->UserPort->mp_SigBit);
-						}
-						doposgadgetprop(1);
-					}
-					break;
-
-				case SCRGAD_LEFTSTRING:
-				case SCRGAD_RIGHTSTRING:
-					stringgd = gadgetid + 1;
-					break;
 				}
 				break;
 
@@ -517,7 +386,6 @@ void doidcmp()
 			case IDCMP_RAWKEY:
 				if(code & IECODE_UP_PREFIX)
 				{
-					flushidcmp();
 					break;
 				}
 				qual &= VALID_QUALIFIERS;
@@ -566,116 +434,6 @@ void doidcmp()
 				else
 				{
 					win = -1;
-					switch (code)
-					{
-					case CURSOR_UP:
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-								dopus_curwin[win]->offset = 0;
-							else
-							{
-								dopus_curwin[win]->offset -= scrdata_dispwin_lines;
-								if(dopus_curwin[win]->offset < 0)
-									dopus_curwin[win]->offset = 0;
-							}
-							fixvertprop(win);
-							displaydir(win);
-							break;
-						}
-						verticalscroll(win, -1);
-						break;
-
-					case CURSOR_DOWN:
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-								dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-							else
-							{
-								dopus_curwin[win]->offset += scrdata_dispwin_lines;
-								if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-									dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-							}
-							fixvertprop(win);
-							displaydir(win);
-							break;
-						}
-						verticalscroll(win, 1);
-						break;
-					case RAWKEY_LEFT:	//CURSOR_LEFT:
-						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-						{
-							incrementbuf(data_active_window, -1, 1);
-							break;
-						}
-						if(win == -1)
-						{
-							win = data_active_window;
-						}
-						if(dopus_curwin[win]->total == 0)
-						{
-							break;
-						}
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-							{
-								dopus_curwin[win]->hoffset = 0;
-							}
-							else
-							{
-								dopus_curwin[win]->hoffset -= scrdata_dispwin_nchars[win];
-								if(dopus_curwin[win]->hoffset < 0)
-									dopus_curwin[win]->hoffset = 0;
-							}
-							refreshwindow(win, 1);
-							break;
-						}
-						horizontalscroll(win, -1);
-						break;
-					case RAWKEY_RIGHT:	//CURSOR_RIGHT:
-						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-						{
-							incrementbuf(data_active_window, 1, 1);
-							break;
-						}
-						if(win == -1)
-						{
-							win = data_active_window;
-						}
-						if(dopus_curwin[win]->total == 0)
-						{
-							break;
-						}
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-							{
-								dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-								if(dopus_curwin[win]->hoffset < 0)
-									dopus_curwin[win]->hoffset = 0;
-							}
-							else
-							{
-								dopus_curwin[win]->hoffset += scrdata_dispwin_nchars[win];
-								if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
-									dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-							}
-							refreshwindow(win, 1);
-							break;
-						}
-						horizontalscroll(win, 1);
-						break;
-					}
 					switch (code)
 					{
 					case 0x5f:	// HELP
@@ -825,13 +583,6 @@ void doidcmp()
 							}
 							makeactive(1 - a, 1);
 						}
-						else
-						{
-							time_previous_sec = time_current_sec;
-							time_previous_micro = time_current_micro;
-
-							handlelistermenu(1 - a);
-						}
 						checksize(1 - a);
 					}
 					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)	// clock bar
@@ -914,69 +665,6 @@ void doidcmp()
 						}
 					}
 				}
-				else if(code == MIDDLEUP)
-				{
-					int win;
-
-					if(config->hotkeyflags & HOTKEY_USEMMB)
-						break;
-
-					if((win = isinwindow(x, y)) != -1)
-					{
-						if(DoubleClick(time_previous_sec, time_previous_micro, time_current_sec, time_current_micro))
-						{
-							int a, owin;
-							owin = data_active_window;
-							data_active_window = win;
-							a = (y - scrdata_dirwin_ypos[win]) / scrdata_font_ysize;
-							a += dopus_curwin[win]->offset;
-							if(a < dopus_curwin[win]->total)
-							{
-								char buf[256];
-								struct dopusfiletype *type;
-								struct Directory *file;
-
-								for(file = dopus_curwin[win]->firstentry; a--; file = file->next);
-								strcpy(buf, str_pathbuffer[win]);
-								TackOn(buf, file->name, 256);
-
-								if((type = checkfiletype(buf, FTFUNC_MMBCLICK, 0)))
-								{
-									struct dopusfuncpar par;
-
-									par.which = type->which[FTFUNC_MMBCLICK];
-									par.stack = type->stack[FTFUNC_MMBCLICK];
-									par.pri = type->pri[FTFUNC_MMBCLICK];
-									par.delay = type->delay[FTFUNC_MMBCLICK];
-									par.key = par.qual = 0;
-									par.type = 3;
-
-									if(type->actionstring[FTFUNC_MMBCLICK][0])
-									{
-										do_title_string(type->actionstring[FTFUNC_MMBCLICK], buf, 0, file->name);
-										dostatustext(buf);
-									}
-									else
-									{
-										buf[0] = 0;
-									}
-									strcpy(func_single_file, file->name);
-									dofunctionstring(type->function[FTFUNC_MMBCLICK], file->name, buf, &par);
-									func_single_file[0] = 0;
-								}
-							}
-							data_active_window = owin;
-							time_previous_sec = 0;
-						}
-						else
-						{
-							if(config->generalflags & GENERAL_MMBSELECTS)
-								makeactive(win, 0);
-							time_previous_sec = time_current_sec;
-							time_previous_micro = time_current_micro;
-						}
-					}
-				}
 				break;
 			}
 		      foobarbaz:
@@ -990,22 +678,4 @@ void doidcmp()
 struct IntuiMessage *getintuimsg(void)
 {
 	return ((IMsg = (struct IntuiMessage *)GetMsg(Window->UserPort)));
-}
-
-void flushidcmp()
-{
-	while(getintuimsg())
-		ReplyMsg((struct Message *)IMsg);
-}
-
-int isinwindow(int x, int y)
-{
-	int win;
-
-	for(win = 0; win < 2; win++)
-	{
-		if(x >= scrdata_dirwin_xpos[win] && x < scrdata_dirwin_xpos[win] + scrdata_dirwin_width[win] && y >= scrdata_dirwin_ypos[win] && y < scrdata_dirwin_ypos[win] + scrdata_dirwin_height)
-			return (win);
-	}
-	return (-1);
 }

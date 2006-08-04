@@ -67,8 +67,6 @@ struct TagItem mainscreen_tags[] =			/* Tags for the main screen */
 }, mainwindow_tags[] =
 {				/* Tags for the main window */
 	{ WA_PubScreen, 0 },
-	{ WA_ExtraGadget_Iconify, TRUE },
-	{ WA_ExtraGadgetsStartID, FUNC_ICONIFY },
 	{ WA_AutoAdjust, TRUE },
 	{ WA_Zoom, (ULONG) zoom_data },
 	{ TAG_DONE, 0 }
@@ -94,7 +92,7 @@ struct ExtNewScreen main_scr =
 struct ExtNewWindow main_win =
 {	/* Main window */
 	0, 0, 0, 0, 255, 255,
-	IDCMP_MOUSEBUTTONS | IDCMP_MENUPICK | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_RAWKEY | IDCMP_MOUSEMOVE | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW | IDCMP_CLOSEWINDOW | IDCMP_NEWSIZE,
+	IDCMP_MOUSEBUTTONS | IDCMP_MENUPICK | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_RAWKEY | IDCMP_MOUSEMOVE | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW,
 	0,
 	NULL, NULL, NULL, NULL, NULL, 640, 200, 65535, 65535, CUSTOMSCREEN,
 	mainwindow_tags

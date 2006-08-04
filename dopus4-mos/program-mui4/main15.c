@@ -474,7 +474,6 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 				break;
 			case FUNC_TOGGLE:
 				globaltoggle(data_active_window);
-				refreshwindow(data_active_window, 0);
 				break;
 			case FUNC_PARENT:
 				if(!rexx || !rexx_argcount > 0 || (a = atoi(rexx_args[0])) < 0 || a > 1)
@@ -482,7 +481,6 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 				if(dopus_curwin[a]->firstentry && (dopus_curwin[a]->firstentry->type == ENTRY_CUSTOM) && (dopus_curwin[a]->firstentry->subtype == CUSTOMENTRY_DIRTREE))
 				{
 					advancebuf(a, -1);
-					refreshwindow(a, 3);
 					break;
 				}
 				if(doparent(str_pathbuffer[a]))

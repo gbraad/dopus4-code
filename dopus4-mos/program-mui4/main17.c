@@ -222,7 +222,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		dopus_curwin[win]->directory[0] = 0;
 		checkdir(str_pathbuffer[win], &path_strgadget[win]);
 		freedir(dopus_curwin[win], win);
-		displaydir(win);
 		seename(win);
 		break;
 
@@ -610,8 +609,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 					dopus_curwin[c]->offset = 0;
 				else if(dopus_curwin[c]->offset > dopus_curwin[c]->total - scrdata_dispwin_lines)
 					dopus_curwin[c]->offset = dopus_curwin[c]->total - scrdata_dispwin_lines;
-				fixvertprop(c);
-				displaydir(c);
 			}
 			else
 				d = dopus_curwin[c]->offset + 1;
@@ -732,8 +729,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		if(dopus_curwin[win]->offset < 0)
 			dopus_curwin[win]->offset = 0;
 
-		fixvertprop(win);
-		displaydir(win);
 		rexx_return(msg, dopus_curwin[win]->offset);
 		return (1);
 
@@ -751,7 +746,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		if(dopus_curwin[win]->hoffset < 0)
 			dopus_curwin[win]->hoffset = 0;
 
-		refreshwindow(win, 1);
 		rexx_return(msg, dopus_curwin[win]->hoffset);
 		return (1);
 
@@ -862,7 +856,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 	case FUNC_DISPLAYDIR:
 		if(rexx_argcount < 1 || (win = atoi(rexx_args[0])) < 0 || win > 1)
 			win = data_active_window;
-		refreshwindow(win, 1);
 		break;
 
 	case FUNC_ADDFILE:
@@ -880,8 +873,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		else
 		{
 			d = (int)addfile(dopus_curwin[data_active_window], data_active_window, rexx_args[0], atoi(rexx_args[1]), b, &ds, rexx_args[4], getprotval(rexx_args[5]), 0, atoi(rexx_args[7]), NULL, NULL, 0, 0);
-			fixprop(data_active_window);
-			doposprop(data_active_window);
 		}
 		rexx_return(msg, d ? 1 : 0);
 		return (1);
@@ -914,12 +905,10 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 			if(!dopus_curwin[data_active_window]->firstentry)
 			{
 				dopus_curwin[data_active_window]->hlen = scrdata_dispwin_nchars[data_active_window];
-				fixhorizprop(data_active_window);
 			}
 			if(b > dopus_curwin[data_active_window]->hlen)
 			{
 				dopus_curwin[data_active_window]->hlen = b;
-				fixhorizprop(data_active_window);
 			}
 			if(rexx_argcount > 1)
 				d = atoi(rexx_args[1]);
@@ -1147,10 +1136,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 				retbuf = config->hidepat;
 				break;
 
-			case MOD_ICONIFYFLAGS:
-				retval = config->icontype;
-				break;
-
 			case MOD_SCREENCLOCKFLAGS:
 				retval = config->scrclktype;
 				break;
@@ -1373,10 +1358,6 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 		case MOD_HIDEPATTERN:
 			strcpy(config->hidepat, rexx_args[1]);
 			ParsePatternNoCase(config->hidepat, config->hidepatparsed, 40);
-			break;
-
-		case MOD_ICONIFYFLAGS:
-			modify(&config->icontype);
 			break;
 
 		case MOD_SCREENCLOCKFLAGS:

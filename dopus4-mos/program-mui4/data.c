@@ -55,7 +55,6 @@ struct Window *Window /*=NULL*/ ;		/* Main window */
 struct DrawInfo *DRI /*=NULL */ ;
 struct Window *ansiread_window /*=NULL*/ ;	/* Window for rendering ANSI text */
 struct Window *reqoverride /*=NULL*/ ;		/* Pointer for SimpleRequest window */
-struct PopupMenu *sortmenu /*=NULL*/ ;		/* Sort pop-up menu */
 
 /* Graphics objects */
 

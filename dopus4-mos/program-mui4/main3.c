@@ -44,8 +44,6 @@ the existing commercial status of Directory Opus 5.
 #define ACTION_UID_TO_USERINFO      1037
 #define ACTION_GID_TO_GROUPINFO     1038
 
-static struct Requester dopus_busy_requester;	/* Busy requester */
-
 int doparent(char *str)
 {
 	int i, b, c;
@@ -696,14 +694,6 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, QUAD
 			removefile(newentry->next, dir, win, 0);
 	}
 
-	/* refresh lister */
-
-	if(show && type != ENTRY_DEVICE)
-	{
-		refreshwindow(win, 1);
-		doposprop(win);
-	}
-
 	return (newentry);
 }
 
@@ -846,8 +836,6 @@ void removefile(struct Directory *file, struct DirectoryWindow *dir, int win, in
 		dir->offset = dir->total - scrdata_dispwin_lines;
 	if(dir->offset < 0)
 		dir->offset = 0;
-	if(show)
-		refreshwindow(win, 1);
 }
 
 void swapdirentries(struct DirectoryWindow *dir, struct Directory *e1, struct Directory *e2)
@@ -1047,44 +1035,22 @@ int dorun(CONST_STRPTR name, int state, int workbench)
 
 void busy()
 {
-	if(!(status_flags & STATUS_BUSY))
+	if (!(status_flags & STATUS_BUSY))
 	{
-		size_gadgets[0].GadgetType = GTYP_BOOLGADGET;
-		size_gadgets[1].GadgetType = GTYP_BOOLGADGET;
-		if(!Window->FirstRequest)
-		{
-			InitRequester(&dopus_busy_requester);
-			dopus_busy_requester.Flags = NOISYREQ;
-			Request(&dopus_busy_requester, Window);
-		}
+//		set(dopusapp, MUIA_Application_Sleep, TRUE);
 		endnotifies();
 		status_flags |= STATUS_BUSY;
 	}
-	SetBusyPointer(Window);
 }
 
 void unbusy()
 {
 	if(status_flags & STATUS_BUSY)
 	{
-		struct Message *msg;
-
-		if(Window->FirstRequest)
-			EndRequest(&dopus_busy_requester, Window);
-		flushidcmp();
-		while((msg = GetMsg(count_port)))
-			ReplyMsg(msg);
+//		set(dopusapp, MUIA_Application_Sleep, FALSE);
 		startnotifies();
-		size_gadgets[0].GadgetType = GTYP_SIZING;
-		size_gadgets[1].GadgetType = GTYP_SIZING;
 		status_flags &= ~STATUS_BUSY;
 	}
-	ClearPointer(Window);
-}
-
-void setnullpointer(struct Window *wind)
-{
-	SetPointer(wind, null_pointer, 1, 16, 0, 0);
 }
 
 void free_file_memory(struct Directory *file)

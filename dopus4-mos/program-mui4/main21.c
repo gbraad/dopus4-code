@@ -182,8 +182,7 @@ void allocate_borders()
 
 void drawgadgets(int addgads, int bankoffset)
 {
-	int x, y, yoff, a, b, len, l, ty, num, uspos, x1, y1;
-	char buf[256];
+	int x, y, yoff, a, ty, num;
 
 	if(addgads)
 		allocate_borders();
@@ -221,8 +220,7 @@ void drawgadgets(int addgads, int bankoffset)
 			a = ((data_gadgetrow_offset + y) * 7) + bankoffset;
 			for(x = 0; x < 7; x++, a++)
 			{
-				main_gadgets[num].Flags = GFLG_GADGHNONE;
-				if(dopus_curgadbank)
+				if (dopus_curgadbank)
 				{
 					ULONG idx;
 					APTR obj;
@@ -232,9 +230,6 @@ void drawgadgets(int addgads, int bankoffset)
 
 					if (dopusgadarray)
 						obj = dopusgadarray[idx];
-
-					SetAPen(main_rp, screen_pens[dopus_curgadbank->gadgets[a].bpen].pen);
-					rectfill(main_rp, (x1 = ((x * scrdata_gadget_width) + scrdata_gadget_xpos + 2)), (y1 = ((y * scrdata_gadget_height) + yoff)), scrdata_gadget_width - 4, scrdata_gadget_height - 2);
 
 					if (obj)
 					{
@@ -248,23 +243,12 @@ void drawgadgets(int addgads, int bankoffset)
 						{
 							set(obj, MUIA_Text_Contents, dopus_curgadbank->gadgets[a].name);
 						}
-
-						SetAPen(main_rp, screen_pens[dopus_curgadbank->gadgets[a].fpen].pen);
-						SetBPen(main_rp, screen_pens[dopus_curgadbank->gadgets[a].bpen].pen);
-						len = makeusstring(dopus_curgadbank->gadgets[a].name, buf, &uspos);
-						l = dotextlength(main_rp, buf, &len, scrdata_gadget_width - 4);
-						buf[len] = 0;
-						UScoreText(main_rp, buf, (x * scrdata_gadget_width) + scrdata_gadget_xpos + ((scrdata_gadget_width - l) / 2), (y * scrdata_gadget_height) + ty, uspos);
 					}
-					main_gadgets[num].Activation &= ~GACT_BOOLEXTEND;
-					main_gadgets[num].SpecialInfo = NULL;
+
 					if(config->generalscreenflags & SCR_GENERAL_INDICATERMB && !bankoffset && isvalidgad(&dopus_curgadbank->gadgets[a + (GADCOUNT / 2)]))
 					{
-						drawgadgetcorner(main_rp, x1, y1);
-						fix_gadget_highlight(&dopus_curgadbank->gadgets[a], &main_gadgets[num], 1);
+						//drawgadgetcorner(main_rp, x1, y1);
 					}
-					else
-						fix_gadget_highlight(&dopus_curgadbank->gadgets[a], &main_gadgets[num], 0);
 				}
 				++num;
 			}
@@ -273,52 +257,23 @@ void drawgadgets(int addgads, int bankoffset)
 
 	if(addgads)
 	{
-		num = 0;
-		for(y = 0; y < scr_gadget_rows; y++)
-		{
-			b = ((data_gadgetrow_offset + y) * 7) + bankoffset;
-			for(x = 0; x < 7; x++, b++, num++)
-			{
-				main_gadgets[num].Activation |= GACT_RELVERIFY;
-				main_gadgets[num].LeftEdge = (x * scrdata_gadget_width) + scrdata_gadget_xpos;
-				main_gadgets[num].TopEdge = (y * scrdata_gadget_height) + scrdata_gadget_ypos - 1;
-				main_gadgets[num].Width = scrdata_gadget_width;
-				main_gadgets[num].Height = scrdata_gadget_height;
-				main_gadgets[num].GadgetType = GTYP_BOOLGADGET;
-				main_gadgets[num].GadgetID = MAIN_GAD_BASE + b;
-				main_gadgets[num].NextGadget = (b < 41) ? &main_gadgets[num + 1] : NULL;
-
-				if(dopus_curgadbank)
-				{
-					if(config->generalscreenflags & SCR_GENERAL_INDICATERMB && !bankoffset && isvalidgad(&dopus_curgadbank->gadgets[b + (GADCOUNT / 2)]))
-					{
-						fix_gadget_highlight(&dopus_curgadbank->gadgets[b], &main_gadgets[num], 1);
-					}
-					else
-						fix_gadget_highlight(&dopus_curgadbank->gadgets[b], &main_gadgets[num], 0);
-				}
-				else
-					main_gadgets[num].Flags = GFLG_GADGHNONE;
-			}
-		}
-		AddGList(Window, main_gadgets, -1, num, NULL);
-		if(scrdata_drive_width)
+		if (dopusgadarray)
 		{
 			for(y = 0; y < scr_gadget_rows; y++)
 			{
-				drive_gadgets[y].Flags = (config->drive[y + data_drive_offset].name[0] && config->drive[y + data_drive_offset].function && config->drive[y + data_drive_offset].function[0]) ? ((drive_unsel_border) ? GFLG_GADGHIMAGE : GFLG_GADGHCOMP) : GFLG_GADGHNONE;
-				drive_gadgets[y].LeftEdge = scrdata_gadget_offset;
-				drive_gadgets[y].Width = scrdata_drive_width;
-				drive_gadgets[y].TopEdge = (y * scrdata_gadget_height) + scrdata_gadget_ypos - 1;
-				drive_gadgets[y].Height = scrdata_gadget_height;
-				drive_gadgets[y].Activation = GACT_RELVERIFY;
-				drive_gadgets[y].GadgetType = GTYP_BOOLGADGET;
-				drive_gadgets[y].GadgetRender = drive_unsel_border;
-				drive_gadgets[y].SelectRender = drive_sel_border;
-				drive_gadgets[y].GadgetID = 200 + y;
-				drive_gadgets[y].NextGadget = (y < scr_gadget_rows - 1) ? &drive_gadgets[y + 1] : NULL;
+				APTR obj = dopusgadarray[y * 8];
+
+				if (obj)
+				{
+					DoMethod(obj, MUIM_KillNotify, MUIA_Pressed);
+
+					if (config->drive[y + data_drive_offset].name[0] && config->drive[y + data_drive_offset].function && config->drive[y + data_drive_offset].function[0])
+					{
+						DoMethod(obj, MUIM_Notify, MUIA_Pressed, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, 200 + y);
+						set(obj, MUIA_Text_Contents, config->drive[y + data_drive_offset].name);
+					}
+				}
 			}
-			AddGList(Window, drive_gadgets, -1, scr_gadget_rows, NULL);
 		}
 	}
 	SetFont(main_rp, scr_font[FONT_GENERAL]);
@@ -679,24 +634,6 @@ int makeusstring(STRPTR from, STRPTR to, int *uspos)
 	}
 	to[len] = 0;
 	return (len);
-}
-
-void drawgadgetcorner(struct RastPort *r, int x1, int y1)
-{
-	x1 += scrdata_gadget_width - 2;
-	drawcornerimage(r, x1, y1, screen_pens[0].pen, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
-}
-
-void drawcornerimage(struct RastPort *r, int x1, int y1, int bg, int bc, int tc)
-{
-	SetAPen(r, bg);
-	rectfill(r, x1 - 5, y1 - 1, 5, 4);
-	SetDrMd(r, JAM1);
-	SetAPen(r, bc);
-	BltTemplate((UBYTE *)pageflip_data1, 0, 2, r, x1 - 6, y1 - 1, 6, 5);
-	SetAPen(r, tc);
-	BltTemplate((UBYTE *)pageflip_data2, 0, 2, r, x1 - 6, y1, 6, 3);
-	SetDrMd(r, JAM2);
 }
 
 void get_bar_item(struct MenuItem *item, struct MenuItem *nextitem, struct Image *image)

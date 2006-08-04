@@ -180,8 +180,8 @@ int dormbgadget(int x1, int y1, struct newdopusfunction *gad1, struct newdopusfu
 	SetFont(main_rp, scr_font[FONT_GADGETS]);
 	a = DoRMBGadget(&rmbgad, Window);
 	SetFont(main_rp, scr_font[FONT_GENERAL]);
-	if(config->generalscreenflags & SCR_GENERAL_INDICATERMB)
-		drawgadgetcorner(main_rp, x1 + 2, y1 + 1);
+//	if(config->generalscreenflags & SCR_GENERAL_INDICATERMB)
+//		drawgadgetcorner(main_rp, x1 + 2, y1 + 1);
 	return (a);
 }
 

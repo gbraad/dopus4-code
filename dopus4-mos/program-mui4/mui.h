@@ -42,6 +42,7 @@ enum
 	MA_FileList_WindowNumber,
 	MM_FileList_DoubleClick,
 	MM_FileList_SelectChange,
+	MA_FileArea_WindowNumber,
 };
 
 struct MUIP_Application_DeleteWindow { ULONG MethodID; APTR window; };
@@ -49,7 +50,7 @@ struct MUIP_Application_DeleteFontWindow { ULONG MethodID; APTR window; APTR fon
 
 
 extern struct MUI_CustomClass *CL_App;
-extern struct MUI_CustomClass *CL_FileList;
+extern struct MUI_CustomClass *CL_FileArea;
 extern struct MUI_CustomClass *CL_Clock;
 extern APTR dopusapp, dopuswin;
 extern APTR dopusgads, dopusstatus;

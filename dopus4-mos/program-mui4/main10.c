@@ -188,7 +188,6 @@ void dodevicelist(int win)
 			addafter = addafter->next;
 	UnLockDosList(LDF_ASSIGNS | LDF_READ);
 
-	refreshwindow(win, 3);
 	unbusy();
 	okay();
 }

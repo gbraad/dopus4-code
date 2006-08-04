@@ -28,8 +28,12 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus.h"
+#include <libraries/mui.h>
+#include <proto/alib.h>
 #include <proto/locale.h>
+
+#include "dopus.h"
+#include "mui.h"
 
 #define EXALL_NUM 1
 #define EXALL_BUFSIZE (sizeof(struct ExAllData) * EXALL_NUM)
@@ -40,6 +44,9 @@ void freedir(struct DirectoryWindow *dir, int win)
 
 	if(dir)
 	{
+		if (win < 2)
+			DoMethod(dopusdirlist[win], MUIM_List_Clear);
+
 		if(dir->firstentry && dir->total > 0)
 		{
 			if(dir->firstentry)
@@ -70,11 +77,6 @@ void freedir(struct DirectoryWindow *dir, int win)
 			dir->flags = 0;
 			freearchive(dir);
 		}
-		if(Window && win > -1)
-		{
-			fixhorizprop(win);
-			last_selected_entry = NULL;
-		}
 	}
 }
 
@@ -91,15 +93,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	endnotify(win);
 	freedir(dir, win);
 
-	vert_propinfo[win].VertPot = 0;
-	if(Window)
-	{
-		refreshwindow(win, 1);
-		SetAPen(main_rp, screen_pens[(win == data_active_window) ? config->disknameselbg : config->disknamebg].pen);
-		rectfill(main_rp, scrdata_diskname_xpos[win] + 2, scrdata_diskname_ypos, scrdata_diskname_width[win], scrdata_diskname_height - 2);
-		SetAPen(main_rp, screen_pens[1].pen);
-	}
-
 	if(!(mylock = Lock(dir->directory, ACCESS_READ)))
 	{
 		if(xadMasterBase)
@@ -108,7 +101,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			{
 				unbusy();
 				seename(win);
-				refreshwindow(win, 1);
 				startnotify(win);
 				return (1);
 			}
@@ -158,7 +150,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			{
 				unbusy();
 				seename(win);
-				refreshwindow(win, 1);
 				startnotify(win);
 				return (1);
 			}
@@ -288,19 +279,9 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				}
 				if(!(addfile(dir, win, fileinfo.fib_FileName, (fileinfo.fib_DirEntryType < 0) ? (QUAD) fileinfo.fib_Size : -1, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, commentbuf, fileinfo.fib_Protection, exall_current->ed_Type, FALSE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID)))
 				{
-					if(Window)
-					{
-						doerror(-1);
-					}
+					doerror(-1);
 					tot = 0;
 					break;
-				}
-				else if(Window)
-				{
-					if(config->dynamicflags & UPDATE_QUIETGETDIR)
-					{
-						fixprop(win);
-					}
 				}
 				exall_current = exall_current->ed_Next;
 			}
@@ -318,7 +299,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 			if(tot == 1)
 				okay();
 		}
-		refreshwindow(win, 1);
 	}
 	if(exall_control)
 	{
@@ -327,69 +307,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 	startnotify(win);
 	return (1);
-}
-
-void fixprop(int win)
-{
-	if(win > -1)
-	{
-		FixSliderBody(Window, &vert_propgad[win], dopus_curwin[win]->total, scrdata_dispwin_lines, 0);
-		fixvertprop(win);
-	}
-}
-
-void fixvertprop(int win)
-{
-	if(win > -1)
-	{
-		FixSliderPot(Window, &vert_propgad[win], dopus_curwin[win]->offset, dopus_curwin[win]->total, scrdata_dispwin_lines, 2);
-	}
-}
-
-void fixhorizprop(int win)
-{
-	if(win > -1)
-	{
-		fixhlen(win);
-		if(Window)
-		{
-			FixSliderBody(NULL, &horiz_propgad[win], dopus_curwin[win]->hlen, scrdata_dispwin_nchars[win], 0);
-			FixSliderPot(Window, &horiz_propgad[win], dopus_curwin[win]->hoffset, dopus_curwin[win]->hlen, scrdata_dispwin_nchars[win], 2);
-		}
-	}
-}
-
-int doposprop(int win)
-{
-	int i;
-
-	if(win < 0)
-		return (0);
-	if(!(status_flags & STATUS_NEWLOOK) && vert_propgad[win].MutualExclude)
-		ShowSlider(Window, &vert_propgad[win]);
-	i = GetSliderPos(&vert_propgad[win], dopus_curwin[win]->total, scrdata_dispwin_lines);
-	if(dopus_curwin[win]->offset == i)
-		return (0);
-	dopus_curwin[win]->offset = i;
-	displaydir(win);
-	return (1);
-}
-
-void doposhprop(int win)
-{
-	int i;
-
-	if(win > -1)
-	{
-		if(!(status_flags & STATUS_NEWLOOK) && horiz_propgad[win].MutualExclude)
-			ShowSlider(Window, &horiz_propgad[win]);
-		i = GetSliderPos(&horiz_propgad[win], dopus_curwin[win]->hlen, scrdata_dispwin_nchars[win]);
-		if(dopus_curwin[win]->hoffset == i)
-			return;
-		dopus_curwin[win]->hoffset = i;
-		dopus_curwin[win]->oldoff = -1;
-		displaydir(win);
-	}
 }
 
 void checkdir(char *str, struct Gadget *gad)
@@ -405,60 +322,6 @@ void checkdir(char *str, struct Gadget *gad)
 		RefreshGList(gad, Window, NULL, 1);
 		gad->Flags &= ~GFLG_GADGHNONE;
 	}
-}
-
-void verticalscroll(int win, int dir)
-{
-//	int i;
-	if(win < 0 || dopus_curwin[win]->total <= scrdata_dispwin_lines)
-		return;
-
-//	for(i = 0; i < 3; i++)
-//	{
-		if(dir < 0)
-		{
-			--dopus_curwin[win]->offset;
-			if(dopus_curwin[win]->offset < 0)
-			{
-				dopus_curwin[win]->offset = 0;
-				return;
-			}
-		}
-		else
-		{
-			++dopus_curwin[win]->offset;
-			if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-			{
-				dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-				return;
-			}
-		}
-		fixvertprop(win);
-		displaydir(win);
-//	}
-}
-
-void horizontalscroll(int win, int dir)
-{
-	if(win < 0 || dopus_curwin[win]->total == 0 || dopus_curwin[win]->firstentry->type == ENTRY_DEVICE)
-		return;
-	if(dir < 0)
-	{
-		if(dopus_curwin[win]->hoffset == 0)
-			return;
-		dopus_curwin[win]->hoffset -= scrdata_font_xsize;
-		if(dopus_curwin[win]->hoffset < 0)
-			dopus_curwin[win]->hoffset = 0;
-	}
-	else
-	{
-		if(dopus_curwin[win]->hoffset == (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
-			return;
-		dopus_curwin[win]->hoffset += scrdata_font_xsize;
-		if(dopus_curwin[win]->hoffset > (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
-			dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-	}
-	refreshwindow(win, 1);
 }
 
 void findfirstsel(int win, int type)
@@ -479,14 +342,6 @@ void findfirstsel(int win, int type)
 		}
 		sel = sel->next;
 		++a;
-	}
-	if(sel)
-	{
-		dopus_curwin[win]->offset = a;
-		if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-			dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-		fixvertprop(win);
-		displaydir(win);
 	}
 	return;
 }
@@ -528,10 +383,6 @@ void findfirstchar(int win, char c)
 		if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
 			dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
 	}
-	if(dopus_curwin[win]->offset < 0)
-		dopus_curwin[win]->offset = 0;
-	fixvertprop(win);
-	displaydir(win);
 }
 
 void doinfodisplay(struct Directory *entry, int state)
@@ -589,166 +440,6 @@ void displaydirgiven(int win, struct Directory *dir, char bypass)
 		dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
 	if(dopus_curwin[win]->offset < 0)
 		dopus_curwin[win]->offset = 0;
-	if(dopus_curwin[win]->offset != dopus_curwin[win]->oldoff)
-	{
-		displaydir(win);
-		fixvertprop(win);
-	}
-}
-
-void endfollow(int win)
-{
-	if(win > -1 && scrdata_old_offset_store > -1)
-	{
-		dopus_curwin[win]->offset = scrdata_old_offset_store;
-		if(dopus_curwin[win]->offset > (dopus_curwin[win]->total - scrdata_dispwin_lines))
-			dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-		if(dopus_curwin[win]->offset < 0)
-			dopus_curwin[win]->offset = 0;
-		fixvertprop(win);
-		displaydir(win);
-		scrdata_old_offset_store = -1;
-	}
-}
-
-void displaydir(int win)
-{
-	int d, a, l, tl, bl, b, ds, my, c, /*f, */ pw, px, lpst8, sc, to, y;
-	char sbuf[MAXDISPLAYLENGTH];
-	struct Directory *entry;
-	struct Region *oldreg = NULL, *newreg;
-	struct Rectangle rect;
-
-	if(win < 0)
-		return;
-	l = dopus_curwin[win]->oldoff - dopus_curwin[win]->offset;
-	entry = dopus_curwin[win]->firstentry;
-	if(l < 0)
-	{
-		tl = scrdata_dispwin_lines - 1 + l;
-		bl = scrdata_dispwin_lines;
-		a = -l;
-	}
-	else
-	{
-		tl = -1;
-		bl = l;
-		a = l;
-	}
-	b = scrdata_dispwin_lines - 1;
-	if(dopus_curwin[win]->oldoff == -1 || a > b)
-	{
-		tl = -1;
-		bl = scrdata_dispwin_lines;
-		ds = 0;
-		sc = 0;
-	}
-	else
-	{
-		b = ABSI(l);
-		if(config->dynamicflags & UPDATE_NOTIFY && b > (scrdata_dispwin_lines / 4))
-		{
-			tl = -1;
-			bl = scrdata_dispwin_lines;
-			ds = 0;
-			sc = 0;
-		}
-		else
-		{
-			if(b == 0)
-				d = 0;
-			else
-				d = -(dopus_curwin[win]->oldoff - dopus_curwin[win]->offset) / b;
-			ds = 1;
-			sc = d;
-		}
-	}
-	for(a = 0; a < dopus_curwin[win]->offset; a++)
-	{
-		if(!entry)
-			break;
-		entry = entry->next;
-	}
-	if(sc < 0 && ds)
-	{
-		c = b - 1;
-		for(a = 0; a < c; a++)
-		{
-			if(!entry)
-				break;
-			entry = entry->next;
-		}
-	}
-	if(ds)
-	{
-		if(sc < 0)
-			my = scrdata_font_baseline;
-		else
-			my = (scrdata_font_baseline + scrdata_dirwin_height) - scrdata_font_ysize;
-	}
-	else
-		my = scrdata_font_ysize + scrdata_font_baseline + (tl * scrdata_font_ysize);
-	my += scrdata_dirwin_ypos[win];
-	lpst8 = scrdata_dirwin_height - scrdata_font_ysize;
-
-	++tl;
-	for(a = 0; a < tl; a++)
-	{
-		if(!entry)
-			break;
-		if(sc < 0)
-			entry = entry->last;
-		else
-			entry = entry->next;
-	}
-	pw = scrdata_dispwin_nchars[win];
-	px = scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1;
-	to = 0;
-
-	if(tl < bl)
-	{
-		if((newreg = NewRegion()))
-		{
-			rect.MinX = scrdata_dirwin_xpos[win] + 1;
-			rect.MinY = scrdata_dirwin_ypos[win];
-			rect.MaxX = rect.MinX + scrdata_dispwin_width[win] - 3;
-			rect.MaxY = rect.MinY + scrdata_dispwin_height - 1;
-
-			OrRectRegion(newreg, &rect);
-			oldreg = InstallClipRegion(Window->WLayer, newreg);
-		}
-		for(a = tl; a < bl; a++)
-		{
-			y = my;
-			if(ds)
-			{
-				if(sc > 0)
-					ClipBlit(&dir_rp[win], scrdata_dirwin_xpos[win], scrdata_font_ysize + scrdata_dirwin_ypos[win], &dir_rp[win], scrdata_dirwin_xpos[win], scrdata_dirwin_ypos[win], scrdata_dirwin_width[win], lpst8, 0xc0);
-				else
-					ClipBlit(&dir_rp[win], scrdata_dirwin_xpos[win], scrdata_dirwin_ypos[win], &dir_rp[win], scrdata_dirwin_xpos[win], scrdata_font_ysize + scrdata_dirwin_ypos[win], scrdata_dirwin_width[win], lpst8, 0xc0);
-			}
-			else
-				my += scrdata_font_ysize;
-
-			builddisplaystring(entry, sbuf, win);
-			entry_text(win, entry, &sbuf[to], pw, px, y);
-
-			if(entry)
-			{
-				if(sc < 0)
-					entry = entry->last;
-				else
-					entry = entry->next;
-			}
-		}
-		if(newreg)
-		{
-			InstallClipRegion(Window->WLayer, oldreg);
-			DisposeRegion(newreg);
-		}
-	}
-	dopus_curwin[win]->oldoff = dopus_curwin[win]->offset;
-	dopus_curwin[win]->oldhoff = dopus_curwin[win]->hoffset;
 }
 
 void display_entry(struct Directory *entry, int win, int x, int y)

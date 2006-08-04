@@ -509,6 +509,12 @@ void dosound(int type)
 {
 	if(type)
 	{
+		STATIC CONST BYTE beepwave[] =
+		{
+			0, 30, 60, 95, 127, 95, 60, 30, 0, -30, -60, -95, -127, -95, -60, -30
+		};
+
+
 		int a;
 
 		{

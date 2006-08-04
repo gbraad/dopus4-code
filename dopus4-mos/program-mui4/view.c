@@ -1927,12 +1927,10 @@ void view_togglescroll(struct ViewData *vdata)
 	if(vdata->view_scroll)
 	{
 		vdata->view_scroll = 0;
-		ClearPointer(vdata->view_window);
 	}
 	else if(vdata->view_line_count > vdata->view_lines_per_screen)
 	{
 		vdata->view_scroll = 1;
-		setnullpointer(vdata->view_window);
 	}
 }
 

@@ -357,8 +357,6 @@ void wildselect(STRPTR wild, int boobs, int and, int mode)
 		}
 		temp = temp->next;
 	}
-	refreshwindow(data_active_window, 0);
-//	doselinfo(data_active_window);
 }
 
 void dateselect(struct DateStamp *ds1, struct DateStamp *ds2, int boobs, int and)
@@ -381,8 +379,6 @@ void dateselect(struct DateStamp *ds1, struct DateStamp *ds2, int boobs, int and
 		}
 		temp = temp->next;
 	}
-	refreshwindow(data_active_window, 0);
-//	doselinfo(data_active_window);
 }
 
 void protselect(int protyes, int protno, int boobs, int and)
@@ -408,8 +404,6 @@ void protselect(int protyes, int protno, int boobs, int and)
 		}
 		temp = temp->next;
 	}
-	refreshwindow(data_active_window, 0);
-//	doselinfo(data_active_window);
 }
 
 void wildselectthisone(struct Directory *temp, int win, int boobs)
@@ -588,9 +582,6 @@ void unbyte(int win)
 		else
 			entry = NULL;
 	}
-	refreshwindow(win, 0);
-//	if(win == data_active_window)
-//		doselinfo(win);
 }
 
 void checkselection(struct Directory *entry)

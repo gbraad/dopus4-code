@@ -55,7 +55,7 @@ void dofunctionstring(STRPTR func, STRPTR name, STRPTR title, struct dopusfuncpa
 
 	a = strlen(func);
 	status_flags &= ~STATUS_VERIFYFAIL;
-	if(Window && !(status_flags & STATUS_FROMHOTKEY))
+	if (!(status_flags & STATUS_FROMHOTKEY))
 		busy();
 
 	funcdata->activewin = data_active_window;
@@ -161,7 +161,7 @@ void dofunctionstring(STRPTR func, STRPTR name, STRPTR title, struct dopusfuncpa
 	func_external_file[0] = 0;
 	LFreeRemEntry(&general_key, (char *)funcdata);
 
-	if(norm && Window)
+	if(norm)
 	{
 		for(a = 0; a < 2; a++)
 			check_old_buffer(a);
@@ -1293,7 +1293,6 @@ void doreloadfiles(struct function_data *funcdata)
 		rel = rel->next;
 	}
 	dopus_curwin[funcdata->activewin]->offset = off;
-	refreshwindow(funcdata->activewin, 0);
 }
 
 struct Directory *reload_file(int win, char *name)

@@ -84,7 +84,6 @@ void dotree(int win)
 	if(a < scrdata_dispwin_nchars[win])
 		a = scrdata_dispwin_nchars[win];
 	dopus_curwin[win]->hlen = a;
-	refreshwindow(win, 3);
 	if(ret != -1 && ret != -10)
 		okay();
 	unbusy();

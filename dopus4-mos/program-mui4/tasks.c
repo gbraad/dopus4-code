@@ -34,7 +34,6 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "mui.h"
 
-#define HOTKEY_UNICONIFY   1
 #define HOTKEY_ABORT     3
 #define HOTKEY_MMB     5
 #define HOTKEY_HOTKEY    10

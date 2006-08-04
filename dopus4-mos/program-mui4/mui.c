@@ -12,14 +12,66 @@
 #include "dopus.h"
 #include "mui.h"
 
+static struct MUI_CustomClass *CL_FileList;
+
 struct MUI_CustomClass *CL_App;
-struct MUI_CustomClass *CL_FileList;
+struct MUI_CustomClass *CL_FileArea;
 struct MUI_CustomClass *CL_Clock;
 
 APTR dopusapp, dopuswin;
 APTR dopusgads, dopusstatus;
 APTR *dopusgadarray;
 APTR dopusdirlist[2];
+
+/**********************************************************************
+	FileArea
+**********************************************************************/
+
+struct FileArea_Data
+{
+	ULONG winnumber;
+};
+
+STATIC ULONG mFileAreaNew(struct IClass *cl, APTR obj, struct opSet *msg)
+{
+	ULONG win;
+
+	win = FindTagItem(MA_FileArea_WindowNumber, msg->ops_AttrList)->ti_Data;
+
+	obj = DoSuperNew(cl, obj,
+		MUIA_Group_Spacing, 0,
+		Child, MakeText(),
+		Child, NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, win, TAG_DONE),
+		Child, MakeString(512),
+		TAG_MORE, msg->ops_AttrList);
+
+	if (obj)
+	{
+		struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
+
+		data->winnumber = FindTagItem(MA_FileList_WindowNumber, msg->ops_AttrList)->ti_Data;
+	}
+
+	return (ULONG)obj;
+}
+
+STATIC ULONG mFileAreaDispatcher(void)
+{
+	struct IClass *cl;
+	APTR obj;
+	Msg msg;
+
+	cl = (APTR)REG_A0;
+	msg = (APTR)REG_A1;
+	obj = (APTR)REG_A2;
+
+	switch (msg->MethodID)
+	{
+		case OM_NEW							: return mFileAreaNew				(cl, obj, (APTR)msg);
+	}
+
+	return DoSuperMethodA(cl, obj, msg);
+}
 
 /**********************************************************************
 	ListClass
@@ -637,9 +689,10 @@ APTR MakeString(ULONG maxlen)
 	MUI Classes
 **********************************************************************/
 
-STATIC struct EmulLibEntry mDispatcherTrap      = { TRAP_LIB, 0, (APTR)&mDispatcher };
-STATIC struct EmulLibEntry mListDispatcherTrap  = { TRAP_LIB, 0, (APTR)&mListDispatcher };
-STATIC struct EmulLibEntry mClockDispatcherTrap = { TRAP_LIB, 0, (APTR)&mClockDispatcher };
+STATIC struct EmulLibEntry mDispatcherTrap         = { TRAP_LIB, 0, (APTR)&mDispatcher };
+STATIC struct EmulLibEntry mListDispatcherTrap     = { TRAP_LIB, 0, (APTR)&mListDispatcher };
+STATIC struct EmulLibEntry mFileAreaDispatcherTrap = { TRAP_LIB, 0, (APTR)&mFileAreaDispatcher };
+STATIC struct EmulLibEntry mClockDispatcherTrap    = { TRAP_LIB, 0, (APTR)&mClockDispatcher };
 
 ULONG init_classes(void)
 {
@@ -647,9 +700,12 @@ ULONG init_classes(void)
 	{
 		if ((CL_FileList = MUI_CreateCustomClass(NULL, MUIC_List, NULL, sizeof(struct FileList_Data), (APTR)&mListDispatcherTrap)))
 		{
-			if ((CL_Clock = MUI_CreateCustomClass(NULL, MUIC_Text, NULL, sizeof(struct Clock_Data), (APTR)&mClockDispatcherTrap)))
+			if ((CL_FileArea = MUI_CreateCustomClass(NULL, MUIC_Group, NULL, sizeof(struct FileArea_Data ), (APTR)&mFileAreaDispatcherTrap)))
 			{
-				return 1;
+				if ((CL_Clock = MUI_CreateCustomClass(NULL, MUIC_Text, NULL, sizeof(struct Clock_Data), (APTR)&mClockDispatcherTrap)))
+				{
+					return 1;
+				}
 			}
 		}
 	}
@@ -661,6 +717,9 @@ VOID delete_classes(void)
 {
 	if (CL_Clock)
 		MUI_DeleteCustomClass(CL_Clock);
+
+	if (CL_FileArea)
+		MUI_DeleteCustomClass(CL_FileArea);
 
 	if (CL_FileList)
 		MUI_DeleteCustomClass(CL_FileList);

@@ -515,10 +515,6 @@ void dotree(int);
 int build_tree(struct RecursiveDirectory *);
 void draw_dirtree_gfx(struct RastPort *, int, int, int);
 
-/* popupmenu.c */
-void handlelistermenu(int);
-void initlistermenu(void);
-
 /* makelinkdata.c */
 int makelink(int);
 

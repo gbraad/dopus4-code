@@ -31,7 +31,6 @@ the existing commercial status of Directory Opus 5.
 #include <proto/alib.h>
 #include <proto/locale.h>
 #include <proto/muimaster.h>
-#include <proto/popupmenu.h>
 
 #include "dopus.h"
 #include "mui.h"
@@ -93,9 +92,6 @@ void quit()
 		DeleteMsgPort(arexx_port);
 	}
 	DeleteMsgPort(general_port);
-
-	if(sortmenu)
-		PM_FreePopupMenu(sortmenu);
 
 	MUI_DisposeObject(dopusapp);
 

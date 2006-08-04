@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 /* Allocate or free directory buffers as necessary to achieve desired
    buffer count in each window */
@@ -187,10 +191,13 @@ void startgetdir(int win, int flags)
 		}
 		checkdir(str_pathbuffer[win], &path_strgadget[win]);
 		strcpy(dopus_curwin[win]->directory, str_pathbuffer[win]);
+
+		if (win < 2)
+			set(dopusdirlist[win], MUIA_String_Contents, dopus_curwin[win]->directory);
+
 		getdir(dopus_curwin[win], win, (flags & SGDFLAGS_REREADINGOLD));
 	}
 	seename(win);
-	refreshwindow(win, 0);
 }
 
 /* Moves forward or backward a buffer and refreshes display */
@@ -205,7 +212,6 @@ void incrementbuf(int win, int dir, int show)
 	if(show)
 	{
 		seename(win);
-		refreshwindow(win, 1);
 		//doselinfo(win);
 	}
 	startnotify(win);
@@ -233,7 +239,6 @@ void copydirwin(struct DirectoryWindow *sourcewin, struct DirectoryWindow *destw
 	destwin->hlen = sourcewin->hlen;
 	destwin->flags = sourcewin->flags;
 	copy_datestamp(&sourcewin->dirstamp, &destwin->dirstamp);
-	refreshwindow(dest, 1);
 	checkdir(str_pathbuffer[dest], &path_strgadget[dest]);
 	checksize(dest);
 	last_selected_entry = NULL;
@@ -261,7 +266,6 @@ void swapdirwin()
 	for(tmp = 0; tmp < 2; tmp++)
 	{
 		strcpy(str_pathbuffer[tmp], dopus_curwin[tmp]->directory);
-		refreshwindow(tmp, 1);
 		checkdir(str_pathbuffer[tmp], &path_strgadget[tmp]);
 		checksize(tmp);
 	}
@@ -459,7 +463,6 @@ void dolistbuffers(int destwin)
 	if(b < scrdata_dispwin_nchars[destwin])
 		b = scrdata_dispwin_nchars[destwin];
 	dopus_curwin[destwin]->hlen = b;
-	refreshwindow(destwin, 3);
 	unbusy();
 	okay();
 }
@@ -641,29 +644,6 @@ void check_old_buffer(int win)
 	return;
 }
 
-/* Refresh the display of a window */
-
-void refreshwindow(int win, int type)
-{
-	if(win > -1)
-	{
-		if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-			dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-		if(dopus_curwin[win]->offset < 0)
-			dopus_curwin[win]->offset = 0;
-
-		if(type & 1)
-		{
-			fixprop(win);
-			fixhorizprop(win);
-		}
-		if(type & 2)
-			displayname(win, 1);
-		dopus_curwin[win]->oldoff = dopus_curwin[win]->oldhoff = -1;
-		displaydir(win);
-	}
-}
-
 /* Move to a buffer */
 
 void go_to_buffer(int win, struct DirectoryWindow *dir)
@@ -674,7 +654,6 @@ void go_to_buffer(int win, struct DirectoryWindow *dir)
 	checkdir(str_pathbuffer[win], &path_strgadget[win]);
 	checksize(win);
 	check_old_buffer(win);
-	refreshwindow(win, 1);
 	//doselinfo(win);
 	startnotify(win);
 }

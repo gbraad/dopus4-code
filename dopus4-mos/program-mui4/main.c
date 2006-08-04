@@ -177,8 +177,6 @@ int main(int argc, char **argv)
 		strcpy((char *)config->autodirs[0], startdir);
 	}
 
-	initlistermenu();
-
 	if(!(install_arbiter()) || !(count_port = CreateMsgPort()) || !(general_port = CreateMsgPort()) || !(arexx_port = CreateUniquePort("DOPUS", str_arexx_portname, &system_dopus_runcount)))
 		quit();
 
@@ -293,7 +291,6 @@ int main(int argc, char **argv)
 		{
 			seename(a);
 			checkdir(str_pathbuffer[a], &path_strgadget[a]);
-			fixhorizprop(a);
 		}
 	}
 	if(!iconstart)
@@ -772,17 +769,8 @@ tryfonts:
 					WindowContents, VGroup, MUIA_Group_Spacing, 0,
 						Child, dopusstatus = TextObject, TextFrame, MUIA_Background, MUII_TextBack, MUIA_Text_PreParse, "\033c", End,
 						Child, ColGroup(2),
-							Child, VGroup, MUIA_Group_Spacing, 0,
-								Child, MakeText(),
-								Child, dopusdirlist[0] = NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, 0, TAG_DONE),
-								Child, MakeString(512),
-							End,
-
-							Child, VGroup, MUIA_Group_Spacing, 0,
-								Child, MakeText(),
-								Child, dopusdirlist[1] = NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, 1, TAG_DONE),
-								Child, MakeString(512),
-							End,
+							Child, dopusdirlist[0] = NewObject(CL_FileArea->mcc_Class, NULL, MA_FileArea_WindowNumber, 0, TAG_DONE),
+							Child, dopusdirlist[1] = NewObject(CL_FileArea->mcc_Class, NULL, MA_FileArea_WindowNumber, 1, TAG_DONE),
 						End,
 
 						Child, dopusgads = VGroup, MUIA_Group_Spacing, 0, End,
@@ -1008,21 +996,7 @@ tryfonts:
 
 void setupdisplay(int all)
 {
-	int a;
-
 	drawscreen();
-	for(a = 0; a < 2; a++)
-	{
-		if(config->generalscreenflags & SCR_GENERAL_NEWLOOKPROP)
-		{
-			RefreshGList(horiz_propgad, Window, NULL, 2);
-		}
-		fixhorizprop(a);
-		if(!all)
-		{
-			doposhprop(a);
-		}
-	}
 	setupgadgets();
 	drawgadgets((all) ? 1 : -1, 0);
 	fix_rmb_gadgets();
@@ -1048,12 +1022,6 @@ void setupdisplay(int all)
 		}
 		data_drive_offset -= scr_gadget_rows;
 		nextdrives();
-	}
-
-	for(a = 0; a < 2; a++)
-	{
-		refreshwindow(a, 3);
-		doposprop(a);
 	}
 }
 
