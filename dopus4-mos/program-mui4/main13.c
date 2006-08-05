@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <libraries/mui.h>
+#include <proto/alib.h>
+
 #include "dopus.h"
+#include "mui.h"
 
 void seedate(struct DateStamp *ds, STRPTR date, int pad)
 {
@@ -59,12 +63,7 @@ void seename(int win)
 	{
 		if(str_pathbuffer[win][0] == 0)
 		{
-			if(win == data_active_window)
-				SetAPen(main_rp, screen_pens[config->disknameselbg].pen);
-			else
-				SetAPen(main_rp, screen_pens[config->disknamebg].pen);
-			rectfill(main_rp, scrdata_diskname_xpos[win] + 2, scrdata_diskname_ypos, scrdata_diskname_width[win], scrdata_diskname_height - 2);
-			SetAPen(main_rp, screen_pens[1].pen);
+			DoMethod(dopusdirlist[win], MM_FileArea_SetDiskName, win == data_active_window ? &screen_pens[config->disknameselbg] : &screen_pens[config->disknamebg], NULL, NULL);
 			return;
 		}
 		else
@@ -205,15 +204,13 @@ void displayname(int win, int clear)
 
 	if(clear)
 	{
-		if(win == data_active_window)
-			SetAPen(main_rp, screen_pens[config->disknameselbg].pen);
-		else
-			SetAPen(main_rp, screen_pens[config->disknamebg].pen);
-		rectfill(main_rp, scrdata_diskname_xpos[win] + 2, scrdata_diskname_ypos, scrdata_diskname_width[win], scrdata_diskname_height - 2);
+		DoMethod(dopusdirlist[win], MM_FileArea_SetDiskName, win == data_active_window ? &screen_pens[config->disknameselbg] : &screen_pens[config->disknamebg], NULL, NULL);
 	}
 
 	if(nn != 2)
 	{
+		DoMethod(dopusdirlist[win], MM_FileArea_SetDiskName, win == data_active_window ? &screen_pens[config->disknameselbg] : &screen_pens[config->disknamebg], buf2, buf3);
+
 		if(win == data_active_window)
 		{
 			SetAPen(main_rp, screen_pens[config->disknameselfg].pen);
@@ -252,7 +249,7 @@ void displayname(int win, int clear)
 void relabel_disk(int rexx, STRPTR path)
 {
 	char oldname[36], name[36];
-	char buf[256];
+	TEXT buf[256];
 
 	strcpy(buf, rexx ? rexx_args[0] : path);
 	if(!(getroot(buf, NULL)))

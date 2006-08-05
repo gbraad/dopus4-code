@@ -43,10 +43,12 @@ enum
 	MM_FileList_DoubleClick,
 	MM_FileList_SelectChange,
 	MA_FileArea_WindowNumber,
+	MM_FileArea_SetDiskName,
 };
 
 struct MUIP_Application_DeleteWindow { ULONG MethodID; APTR window; };
 struct MUIP_Application_DeleteFontWindow { ULONG MethodID; APTR window; APTR font; };
+struct MUIP_FileArea_SetDiskName	{ ULONG MethodID; struct ColourTable *colour; CONST_STRPTR name; CONST_STRPTR space; };
 
 
 extern struct MUI_CustomClass *CL_App;

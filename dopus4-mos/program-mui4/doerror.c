@@ -82,41 +82,10 @@ void myabort()
 	rexx_result_code = -1;
 }
 
-void dofilename(char *text)
+void dofilename(CONST_STRPTR text)
 {
-	int a, len, pos, old;
-	struct TextFont *font;
-
-	old = scrdata_statustext_pos;
-	len = a = strlen(text);
-	if(scrdata_status_height > 0)
-		font = scr_font[FONT_STATUS];
-	else
-		font = Window->WScreen->RastPort.Font;
-
-	gettextlength(font, text, &len, scrdata_status_width);
-	pos = a - len;
-	if(config->dynamicflags & UPDATE_LEFTJUSTIFY)
-	{
-		scrdata_statustext_pos = TOPTEXT_LEFT;
-		if(pos > 0)
-		{
-			for(a = pos; a < len; a++)
-			{
-				if(text[a] == '/' || text[a] == ':')
-				{
-					while(text[a] == '/' || text[a] == ':')
-						++a;
-					break;
-				}
-			}
-			pos = a;
-		}
-	}
-	else
-		scrdata_statustext_pos = TOPTEXT_CENTER;
-	dostatustext(&text[pos]);
-	scrdata_statustext_pos = old;
+	// the original implementation supports left justifying so that the end of string is visible
+	dostatustext(text);
 }
 
 void geterrorhelp(int st)

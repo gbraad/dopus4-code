@@ -981,7 +981,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, STRPTR command)
 	case FUNC_SETWINTITLE:
 		if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 			win = data_active_window;
-		LStrnCpy(dopus_curwin[win]->diskname, rexx_args[0], 32);
+		stccpy(dopus_curwin[win]->diskname, rexx_args[0], 32);
 		dopus_curwin[win]->diskfree = dopus_curwin[win]->disktot = dopus_curwin[win]->diskblock = -1;
 		displayname(win, 1);
 		break;

@@ -30,17 +30,31 @@ APTR dopusdirlist[2];
 struct FileArea_Data
 {
 	ULONG winnumber;
+	APTR	diskname;
+	APTR	diskspace;
 };
 
 STATIC ULONG mFileAreaNew(struct IClass *cl, APTR obj, struct opSet *msg)
 {
 	ULONG win;
+	APTR	diskname, diskspace;
 
 	win = FindTagItem(MA_FileArea_WindowNumber, msg->ops_AttrList)->ti_Data;
 
 	obj = DoSuperNew(cl, obj,
 		MUIA_Group_Spacing, 0,
-		Child, MakeText(),
+
+		Child, ColGroup(2),
+			MUIA_Group_Spacing, 0,
+			MUIA_InnerLeft, 0,
+			MUIA_InnerRight, 0,
+			MUIA_InnerTop, 0,
+			MUIA_InnerBottom, 0,
+			TextFrame,
+			Child, diskname = TextObject, End,
+			Child, diskspace = TextObject, MUIA_Weight, 50, MUIA_Text_PreParse, "\33r", End,
+		End,
+
 		Child, NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, win, TAG_DONE),
 		Child, MakeString(512),
 		TAG_MORE, msg->ops_AttrList);
@@ -50,9 +64,49 @@ STATIC ULONG mFileAreaNew(struct IClass *cl, APTR obj, struct opSet *msg)
 		struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
 
 		data->winnumber = FindTagItem(MA_FileList_WindowNumber, msg->ops_AttrList)->ti_Data;
+		data->diskname	= diskname;
+		data->diskspace	= diskspace;
 	}
 
 	return (ULONG)obj;
+}
+
+STATIC ULONG mFileAreaSetDiskName(struct IClass *cl, APTR obj, struct MUIP_FileArea_SetDiskName *msg)
+{
+	struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
+	struct ColourTable *c;
+	TEXT spec[36];
+
+	c = msg->colour;
+
+	if (c)
+	{
+		ULONG r, g, b;
+
+		r = c->red;
+		g = c->green;
+		b = c->blue;
+
+		r |= r << 8;
+		g |= g << 8;
+		b |= b << 8;
+		r |= r << 16;
+		g |= g << 16;
+		b |= b << 16;
+
+		NewRawDoFmt("r%08x,%08x,%08x", NULL, spec, r, g, b);
+		NewRawDoFmt("spec is %s\n", (APTR)1, NULL, spec);
+	}
+
+	SetAttrs(data->diskname,
+		c ? MUIA_Background : TAG_IGNORE, spec,
+		MUIA_Text_Contents, msg->name,
+		TAG_DONE);
+
+	return SetAttrs(data->diskspace,
+		c ? MUIA_Background : TAG_IGNORE, spec,
+		MUIA_Text_Contents, msg->space,
+		TAG_DONE);
 }
 
 STATIC ULONG mFileAreaDispatcher(void)
@@ -68,6 +122,7 @@ STATIC ULONG mFileAreaDispatcher(void)
 	switch (msg->MethodID)
 	{
 		case OM_NEW							: return mFileAreaNew				(cl, obj, (APTR)msg);
+		case MM_FileArea_SetDiskName	: return mFileAreaSetDiskName		(cl, obj, (APTR)msg);
 	}
 
 	return DoSuperMethodA(cl, obj, msg);
@@ -511,9 +566,9 @@ STATIC ULONG mClockUpdate(struct IClass *cl, APTR obj)
 
 			if(config->scrclktype & SCRCLOCK_C_AND_F)
 			{
-				sprintf(memstring, "%lc:%%-%ldld%s", globstring[STR_CLOCK_CHIP][0], data->chipnum + m, Kstr + s);
-				sprintf(memstring + strlen(memstring), "%lc:%%-%ldld%s", globstring[STR_CLOCK_FAST][0], data->fastnum + m, Kstr + s);
-				sprintf(memstring + strlen(memstring), "%lc:%%-%ldld%s", globstring[STR_CLOCK_TOTAL][0], data->totalnum + m, Kstr + s);
+				sprintf(memstring, "%c:%%-%ldld%s", globstring[STR_CLOCK_CHIP][0], data->chipnum + m, Kstr + s);
+				sprintf(memstring + strlen(memstring), "%c:%%-%ldld%s", globstring[STR_CLOCK_FAST][0], data->fastnum + m, Kstr + s);
+				sprintf(memstring + strlen(memstring), "%c:%%-%ldld%s", globstring[STR_CLOCK_TOTAL][0], data->totalnum + m, Kstr + s);
 			}
 			else
 			{

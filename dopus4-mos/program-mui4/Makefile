@@ -7,9 +7,9 @@ dopusfunctions.o getusage.o icondata.o iffload.o launchexternal.o main.o\
 main1.o main2.o main3.o main4.o main5.o main6.o main7.o main8.o main9.o\
 main10.o main12.o main13.o main14.o main15.o main16.o main17.o\
 main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
-remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
+remember.o renamedata.o rexx.o searchdata.o select.o\
 selectdata.o tasks.o view.o makelinkdata.o \
-init_libs.o mui.o
+init_libs.o mui.o screendata.o
 
 CFLAGS = -Wall -O3 -I../include-mos -Iusr:local/include
 LDFLAGS = -Llib

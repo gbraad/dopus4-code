@@ -411,7 +411,7 @@ void geterrorstring(char *, int);
 void dostatustext(CONST_STRPTR);
 void okay(void);
 void myabort(void);
-void dofilename(char *);
+void dofilename(CONST_STRPTR);
 void geterrorhelp(int);
 int checkerror(char *, char *, int);
 
