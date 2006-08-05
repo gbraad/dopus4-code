@@ -138,7 +138,7 @@ int fixsortmethod(int win, int type)
 		return DISPLAY_NAME;
 	}
 
-	if(type == ENTRY_DEVICE)
+	if((type == ENTRY_DEVICE) && (type >= 0))
 	{
 		return DISPLAY_NAME;
 	}
@@ -159,7 +159,7 @@ int fixsortmethod(int win, int type)
 	}
 	else
 	{
-		return DISPLAY_NAME;
+		return selsortmethod;
 	}
 }
 
@@ -178,9 +178,13 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 
 	case DISPLAY_SIZE:
 		if(entry2->size == entry1->size)
+		{
 			goto sortname;
+		}
 		if((reverse && (entry2->size > entry1->size)) || ((!reverse) && (entry2->size < entry1->size)))
+		{
 			return 1;
+		}
 		break;
 
 	case DISPLAY_DATE:
@@ -872,6 +876,7 @@ void sortdir(struct DirectoryWindow *dir, int win)
 	struct Directory *entry1 = NULL, *entry2;
 	int swap = 0, rerun = 1;
 
+
 	if(!dir->firstentry)
 		return;
 
@@ -959,7 +964,7 @@ void sortdir(struct DirectoryWindow *dir, int win)
 						}
 						break;
 					case SEPARATE_FILESFIRST:
-						if((entry2->type <= ENTRY_FILE) && (entry1->type >= ENTRY_DEVICE))
+						if((entry2->type < 0) && (entry1->type >= ENTRY_DEVICE))
 						{
 							swap = 1;
 						}
