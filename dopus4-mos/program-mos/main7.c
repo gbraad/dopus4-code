@@ -331,8 +331,6 @@ int doplay8svxold(STRPTR fname, int loop)
 	struct IOAudio *audioptr[2];
 	UBYTE *playdata[2];
 
-	status_flags &= ~STATUS_AUDIOLED;
-
 	if((a = readfile(fname, (char **)&audiodata, &audio_size)))
 	{
 		if(a == -1)
