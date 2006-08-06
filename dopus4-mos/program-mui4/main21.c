@@ -34,6 +34,9 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "mui.h"
 
+static struct Image *get_bar_image(int fg, int bg, int width);
+static void get_bar_item(struct MenuItem *item, struct MenuItem *nextitem, struct Image *image);
+
 void fixdrivegadgets()
 {
 	int i, b, l, len, ty;
@@ -182,7 +185,7 @@ void allocate_borders()
 
 void drawgadgets(int addgads, int bankoffset)
 {
-	int x, y, yoff, a, ty, num;
+	int x, y, yoff, a, ty;
 
 	if(addgads)
 		allocate_borders();
@@ -212,7 +215,6 @@ void drawgadgets(int addgads, int bankoffset)
 
 	ty = yoff + scr_font[FONT_GADGETS]->tf_Baseline + ((scrdata_gadget_height - 2 - scr_font[FONT_GADGETS]->tf_YSize) / 2);
 
-	num = 0;
 	if(addgads != -1)
 	{
 		for(y = 0; y < scr_gadget_rows; y++)
@@ -233,24 +235,29 @@ void drawgadgets(int addgads, int bankoffset)
 
 					if (obj)
 					{
-						DoMethod(obj, MUIM_KillNotify, MUIA_Pressed);
-						DoMethod(obj, MUIM_Notify, MUIA_Pressed, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, MAIN_GAD_BASE + a);
-					}
+						CONST_STRPTR text;
 
-					if(dopus_curgadbank->gadgets[a].name && dopus_curgadbank->gadgets[a].name[0])
-					{
-						if (obj)
+						DoMethod(obj, MUIM_KillNotify, MUIA_Pressed);
+
+						text = NULL;
+
+						if (dopus_curgadbank->gadgets[a].name && dopus_curgadbank->gadgets[a].name[0])
 						{
-							set(obj, MUIA_Text_Contents, dopus_curgadbank->gadgets[a].name);
+							DoMethod(obj, MUIM_Notify, MUIA_Pressed, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, MAIN_GAD_BASE + a);
+							text = dopus_curgadbank->gadgets[a].name;
+						}
+
+						DoMethod(obj, MM_ColorButton_SetText,
+							&screen_pens[dopus_curgadbank->gadgets[a].bpen],
+							&screen_pens[dopus_curgadbank->gadgets[a].fpen],
+							text);
+
+						if(config->generalscreenflags & SCR_GENERAL_INDICATERMB && !bankoffset && isvalidgad(&dopus_curgadbank->gadgets[a + (GADCOUNT / 2)]))
+						{
+							//drawgadgetcorner(main_rp, x1, y1);
 						}
 					}
-
-					if(config->generalscreenflags & SCR_GENERAL_INDICATERMB && !bankoffset && isvalidgad(&dopus_curgadbank->gadgets[a + (GADCOUNT / 2)]))
-					{
-						//drawgadgetcorner(main_rp, x1, y1);
-					}
 				}
-				++num;
 			}
 		}
 	}
@@ -265,13 +272,24 @@ void drawgadgets(int addgads, int bankoffset)
 
 				if (obj)
 				{
+					CONST_STRPTR text;
+					ULONG b;
+
 					DoMethod(obj, MUIM_KillNotify, MUIA_Pressed);
 
-					if (config->drive[y + data_drive_offset].name[0] && config->drive[y + data_drive_offset].function && config->drive[y + data_drive_offset].function[0])
+					b = y + data_drive_offset;
+					text = NULL;
+
+					if (config->drive[b].name[0] && config->drive[b].function && config->drive[b].function[0])
 					{
 						DoMethod(obj, MUIM_Notify, MUIA_Pressed, TRUE, MUIV_Notify_Application, 2, MUIM_Application_ReturnID, 200 + y);
-						set(obj, MUIA_Text_Contents, config->drive[y + data_drive_offset].name);
+						text = config->drive[y + data_drive_offset].name;
 					}
+
+					DoMethod(obj, MM_ColorButton_SetText,
+						&screen_pens[config->drive[b].bpen],
+						&screen_pens[config->drive[b].fpen],
+						text);
 				}
 			}
 		}
@@ -636,7 +654,7 @@ int makeusstring(STRPTR from, STRPTR to, int *uspos)
 	return (len);
 }
 
-void get_bar_item(struct MenuItem *item, struct MenuItem *nextitem, struct Image *image)
+static void get_bar_item(struct MenuItem *item, struct MenuItem *nextitem, struct Image *image)
 {
 	struct MenuItem *baritem;
 
@@ -666,7 +684,7 @@ void get_bar_item(struct MenuItem *item, struct MenuItem *nextitem, struct Image
 	item->MutualExclude = 0;
 }
 
-struct Image *get_bar_image(int fg, int bg, int width)
+static struct Image *get_bar_image(int fg, int bg, int width)
 {
 	struct Image *image;
 
@@ -676,34 +694,5 @@ struct Image *get_bar_image(int fg, int bg, int width)
 	image->Width = width;
 	image->Height = 2;
 	image->PlaneOnOff = fg;
-/*
-    if (newlook) image->PlaneOnOff=fg;
-    else {
-        USHORT *imagedata;
-        int words,a,b,depth,pos;
-
-        words=(width+15)/16;
-        for (depth=0;;depth++)
-            if ((1<<depth)>fg && (1<<depth)>bg) break;
-
-        if (!(imagedata=LAllocRemember(&menu_key,words*2*depth*sizeof(USHORT),MEMF_CLEAR)))
-            return(NULL);
-
-        for (a=0,pos=0;a<depth;a++) {
-            for (b=0;b<words;b++,pos++) {
-                if (fg&(1<<a)) imagedata[pos]=0xdddd;
-                if (bg&(1<<a)) imagedata[pos]|=0x2222;
-            }
-            for (b=0;b<words;b++,pos++) {
-                if (fg&(1<<a)) imagedata[pos]=0x7777;
-                if (bg&(1<<a)) imagedata[pos]|=0x8888;
-            }
-        }
-
-        image->ImageData=imagedata;
-        image->Depth=depth;
-        image->PlanePick=(1<<depth)-1;
-    }
-*/
 	return (image);
 }

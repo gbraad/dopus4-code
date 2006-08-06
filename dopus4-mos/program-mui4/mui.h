@@ -38,21 +38,36 @@ enum
 {
 	MM_Application_DeleteWindow = ITIX_BASE,
 	MM_Application_DeleteFontWindow,
+	MM_Application_AppMessage,
 	MM_Clock_Update,
 	MA_FileList_WindowNumber,
 	MM_FileList_DoubleClick,
 	MM_FileList_SelectChange,
 	MA_FileArea_WindowNumber,
 	MM_FileArea_SetDiskName,
+	MM_FileArea_Activate,
+	MM_ColorButton_SetText,
+};
+
+enum
+{
+	MUIV_AppMsg_Lister0 = 0,
+	MUIV_AppMsg_Lister1,
+	MUIV_AppMsg_Gadgets,
+	MUIV_AppMsg_Status,
 };
 
 struct MUIP_Application_DeleteWindow { ULONG MethodID; APTR window; };
 struct MUIP_Application_DeleteFontWindow { ULONG MethodID; APTR window; APTR font; };
+struct MUIP_Application_AppMessage	{ ULONG MethodID; struct AppMessage *appmsg; ULONG which; };
 struct MUIP_FileArea_SetDiskName	{ ULONG MethodID; struct ColourTable *colour; CONST_STRPTR name; CONST_STRPTR space; };
+struct MUIP_FileArea_Activate		{ ULONG MethodID; ULONG activate; };
+struct MUIP_ColorButton_SetText	{ ULONG MethodID; struct ColourTable *bgcol; struct ColourTable *fgcol; CONST_STRPTR text; };
 
 
 extern struct MUI_CustomClass *CL_App;
 extern struct MUI_CustomClass *CL_FileArea;
+extern struct MUI_CustomClass *CL_ColorButton;
 extern struct MUI_CustomClass *CL_Clock;
 extern APTR dopusapp, dopuswin;
 extern APTR dopusgads, dopusstatus;

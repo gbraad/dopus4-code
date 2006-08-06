@@ -59,6 +59,7 @@ void seename(int win)
 
 	if(win < 0)
 		return;
+
 	if(!dopus_curwin[win]->firstentry || (dopus_curwin[win]->firstentry->type != ENTRY_DEVICE && dopus_curwin[win]->firstentry->type != ENTRY_CUSTOM))
 	{
 		if(str_pathbuffer[win][0] == 0)
@@ -68,6 +69,8 @@ void seename(int win)
 		}
 		else
 		{
+			APTR oldwin;
+
 			if(dopus_curwin[win]->flags & DWF_ARCHIVE)
 			{
 				if(dopus_curwin[win]->arcname)
@@ -85,6 +88,7 @@ void seename(int win)
 			}
 			strcpy(buf, str_pathbuffer[win]);
 			dopus_curwin[win]->diskname[0] = 0;
+			oldwin = main_proc->pr_WindowPtr;
 			main_proc->pr_WindowPtr = (APTR) - 1;
 			if(!(a = getroot(buf, NULL)))
 			{
@@ -92,7 +96,7 @@ void seename(int win)
 				dopus_curwin[win]->disktot = dopus_curwin[win]->diskfree = dopus_curwin[win]->diskblock = -1;
 				displayname(win, 1);
 				if(config->errorflags & ERROR_ENABLE_DOS)
-					main_proc->pr_WindowPtr = (APTR) Window;
+					main_proc->pr_WindowPtr = oldwin;
 				return;
 			}
 			strcpy(dopus_curwin[win]->diskname, buf);
@@ -106,7 +110,7 @@ void seename(int win)
 			else
 				dopus_curwin[win]->flags &= ~DWF_READONLY;
 			if(config->errorflags & ERROR_ENABLE_DOS)
-				main_proc->pr_WindowPtr = (APTR) Window;
+				main_proc->pr_WindowPtr = oldwin;
 		}
 	}
 	displayname(win, 0);
@@ -115,12 +119,13 @@ void seename(int win)
 void displayname(int win, int clear)
 {
 	long long free, tot;
-	int b, x = 0, nn = 0, len, len2, len3, x1, cx1, cx2;
-	static char buf[30], buf2[80], buf3[20];
+	int b, nn = 0;
+	static char buf[32], buf2[32 + 12], buf3[20 + 12];
 	double pct;
 
 	if(win < 0)
 		return;
+
 	if(str_pathbuffer[win][0] == 0)
 	{
 		if(dopus_curwin[win]->disktot != -1 && (!dopus_curwin[win]->firstentry || dopus_curwin[win]->firstentry->type != ENTRY_DEVICE))
@@ -128,44 +133,50 @@ void displayname(int win, int clear)
 		else
 			nn = 1;
 	}
-	if(nn != 2)
+
+	if (nn != 2)
 	{
+		struct ColourTable *c;
+		TEXT tcol[12];
+
+		c = win == data_active_window ? &screen_pens[config->disknameselfg] : &screen_pens[config->disknamefg],
+
+		NewRawDoFmt("\33P[%02x%02x%02x]", NULL, tcol, c->red & 0xff, c->green & 0xff, c->blue & 0xff);
+
 		free = dopus_curwin[win]->diskfree;
 		tot = dopus_curwin[win]->disktot;
-		SetDrMd(main_rp, JAM2);
 
-		StrCombine(buf2, dopus_curwin[win]->diskname, str_space_string, 80);
-		SetFont(main_rp, scr_font[FONT_NAMES]);
+		stccpy(buf, dopus_curwin[win]->diskname, sizeof(buf));
+		NewRawDoFmt("%s%s", NULL, buf2, tcol, buf);
 
-		len = 30;
-		x1 = dotextlength(main_rp, buf2, &len, scrdata_diskname_width[win] - 4);
-
-		if(!nn && tot > -1)
+		if (!nn && tot > -1)
 		{
 			if(config->showfree & SHOWFREE_BYTES || config->showfree == 0)
 			{
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%qd)", free);
+					sprintf(buf3, "%s(%qd)", tcol, free);
 				else
-					sprintf(buf, " %qd", free);
+					sprintf(buf3, "%s%qd", tcol, free);
 			}
 			else if(config->showfree & SHOWFREE_KILO)
 			{
 				getsizestring(buf, free);
+
 				if(dopus_curwin[win]->flags & DWF_READONLY)
 				{
-					char buf1[30];
-
-					sprintf(buf1, "(%s)", buf);
-					strcpy(buf, buf1);
+					sprintf(buf3, "%s(%s)", tcol, buf);
+				}
+				else
+				{
+					sprintf(buf3, "%s%s", tcol, buf);
 				}
 			}
 			else if(config->showfree & SHOWFREE_BLOCKS)
 			{
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%d)", dopus_curwin[win]->diskblock);
+					sprintf(buf3, "%s(%d)", tcol, dopus_curwin[win]->diskblock);
 				else
-					sprintf(buf, " %d", dopus_curwin[win]->diskblock);
+					sprintf(buf3, "%s%d", tcol, dopus_curwin[win]->diskblock);
 			}
 			else if(config->showfree & SHOWFREE_PERCENT)
 			{
@@ -180,69 +191,21 @@ void displayname(int win, int clear)
 				if(b > 100)
 					b = 100;
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%d%%)", b);
+					sprintf(buf3, "%s(%d%%)", tcol, b);
 				else
-					sprintf(buf, " %d%%", b);
+					sprintf(buf3, "%s%d%%", tcol, b);
 			}
-			StrCombine(buf3, buf, str_space_string, 14);
-			len2 = 12;
-			len3 = strlen(buf);
-			FOREVER
-			{
-				x = dotextlength(main_rp, buf3, &len2, scrdata_diskname_width[win] - x1 - 4);
-				if(len2 >= len3 || (--len) == 0)
-					break;
-				len2 = 12;
-				x1 = dotextlength(main_rp, buf2, &len, scrdata_diskname_width[win] - 4);
-			}
-			strncpy(buf3, str_space_string, 13);
-			strcpy(&buf3[len2 - len3], buf);
 		}
-		else
-			x = 0;
 	}
 
-	if(clear)
+	if (clear)
 	{
 		DoMethod(dopusdirlist[win], MM_FileArea_SetDiskName, win == data_active_window ? &screen_pens[config->disknameselbg] : &screen_pens[config->disknamebg], NULL, NULL);
 	}
 
-	if(nn != 2)
+	if (nn != 2)
 	{
 		DoMethod(dopusdirlist[win], MM_FileArea_SetDiskName, win == data_active_window ? &screen_pens[config->disknameselbg] : &screen_pens[config->disknamebg], buf2, buf3);
-
-		if(win == data_active_window)
-		{
-			SetAPen(main_rp, screen_pens[config->disknameselfg].pen);
-			SetBPen(main_rp, screen_pens[config->disknameselbg].pen);
-		}
-		else
-		{
-			SetAPen(main_rp, screen_pens[config->disknamefg].pen);
-			SetBPen(main_rp, screen_pens[config->disknamebg].pen);
-		}
-
-		Move(main_rp, scrdata_diskname_xpos[win] + 4, scrdata_diskname_ypos + scr_font[FONT_NAMES]->tf_Baseline);
-		Text(main_rp, buf2, len);
-
-		cx1 = main_rp->cp_x;
-		if(x)
-		{
-			x1 = (scrdata_diskname_xpos[win] + scrdata_diskname_width[win]) - x;
-			if(x1 < scrdata_diskname_xpos[win] + 2)
-				x1 = scrdata_diskname_xpos[win] + 2;
-			cx2 = x1 - 1;
-			Move(main_rp, x1, scrdata_diskname_ypos + scr_font[FONT_NAMES]->tf_Baseline);
-			Text(main_rp, buf3, len2);
-		}
-		else
-			cx2 = scrdata_diskname_xpos[win] + scrdata_diskname_width[win] + 1;
-		if(!clear && cx1 <= cx2)
-		{
-			SetAPen(main_rp, main_rp->BgPen);
-			RectFill(main_rp, cx1, scrdata_diskname_ypos, cx2, scrdata_diskname_height + scrdata_diskname_ypos - 3);
-		}
-		SetFont(main_rp, scr_font[FONT_GENERAL]);
 	}
 }
 
@@ -309,7 +272,7 @@ int getroot(STRPTR name, struct DateStamp *ds)
 	dl = (struct DeviceList *)BADDR(lock2->fl_Volume);
 	p = (char *)BADDR(dl->dl_Name);
 	if(p)
-		LStrnCpy(name, p + 1, *p);
+		stccpy(name, p + 1, *p + 1);
 	if(ds)
 		CopyMem((char *)&dl->dl_VolumeDate, (char *)ds, sizeof(struct DateStamp));
 	Info(lock1, &info);

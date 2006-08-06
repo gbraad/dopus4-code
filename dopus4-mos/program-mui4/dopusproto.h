@@ -368,8 +368,6 @@ void fixgadgetprop(void);
 int makeusstring(STRPTR, STRPTR, int *);
 void drawgadgetcorner(struct RastPort *, int, int);
 void drawcornerimage(struct RastPort *, int, int, int, int, int);
-void get_bar_item(struct MenuItem *, struct MenuItem *, struct Image *);
-struct Image *get_bar_image(int, int, int);
 
 /* main22.c */
 int dofilefunction(int, int, STRPTR, STRPTR, int, int, int);

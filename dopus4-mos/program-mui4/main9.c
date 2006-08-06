@@ -86,10 +86,22 @@ void get_colour_table()
 
 	for(a = 0; a < 16; a++)
 	{
-		screen_pens[a].red = config->new_palette[(a * 3)];
-		screen_pens[a].green = config->new_palette[(a * 3) + 1];
-		screen_pens[a].blue = config->new_palette[(a * 3) + 2];
-//        screen_pens[a].pen=a;
+		ULONG r, g, b;
+
+		r = config->new_palette[(a * 3)];
+		g = config->new_palette[(a * 3) + 1];
+		b = config->new_palette[(a * 3) + 2];
+
+		r |= r >> 8;
+		g |= g >> 8;
+		b |= b >> 8;
+		r |= r >> 16;
+		g |= g >> 16;
+		b |= b >> 16;
+
+		screen_pens[a].red = r;
+		screen_pens[a].green = g;
+		screen_pens[a].blue = b;
 		screen_pens[a].alloc = 0;
 	}
 
@@ -100,11 +112,8 @@ void get_colour_table()
 	{
 		pen = ObtainBestPenA(cm, screen_pens[a].red, screen_pens[a].green, screen_pens[a].blue, (MainScreen) ? obtain_tags : NULL);
 
-		{
-			screen_pens[a].pen = pen;
-			screen_pens[a].alloc = 1;
-		}
-//D(bug("pen[%lu] = %lu\n",(int)a,(int)screen_pens[a].pen));
+		screen_pens[a].pen = pen;
+		screen_pens[a].alloc = 1;
 	}
 }
 

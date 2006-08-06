@@ -58,6 +58,8 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 	char progress_copy = 0, prog_indicator = 0;
 	BOOL arcfile;
 
+	NewRawDoFmt("dofilefunction(%ld)\n", (APTR)1, NULL, function);
+
 	if(act > -1)
 		swindow = dopus_curwin[act];
 	else

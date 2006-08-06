@@ -78,9 +78,6 @@ void quit()
 	}
 	#endif
 
-	if(user_appicon)
-		FreeDiskObject(user_appicon);
-
 	UnLock(ramdisk_lock);
 
 	if(func_reselection.reselection_list)
@@ -96,6 +93,9 @@ void quit()
 	MUI_DisposeObject(dopusapp);
 
 	delete_classes();
+
+	if(user_appicon)
+		FreeDiskObject(user_appicon);
 
 	CloseLocale(locale);
 	CloseLibrary(DOpusBase);

@@ -307,13 +307,18 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 		busy();
 
 	if(function != FUNC_RESELECT && !(status_flags & STATUS_HELP))
+	{
+		NewRawDoFmt("call internal function, makereselect()\n", (APTR)1, NULL, NULL);
 		makereselect(&func_reselection, data_active_window);
+	}
 
 	rexx_pathbuffer[0][0] = rexx_pathbuffer[1][0] = 0;
 	dos_global_entry.name[0] = 0;
 
 	if(status_flags & STATUS_HELP && function != FUNC_HELP)
 	{
+		NewRawDoFmt("call internal function, fucking help\n", (APTR)1, NULL, NULL);
+
 		if(function >= DRIVE1 && function <= DRIVE6)
 		{
 			a = data_drive_offset + (function - DRIVE1);
@@ -329,6 +334,8 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 	}
 	else
 	{
+		NewRawDoFmt("call internal function, haista paska\n", (APTR)1, NULL, NULL);
+
 		if(function >= DRIVE1 && function <= DRIVE6)
 		{
 			a = (function - DRIVE1) + data_drive_offset;
@@ -339,6 +346,8 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 			}
 		}
 		else
+			NewRawDoFmt("call internal function, perkele (%ld)\n", (APTR)1, NULL, function);
+
 			switch (function)
 			{
 			case FUNC_SETCURDIR:
@@ -663,6 +672,7 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 					dofilefunction(function, 0, spath, dpath, actwin, inactwin, rexx);
 					break;
 				case FUNC_RENAME:
+					NewRawDoFmt("FUNC_RENAME (%ld)\n", (APTR)1, NULL, function);
 					dofilefunction(FUNC_RENAME, 0, spath, NULL, actwin, -1, rexx);
 					break;
 				case FUNC_MOVE:

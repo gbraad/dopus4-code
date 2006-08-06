@@ -16,6 +16,7 @@ static struct MUI_CustomClass *CL_FileList;
 
 struct MUI_CustomClass *CL_App;
 struct MUI_CustomClass *CL_FileArea;
+struct MUI_CustomClass *CL_ColorButton;
 struct MUI_CustomClass *CL_Clock;
 
 APTR dopusapp, dopuswin;
@@ -24,20 +25,99 @@ APTR *dopusgadarray;
 APTR dopusdirlist[2];
 
 /**********************************************************************
+	ColorButton
+**********************************************************************/
+
+struct ColorButton_Data
+{
+	TEXT	bgspec[32];
+};
+
+STATIC ULONG mColorButtonNew(struct IClass *cl, APTR obj, struct opSet *msg)
+{
+	obj = DoSuperNew(cl, obj,
+		ButtonFrame,
+		MUIA_InputMode, MUIV_InputMode_RelVerify,
+		TAG_MORE, msg->ops_AttrList);
+
+	return (ULONG)obj;
+}
+
+STATIC ULONG mColorButtonSetText(struct IClass *cl, APTR obj, struct MUIP_ColorButton_SetText *msg)
+{
+	struct ColorButton_Data *data = (struct ColorButton_Data *)INST_DATA(cl, obj);
+	struct ColourTable *c, *c2;
+	STRPTR	text;
+
+	c = msg->bgcol;
+	c2	= msg->fgcol;
+	text	= (STRPTR)msg->text;
+
+	if (text)
+	{
+		STRPTR str = text;
+
+		text = AllocVecTaskPooled(strlen(str) + 16);
+
+		if (text)
+			NewRawDoFmt("\33c\33P[%02x%02x%02x]%s", NULL, text, c2->red & 0xff, c2->green & 0xff, c2->blue & 0xff, str);
+	}
+
+	if (c)
+	{
+		NewRawDoFmt("r%08x,%08x,%08x", NULL, data->bgspec, c->red, c->green, c->blue);
+	}
+
+	SetAttrs(obj,
+		c ? MUIA_Background : TAG_IGNORE, data->bgspec,
+		MUIA_Text_Contents, text,
+		TAG_DONE);
+
+	if (text)
+		FreeVecTaskPooled(text);
+
+	return 0;
+}
+
+STATIC ULONG mColorButtonDispatcher(void)
+{
+	struct IClass *cl;
+	APTR obj;
+	Msg msg;
+
+	cl = (APTR)REG_A0;
+	msg = (APTR)REG_A1;
+	obj = (APTR)REG_A2;
+
+	switch (msg->MethodID)
+	{
+		case OM_NEW							: return mColorButtonNew			(cl, obj, (APTR)msg);
+		case MM_ColorButton_SetText	: return mColorButtonSetText		(cl, obj, (APTR)msg);
+	}
+
+	return DoSuperMethodA(cl, obj, msg);
+}
+
+/**********************************************************************
 	FileArea
 **********************************************************************/
 
 struct FileArea_Data
 {
 	ULONG winnumber;
+	APTR	filelist;
 	APTR	diskname;
 	APTR	diskspace;
+
+	TEXT	bgspec[32];
+
+	struct MUI_EventHandlerNode	ehnode;
 };
 
 STATIC ULONG mFileAreaNew(struct IClass *cl, APTR obj, struct opSet *msg)
 {
 	ULONG win;
-	APTR	diskname, diskspace;
+	APTR	filelist, diskname, diskspace;
 
 	win = FindTagItem(MA_FileArea_WindowNumber, msg->ops_AttrList)->ti_Data;
 
@@ -55,7 +135,7 @@ STATIC ULONG mFileAreaNew(struct IClass *cl, APTR obj, struct opSet *msg)
 			Child, diskspace = TextObject, MUIA_Weight, 50, MUIA_Text_PreParse, "\33r", End,
 		End,
 
-		Child, NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, win, TAG_DONE),
+		Child, filelist = NewObject(CL_FileList->mcc_Class, NULL, MA_FileList_WindowNumber, win, TAG_DONE),
 		Child, MakeString(512),
 		TAG_MORE, msg->ops_AttrList);
 
@@ -63,50 +143,120 @@ STATIC ULONG mFileAreaNew(struct IClass *cl, APTR obj, struct opSet *msg)
 	{
 		struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
 
-		data->winnumber = FindTagItem(MA_FileList_WindowNumber, msg->ops_AttrList)->ti_Data;
+		data->winnumber = FindTagItem(MA_FileArea_WindowNumber, msg->ops_AttrList)->ti_Data;
+		data->filelist	= filelist;
 		data->diskname	= diskname;
 		data->diskspace	= diskspace;
+
+		data->ehnode.ehn_Priority	= 1;
+		data->ehnode.ehn_Flags		= MUI_EHF_GUIMODE;
+		data->ehnode.ehn_Object		= obj;
+		data->ehnode.ehn_Class		= cl;
+		data->ehnode.ehn_Events		= IDCMP_MOUSEBUTTONS;
 	}
 
 	return (ULONG)obj;
+}
+
+STATIC ULONG mFileAreaSetup(struct IClass *cl, APTR obj, Msg msg)
+{
+	ULONG rc;
+
+	rc = DoSuperMethodA(cl, obj, msg);
+
+	if (rc)
+	{
+		struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
+
+		if (!(data->ehnode.ehn_Flags & MUI_EHF_ISENABLED))
+		{
+			DoMethod(_win(obj), MUIM_Window_AddEventHandler, &data->ehnode);
+		}
+	}
+
+	return rc;
 }
 
 STATIC ULONG mFileAreaSetDiskName(struct IClass *cl, APTR obj, struct MUIP_FileArea_SetDiskName *msg)
 {
 	struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
 	struct ColourTable *c;
-	TEXT spec[36];
 
 	c = msg->colour;
 
 	if (c)
 	{
-		ULONG r, g, b;
-
-		r = c->red;
-		g = c->green;
-		b = c->blue;
-
-		r |= r << 8;
-		g |= g << 8;
-		b |= b << 8;
-		r |= r << 16;
-		g |= g << 16;
-		b |= b << 16;
-
-		NewRawDoFmt("r%08x,%08x,%08x", NULL, spec, r, g, b);
-		NewRawDoFmt("spec is %s\n", (APTR)1, NULL, spec);
+		NewRawDoFmt("r%08x,%08x,%08x", NULL, data->bgspec, c->red, c->green, c->blue);
 	}
 
 	SetAttrs(data->diskname,
-		c ? MUIA_Background : TAG_IGNORE, spec,
 		MUIA_Text_Contents, msg->name,
+		c ? MUIA_Background : TAG_DONE, data->bgspec,
 		TAG_DONE);
 
 	return SetAttrs(data->diskspace,
-		c ? MUIA_Background : TAG_IGNORE, spec,
 		MUIA_Text_Contents, msg->space,
+		c ? MUIA_Background : TAG_DONE, data->bgspec,
 		TAG_DONE);
+}
+
+STATIC ULONG mFileAreaActivate(struct IClass *cl, APTR obj, struct MUIP_FileArea_Activate *msg)
+{
+	struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
+
+	if (msg->activate)
+	{
+		data_active_window = data->winnumber;
+		DoMethod(data->filelist, MM_FileList_SelectChange);
+		doactive(1, 1);
+		seename(0);
+		seename(1);
+	}
+
+	return 0;
+}
+
+STATIC ULONG mFileAreaHandleEvent(struct IClass *cl, APTR obj, struct MUIP_HandleEvent *msg)
+{
+	struct FileArea_Data *data = (struct FileArea_Data *)INST_DATA(cl, obj);
+	struct IntuiMessage *imsg;
+	ULONG rc;
+
+	imsg = msg->imsg;
+	rc = 0;
+
+	if (imsg && data_active_window != data->winnumber)
+	{
+		switch (imsg->Class)
+		{
+			case IDCMP_MOUSEBUTTONS:
+			{
+				LONG ox, oy;
+				LONG mx, my;
+
+				mx = imsg->MouseX;
+				my = imsg->MouseY;
+
+				ox = _left(obj);
+				oy = _top(obj);
+
+				if (mx >= ox && my >= oy)
+				{
+					ox += _width(obj);
+					oy += _height(obj);
+
+					if (mx < ox && my < oy)
+					{
+						DoMethod(obj, MM_FileArea_Activate, 1);
+						rc = MUI_EventHandlerRC_Eat;
+					}
+				}
+			}
+			break;
+		}
+	}
+
+	return 0;
 }
 
 STATIC ULONG mFileAreaDispatcher(void)
@@ -122,7 +272,10 @@ STATIC ULONG mFileAreaDispatcher(void)
 	switch (msg->MethodID)
 	{
 		case OM_NEW							: return mFileAreaNew				(cl, obj, (APTR)msg);
+		case MUIM_HandleEvent			: return mFileAreaHandleEvent		(cl, obj, (APTR)msg);
+		case MUIM_Setup					: return mFileAreaSetup				(cl, obj, (APTR)msg);
 		case MM_FileArea_SetDiskName	: return mFileAreaSetDiskName		(cl, obj, (APTR)msg);
+		case MM_FileArea_Activate		: return mFileAreaActivate			(cl, obj, (APTR)msg);
 	}
 
 	return DoSuperMethodA(cl, obj, msg);
@@ -144,7 +297,7 @@ STATIC ULONG mListNew(struct IClass *cl, APTR obj, struct opSet *msg)
 		MUIA_Font, MUIV_Font_Fixed,
 		MUIA_List_Format, ",PREPARSE=\33r,PREPARSE=\33c,,",
 		MUIA_List_Title, TRUE,
-		MUIA_List_MultiSelect, MUIV_List_MultiSelect_Default,
+		MUIA_List_MultiSelect, MUIV_List_MultiSelect_Always,
 		TAG_MORE, msg->ops_AttrList);
 
 	if (obj)
@@ -162,6 +315,7 @@ STATIC ULONG mListNew(struct IClass *cl, APTR obj, struct opSet *msg)
 
 STATIC ULONG mListConstruct(APTR obj, struct MUIP_List_Construct *msg)
 {
+#if 0
 	struct Directory *newentry;
 
 	newentry = AllocVecPooled(msg->pool, sizeof(*newentry));
@@ -172,11 +326,14 @@ STATIC ULONG mListConstruct(APTR obj, struct MUIP_List_Construct *msg)
 	}
 
 	return (ULONG)newentry;
+#else
+	return (ULONG)msg->entry;
+#endif
 }
 
 STATIC ULONG mListDestruct(APTR obj, struct MUIP_List_Construct *msg)
 {
-	FreeVecPooled(msg->pool, msg->entry);
+//	FreeVecPooled(msg->pool, msg->entry);
 	return 0;
 }
 
@@ -368,10 +525,20 @@ STATIC ULONG mListDoubleClick(struct IClass *cl, APTR obj)
 STATIC ULONG mListSelectChange(struct IClass *cl, APTR obj)
 {
 	struct FileList_Data *data = (struct FileList_Data *)INST_DATA(cl, obj);
+	struct Directory *entry;
 	TEXT b1[24], b2[24];
 	UQUAD bytes;
 	ULONG files, dirs, total, win;
-	LONG id, dofiles = 1;
+	LONG id, dofiles;
+
+	win = data->winnumber;
+	entry = dopus_curwin[win]->firstentry;
+
+	while (entry)
+	{
+		entry->selected = FALSE;
+		entry = entry->next;
+	}
 
 	id = MUIV_List_NextSelected_Start;
 
@@ -379,19 +546,18 @@ STATIC ULONG mListSelectChange(struct IClass *cl, APTR obj)
 	files = 0;
 	dirs = 0;
 	total = 0;
-
-	win = data->winnumber;
+	dofiles = 1;
 
 	for (;;)
 	{
-		struct Directory *entry;
-
 		DoMethod(obj, MUIM_List_NextSelected, &id);
 
 		if (id == MUIV_List_NextSelected_End)
 			break;
 
 		DoMethod(obj, MUIM_List_GetEntry, id, &entry);
+
+		entry->selected = TRUE;
 
 		if (entry->type == ENTRY_CUSTOM)
 		{
@@ -680,6 +846,84 @@ STATIC ULONG mDeleteFontWindow(APTR obj, struct MUIP_Application_DeleteFontWindo
 	return 0;
 }
 
+STATIC ULONG mAppMessage(APTR obj, struct MUIP_Application_AppMessage *msg)
+{
+	struct AppMessage *apmsg = msg->appmsg;
+	ULONG a;
+
+	set(dopuswin, MUIA_Window_Open, TRUE);
+
+	for(a = 0; a < apmsg->am_NumArgs; a++)
+	{
+		if (apmsg->am_ArgList[a].wa_Lock)
+		{
+			ULONG b;
+
+			switch (msg->which)
+			{
+				case MUIV_AppMsg_Lister0:
+				case MUIV_AppMsg_Lister1:
+					b = msg->which - MUIV_AppMsg_Lister0;
+
+					// lister area
+
+					if (!(*apmsg->am_ArgList[a].wa_Name))
+					{
+						PathName(apmsg->am_ArgList[a].wa_Lock, str_pathbuffer[b], 256);
+						checkdir(str_pathbuffer[b], &path_strgadget[b]);
+						startgetdir(b, SGDFLAGS_CANMOVEEMPTY);
+					}
+					else
+					{
+						ULONG c = data_active_window;
+						makeactive(b, 0);
+						PathName(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
+						TackOn(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
+						dofunctionstring("*copy", NULL, NULL, NULL);
+						makeactive(c, 0);
+					}
+					break;
+
+				case MUIV_AppMsg_Gadgets:
+					if(dopus_curgadbank && (b = gadgetfrompos(apmsg->am_MouseX, apmsg->am_MouseY)) != -1)
+					{	// gadget bank area
+						b += (data_gadgetrow_offset * 7);
+						if (isvalidgad(&dopus_curgadbank->gadgets[b]))
+						{
+							PathName(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
+							if (func_external_file[0] && func_external_file[(strlen(func_external_file) - 1)] == ':' && !apmsg->am_ArgList[a].wa_Name[0])
+								TackOn(func_external_file, "Disk.info", 256);
+							else
+								TackOn(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
+
+							if (!(CheckExist(func_external_file, NULL)))
+								StrConcat(func_external_file, ".info", 256);
+
+							dofunctionstring(dopus_curgadbank->gadgets[b].function, dopus_curgadbank->gadgets[b].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[b].which);
+						}
+					}
+					break;
+
+				case MUIV_AppMsg_Status:
+					if (apmsg->am_ArgList[a].wa_Name[0])
+					{
+						char pathbuf[256];
+						PathName(apmsg->am_ArgList[a].wa_Lock, pathbuf, 256);
+						strcpy(func_external_file, pathbuf);
+						TackOn(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
+						ftype_doubleclick(pathbuf, apmsg->am_ArgList[a].wa_Name, 0);
+						unbusy();
+					}
+					break;
+			}
+		}
+	}
+
+	func_external_file[0] = 0;
+
+	return 0;
+}
+
 STATIC ULONG mDispatcher(void)
 {
 	struct IClass *cl;
@@ -694,6 +938,7 @@ STATIC ULONG mDispatcher(void)
 	{
 		case MM_Application_DeleteWindow			: return mDeleteWindow(obj, (APTR)msg);
 		case MM_Application_DeleteFontWindow	: return mDeleteFontWindow(obj, (APTR)msg);
+		case MM_Application_AppMessage			: return mAppMessage(obj, (APTR)msg);
 	}
 
 	return DoSuperMethodA(cl, obj, msg);
@@ -744,10 +989,11 @@ APTR MakeString(ULONG maxlen)
 	MUI Classes
 **********************************************************************/
 
-STATIC struct EmulLibEntry mDispatcherTrap         = { TRAP_LIB, 0, (APTR)&mDispatcher };
-STATIC struct EmulLibEntry mListDispatcherTrap     = { TRAP_LIB, 0, (APTR)&mListDispatcher };
-STATIC struct EmulLibEntry mFileAreaDispatcherTrap = { TRAP_LIB, 0, (APTR)&mFileAreaDispatcher };
-STATIC struct EmulLibEntry mClockDispatcherTrap    = { TRAP_LIB, 0, (APTR)&mClockDispatcher };
+STATIC struct EmulLibEntry mDispatcherTrap            = { TRAP_LIB, 0, (APTR)&mDispatcher };
+STATIC struct EmulLibEntry mListDispatcherTrap        = { TRAP_LIB, 0, (APTR)&mListDispatcher };
+STATIC struct EmulLibEntry mFileAreaDispatcherTrap    = { TRAP_LIB, 0, (APTR)&mFileAreaDispatcher };
+STATIC struct EmulLibEntry mColorButtonDispatcherTrap = { TRAP_LIB, 0, (APTR)&mColorButtonDispatcher };
+STATIC struct EmulLibEntry mClockDispatcherTrap       = { TRAP_LIB, 0, (APTR)&mClockDispatcher };
 
 ULONG init_classes(void)
 {
@@ -757,9 +1003,12 @@ ULONG init_classes(void)
 		{
 			if ((CL_FileArea = MUI_CreateCustomClass(NULL, MUIC_Group, NULL, sizeof(struct FileArea_Data ), (APTR)&mFileAreaDispatcherTrap)))
 			{
-				if ((CL_Clock = MUI_CreateCustomClass(NULL, MUIC_Text, NULL, sizeof(struct Clock_Data), (APTR)&mClockDispatcherTrap)))
+				if ((CL_ColorButton = MUI_CreateCustomClass(NULL, MUIC_Text, NULL, sizeof(struct ColorButton_Data), (APTR)&mColorButtonDispatcherTrap)))
 				{
-					return 1;
+					if ((CL_Clock = MUI_CreateCustomClass(NULL, MUIC_Text, NULL, sizeof(struct Clock_Data), (APTR)&mClockDispatcherTrap)))
+					{
+						return 1;
+					}
 				}
 			}
 		}
@@ -772,6 +1021,9 @@ VOID delete_classes(void)
 {
 	if (CL_Clock)
 		MUI_DeleteCustomClass(CL_Clock);
+
+	if (CL_ColorButton)
+		MUI_DeleteCustomClass(CL_ColorButton);
 
 	if (CL_FileArea)
 		MUI_DeleteCustomClass(CL_FileArea);

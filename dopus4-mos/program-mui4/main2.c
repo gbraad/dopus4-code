@@ -44,8 +44,8 @@ void freedir(struct DirectoryWindow *dir, int win)
 
 	if(dir)
 	{
-		if (win < 2)
-			DoMethod(dopusdirlist[win], MUIM_List_Clear);
+		#warning an error??
+		//DoMethod(dopusdirlist[win], MUIM_List_Clear);
 
 		if(dir->firstentry && dir->total > 0)
 		{

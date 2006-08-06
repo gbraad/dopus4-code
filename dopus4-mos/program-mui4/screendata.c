@@ -77,14 +77,14 @@ struct TagItem mainscreen_tags[] =			/* Tags for the main screen */
 struct ExtNewScreen main_scr =
 {	/* Main screen */
 	0, 0, 0, 0, 0, 0, 1, 0,
-	CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED,
+	CUSTOMSCREEN | NS_EXTENDED,
 	&main_screen_attr,
 	(STRPTR) str_arexx_portname,
 	NULL, NULL,
 	mainscreen_tags
 }, blank_scr =
 {	/* Blank screen */
-	0, 0, 320, STDSCREENHEIGHT, 1, 0, 1, 0, CUSTOMSCREEN | SCREENQUIET, NULL, NULL, NULL, NULL, NULL
+	0, 0, 320, STDSCREENHEIGHT, 1, 0, 1, 0, CUSTOMSCREEN, NULL, NULL, NULL, NULL, NULL
 };
 
 /* NewWindow structures */
@@ -92,7 +92,7 @@ struct ExtNewScreen main_scr =
 struct ExtNewWindow main_win =
 {	/* Main window */
 	0, 0, 0, 0, 255, 255,
-	IDCMP_MOUSEBUTTONS | IDCMP_MENUPICK | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_RAWKEY | IDCMP_MOUSEMOVE | IDCMP_INACTIVEWINDOW | IDCMP_ACTIVEWINDOW,
+	IDCMP_MOUSEBUTTONS | IDCMP_MENUPICK | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_RAWKEY,
 	0,
 	NULL, NULL, NULL, NULL, NULL, 640, 200, 65535, 65535, CUSTOMSCREEN,
 	mainwindow_tags

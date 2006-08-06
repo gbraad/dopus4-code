@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	ULONG a, in, iconstart, sup, ck, nsee;
 	struct WBStartup *WBmsg = NULL;
 	struct WBArg *p = NULL;
-	char **toolarray, *s, *startdir = NULL;
+	char *s, *startdir = NULL;
 	char buf[1024];
 
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 		p = WBmsg->sm_ArgList;
 		if((user_appicon = GetDiskObject(p->wa_Name)))
 		{
-			toolarray = user_appicon->do_ToolTypes;
+			STRPTR *toolarray = user_appicon->do_ToolTypes;
 			if((FindToolType(toolarray, "ICONSTART")))
 				iconstart = 1;
 			if((FindToolType(toolarray, "BUTTONSTART")))
@@ -764,11 +764,13 @@ tryfonts:
 				MUIA_Application_Title, "Directory Opus 4",
 				MUIA_Application_Description, "File manager",
 				SubWindow, dopuswin = WindowObject,
+					MUIA_Window_AppWindow, TRUE,
 					MUIA_Window_Title, "Directory Opus 4",
 					MUIA_Window_ID, MAKE_ID('M','A','I','N'),
 					WindowContents, VGroup, MUIA_Group_Spacing, 0,
 						Child, dopusstatus = TextObject, TextFrame, MUIA_Background, MUII_TextBack, MUIA_Text_PreParse, "\033c", End,
 						Child, ColGroup(2),
+							MUIA_Group_Spacing, 0,
 							Child, dopusdirlist[0] = NewObject(CL_FileArea->mcc_Class, NULL, MA_FileArea_WindowNumber, 0, TAG_DONE),
 							Child, dopusdirlist[1] = NewObject(CL_FileArea->mcc_Class, NULL, MA_FileArea_WindowNumber, 1, TAG_DONE),
 						End,
@@ -781,6 +783,11 @@ tryfonts:
 
 		if (dopusapp)
 		{
+			DoMethod(dopusdirlist[0], MUIM_Notify, MUIA_AppMessage, MUIV_EveryTime, MUIV_Notify_Application, 2, MM_Application_AppMessage, MUIV_TriggerValue, MUIV_AppMsg_Lister0);
+			DoMethod(dopusdirlist[1], MUIM_Notify, MUIA_AppMessage, MUIV_EveryTime, MUIV_Notify_Application, 2, MM_Application_AppMessage, MUIV_TriggerValue, MUIV_AppMsg_Lister1);
+			DoMethod(dopusgads, MUIM_Notify, MUIA_AppMessage, MUIV_EveryTime, MUIV_Notify_Application, 2, MM_Application_AppMessage, MUIV_TriggerValue, MUIV_AppMsg_Gadgets);
+			DoMethod(dopusstatus, MUIM_Notify, MUIA_AppMessage, MUIV_EveryTime, MUIV_Notify_Application, 2, MM_Application_AppMessage, MUIV_TriggerValue, MUIV_AppMsg_Status);
+
 			if (dopusgadarray)
 			{
 				FreeVecTaskPooled(dopusgadarray);
@@ -795,25 +802,28 @@ tryfonts:
 
 				if (array)
 				{
+					ULONG	tags;
 					LONG i;
 
 					dopusgadarray = array;
 
 					DoMethod(dopusgads, MUIM_Group_InitChange);
 
+					tags = TAG_DONE;
+
 					for (i = 0; i < scr_gadget_rows; i++)
 					{
 						APTR obj;
 
 						obj = HGroup, MUIA_Group_Spacing, 0,
-							Child, array[0] = MakeButton(NULL),
-							Child, array[1] = MakeButton(NULL),
-							Child, array[2] = MakeButton(NULL),
-							Child, array[3] = MakeButton(NULL),
-							Child, array[4] = MakeButton(NULL),
-							Child, array[5] = MakeButton(NULL),
-							Child, array[6] = MakeButton(NULL),
-							Child, array[7] = MakeButton(NULL),
+							Child, array[0] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[1] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[2] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[3] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[4] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[5] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[6] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
+							Child, array[7] = NewObjectA(CL_ColorButton->mcc_Class, NULL, (struct TagItem *)&tags),
 						End;
 
 						if (obj)
@@ -1182,31 +1192,6 @@ void freedragbuffers()
 	if(drag_bob_savebuffer)
 		FreeRaster(drag_bob_savebuffer, drag_sprite.Width * 16, drag_sprite.Height * drag_sprite.Depth);
 	drag_bob_buffer = drag_bob_savebuffer = NULL;
-}
-
-void load_palette(struct Screen *screen, ULONG *palette)
-{
-	ULONG backup_palette[98];
-	int numcols;
-
-	numcols = 1 << ((screen->RastPort.BitMap->Depth > 4) ? 4 : screen->RastPort.BitMap->Depth);
-	if(numcols > 32)
-		numcols = 32;
-
-	CopyMem((char *)palette, (char *)&backup_palette[1], numcols * 3 * sizeof(ULONG));
-	backup_palette[0] = numcols << 16;
-	backup_palette[(numcols * 3) + 1] = 0;
-
-	LoadRGB32(&screen->ViewPort, backup_palette);
-}
-
-void get_palette(struct Screen *screen, ULONG *palette)
-{
-	int numcols;
-
-	numcols = 1 << ((screen->RastPort.BitMap->Depth > 4) ? 4 : screen->RastPort.BitMap->Depth);
-
-	GetRGB32(screen->ViewPort.ColorMap, 0, numcols, palette);
 }
 
 void read_configuration(int def)

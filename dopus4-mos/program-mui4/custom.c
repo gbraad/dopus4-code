@@ -204,7 +204,8 @@ int handlefunctionss(STRPTR funcbuf, STRPTR name, STRPTR title, struct dopusfunc
 			else
 			{
 				func_entry_deleted = 0;
-				if(func_single_file[0])
+
+				if (func_single_file[0])
 				{
 					if(func_external_file[0])
 					{
@@ -233,7 +234,9 @@ int handlefunctionss(STRPTR funcbuf, STRPTR name, STRPTR title, struct dopusfunc
 					func_global_function = 0;
 				}
 				else
+				{
 					abort = internal_function(function, 0, funcdata-> source_path, funcdata->dest_path);
+				}
 
 				if(global_swap_window)
 				{
@@ -1043,7 +1046,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				}
 			}
 			funcdata->file_request.flags = h;
-			if(FileRequest(&funcdata->file_request))
+			if (FileRequest(&funcdata->file_request))
 			{
 				if(h & DFRF_MULTI)
 				{
