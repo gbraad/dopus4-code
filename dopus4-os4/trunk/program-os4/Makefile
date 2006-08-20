@@ -21,7 +21,9 @@ autoinit_application_application.o autoinit_application_base.o autoinit_applicat
 #autoinit_asyncio_base.o autoinit_asyncio_main.o\
 
 CFLAGS = -mcrt=clib2 -Wall -O3 -I../include-os4
+#CFLAGS = -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=clib2 -lauto -lm
+#LDFLAGS = -lauto -lm
 FLEXCAT = flexcat
 
 APPNAME = DirectoryOpus

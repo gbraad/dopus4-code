@@ -156,7 +156,6 @@ void cleanup_fontdisplay()
 
 void readhelp(char *file)
 {
-//D(bug("readhelp(%s)\n",file);Delay(50));
 	if(file)
 		doreadhelp(file);
 	if(dopus_firsthelp)
@@ -169,7 +168,7 @@ void readhelp(char *file)
 
 void doreadhelp(char *file)
 {
-	int a, b = 0, /*helpsize, */inmsg;
+	int a, b = 0, inmsg;
 	uint32 helpsize;
 	STRPTR helpbuf, buf;
 	struct Help *temph, *curhelp;
@@ -269,7 +268,7 @@ static STRPTR helpcontext[] =
 	"Clone",
 	"Comment",
 	"Configure",
-	"ContST",
+//	"ContST",
 	"Copy",
 	"CopyAs",
 	"CopyWindow",
@@ -277,8 +276,8 @@ static STRPTR helpcontext[] =
 	"Defaults",
 	"Delete",
 	"DirTree",
-	"DiskCopy",
-	"DiskCopyBG",
+//	"DiskCopy",
+//	"DiskCopyBG",
 	"DiskInfo",
 	"DisplayDir",
 	"DOpusToBack",
@@ -288,8 +287,8 @@ static STRPTR helpcontext[] =
 	"Execute",
 	"FileInfo",
 	"FinishSection",
-	"Format",
-	"FormatBG",
+//	"Format",
+//	"FormatBG",
 	"GetAll",
 	"GetDevices",
 	"GetDirs",
@@ -306,8 +305,8 @@ static STRPTR helpcontext[] =
 	"Hunt",
 	"Iconify",
 	"IconInfo",
-	"Install",
-	"InstallBG",
+//	"Install",
+//	"InstallBG",
 	"LastSaved",
 	"LoadConfig",
 	"LoopPlay",
@@ -326,7 +325,7 @@ static STRPTR helpcontext[] =
 	"PatternMatch",
 	"Play",
 	"Play8svx",
-	"PlayST",
+//	"PlayST",
 	"Print",
 	"PrintDir",
 	"Protect",
@@ -359,7 +358,7 @@ static STRPTR helpcontext[] =
 	"Show",
 	"SmartRead",
 	"Status",
-	"StopST",
+//	"StopST",
 	"SwapWindow",
 	"Toggle",
 	"TopText",
@@ -450,11 +449,10 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 
 		nag.nag_Name = "DirectoryOpus.guide";
 		nag.nag_Screen = Window->WScreen;
-		nag.nag_Flags = 0 /*HTF_NOACTIVATE */ ;
+		nag.nag_Flags = 0;
 		nag.nag_Context = helpcontext;
 		nag.nag_Node = getAGnode(buf, func[0] == '*' ? func + 1 : func);
 
-//		D(bug("Trying to display Amigaguide node \"%s\"\n", nag.nag_Node));
 		if((agc = IAmigaGuide->OpenAmigaGuide(&nag, NULL)))
 		{
 			IAmigaGuide->CloseAmigaGuide(agc);

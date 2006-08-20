@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 /* BEGIN CLib2 stuff */
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }
-BOOL __detach = TRUE;
+//BOOL __detach = TRUE;
 /* END CLib2 stuff */
 
 static BOOL staybehindWB;
@@ -53,10 +53,12 @@ int main(int argc, char **argv)
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", DOPUSLIB_VERSION)))
+	{
 		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:libs/dopus.library", DOPUSLIB_VERSION)))
 		{
 			DOpusBase = NULL;
 		}
+	}
 	if(DOpusBase && !(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
 	{
 		IDOpus = NULL;
@@ -138,7 +140,7 @@ int main(int argc, char **argv)
 				strcpy(str_config_basename, s);
 			if((IIcon->FindToolType(toolarray, "CHECK")))
 				ck = 1;
-			if(IIcon->FindToolType(toolarray, "USEAHI"))
+//			if(IIcon->FindToolType(toolarray, "USEAHI"))
 				useAHI = TRUE;
 			if(IIcon->FindToolType(toolarray,"BEHINDWB"))
 				staybehindWB = TRUE;
@@ -284,7 +286,7 @@ int main(int argc, char **argv)
 
 	hotkey_task = (struct Task *)IExec->CreateTask("dopus_hotkeez", config->priority + 1, hotkeytaskcode, 8192, NULL);
 
-	/* application.library testcode */
+	/* BEGIN: application.library code */
 	if((config->icontype & ICON_APPICON) && docky)
 	{
 		appID = 0;
@@ -306,7 +308,7 @@ int main(int argc, char **argv)
 			IApplication->GetApplicationAttrs(appID, APPATTR_Port, (uint32)&applibport, TAG_DONE);
 		}
 	}
-	/* application.library testcode */
+	/* END: application.library code */
 
 	if(iconstart)
 	{
@@ -370,7 +372,9 @@ int SetUp(int tit)
 
 	IExec->SetTaskPri((struct Task *)main_proc, config->priority);
 	if(hotkey_task)
+	{
 		IExec->SetTaskPri(hotkey_task, config->priority + 1);
+	}
 	status_configuring = -1;
 	status_iconified = 0;
 
@@ -388,7 +392,9 @@ int SetUp(int tit)
 	{
 		IDOpus->GetWBScreen(&scrbuf);
 		if(config->screenmode == MODE_PUBLICSCREEN)
+		{
 			config->screenmode = MODE_WORKBENCHUSE;
+		}
 	}
 
 	setup_draw_info();
@@ -428,14 +434,20 @@ int SetUp(int tit)
 	}
 
 	if(config->scrdepth < 2)
+	{
 		config->scrdepth = 2;
+	}
 	main_scr.Depth = config->scrdepth;
 
 	if(config->gadgetrows < 0 || config->gadgetrows > 6)
+	{
 		config->gadgetrows = 6;
+	}
 	scr_gadget_rows = config->gadgetrows;
 	if(data_gadgetrow_offset + scr_gadget_rows > 6)
+	{
 		data_gadgetrow_offset = 0;
+	}
 
       tryfonts:
 	if(count == 5)
@@ -459,7 +471,9 @@ int SetUp(int tit)
 	else if(count)
 	{
 		if(Window)
+		{
 			busy();
+		}
 		for(a = 0; a < NUMFONTS; a++)
 		{
 			if(config->fontsizes[a] > lim)
@@ -513,7 +527,9 @@ int SetUp(int tit)
 			if(config->screenflags & SCRFLAGS_HALFHEIGHT)
 			{
 				if(main_scr.Height < 400)
+				{
 					config->screenflags &= ~SCRFLAGS_HALFHEIGHT;
+				}
 				else
 				{
 					main_scr.Height /= 2;

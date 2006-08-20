@@ -891,6 +891,18 @@ int view_idcmp(struct ViewData *vdata)
 				switch (code)
 				{
 
+				case RAWKEY_PAGEUP:
+					view_pageup(vdata);
+					break;
+				case RAWKEY_PAGEDOWN:
+					view_pagedown(vdata);
+					break;
+				case RAWKEY_HOME:
+					view_gotop(vdata);
+					break;
+				case RAWKEY_END:
+					view_gobottom(vdata);
+					break;
 				case CURSOR_UP:
 					if(vdata->view_line_count <= vdata->view_lines_per_screen)
 						break;

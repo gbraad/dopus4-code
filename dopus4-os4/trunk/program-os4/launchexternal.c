@@ -475,16 +475,22 @@ int dopus_iconinfo(char *filename)
 	{
 		buffer[a - 5] = '\0';
 		plock = IDOS->ParentDir(flock);
+		IDOS->UnLock(flock);
 		dostatustext(globstring[STR_SHOWING_FILE]);
 		if(infoscreen && plock)
+		{
 			IWorkbench->WBInfo(plock, buffer, infoscreen);
+		}
 		IDOS->UnLock(plock);
 	}
 	if(!MainScreen)
 	{
 		IIntuition->UnlockPubScreen(NULL, infoscreen);
 	}
-	IDOS->UnLock(flock);
+	if(flock)
+	{
+		IDOS->UnLock(flock);
+	}
 	return 0;
 }
 
