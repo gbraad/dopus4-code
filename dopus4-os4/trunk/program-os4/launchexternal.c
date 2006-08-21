@@ -460,6 +460,11 @@ int dopus_iconinfo(char *filename)
 	char buffer[108] = { 0, };
 	int a;
 
+	if(!flock)
+	{
+		return(-1);
+	}
+
 	if(MainScreen)
 	{
 		infoscreen = MainScreen;

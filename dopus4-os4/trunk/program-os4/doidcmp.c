@@ -647,7 +647,51 @@ void doidcmp()
 					win = -1;
 					switch (code)
 					{
-					case CURSOR_UP:
+					case RAWKEY_HOME:
+						if(win == -1)
+							win = data_active_window;
+						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+							break;
+						dopus_curwin[win]->offset = 0;
+						fixvertprop(win);
+						displaydir(win);
+						break;
+					case RAWKEY_END:
+						if(win == -1)
+							win = data_active_window;
+						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+							break;
+						dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+						fixvertprop(win);
+						displaydir(win);
+						break;
+					case RAWKEY_PAGEUP:
+						if(win == -1)
+							win = data_active_window;
+						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+							break;
+						dopus_curwin[win]->offset -= scrdata_dispwin_lines;
+						if(dopus_curwin[win]->offset < 0)
+						{
+							dopus_curwin[win]->offset = 0;
+						}
+						fixvertprop(win);
+						displaydir(win);
+						break;
+					case RAWKEY_PAGEDOWN:
+						if(win == -1)
+							win = data_active_window;
+						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+							break;
+						dopus_curwin[win]->offset += scrdata_dispwin_lines;
+						if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
+						{
+							dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+						}
+						fixvertprop(win);
+						displaydir(win);
+						break;
+					case RAWKEY_CRSRUP:
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -655,7 +699,9 @@ void doidcmp()
 						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
 						{
 							if(qual & IEQUALIFIER_CONTROL)
+							{
 								dopus_curwin[win]->offset = 0;
+							}
 							else
 							{
 								dopus_curwin[win]->offset -= scrdata_dispwin_lines;
@@ -668,7 +714,7 @@ void doidcmp()
 						}
 						verticalscroll(win, -1);
 						break;
-					case CURSOR_DOWN:
+					case RAWKEY_CRSRDOWN:
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -676,7 +722,9 @@ void doidcmp()
 						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
 						{
 							if(qual & IEQUALIFIER_CONTROL)
+							{
 								dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+							}
 							else
 							{
 								dopus_curwin[win]->offset += scrdata_dispwin_lines;
@@ -689,7 +737,7 @@ void doidcmp()
 						}
 						verticalscroll(win, 1);
 						break;
-					case RAWKEY_CRSRLEFT:	//CURSOR_LEFT:
+					case RAWKEY_CRSRLEFT:
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, -1, 1);
@@ -720,7 +768,7 @@ void doidcmp()
 						}
 						horizontalscroll(win, -1);
 						break;
-					case RAWKEY_CRSRRIGHT:	//CURSOR_RIGHT:
+					case RAWKEY_CRSRRIGHT:
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, 1, 1);
@@ -756,14 +804,14 @@ void doidcmp()
 					}
 					switch (code)
 					{
-					case 0x5f:	// HELP
+					case RAWKEY_HELP: //0x5f:	// HELP
 						function = FUNC_HELP;
 						break;
-					case 0x40:	// SPACE
-					case 0x42:	// TAB
+					case RAWKEY_SPACE: //0x40:	// SPACE
+					case RAWKEY_TAB: //0x42:	// TAB
 						makeactive(1 - data_active_window, 1);
 						break;
-					case 0x44:	// RETURN
+					case RAWKEY_RETURN: //0x44:	// RETURN
 						if(qual & IEQUALIFIER_ANYSHIFT)
 							function = FUNC_BUFFERLIST;
 						else if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))

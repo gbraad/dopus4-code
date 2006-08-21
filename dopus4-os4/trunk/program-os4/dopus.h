@@ -115,14 +115,17 @@ the existing commercial status of Directory Opus 5.
 #define OSVER_40 4
 #define OSVER_51 5
 
+/*
 #define ASYNC_READ_SIZE  16384
 #define ASYNC_WRITE_SIZE 16384
 #define COPY_BUF_SIZE    16384	//2048
-
+*/
+/*
 #define CURSOR_LEFT 0x4f
 #define CURSOR_RIGHT 0x4e
 #define CURSOR_UP 0x4c
 #define CURSOR_DOWN 0x4d
+*/
 
 #define APPWINID     1
 

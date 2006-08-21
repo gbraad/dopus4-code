@@ -903,7 +903,7 @@ int view_idcmp(struct ViewData *vdata)
 				case RAWKEY_END:
 					view_gobottom(vdata);
 					break;
-				case CURSOR_UP:
+				case RAWKEY_CRSRUP:
 					if(vdata->view_line_count <= vdata->view_lines_per_screen)
 						break;
 					{
@@ -915,7 +915,7 @@ int view_idcmp(struct ViewData *vdata)
 							view_lineup(vdata);
 					}
 					break;
-				case CURSOR_DOWN:
+				case RAWKEY_CRSRDOWN:
 					if(vdata->view_line_count <= vdata->view_lines_per_screen)
 						break;
 					{

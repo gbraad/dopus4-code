@@ -1443,6 +1443,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				okayflag = 1;
 				a = dopus_iconinfo(sourcename);
+/*				if(a == -1)
+				{
+					dostatustext("Can't lock file!");
+				}*/
 			}
 			break;
 		case FUNC_PLAY8SVX:
