@@ -167,7 +167,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	IDOS->Close(inhandle);
 	IDOS->Close(outhandle);
 
-	IDOS->FreeDosObject(DOS_FIB, cfinfo);
+//	IDOS->FreeDosObject(DOS_FIB, cfinfo);
 
 	IExec->FreeVec(buffer);
 
@@ -196,6 +196,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	{
 		dos_copy_comment[0] = 0;
 	}
+	IDOS->FreeDosObject(DOS_FIB, cfinfo);
 
 	return (1);
 

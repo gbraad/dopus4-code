@@ -460,10 +460,10 @@ int dopus_iconinfo(char *filename)
 	char buffer[108] = { 0, };
 	int a;
 
-	if(!flock)
+/*	if(!flock)
 	{
 		return(-1);
-	}
+	}*/
 
 	if(MainScreen)
 	{
@@ -480,7 +480,7 @@ int dopus_iconinfo(char *filename)
 	{
 		buffer[a - 5] = '\0';
 		plock = IDOS->ParentDir(flock);
-		IDOS->UnLock(flock);
+//		IDOS->UnLock(flock);
 		dostatustext(globstring[STR_SHOWING_FILE]);
 		if(infoscreen && plock)
 		{

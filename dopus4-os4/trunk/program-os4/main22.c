@@ -40,8 +40,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	int pt = 1, okayflag = 0, show, lastfile, flag, exist, count, data, mask = 0, temp;
 	int globflag, noremove, doicons = 0, total, value = 0, progtype = 0, blocksize = 0, retval = 0;
 	int64 byte, bb;
-//	ULONG class;
-//	USHORT code;
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
 	char *sourcename, *destname, *oldiconname, *newiconname;
 	char *buf, *buf1, *buf2, *namebuf, *srename, *drename, *database;
@@ -1443,10 +1441,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				okayflag = 1;
 				a = dopus_iconinfo(sourcename);
-/*				if(a == -1)
-				{
-					dostatustext("Can't lock file!");
-				}*/
 			}
 			break;
 		case FUNC_PLAY8SVX:

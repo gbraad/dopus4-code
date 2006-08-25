@@ -148,10 +148,10 @@ int main(int argc, char **argv)
 	load_clips();
 	readhelp();
 
-	if(config->scrdepth < 2)
+/*	if(config->scrdepth < 2)
 	{
 		config->scrdepth += 2;
-	}
+	}*/
 
 	open_screen();
 
@@ -1625,10 +1625,12 @@ void open_screen()
 				IIntuition->UnlockPubScreenList();
 			}
 		}
+//		IExec->DebugPrintF("psname : %s\n", psname);
 		if((wbscreen = IIntuition->LockPubScreen(psname)))
+//		if((wbscreen = IIntuition->LockPubScreen(NULL)))
 		{
-			if(wbscreen->Height > (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 189))
-			{
+//			if(wbscreen->Height > (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 200))
+//			{
 				int pen, num;
 				struct ColorMap *cm;
 
@@ -1648,21 +1650,28 @@ void open_screen()
 					screen_pens[pen].alloc = 1;
 				}
 
-				if(pen < num)
+
+				onworkbench = 1;
+
+/*				if(pen < num)
 				{
 					free_colour_table(cm);
 				}
 				else
 				{
 					onworkbench = 1;
-				}
-			}
+				}*/
+//			}
+		}
+		else
+		{
+//			IExec->DebugPrintF("Problem!\n");
 		}
 
 		configscr.Depth = config->scrdepth;
 		if(!onworkbench)
 		{
-			scr_taglist[1].ti_Data = IGraphics->BestModeID(BIDTAG_DesiredWidth, configscr.Width, BIDTAG_DesiredHeight, configscr.Height, BIDTAG_Depth, configscr.Depth, wbscreen ? BIDTAG_MonitorID : TAG_IGNORE, wbscreen ? IGraphics->GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK : 0, TAG_END);
+/*			scr_taglist[1].ti_Data = IGraphics->BestModeID(BIDTAG_DesiredWidth, configscr.Width, BIDTAG_DesiredHeight, configscr.Height, BIDTAG_Depth, configscr.Depth, wbscreen ? BIDTAG_MonitorID : TAG_IGNORE, wbscreen ? IGraphics->GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK : 0, TAG_END);
 			if(scr_taglist[1].ti_Data == INVALID_ID)
 			{
 				scr_taglist[1].ti_Data = HIRES_KEY;
@@ -1675,7 +1684,9 @@ void open_screen()
 				--configscr.Depth;
 			}
 			IIntuition->ShowTitle(Screen, FALSE);
-			usescreen = Screen;
+			usescreen = Screen;*/
+			usescreen = IIntuition->LockPubScreen(NULL);
+			IIntuition->UnlockPubScreen(NULL, usescreen);
 		}
 		else
 		{
