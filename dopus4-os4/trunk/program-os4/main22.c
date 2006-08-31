@@ -421,7 +421,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			blocksize = infodata->id_BytesPerBlock;
 		}
 		else
+		{
 			blocksize = 512;
+		}
 		if(config->errorflags & ERROR_ENABLE_DOS)
 			main_proc->pr_WindowPtr = (APTR) Window;
 		total = -1;
@@ -2073,37 +2075,49 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_BYTE:
 		if(!status_justabort)
 		{
-			long long value;
+			int64 value;
 
 			main_proc->pr_WindowPtr = (APTR) - 1;
 			if(!(destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ))))
+			{
 				value = 0;
+			}
 			else
 			{
 				IDOS->Info(filelock, infodata);
 				if(ramdisk_lock && IDOS->SameLock(filelock, ramdisk_lock) != LOCK_DIFFERENT)
+				{
 					value = IExec->AvailMem(0);
+				}
 				else
-					value = (infodata->id_NumBlocks - infodata->id_NumBlocksUsed) * (long long)blocksize;
+				{
+					value = (infodata->id_NumBlocks - infodata->id_NumBlocksUsed) * (int64)blocksize;
+				}
 				IDOS->UnLock(filelock);
 			}
 			if(config->errorflags & ERROR_ENABLE_DOS)
+			{
 				main_proc->pr_WindowPtr = (APTR) Window;
+			}
 			if(specflags & FUNCFLAGS_BYTEISCHECKFIT)
 			{
-				double needed, percent;
+				float64 needed, percent;
 
 				needed = data * blocksize;
 				if(value < 1)
+				{
 					percent = 0;
+				}
 				else if(value >= needed || needed < 1)
 				{
 					percent = 100;
 					retval = 1;
 				}
 				else
+				{
 					percent = 100 / (needed / value);
-				sprintf(buf, globstring[STR_CHECKFIT_STRING], data * (long long)blocksize, value, percent);
+				}
+				sprintf(buf, globstring[STR_CHECKFIT_STRING], data * (int64)blocksize, value, percent);
 				dostatustext(buf);
 			}
 			else

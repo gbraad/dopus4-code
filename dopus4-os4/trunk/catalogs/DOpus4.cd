@@ -676,7 +676,7 @@ STR_CUSTPORT_NOT_FOUND (//)
 User-specified custom handler port\n\"%s\"\ncould not be found!
 ;
 STR_CHECKFIT_STRING (//)
-Bytes needed : %11qd   Bytes free : %11qd   Fit : %.1f%%
+Bytes needed : %11lld   Bytes free : %11lld   Fit : %.1f%%
 ;
 STR_DIR_TREE (//)
 <Directory tree>
