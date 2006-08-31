@@ -2,7 +2,7 @@ CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
 OBJS = strings.o about.o arbiter.o archive.o assembly.o buffers.o\
-complete.o custom.o cycling.o data.o dirtree.o doerror.o doidcmp.o\
+complete.o custom.o data.o dirtree.o doerror.o doidcmp.o\
 dopusfunctions.o getusage.o icondata.o iffload.o launchexternal.o main.o\
 main1.o main2.o main3.o main4.o main5.o main6.o main7.o main8.o main9.o\
 main10.o main11.o main12.o main13.o main14.o main15.o main16.o main17.o\
@@ -18,7 +18,6 @@ autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
 autoinit_application_application.o autoinit_application_base.o autoinit_application_prefsobjects.o
 
-#autoinit_asyncio_base.o autoinit_asyncio_main.o\
 
 CFLAGS = -mcrt=clib2 -Wall -O3 -I../include-os4
 #CFLAGS = -Wall -O3 -I../include-os4
