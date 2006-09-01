@@ -738,16 +738,6 @@ void dosound(int type)
 	}
 }
 
-int playmod(STRPTR name)
-{
-	return (1);
-}
-
-int check_is_module(STRPTR name)
-{
-	return (0);
-}
-
 static char codetodelta[16] = { -34, -21, -13, -8, -5, -3, -2, -1, 0, 1, 2, 3, 5, 8, 13, 21 };
 
 char DUnpack(STRPTR source, int n, STRPTR dest, char x)

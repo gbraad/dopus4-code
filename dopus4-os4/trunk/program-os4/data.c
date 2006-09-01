@@ -29,13 +29,9 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <libraries/pm.h>
 
-/* SAS Detach information */
-
-unsigned long __stack = 16384;			/* Stack size needed */
+uint32 __stack = 16384;				/* Stack size needed */
 long __priority = 0;				/* Default task priority */
-//long __BackGroundIO = 0;			/* IO off for non-beta */
 char *__procname = "dopus_task";		/* Task name */
 char __stdiowin[] = "";
 
@@ -110,11 +106,6 @@ struct DOpusRemember *menu_key /*=NULL*/ ;	/* Memory key for menus */
 
 USHORT *nullpalette /*=NULL*/ ;			/* Pointer to a black palette */
 
-//struct UserInfo *user_info /*=NULL*/ ;		/* UserInfo for envoy */
-//struct GroupInfo *group_info /*=NULL*/ ;	/* GroupInfo for envoy */
-//struct muUserInfo *mu_userinfo /*=NULL*/ ;	/* UserInfo for multiuser */
-//struct muGroupInfo *mu_groupinfo /*=NULL*/ ;	/* GroupInfo for multiuser */
-
 struct Locale *locale /*=NULL*/ ;
 
 /* Directory Opus Internal objects */
@@ -154,7 +145,6 @@ char str_arcorgname[FILEBUF_SIZE] /*={0}*/ ;	/* Original name of temporarily una
 char str_version_string[30] /*={0}*/ ;		/* Current version string */
 char str_arexx_portname[30] /*={0}*/ ;		/* ARexx Port name */
 
-//UBYTE var_key_matrix[13]/*={0}*/;             /* Keyboard matrix data area */
 char *str_last_statustext /*=NULL*/ ;		/* Last status text displayed */
 
 char *str_last_rexx_result /*=NULL*/ ;		/* Last ARexx result */
@@ -208,11 +198,8 @@ const char *config_replyport_basename = "dopus4_config_reply";
 
 UBYTE disk_change_state /*=0*/ ;		/* Lower bits indicate change state */
 
-//unsigned long long dos_global_bytecount /*=0*/ ;	/* Global byte count from recursive op */
 uint64 dos_global_bytecount /*=0*/ ;			/* Global byte count from recursive op */
-//unsigned long long dos_global_copiedbytes /*=0*/ ;	/* Bytes copied in a recursive op */
 uint64 dos_global_copiedbytes /*=0*/ ;			/* Bytes copied in a recursive op */
-//unsigned long long dos_global_deletedbytes /*=0*/ ;	/* Bytes copied in a recursive op */
 uint64 dos_global_deletedbytes /*=0*/ ;			/* Bytes copied in a recursive op */
 
 ULONG dos_global_blocksneeded /*=0*/ ;		/* Number of blocks needed to copy */

@@ -203,10 +203,7 @@ int doplay8svxold(char *, int);
 void kill8svx(void);
 void handle8svxerror(int);
 void dosound(int);
-int playmod(char *);
 char DUnpack(char *, int, char *, char);
-int check_is_module(char *);
-//int EnvoyPacket(char *, ULONG, ULONG, UWORD, APTR);
 
 /* main8.c */
 int checkexec(char *);
@@ -402,17 +399,6 @@ void custnextsel(struct Directory **);
 int check_dest_path(struct function_data *);
 void build_default_string(char *, char *, char *, char *, char *);
 
-/* cycling.c */
-/*
- * REMOVED
- *
-void colourcycle(void);
-int initcycle(struct ViewPort *, UWORD *, int, struct C_Range *, int);
-void stopcycle(void);
-void togglecycle(void);
-int checkcycling(void);
-*/
-
 /* doerror.c */
 int doerror(int);
 void geterrorstring(char *, int);
@@ -495,10 +481,7 @@ void cleanupviewfile(struct ViewData *);
 /* launchexternal.c */
 int start_external(struct dopus_func_start *);
 int close_external(struct dopus_func_start *, int);
-int set_wb_arg(struct WBArg *, char *, BPTR, int);
 void doconfig(void);
-//void dopus_diskop(int, int, int);
-//void launch_diskop(void);
 void dopus_print(int, struct DOpusArgsList *, int, char *, struct ViewData *);
 int dopus_iconinfo(char *);
 void setup_externals(void);

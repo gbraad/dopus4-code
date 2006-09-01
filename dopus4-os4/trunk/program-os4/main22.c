@@ -1248,7 +1248,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					byte = dos_global_copiedbytes;
 				}
 				if(config->copyflags & COPY_DATE)
-					setdate(destname, &file->date);
+					IDOS->SetFileDate(destname, &file->date);
 
 				if(!a && !func_external_file[0])
 				{

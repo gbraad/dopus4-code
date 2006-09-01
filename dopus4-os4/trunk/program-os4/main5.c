@@ -65,12 +65,12 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			goto failed;
 		IDOS->Close(out);
 		if(config->copyflags & COPY_DATE)
-			setdate(dst, &(cfinfo->fib_Date));
+			IDOS->SetFileDate(dst, &(cfinfo->fib_Date));
 		if(config->copyflags & COPY_PROT)
 			IDOS->SetProtection(dst, cfinfo->fib_Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
 		if(config->copyflags & COPY_NOTE)
 			IDOS->SetComment(dst, cfinfo->fib_Comment);
-		IDOS->SetOwner(dst, (cfinfo->fib_OwnerUID << 16) | cfinfo->fib_OwnerGID);
+//		IDOS->SetOwner(dst, (cfinfo->fib_OwnerUID << 16) | cfinfo->fib_OwnerGID);
 		IDOS->FreeDosObject(DOS_FIB, cfinfo);
 		return (1);
 	}
@@ -167,13 +167,12 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	IDOS->Close(inhandle);
 	IDOS->Close(outhandle);
 
-//	IDOS->FreeDosObject(DOS_FIB, cfinfo);
 
 	IExec->FreeVec(buffer);
 
 	if(config->copyflags & COPY_DATE)
 	{
-		setdate(dst, &(cfinfo->fib_Date));
+		IDOS->SetFileDate(dst, &(cfinfo->fib_Date));
 		dsp = &cfinfo->fib_Date;
 	}
 	else
@@ -184,7 +183,9 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	copy_datestamp(dsp, &dos_copy_date);
 
 	if(config->copyflags & COPY_PROT)
+	{
 		IDOS->SetProtection(dst, cfinfo->fib_Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
+	}
 	dos_copy_protection = cfinfo->fib_Protection;
 
 	if(config->copyflags & COPY_NOTE)

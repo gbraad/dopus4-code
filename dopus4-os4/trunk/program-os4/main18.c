@@ -201,7 +201,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					if(config->copyflags & COPY_DATE)
 					{
 						IDOpus->TackOn(ddir, myfinfo->fib_FileName, 512);
-						setdate(ddir, &myfinfo->fib_Date);
+						IDOS->SetFileDate(ddir, &myfinfo->fib_Date);
 						strcpy(ddir, dest);
 					}
 				}
@@ -245,7 +245,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 				else if(dowhat & R_DATESTAMP)
 				{
-					FOREVER
+					for(;;)
 					{
 						if((err = setdate(name, (struct DateStamp *)data)) != 1)
 						{
@@ -784,7 +784,7 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 			IDOS->UnLock(mylock);
 
 			if(config->copyflags & COPY_DATE)
-				setdate(dirname, &finfo->fib_Date);
+				IDOS->SetFileDate(dirname, &finfo->fib_Date);
 			if(config->copyflags & COPY_PROT)
 				IDOS->SetProtection(dirname, finfo->fib_Protection & (~FIBF_ARCHIVE));
 			if(config->copyflags & COPY_NOTE)
