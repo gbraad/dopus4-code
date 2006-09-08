@@ -457,13 +457,21 @@ int dopus_iconinfo(char *filename)
 {
 	struct Screen *infoscreen = NULL;
 	BPTR plock, flock = IDOS->Lock(filename, ACCESS_READ);
-	char buffer[108] = { 0, };
-	int a;
+	char buffer[108] = { 0, }, *a = NULL;
+	int ret = 1;
 
-/*	if(!flock)
+	if(!flock)
 	{
 		return(-1);
-	}*/
+	}
+
+	plock = IDOS->ParentDir(flock);
+	IDOS->UnLock(flock);
+
+	if(!plock)
+	{
+		return(-1);
+	}
 
 	if(MainScreen)
 	{
@@ -472,9 +480,38 @@ int dopus_iconinfo(char *filename)
 	else
 	{
 		infoscreen = IIntuition->LockPubScreen(NULL);
+		if (!infoscreen)
+		{
+			IDOS->UnLock(plock);
+			return(-2);
+		}
 	}
 
-	strcpy(buffer, filename);
+	strcpy(buffer, IDOS->FilePart(filename));
+	if((a = isicon(buffer)))
+	{
+		*a = '\0';
+		dostatustext(globstring[STR_SHOWING_FILE]);
+		if (!IWorkbench->WBInfo(plock, buffer, infoscreen))
+		{
+			ret = -4;
+		}
+	}
+	else
+	{
+		ret = -3;
+	}
+
+	if(!MainScreen)
+	{
+		IIntuition->UnlockPubScreen(NULL, infoscreen);
+	}
+
+	IDOS->UnLock(plock);
+
+	return(ret);
+
+/*	strcpy(buffer, filename);
 	a = strlen(buffer);
 	if(a > 5 && strcmp(&buffer[a - 5], ".info") == 0)
 	{
@@ -496,7 +533,7 @@ int dopus_iconinfo(char *filename)
 	{
 		IDOS->UnLock(flock);
 	}
-	return 0;
+	return 0;*/
 }
 
 void setup_externals()

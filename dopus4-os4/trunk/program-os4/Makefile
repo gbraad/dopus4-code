@@ -1,7 +1,8 @@
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
+TOUCH = touch
 
-OBJS = strings.o about.o arbiter.o archive.o assembly.o buffers.o\
+OBJS = strings.o arbiter.o archive.o assembly.o buffers.o\
 complete.o custom.o data.o dirtree.o doerror.o doidcmp.o\
 dopusfunctions.o getusage.o icondata.o iffload.o launchexternal.o main.o\
 main1.o main2.o main3.o main4.o main5.o main6.o main7.o main8.o main9.o\
@@ -18,20 +19,18 @@ autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
 autoinit_application_application.o autoinit_application_base.o autoinit_application_prefsobjects.o
 
-
 CFLAGS = -mcrt=clib2 -Wall -O3 -I../include-os4
-#CFLAGS = -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=clib2 -lauto -lm
-#LDFLAGS = -lauto -lm
 FLEXCAT = flexcat
 
-APPNAME = DirectoryOpus
+DirectoryOpus: about.o $(OBJS)
+	$(CC) -o $@.debug $^ $(LDFLAGS)
+	$(STRIP) -s $@.debug -o $@
+	@rm -f about.o
 
-all : $(APPNAME).debug
-
-$(APPNAME).debug : $(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS)
-	$(STRIP) -s $@ -o $(APPNAME)
+about.o: about.c dopus_rev.h
+	revbump DirectoryOpus
+	$(CC) -c $(CFLAGS) $< -o $@
 
 strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
 	$(FLEXCAT) ../catalogs/DOpus4.cd strings.c=strings_c.sd

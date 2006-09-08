@@ -28,7 +28,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#include "dopus_rev.h"
+#include "DirectoryOpus_rev.h"
 #include "dopus.h"
 
 #define DOPUS_VERSION  "4"
@@ -55,7 +55,7 @@ void about()
 {
 	char buf[1024] = { 0, };
 
-	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " DOPUS_VERSION "." DOPUS_REVISION " " DOPUS_BETAREV, "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
+	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " STR(VERSION) "." STR(REVISION) "." STR(SUBREVISION), "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);
 }
 
@@ -66,10 +66,10 @@ void give_version_info()
 
 //	sprintf(buf,globstring[STR_VERSION_CONTENTS],globstring[STR_VERSION_HEADER], 
 
-	sprintf(buf, "DirectoryOpus: %d.%d\n" \
+	sprintf(buf, "DirectoryOpus: %d.%d.%d\n" \
 		     "dopus.library: %ld.%ld\n\n" \
 		     "Compiled with: %s\n" \
 		     "Compilation date: %s\n" \
-		     "Compilation time: %s\n", VERSION, REVISION, ver, rev, compiler, comp_date, comp_time);
+		     "Compilation time: %s\n", VERSION, REVISION, SUBREVISION, ver, rev, compiler, comp_date, comp_time);
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);
 }

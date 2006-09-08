@@ -48,7 +48,7 @@ STR_DEVICE_LIST (//)
 Device list\n\n
 ;
 STR_NO_CHIP_FOR_ICON (//)
-Not enough chip memory to display icon
+Cannot load icon
 ;
 STR_FILE_NOT_ILBM (//)
 File is not ILBM

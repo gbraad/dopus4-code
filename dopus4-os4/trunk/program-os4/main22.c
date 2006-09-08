@@ -1441,10 +1441,37 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				okayflag = 1;
 				a = dopus_iconinfo(sourcename);
+				switch(a)
+				{
+					case -1:
+						doerror(-1);
+						file = NULL;
+						break;
+					case -2:
+						dostatustext(globstring[STR_ERROR_OCCURED]);
+						file=NULL;
+						break;
+					case -3:
+						dostatustext(globstring[STR_CANT_FIND_ICON]);
+						file=NULL;
+						break;
+					case -4:
+						dostatustext(globstring[STR_NO_CHIP_FOR_ICON]);
+						file=NULL;
+						break;
+					case 1:
+					default:
+						okayflag = 1;
+						show = act;
+						break;
+				}
 			}
 			break;
+/*				okayflag = 1;
+				a = dopus_iconinfo(sourcename);
+			}
+			break;*/
 		case FUNC_PLAY8SVX:
 		case FUNC_LOOPPLAY8SVX:
 			if(file->type >= ENTRY_DEVICE || file->size < 1)
@@ -2153,7 +2180,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_RENAME:
 	case FUNC_MOVE:
 	case FUNC_ADDICON:
-	case FUNC_ICONINFO:
+//	case FUNC_ICONINFO:  // Directory won't be rescanned if uncommented.
 		update_buffer_stamp(act, 1);
 		break;
 	case FUNC_COPYAS:

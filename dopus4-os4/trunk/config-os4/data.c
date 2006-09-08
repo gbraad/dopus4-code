@@ -29,9 +29,11 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "config.h"
-#define VERSION "4.17a"
+#include "ConfigOpus_rev.h"
 
-char *version = "$VER: ConfigOpus " VERSION " (" __DATE__ ") OS4";
+//#define VERSION "4.17a"
+
+const char * const version __attribute ((used)) = VERSTAG " OS4"; //"$VER: ConfigOpus " VERSION " (" __DATE__ ") OS4";
 
 UWORD drawinfo[] =
 {
@@ -59,7 +61,7 @@ struct TagItem scr_taglist[] =
 
 struct ExtNewScreen configscr =
 {
-	0, 0, 800, 600, 0, 0, 1, 0 /*HIRES*/, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, "ConfigOpus " VERSION, NULL, NULL, scr_taglist
+	0, 0, 800, 600, 0, 0, 1, 0 /*HIRES*/, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, VERS, NULL, NULL, scr_taglist
 };
 
 struct NewWindow configwin =
