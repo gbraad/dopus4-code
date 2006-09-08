@@ -13,6 +13,11 @@ All : DOpus_Print
 DOpus_Print : $(OBJS)
 	$(CC) $^ -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
+	@rm -f data.o
+
+data.o: data.c DOpus_Print_rev.h
+	revbump DOpus_Print
+	$(CC) -c $(CFLAGS) $< -o $@
 
 printstrings.h: ../catalogs/DOpus4_Print.cd printstrings_h.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Print.cd printstrings.h=printstrings_h.sd

@@ -29,8 +29,9 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "print.h"
+#include "DOpus_Print_rev.h"
 
 struct Library *DOpusBase = NULL;
 struct DOpusIFace *IDOpus = NULL;
 
-static const char *version __attribute__ ((used)) = "$VER: DOpus_Print 1.31 (" __DATE__ ") OS4";
+static const char *version __attribute__ ((used)) = VERSTAG " OS4";
