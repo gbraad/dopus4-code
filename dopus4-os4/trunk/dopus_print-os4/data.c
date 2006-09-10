@@ -34,4 +34,4 @@ the existing commercial status of Directory Opus 5.
 struct Library *DOpusBase = NULL;
 struct DOpusIFace *IDOpus = NULL;
 
-static const char *version __attribute__ ((used)) = VERSTAG " OS4";
+static const char *version __attribute__ ((used)) = NEW_VERSTAG " OS4";

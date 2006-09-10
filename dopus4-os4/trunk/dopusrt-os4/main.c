@@ -51,7 +51,7 @@ void WBRun(int, char **);
 int setarg(struct WBArg *, char *, BPTR);
 BPTR CloneCommandDir(const char *);
 
-static const char version[] __attribute__ ((used)) = VERSTAG " OS4";
+static const char version[] __attribute__ ((used)) = NEW_VERSTAG " OS4";
 
 static const char *pathlists[7] =
 {

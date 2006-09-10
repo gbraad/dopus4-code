@@ -48,14 +48,14 @@ the existing commercial status of Directory Opus 5.
   #endif
 #endif
 
-static const char * const version __attribute__ ((used)) = VERSTAG " OS4";
+static const char * const version __attribute__ ((used)) = NEW_VERSTAG " OS4";
 STRPTR comp_date = __DATE__, comp_time = __TIME__;
 
 void about()
 {
 	char buf[1024] = { 0, };
 
-	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " STR(VERSION) "." STR(REVISION) "." STR(SUBREVISION), "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
+	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " VERSION_STR "." REVISION_STR "." SUBREVISION_STR, "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);
 }
 

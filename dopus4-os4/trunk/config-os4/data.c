@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 
 //#define VERSION "4.17a"
 
-const char * const version __attribute ((used)) = VERSTAG " OS4"; //"$VER: ConfigOpus " VERSION " (" __DATE__ ") OS4";
+const char * const version __attribute ((used)) = NEW_VERSTAG " OS4"; //"$VER: ConfigOpus " VERSION " (" __DATE__ ") OS4";
 
 UWORD drawinfo[] =
 {

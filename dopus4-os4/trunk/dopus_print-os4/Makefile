@@ -8,16 +8,9 @@ OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
 
 FLEXCAT = flexcat
 
-All : DOpus_Print
-
-DOpus_Print : $(OBJS)
-	$(CC) $^ -o $@.debug $(LDFLAGS)
+DOpus_Print : printstrings.h strings.c $(OBJS)
+	$(CC) $(OBJS) -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
-	@rm -f data.o
-
-data.o: data.c DOpus_Print_rev.h
-	revbump DOpus_Print
-	$(CC) -c $(CFLAGS) $< -o $@
 
 printstrings.h: ../catalogs/DOpus4_Print.cd printstrings_h.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Print.cd printstrings.h=printstrings_h.sd
@@ -25,5 +18,9 @@ printstrings.h: ../catalogs/DOpus4_Print.cd printstrings_h.sd
 strings.c: ../catalogs/DOpus4_Print.cd printstrings.h strings_c.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Print.cd strings.c=strings_c.sd
 
+revision:
+	revbump DOpus_Print sub
+
 clean:
 	@rm -rf *.o DOpus_Print DOpus_Print.debug
+	@rm -rf printstrings.h strings.c

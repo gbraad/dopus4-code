@@ -11,23 +11,14 @@ FLEXCAT = flexcat
 
 OBJS = main.o main1.o main2.o main3.o main4.o main5.o\
 screen.o screen_arrows.o screen_colors.o screen_fonts.o screen_palette.o \
-screen_sliders.o screen_screenmode.o \
+screen_sliders.o screen_screenmode.o data.o\
 main7.o main8.o main9.o gadgets.o strings.o paint_mode.o\
 chipdata.o swapmem.o\
 autoinit_layers_base.o autoinit_layers_main.o
 
-APPNAME = ConfigOpus
-
-all : $(APPNAME)
-
-$(APPNAME) : data.o $(OBJS)
-	$(CC) -o $@.debug $^ $(LDFLAGS)
+ConfigOpus: configstrings.h strings.c $(OBJS)
+	$(CC) -o $@.debug $(OBJS) $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
-	@rm -f data.o
-
-data.o: data.c ConfigOpus_rev.h
-	revbump ConfigOpus
-	$(CC) -c $(CFLAGS) $< -o $@
 
 configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd
@@ -35,5 +26,9 @@ configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
 strings.c: ../catalogs/DOpus4_Config.cd configstrings.h strings_c.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Config.cd strings.c=strings_c.sd
 
+revision:
+	revbump ConfigOpus sub
+
 clean:
 	@rm -f *.o ConfigOpus ConfigOpus.debug
+	@rm -f configstrings.h strings.c
