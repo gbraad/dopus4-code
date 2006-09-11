@@ -20,6 +20,8 @@ ConfigOpus: configstrings.h strings.c $(OBJS)
 	$(CC) -o $@.debug $(OBJS) $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
+data.o: data.c ConfigOpus_rev.h
+
 configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd
 

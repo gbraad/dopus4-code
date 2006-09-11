@@ -12,6 +12,8 @@ DOpus_Print : printstrings.h strings.c $(OBJS)
 	$(CC) $(OBJS) -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
+data.o: data.c DOpus_Print_rev.h
+
 printstrings.h: ../catalogs/DOpus4_Print.cd printstrings_h.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Print.cd printstrings.h=printstrings_h.sd
 

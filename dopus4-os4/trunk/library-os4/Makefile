@@ -74,9 +74,6 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/CreateGadgetBorders.c main/SelectGadget.c main/FSSetMenuStrip.c \
     main/extras.c main/data.c
 
-#    main/StrConcat.c main/BtoCStr.c main/Assign.c \
-#    main/PathName.c main/SendPacket.c main/TackOn.c main/StampToStr.c \
-
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 # Rules for building
 $(TARGET): $(OBJS)
@@ -89,5 +86,6 @@ clean:
 
 .PHONY: revision
 revision:
-	bumprev $(VERSION) $(TARGET)
+#	bumprev $(VERSION) $(TARGET)
+	revbump $(TARGET)
 
