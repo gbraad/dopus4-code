@@ -10,9 +10,11 @@ endif
 
 all: $(BUMPREV) DOpusRT
 
-DOpusRT: main.o DOpusRT_rev.h
+DOpusRT: main.o
 	$(CC) -o $@.debug $< $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
+
+main.o: main.c DOpusRT_rev.h
 
 revision:
 	revbump DOpusRT $(REVISE)
