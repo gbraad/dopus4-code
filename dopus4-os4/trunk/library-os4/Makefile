@@ -43,6 +43,10 @@ VERSION = 51
 
 SRCS = init.c
 
+ifdef REVISE
+BUMPREV:= revision
+endif
+
 # -------------------------------------------------------------
 # Nothing should need changing below this line
 
@@ -76,9 +80,11 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
 
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 # Rules for building
-$(TARGET): $(OBJS)
+$(TARGET): $(BUMPREV) $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET).debug $(OBJS) $(LIBS)
 	$(STRIP) -s $(TARGET).debug -o $(TARGET)
+
+init.o: init.c dopus.library_rev.h
 
 .PHONY: clean
 clean:
@@ -87,5 +93,5 @@ clean:
 .PHONY: revision
 revision:
 #	bumprev $(VERSION) $(TARGET)
-	revbump $(TARGET)
+	revbump $(TARGET) $(REVISE)
 

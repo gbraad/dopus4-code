@@ -31,12 +31,6 @@ the existing commercial status of Directory Opus 5.
 #include "DirectoryOpus_rev.h"
 #include "dopus.h"
 
-#define DOPUS_VERSION  "4"
-#define DOPUS_REV      "17"
-#define DOPUS_BETAREV  "pre19"
-
-#define DOPUS_REVISION DOPUS_REV
-
 #define STR(x)  STR2(x)
 #define STR2(x) #x
 

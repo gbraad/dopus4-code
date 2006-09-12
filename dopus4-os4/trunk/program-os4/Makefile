@@ -23,6 +23,12 @@ CFLAGS = -mcrt=clib2 -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=clib2 -lauto -lm
 FLEXCAT = flexcat
 
+ifdef REVISE
+BUMPREV:= revision
+endif
+
+all: $(BUMPREV) DirectoryOpus
+
 DirectoryOpus: $(OBJS)
 	$(CC) -o $@.debug $^ $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
@@ -35,8 +41,9 @@ strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
 dopusstrings.h: ../catalogs/DOpus4.cd dopusstrings_h.sd
 	$(FLEXCAT) ../catalogs/DOpus4.cd dopusstrings.h=dopusstrings_h.sd
 
+.PHONY: revision
 revision:
-	revbump DirectoryOpus sub
+	revbump DirectoryOpus $(REVISE)
 
 clean:
 	@rm -f *.o $(APPNAME) $(APPNAME).debug

@@ -8,6 +8,12 @@ OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
 
 FLEXCAT = flexcat
 
+ifdef REVISE
+BUMPREV:= revision
+endif
+
+all: $(BUMPREV) DOpus_Print
+
 DOpus_Print : printstrings.h strings.c $(OBJS)
 	$(CC) $(OBJS) -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
@@ -21,7 +27,7 @@ strings.c: ../catalogs/DOpus4_Print.cd printstrings.h strings_c.sd
 	$(FLEXCAT) ../catalogs/DOpus4_Print.cd strings.c=strings_c.sd
 
 revision:
-	revbump DOpus_Print sub
+	revbump DOpus_Print $(REVISE)
 
 clean:
 	@rm -rf *.o DOpus_Print DOpus_Print.debug

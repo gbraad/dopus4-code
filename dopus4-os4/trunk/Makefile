@@ -1,5 +1,15 @@
 # Master Dopus makefile
 
+ifeq ($(findstring ver, $(MAKECMDGOALS)),ver)
+export REVISE:= ver
+endif
+ifeq ($(findstring rev, $(MAKECMDGOALS)),rev)
+export REVISE:= rev
+endif
+ifeq ($(findstring sub, $(MAKECMDGOALS)),sub)
+export REVISE:= sub
+endif
+
 all : config dopusrt print library program
 
 .PHONY : config
@@ -44,3 +54,13 @@ clean-lib:
 .PHONY : clean-prog
 clean-prog:
 	$(MAKE) -C program-os4 clean
+
+# Dummy target to quietly dispose of revision
+# commands if one is entered as a goal for "make"
+# on the command line (like: make rev all).
+
+.PHONY : ver rev sub
+ver: sub
+rev: sub
+sub:
+	-@echo -n
