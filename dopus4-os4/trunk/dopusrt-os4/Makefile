@@ -6,6 +6,8 @@ LDFLAGS = -mcrt=clib2 -lauto
 
 ifdef REVISE
 BUMPREV:= revision
+else
+REVISE = sub
 endif
 
 all: $(BUMPREV) DOpusRT

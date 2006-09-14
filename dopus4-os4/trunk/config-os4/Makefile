@@ -11,6 +11,8 @@ FLEXCAT = flexcat
 
 ifdef REVISE
 BUMPREV:= revision
+else
+REVISE = sub
 endif
 
 OBJS = main.o main1.o main2.o main3.o main4.o main5.o\

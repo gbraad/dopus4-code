@@ -25,6 +25,8 @@ FLEXCAT = flexcat
 
 ifdef REVISE
 BUMPREV:= revision
+else
+REVISE = sub
 endif
 
 all: $(BUMPREV) DirectoryOpus

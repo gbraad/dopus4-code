@@ -1,14 +1,42 @@
 # Master Dopus makefile
 
-ifeq ($(findstring ver, $(MAKECMDGOALS)),ver)
+# Read revision arguments from the "Make" command line:
+# Acceptable arguments are ver, rev, sub, revision or touch.
+ifeq ($(findstring ver, $(MAKECMDGOALS)),ver) #bump version
 export REVISE:= ver
 endif
-ifeq ($(findstring rev, $(MAKECMDGOALS)),rev)
+ifeq ($(findstring rev, $(MAKECMDGOALS)),rev) #bump revision
 export REVISE:= rev
 endif
-ifeq ($(findstring sub, $(MAKECMDGOALS)),sub)
+ifeq ($(findstring sub, $(MAKECMDGOALS)),sub) #bump subrevision
 export REVISE:= sub
 endif
+ifeq ($(filter touch, $(MAKECMDGOALS)),touch) #Update compile date
+export REVISE:= touch
+endif
+
+# Read default revision argument from environmental variable
+# DOPUSREVDEFAULT if no arguments entered on "Make" command line.
+# Possible settings are ver, rev, sub or touch.
+ifndef REVISE
+ifdef DOPUSREVDEFAULT
+
+ifeq ($(filter ver, $(DOPUSREVDEFAULT)),ver) #bump version
+export REVISE:= ver
+endif
+ifeq ($(filter rev, $(DOPUSREVDEFAULT)),rev) #bump revision
+export REVISE:= rev
+endif
+ifeq ($(filter sub, $(DOPUSREVDEFAULT)),sub) #bump subrevision
+export REVISE:= sub
+endif
+ifeq ($(filter touch, $(DOPUSREVDEFAULT)),touch) #Update compile date
+export REVISE:= touch
+endif
+
+endif
+endif
+
 
 all : config dopusrt print library program
 
@@ -62,5 +90,5 @@ clean-prog:
 .PHONY : ver rev sub
 ver: sub
 rev: sub
-sub:
+sub: 
 	-@echo -n
