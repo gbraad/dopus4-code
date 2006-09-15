@@ -67,11 +67,15 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	char name[256];
 
 	if(!(config = cstuff->config))
+	{
 		return (0);
+	}
 	Self->FreeConfig(cstuff);
 
 	if((Self->FindSystemFile("DirectoryOpus.DefCFG", name, 256, SYSFILE_DATA)) && (Self->ReadConfig(name, cstuff)) == 1)
+	{
 		return (1);
+	}
 
 	/* Operation */
 	config->copyflags = COPY_DATE | COPY_PROT | COPY_NOTE;
@@ -85,9 +89,13 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	for(h = 0; h < 2; h++)
 	{
 		for(i = 0; i < 5; i++)
+		{
 			config->displaypos[h][i] = i;
+		}
 		for(i = 5; i < 16; i++)
+		{
 			config->displaypos[h][i] = -1;
+		}
 		config->displaylength[h][DISPLAY_NAME] = 32 * 8;
 		config->displaylength[h][DISPLAY_COMMENT] = 40 * 8;
 		config->displaylength[h][DISPLAY_FILETYPE] = 16 * 8;
@@ -103,7 +111,7 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	/* System */
 	Self->LStrCpy(config->outputcmd, "NewCLI");
-	Self->LStrCpy(config->output, "CON:20/10/600/180/Directory Opus Output/CLOSE");
+	Self->LStrCpy(config->output, "CON:0/16/1024/500/Directory Opus Output/CLOSE");
 	Self->LStrCpy(config->shellstartup, "Shell-Startup");
 	config->priority = 0;
 
@@ -151,9 +159,9 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 		config->arrowpos[a] = 2;
 		config->arrowsize[a] = 8;
 	}
-	config->sliderwidth = 10;
-	config->sliderheight = 7;
-	config->stringheight = 8;
+	config->sliderwidth = 16; //10;
+	config->sliderheight = 16; //7;
+	config->stringheight = 18; //8;
 
 	config->statusfg = 1;
 	config->statusbg = 0;
@@ -186,11 +194,19 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	config->stringselfgcol = 1;
 	config->stringselbgcol = 4;
 
-	for(i = 0; i < NUMFONTS; i++)
+/*	for(i = 0; i < NUMFONTS; i++)
 	{
 		config->fontsizes[i] = 8;
 		Self->LStrCpy(config->fontbufs[i], "topaz.font");
+	}*/
+
+	for(i = 0; i < NUMFONTS; i++)
+	{
+		config->fontsizes[i] = 16;
+		Self->LStrCpy(config->fontbufs[i], "Bitstream Vera Sans Mono.font");
 	}
+	config->fontsizes[0] = 8;
+	Self->LStrCpy(config->fontbufs[0], "topaz.font");
 
 	config->generalscreenflags = SCR_GENERAL_TINYGADS | SCR_GENERAL_INDICATERMB | SCR_GENERAL_REQDRAG | SCR_GENERAL_WINBORDERS;
 
@@ -205,8 +221,8 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	config->scr_winx = 0;
 	config->scr_winy = 0;
-	config->scr_winw = -1;
-	config->scr_winh = -1;
+	config->scr_winw = 800; //-1;
+	config->scr_winh = 600; //-1;
 
 	/* Misc Stuff */
 	config->gadgetrows = 6;
@@ -285,7 +301,9 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	Self->LStrCpy(config->menutit[0], "Project");
 	Self->LStrCpy(config->menutit[1], "Function");
 	for(i = 2; i < 5; i++)
+	{
 		config->menutit[i][0] = 0;
+	}
 
 	for(i = 0; i < 9; i++)
 	{
@@ -335,8 +353,10 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 					type->which[b] = deftype_which[i][a];
 					type->delay[b] = deftype_delay[i][a];
 					type->stack[b] = 4000;
-					if(type->function[b] = Self->LAllocRemember(&cstuff->typekey, strlen(deftype_funcs[i][a]) + 1, 0))
+					if((type->function[b] = Self->LAllocRemember(&cstuff->typekey, strlen(deftype_funcs[i][a]) + 1, 0)))
+					{
 						Self->LStrCpy(type->function[b], deftype_funcs[i][a]);
+					}
 				}
 			}
 			linkinnewfiletype(cstuff, type);
