@@ -202,8 +202,6 @@ int main(int argc, char **argv)
 			dos_notify_req[a]->nr_Name = dos_notify_names[a];
 	}
 
-	ramdisk_lock = Lock("RAM:", ACCESS_READ);
-
 	strcpy(str_select_pattern[0], "#?"); //"*");
 	strcpy(str_select_pattern[3], "#?"); //"*");
 

@@ -87,8 +87,6 @@ void quit()
 	if(user_appicon)
 		FreeDiskObject(user_appicon);
 
-	UnLock(ramdisk_lock);
-
 	if(func_reselection.reselection_list)
 		FreeMem(func_reselection.reselection_list, func_reselection.reselection_size);
 	DeleteMsgPort(count_port);

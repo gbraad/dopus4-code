@@ -90,7 +90,6 @@ struct IOStdReq *input_req /*=NULL*/ ;		/* Input IO Request block */
 
 /* DOS objects */
 
-BPTR ramdisk_lock /*=0*/ ;			/* Lock on RAM: */
 APTR windowptr_save /*=NULL*/ ;			/* Saved Window Pointer */
 LONG nil_file_handle /*=0*/ ;			/* Handle on the NIL: device */
 
