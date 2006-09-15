@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 QUAD bytes(STRPTR name, QUAD *total, int *block)
 {
 	struct InfoData infodata;
-	BPTR mylock, testlock;
+	BPTR mylock;
 	QUAD free = -1;
 
 	if(!(mylock = Lock(name, ACCESS_READ)))
@@ -43,28 +43,6 @@ QUAD bytes(STRPTR name, QUAD *total, int *block)
 		return (0);
 	}
 	Info(mylock, &infodata);
-
-	if (infodata.id_NumBlocks == infodata.id_NumBlocksUsed)
-	{
-		BPTR lock = Lock("RAM:", ACCESS_READ);
-
-		if (lock)
-		{
-			testlock = DupLock(mylock);
-			testlock = getrootlock(testlock);
-			if(SameLock(testlock, lock) == LOCK_SAME)
-				free = AvailMem(0);
-			UnLock(testlock);
-			UnLock(lock);
-			if(free > -1)
-			{
-				*total = free;
-				*block = free / infodata.id_BytesPerBlock;
-				UnLock(mylock);
-				return (free);
-			}
-		}
-	}
 	*total = ((QUAD)infodata.id_BytesPerBlock) * infodata.id_NumBlocks;
 	free = *total - (infodata.id_BytesPerBlock * ((QUAD)infodata.id_NumBlocksUsed));
 	*block = infodata.id_NumBlocks - infodata.id_NumBlocksUsed;

@@ -2090,10 +2090,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			else
 			{
 				Info(filelock, &infodata);
-				if(ramdisk_lock && SameLock(filelock, ramdisk_lock) != LOCK_DIFFERENT)
-					value = AvailMem(0);
-				else
-					value = (infodata.id_NumBlocks - infodata.id_NumBlocksUsed) * (long long)blocksize;
+				value = (infodata.id_NumBlocks - infodata.id_NumBlocksUsed) * (long long)blocksize;
 				UnLock(filelock);
 			}
 			if(config->errorflags & ERROR_ENABLE_DOS)

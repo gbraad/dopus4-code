@@ -76,7 +76,6 @@ struct MsgPort *hotkeymsg_port /*=NULL*/ ;	/* Messages to the hotkey task */
 
 /* DOS objects */
 
-BPTR ramdisk_lock /*=0*/ ;			/* Lock on RAM: */
 APTR windowptr_save /*=NULL*/ ;			/* Saved Window Pointer */
 LONG nil_file_handle /*=0*/ ;			/* Handle on the NIL: device */
 

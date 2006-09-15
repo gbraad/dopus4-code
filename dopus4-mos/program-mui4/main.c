@@ -188,8 +188,6 @@ int main(int argc, char **argv)
 			dos_notify_req[a]->nr_Name = dos_notify_names[a];
 	}
 
-	ramdisk_lock = Lock("RAM:", ACCESS_READ);
-
 	strcpy(str_select_pattern[0], "#?"); //"*");
 	strcpy(str_select_pattern[3], "#?"); //"*");
 
@@ -315,8 +313,8 @@ int SetUp(int tit)
 		SetTaskPri(hotkey_task, config->priority + 1);
 	status_configuring = -1;
 
-	main_scr.ViewModes = 0; //HIRES;
-	config->screenmode = checkscreenmode(config->screenmode);
+	main_scr.ViewModes = 0;
+	config->screenmode = config->screenmode;
 
 	main_win.Flags = WFLG_NW_EXTENDED;
 	mainwindow_tags[0].ti_Tag = TAG_SKIP;
@@ -644,9 +642,7 @@ tryfonts:
 	scrdata_gadget_offset += scrdata_xoffset;
 	scrdata_gadget_xpos = scrdata_gadget_offset + scrdata_drive_width;
 
-	if(config->generalscreenflags&SCR_GENERAL_NEWLOOKPROP)
 	{
-		status_flags |= STATUS_NEWLOOK;
 		for(a = 0; a < 2; a++)
 		{
 			vert_propinfo[a].Flags = AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
@@ -655,21 +651,9 @@ tryfonts:
 		drive_propinfo.Flags |= AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
 		gadget_propinfo.Flags |= AUTOKNOB | PROPNEWLOOK | FREEVERT | PROPBORDERLESS;
 	}
-	else
-	{
-		status_flags &= ~STATUS_NEWLOOK;
-		for(a = 0; a < 2; a++)
-		{
-			vert_propinfo[a].Flags=FREEVERT|PROPBORDERLESS;
-			horiz_propinfo[a].Flags=FREEHORIZ|PROPBORDERLESS;
-		}
-		drive_propinfo.Flags=FREEVERT|PROPBORDERLESS;
-		gadget_propinfo.Flags=FREEVERT|PROPBORDERLESS;
-	}
 
 	if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS && scr_gadget_rows)
 	{
-
 		if(scrdata_drive_width > 0)
 		{
 			scrdata_gadget_xpos += drive_propgad.Width + 8;
@@ -691,9 +675,6 @@ tryfonts:
 			gadget_propimage.Height = gadget_propgad.Height;
 			FixSliderBody(NULL, &gadget_propgad, scr_gadget_bank_count, 1, 0);
 		}
-
-		if(status_flags & STATUS_NEWLOOK)
-			gadget_propimage.Height = 0;
 	}
 
 	if(tit > -1)
@@ -902,11 +883,6 @@ tryfonts:
 			size_gadgets[1].Width = 33;
 			size_gadgets[1].Height = Window->BorderBottom + 1;
 		}
-
-		if((Window->WScreen->Width / Window->WScreen->Height) == 1)
-			status_flags |= STATUS_SQUAREPIXEL;
-		else
-			status_flags &= ~STATUS_SQUAREPIXEL;
 
 		if(config->generalflags & GENERAL_DRAG)
 			allocdragbuffers();
@@ -1147,51 +1123,10 @@ char *astring(int len)
 
 void allocdragbuffers()
 {
-	int a, w;
-
-	freedragbuffers();
-	drag_sprite.Depth = Window->WScreen->RastPort.BitMap->Depth;
-
-	a = 35;
-	w = (gettextlength(scr_font[FONT_DIRS], str_space_string, &a, 0) + 15);
-	a = (scrdata_dispwin_width[0] > scrdata_dispwin_width[1]) ? scrdata_dispwin_width[0] : scrdata_dispwin_width[1];
-	if(w > a)
-		w = a;
-	drag_sprite.Width = w / 16;
-	drag_sprite.Height = scr_font[FONT_DIRS]->tf_YSize;
-
-	if(!(drag_bob_buffer = AllocRaster(drag_sprite.Width * 16, drag_sprite.Height * drag_sprite.Depth)))
-		return;
-	if(!(drag_bob_savebuffer = AllocRaster(drag_sprite.Width * 16, drag_sprite.Height * drag_sprite.Depth)))
-	{
-		freedragbuffers();
-		return;
-	}
-
-	InitBitMap(&drag_bob_bitmap, drag_sprite.Depth, drag_sprite.Width * 16, drag_sprite.Height);
-	for(a = 0; a < drag_sprite.Depth; a++)
-	{
-		drag_bob_bitmap.Planes[a] = drag_bob_buffer + (RASSIZE(drag_sprite.Width * 16, drag_sprite.Height) * a);
-	}
-	for(; a < 8; a++)
-		drag_bob_bitmap.Planes[a] = NULL;
-
-	InitRastPort(&drag_bob_rastport);
-	drag_bob_rastport.BitMap = &drag_bob_bitmap;
-	SetFont(&drag_bob_rastport, scr_font[FONT_DIRS]);
-	SetDrMd(&drag_bob_rastport, JAM1);
-	drag_sprite.ImageData = (WORD *) drag_bob_buffer;
-	drag_sprite.PlanePick = (1 << drag_sprite.Depth) - 1;
-	drag_bob.SaveBuffer = (WORD *) drag_bob_savebuffer;
 }
 
 void freedragbuffers()
 {
-	if(drag_bob_buffer)
-		FreeRaster(drag_bob_buffer, drag_sprite.Width * 16, drag_sprite.Height * drag_sprite.Depth);
-	if(drag_bob_savebuffer)
-		FreeRaster(drag_bob_savebuffer, drag_sprite.Width * 16, drag_sprite.Height * drag_sprite.Depth);
-	drag_bob_buffer = drag_bob_savebuffer = NULL;
 }
 
 void read_configuration(int def)

@@ -78,8 +78,6 @@ void quit()
 	}
 	#endif
 
-	UnLock(ramdisk_lock);
-
 	if(func_reselection.reselection_list)
 		FreeMem(func_reselection.reselection_list, func_reselection.reselection_size);
 	DeleteMsgPort(count_port);
