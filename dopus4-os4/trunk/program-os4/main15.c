@@ -33,12 +33,13 @@ the existing commercial status of Directory Opus 5.
 
 void ftype_doubleclick(char *path, char *name, int state)
 {
-	int in, a, b, dodef = 0, size;
+	int a, b, dodef = 0, size;
 	ULONG threelongs[3];
 	char buf[256], buf2[256];
 	struct dopusfiletype *type;
 	struct dopusfuncpar par;
 	struct Directory *file;
+	APTR dto = NULL;
 
 	strcpy(buf, path);
 	IDOpus->TackOn(buf, name, 256);
@@ -146,36 +147,28 @@ void ftype_doubleclick(char *path, char *name, int state)
 			okay();
 		return;
 	}
-	if(!(in = IDOS->Open(buf, MODE_OLDFILE)))
+
+	if((dto = IDataTypes->NewDTObject(buf, DTA_GroupID, GID_PICTURE, TAG_END)))
 	{
-		doerror(-1);
+		dostatustext(globstring[STR_SHOWING_FILE]);
+		strcpy(func_single_file, name);
+		a = showpic(buf, 1);
+		if(a)
+		{
+			okay();
+		}
+		func_single_file[0] = 0;
+		IDataTypes->DisposeDTObject(dto);
 		return;
 	}
-	IDOS->Read(in, (char *)threelongs, sizeof(threelongs));
-	IDOS->Close(in);
-
-	if(threelongs[0] == ID_FORM)
+	if((dto = IDataTypes->NewDTObject(buf, DTA_GroupID, GID_SOUND, TAG_END)))
 	{
-		if(threelongs[2] == ID_8SVX)
-		{
-			dostatustext(globstring[STR_PLAYING_FILE]);
-			strcpy(func_single_file, name);
-			a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
-			func_single_file[0] = 0;
-			return;
-		}
-		else if(threelongs[2] == ID_ILBM || threelongs[2] == ID_ANIM)
-		{
-			dostatustext(globstring[(threelongs[2] == ID_ILBM) ? STR_SHOWING_FILE : STR_PLAYING_ANIM]);
-			strcpy(func_single_file, name);
-			a = showpic(buf, 1);
-			if(a)
-			{
-				okay();
-			}
-			func_single_file[0] = 0;
-			return;
-		}
+		dostatustext(globstring[STR_PLAYING_FILE]);
+		strcpy(func_single_file, name);
+		a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
+		func_single_file[0] = 0;
+		IDataTypes->DisposeDTObject(dto);
+		return;
 	}
 
 	a = strlen(name);
