@@ -29,6 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
+#include "DirectoryOpus_rev.h"
 
 #define HOTKEY_UNICONIFY   1
 #define HOTKEY_ABORT     3
@@ -741,7 +742,7 @@ void clocktask()
 	}
 
 	if(!(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME)))
-		sprintf(formstring, "Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
+		sprintf(formstring, NEW_VSTRING); //"Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
 
 	sig = 1 << clock_time_port->mp_SigBit | 1 << clockmsg_port->mp_SigBit;
 

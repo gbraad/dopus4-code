@@ -115,7 +115,7 @@ int LoadPic(char *name)
 	return (retcode);
 }
 
-int WaitForMouseClick(int tits, struct Window *wind)
+int WaitForMouseClick(struct Window *wind)
 {
 	struct IntuiMessage *msg;
 	ULONG class;
@@ -123,7 +123,9 @@ int WaitForMouseClick(int tits, struct Window *wind)
 	int ticks = 0, waitfor = 0, waitbits, retcode = 1;
 
 	while((msg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort)))
+	{
 		IExec->ReplyMsg((struct Message *)msg);
+	}
 	waitbits = 1 << wind->UserPort->mp_SigBit;
 
 	for(;;)
@@ -143,7 +145,7 @@ int WaitForMouseClick(int tits, struct Window *wind)
 			case IDCMP_RAWKEY:
 				switch (code)
 				{
-				case 0x45:	// ESC
+				case RAWKEY_ESC:
 					retcode = -1;
 					break;
 				}

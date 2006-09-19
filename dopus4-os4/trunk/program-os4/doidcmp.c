@@ -444,7 +444,7 @@ void doidcmp()
 					if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS)
 					{
 						doposdriveprop();
-						FOREVER
+						for(;;)
 						{
 							IExec->Wait(1 << Window->UserPort->mp_SigBit);
 							class = 0;
@@ -453,12 +453,18 @@ void doidcmp()
 								class = IMsg->Class;
 								IExec->ReplyMsg((struct Message *)IMsg);
 								if(class == IDCMP_MOUSEMOVE)
+								{
 									doposdriveprop();
+								}
 								else if(class == IDCMP_GADGETUP)
+								{
 									break;
+								}
 							}
 							if(class == IDCMP_GADGETUP)
+							{
 								break;
+							}
 						}
 						doposdriveprop();
 					}
@@ -467,7 +473,7 @@ void doidcmp()
 				case SCRGAD_GADGETPROP:
 					if(config->generalscreenflags & SCR_GENERAL_GADSLIDERS)
 					{
-						FOREVER
+						for(;;)
 						{
 							doposgadgetprop(0);
 							if(getintuimsg())

@@ -341,7 +341,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 									func->key = 0xff;
 									func->qual = 0;
 								}
-								showkey(~0, 0, x_off + 130, y_off + 55, 374, 10);
+								showkey(/*~*/0, 0, x_off + 130, y_off + 55, 374, 10);
 							}
 							editfuncgadgets[1].Flags &= ~GFLG_SELECTED;
 							help_ok = 1;
@@ -883,14 +883,17 @@ void drawcompbox(struct RastPort *r, int x1, int y1, int w, int h)
 
 void showkey(USHORT key, USHORT qual, int x, int y, int w, int h)
 {
-	char buf[60];
+	char buf[60] = { 0, };
 	int a, l;
 
 	IDOpus->Do3DBox(rp, x, y, w, h, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
 	IGraphics->SetAPen(rp, screen_pens[0].pen);
 	IGraphics->RectFill(rp, x, y, x + w - 1, y + h - 1);
 	IGraphics->SetAPen(rp, screen_pens[1].pen);
-//    if (key==0) key=255;
+	if(key == 0)
+	{
+		key = 255;
+	}
 	if(IDOpus->RawkeyToStr(key, qual, buf, NULL, 60))
 	{
 		l = w / 8;

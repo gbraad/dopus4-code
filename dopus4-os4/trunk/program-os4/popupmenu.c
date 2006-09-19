@@ -29,10 +29,6 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-//#define NO_INLINE_STDARG
-//#define _NO_PPCINLINE
-//#define NO_PPCINLINE_STDARG
-#include <proto/pm.h>
 
 enum SortBy
 {

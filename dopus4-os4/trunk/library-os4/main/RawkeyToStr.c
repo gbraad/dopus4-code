@@ -80,7 +80,8 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 		if(code & IECODE_UP_PREFIX)
 			code -= 0x80;
 		if(code >= 0x50 && code <= 0x59)
-			IUtility->SNPrintf(cbuf, 20, "F%ld", code - 0x4f);
+//			IUtility->SNPrintf(cbuf, 20, "F%ld", code - 0x4f);
+			sprintf(cbuf, "F%ld", code - 0x4f);
 		else if(code != (uint16)~0 && code != 0xff)
 		{
 			foo = NULL;

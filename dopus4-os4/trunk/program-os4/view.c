@@ -586,7 +586,9 @@ int view_idcmp(struct ViewData *vdata)
 				break;
 			case IDCMP_MOUSEBUTTONS:
 				if(code == SELECTDOWN)
+				{
 					view_togglescroll(vdata);
+				}
 				else if(code == MENUDOWN)
 				{
 					retcode = -1;

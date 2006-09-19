@@ -60,7 +60,7 @@ int showfont(char *name, int size, int np)
 	IGraphics->Move(font_rp, 0, y);
 	fontptr = fontbuf;
 
-	FOREVER
+	for(;;)
 	{
 		len += IGraphics->TextLength(font_rp, (char *)&a, 1);
 		if(len > fontscreen->Width || t > 254)
@@ -84,7 +84,7 @@ int showfont(char *name, int size, int np)
 	FadeRGB4(fontscreen, fcols, 2, 1, config->fadetime);
 	show_global_font = font;
 
-	fred = WaitForMouseClick(0, fontwindow);
+	fred = WaitForMouseClick(fontwindow);
 
 	show_global_font = NULL;
 	if(fred != -3)

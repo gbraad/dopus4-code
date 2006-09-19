@@ -83,6 +83,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/xadmaster.h>
 #include <proto/Picasso96API.h>
 #include <proto/application.h>
+#include <proto/pm.h>
 
 #include <proto/dopus.h>
 

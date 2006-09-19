@@ -308,7 +308,8 @@ void doconfig()
 	status_configuring = 0;
 }
 
-static char *external_modules[1] = {
+static char *external_modules[1] =
+{
 //      "DOpus_Disk",
 	"DOpus_Print",
 //      "DOpus_Icon"

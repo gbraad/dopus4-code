@@ -83,7 +83,7 @@ the existing commercial status of Directory Opus 5.
 #define RCL_SYNONYM  8
 
 /* FileType Commands */
-
+/*
 #define FTYC_MATCH        1
 #define FTYC_MATCHNAME    2
 #define FTYC_MATCHBITS    3
@@ -100,6 +100,7 @@ the existing commercial status of Directory Opus 5.
 
 #define FTYC_ENDLIMIT   252
 #define FTYC_COMMANDOK  11
+*/
 
 /* FileType Functions */
 /*

@@ -76,6 +76,11 @@ the existing commercial status of Directory Opus 5.
 #define FTYC_AND        254
 #define FTYC_ENDSECTION 255
 
+#define FTYC_ENDLIMIT   252
+#define FTYC_COMMANDOK   12
+#define FTYC_CYCLEEND    13
+
+
 #define DATE_DOS   1
 #define DATE_INT   2
 #define DATE_USA   4

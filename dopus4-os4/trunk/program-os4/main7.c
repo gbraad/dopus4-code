@@ -190,9 +190,9 @@ int readicon(STRPTR name, int np)
 	show_global_icon = dobj;
 	show_global_icon_name = IDOS->FilePart(name);
 
-	FOREVER
+	for(;;)
 	{
-		if((fred = WaitForMouseClick(2, fontwindow)) == -2)
+		if((fred = WaitForMouseClick(fontwindow)) == -2)
 		{
 			imagenum = 1 - imagenum;
 			x = (width - icon_image[imagenum]->Width) / 2;

@@ -417,7 +417,7 @@ int isinwindow(int, int);
 
 /* iffload.c */
 int LoadPic(char *);
-int WaitForMouseClick(int, struct Window *);
+int WaitForMouseClick(struct Window *);
 
 /* rexx.c */
 void rexx_dispatch(int);

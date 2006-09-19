@@ -37,6 +37,7 @@ DirectoryOpus: $(OBJS)
 	$(STRIP) -s $@.debug -o $@
 
 about.o: about.c DirectoryOpus_rev.h
+tasks.o: tasks.c DirectoryOpus_rev.h
 
 strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
 	$(FLEXCAT) ../catalogs/DOpus4.cd strings.c=strings_c.sd

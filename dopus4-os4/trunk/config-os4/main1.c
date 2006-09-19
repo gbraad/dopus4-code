@@ -441,7 +441,9 @@ int dosystemconfig()
 							a = IDOpus->DoRMBGadget(&sampleclearrmb, Window);
 							fixrmbimage(&sampleclearrmb, NULL, 1, -1, -1);
 							if(a == 0)
-								showkey(hotcode = (USHORT) ~ 0, hotqual = 0, x_off + 138, y_off + 71, 360, 10);
+							{
+								showkey(hotcode = /*(uint16) ~*/0, hotqual = 0, x_off + 138, y_off + 71, 360, 10);
+							}
 							hotkeygad.Flags &= ~GFLG_SELECTED;
 							help_ok = 1;
 						}

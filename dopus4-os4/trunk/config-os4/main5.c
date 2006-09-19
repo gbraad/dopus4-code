@@ -1290,7 +1290,7 @@ void makeeditclasslist(struct fileclass *class, STRPTR *classlist, STRPTR classt
 			{
 			      doandor:
 				classlist[num] = getcopy(" ", 2, NULL);
-				for(b = 0; b < 12; b++)
+				for(b = 0; b < 13; b++)
 				{
 					if(classopvals[b] == class->recognition[a])
 					{
@@ -1307,7 +1307,7 @@ void makeeditclasslist(struct fileclass *class, STRPTR *classlist, STRPTR classt
 			buf[pos] = 0;
 			if(classlist[num] = getcopy(buf, -1, NULL))
 			{
-				for(b = 0; b < 12; b++)
+				for(b = 0; b < 13; b++)
 				{
 					if(classopvals[b] == type)
 					{

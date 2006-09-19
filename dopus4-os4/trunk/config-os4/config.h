@@ -58,6 +58,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/wb.h>
 
 #include <proto/dopus.h>
+#include <dopus/config.h>
 #include <dopus/configflags.h>
 #include <dopus/dopusmessage.h>
 #undef CONFIG_VERSION
@@ -175,6 +176,7 @@ enum
 #define NUMFONTS 16
 #define USEDRIVECOUNT 30
 
+/*
 #define FTYC_MATCH        1
 #define FTYC_MATCHNAME    2
 #define FTYC_MATCHBITS    3
@@ -194,6 +196,7 @@ enum
 #define FTYC_CYCLEEND    12
 
 #define FILETYPE_FUNCNUM   16
+*/
 
 struct fileclass
 {
