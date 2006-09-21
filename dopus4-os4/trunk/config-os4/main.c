@@ -1625,43 +1625,35 @@ void open_screen()
 				IIntuition->UnlockPubScreenList();
 			}
 		}
-//		IExec->DebugPrintF("psname : %s\n", psname);
 		if((wbscreen = IIntuition->LockPubScreen(psname)))
-//		if((wbscreen = IIntuition->LockPubScreen(NULL)))
 		{
-//			if(wbscreen->Height > (wbscreen->WBorTop + wbscreen->Font->ta_YSize + 200))
-//			{
-				int pen, num;
-				struct ColorMap *cm;
+			int pen, num;
+			struct ColorMap *cm;
 
-				cm = wbscreen->ViewPort.ColorMap;
-				num = 1 << ((config->scrdepth > 4) ? 4 : config->scrdepth);
+			cm = wbscreen->ViewPort.ColorMap;
+			num = 1 << ((config->scrdepth > 4) ? 4 : config->scrdepth);
 
-				for(pen = 0; pen < num; pen++)
+			for(pen = 0; pen < num; pen++)
+			{
+				screen_pens[pen].red = config->new_palette[(pen * 3)];
+				screen_pens[pen].green = config->new_palette[(pen * 3) + 1];
+				screen_pens[pen].blue = config->new_palette[(pen * 3) + 2];
+				if((screen_pens[pen].pen = IGraphics->ObtainPen(cm, -1, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, PEN_EXCLUSIVE)) == -1)
+//				if((screen_pens[pen].pen = IGraphics->ObtainBestPenA(cm, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, NULL)) == -1)
 				{
-					screen_pens[pen].red = config->new_palette[(pen * 3)];
-					screen_pens[pen].green = config->new_palette[(pen * 3) + 1];
-					screen_pens[pen].blue = config->new_palette[(pen * 3) + 2];
-//					if((screen_pens[pen].pen = IGraphics->ObtainPen(cm, -1, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, 0/*PEN_EXCLUSIVE*/)) == (uint8)-1)
-					if((screen_pens[pen].pen = IGraphics->ObtainBestPenA(cm, screen_pens[pen].red, screen_pens[pen].green, screen_pens[pen].blue, NULL)) == (uint8)-1)
-					{
-						break;
-					}
-					screen_pens[pen].alloc = 1;
+					break;
 				}
+				screen_pens[pen].alloc = 1;
+			}
 
-
+			if(pen < num)
+			{
+				free_colour_table(cm);
+			}
+			else
+			{
 				onworkbench = 1;
-
-/*				if(pen < num)
-				{
-					free_colour_table(cm);
-				}
-				else
-				{
-					onworkbench = 1;
-				}*/
-//			}
+			}
 		}
 		else
 		{
@@ -1671,7 +1663,7 @@ void open_screen()
 		configscr.Depth = config->scrdepth;
 		if(!onworkbench)
 		{
-/*			scr_taglist[1].ti_Data = IGraphics->BestModeID(BIDTAG_DesiredWidth, configscr.Width, BIDTAG_DesiredHeight, configscr.Height, BIDTAG_Depth, configscr.Depth, wbscreen ? BIDTAG_MonitorID : TAG_IGNORE, wbscreen ? IGraphics->GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK : 0, TAG_END);
+			scr_taglist[1].ti_Data = IGraphics->BestModeID(BIDTAG_DesiredWidth, configscr.Width, BIDTAG_DesiredHeight, configscr.Height, BIDTAG_Depth, configscr.Depth, wbscreen ? BIDTAG_MonitorID : TAG_IGNORE, wbscreen ? IGraphics->GetVPModeID(&wbscreen->ViewPort) & MONITOR_ID_MASK : 0, TAG_END);
 			if(scr_taglist[1].ti_Data == INVALID_ID)
 			{
 				scr_taglist[1].ti_Data = HIRES_KEY;
@@ -1684,9 +1676,7 @@ void open_screen()
 				--configscr.Depth;
 			}
 			IIntuition->ShowTitle(Screen, FALSE);
-			usescreen = Screen;*/
-			usescreen = IIntuition->LockPubScreen(NULL);
-			IIntuition->UnlockPubScreen(NULL, usescreen);
+			usescreen = Screen;
 		}
 		else
 		{

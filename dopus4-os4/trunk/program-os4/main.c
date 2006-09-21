@@ -122,7 +122,9 @@ int main(int argc, char **argv)
 				}
 			}
 			else
+			{
 				startdir = argv[a];
+			}
 		}
 	}
 	else if(argc == 0 && IconBase && IIcon)
@@ -1432,6 +1434,7 @@ int get_data_file(STRPTR buf, STRPTR suff, int fb)
 	char temp[40];
 
 	sprintf(temp, "DO_%s.%s", config->language, suff);
+
 	if(!config->language[0] || !(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
 	{
 		if(!fb)

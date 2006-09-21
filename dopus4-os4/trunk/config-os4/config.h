@@ -647,7 +647,8 @@ struct ColourTable
 	ULONG red;
 	ULONG green;
 	ULONG blue;
-	unsigned char pen;
+//	unsigned char pen;
+	int32 pen;
 	char alloc;
 };
 

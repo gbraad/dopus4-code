@@ -137,8 +137,8 @@ void doconfig()
 	struct dopus_func_start config_func;
 	char *func_args[2], *old_name;
 
-	if(!(checkwindowquit()))
-		return;
+//	if(!(checkwindowquit()))
+//		return;
 
 	sprintf(replyname, "%s%d", config_replyport_basename, system_dopus_runcount);
 	if(!(conport = IExec->CreatePort(replyname, 20)))
@@ -291,7 +291,7 @@ void doconfig()
 	{
 		initclock();
 		fixcstuff(&cstuff);
-		setupdisplay(1);
+//		setupdisplay(1); // removed to not cause color corruption on some systems. Why redraw screen after cancel?
 		dostatustext(globstring[STR_WELCOME_BACK_TO_DOPUS]);
 		dopustofront();
 	}

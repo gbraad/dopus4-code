@@ -1377,7 +1377,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						swindow->bytessel -= file->size;
 					}
 				}
-//				IDOpus->SetBusyPointer(Window);
 				if(a == -1)
 				{
 					status_justabort = 1;
@@ -1403,20 +1402,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
 			if(entry_depth < 2 && checkfiletypefunc(sourcename, FTFUNC_SHOW))
+			{
 				okayflag = 1;
+			}
 			else
 			{
-				if(data == 0)
-				{
-					if(swindow && swindow->filesel > 1 && config->viewbits & VIEWBITS_SHOWBLACK)
-					{
-						if((blankscreen = IIntuition->OpenScreen((struct NewScreen *)&blank_scr)))
-							IGraphics->SetRGB4(&blankscreen->ViewPort, 0, 0, 0, 0);
-						setnullpointer(Window);
-						pt = 0;
-					}
-					data = 1;
-				}
 				if((a = showpic(sourcename, pt)) == -1)
 				{
 					okayflag = 1;
@@ -1426,9 +1416,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				else
 				{
 					if(a == 1)
+					{
 						okayflag = 1;
+					}
 					else
+					{
 						file = NULL;
+					}
 				}
 			}
 			break;
@@ -1468,10 +1462,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 			}
 			break;
-/*				okayflag = 1;
-				a = dopus_iconinfo(sourcename);
-			}
-			break;*/
 		case FUNC_PLAY8SVX:
 		case FUNC_LOOPPLAY8SVX:
 			if(file->type >= ENTRY_DEVICE || file->size < 1)

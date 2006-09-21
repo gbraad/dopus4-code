@@ -33,6 +33,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+
 void setupchangestate(void)
 {
 	int unit;
@@ -55,6 +56,7 @@ void setupchangestate(void)
 		IExec->DeleteIORequest((struct IORequest *)diskreq);
 	}
 }
+
 
 #define ITEM_NUM 11
 

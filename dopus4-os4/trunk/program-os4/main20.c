@@ -168,7 +168,9 @@ int checkwindowquit()
 	struct Window *wind, *temp;
 
 	if(!MainScreen)
+	{
 		return (1);
+	}
 
 	if((IIntuition->PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
 	{
@@ -183,7 +185,9 @@ int checkwindowquit()
 		{
 			temp = wind->NextWindow;
 			if(wind != Window)
+			{
 				IIntuition->CloseWindow(wind);
+			}
 			wind = temp;
 		}
 		unbusy();
