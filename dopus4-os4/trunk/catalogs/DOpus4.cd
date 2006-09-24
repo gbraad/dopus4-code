@@ -1109,3 +1109,6 @@ Link destination
 STR_PROTECT_CANCEL (//)
 _Cancel
 ;
+STR_EXTRACT_ARCHIVE (//)
+Extracting archive...
+;

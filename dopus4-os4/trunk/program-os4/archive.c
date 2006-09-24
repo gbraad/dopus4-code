@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <proto/xadmaster.h>
+#include <SDI_hook.h>
 
 #define EXALL_NUM 2
 
@@ -323,6 +323,84 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 		strcpy(fib->fib_Comment, entry->comment);
 	else
 		fib->fib_Comment[0] = 0;
-	fib->fib_OwnerUID = entry->owner_id;
-	fib->fib_OwnerGID = entry->group_id;
+//	fib->fib_OwnerUID = entry->owner_id;
+//	fib->fib_OwnerGID = entry->group_id;
 }
+
+/* Progress Hook */
+HOOKPROTONHNO(ProgressFunc, ULONG, struct xadProgressInfo *xadp)
+{
+/*	struct EasyStruct es =
+	{
+		0,
+		0,
+		(unsigned char *)"Report!",
+		(unsigned char *)"Finished!",
+		(unsigned char *)"OK!",
+		NULL,
+		NULL
+	};*/
+
+	dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
+
+	if(xadp->xpi_Mode == XADPMODE_END)
+	{
+//		IExec->DebugPrintF("XAD END!\n");
+	}
+	return(XADPIF_OK);
+}
+MakeHook(ProgressHook, ProgressFunc);
+
+uint32 extractarchive(char *archivename, char *source, char *destination)
+{
+	int32 xad_result;
+	char sourcename[1024] = { 0, }, destname[1024] = { 0, };
+
+	struct xadArchiveInfo *xadai = NULL;
+	struct xadFileInfo *xadfi = NULL;
+
+	snprintf(sourcename, 1024, "%s%s", source, archivename);
+
+	if((xadai = IxadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, 0)) == NULL)
+	{
+		return 0;
+	}
+
+	if((xad_result = IxadMaster->xadGetInfo(xadai, XAD_INFILENAME, (uint32)sourcename, TAG_END )))
+	{
+		IxadMaster->xadFreeObjectA(xadai, NULL);
+		return 0;
+	}
+
+	xadfi = xadai->xai_FileInfo;
+
+	while(xadfi != NULL)
+	{
+		if(status_haveaborted)
+		{
+			IxadMaster->xadFreeInfo(xadai);
+			IxadMaster->xadFreeObjectA(xadai, NULL);
+			return 0;
+		}
+		else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)
+		{
+			memset(destname, 0, 1024);
+			snprintf(destname, 1024, "%s%s", destination, xadfi->xfi_FileName);
+			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
+			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, TRUE, XAD_MAKEDIRECTORY, TRUE, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
+			{
+//				IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));
+			}
+		}
+
+		xadfi = xadfi->xfi_Next;
+	}
+
+//	dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
+
+	IxadMaster->xadFreeInfo(xadai);
+	IxadMaster->xadFreeObjectA(xadai, NULL);
+	
+	return 1;
+}
+

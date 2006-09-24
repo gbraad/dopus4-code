@@ -285,6 +285,7 @@ static STRPTR helpcontext[] =
 	"Encrypt",
 	"ErrorHelp",
 	"Execute",
+	"Extract",
 	"FileInfo",
 	"FinishSection",
 //	"Format",

@@ -311,6 +311,9 @@ with a given password. All selected files in the active directory window
 will be encrypted, and the encrypted files will be written to the destination
 window. If the password starts with a - (minus) character, the file will be
 decrypted instead.^
+**Extract
+Extract will let you unpack the contents of archives with use of
+xadmaster.library.^
 *Arc Ext
 This button calls the filetype command "User1" on the selected files. It is
 labelled "Arc Ext", as this is what the default filetypes are primarily set

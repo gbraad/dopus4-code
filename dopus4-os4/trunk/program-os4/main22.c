@@ -376,9 +376,40 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		candoicon = 0;
 		progress_copy = 1;
 		break;
+	case FUNC_EXTRACT:
+		dostatustext(globstring[STR_EXTRACT_ARCHIVE]);
+		xadflags = 7;
+		if(xadflags & XAD_WRITEOVER)
+		{
+			xadoverwrite = 1;
+		}
+		else
+		{
+			xadoverwrite = 0;
+		}
+		if(xadflags & XAD_NOABS)
+		{
+			xadnoabs = 1;
+		}
+		else
+		{
+			xadnoabs = 0;
+		}
+		if(xadflags & xadmaketree)
+		{
+			xadmaketree = 1;
+		}
+		else
+		{
+			xadmaketree = 0;
+		}
+		progress_copy = 1;
+		break;
 	case FUNC_SEARCH:
 		if(rexx && rexx_argcount > 0)
+		{
 			strcpy(str_search_string, rexx_args[rexarg]);
+		}
 		else
 		{
 			if(!(get_search_data(str_search_string, &search_flags, Window, scr_font[FONT_REQUEST])))
@@ -1787,11 +1818,18 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			break;
 
+		case FUNC_EXTRACT:
+			dostatustext(globstring[STR_EXTRACT_ARCHIVE]);
+			okayflag = extractarchive(file->name, sourcedir, destdir);
+			break;
+
 		case FUNC_DATESTAMP:
 			if(askeach && !lastfile)
 			{
 				if(rexx && rexx_argcount > 0)
+				{
 					strcpy(buf2, rexx_args[rexarg]);
+				}
 				else
 				{
 					seedate(&(file->date), buf2, 0);	// buf2[0]=0;
@@ -1801,7 +1839,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						break;
 					}
 					if(a == 2)
+					{
 						askeach = 0;
+					}
 				}
 				if(buf2[0])
 				{
@@ -1809,7 +1849,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					strtostamp(buf, buf1, &datetime.dat_Stamp);
 				}
 				else
+				{
 					IDOS->DateStamp(&datetime.dat_Stamp);
+				}
 			}
 			FOREVER
 			{
@@ -1978,9 +2020,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		if(file && okayflag)
 		{
 			if(file->selected)
+			{
 				unselect(act, file);
+			}
 			else
+			{
 				refreshwindow(act, 0);
+			}
 		}
 		if(status_justabort || breakout == 2)
 			break;
@@ -2195,6 +2241,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_COPY:
 	case FUNC_ENCRYPT:
 		update_buffer_stamp(inact, 1);
+		break;
+	case FUNC_EXTRACT:
 		break;
 	}
 

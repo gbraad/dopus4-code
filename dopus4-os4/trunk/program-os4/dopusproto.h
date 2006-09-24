@@ -53,6 +53,7 @@ BOOL unarcfiledir(const struct DirectoryWindow *, const char *, char *, const ch
 BOOL getsourcefromarc(struct DirectoryWindow *, char *, char *);
 void arcfillfib(struct FileInfoBlock *, struct Directory *);
 void removetemparcfile(const char *);
+uint32 extractarchive(char *, char *, char *);
 
 /* buffers.c */
 void allocdirbuffers(int);

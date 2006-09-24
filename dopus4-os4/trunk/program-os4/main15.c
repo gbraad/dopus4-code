@@ -673,6 +673,9 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				case FUNC_ENCRYPT:
 					dofilefunction(FUNC_ENCRYPT, FUNCFLAGS_FILES, spath, dpath, actwin, inactwin, rexx);
 					break;
+				case FUNC_EXTRACT:
+					dofilefunction(function, FUNCFLAGS_FILES, spath, dpath, actwin, inactwin, rexx);
+					break;
 				case FUNC_DATESTAMP:
 					dofilefunction(FUNC_DATESTAMP, 0, spath, NULL, actwin, -1, rexx);
 					break;

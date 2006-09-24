@@ -107,7 +107,7 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	config->sortflags = 0;
 	config->formatflags = 0;
 
-	config->dynamicflags = UPDATE_FREE | UPDATE_SCROLL | UPDATE_LEFTJUSTIFY | UPDATE_PROGRESSINDICATOR | UPDATE_REDRAW;
+	config->dynamicflags = UPDATE_FREE | UPDATE_SCROLL | UPDATE_LEFTJUSTIFY | UPDATE_PROGRESSINDICATOR | UPDATE_PROGRESSIND_COPY | UPDATE_REDRAW;
 
 	/* System */
 	Self->LStrCpy(config->outputcmd, "NewCLI");

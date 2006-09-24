@@ -65,6 +65,13 @@ extern ULONG appID;
 extern BOOL docky;
 extern struct MsgPort *applibport;
 
+/* xadmaster.library stuff */
+
+extern uint8 xadflags;
+extern uint32 xadoverwrite;
+extern uint32 xadnoabs;
+extern uint32 xadmaketree;
+
 /* Graphics objects */
 
 //extern struct ViewPort *main_vp;                 /* Main screen ViewPort */

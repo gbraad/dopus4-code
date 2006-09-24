@@ -1665,6 +1665,9 @@ ErrorHelp     -      Help with DOS errors
 STR_FUNCTIONLIST_EXECUTE (//)
 Execute       -       Execute batch files
 ;
+STR_FUNCTIONLIST_EXTRACT (//)
+Extract       -           Extract archive
+;
 STR_FUNCTIONLIST_FORMAT (//)
 Format        -       Format floppy disks
 ;

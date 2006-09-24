@@ -81,6 +81,7 @@ struct CommandList commandlist[] =
 	{ "EndFunction", FUNC_ENDFUNCTION, RCL_SYNONYM},
 	{ "ErrorHelp", FUNC_ERRORHELP, 0},
 	{ "Execute", FUNC_RUN, 0},
+	{ "Extract", FUNC_EXTRACT, 0},
 	{ "FileInfo", FUNC_FILEINFO, RCL_NOBUTTON},
 	{ "FinishSection", FUNC_ENDFUNCTION, 0},
 	{ "Format", FUNC_FORMAT, 0},
