@@ -330,18 +330,10 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 /* Progress Hook */
 HOOKPROTONHNO(ProgressFunc, ULONG, struct xadProgressInfo *xadp)
 {
-/*	struct EasyStruct es =
+	if(xadp && xadp->xpi_FileInfo)
 	{
-		0,
-		0,
-		(unsigned char *)"Report!",
-		(unsigned char *)"Finished!",
-		(unsigned char *)"OK!",
-		NULL,
-		NULL
-	};*/
-
-	dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
+		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
+	}
 
 	if(xadp->xpi_Mode == XADPMODE_END)
 	{
@@ -395,8 +387,6 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 
 		xadfi = xadfi->xfi_Next;
 	}
-
-//	dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
 
 	IxadMaster->xadFreeInfo(xadai);
 	IxadMaster->xadFreeObjectA(xadai, NULL);

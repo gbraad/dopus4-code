@@ -172,6 +172,82 @@ void hilite_req_gadget(struct Window *win, USHORT gadid)
 
 int simplerequest(STRPTR txt, ...)
 {
+	char *gads[11], *cancelgad = NULL, *gad, gadgets[1024] = { 0, };
+	struct TagItem tags[2] = { { ESA_Underscore, '_' }, { TAG_DONE } };
+	int a, i, r = 1, rets[10], gnum = 0, rnum = 0;
+	va_list ap;
+	struct EasyStruct es =
+	{
+		sizeof(struct EasyStruct),
+		ESF_SCREEN | ESF_TAGGED | ESF_EVENSIZE,
+		"Directory Opus Request",
+		txt,
+		"OK",
+		MainScreen,
+		tags
+	};
+
+	va_start(ap, txt);
+	for(a = 0; a < 10; a++)
+	{
+		if(!(gad = (STRPTR)va_arg(ap, STRPTR)))
+		{
+			  break;
+		}
+		if(a == 1)
+		{
+			cancelgad = gad;
+		}
+		else
+		{
+			if(gad[0] != '\n')
+			{
+				gads[gnum++] = gad;
+				rets[rnum++] = r++;
+			}
+		}
+	}
+	va_end(ap);
+
+	gads[gnum] = NULL;
+	a = gnum + 1;
+
+	for(; a < 11; a++)
+		gads[a] = NULL;
+
+	if(cancelgad)
+	{
+		sprintf(gadgets, "%s", gads[0]);
+		for(i = 1; gads[i] != NULL; i++)
+		{
+			if(gads[i])
+			{
+				strcat(gadgets, "|");
+				strcat(gadgets, gads[i]);
+			}
+		}
+		strcat(gadgets, "|");
+		strcat(gadgets, cancelgad);
+	}
+	else
+	{
+		sprintf(gadgets, "%s", gads[0]);
+		for(i = 1; gads[i] != NULL; i++)
+		{
+			if(gads[i])
+			{
+				strcat(gadgets, "|");
+				strcat(gadgets, gads[i]);
+			}
+		}
+	}
+	es.es_GadgetFormat = gadgets;
+
+	return (IIntuition->EasyRequest(NULL, &es, NULL, TAG_DONE));
+}
+/*
+int simplerequest(STRPTR txt, ...)
+{
 	char *gads[11], *cancelgad = NULL, *gad;
 	int a, r = 1, rets[10], gnum = 0, rnum = 0;
 	va_list ap;
@@ -209,7 +285,7 @@ int simplerequest(STRPTR txt, ...)
 	request.flags = 0;
 	return (dorequest(&request, txt, gads, rets, NULL));
 }
-
+*/
 int whatsit(char *txt, int max, char *buffer, char *skiptxt)
 {
 	char *gads[4];
