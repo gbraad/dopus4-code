@@ -891,7 +891,7 @@ void getprotselvals(STRPTR buf, int *prot)
 
 void wildselect(STRPTR wild, int boobs, int and, int mode)
 {
-	char buf[256];
+	char buf[256] = { 0, };
 	struct Directory *temp;
 
 	temp = dopus_curwin[data_active_window]->firstentry;

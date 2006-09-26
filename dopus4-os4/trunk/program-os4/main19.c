@@ -179,7 +179,7 @@ int simplerequest(STRPTR txt, ...)
 	struct EasyStruct es =
 	{
 		sizeof(struct EasyStruct),
-		ESF_SCREEN | ESF_TAGGED | ESF_EVENSIZE,
+		ESF_SCREEN | ESF_TAGGED/* | ESF_EVENSIZE*/,
 		"Directory Opus Request",
 		txt,
 		"OK",

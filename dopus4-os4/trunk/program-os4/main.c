@@ -150,12 +150,14 @@ int main(int argc, char **argv)
 				docky = TRUE;
 		}
 		if(WBmsg->sm_NumArgs > 1)
+		{
 			for(a = 1; a < WBmsg->sm_NumArgs; a++)
 			{
 				p = &(WBmsg->sm_ArgList[a]);
 				IDOS->NameFromLock(p->wa_Lock, buf, 1024);
 				startdir = buf;
 			}
+		}
 	}
 
 	if(user_appicon)

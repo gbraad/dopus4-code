@@ -57,7 +57,14 @@
 
 void _DOpus_StrToLower(struct DOpusIFace *Self, char *from, char *to)
 {
-	while((*to++ = IUtility->ToLower(*from++)));
+	if(from != NULL)
+	{
+		while((*to++ = IUtility->ToLower(*from++)));
+	}
+	else
+	{
+		*to = '\0';
+	}
 	return;
 }
 

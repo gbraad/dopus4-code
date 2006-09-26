@@ -200,16 +200,7 @@ command.^
 **MakeDir
 This function allows you to create a directory in the active directory window.^
 **CheckFit
-Important Note!
-
-This command is heavily outdated. It only knows about FFS partitions with
-512 Bytes per block. It will fail (in other words: report wrong values) on any
-partition that does not match these specs exactly. Avoid this command if you're
-not sure that all of your partitions are FFS, 512 Bytes/block!
-
-----------
-
-This function will calculate whether all the files and directories you have
+his function will calculate whether all the files and directories you have
 selected would fit in the destination directory, were they to be copied
 there. It performs a similar function to the GetSizes command, except that
 it is far more accurate. The only disadvantage to this command is that

@@ -57,7 +57,14 @@
 
 void _DOpus_StrToUpper(struct DOpusIFace *Self, char *from, char *to)
 {
-	while((*to++ = IUtility->ToUpper(*from++)));
+	if(from != NULL)
+	{
+		while((*to++ = IUtility->ToUpper(*from++)));
+	}
+	else
+	{
+		*to = '\0';
+	}
 	return;
 }
 
