@@ -458,7 +458,9 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInfoBlock *info)
 {
 	char buf[514], buf2[1024], *recog;
-	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, val = 0, err = 0, gotone = 0, test;
+	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, err = 0, gotone = 0, test;
+	int32 val = 0, resstr;
+	uint32 res = 0;
 	int64 oldpos;
 	struct DateStamp ds1, ds2;
 
@@ -548,16 +550,16 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 			case FTYC_MOVETO:
 				test = 0;
 				if(buf[0] == '$')
-					val = IDOpus->Atoh(&buf[1], -1);
+					val = IDOS->HexToLong(&buf[1], &res);
 				else
-					val = atoi(buf);
+					val = IDOS->StrToLong(buf, &resstr);
 				if(val == -1)
 				{
 					err = IDOS->ChangeFilePosition(file, 0, OFFSET_END);
 				}
 				else if(val > -1)
 				{
-					err = IDOS->ChangeFilePosition(file, val, OFFSET_BEGINNING);
+					err = IDOS->ChangeFilePosition(file, res, OFFSET_BEGINNING);
 				}
 				else
 					err = -1;
@@ -567,10 +569,10 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 			case FTYC_MOVE:
 				test = 0;
 				if(buf[0] == '$')
-					val = IDOpus->Atoh(&buf[1], -1);
+					val = IDOS->HexToLong(&buf[1], &res);
 				else
-					val = atoi(buf);
-				if((IDOS->ChangeFilePosition(file, val, OFFSET_CURRENT)) == -1)
+					val = IDOS->StrToLong(buf, &resstr);
+				if((IDOS->ChangeFilePosition(file, res, OFFSET_CURRENT)) == -1)
 					fail = 1;
 				if(err == -1)
 					fail = 1;
@@ -623,7 +625,8 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 int checktypechars(int file, char *match, int nocase)
 {
 	char matchbuf[258], c1, c2;
-	int len, clen, a, first = 1, m, val, bpos;
+	int len, clen, a, first = 1, m, bpos;
+	uint32 val;
 
 	len = strlen(match);
 
@@ -653,7 +656,7 @@ int checktypechars(int file, char *match, int nocase)
 		{
 			if(match[a] != '?')
 			{
-				val = IDOpus->Atoh(&match[a], 2);
+				IDOS->HexToLong(&match[a], &val);
 				if(val != matchbuf[m])
 					return (0);
 			}
@@ -708,9 +711,13 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 		for(a = 1, matchsize = 0; a < len; a += 2, matchsize++)
 		{
 			if(find[a] == '?')
+			{
 				matchbuf[matchsize] = '?';
+			}
 			else
-				matchbuf[matchsize] = IDOpus->Atoh(&find[a], 2);
+			{
+				IDOS->HexToLong(&find[a], (uint32 *)&matchbuf[matchsize]);
+			}
 		}
 		flags &= ~(SEARCH_NOCASE | SEARCH_ONLYWORDS);
 	}

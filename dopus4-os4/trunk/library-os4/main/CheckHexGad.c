@@ -62,12 +62,15 @@
 int _DOpus_CheckHexGad(struct DOpusIFace *Self, struct Gadget *gad, struct Window *win, int min, int max)
 {
 	struct StringInfo *sinfo;
-	int a, b;
+	int a;
+	uint32 b;
 
 	sinfo = (struct StringInfo *)gad->SpecialInfo;
-	b = Self->Atoh((char *)sinfo->Buffer, 0);
+	IDOS->HexToLong((char *)sinfo->Buffer, &b);
 	if(sinfo->Buffer[0] == 0)
+	{
 		a = 0;
+	}
 	else
 	{
 		a = b;

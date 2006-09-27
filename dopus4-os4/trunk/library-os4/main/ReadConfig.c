@@ -62,7 +62,8 @@
 
 int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *cstuff)
 {
-	int a, in, size, pos, b, bk, gad, mv;
+	int a, in, size, pos, bk, gad, mv;
+	uint32 b;
 	USHORT ver, mag;
 	STRPTR cbuf, buf, tbuf;
 	char buf2[102], buf3[102];
@@ -451,7 +452,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 							buf2[b] = 0;
 							if(mv == 0)
 							{
-								if((b = Self->Atoh(buf2, 0)) > 0)
+								if((IDOS->HexToLong(buf2, &b)) > 0)
 								{
 									LSprintf(buf3, "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
 									Self->StrConcat(buf, buf3, 4096);
