@@ -50,7 +50,7 @@ void readhelp()
 	if((in = IDOS->Open(helpfilename, MODE_OLDFILE)))
 	{
 		IDOS->Read(in, &id, 4);
-		IDOS->Seek(in, 0, OFFSET_BEGINNING);
+		IDOS->ChangeFilePosition(in, 0, OFFSET_BEGINNING);
 		if((helpbuffer = IDOpus->LAllocRemember(&helpkey, helpsize + 1, MEMF_CLEAR)))
 			IDOS->Read(in, helpbuffer, helpsize);
 		IDOS->Close(in);

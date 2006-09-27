@@ -458,13 +458,14 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInfoBlock *info)
 {
 	char buf[514], buf2[1024], *recog;
-	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, val = 0, oldpos, err = 0, gotone = 0, test;
+	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, val = 0, err = 0, gotone = 0, test;
+	int64 oldpos;
 	struct DateStamp ds1, ds2;
 
 	len = strlen((recog = type->recognition)) + 1;
 	b = operation = 0;
 
-	IDOS->Seek(file, 0, OFFSET_BEGINNING);
+	IDOS->ChangeFilePosition(file, 0, OFFSET_BEGINNING);
 	for(a = 0; a < len; a++)
 	{
 		if(!operation)
@@ -551,9 +552,13 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 				else
 					val = atoi(buf);
 				if(val == -1)
-					err = IDOS->Seek(file, 0, OFFSET_END);
+				{
+					err = IDOS->ChangeFilePosition(file, 0, OFFSET_END);
+				}
 				else if(val > -1)
-					err = IDOS->Seek(file, val, OFFSET_BEGINNING);
+				{
+					err = IDOS->ChangeFilePosition(file, val, OFFSET_BEGINNING);
+				}
 				else
 					err = -1;
 				if(err == -1)
@@ -565,21 +570,21 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 					val = IDOpus->Atoh(&buf[1], -1);
 				else
 					val = atoi(buf);
-				if((IDOS->Seek(file, val, OFFSET_CURRENT)) == -1)
+				if((IDOS->ChangeFilePosition(file, val, OFFSET_CURRENT)) == -1)
 					fail = 1;
 				if(err == -1)
 					fail = 1;
 				break;
 			case FTYC_SEARCHFOR:
-				oldpos = IDOS->Seek(file, 0, OFFSET_CURRENT);
+				oldpos = IDOS->GetFilePosition(file);
 				if((val = typesearch(file, buf, SEARCH_NOCASE | SEARCH_WILDCARD, NULL, 0)) == -1)
 				{
 					fail = 1;
-					IDOS->Seek(file, oldpos, OFFSET_BEGINNING);
+					IDOS->ChangeFilePosition(file, oldpos, OFFSET_BEGINNING);
 				}
 				else
 				{
-					IDOS->Seek(file, val, OFFSET_BEGINNING);
+					IDOS->ChangeFilePosition(file, val, OFFSET_BEGINNING);
 				}
 				break;
 			default:
@@ -691,10 +696,11 @@ int checktypechars(int file, char *match, int nocase)
 	return (1);
 }
 
-int typesearch(int file, char *find, int flags, char *buffer, int bufsize)
+int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 {
 	char *findbuf, matchbuf[256];
-	int matchsize, a, len, size, oldpos;
+	int matchsize, a, len, size;
+	int64 oldpos;
 
 	len = strlen(find);
 	if(find[0] == '$')
@@ -739,14 +745,14 @@ int typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 	{
 		if(!(findbuf = IExec->AllocMem(32004, MEMF_CLEAR)))
 			return (-1);
-		FOREVER
+		for(;;)
 		{
 			if(status_haveaborted)
 			{
 				myabort();
 				break;
 			}
-			oldpos = IDOS->Seek(file, 0, OFFSET_CURRENT);
+			oldpos = IDOS->GetFilePosition(file);
 			if((size = IDOS->Read(file, findbuf, 32000)) < 1)
 				break;
 			if((searchbuffer(findbuf, size, matchbuf, matchsize, flags)) == 1)
@@ -759,7 +765,7 @@ int typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 				continue;
 			if(size < 32000)
 				break;
-			IDOS->Seek(file, -matchsize, OFFSET_CURRENT);
+			IDOS->ChangeFilePosition(file, -matchsize, OFFSET_CURRENT);
 		}
 		IExec->FreeMem(findbuf, 32004);
 	}

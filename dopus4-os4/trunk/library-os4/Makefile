@@ -22,12 +22,12 @@ STRIP  = $(CROSS_COMPILE)strip
 RM     = rm -f
 
 # Change these as required
-OPTIMIZE = -O3
+OPTIMIZE = -Os
 DEBUG = -s # -g -DDEBUG
-CFLAGS = -mcrt=clib2 -Wall -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
+CFLAGS = -maltivec -mcrt=clib2 -Wall -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 
 # Flags passed to gcc during linking
-LINK = -mcrt=clib2
+LINK = -maltivec -mcrt=clib2
 
 # Name of the "thing" to build
 TARGET = dopus.library

@@ -136,7 +136,7 @@ printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, s
 			if((handle->filehandle = IDOS->Open(printdata->output_file, (a = (IDOpus->CheckExist(printdata->output_file, NULL)) ? MODE_READWRITE : MODE_NEWFILE))))
 			{
 				if(a == MODE_READWRITE)
-					IDOS->Seek(handle->filehandle, 0, OFFSET_END);
+					IDOS->ChangeFilePosition(handle->filehandle, 0, OFFSET_END);
 				handle->fileoutput = 1;
 				break;
 			}
@@ -567,7 +567,7 @@ print_str(struct PrintHandle *handle, char *string, int stlen)
 		if(!(check_error(handle->reqbase, string_table[STR_PRINT_ERROR], 0)))
 			return (0);
 		if(seek > 0)
-			IDOS->Seek(handle->filehandle, -seek, 0);
+			IDOS->ChangeFilePosition(handle->filehandle, -seek, 0);
 	}
 }
 

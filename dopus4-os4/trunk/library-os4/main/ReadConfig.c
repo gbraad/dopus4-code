@@ -113,7 +113,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 		IDOS->Close(in);
 		return (ERROR_NOT_CONFIG);
 	}
-	IDOS->Seek(in, 0, OFFSET_BEGINNING);
+	IDOS->ChangeFilePosition(in, 0, OFFSET_BEGINNING);
 	if((IDOS->Read(in, (STRPTR)config, sizeof(struct Config))) < sizeof(struct Config))
 	{
 		IDOS->Close(in);
