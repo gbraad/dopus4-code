@@ -59,12 +59,9 @@ int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 {
 	int a = 0;
 	BPTR lock;
-	struct Process *myproc;
 	APTR wsave;
 
-	myproc = (struct Process *)IExec->FindTask(NULL);
-	wsave = myproc->pr_WindowPtr;
-	myproc->pr_WindowPtr = (APTR) - 1;
+	wsave = IDOS->SetProcWindow((APTR)-1L);
 	if((lock = IDOS->Lock(name, ACCESS_READ)))
 	{
 		struct FileInfoBlock *fib = IDOS->AllocDosObjectTags(DOS_FIB, NULL);
@@ -78,7 +75,7 @@ int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 		IDOS->UnLock(lock);
 		IDOS->FreeDosObject(DOS_FIB, fib);
 	}
-	myproc->pr_WindowPtr = wsave;
+	IDOS->SetProcWindow(wsave);
 
 	return(a);
 }

@@ -123,8 +123,7 @@ int main(int argc, char **argv)
 	}
 
 	myproc = (struct Process *)IExec->FindTask(0);
-	wsave = myproc->pr_WindowPtr;
-	myproc->pr_WindowPtr = (APTR) - 1;
+	wsave = IDOS->SetProcWindow((APTR)-1L);
 
 	for(a = 0; a < 13; a++)
 	{
@@ -286,7 +285,7 @@ void quit()
 	}
 	if(myproc)
 	{
-		myproc->pr_WindowPtr = wsave;
+		IDOS->SetProcWindow(wsave);
 	}
 	if(firstclip)
 	{

@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 	/* OpenLibrary() GetInterface() above  */
 
 	myproc = (struct Process *)IExec->FindTask(NULL);
-	cli = BADDR(myproc->pr_CLI);
+	cli = IDOS->Cli(); //BADDR(myproc->pr_CLI);
 
 	if((cont = IDOS->GetConsoleTask()))
 	{
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 			{
 				if((win->WScreen->Flags & SCREENTYPE) != WBENCHSCREEN)
 				{
-					myproc->pr_WindowPtr = (APTR) win;
+					IDOS->SetProcWindow(win);
 					IGraphics->SetFont(win->RPort, ((struct GfxBase *)(IGraphics->Data.LibBase))->DefaultFont);
 					IDOS->Write(out, "\x1b\x63", 2);
 				}

@@ -74,13 +74,12 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 	int a, pass = 0;
 
 	myproc = (struct Process *)IExec->FindTask(0);
-	wsave = myproc->pr_WindowPtr;
-	myproc->pr_WindowPtr = (APTR)-1;
+	wsave = IDOS->SetProcWindow((APTR)-1L);
 
 	if((lock = IDOS->Lock(name, ACCESS_READ)))
 	{
 		IDOS->UnLock(lock);
-		myproc->pr_WindowPtr = wsave;
+		IDOS->SetProcWindow(wsave);
 		Self->LStrCpy(buffer, name);
 		return(1);
 	}
@@ -116,7 +115,7 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 			proc = (struct Process *)IExec->FindTask((char *)pathlists[a]);
 	}
 	IExec->Permit();
-	myproc->pr_WindowPtr = wsave;
+	IDOS->SetProcWindow(wsave);
 
 	return(pass);
 }
