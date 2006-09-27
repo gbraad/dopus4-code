@@ -86,14 +86,14 @@ void seename(int win)
 			}
 			strcpy(buf, str_pathbuffer[win]);
 			dopus_curwin[win]->diskname[0] = 0;
-			main_proc->pr_WindowPtr = (APTR) - 1;
+			IDOS->SetProcWindow((APTR)-1L);
 			if(!(a = getroot(buf, NULL)))
 			{
 				strcpy(dopus_curwin[win]->diskname, globstring[STR_DIR_NOT_AVAILABLE_TITLE]);
 				dopus_curwin[win]->disktot = dopus_curwin[win]->diskfree = dopus_curwin[win]->diskblock = -1;
 				displayname(win, 1);
 				if(config->errorflags & ERROR_ENABLE_DOS)
-					main_proc->pr_WindowPtr = (APTR) Window;
+					IDOS->SetProcWindow(Window);
 				return;
 			}
 			strcpy(dopus_curwin[win]->diskname, buf);
@@ -107,7 +107,7 @@ void seename(int win)
 			else
 				dopus_curwin[win]->flags &= ~DWF_READONLY;
 			if(config->errorflags & ERROR_ENABLE_DOS)
-				main_proc->pr_WindowPtr = (APTR) Window;
+				IDOS->SetProcWindow(Window);
 		}
 	}
 	displayname(win, 0);

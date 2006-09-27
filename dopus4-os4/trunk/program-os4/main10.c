@@ -235,7 +235,7 @@ void checksize(int win)
 {
 	BPTR mylock;
 
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	IDOS->SetProcWindow((APTR)-1L);
 	if((mylock = IDOS->Lock(str_pathbuffer[win], ACCESS_READ)))
 	{
 		IDOS->UnLock(mylock);
@@ -244,7 +244,9 @@ void checksize(int win)
 	else
 		displayname(win, 1);
 	if(config->errorflags & ERROR_ENABLE_DOS)
-		main_proc->pr_WindowPtr = (APTR) Window;
+	{
+		IDOS->SetProcWindow(Window);
+	}
 }
 
 void centerwindow(struct NewWindow *wind)
@@ -522,8 +524,7 @@ int identify_and_load(int win, int unit)
 	BPTR lock;
 	APTR wsave;
 
-	wsave = main_proc->pr_WindowPtr;
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	wsave = IDOS->SetProcWindow((APTR)-1L);
 
 	sprintf(buf, "DF%d:", unit);
 	if(!(lock = IDOS->Lock(buf, ACCESS_READ)))
@@ -534,7 +535,7 @@ int identify_and_load(int win, int unit)
 	}
 	IDOS->UnLock(lock);
 
-	main_proc->pr_WindowPtr = wsave;
+	IDOS->SetProcWindow(wsave);
 
 	if(win > -1)
 	{

@@ -444,7 +444,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		candoicon = 0;
 		special = 2;
 		count = 1;
-		main_proc->pr_WindowPtr = (APTR) - 1;
+		IDOS->SetProcWindow((APTR)-1L);
 		if(destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ)))
 		{
 			IDOS->Info(filelock, infodata);
@@ -456,7 +456,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			blocksize = 512;
 		}
 		if(config->errorflags & ERROR_ENABLE_DOS)
-			main_proc->pr_WindowPtr = (APTR) Window;
+		{
+			IDOS->SetProcWindow(Window);
+		}
 		total = -1;
 		dos_global_files = 0;
 		break;
@@ -2140,7 +2142,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			int64 value;
 
-			main_proc->pr_WindowPtr = (APTR) - 1;
+			IDOS->SetProcWindow((APTR)-1L);
 			if(!(destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ))))
 			{
 				value = 0;
@@ -2160,7 +2162,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(config->errorflags & ERROR_ENABLE_DOS)
 			{
-				main_proc->pr_WindowPtr = (APTR) Window;
+				IDOS->SetProcWindow(Window);
 			}
 			if(specflags & FUNCFLAGS_BYTEISCHECKFIT)
 			{

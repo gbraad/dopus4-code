@@ -86,7 +86,7 @@ void startnotify(int win)
 	{
 		return;
 	}
-	main_proc->pr_WindowPtr = (APTR)-1;
+	IDOS->SetProcWindow((APTR)-1);
 	endnotify(win);
 	if(config->dynamicflags & UPDATE_NOTIFY && str_pathbuffer[win][0])
 	{
@@ -104,7 +104,7 @@ void startnotify(int win)
 	}
 	if(config->errorflags & ERROR_ENABLE_DOS)
 	{
-		main_proc->pr_WindowPtr = (APTR) Window;
+		IDOS->SetProcWindow(Window);
 	}
 }
 

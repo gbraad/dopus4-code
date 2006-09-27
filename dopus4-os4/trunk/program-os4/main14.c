@@ -164,8 +164,7 @@ int expand_path(char *path, char *buffer)
 	APTR save;
 	int suc;
 
-	save = main_proc->pr_WindowPtr;
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	save = IDOS->SetProcWindow((APTR)-1L);
 	buffer[0] = 0;
 	if((lock = IDOS->Lock(path, ACCESS_READ)))
 	{
@@ -175,6 +174,6 @@ int expand_path(char *path, char *buffer)
 	}
 	else
 		suc = 0;
-	main_proc->pr_WindowPtr = save;
+	IDOS->SetProcWindow(save);
 	return (suc);
 }

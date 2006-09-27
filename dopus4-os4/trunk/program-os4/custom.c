@@ -1353,7 +1353,8 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	makereselect(&func_reselection, funcdata->activewin);
 
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	IDOS->SetProcWindow((APTR)-1L);
+
 	if(IDOpus->CheckExist("T:", NULL))
 	{
 		strcpy(buf, "T:");
@@ -1392,7 +1393,9 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		IDOS->UnLock(lock);
 	}
 	if(config->errorflags & ERROR_ENABLE_DOS)
-		main_proc->pr_WindowPtr = (APTR) Window;
+	{
+		IDOS->SetProcWindow(Window);
+	}
 
 	for(a = 0; a < 100; a++)
 	{

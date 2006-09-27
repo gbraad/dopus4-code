@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
 	main_proc = (struct Process *)IExec->FindTask(NULL);
-	main_proc->pr_WindowPtr = (APTR)-1;
+	IDOS->SetProcWindow((APTR)-1L);
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", DOPUSLIB_VERSION)))
@@ -1120,7 +1120,7 @@ int SetUp(int tit)
 
 		if(MainScreen && !staybehindWB)
 			IIntuition->ScreenToFront(MainScreen);
-		main_proc->pr_WindowPtr = (config->errorflags & ERROR_ENABLE_DOS) ? Window : (APTR) - 1L;
+		IDOS->SetProcWindow((config->errorflags & ERROR_ENABLE_DOS) ? Window : (APTR) - 1L);
 
 		layout_menus();
 

@@ -108,7 +108,7 @@ void dodiskinfo(char *path)
 		disktxt[i][0] = '-';
 		disktxt[i][1] = 0;
 	}
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	IDOS->SetProcWindow((APTR)-1L);
       getnewdisk:
 	strcpy(diskname, path);
 	if(getroot(diskname, &ds))
@@ -272,7 +272,9 @@ void dodiskinfo(char *path)
 		fail = 1;
 
 	if(config->errorflags & ERROR_ENABLE_DOS)
-		main_proc->pr_WindowPtr = (APTR) Window;
+	{
+		IDOS->SetProcWindow(Window);
+	}
 	if(fail)
 	{
 		doerror(-1);

@@ -126,7 +126,7 @@ void shutthingsdown(int louise)
 {
 	remclock();
 
-	main_proc->pr_WindowPtr = windowptr_save;
+	IDOS->SetProcWindow(windowptr_save);
 	if(!status_iconified && status_publicscreen && Window)
 	{
 		if(MainScreen)

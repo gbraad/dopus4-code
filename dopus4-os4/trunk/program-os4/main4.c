@@ -291,8 +291,7 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 	{
 		if(!num)
 		{
-			save = main_proc->pr_WindowPtr;
-			main_proc->pr_WindowPtr = (APTR) - 1;
+			save = IDOS->SetProcWindow((APTR)-1L);
 			dos_global_entry.subtype = 0;
 			if(lockandexamine(rexx_args[argnum], fblock))
 			{
@@ -305,7 +304,7 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 				seedate(&dos_global_entry.date, dos_global_entry.datebuf, 1);
 				dos_global_entry.selected = 0;
 			}
-			main_proc->pr_WindowPtr = save;
+			IDOS->SetProcWindow(save);
 			ptr = IDOS->FilePart(rexx_args[argnum]);
 			strcpy(dos_global_entry.name, ptr);
 			if(ptr > rexx_args[argnum])

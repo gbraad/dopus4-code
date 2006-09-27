@@ -55,7 +55,7 @@ void quit()
 
 	close_rexx_port();
 
-	main_proc->pr_WindowPtr = windowptr_save;
+	IDOS->SetProcWindow(windowptr_save);
 	closedisplay();
 
 	remove_arbiter();

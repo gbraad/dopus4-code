@@ -339,7 +339,7 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	{
 		goto failed;
 	}
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	IDOS->SetProcWindow((APTR)-1L);
 
 	strcpy(tempbuf, dirbuf);
 
@@ -388,7 +388,9 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	IDOS->UnLock(lock);
 	IDOS->FreeDosObject(DOS_FIB, fblock);
 	if(config->errorflags & ERROR_ENABLE_DOS)
-		main_proc->pr_WindowPtr = (APTR) Window;
+	{
+		IDOS->SetProcWindow(Window);
+	}
 
 	return ((ret) ? dir : NULL);
 
@@ -622,7 +624,7 @@ void check_old_buffer(int win)
 		{
 			struct FileInfoBlock *testinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 
-			main_proc->pr_WindowPtr = (APTR) - 1;
+			IDOS->SetProcWindow((APTR)-1L);
 			if(lockandexamine(dopus_curwin[win]->directory, testinfo))
 			{
 				if(IDOS->CompareDates(&dopus_curwin[win]->dirstamp, &testinfo->fib_Date) != 0)
@@ -643,7 +645,7 @@ void check_old_buffer(int win)
 			}
 			if(config->errorflags & ERROR_ENABLE_DOS)
 			{
-				main_proc->pr_WindowPtr = (APTR)Window;
+				IDOS->SetProcWindow(Window);
 			}
 			IDOS->FreeDosObject(DOS_FIB, testinfo);
 		}

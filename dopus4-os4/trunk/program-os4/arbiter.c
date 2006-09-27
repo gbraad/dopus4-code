@@ -47,7 +47,7 @@ int install_arbiter()
 	arbiter_startup.mn_ReplyPort = arbiter_reply_port;
 	arbiter_startup.mn_Length = (UWORD) sizeof(struct ArbiterMessage);
 
-	if(!(arbiter_msg_port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag) "dopus_arbiter", NP_Priority, 0, NP_StackSize, 8192, NP_FreeSeglist, FALSE, TAG_END)->pr_MsgPort))
+	if(!(arbiter_msg_port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag) "dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, NP_StackSize, 8192, NP_FreeSeglist, FALSE, TAG_END)->pr_MsgPort))
 		return (0);
 
 	IExec->PutMsg(arbiter_msg_port, &arbiter_startup);
@@ -101,7 +101,7 @@ struct LaunchList
 
 void arbiter_process()
 {
-	struct Process *my_process;
+	struct Process *my_process = (struct Process *)IExec->FindTask(NULL);
 	struct Message *my_startup_message;
 	struct ArbiterMessage *arb_msg, *remove_msg = NULL;
 	struct LaunchList *first_launch = NULL, *launch, *launchpos;
@@ -109,15 +109,15 @@ void arbiter_process()
 	char ret, remove = 0;
 	int wait_mask;
 
-	my_process = (struct Process *)IExec->FindTask(NULL);
-	my_process->pr_WindowPtr = (APTR) - 1;
 	IExec->WaitPort(&my_process->pr_MsgPort);
 	my_startup_message = IExec->GetMsg(&my_process->pr_MsgPort);
 
 	wait_mask = 1 << my_process->pr_MsgPort.mp_SigBit;
 
 	if((replyport = IExec->CreatePort(NULL, 0)))
+	{
 		wait_mask |= 1 << replyport->mp_SigBit;
+	}
 
 	for(;;)
 	{

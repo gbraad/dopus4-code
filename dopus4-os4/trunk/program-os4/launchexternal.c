@@ -511,30 +511,6 @@ int dopus_iconinfo(char *filename)
 	IDOS->UnLock(plock);
 
 	return(ret);
-
-/*	strcpy(buffer, filename);
-	a = strlen(buffer);
-	if(a > 5 && strcmp(&buffer[a - 5], ".info") == 0)
-	{
-		buffer[a - 5] = '\0';
-		plock = IDOS->ParentDir(flock);
-//		IDOS->UnLock(flock);
-		dostatustext(globstring[STR_SHOWING_FILE]);
-		if(infoscreen && plock)
-		{
-			IWorkbench->WBInfo(plock, buffer, infoscreen);
-		}
-		IDOS->UnLock(plock);
-	}
-	if(!MainScreen)
-	{
-		IIntuition->UnlockPubScreen(NULL, infoscreen);
-	}
-	if(flock)
-	{
-		IDOS->UnLock(flock);
-	}
-	return 0;*/
 }
 
 void setup_externals()
@@ -543,8 +519,7 @@ void setup_externals()
 	char funcbuf[256];
 	APTR wsave;
 
-	wsave = main_proc->pr_WindowPtr;
-	main_proc->pr_WindowPtr = (APTR) - 1;
+	wsave = IDOS->SetProcWindow((APTR)-1L);
 
 	if(config->loadexternal & LOAD_CONFIG)
 	{
@@ -569,7 +544,7 @@ void setup_externals()
 		}
 	}
 
-	main_proc->pr_WindowPtr = wsave;
+	IDOS->SetProcWindow(wsave);
 }
 
 void fill_out_visinfo(struct VisInfo *vis, struct Screen *scr)
