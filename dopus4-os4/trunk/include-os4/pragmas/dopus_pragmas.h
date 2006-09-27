@@ -20,10 +20,8 @@
 #pragma  libcall DOpusBase LStrnCmpI            090 09803
 #pragma  libcall DOpusBase StrCombine           096 0A9804
 #pragma  libcall DOpusBase StrConcat            09C 09803
-//#pragma  libcall DOpusBase BtoCStr              0BA 09803
 #pragma  libcall DOpusBase Assign               0C0 9802
 #pragma  libcall DOpusBase PathName             0D2 09803
-//#pragma  libcall DOpusBase SendPacket           0D8 190804
 #pragma  libcall DOpusBase TackOn               0DE 09803
 #pragma  libcall DOpusBase StampToStr           0E4 801
 #pragma  libcall DOpusBase StrToStamp           0EA 801
@@ -50,7 +48,6 @@
 #pragma  libcall DOpusBase RefreshStrGad        17A 9802
 #pragma  libcall DOpusBase CheckNumGad          180 109804
 #pragma  libcall DOpusBase CheckHexGad          186 109804
-#pragma  libcall DOpusBase Atoh                 18C 0802
 #pragma  libcall DOpusBase HiliteGad            192 9802
 #pragma  libcall DOpusBase DoSimpleRequest      198 9802
 #pragma  libcall DOpusBase ReadConfig           19E 9802

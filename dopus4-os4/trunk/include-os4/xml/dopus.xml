@@ -52,7 +52,6 @@
 			<arg name="bg" type="int"/>
 			<arg name="d" type="int"/>
 		</method>
-	<!--	<method name="Reserved1" result="void" status="unimplemented"/> -->
 		<method name="LStrCat" result="void">
 			<arg name="s1" type="char *"/>
 			<arg name="s2" type="char *"/>
@@ -95,11 +94,6 @@
 			<arg name="s3" type="char *"/>
 			<arg name="len" type="int"/>
 		</method>
-	<!--	<method name="StrConcat" result="int">
-			<arg name="s1" type="char *"/>
-			<arg name="s2" type="char *"/>
-			<arg name="len" type="int"/>
-		</method> -->
 		<method name="Assign" result="int">
 			<arg name="name" type="char *"/>
 			<arg name="dir" type="char *"/>
@@ -109,17 +103,9 @@
 			<arg name="buf" type="char *"/>
 			<arg name="len" type="int"/>
 		</method>
-	<!--	<method name="TackOn" result="int">
-			<arg name="path" type="char *"/>
-			<arg name="file" type="char *"/>
-			<arg name="len" type="int"/>
-		</method> -->
 		<method name="StampToStr" result="void">
 			<arg name="datetime" type="struct DateTime *"/>
 		</method>
-	<!--	<method name="StrToStamp" result="int">
-			<arg name="datetime" type="struct DateTime *"/>
-		</method> -->
 		<method name="AddListView" result="int">
 			<arg name="view" type="struct DOpusListView *"/>
 			<arg name="count" type="int"/>
@@ -232,10 +218,6 @@
 			<arg name="window" type="struct Window *"/>
 			<arg name="min" type="int"/>
 			<arg name="max" type="int"/>
-		</method>
-		<method name="Atoh" result="int">
-			<arg name="str" type="char *"/>
-			<arg name="len" type="int"/>
 		</method>
 		<method name="HiliteGad" result="void">
 			<arg name="gadget" type="struct Gadget *"/>

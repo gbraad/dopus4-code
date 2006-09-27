@@ -52,7 +52,6 @@ ActivateStrGad(gadget,window)(a0/a1)
 RefreshStrGad(gadget,window)(a0/a1)
 CheckNumGad(gadget,window,min,max)(a0/a1,d0/d1)
 CheckHexGad(gadget,window,min,max)(a0/a1,d0/d1)
-Atoh(str,len)(a0,d0)
 HiliteGad(gadget,rastport)(a0/a1)
 DoSimpleRequest(window,simplereq)(a0/a1)
 *                                                             

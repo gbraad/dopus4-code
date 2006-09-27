@@ -56,10 +56,8 @@ struct DOpusIFace
 	int APICALL (*LStrnCmpI)(struct DOpusIFace *Self, char * s1, char * s2, int len);
 	int APICALL (*StrCombine)(struct DOpusIFace *Self, char * s1, char * s2, char * s3, int len);
 	int APICALL (*StrConcat)(struct DOpusIFace *Self, char * s1, char * s2, int len);
-//	void APICALL (*BtoCStr)(struct DOpusIFace *Self, BSTR bstr, char * cstr, int len);
 	int APICALL (*Assign)(struct DOpusIFace *Self, char * name, char * dir);
 	int APICALL (*PathName)(struct DOpusIFace *Self, BPTR lock, char * buffer, int len);
-//	int APICALL (*SendPacket)(struct DOpusIFace *Self, struct MsgPort * port, int action, ULONG * args, int nargs);
 	int APICALL (*TackOn)(struct DOpusIFace *Self, char * path, char * name, int len);
 	void APICALL (*StampToStr)(struct DOpusIFace *Self, struct DateTime * datetime);
 	int APICALL (*StrToStamp)(struct DOpusIFace *Self, struct DateTime * datetime);
@@ -86,7 +84,6 @@ struct DOpusIFace
 	void APICALL (*RefreshStrGad)(struct DOpusIFace *Self, struct Gadget * gadget, struct Window * window);
 	int APICALL (*CheckNumGad)(struct DOpusIFace *Self, struct Gadget * gadget, struct Window * window, int min, int max);
 	int APICALL (*CheckHexGad)(struct DOpusIFace *Self, struct Gadget * gadget, struct Window * window, int min, int max);
-	int APICALL (*Atoh)(struct DOpusIFace *Self, char * str, int len);
 	void APICALL (*HiliteGad)(struct DOpusIFace *Self, struct Gadget * gadget, struct RastPort * a1arg);
 	int APICALL (*DoSimpleRequest)(struct DOpusIFace *Self, struct Window * window, struct DOpusSimpleRequest * simplereq);
 	int APICALL (*ReadConfig)(struct DOpusIFace *Self, char * name, struct ConfigStuff * cstuff);

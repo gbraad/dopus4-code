@@ -45,10 +45,8 @@ extern int                  VARARGS68K _DOpus_LStrCmpI(struct DOpusIFace *, char
 extern int                  VARARGS68K _DOpus_LStrnCmpI(struct DOpusIFace *, char * s1, char * s2, int len);
 extern int                  VARARGS68K _DOpus_StrCombine(struct DOpusIFace *, char * s1, char * s2, char * s3, int len);
 extern int                  VARARGS68K _DOpus_StrConcat(struct DOpusIFace *, char * s1, char * s2, int len);
-//extern void                 VARARGS68K _DOpus_BtoCStr(struct DOpusIFace *, BSTR bstr, char * cstr, int len);
 extern int                  VARARGS68K _DOpus_Assign(struct DOpusIFace *, char * name, char * dir);
 extern int                  VARARGS68K _DOpus_PathName(struct DOpusIFace *, BPTR lock, char * buffer, int len);
-//extern int                  VARARGS68K _DOpus_SendPacket(struct DOpusIFace *, struct MsgPort * port, int action, ULONG * args, int nargs);
 extern int                  VARARGS68K _DOpus_TackOn(struct DOpusIFace *, char * path, char * name, int len);
 extern void                 VARARGS68K _DOpus_StampToStr(struct DOpusIFace *, struct DateTime * datetime);
 extern int                  VARARGS68K _DOpus_StrToStamp(struct DOpusIFace *, struct DateTime * datetime);
@@ -75,7 +73,6 @@ extern void                 VARARGS68K _DOpus_ActivateStrGad(struct DOpusIFace *
 extern void                 VARARGS68K _DOpus_RefreshStrGad(struct DOpusIFace *, struct Gadget * gadget, struct Window * window);
 extern int                  VARARGS68K _DOpus_CheckNumGad(struct DOpusIFace *, struct Gadget * gadget, struct Window * window, int min, int max);
 extern int                  VARARGS68K _DOpus_CheckHexGad(struct DOpusIFace *, struct Gadget * gadget, struct Window * window, int min, int max);
-extern int                  VARARGS68K _DOpus_Atoh(struct DOpusIFace *, char * str, int len);
 extern void                 VARARGS68K _DOpus_HiliteGad(struct DOpusIFace *, struct Gadget * gadget, struct RastPort * a1arg);
 extern int                  VARARGS68K _DOpus_DoSimpleRequest(struct DOpusIFace *, struct Window * window, struct DOpusSimpleRequest * simplereq);
 extern int                  VARARGS68K _DOpus_ReadConfig(struct DOpusIFace *, char * name, struct ConfigStuff * cstuff);
@@ -135,10 +132,8 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_LStrnCmpI,
     _DOpus_StrCombine,
     _DOpus_StrConcat,
-//     _DOpus_BtoCStr,
     _DOpus_Assign,
     _DOpus_PathName,
-//    _DOpus_SendPacket,
     _DOpus_TackOn,
     _DOpus_StampToStr,
     _DOpus_StrToStamp,
@@ -165,7 +160,6 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_RefreshStrGad,
     _DOpus_CheckNumGad,
     _DOpus_CheckHexGad,
-    _DOpus_Atoh,
     _DOpus_HiliteGad,
     _DOpus_DoSimpleRequest,
     _DOpus_ReadConfig,

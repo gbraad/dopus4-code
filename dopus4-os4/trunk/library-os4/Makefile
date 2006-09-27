@@ -64,7 +64,7 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/GetWBScreen.c main/SearchPathList.c main/CheckExist.c \
     main/StrToUpper.c main/StrToLower.c main/RawkeyToStr.c \
     main/DoRMBGadget.c main/AddGadgets.c main/ActivateStrGad.c \
-    main/RefreshStrGad.c main/CheckNumGad.c main/CheckHexGad.c main/Atoh.c \
+    main/RefreshStrGad.c main/CheckNumGad.c main/CheckHexGad.c \
     main/HiliteGad.c main/DoSimpleRequest.c main/ReadConfig.c main/SaveConfig.c \
     main/DefaultConfig.c main/GetDevices.c main/AssignGadget.c \
     main/AssignMenu.c main/FindSystemFile.c main/Do3DFrame.c main/FreeConfig.c \
