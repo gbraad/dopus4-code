@@ -146,7 +146,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 	if(config->dirflags & DIRFLAGS_EXPANDPATHS)
 	{
-		IDOpus->PathName(mylock, buf, 256);
+		IDOS->NameFromLock(mylock, buf, 256);
 		strcpy(str_pathbuffer[win], buf);
 		checkdir(str_pathbuffer[win], Window ? &path_strgadget[win] : NULL);
 		strcpy(dir->directory, str_pathbuffer[win]);

@@ -168,7 +168,7 @@ int expand_path(char *path, char *buffer)
 	buffer[0] = 0;
 	if((lock = IDOS->Lock(path, ACCESS_READ)))
 	{
-		IDOpus->PathName(lock, buffer, 256);
+		IDOS->NameFromLock(lock, buffer, 256);
 		IDOS->UnLock(lock);
 		suc = 1;
 	}

@@ -149,7 +149,7 @@ int do_parent_multi(STRPTR path)
 	count = 0;
 	while(parentlock)
 	{
-		IDOpus->PathName(parentlock, buf, 256);
+		IDOS->NameFromLock(parentlock, buf, 256);
 		if((table[count] = IDOpus->LAllocRemember(&pm_req.rb_memory, (a = (strlen(buf) + 3)), 0)))
 		{
 			strcpy(table[count], buf);
@@ -272,7 +272,7 @@ int get_multi_volume(BPTR lock, STRPTR *table, struct DOpusRemember **key)
 			{
 				if(table)
 				{
-					IDOpus->PathName(list->al_Lock, buf, 256);
+					IDOS->NameFromLock(list->al_Lock, buf, 256);
 					if(table[tabcount] = IDOpus->LAllocRemember(key, (a = (strlen(buf) + 7)), 0))
 					{
 						IDOpus->StrCombine(table[tabcount], "  + ", buf, a - 1);

@@ -577,7 +577,7 @@ void iconify(int louise, int buttons, int banknum)
 										b += data_gadgetrow_offset * 7;
 										if(isvalidgad(&dopus_curgadbank->gadgets[b]))
 										{
-											IDOpus->PathName(amsg->am_ArgList[a].wa_Lock, func_external_file, 256);
+											IDOS->NameFromLock(amsg->am_ArgList[a].wa_Lock, func_external_file, 256);
 											if(func_external_file[0] && func_external_file[(strlen(func_external_file) - 1)] == ':' && !amsg->am_ArgList[a].wa_Name[0])
 												IDOS->AddPart(func_external_file, "Disk.info", 256);
 											else
@@ -602,7 +602,7 @@ void iconify(int louise, int buttons, int banknum)
 									{
 										char pathbuf[256];
 
-										IDOpus->PathName(amsg->am_ArgList[a].wa_Lock, pathbuf, 256);
+										IDOS->NameFromLock(amsg->am_ArgList[a].wa_Lock, pathbuf, 256);
 										strcpy(func_external_file, pathbuf);
 										IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
 										ftype_doubleclick(pathbuf, amsg->am_ArgList[a].wa_Name, 0);

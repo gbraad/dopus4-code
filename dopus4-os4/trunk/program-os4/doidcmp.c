@@ -154,7 +154,7 @@ void doidcmp()
 							{	// lister area
 								if(!(*apmsg->am_ArgList[a].wa_Name))
 								{
-									IDOpus->PathName(apmsg->am_ArgList[a].wa_Lock, str_pathbuffer[b], 256);
+									IDOS->NameFromLock(apmsg->am_ArgList[a].wa_Lock, str_pathbuffer[b], 256);
 									checkdir(str_pathbuffer[b], &path_strgadget[b]);
 									startgetdir(b, SGDFLAGS_CANMOVEEMPTY);
 									break;
@@ -163,7 +163,7 @@ void doidcmp()
 								{
 									c = data_active_window;
 									makeactive(b, 0);
-									IDOpus->PathName(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
+									IDOS->NameFromLock(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
 									IDOS->AddPart(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
 									dofunctionstring("*copy", NULL, NULL, NULL);
 									makeactive(c, 0);
@@ -174,7 +174,7 @@ void doidcmp()
 								b += (data_gadgetrow_offset * 7);
 								if(isvalidgad(&dopus_curgadbank->gadgets[b]))
 								{
-									IDOpus->PathName(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
+									IDOS->NameFromLock(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
 									if(func_external_file[0] && func_external_file[(strlen(func_external_file) - 1)] == ':' && !apmsg->am_ArgList[a].wa_Name[0])
 										IDOS->AddPart(func_external_file, "Disk.info", 256);
 									else
@@ -189,7 +189,7 @@ void doidcmp()
 								if(apmsg->am_ArgList[a].wa_Name[0])
 								{
 									char pathbuf[256];
-									IDOpus->PathName(apmsg->am_ArgList[a].wa_Lock, pathbuf, 256);
+									IDOS->NameFromLock(apmsg->am_ArgList[a].wa_Lock, pathbuf, 256);
 									strcpy(func_external_file, pathbuf);
 									IDOS->AddPart(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
 									ftype_doubleclick(pathbuf, apmsg->am_ArgList[a].wa_Name, 0);
