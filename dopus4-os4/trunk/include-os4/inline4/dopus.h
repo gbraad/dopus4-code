@@ -52,8 +52,6 @@
 #define LStrnCmpI(s1, s2, len) IDOpus->LStrnCmpI(s1, s2, len) 
 #define StrCombine(s1, s2, s3, len) IDOpus->StrCombine(s1, s2, s3, len) 
 #define StrConcat(s1, s2, len) IDOpus->StrConcat(s1, s2, len) 
-#define Assign(name, dir) IDOpus->Assign(name, dir) 
-#define PathName(lock, buffer, len) IDOpus->PathName(lock, buffer, len) 
 #define TackOn(path, name, len) IDOpus->TackOn(path, name, len) 
 #define StampToStr(datetime) IDOpus->StampToStr(datetime) 
 #define StrToStamp(datetime) IDOpus->StrToStamp(datetime) 

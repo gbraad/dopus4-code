@@ -55,7 +55,7 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/Do3DStringBox.c main/Do3DCycleBox.c main/DoArrow.c main/LStrCat.c \
     main/LStrnCat.c main/LStrCpy.c main/LStrnCpy.c main/LStrCmp.c \
     main/LStrnCmp.c main/LStrCmpI.c main/LStrnCmpI.c main/StrCombine.c \
-    main/StrConcat.c main/Assign.c main/TackOn.c main/StampToStr.c \
+    main/StrConcat.c main/TackOn.c main/StampToStr.c \
     main/StrToStamp.c main/AddListView.c main/ListViewIDCMP.c \
     main/RefreshListView.c main/RemoveListView.c main/DrawCheckMark.c \
     main/FixSliderBody.c main/FixSliderPot.c main/GetSliderPos.c \

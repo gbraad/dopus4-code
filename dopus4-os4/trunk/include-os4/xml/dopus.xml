@@ -94,15 +94,6 @@
 			<arg name="s3" type="char *"/>
 			<arg name="len" type="int"/>
 		</method>
-		<method name="Assign" result="int">
-			<arg name="name" type="char *"/>
-			<arg name="dir" type="char *"/>
-		</method>
-		<method name="PathName" result="int">
-			<arg name="lock" type="BPTR"/>
-			<arg name="buf" type="char *"/>
-			<arg name="len" type="int"/>
-		</method>
 		<method name="StampToStr" result="void">
 			<arg name="datetime" type="struct DateTime *"/>
 		</method>

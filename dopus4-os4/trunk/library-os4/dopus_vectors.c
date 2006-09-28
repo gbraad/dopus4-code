@@ -45,7 +45,6 @@ extern int                  VARARGS68K _DOpus_LStrCmpI(struct DOpusIFace *, char
 extern int                  VARARGS68K _DOpus_LStrnCmpI(struct DOpusIFace *, char * s1, char * s2, int len);
 extern int                  VARARGS68K _DOpus_StrCombine(struct DOpusIFace *, char * s1, char * s2, char * s3, int len);
 extern int                  VARARGS68K _DOpus_StrConcat(struct DOpusIFace *, char * s1, char * s2, int len);
-extern int                  VARARGS68K _DOpus_Assign(struct DOpusIFace *, char * name, char * dir);
 extern int                  VARARGS68K _DOpus_TackOn(struct DOpusIFace *, char * path, char * name, int len);
 extern void                 VARARGS68K _DOpus_StampToStr(struct DOpusIFace *, struct DateTime * datetime);
 extern int                  VARARGS68K _DOpus_StrToStamp(struct DOpusIFace *, struct DateTime * datetime);
@@ -131,7 +130,6 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_LStrnCmpI,
     _DOpus_StrCombine,
     _DOpus_StrConcat,
-    _DOpus_Assign,
     _DOpus_TackOn,
     _DOpus_StampToStr,
     _DOpus_StrToStamp,

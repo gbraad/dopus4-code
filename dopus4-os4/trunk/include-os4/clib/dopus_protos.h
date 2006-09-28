@@ -28,7 +28,6 @@ extern "C" {
 void ActivateStrGad(struct Gadget *,struct Window *);
 int AddGadgets(struct Window *,struct Gadget *,char **,int,int,int,int);
 int AddListView(struct DOpusListView *,int);
-int Assign(char *,char *);
 int CheckExist(char *,int *);
 int CheckHexGad(struct Gadget *,struct Window *,int,int);
 int CheckNumGad(struct Gadget *,struct Window *,int,int);
@@ -64,7 +63,6 @@ void LStrnCat(char *,char *,int);
 int LStrnCmp(char *,char *,int);
 int LStrnCmpI(char *,char *,int);
 void LStrnCpy(char *,char *,int);
-int PathName(BPTR,char *,int);
 int RawkeyToStr(USHORT,USHORT,char *,char *,int);
 int RefreshListView(struct DOpusListView *,int);
 void RefreshStrGad(struct Gadget *,struct Window *);

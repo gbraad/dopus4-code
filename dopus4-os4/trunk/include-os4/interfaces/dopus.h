@@ -56,8 +56,6 @@ struct DOpusIFace
 	int APICALL (*LStrnCmpI)(struct DOpusIFace *Self, char * s1, char * s2, int len);
 	int APICALL (*StrCombine)(struct DOpusIFace *Self, char * s1, char * s2, char * s3, int len);
 	int APICALL (*StrConcat)(struct DOpusIFace *Self, char * s1, char * s2, int len);
-	int APICALL (*Assign)(struct DOpusIFace *Self, char * name, char * dir);
-	int APICALL (*PathName)(struct DOpusIFace *Self, BPTR lock, char * buffer, int len);
 	int APICALL (*TackOn)(struct DOpusIFace *Self, char * path, char * name, int len);
 	void APICALL (*StampToStr)(struct DOpusIFace *Self, struct DateTime * datetime);
 	int APICALL (*StrToStamp)(struct DOpusIFace *Self, struct DateTime * datetime);

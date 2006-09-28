@@ -64,8 +64,11 @@ void doassign(int rexx)
 				strcpy(buf, dev->name);
 				buf[(strlen(buf) - 1)] = 0;
 				if(blank)
+				{
 					a = IDOS->AssignLock(buf, 0);
+				}
 				else
+				{
 					switch (dev->size)
 					{
 					case DLT_DIRECTORY:
@@ -84,7 +87,7 @@ void doassign(int rexx)
 						a = IDOS->AssignPath(buf, buf1);
 						break;
 					}
-//                a = Assign(buf,blank ? NULL : buf1);
+				}
 				if(!a)
 					dostatustext(globstring[STR_CANT_CANCEL_ASSIGN]);
 				else
@@ -113,14 +116,24 @@ void doassign(int rexx)
 		}
 	}
 	else
+	{
 		strcpy(buf, rexx_args[0]);
+	}
 	for(a = 0; a < strlen(buf); a++)
+	{
 		if(buf[a] == ':' || buf[a] == '/')
+		{
 			buf[a] = 0;
-	if(!(IDOpus->Assign(buf, str_pathbuffer[data_active_window])))
+		}
+	}
+	if(!(IDOS->AssignPath(buf, str_pathbuffer[data_active_window])))
+	{
 		okay();
+	}
 	else
+	{
 		dostatustext(globstring[STR_ASSIGN_FAILED]);
+	}
 }
 
 int checkdest(int w)
