@@ -105,7 +105,6 @@
 #define RefreshRequesterObject(reqbase, object) IDOpus->RefreshRequesterObject(reqbase, object) 
 #define ObjectText(reqbase, left, top, width, height, text, textpos) IDOpus->ObjectText(reqbase, left, top, width, height, text, textpos) 
 #define DoGlassImage(rp, gadget, shine, shadow, type) IDOpus->DoGlassImage(rp, gadget, shine, shadow, type) 
-#define Decode_RLE(source, dest, size) IDOpus->Decode_RLE(source, dest, size) 
 #define ReadStringFile(stringdata, filename) IDOpus->ReadStringFile(stringdata, filename) 
 #define FreeStringFile(stringdata) IDOpus->FreeStringFile(stringdata) 
 #define LFreeRemEntry(key, pointer) IDOpus->LFreeRemEntry(key, pointer) 

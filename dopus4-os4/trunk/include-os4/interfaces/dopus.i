@@ -84,7 +84,6 @@ STRUCTURE DOpusIFace, InterfaceData_SIZE
 	    FPTR IDOpus_RefreshRequesterObject
 	    FPTR IDOpus_ObjectText
 	    FPTR IDOpus_DoGlassImage
-	    FPTR IDOpus_Decode_RLE
 	    FPTR IDOpus_ReadStringFile
 	    FPTR IDOpus_FreeStringFile
 	    FPTR IDOpus_LFreeRemEntry

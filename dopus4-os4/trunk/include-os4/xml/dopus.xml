@@ -356,11 +356,6 @@
 			<arg name="shadow" type="int"/>
 			<arg name="type" type="int"/>
 		</method>
-		<method name="Decode_RLE" result="void">
-			<arg name="source" type="char *"/>
-			<arg name="dest" type="char *"/>
-			<arg name="size" type="int"/>
-		</method>
 		<method name="ReadStringFile" result="int">
 			<arg name="stringdata" type="struct StringData *"/>
 			<arg name="filename" type="char *"/>

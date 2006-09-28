@@ -98,7 +98,6 @@ extern APTR                 VARARGS68K _DOpus_AddRequesterObject(struct DOpusIFa
 extern void                 VARARGS68K _DOpus_RefreshRequesterObject(struct DOpusIFace *, struct RequesterBase * reqbase, struct RequesterObject * object);
 extern void                 VARARGS68K _DOpus_ObjectText(struct DOpusIFace *, struct RequesterBase * reqbase, short left, short top, short width, short height, char * text, unsigned short textpos);
 extern void                 VARARGS68K _DOpus_DoGlassImage(struct DOpusIFace *, struct RastPort * rp, struct Gadget * gadget, int shine, int shadow, int type);
-extern void                 VARARGS68K _DOpus_Decode_RLE(struct DOpusIFace *, char * source, char * dest, int size);
 extern int                  VARARGS68K _DOpus_ReadStringFile(struct DOpusIFace *, struct StringData * stringdata, char * filename);
 extern int                  VARARGS68K _DOpus_FreeStringFile(struct DOpusIFace *, struct StringData * stringdata);
 extern void                 VARARGS68K _DOpus_LFreeRemEntry(struct DOpusIFace *, struct DOpusRemember ** key, char * pointer);
@@ -183,7 +182,6 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_RefreshRequesterObject,
     _DOpus_ObjectText,
     _DOpus_DoGlassImage,
-    _DOpus_Decode_RLE,
     _DOpus_ReadStringFile,
     _DOpus_FreeStringFile,
     _DOpus_LFreeRemEntry,

@@ -72,7 +72,7 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/GetButtonImage.c main/ShowSlider.c main/CheckConfig.c \
     main/GetCheckImage.c main/OpenRequester.c main/CloseRequester.c \
     main/AddRequesterObject.c main/RefreshRequesterObject.c main/ObjectText.c \
-    main/DoGlassImage.c main/Decode_RLE.c main/ReadStringFile.c \
+    main/DoGlassImage.c main/ReadStringFile.c \
     main/FreeStringFile.c main/LFreeRemEntry.c main/AddGadgetBorders.c \
     main/CreateGadgetBorders.c main/SelectGadget.c main/FSSetMenuStrip.c \
     main/extras.c main/data.c

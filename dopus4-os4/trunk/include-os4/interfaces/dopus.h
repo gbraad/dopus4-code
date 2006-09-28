@@ -109,7 +109,6 @@ struct DOpusIFace
 	void APICALL (*RefreshRequesterObject)(struct DOpusIFace *Self, struct RequesterBase * reqbase, struct RequesterObject * object);
 	void APICALL (*ObjectText)(struct DOpusIFace *Self, struct RequesterBase * reqbase, short left, short top, short width, short height, char * text, unsigned short textpos);
 	void APICALL (*DoGlassImage)(struct DOpusIFace *Self, struct RastPort * rp, struct Gadget * gadget, int shine, int shadow, int type);
-	void APICALL (*Decode_RLE)(struct DOpusIFace *Self, char * source, char * dest, int size);
 	int APICALL (*ReadStringFile)(struct DOpusIFace *Self, struct StringData * stringdata, char * filename);
 	int APICALL (*FreeStringFile)(struct DOpusIFace *Self, struct StringData * stringdata);
 	void APICALL (*LFreeRemEntry)(struct DOpusIFace *Self, struct DOpusRemember ** key, char * pointer);

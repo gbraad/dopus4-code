@@ -31,7 +31,6 @@ int AddListView(struct DOpusListView *,int);
 int CheckExist(char *,int *);
 int CheckHexGad(struct Gadget *,struct Window *,int,int);
 int CheckNumGad(struct Gadget *,struct Window *,int,int);
-void Decode_RLE(char *source,char *dest,int size);
 void DisableGadget(struct Gadget *,struct RastPort *,int,int);
 void Do3DBox(struct RastPort *,int,int,int,int,int,int);
 void Do3DCycleBox(struct RastPort *,int,int,int,int,int,int);
