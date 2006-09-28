@@ -110,9 +110,9 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, char *name, char *buf, int si
 
 			if((lock = IDOS->Lock("", ACCESS_READ)))
 			{
-				Self->PathName(lock, temp, 256);
+				IDOS->NameFromLock(lock, temp, 256);
 				IDOS->UnLock(lock);
-				Self->TackOn(temp, name, 256);
+				IDOS->AddPart(temp, name, 256);
 			}
 		}
 	}

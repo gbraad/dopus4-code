@@ -96,9 +96,9 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 				{
 					if ((lock1 = IDOS->DupLock(wext->pathLock)))
 					{
-						Self->PathName(lock1, buffer, size);
+						IDOS->NameFromLock(lock1, buffer, size);
 						IDOS->UnLock(lock1);
-						Self->TackOn(buffer, name, size);
+						IDOS->AddPart(buffer, name, size);
 						if((lock = IDOS->Lock(buffer, ACCESS_READ)))
 						{
 							pass = 1;

@@ -660,7 +660,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					{
 						Self->LStrCpy(strbuf, dirbuf);
 						if(!(simple->flags & SRF_DIRGLASS))
-							Self->TackOn(strbuf, filebuf, 256);
+							IDOS->AddPart(strbuf, filebuf, 256);
 					}
 					Self->RefreshStrGad(&gadgets[strgad], Window);
 					Self->ActivateStrGad(&gadgets[strgad], Window);
