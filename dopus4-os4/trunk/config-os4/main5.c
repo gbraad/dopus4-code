@@ -884,7 +884,7 @@ int editfileclass(struct fileclass *fclass, int new)
 				IIntuition->ActivateWindow(Window);
 				if(appmsg->am_ID == MY_APPOBJECT && appmsg->am_NumArgs > 0 && (*appmsg->am_ArgList[0].wa_Name))
 				{
-					IDOpus->PathName(appmsg->am_ArgList[0].wa_Lock, edit_pathbuf, 256);
+					IDOS->NameFromLock(appmsg->am_ArgList[0].wa_Lock, edit_pathbuf, 256);
 					IDOS->AddPart(edit_pathbuf, appmsg->am_ArgList[0].wa_Name, 256);
 					IDOpus->RefreshStrGad(&editclassgadgets[9], Window);
 					load_file_view();

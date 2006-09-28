@@ -570,7 +570,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 					{
 						char buf[256];
 
-						IDOpus->PathName(appmsg->am_ArgList[0].wa_Lock, buf, 256);
+						IDOS->NameFromLock(appmsg->am_ArgList[0].wa_Lock, buf, 256);
 						IDOS->AddPart(buf, appmsg->am_ArgList[0].wa_Name, 256);
 						if(IDOpus->CheckExist(buf, NULL) < 0)
 						{
