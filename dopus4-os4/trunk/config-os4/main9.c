@@ -74,7 +74,9 @@ void makehelpname(STRPTR path)
 		}
 	}
 	else
-		IDOpus->TackOn(currenthelpname, path, 256);
+	{
+		IDOS->AddPart(currenthelpname, path, 256);
+	}
 }
 
 void doconfighelp()

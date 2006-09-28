@@ -940,7 +940,7 @@ int system_requester(char *buf, char *buf2, struct Gadget *gad, int32 bit)
 	{
 		strcpy(buf, dirbuf);
 		if(bit == 0)
-			IDOpus->TackOn(buf, filebuf, 256);
+			IDOS->AddPart(buf, filebuf, 256);
 		IDOpus->RefreshStrGad(gad, Window);
 		return (1);
 	}

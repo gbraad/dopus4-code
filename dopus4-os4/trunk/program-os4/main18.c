@@ -186,7 +186,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				current_recurse = current_recurse->last;
 
 				strcpy(name, dir);
-				IDOpus->TackOn(name, myfinfo->fib_FileName, 512);
+				IDOS->AddPart(name, myfinfo->fib_FileName, 512);
 
 				if(dowhat & R_GETNAMES)
 				{
@@ -200,7 +200,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					strcpy(ddir, dest);
 					if(config->copyflags & COPY_DATE)
 					{
-						IDOpus->TackOn(ddir, myfinfo->fib_FileName, 512);
+						IDOS->AddPart(ddir, myfinfo->fib_FileName, 512);
 						IDOS->SetFileDate(ddir, &myfinfo->fib_Date);
 						strcpy(ddir, dest);
 					}
@@ -294,7 +294,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		IExec->CopyMemQuick((char *)myfinfo, (char *)enfinfo, sizeof(struct FileInfoBlock));
 
 		strcpy(name, dir);
-		IDOpus->TackOn(name, enfinfo->fib_FileName, 512);
+		IDOS->AddPart(name, enfinfo->fib_FileName, 512);
 
 		if(FIB_IS_DRAWER(enfinfo))
 		{
@@ -364,7 +364,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 
-					IDOpus->TackOn(dname, enfinfo->fib_FileName, 512);
+					IDOS->AddPart(dname, enfinfo->fib_FileName, 512);
 					adir = dir;
 					adest = dest;
 					adata = data;
@@ -486,7 +486,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				if(dowhat & R_COPY)
 				{
 					strcpy(dname, ddir);
-					IDOpus->TackOn(dname, enfinfo->fib_FileName, 512);
+					IDOS->AddPart(dname, enfinfo->fib_FileName, 512);
 
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 					if(!mylock)

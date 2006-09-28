@@ -165,7 +165,7 @@ void do_path_completion(int win, USHORT qual)
 	}
       docomplete:
 	strcpy(str_pathbuffer[win], path);
-	IDOpus->TackOn(str_pathbuffer[win], completion[win].currententry->name, 256);
+	IDOS->AddPart(str_pathbuffer[win], completion[win].currententry->name, 256);
 	IDOpus->RefreshStrGad(&path_strgadget[win], Window);
 	IDOpus->ActivateStrGad(&path_strgadget[win], Window);
 

@@ -63,7 +63,7 @@ void makedir(int rexx)
 					return;
 				}
 				strcpy(new_directory, str_pathbuffer[data_active_window]);
-				IDOpus->TackOn(new_directory, rexx_args[0], 256);
+				IDOS->AddPart(new_directory, rexx_args[0], 256);
 				if(rexx_args[1][0] && (rexx_args[1][0] == '1'))
 					addicon = 1;
 			}
@@ -111,7 +111,7 @@ void makedir(int rexx)
 				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
-			IDOpus->TackOn(new_directory, dirname, 256);
+			IDOS->AddPart(new_directory, dirname, 256);
 		}
 
 		if(!(lock = IDOS->CreateDir(new_directory)))
@@ -314,7 +314,9 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 				IDOpus->TackOn(rexx_pathbuffer[win], NULL, 256);
 			}
 			else
+			{
 				rexx_pathbuffer[win][argnum] = 0;
+			}
 			dos_global_entry.last = dos_global_entry.next = NULL;
 			dos_global_entry.type = a;
 			dos_global_entry.size = b;

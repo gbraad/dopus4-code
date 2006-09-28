@@ -501,7 +501,7 @@ int select(int win, int o)
 					else
 					{
 						strcpy(str_pathbuffer[win], dir);
-						IDOpus->TackOn(str_pathbuffer[win], temp->name, 256);
+						IDOS->AddPart(str_pathbuffer[win], temp->name, 256);
 					}
 				}
 				startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
@@ -1138,7 +1138,7 @@ int doactive(int state, int showinfo)
 				else
 				{
 					strcpy(str_pathbuffer[data_active_window], dopus_curwin[1 - data_active_window]->directory);
-					IDOpus->TackOn(str_pathbuffer[data_active_window], last_selected_entry->name, 256);
+					IDOS->AddPart(str_pathbuffer[data_active_window], last_selected_entry->name, 256);
 				}
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				time_previous_sec = 0;

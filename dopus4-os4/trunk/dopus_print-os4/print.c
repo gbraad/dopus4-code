@@ -336,7 +336,7 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 		return (0);
 
 	strcpy(path, dirbuf);
-	IDOpus->TackOn(path, filebuf, 256);
+	IDOS->AddPart(path, filebuf, 256);
 	IDOpus->RefreshStrGad(gadget, window);
 	return (1);
 }

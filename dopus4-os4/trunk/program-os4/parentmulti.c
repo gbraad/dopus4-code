@@ -276,7 +276,7 @@ int get_multi_volume(BPTR lock, STRPTR *table, struct DOpusRemember **key)
 					if(table[tabcount] = IDOpus->LAllocRemember(key, (a = (strlen(buf) + 7)), 0))
 					{
 						IDOpus->StrCombine(table[tabcount], "  + ", buf, a - 1);
-						IDOpus->TackOn(table[tabcount], NULL, a - 1);
+						IDOpus->TackOn(table[tabcount], a - 1);
 						++tabcount;
 					}
 				}

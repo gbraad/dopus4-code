@@ -180,7 +180,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 								editgadson(0);
 								functype[selitem] = 2;
 								IDOpus->PathName(appmsg->am_ArgList[a].wa_Lock, edit_funcbuf, 256);
-								IDOpus->TackOn(edit_funcbuf, appmsg->am_ArgList[a].wa_Name, 256);
+								IDOS->AddPart(edit_funcbuf, appmsg->am_ArgList[a].wa_Name, 256);
 								editlists[0].itemselected = -1;
 								setupforedit(functype[selitem], (a == (appmsg->am_NumArgs - 1)));
 								tof = 1;
@@ -1279,7 +1279,7 @@ int funcrequester(int type, STRPTR buf, STRPTR title)
 		if(IDOpus->FileRequest(&filereq))
 		{
 			strcpy(buf, dirbuf);
-			IDOpus->TackOn(buf, filebuf, 256);
+			IDOS->AddPart(buf, filebuf, 256);
 			ret = 1;
 		}
 		unbusy();

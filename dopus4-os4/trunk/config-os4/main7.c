@@ -84,7 +84,7 @@ void dosave(int new)
 			return;
 		}
 		strcpy(configname, dirbuf);
-		IDOpus->TackOn(configname, filebuf, 256);
+		IDOS->AddPart(configname, filebuf, 256);
 		if(!(stricmp(configname, "DirectoryOpus.DefCFG")))
 			if(!(strstri(configname, ".CFG")))
 				IDOpus->StrConcat(configname, ".CFG", 256);
@@ -135,7 +135,7 @@ doload(int type, int def)
 			return (0);
 		}
 		strcpy(loadnamebuf, dirbuf);
-		IDOpus->TackOn(loadnamebuf, filebuf, 256);
+		IDOS->AddPart(loadnamebuf, filebuf, 256);
 		if(!(strstri(loadnamebuf, ".CFG")))
 			IDOpus->StrConcat(loadnamebuf, ".CFG", 256);
 	}

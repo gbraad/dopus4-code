@@ -39,7 +39,7 @@ void defaultpar(struct dopusfuncpar *par)
 	par->delay = 2;
 	par->key = par->qual = par->type = 0;
 	par->pri = config->priority;
-	par->stack = 8000;
+	par->stack = 8192;
 }
 
 void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *pars)
@@ -486,7 +486,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				if(cust)
 				{
 					strcpy(funcdata->last_file, funcdata->source_path);
-					IDOpus->TackOn(funcdata->last_file, cust->name, 256);
+					IDOS->AddPart(funcdata->last_file, cust->name, 256);
 					if(!funcdata->recursive_path && cust->type > 0)
 					{
 						if(star)
@@ -647,7 +647,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				if(cust)
 				{
 					strcpy(funcdata->last_file, spath);
-					IDOpus->TackOn(funcdata->last_file, cust->name, 256);
+					IDOS->AddPart(funcdata->last_file, cust->name, 256);
 					if(!funcdata->recursive_path && cust->type > 0)
 					{
 						if(star)
@@ -697,8 +697,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			{
 				bufpos += addfilename(buffer, funcdata->source_path, func_single_file, quote);
 				strcpy(funcdata->last_file, funcdata->source_path);
-				IDOpus->TackOn(funcdata->last_file, func_single_file,
-				       256);
+				IDOS->AddPart(funcdata->last_file, func_single_file, 256);
 			}
 			break;
 
@@ -1059,7 +1058,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 					if(quote)
 						IDOpus->StrConcat(buffer, "\"", MAXCOMMANDLEN);
 					IDOpus->StrConcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
-					IDOpus->TackOn(buffer, filebuf, MAXCOMMANDLEN);
+					IDOS->AddPart(buffer, filebuf, MAXCOMMANDLEN);
 					if(quote)
 						IDOpus->StrConcat(buffer, "\"", MAXCOMMANDLEN);
 				}
@@ -1673,7 +1672,7 @@ int getdummyfile(struct Directory *fbuf, char *dirbuf, struct DOpusFileReq *freq
 	if(fbuf)
 	{
 		strcpy(buf, dirbuf);
-		IDOpus->TackOn(buf, file, 256);
+		IDOS->AddPart(buf, file, 256);
 		return (filloutdummy(buf, fbuf));
 	}
 	strcpy(func_single_file, file);

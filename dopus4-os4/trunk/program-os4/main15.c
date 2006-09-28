@@ -42,7 +42,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 	APTR dto = NULL;
 
 	strcpy(buf, path);
-	IDOpus->TackOn(buf, name, 256);
+	IDOS->AddPart(buf, name, 256);
 	threelongs[0] = 0;
 
 	if(IDOpus->CheckExist(buf, &size) >= 0)
@@ -623,7 +623,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					else
 					{
 						strcpy(buf2, source);
-						IDOpus->TackOn(buf2, func_single_file, 256);
+						IDOS->AddPart(buf2, func_single_file, 256);
 						if(!(filloutdummy(buf2, &dummy_entry)))
 							return (0);
 						func_single_entry = &dummy_entry;

@@ -579,9 +579,9 @@ void iconify(int louise, int buttons, int banknum)
 										{
 											IDOpus->PathName(amsg->am_ArgList[a].wa_Lock, func_external_file, 256);
 											if(func_external_file[0] && func_external_file[(strlen(func_external_file) - 1)] == ':' && !amsg->am_ArgList[a].wa_Name[0])
-												IDOpus->TackOn(func_external_file, "Disk.info", 256);
+												IDOS->AddPart(func_external_file, "Disk.info", 256);
 											else
-												IDOpus->TackOn(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
+												IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
 											if(!(IDOpus->CheckExist(func_external_file, NULL)))
 											{
 												IDOpus->StrConcat(func_external_file, ".info", 256);
@@ -604,7 +604,7 @@ void iconify(int louise, int buttons, int banknum)
 
 										IDOpus->PathName(amsg->am_ArgList[a].wa_Lock, pathbuf, 256);
 										strcpy(func_external_file, pathbuf);
-										IDOpus->TackOn(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
+										IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
 										ftype_doubleclick(pathbuf, amsg->am_ArgList[a].wa_Name, 0);
 										IIntuition->ModifyIDCMP(Window, ICON_IDCMP);
 										unbusy();

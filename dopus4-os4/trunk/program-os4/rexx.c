@@ -72,7 +72,7 @@ void rexx_dispatch(int allfuncs)
 
 					entry = (struct Directory *)arglist->file_list;
 					strcpy(arglist->file_data, dopus_curwin[arglist->file_window]->directory);
-					IDOpus->TackOn(arglist->file_data, entry->name, 256);
+					IDOS->AddPart(arglist->file_data, entry->name, 256);
 					arglist->last_select = arglist->file_list;
 
 					entry = entry->next;

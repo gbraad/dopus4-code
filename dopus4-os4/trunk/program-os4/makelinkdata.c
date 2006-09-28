@@ -290,7 +290,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 						if(IDOpus->FileRequest(&filereq))
 						{
 							IDOpus->LStrCpy(makelink_destbuf, dirbuf);
-							IDOpus->TackOn(makelink_destbuf, filebuf, 256);
+							IDOS->AddPart(makelink_destbuf, filebuf, 256);
 						}
 						IDOpus->RefreshStrGad(makelink_destname_gad, swindow);
 						IDOpus->ActivateStrGad(makelink_destname_gad, swindow);
@@ -299,7 +299,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 				case MAKELINK_OKAY:
 					ret = 1;
 					strcpy(namebuf, str_pathbuffer[data_active_window]);
-					IDOpus->TackOn(namebuf, makelink_namebuf, 256);
+					IDOS->AddPart(namebuf, makelink_namebuf, 256);
 					strcpy(destbuf, makelink_destbuf);
 					*type = makelink_type;
 				case MAKELINK_CANCEL:

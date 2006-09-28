@@ -172,7 +172,7 @@ int dofiletypeconfig()
 							if(!filebuf[0])
 								break;
 							strcpy(classname, dirbuf);
-							IDOpus->TackOn(classname, filebuf, 256);
+							IDOS->AddPart(classname, filebuf, 256);
 							busy();
 							if(savefileclasses())
 								classchange = 0;
@@ -582,7 +582,7 @@ int importfileclasses()
 	if(!(IDOpus->FileRequest(&filereq)) || !filebuf[0])
 		return (0);
 	strcpy(buf, dirbuf);
-	IDOpus->TackOn(buf, filebuf, 256);
+	IDOS->AddPart(buf, filebuf, 256);
 
 	while(!(in = IDOS->Open(buf, MODE_OLDFILE)))
 	{
@@ -885,7 +885,7 @@ int editfileclass(struct fileclass *fclass, int new)
 				if(appmsg->am_ID == MY_APPOBJECT && appmsg->am_NumArgs > 0 && (*appmsg->am_ArgList[0].wa_Name))
 				{
 					IDOpus->PathName(appmsg->am_ArgList[0].wa_Lock, edit_pathbuf, 256);
-					IDOpus->TackOn(edit_pathbuf, appmsg->am_ArgList[0].wa_Name, 256);
+					IDOS->AddPart(edit_pathbuf, appmsg->am_ArgList[0].wa_Name, 256);
 					IDOpus->RefreshStrGad(&editclassgadgets[9], Window);
 					load_file_view();
 				}

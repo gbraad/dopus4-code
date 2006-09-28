@@ -111,7 +111,7 @@ int build_tree(struct RecursiveDirectory *rec)
 				else
 					tree_buffer[b++] = ' ';
 				if(tree_path_buffer)
-					IDOpus->TackOn(tree_path_buffer, recurse_parent_array[a]->name, 1024);
+					IDOS->AddPart(tree_path_buffer, recurse_parent_array[a]->name, 1024);
 			}
 			tree_buffer[b++] = ' ';
 			tree_buffer[b++] = ' ';
@@ -122,7 +122,7 @@ int build_tree(struct RecursiveDirectory *rec)
 			strcpy(&tree_buffer[b], "+--");
 		strcpy(&tree_buffer[b + 3], rec->name);
 		if(tree_path_buffer)
-			IDOpus->TackOn(tree_path_buffer, rec->name, 1024);
+			IDOS->AddPart(tree_path_buffer, rec->name, 1024);
 		if(!(addfile(dopus_curwin[data_active_window], data_active_window, rec->name, 0, ENTRY_CUSTOM, &rec->date, tree_buffer, 0, CUSTOMENTRY_DIRTREE, FALSE, tree_path_buffer, NULL, 0, 0)))
 			return (0);
 		if(rec->child)
