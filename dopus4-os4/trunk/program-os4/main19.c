@@ -636,7 +636,7 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 
 int checktypechars(int file, char *match, int nocase)
 {
-	char matchbuf[258], c1, c2;
+	char matchbuf[258] = { 0, }, c1, c2;
 	int len, clen, a, first = 1, m, bpos;
 	uint32 val;
 
@@ -659,7 +659,7 @@ int checktypechars(int file, char *match, int nocase)
 	{
 		clen = 256;
 	}
-	if((IDOS->Read(file, matchbuf, clen)) != clen)
+	if((IDOS->Read(file, (char *)matchbuf, clen)) != clen)
 	{
 		return (0);
 	}
@@ -672,9 +672,13 @@ int checktypechars(int file, char *match, int nocase)
 		{
 			if(match[a] != '?')
 			{
-				IDOS->HexToLong(&match[a], &val);
-				if(val != (uint32)matchbuf[m])
+				char hexbuf[3] = {0,};
+				strncpy(hexbuf, &match[a], 2);
+				IDOS->HexToLong(hexbuf, &val);
+				if(val != matchbuf[m])
+				{
 					return (0);
+				}
 			}
 		}
 		break;
