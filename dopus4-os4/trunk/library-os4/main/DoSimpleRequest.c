@@ -79,11 +79,13 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 	struct IntuiMessage *Msg;
 	struct StringExtend *extend = NULL;
 	char *text, *keys, *buf, ch, *strbuf = NULL, **gadptr;
-	ULONG class;
-	USHORT code;
+	uint32 class;
+	uint16 code;
 
 	if(!simple)
+	{
 		return(0);
+	}
 	if(!window)
 	{
 		screen = ((struct IntuitionBase *)(IIntuition->Data.LibBase))->FirstScreen;
@@ -95,7 +97,9 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 		fnt = window->RPort->Font;
 	}
 	if(simple->font)
+	{
 		fnt = simple->font;
+	}
 	tfnt = fnt;
 
 	IGraphics->InitRastPort(&testrp);
@@ -467,7 +471,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				if(num)
 					Self->AddGadgets(Window, contgad, &(string_table[STR_CONTINUE])/*contstring */ , 1, simple->hi, simple->lo, 1);
 				c = 0;
-				FOREVER
+				for(;;)
 				{
 					IExec->Wait(1 << Window->UserPort->mp_SigBit);
 					while ((Msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
@@ -475,12 +479,16 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 						class = Msg->Class;
 						code = Msg->Code;
 						if(class == IDCMP_GADGETUP)
+						{
 							gadgetid = ((struct Gadget *)Msg->IAddress)->GadgetID;
+						}
 						IExec->ReplyMsg((struct Message *)Msg);
 						if(class == IDCMP_INACTIVEWINDOW)
 						{
 							if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveScreen == screen)
+							{
 								IIntuition->ActivateWindow(Window);
+							}
 						}
 						else if(num)
 						{
@@ -507,13 +515,19 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 							}
 						}
 						else if(!num && class == IDCMP_MOUSEBUTTONS && code == SELECTDOWN)
+						{
 							c = 1;
+						}
 					}
 					if(c)
+					{
 						break;
+					}
 				}
 				if(num)
+				{
 					IIntuition->RemoveGList(Window, contgad, 1);
+				}
 				IGraphics->SetAPen(rp, simple->bg);
 				IGraphics->RectFill(rp, xoffset + 2, yoffset + 1, xoffset + winwidth - 3, yoffset + winheight - 2);
 				IGraphics->SetAPen(rp, simple->fg);
@@ -546,7 +560,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 		}
 	}
 
-	FOREVER
+	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
 		while((Msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
@@ -569,7 +583,9 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					return (1);
 				}
 				if(simple->strbuf)
+				{
 					Self->ActivateStrGad(&gadgets[strgad], Window);
+				}
 				break;
 			case IDCMP_INACTIVEWINDOW:
 				if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveScreen == screen)
@@ -625,18 +641,18 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					filereq.dirbuf = dirbuf;
 					filereq.filebuf = filebuf;
 					filereq.window = Window;
-					filereq.x = -2;
-					filereq.y = -2;
-					filereq.lines = 15;
+//					filereq.x = -2;
+//					filereq.y = -2;
+//					filereq.lines = 15;
 					if(simple->flags & SRF_DIRGLASS)
 					{
 						filereq.flags = DFRF_DIRREQ;
-						filereq.title = string_table[STR_SELECT_DIR];
+						filereq.title = "Drawer"; //string_table[STR_SELECT_DIR];
 					}
 					else
 					{
 						filereq.flags = 0;
-						filereq.title = string_table[STR_SELECT_FILE];
+						filereq.title = "File"; //string_table[STR_SELECT_FILE];
 					}
 					filereq.filearraykey = NULL;
 
@@ -654,13 +670,17 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 							Self->LStrCpy(filebuf, strbuf);
 						}
 						else
+						{
 							filebuf[0] = 0;
+						}
 					}
 					if(Self->FileRequest(&filereq))
 					{
 						Self->LStrCpy(strbuf, dirbuf);
 						if(!(simple->flags & SRF_DIRGLASS))
+						{
 							IDOS->AddPart(strbuf, filebuf, 256);
+						}
 					}
 					Self->RefreshStrGad(&gadgets[strgad], Window);
 					Self->ActivateStrGad(&gadgets[strgad], Window);
@@ -668,7 +688,9 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				}
 				IIntuition->CloseWindow(Window);
 				if(gadgetid && simple->strbuf)
+				{
 					Self->LStrCpy(simple->strbuf, strbuf);
+				}
 				Self->LFreeRemember(&key);
 
 				return(gadgetid);

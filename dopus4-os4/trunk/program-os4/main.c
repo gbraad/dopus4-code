@@ -1421,12 +1421,16 @@ void read_configuration(int def)
 
 void read_data_files(int fb)
 {
-	char buf[256];
+	char buf[256] = { 0, };
 
 	if(get_data_file(buf, "HLP", fb))
+	{
 		readhelp(buf);
+	}
 	else if(get_data_file(buf, "guide", fb))
+	{
 		readhelp(NULL);
+	}
 
 	readstrings("dopus4.catalog");
 }
