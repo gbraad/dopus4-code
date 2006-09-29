@@ -140,11 +140,17 @@ void ftype_doubleclick(char *path, char *name, int state)
 		dostatustext(globstring[STR_RUNNING_FILE]);
 		IDOpus->StrCombine(buf2, buf, ".info", 256);
 		if(IDOpus->CheckExist(buf2, NULL) < 0)
+		{
 			a = 1;
+		}
 		else
+		{
 			a = 0;
+		}
 		if((a = dorun(buf, state, a)) > 0 || a == -2)
+		{
 			okay();
+		}
 		return;
 	}
 
@@ -166,6 +172,10 @@ void ftype_doubleclick(char *path, char *name, int state)
 		dostatustext(globstring[STR_PLAYING_FILE]);
 		strcpy(func_single_file, name);
 		a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
+		if(a)
+		{
+			okay();
+		}
 		func_single_file[0] = 0;
 		IDataTypes->DisposeDTObject(dto);
 		return;
@@ -193,7 +203,9 @@ void ftype_doubleclick(char *path, char *name, int state)
 		plock = IDOS->ParentDir(flock);
 		dostatustext(globstring[STR_SHOWING_FILE]);
 		if(infoscreen && plock)
+		{
 			IWorkbench->WBInfo(plock, buffer, infoscreen);
+		}
 		if(!MainScreen)
 		{
 			IIntuition->UnlockPubScreen(NULL, infoscreen);
@@ -213,10 +225,14 @@ void ftype_doubleclick(char *path, char *name, int state)
 			dostatustext(title);
 		}
 		else
+		{
 			title[0] = 0;
+		}
 
 		if(!status_iconified)
+		{
 			strcpy(func_single_file, name);
+		}
 		dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 	}
 	else
@@ -229,7 +245,9 @@ void ftype_doubleclick(char *path, char *name, int state)
 	}
 
 	if(strcmp(str_last_statustext, globstring[STR_INTERROGATING_FILES]) == 0)
+	{
 		okay();
+	}
 
 	return;
 }

@@ -550,9 +550,13 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 			case FTYC_MOVETO:
 				test = 0;
 				if(buf[0] == '$')
+				{
 					val = IDOS->HexToLong(&buf[1], &res);
+				}
 				else
+				{
 					val = IDOS->StrToLong(buf, &resstr);
+				}
 				if(val == -1)
 				{
 					err = IDOS->ChangeFilePosition(file, 0, OFFSET_END);
@@ -569,13 +573,21 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 			case FTYC_MOVE:
 				test = 0;
 				if(buf[0] == '$')
+				{
 					val = IDOS->HexToLong(&buf[1], &res);
+				}
 				else
+				{
 					val = IDOS->StrToLong(buf, &resstr);
+				}
 				if((IDOS->ChangeFilePosition(file, res, OFFSET_CURRENT)) == -1)
+				{
 					fail = 1;
+				}
 				if(err == -1)
+				{
 					fail = 1;
+				}
 				break;
 			case FTYC_SEARCHFOR:
 				oldpos = IDOS->GetFilePosition(file);
@@ -644,9 +656,13 @@ int checktypechars(int file, char *match, int nocase)
 		break;
 	}
 	if(clen > 256)
+	{
 		clen = 256;
+	}
 	if((IDOS->Read(file, matchbuf, clen)) != clen)
+	{
 		return (0);
+	}
 	m = 0;
 	bpos = 0;
 	switch (match[0])
@@ -657,7 +673,7 @@ int checktypechars(int file, char *match, int nocase)
 			if(match[a] != '?')
 			{
 				IDOS->HexToLong(&match[a], &val);
-				if(val != matchbuf[m])
+				if(val != (uint32)matchbuf[m])
 					return (0);
 			}
 		}
