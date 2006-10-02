@@ -52,5 +52,5 @@ revision:
 
 # clean targets
 clean:
-	@rm -f *.o $(APPNAME) $(APPNAME).debug
+	@rm -f *.o DirectoryOpus DirectoryOpus.debug
 	@rm -f dopusstrings.h strings.c
