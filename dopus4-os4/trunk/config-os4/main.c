@@ -1361,7 +1361,11 @@ int request(STRPTR text)
 
 int do_request(STRPTR text, STRPTR pos, STRPTR neg)
 {
-	struct DOpusSimpleRequest req;
+	char buf[100] = { 0, };
+	int32 a;
+
+	sprintf(buf, "%s|%s", pos, neg);
+/*	struct DOpusSimpleRequest req;
 	char *gads[3];
 	static int rets[2] = { 1, 0 };
 	int a;
@@ -1383,7 +1387,13 @@ int do_request(STRPTR text, STRPTR pos, STRPTR neg)
 	req.title = "ConfigOpus";
 	busy();
 	a = IDOpus->DoSimpleRequest(Window, &req);
+	unbusy();*/
+
+//	IDOS->SetProcWindow(wsave);
+	busy();
+	a = IDOS->TimedDosRequesterTags(TDR_Timeout, 0, TDR_Window, Window, TDR_ImageType, TDRIMAGE_WARNING, TDR_FormatString, text, TDR_TitleString, "ConfigOpus", TDR_GadgetString, buf);
 	unbusy();
+//	wsave = IDOS->SetProcWindow((APTR)-1L);
 	return (a);
 }
 
