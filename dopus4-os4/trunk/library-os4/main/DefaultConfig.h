@@ -74,7 +74,7 @@ const static char *defgads[42] =
 	"",
 	"",
 	"",
-	""
+	"Print"
 }, *revgads[42] =
 {
 	"Toggle",
@@ -172,7 +172,7 @@ const static char *defgads[42] =
 	"",
 	"",
 	"",
-	""
+	"*Print"
 }, *revfuncs[42] =
 {
 	"*Toggle",
