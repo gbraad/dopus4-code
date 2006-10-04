@@ -73,7 +73,7 @@ const static char *defgads[42] =
 	"",
 	"",
 	"",
-	"Encrypt",
+	"",
 	""
 }, *revgads[42] =
 {
@@ -171,7 +171,7 @@ const static char *defgads[42] =
 	"",
 	"",
 	"",
-	"*Encrypt",
+	"",
 	""
 }, *revfuncs[42] =
 {
