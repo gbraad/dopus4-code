@@ -526,7 +526,7 @@ int SetUp(int tit)
 		{
 			main_win.Type = CUSTOMSCREEN;
 
-			main_scr.LeftEdge = 0;
+/*			main_scr.LeftEdge = 0;
 			main_scr.TopEdge = 0;
 			if(config->screenflags & SCRFLAGS_HALFHEIGHT)
 			{
@@ -539,11 +539,21 @@ int SetUp(int tit)
 					main_scr.Height /= 2;
 					main_scr.TopEdge = main_scr.Height;
 				}
-			}
+			}*/
 
 			if(!MainScreen)
 			{
-				if(!(MainScreen = (struct Screen *)IIntuition->OpenScreen((struct NewScreen *)&main_scr)))
+				if(config->screenmode == MODE_WORKBENCHCLONE)
+				{
+					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, TAG_DONE);
+				}
+				else
+				{
+					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_DisplayID, config->screenmode, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, TAG_DONE);
+				}
+
+//				if(!(MainScreen = (struct Screen *)IIntuition->OpenScreen((struct NewScreen *)&main_scr)))
+				if(!(MainScreen))
 				{
 					status_iconified = 1;
 					simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
@@ -561,7 +571,7 @@ int SetUp(int tit)
 					}
 					return (SetUp(tit));
 				}
-				load_palette(MainScreen, config->new_palette);
+//				load_palette(MainScreen, config->new_palette);  //Removed, it causes wrong colors for system stuff
 
 				main_win.Screen = MainScreen;
 
