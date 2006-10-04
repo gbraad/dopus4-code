@@ -205,7 +205,7 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	config->fontsizes[0] = 8;
 	Self->LStrCpy(config->fontbufs[0], "topaz.font");
 
-	config->generalscreenflags = SCR_GENERAL_TITLESTATUS | SCR_GENERAL_TINYGADS | SCR_GENERAL_INDICATERMB | SCR_GENERAL_REQDRAG | SCR_GENERAL_WINBORDERS | SCR_GENERAL_NEWLOOKPROP;
+	config->generalscreenflags = SCR_GENERAL_TITLESTATUS | SCR_GENERAL_TINYGADS | SCR_GENERAL_INDICATERMB | SCR_GENERAL_REQDRAG | SCR_GENERAL_WINBORDERS | SCR_GENERAL_NEWLOOKPROP | SCR_GENERAL_GADSLIDERS;
 
 	IExec->CopyMem((char *)defaultpalette, (char *)config->new_palette, sizeof(defaultpalette));
 
@@ -217,8 +217,8 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	config->scr_winx = 0;
 	config->scr_winy = 0;
-	config->scr_winw = 800; //-1;
-	config->scr_winh = 600; //-1;
+	config->scr_winw = -1;
+	config->scr_winh = -1;
 
 	/* Misc Stuff */
 	config->gadgetrows = 6;
