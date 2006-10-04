@@ -221,33 +221,34 @@ const static char *defgads[42] =
 	"",
 	"",
 	"",
-}, *defmenus1[8] =
+}, *defmenus1[7] =
 {
 	"Help!",
 	"Error help~",
 	"Configure~",
 	"About",
-	"Version~",
+//	"Version~",
 	"Iconify",
 	"Button Iconify",
 	"Quit"
-}, *deffuncs1[8] =
+}, *deffuncs1[7] =
 {
 	"*Help",
 	"*ErrorHelp",
 	"*Configure",
 	"*About",
-	"*Version",
+//	"*Version",
 	"*Iconify",
 	"*ButtonIconify",
 	"*Quit"
 }, *defmenus2[9] =
 {
 	"Relabel",
-	"Print dir",
+//	"Print dir",
 	"Disk info~",
 	"Create LhA archive",
 	"Create ZIP archive",
+	NULL,
 	NULL,
 	NULL,
 	NULL,
@@ -255,10 +256,11 @@ const static char *defgads[42] =
 }, *deffuncs2[9] =
 {
 	"*Relabel",
-	"*PrintDir",
+//	"*PrintDir",
 	"*DiskInfo",
 	"LHA -er a \"{d}{RsArchive name:.lha}\" {O}",
 	"ZIP -rN \"{d}{RsArchive name:.zip}\" {O}",
+	NULL,
 	NULL,
 	NULL,
 	NULL,

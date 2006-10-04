@@ -307,22 +307,22 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 		config->menutit[i][0] = 0;
 	}
 
-	for(i = 0; i < 8; i++)
+	for(i = 0; i < 7; i++)
 	{
 		Self->AssignMenu(cstuff, i, defmenus1[i], deffuncs1[i]);
 		config->menu[i].key = defmenkeys1[i];
 		config->menu[i].qual = defmenqual1[i];
 	}
-	for(i = 20; i < 25; i++)
+	for(i = 20; i < 24; i++)
 	{
 		h = i - 20;
 		Self->AssignMenu(cstuff, i, defmenus2[h], deffuncs2[h]);
 		config->menu[i].key = defmenkeys2[h];
 		config->menu[i].qual = defmenqual2[h];
 	}
-	for(i = 23; i < 29; i++)
+	for(i = 22; i < 24; i++)
 	{
-		config->menu[i].which = FLAG_OUTWIND | FLAG_CDSOURCE | FLAG_DOALL | FLAG_SCANDEST | 0;
+		config->menu[i].which = FLAG_OUTWIND | FLAG_CDSOURCE | FLAG_DOALL | FLAG_SCANDEST; // | 0;
 		config->menu[i].delay = -1;
 	}
 
