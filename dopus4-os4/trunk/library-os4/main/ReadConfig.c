@@ -429,7 +429,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 				}
 				for(a = 4; a < FILETYPE_FUNCNUM; a++)
 				{
-					newtype->stack[a] = 4000;
+					newtype->stack[a] = 8192;
 					newtype->delay[a] = 2;
 				}
 				for(a = 0; a < 4; a++)

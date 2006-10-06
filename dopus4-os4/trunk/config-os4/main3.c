@@ -1354,8 +1354,8 @@ void fixeditfunction(struct dopusfunction *func, STRPTR flagsel, STRPTR *funclis
 	func->function = compilefunclist(funclist, functype, NULL);
 	func->which = getselflags(flagsel);
 	func->stack = atoi(edit_stackbuf);
-	if(func->stack < 4000)
-		func->stack = 4000;
+	if(func->stack < 8192)
+		func->stack = 8192;
 	func->pri = atoi(edit_prioritybuf);
 	func->delay = atoi(edit_delaybuf);
 	if(func->delay < -1)
@@ -1428,7 +1428,7 @@ void erasefunction(struct dopusfunction *func, STRPTR *funclist, STRPTR *displis
 	freefunclist(funclist);
 	for(a = 0; a < MAXFUNCS; a++)
 		displist[a][0] = 0;
-	strcpy(edit_stackbuf, "4000");
+	strcpy(edit_stackbuf, "8192");
 	edit_prioritybuf[0] = '0';
 	edit_prioritybuf[1] = 0;
 	edit_delaybuf[0] = '2';

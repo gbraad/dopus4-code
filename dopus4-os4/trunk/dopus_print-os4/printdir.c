@@ -423,7 +423,7 @@ void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, ch
 	int out = 0, abort = 0, a;
 
 	pddata.win = wind;
-	if(!(dopus_message(DOPUSMSG_GETPRINTDIR, (APTR) & pddata, portname)))
+	if(!(dopus_message(DOPUSMSG_GETPRINTDIR, (APTR)&pddata, portname)))
 		return;
 
 	while(!out)

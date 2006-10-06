@@ -328,11 +328,12 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 }
 
 /* Progress Hook */
-HOOKPROTONHNO(ProgressFunc, ULONG, struct xadProgressInfo *xadp)
+
+HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
 {
 	if(xadp && xadp->xpi_FileInfo)
 	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
+		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 1);
 	}
 
 	if(xadp->xpi_Mode == XADPMODE_END)
@@ -379,7 +380,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 			memset(destname, 0, 1024);
 			snprintf(destname, 1024, "%s%s", destination, xadfi->xfi_FileName);
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
-			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, TRUE, XAD_MAKEDIRECTORY, TRUE, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
+			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, TRUE, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
 			{
 //				IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));
 			}

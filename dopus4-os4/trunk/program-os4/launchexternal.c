@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "view.h"
 #include <dos/dostags.h>
-
+ 
 int start_external(struct dopus_func_start *func)
 {
 	int arg;

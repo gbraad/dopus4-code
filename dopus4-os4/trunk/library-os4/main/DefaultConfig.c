@@ -263,7 +263,7 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 		{
 			firstbank->gadgets[i].which = 0;
 			firstbank->gadgets[i].type = 0;
-			firstbank->gadgets[i].stack = 4000;
+			firstbank->gadgets[i].stack = 8192;
 			firstbank->gadgets[i].pri = 0;
 			firstbank->gadgets[i].delay = 2;
 			if(i < 42)
@@ -356,7 +356,7 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 					Self->LStrCpy(type->actionstring[b], deftype_action[i][a]);
 					type->which[b] = deftype_which[i][a];
 					type->delay[b] = deftype_delay[i][a];
-					type->stack[b] = 16384; //4000;
+					type->stack[b] = 8192; //4000;
 					if((type->function[b] = Self->LAllocRemember(&cstuff->typekey, strlen(deftype_funcs[i][a]) + 1, 0)))
 					{
 						Self->LStrCpy(type->function[b], deftype_funcs[i][a]);

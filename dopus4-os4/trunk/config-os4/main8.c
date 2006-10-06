@@ -120,7 +120,7 @@ dohotkeysconfig()
 						hotkey.func.function = NULL;
 						hotkey.code = hotkey.qualifier = 0;
 						hotkey.func.which = 0;
-						hotkey.func.stack = 4000;
+						hotkey.func.stack = 8192;
 						hotkey.func.type = 1;
 						hotkey.func.pri = 0;
 						hotkey.func.key = hotkey.func.qual = 0;

@@ -70,7 +70,7 @@ void _DOpus_FreeConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 		Self->AssignMenu(cstuff, a, NULL, NULL);
 		config->menu[a].which = 0;
 		config->menu[a].type = 0;
-		config->menu[a].stack = 4000;
+		config->menu[a].stack = 8192;
 		config->menu[a].pri = 0;
 		config->menu[a].delay = 2;
 		config->menu[a].fpen = 1;

@@ -533,7 +533,7 @@ int makenewbank(int insert)
 	}
 	for(a = 0; a < GADCOUNT; a++)
 	{
-		bank->gadgets[a].stack = 4000;
+		bank->gadgets[a].stack = 8192;
 		bank->gadgets[a].delay = 2;
 		if(paint_state)
 		{
@@ -1115,7 +1115,7 @@ void showmenutext(STRPTR txt, int x, int y, int fp, int bp)
 void clearmenu(struct newdopusfunction *menu)
 {
 	menu->which = 0;
-	menu->stack = 4000;
+	menu->stack = 8192;
 	menu->key = 0;
 	menu->qual = 0;
 	menu->type = 0;

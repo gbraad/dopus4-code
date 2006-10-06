@@ -244,7 +244,7 @@ int dofiletypeconfig()
 								type->recognition = getcopy(fclass->recognition, -1, &typekey);
 								for(a = 0; a < 4; a++)
 								{
-									type->stack[a] = 4000;
+									type->stack[a] = 8192;
 									type->delay[a] = 2;
 								}
 								if(editfiletype(type, &key, 1))
