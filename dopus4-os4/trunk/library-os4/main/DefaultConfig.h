@@ -163,7 +163,6 @@ const static char *defgads[42] =
 	"",
 	"",
 	"",
-//	"*User1",
 	"*Extract",
 	"NotePad {f} PUBSCREEN {Qs}",
 	"",
@@ -227,7 +226,6 @@ const static char *defgads[42] =
 	"Error help~",
 	"Configure~",
 	"About",
-//	"Version~",
 	"Iconify",
 	"Button Iconify",
 	"Quit"
@@ -237,14 +235,12 @@ const static char *defgads[42] =
 	"*ErrorHelp",
 	"*Configure",
 	"*About",
-//	"*Version",
 	"*Iconify",
 	"*ButtonIconify",
 	"*Quit"
 }, *defmenus2[9] =
 {
 	"Relabel",
-//	"Print dir",
 	"Disk info~",
 	"Create LhA archive",
 	"Create ZIP archive",
@@ -256,7 +252,6 @@ const static char *defgads[42] =
 }, *deffuncs2[9] =
 {
 	"*Relabel",
-//	"*PrintDir",
 	"*DiskInfo",
 	"LHA -er a \"{d}{RsArchive name:.lha}\" {O}",
 	"ZIP -rN \"{d}{RsArchive name:.zip}\" {O}",
@@ -392,11 +387,11 @@ const unsigned char defmenkeys1[10] =
 {
 	0x5f,
 	0xff,
+	0x33,
 	0xff,
+	0x17,
 	0xff,
-	0xff,
-	0xff,
-	0xff,
+	0x10,
 	0xff,
 	0xff,
 	0xff
@@ -404,11 +399,11 @@ const unsigned char defmenkeys1[10] =
 {
 	0,
 	0,
+	0x80,
 	0,
+	0x80,
 	0,
-	0,
-	0,
-	0,
+	0x80,
 	0,
 	0,
 	0
