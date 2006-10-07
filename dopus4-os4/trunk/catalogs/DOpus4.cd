@@ -734,12 +734,11 @@ of the License, or (at your option) any later version.\n\n\
 This program is distributed in the hope that it will be useful,\n\
 but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
-GNU General Public License for more details.
-;\n\n\
-;All users of Directory Opus 4 (including versions distributed\n\
-;under the GPL) are entitled to upgrade to the latest version of\n\
-;Directory Opus version 5 at a reduced price. Please see\n\
-;http://www.gpsoft.com.au for more information.
+GNU General Public License for more details.\
+\n\n\
+All users of Directory Opus 4 distributed under the GPL may be entitled\n\
+to upgrade to the latest versions of Directory Opus at a reduced price.\n\
+Please see http://www.gpsoft.com.au for more information.
 ;
 STR_PRINTTITLE (//)
 Print _Title
