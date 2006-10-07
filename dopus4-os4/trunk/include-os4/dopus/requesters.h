@@ -21,10 +21,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-All users of Directory Opus 4 (including versions distributed
-under the GPL) are entitled to upgrade to the latest version of
-Directory Opus version 5 at a reduced price. Please see
-http://www.gpsoft.com.au for more information.
+All users of Directory Opus 4 distributed under the GPL may be entitled
+to upgrade to the latest versions of Directory Opus at a reduced price.
+Please see http://www.gpsoft.com.au for more information.
 
 The release of Directory Opus 4 under the GPL in NO WAY affects
 the existing commercial status of Directory Opus 5.
