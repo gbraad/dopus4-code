@@ -109,9 +109,11 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		return (REPLACE_OK);
 	}
 
-	if(suc_dfib && d_fib->fib_DirEntryType > 0)
+//	if(suc_dfib && d_fib->fib_DirEntryType > 0)
+/*	if(suc_dfib && FIB_IS_DRAWER(d_fib))
 	{
-		if(s_fib->fib_DirEntryType < 0)
+//		if(s_fib->fib_DirEntryType < 0)
+		if(FIB_IS_FILE(s_fib))
 		{
 			doerror(ERROR_OBJECT_EXISTS);
 			IDOS->FreeDosObject(DOS_FIB, d_fib);
@@ -122,6 +124,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (REPLACE_OK);
 	}
+*/
 
 	if(config->existflags & REPLACE_ALWAYS)
 	{
@@ -163,19 +166,16 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			seedate(&s_fib->fib_Date, datebuf1, 0);
 			seedate(&d_fib->fib_Date, datebuf2, 0);
 
-//			if(d_fib->fib_DirEntryType > 0 && s_fib->fib_DirEntryType > 0)
 			if(FIB_IS_DRAWER(d_fib) && FIB_IS_DRAWER(s_fib))
 			{
 				/* Both entries are directories */
 				sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 			}
-//			else if(d_fib->fib_DirEntryType > 0)
 			else if(FIB_IS_DRAWER(d_fib))
 			{
 				/* Destination is directory, source is file */
 				sprintf(buf, globstring[STR_REPLACE_DIR_WITH_FILE], IDOS->FilePart(destname), s_fib->fib_Size, datebuf1, datebuf2);
 			}
-//			else if(s_fib->fib_DirEntryType > 0)
 			else if(FIB_IS_DRAWER(s_fib))
 			{
 				/* Source is directory, destination is file */

@@ -243,9 +243,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					if(a == 1)
 					{
 						if(strchr(srename, '*'))
+						{
 							sourcewild = 1;
+						}
 						if(strchr(drename, '*'))
+						{
 							destwild = 1;
+						}
 						else
 						{
 							strcpy(namebuf, drename);
@@ -845,14 +849,20 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 			}
 			else if(!sourcewild)
+			{
 				a = getwildrename("*", drename, file->name, namebuf);
+			}
 			else if(sourcewild)
+			{
 				a = getwildrename(srename, drename, file->name, namebuf);
+			}
 			firstset = 0;
 			if(a)
 			{
 				if(lastfile)
+				{
 					IDOpus->StrCombine(destname, sourcedir, newiconname, 256);
+				}
 				else
 				{
 					namebuf[FILEBUF_SIZE - 1] = 0;
@@ -911,7 +921,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							if((tempfile = findfile(swindow, namebuf, NULL)))
 							{
 								if(tempfile == nextfile)
+								{
 									nextfile = tempfile->next;
+								}
 								removefile(tempfile, swindow, act, 1);
 							}
 							firstset = 1;

@@ -345,7 +345,9 @@ int main(int argc, char **argv)
 		iconify(sup + 1, iconstart - 1, 0);
 	}
 	else if(!sup)
+	{
 		SetUp(1);
+	}
 	if(nsee)
 	{
 		for(a = 0; a < 2; a++)
@@ -356,7 +358,9 @@ int main(int argc, char **argv)
 		}
 	}
 	if(!iconstart)
+	{
 		unbusy();
+	}
 
 	doidcmp();
 	return 0;
