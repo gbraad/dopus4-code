@@ -34,10 +34,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 {
 	struct InfoData *infodata = IDOS->AllocDosObject(DOS_INFODATA, NULL);
 	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int a, b, special = 0, candoicon = 1, old, specflags, noshow = 0, err;
-	int sourcewild = 0, destwild = 0, firstset = 0, breakout, rexarg, protstuff[2];
-	int pt = 1, okayflag = 0, show, lastfile, flag, exist, count, data, mask = 0, temp;
-	int globflag, noremove, doicons = 0, total, value = 0, progtype = 0, blocksize = 0, retval = 0;
+	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0, noshow = 0, err = 0;
+	int sourcewild = 0, destwild = 0, firstset = 0, breakout = 0, rexarg = 0, protstuff[2];
+	int pt = 1, okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
+	int globflag, noremove, doicons = 0, total = -1, value = 0, progtype = 0, blocksize = 0, retval = 0;
 	int64 byte, bb;
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
 	char *sourcename, *destname, *oldiconname, *newiconname;
@@ -85,7 +85,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(status_flags & STATUS_GLOBALFILE)	/* kludge */
 		flags = FUNCFLAGS_FILES;
 
-	total = -1;
+//	total = -1;
 
 	if(func_single_entry)
 	{
@@ -398,7 +398,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			xadnoabs = 0;
 		}
-		if(xadflags & xadmaketree)
+		if(xadflags & XAD_MAKETREE)
 		{
 			xadmaketree = 1;
 		}
@@ -531,7 +531,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				oldiconname[0] = 0;
 		}
 		else
+		{
 			oldiconname[0] = 0;
+		}
 
 		if(prog_indicator)
 		{
@@ -1126,7 +1128,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					else
 					{
-						if(!(a = copyfile(sourcename, destname, &err, /*-1,*/ NULL, 0)))
+						if(!(a = copyfile(sourcename, destname, &err, NULL, 0)))
 						{
 							doerror(err);
 							if((a = checkerror(globstring[STR_MOVING], file->name, err)) == 3)
@@ -1325,7 +1327,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				a = copyfile(sourcename, destname, &err,/*-1,*/ NULL, 0);
+				a = copyfile(sourcename, destname, &err, NULL, 0);
 				if(a == 0)
 				{
 					doerror(err);
@@ -1832,8 +1834,19 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			break;
 
 		case FUNC_EXTRACT:
-			dostatustext(globstring[STR_EXTRACT_ARCHIVE]);
-			okayflag = extractarchive(file->name, sourcedir, destdir);
+			{
+				dostatustext(globstring[STR_EXTRACT_ARCHIVE]);
+				a = extractarchive(file->name, sourcedir, destdir);
+				if(a == 0)
+				{
+					myabort();
+					break;
+				}
+				else
+				{
+					okayflag = 1;
+				}
+			}
 			break;
 
 		case FUNC_DATESTAMP:
@@ -2151,23 +2164,23 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_BYTE:
 		if(!status_justabort)
 		{
-			int64 value;
+			int64 memvalue;
 
 			IDOS->SetProcWindow((APTR)-1L);
 			if(!(destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ))))
 			{
-				value = 0;
+				memvalue = 0;
 			}
 			else
 			{
 				IDOS->Info(filelock, infodata);
 				if(ramdisk_lock && IDOS->SameLock(filelock, ramdisk_lock) != LOCK_DIFFERENT)
 				{
-					value = IExec->AvailMem(0);
+					memvalue = IExec->AvailMem(0);
 				}
 				else
 				{
-					value = (infodata->id_NumBlocks - infodata->id_NumBlocksUsed) * (int64)blocksize;
+					memvalue = (infodata->id_NumBlocks - infodata->id_NumBlocksUsed) * (int64)blocksize;
 				}
 				IDOS->UnLock(filelock);
 			}
@@ -2180,26 +2193,26 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				float64 needed, percent;
 
 				needed = data * blocksize;
-				if(value < 1)
+				if(memvalue < 1)
 				{
 					percent = 0;
 				}
-				else if(value >= needed || needed < 1)
+				else if(memvalue >= needed || needed < 1)
 				{
 					percent = 100;
 					retval = 1;
 				}
 				else
 				{
-					percent = 100 / (needed / value);
+					percent = 100 / (needed / memvalue);
 				}
-				sprintf(buf, globstring[STR_CHECKFIT_STRING], data * (int64)blocksize, value, percent);
+				sprintf(buf, globstring[STR_CHECKFIT_STRING], data * (int64)blocksize, memvalue, percent);
 				dostatustext(buf);
 			}
 			else
 			{
 				doselinfo(act);
-				strcat(str_select_info, (value <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT]);
+				strcat(str_select_info, (memvalue <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT]);
 				dostatustext(str_select_info);
 			}
 			okayflag = 0;

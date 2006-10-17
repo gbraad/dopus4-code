@@ -88,10 +88,12 @@ int main(int argc, char **argv)
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 0)))
+	{
 		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:/libs/dopus.library", 0)))
 		{
 			DOpusBase = NULL;
 		}
+	}
 	if(DOpusBase && !(IDOpus = (struct DOpusIFace *)IExec->GetInterface(DOpusBase, "main", 1, NULL)))
 	{
 		IDOpus = NULL;
@@ -121,6 +123,7 @@ int main(int argc, char **argv)
 	out = IDOS->Output();
 
 	if(argv[1][0] == '-')
+	{
 		switch (IUtility->ToLower(argv[1][1]))
 		{
 		case 's':
@@ -243,11 +246,16 @@ int main(int argc, char **argv)
 			WBRun(argc - 2, &argv[2]);
 			break;
 		}
+	}
 
 	if(IDOpus)
+	{
 		IExec->DropInterface((struct Interface *)IDOpus);
+	}
 	if(DOpusBase)
+	{
 		IExec->CloseLibrary(DOpusBase);
+	}
 
 	return(0);
 }
@@ -339,26 +347,32 @@ void WBRun(int argc, char **argv)
 						++WBStartup->sm_NumArgs;
 				}
 				else
+				{
 					ok = 0;
+				}
 			}
 			else
+			{
 				ok = 0;
+			}
 
 			if(ok)
 			{
 				if(diskobj)
+				{
 					stacksize = diskobj->do_StackSize;
+				}
 				else
 				{
 					if((cli = BADDR(ourtask->pr_CLI)))
 						stacksize = cli->cli_DefaultStack * 4;
 					else
-						stacksize = 4096;
+						stacksize = 8192;
 				}
 
 				stacksize = (stacksize + 3) & (~3);
-				if(stacksize < 4096)
-					stacksize = 4096;
+				if(stacksize < 8192)
+					stacksize = 8192;
 
 				WBStartup->sm_ToolWindow = (diskobj) ? diskobj->do_ToolWindow : NULL;
 

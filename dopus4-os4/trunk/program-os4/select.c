@@ -782,8 +782,6 @@ void doselect(int rexx)
 	struct DateStamp ds1, ds2;
 	int selecttype;
 
-//	IDOS->DosControlTags(DC_WildStarW, TRUE, TAG_DONE, 0); // User setting, SYS:Prefs/DOS on AmigaOS4. This would override that.
-
 	if(dopus_curwin[data_active_window]->total == 0 || dopus_curwin[data_active_window]->firstentry->type == ENTRY_CUSTOM)
 		return;
 
@@ -829,8 +827,6 @@ void doselect(int rexx)
 			break;
 		}
 	}
-
-//	IDOS->DosControlTags(DC_WildStarW, FALSE, TAG_DONE, 0);
 }
 
 void getseldatestamps(STRPTR buf, struct DateStamp *ds1, struct DateStamp *ds2)

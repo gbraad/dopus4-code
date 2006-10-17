@@ -393,10 +393,6 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 			case FORMAT_INT:
 				fptr = "78-01-01";
 				break;
-			case FORMAT_USA:
-/*			case FORMAT_AUS:
-				fptr = "01-01-78";
-				break;*/
 			default:
 				fptr = "1-Jan-78";
 				break;
@@ -413,7 +409,6 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 	else
 		strcpy(tbuf, c ? (char *)mytmbuf : (char *)"00:00:00");
 
-//      D(bug("dbuf=%s\ttbuf=%s\nparsedatetime(%s)=%ld\n", dbuf, tbuf, buf, *dis));
 	return (ptr);
 }
 

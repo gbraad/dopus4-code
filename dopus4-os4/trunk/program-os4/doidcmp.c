@@ -1015,12 +1015,6 @@ void doidcmp()
 						else
 							IDOpus->ActivateStrGad(&path_strgadget[data_active_window], Window);
 						break;
-/*	Anyone use this?		case 0x1a:	// [ {
-						goto prevgadgetbank;
-						break;
-					case 0x1b:	// ] }
-						goto nextgadgetbank;
-						break;*/
 					}
 				}
 				unbusy();

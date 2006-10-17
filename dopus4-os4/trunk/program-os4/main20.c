@@ -204,10 +204,10 @@ void dotaskmsg(struct MsgPort *port, int command, int value, int total, char *da
 		taskmsg.msg.mn_ReplyPort = general_port;
 		taskmsg.msg.mn_Length = (UWORD) sizeof(struct dopustaskmsg);
 		taskmsg.command = command;
-		taskmsg.value = value;
 		taskmsg.total = total;
-		taskmsg.data = data;
+		taskmsg.value = value;
 		taskmsg.flag = flag;
+		taskmsg.data = data;
 		IExec->Forbid();
 		IExec->PutMsg(port, (struct Message *)&taskmsg);
 		IExec->Permit();

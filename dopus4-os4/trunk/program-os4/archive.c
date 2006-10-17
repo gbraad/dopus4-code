@@ -332,7 +332,7 @@ HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
 {
 	if(xadp && xadp->xpi_FileInfo)
 	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 1);
+		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
 	}
 
 	if(xadp->xpi_Mode == XADPMODE_END)
