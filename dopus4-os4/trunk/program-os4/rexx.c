@@ -127,8 +127,8 @@ void rexx_dispatch(int allfuncs)
 					for(cmd = 0; commandlist[cmd].name; cmd++)
 					{
 						a = strlen(commandlist[cmd].name);
-//						if((strncmp(commandlist[cmd].name, command, a)) == 0 && (command[a] == 0 || (_isspace(command[a]))))
-						if((IUtility->Strnicmp(commandlist[cmd].name, command, a)) == 0 && (command[a] == 0 || (_isspace(command[a]))))
+//						if((strncmp(commandlist[cmd].name, command, a)) == 0 && (command[a] == 0 || (isspace(command[a]))))
+						if((IUtility->Strnicmp(commandlist[cmd].name, command, a)) == 0 && (command[a] == 0 || (isspace(command[a]))))
 						{
 							func_global_function = 0;
 							rexxdisp(msg, &commandlist[cmd], command + a);

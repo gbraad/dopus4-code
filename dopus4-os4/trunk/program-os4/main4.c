@@ -28,7 +28,6 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <ctype.h>
 
 void makedir(int rexx)
 {
@@ -413,12 +412,12 @@ int checkscreenmode(uint32 mode)
 	}
 	else
 	{
-		minw = dimension->Nominal.MaxX + 1; //MinRasterWidth;
+		minw = dimension->Nominal.MaxX + 1;
 		if(minw < 160)
 			minw *= 10;
 	}
 
-	defw = (dimension->Nominal.MaxX) /*TxtOScan.MaxX - dimension->TxtOScan.MinX)*/ + 1;
+	defw = (dimension->Nominal.MaxX) + 1;
 
 	if((minw < 640 || defw < 640) && dimension->MaxDepth >= 5)
 		return (MODE_WORKBENCHCLONE);
@@ -500,34 +499,4 @@ int isvalidwindow(int win)
 	if(dopus_curwin[win]->total > 0 && dopus_curwin[win]->firstentry->type == ENTRY_CUSTOM)
 		return (0);
 	return (1);
-}
-
-int _isdigit(unsigned char c)
-{
-	return locale ? ILocale->IsDigit(locale, c) : isdigit(c);
-}
-
-int _isxdigit(unsigned char c)
-{
-	return locale ? ILocale->IsXDigit(locale, c) : isxdigit(c);
-}
-
-int _isprint(unsigned char c)
-{
-	return locale ? ILocale->IsPrint(locale, c) : isprint(c);
-}
-
-int _isspace(unsigned char c)
-{
-	return locale ? ILocale->IsSpace(locale, c) : isspace(c);
-}
-
-int _isupper(unsigned char c)
-{
-	return locale ? ILocale->IsUpper(locale, c) : isupper(c);
-}
-
-int _ispunct(unsigned char c)
-{
-	return locale ? ILocale->IsPunct(locale, c) : ispunct(c);
 }

@@ -33,6 +33,7 @@ void doidcmp()
 {
 	int x, y, a, function, wmes, stringgd = 0, waitbits, b, x1, y1, c, win, dir, num, class;
 	USHORT code, gadgetid = 0, menunum, itemnum, qual;
+	uint8 buf[80], ch;
 	struct dopusgadgetbanks *bank, *bank1;
 	struct AppMessage *apmsg;
 	struct dopushotkey *hotkey;
@@ -582,224 +583,6 @@ void doidcmp()
 					break;
 				}
 				break;
-/// "IDCMP_VANILLAKEY"
-			case IDCMP_VANILLAKEY:
-				win = -1;
-				if(qual & IEQUALIFIER_NUMERICPAD)
-				{
-					switch (code)
-					{
-					case '1':	// End
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-						fixvertprop(win);
-						displaydir(win);
-						break;
-					case '7':	// Home
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						dopus_curwin[win]->offset = 0;
-						fixvertprop(win);
-						displaydir(win);
-						break;
-					case '9':	// PageUp
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						dopus_curwin[win]->offset -= scrdata_dispwin_lines;
-						if(dopus_curwin[win]->offset < 0)
-						{
-							dopus_curwin[win]->offset = 0;
-						}
-						fixvertprop(win);
-						displaydir(win);
-						break;
-					case '3':	// PageDown
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						dopus_curwin[win]->offset += scrdata_dispwin_lines;
-						if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-						{
-							dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-						}
-						fixvertprop(win);
-						displaydir(win);
-						break;
-					case '8':	// CrsrUp
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-							{
-								dopus_curwin[win]->offset = 0;
-							}
-							else
-							{
-								dopus_curwin[win]->offset -= scrdata_dispwin_lines;
-								if(dopus_curwin[win]->offset < 0)
-									dopus_curwin[win]->offset = 0;
-							}
-							fixvertprop(win);
-							displaydir(win);
-							break;
-						}
-						verticalscroll(win, -1);
-						break;
-					case '2':	// CrsrDown
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-							{
-								dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-							}
-							else
-							{
-								dopus_curwin[win]->offset += scrdata_dispwin_lines;
-								if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-									dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-							}
-							fixvertprop(win);
-							displaydir(win);
-							break;
-						}
-						verticalscroll(win, 1);
-						break;
-					case '4':
-						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-						{
-							incrementbuf(data_active_window, -1, 1);
-							break;
-						}
-						if(win == -1)
-						{
-							win = data_active_window;
-						}
-						if(dopus_curwin[win]->total == 0)
-						{
-							break;
-						}
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-							{
-								dopus_curwin[win]->hoffset = 0;
-							}
-							else
-							{
-								dopus_curwin[win]->hoffset -= scrdata_dispwin_nchars[win];
-								if(dopus_curwin[win]->hoffset < 0)
-									dopus_curwin[win]->hoffset = 0;
-							}
-							refreshwindow(win, 1);
-							break;
-						}
-						horizontalscroll(win, -1);
-						break;
-					case '6':
-						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-						{
-							incrementbuf(data_active_window, 1, 1);
-							break;
-						}
-						if(win == -1)
-						{
-							win = data_active_window;
-						}
-						if(dopus_curwin[win]->total == 0)
-						{
-							break;
-						}
-						if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-						{
-							if(qual & IEQUALIFIER_CONTROL)
-							{
-								dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-								if(dopus_curwin[win]->hoffset < 0)
-									dopus_curwin[win]->hoffset = 0;
-							}
-							else
-							{
-								dopus_curwin[win]->hoffset += scrdata_dispwin_nchars[win];
-								if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
-									dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-							}
-							refreshwindow(win, 1);
-							break;
-						}
-						horizontalscroll(win, 1);
-						break;
-					}
-				}
-				if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
-				{
-					switch (code)
-					{
-					case 'R':
-						function = FUNC_RESELECT;
-						break;
-					case 'A':
-						function = FUNC_AREXX;
-						break;
-					case 'S':
-						function = FUNC_SELECT;
-						break;
-					case 'B':
-						function = FUNC_BUFFERLIST;
-						break;
-					case ' ':
-						if(qual & IEQUALIFIER_LCOMMAND)
-							findfirstsel(data_active_window, ENTRY_FILE);
-						else
-							findfirstsel(data_active_window, ENTRY_DIRECTORY);
-						break;
-					}
-				}
-				if(!(qual & IEQUALIFIER_NUMERICPAD))
-				{
-					switch(code)
-					{
-					case ',':
-						dosizedirwindows(-60000);
-						break;
-					case '.':
-						dosizedirwindows(0);
-						break;
-					case '-':
-						dosizedirwindows(60000);
-						break;
-					case '<':
-						goto prevgadgetbank;
-						break;
-					case '>':
-						goto nextgadgetbank;
-						break;
-					default:
-						if(!(qual & IEQUALIFIER_CONTROL) && !(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))) // a digit or char
-						{
-							if(_isprint(code))
-							{
-								findfirstchar(data_active_window, code);
-							}
-						}
-						break;
-					}
-				}
-				break;
 
 /// "IDCMP_RAWKEY"
 			case IDCMP_RAWKEY:
@@ -839,7 +622,7 @@ void doidcmp()
 						goto foobarbaz;
 					}
 				}
-				{
+//				{
 					win = -1;
 					switch (code)
 					{
@@ -997,17 +780,14 @@ void doidcmp()
 						}
 						horizontalscroll(win, 1);
 						break;
-					}
-					switch (code)
-					{
-					case RAWKEY_HELP: //0x5f:	// HELP
+					case RAWKEY_HELP: // HELP
 						function = FUNC_HELP;
 						break;
-					case RAWKEY_SPACE: //0x40:	// SPACE
-					case RAWKEY_TAB: //0x42:	// TAB
+//					case RAWKEY_SPACE: // SPACE
+					case RAWKEY_TAB: // TAB
 						makeactive(1 - data_active_window, 1);
 						break;
-					case RAWKEY_RETURN: //0x44:	// RETURN
+					case RAWKEY_RETURN: // RETURN
 						if(qual & IEQUALIFIER_ANYSHIFT)
 							function = FUNC_BUFFERLIST;
 						else if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
@@ -1015,8 +795,252 @@ void doidcmp()
 						else
 							IDOpus->ActivateStrGad(&path_strgadget[data_active_window], Window);
 						break;
+					case 0x38: // ,
+						dosizedirwindows(-60000);
+						break;
+					case 0x39: // .
+						dosizedirwindows(0);
+						break;
+					case 0x3a: // -
+						dosizedirwindows(60000);
+						break;
+					case 0x30: // > & <
+						if(qual & IEQUALIFIER_ANYSHIFT)
+						{
+							goto nextgadgetbank;
+							break;
+						}
+						else
+						{
+							goto prevgadgetbank;
+							break;
+						}
+						break;
+					case 0x13: // r
+						if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
+						{
+							function = FUNC_RESELECT;
+						}
+						break;
+					case 0x20: // a
+						if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
+						{
+							function = FUNC_AREXX;
+						}
+						break;
+					case 0x21: // s
+						if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
+						{
+							function = FUNC_SELECT;
+						}
+						break;
+					case 0x35: // b
+						if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
+						{
+							function = FUNC_BUFFERLIST;
+						}
+						break;
+					case RAWKEY_SPACE: // ' '
+						if(qual & IEQUALIFIER_LCOMMAND)
+						{
+							findfirstsel(data_active_window, ENTRY_FILE);
+						}
+						else
+						{
+							findfirstsel(data_active_window, ENTRY_DIRECTORY);
+						}
+						break;
+					case 0x1d:	// End 1
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(win == -1)
+								win = data_active_window;
+							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+								break;
+							dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+							fixvertprop(win);
+							displaydir(win);
+						}
+						break;
+					case 0x3d:	// Home 7
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(win == -1)
+								win = data_active_window;
+							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+								break;
+							dopus_curwin[win]->offset = 0;
+							fixvertprop(win);
+							displaydir(win);
+						}
+						break;
+					case 0x3f:	// PageUp 9
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(win == -1)
+								win = data_active_window;
+							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+								break;
+							dopus_curwin[win]->offset -= scrdata_dispwin_lines;
+							if(dopus_curwin[win]->offset < 0)
+							{
+								dopus_curwin[win]->offset = 0;
+							}
+							fixvertprop(win);
+							displaydir(win);
+						}
+						break;
+					case 0x1f:	// PageDown 3
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(win == -1)
+								win = data_active_window;
+							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+								break;
+							dopus_curwin[win]->offset += scrdata_dispwin_lines;
+							if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
+							{
+								dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+							}
+							fixvertprop(win);
+							displaydir(win);
+						}
+						break;
+					case 0x3e:	// CrsrUp 8
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(win == -1)
+								win = data_active_window;
+							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+								break;
+							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+							{
+								if(qual & IEQUALIFIER_CONTROL)
+								{
+									dopus_curwin[win]->offset = 0;
+								}
+								else
+								{
+									dopus_curwin[win]->offset -= scrdata_dispwin_lines;
+									if(dopus_curwin[win]->offset < 0)
+										dopus_curwin[win]->offset = 0;
+								}
+								fixvertprop(win);
+								displaydir(win);
+								break;
+							}
+							verticalscroll(win, -1);
+						}
+						break;
+					case 0x1e:	// CrsrDown 2
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(win == -1)
+								win = data_active_window;
+							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+								break;
+							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+							{
+								if(qual & IEQUALIFIER_CONTROL)
+								{
+									dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+								}
+								else
+								{
+									dopus_curwin[win]->offset += scrdata_dispwin_lines;
+									if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
+										dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+								}
+								fixvertprop(win);
+								displaydir(win);
+								break;
+							}
+							verticalscroll(win, 1);
+						}
+						break;
+					case 0x2d:	// CrsrLeft 4
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
+							{
+								incrementbuf(data_active_window, -1, 1);
+								break;
+							}
+							if(win == -1)
+							{
+								win = data_active_window;
+							}
+							if(dopus_curwin[win]->total == 0)
+							{
+								break;
+							}
+							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+							{
+								if(qual & IEQUALIFIER_CONTROL)
+								{
+									dopus_curwin[win]->hoffset = 0;
+								}
+								else
+								{
+									dopus_curwin[win]->hoffset -= scrdata_dispwin_nchars[win];
+									if(dopus_curwin[win]->hoffset < 0)
+										dopus_curwin[win]->hoffset = 0;
+								}
+								refreshwindow(win, 1);
+								break;
+							}
+							horizontalscroll(win, -1);
+						}
+						break;
+					case 0x2f:	//CrsrRight 6
+						if(qual & IEQUALIFIER_NUMERICPAD)
+						{
+							if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
+							{
+								incrementbuf(data_active_window, 1, 1);
+								break;
+							}
+							if(win == -1)
+							{
+								win = data_active_window;
+							}
+							if(dopus_curwin[win]->total == 0)
+							{
+								break;
+							}
+							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+							{
+								if(qual & IEQUALIFIER_CONTROL)
+								{
+									dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
+									if(dopus_curwin[win]->hoffset < 0)
+										dopus_curwin[win]->hoffset = 0;
+								}
+								else
+								{
+									dopus_curwin[win]->hoffset += scrdata_dispwin_nchars[win];
+									if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
+										dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
+								}
+								refreshwindow(win, 1);
+								break;
+							}
+							horizontalscroll(win, 1);
+						}
+						break;
+					default:
+						if(code < 0x40 && !(qual & IEQUALIFIER_CONTROL)) // a digit or char
+						{
+							IDOpus->RawkeyToStr(code, qual, NULL, (char *)buf, 0);
+							ch = buf[0];
+							if(isprint(ch))
+							{
+								findfirstchar(data_active_window, ch);
+							}
+						}
+						break;
 					}
-				}
+//				}
 				unbusy();
 				break;
 

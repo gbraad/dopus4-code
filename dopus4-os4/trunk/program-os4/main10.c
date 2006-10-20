@@ -304,7 +304,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 	strcpy(dbuffer, buf);
 	b = strlen(dbuffer);
 	for(a = 0; a < b; a++)
-		if(!(_isspace(dbuffer[a])))
+		if(!(isspace(dbuffer[a])))
 			break;
 	if(a == b)
 		goto getout;
@@ -318,7 +318,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 
 	for(++a; a < b; a++)
 	{
-		if(_isspace(dbuffer[a]))
+		if(isspace(dbuffer[a]))
 		{
 			dbuffer[a] = 0;
 			break;
@@ -329,7 +329,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 	if(a >= b)
 		goto getout;
 	for(++a; a < b; a++)
-		if(!(_isspace(dbuffer[a])))
+		if(!(isspace(dbuffer[a])))
 			break;
 	if(a >= b)
 		goto getout;
@@ -344,7 +344,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 	timebuf = &dbuffer[a];
 	for(++a; a < b; a++)
 	{
-		if(_isspace(dbuffer[a]))
+		if(isspace(dbuffer[a]))
 		{
 			dbuffer[a] = 0;
 			break;

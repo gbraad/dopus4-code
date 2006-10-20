@@ -1985,7 +1985,7 @@ void view_makeuphex(struct ViewData *vdata, STRPTR hex, UBYTE *textbuf, int line
 		b = 16;
 	for(at = 0; at < b; at++)
 	{
-		if(!(_isprint(hex[at])))
+		if(!(isprint(hex[at])))
 			buf2[at] = '.';
 		else
 			buf2[at] = hex[at];

@@ -156,15 +156,9 @@ void makermbgad(struct RMBGadget *, struct Gadget *, int);
 void dolittlegads(struct Gadget *, char *, int);
 void rectfill(struct RastPort *, int, int, int, int);
 int isvalidwindow(int);
-int _isdigit(unsigned char);
-int _isxdigit(unsigned char);
-int _isprint(unsigned char);
-int _isspace(unsigned char);
-int _isupper(unsigned char);
-int _ispunct(unsigned char);
 
 /* main5.c */
-int copyfile(char *, char *, int *, /*int, */ char *, int);
+int copyfile(char *, char *, int *, char *, int);
 struct Directory *checktot(struct DirectoryWindow *);
 struct Directory *checkdirtot(struct DirectoryWindow *);
 struct Directory *checkdevtot(struct DirectoryWindow *);

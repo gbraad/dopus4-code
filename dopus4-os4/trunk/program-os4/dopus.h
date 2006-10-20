@@ -179,7 +179,7 @@ the existing commercial status of Directory Opus 5.
 
 #define MAXDISPLAYLENGTH  300
 
-#define isonlyword(c) (!c || c==10 || c==13 || _isspace(c) || _ispunct(c))
+#define isonlyword(c) (!c || c==10 || c==13 || isspace(c) || ispunct(c))
 
 #define MENUCOUNT 100
 #define GADCOUNT 84

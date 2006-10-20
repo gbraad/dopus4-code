@@ -295,7 +295,7 @@ int getprotectdata(int *prot, int *mask)
 				{
 					if(toupper(code) == prot_template[a])
 					{
-						if(_isupper(code))
+						if(isupper(code))
 						{
 							*mask ^= (1 << a);
 							do_prot_display((*mask) ^ 15, mask_text, NULL);

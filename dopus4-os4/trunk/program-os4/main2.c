@@ -503,7 +503,7 @@ void findfirstchar(int win, char c)
 	int a = 0, b = 0, file = 1, rev;
 	char d;
 
-	if(_isupper(c))
+	if(isupper(c))
 	{
 		file = 0;
 		c = tolower(c);

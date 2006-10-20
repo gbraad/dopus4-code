@@ -116,11 +116,11 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 			}
 			else
 			{
-				if(c > 0 || !(_isspace(func[b])))
+				if(c > 0 || !(isspace(func[b])))
 				{
 					if(func[b] == '|' && func[b + 1] == '|')
 						lb = 1;
-					else if(_isspace(func[b]))
+					else if(isspace(func[b]))
 					{
 						if(ls == -1)
 							ls = c;
@@ -316,8 +316,8 @@ int getfunction(char *func, char **funcptr)
 			if(commandlist[b].name == NULL)
 				break;
 			a = strlen(commandlist[b].name);
-//			if(strncmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
-			if(IUtility->Strnicmp(commandlist[b].name, &func[1], a) == 0 && (_isspace(func[a + 1]) || func[a + 1] == 0))
+//			if(strncmp(commandlist[b].name, &func[1], a) == 0 && (isspace(func[a + 1]) || func[a + 1] == 0))
+			if(IUtility->Strnicmp(commandlist[b].name, &func[1], a) == 0 && (isspace(func[a + 1]) || func[a + 1] == 0))
 			{
 				if(funcptr && func[a + 1])
 					*funcptr = &func[a + 1];
@@ -1088,7 +1088,7 @@ int addfilename(char *buf, char *part1, char *part2, int quote)
 	int c = 0, d;
 
 	d = strlen(buf);
-	if(d > 0 && !(_isspace(buf[d - 1])))
+	if(d > 0 && !(isspace(buf[d - 1])))
 		quote = 0;
 
 	if(quote)

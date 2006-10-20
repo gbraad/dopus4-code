@@ -511,7 +511,7 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 				equ = 2;
 				for(c = 0; c < d; c++)
 				{
-					if(equ == 2 && !(_isspace(buf[c])))
+					if(equ == 2 && !(isspace(buf[c])))
 					{
 						if(buf[c] == '<')
 							equ = -1;
@@ -525,7 +525,7 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 							break;
 						}
 					}
-					else if(equ != 2 && (_isdigit(buf[c])))
+					else if(equ != 2 && (isdigit(buf[c])))
 					{
 						val = atoi(&buf[c]);
 						break;

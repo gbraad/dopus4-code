@@ -761,7 +761,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 
 		if(!(entry = findfile(dopus_curwin[win], rexx_args[0], NULL)))
 		{
-			if(_isdigit(rexx_args[0][0]))
+			if(isdigit(rexx_args[0][0]))
 			{
 				entry = dopus_curwin[win]->firstentry;
 				a = atoi(rexx_args[0]);
@@ -1646,7 +1646,7 @@ int parse(STRPTR buf)
 	int len, argno, argpos, a, withinquote, havequoted;
 	len = strlen(buf);
 	for(a = len - 1; a >= 0; a--)
-		if(_isspace(buf[a]) == 0)
+		if(isspace(buf[a]) == 0)
 			break;
 	len = a;
 	argno = argpos = withinquote = havequoted = 0;
@@ -1678,7 +1678,7 @@ int parse(STRPTR buf)
 			else
 				rexx_args[argno][argpos++] = buf[a];
 		}
-		else if(_isspace(buf[a]) > 0)
+		else if(isspace(buf[a]) > 0)
 		{
 			if(withinquote)
 				rexx_args[argno][argpos++] = buf[a];

@@ -517,8 +517,12 @@ void update_buffer_stamp(int win, int true)
 int check_key_press(struct dopusfunction *func, USHORT code, USHORT qual)
 {
 	if(!func->function || !func->function[0] || (func->key == 0xff && func->qual == 0) || func->qual != qual)
+	{
 		return (0);
+	}
 	if(func->key == 0xff || func->key == code)
+	{
 		return (1);
+	}
 	return (0);
 }

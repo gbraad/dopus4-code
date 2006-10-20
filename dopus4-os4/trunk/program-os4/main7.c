@@ -117,7 +117,7 @@ int checkisfont(STRPTR pathname, STRPTR fontname)
 		{
 			for(a = 0;; a++)
 			{
-				if(!(_isdigit(fontsize[a])))
+				if(!(isdigit(fontsize[a])))
 					break;
 			}
 			if(!fontsize[a])
