@@ -17,7 +17,7 @@ autoinit_layers_base.o autoinit_layers_main.o\
 autoinit_pm_base.o autoinit_pm_main.o\
 autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
-autoinit_application_application.o autoinit_application_base.o # autoinit_application_prefsobjects.o
+autoinit_application_application.o autoinit_application_base.o
 
 CFLAGS = -maltivec -mcrt=clib2 -Wall -Os -I../include-os4
 LDFLAGS = -maltivec -mcrt=clib2 -lauto -lm
