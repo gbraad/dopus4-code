@@ -352,7 +352,6 @@ void doidcmp()
 					if(config->generalflags & GENERAL_ACTIVATE)
 						makeactive(win, 0);
 					verticalscroll(win, dir);
-//                            Delay(5);
 					while(!getintuimsg())
 						if(gad->Flags & GFLG_SELECTED)
 							verticalscroll(win, dir);
@@ -374,7 +373,6 @@ void doidcmp()
 					if(config->generalflags & GENERAL_ACTIVATE)
 						makeactive(win, 0);
 					horizontalscroll(win, dir);
-//                            Delay(5);
 					while(!getintuimsg())
 						if(gad->Flags & GFLG_SELECTED)
 							horizontalscroll(win, dir);
@@ -622,20 +620,212 @@ void doidcmp()
 						goto foobarbaz;
 					}
 				}
-//				{
-					win = -1;
-					switch (code)
+				win = -1;
+				switch (code)
+				{
+				case RAWKEY_HOME:
+					if(win == -1)
+						win = data_active_window;
+					if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+						break;
+					dopus_curwin[win]->offset = 0;
+					fixvertprop(win);
+					displaydir(win);
+					break;
+				case RAWKEY_END:
+					if(win == -1)
+						win = data_active_window;
+					if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+						break;
+					dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+					fixvertprop(win);
+					displaydir(win);
+					break;
+				case RAWKEY_PAGEUP:
+					if(win == -1)
+						win = data_active_window;
+					if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+						break;
+					dopus_curwin[win]->offset -= scrdata_dispwin_lines;
+					if(dopus_curwin[win]->offset < 0)
 					{
-					case RAWKEY_HOME:
-						if(win == -1)
-							win = data_active_window;
-						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-							break;
 						dopus_curwin[win]->offset = 0;
+					}
+					fixvertprop(win);
+					displaydir(win);
+					break;
+				case RAWKEY_PAGEDOWN:
+					if(win == -1)
+						win = data_active_window;
+					if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+						break;
+					dopus_curwin[win]->offset += scrdata_dispwin_lines;
+					if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
+					{
+						dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+					}
+					fixvertprop(win);
+					displaydir(win);
+					break;
+				case RAWKEY_CRSRUP:
+					if(win == -1)
+						win = data_active_window;
+					if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+						break;
+					if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+					{
+						if(qual & IEQUALIFIER_CONTROL)
+						{
+							dopus_curwin[win]->offset = 0;
+						}
+						else
+						{
+							dopus_curwin[win]->offset -= scrdata_dispwin_lines;
+							if(dopus_curwin[win]->offset < 0)
+								dopus_curwin[win]->offset = 0;
+						}
 						fixvertprop(win);
 						displaydir(win);
 						break;
-					case RAWKEY_END:
+					}
+					verticalscroll(win, -1);
+					break;
+				case RAWKEY_CRSRDOWN:
+					if(win == -1)
+						win = data_active_window;
+					if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+						break;
+					if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+					{
+						if(qual & IEQUALIFIER_CONTROL)
+						{
+							dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+						}
+						else
+						{
+							dopus_curwin[win]->offset += scrdata_dispwin_lines;
+							if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
+								dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
+						}
+						fixvertprop(win);
+						displaydir(win);
+						break;
+					}
+					verticalscroll(win, 1);
+					break;
+				case RAWKEY_CRSRLEFT:
+					if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
+					{
+						incrementbuf(data_active_window, -1, 1);
+						break;
+					}
+					if(win == -1)
+					{
+						win = data_active_window;
+					}
+					if(dopus_curwin[win]->total == 0)
+					{
+						break;
+					}
+					if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+					{
+						if(qual & IEQUALIFIER_CONTROL)
+						{
+							dopus_curwin[win]->hoffset = 0;
+						}
+						else
+						{
+							dopus_curwin[win]->hoffset -= scrdata_dispwin_nchars[win];
+							if(dopus_curwin[win]->hoffset < 0)
+								dopus_curwin[win]->hoffset = 0;
+						}
+						refreshwindow(win, 1);
+						break;
+					}
+					horizontalscroll(win, -1);
+					break;
+				case RAWKEY_CRSRRIGHT:
+					if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
+					{
+						incrementbuf(data_active_window, 1, 1);
+						break;
+					}
+					if(win == -1)
+					{
+						win = data_active_window;
+					}
+					if(dopus_curwin[win]->total == 0)
+					{
+						break;
+					}
+					if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
+					{
+						if(qual & IEQUALIFIER_CONTROL)
+						{
+							dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
+							if(dopus_curwin[win]->hoffset < 0)
+								dopus_curwin[win]->hoffset = 0;
+						}
+						else
+						{
+							dopus_curwin[win]->hoffset += scrdata_dispwin_nchars[win];
+							if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
+								dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
+						}
+						refreshwindow(win, 1);
+						break;
+					}
+					horizontalscroll(win, 1);
+					break;
+				case RAWKEY_HELP: // HELP
+					function = FUNC_HELP;
+					break;
+				case RAWKEY_SPACE: // SPACE
+					if(qual & IEQUALIFIER_LCOMMAND)
+					{
+						findfirstsel(data_active_window, ENTRY_FILE);
+						break;
+					}
+					else if(qual & IEQUALIFIER_RCOMMAND)
+					{
+						findfirstsel(data_active_window, ENTRY_DIRECTORY);
+						break;
+					}
+				case RAWKEY_TAB: // TAB
+					makeactive(1 - data_active_window, 1);
+					break;
+				case RAWKEY_RETURN: // RETURN
+					if(qual & IEQUALIFIER_ANYSHIFT)
+						function = FUNC_BUFFERLIST;
+					else if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
+						function = FUNC_DEVICELIST;
+					else
+						IDOpus->ActivateStrGad(&path_strgadget[data_active_window], Window);
+					break;
+				case 0x38: // ,
+					dosizedirwindows(-60000);
+					break;
+				case 0x39: // .
+					dosizedirwindows(0);
+					break;
+				case 0x3a: // -
+					dosizedirwindows(60000);
+					break;
+				case 0x30: // > & <
+					if(qual & IEQUALIFIER_ANYSHIFT)
+					{
+						goto nextgadgetbank;
+						break;
+					}
+					else
+					{
+						goto prevgadgetbank;
+						break;
+					}
+					break;
+				case 0x1d:	// End 1
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -643,8 +833,23 @@ void doidcmp()
 						dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
 						fixvertprop(win);
 						displaydir(win);
-						break;
-					case RAWKEY_PAGEUP:
+					}
+					break;
+				case 0x3d:	// Home 7
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
+						if(win == -1)
+							win = data_active_window;
+						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
+							break;
+						dopus_curwin[win]->offset = 0;
+						fixvertprop(win);
+						displaydir(win);
+					}
+					break;
+				case 0x3f:	// PageUp 9
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -656,8 +861,11 @@ void doidcmp()
 						}
 						fixvertprop(win);
 						displaydir(win);
-						break;
-					case RAWKEY_PAGEDOWN:
+					}
+					break;
+				case 0x1f:	// PageDown 3
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -669,8 +877,11 @@ void doidcmp()
 						}
 						fixvertprop(win);
 						displaydir(win);
-						break;
-					case RAWKEY_CRSRUP:
+					}
+					break;
+				case 0x3e:	// CrsrUp 8
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -692,8 +903,11 @@ void doidcmp()
 							break;
 						}
 						verticalscroll(win, -1);
-						break;
-					case RAWKEY_CRSRDOWN:
+					}
+					break;
+				case 0x1e:	// CrsrDown 2
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(win == -1)
 							win = data_active_window;
 						if(dopus_curwin[win]->total < scrdata_dispwin_lines)
@@ -715,8 +929,11 @@ void doidcmp()
 							break;
 						}
 						verticalscroll(win, 1);
-						break;
-					case RAWKEY_CRSRLEFT:
+					}
+					break;
+				case 0x2d:	// CrsrLeft 4
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, -1, 1);
@@ -746,8 +963,11 @@ void doidcmp()
 							break;
 						}
 						horizontalscroll(win, -1);
-						break;
-					case RAWKEY_CRSRRIGHT:
+					}
+					break;
+				case 0x2f:	//CrsrRight 6
+					if(qual & IEQUALIFIER_NUMERICPAD)
+					{
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
 							incrementbuf(data_active_window, 1, 1);
@@ -779,43 +999,24 @@ void doidcmp()
 							break;
 						}
 						horizontalscroll(win, 1);
-						break;
-					case RAWKEY_HELP: // HELP
-						function = FUNC_HELP;
-						break;
-//					case RAWKEY_SPACE: // SPACE
-					case RAWKEY_TAB: // TAB
-						makeactive(1 - data_active_window, 1);
-						break;
-					case RAWKEY_RETURN: // RETURN
-						if(qual & IEQUALIFIER_ANYSHIFT)
-							function = FUNC_BUFFERLIST;
-						else if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-							function = FUNC_DEVICELIST;
-						else
-							IDOpus->ActivateStrGad(&path_strgadget[data_active_window], Window);
-						break;
-					case 0x38: // ,
-						dosizedirwindows(-60000);
-						break;
-					case 0x39: // .
-						dosizedirwindows(0);
-						break;
-					case 0x3a: // -
-						dosizedirwindows(60000);
-						break;
-					case 0x30: // > & <
-						if(qual & IEQUALIFIER_ANYSHIFT)
+					}
+					break;
+				default:
+					if(code < 0x40 && !(qual & IEQUALIFIER_CONTROL) && !(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))) // a digit or char
+					{
+						IDOpus->RawkeyToStr(code, qual, NULL, (char *)buf, 0);
+						ch = buf[0];
+						if(isprint(ch))
 						{
-							goto nextgadgetbank;
-							break;
+							findfirstchar(data_active_window, ch);
 						}
-						else
-						{
-							goto prevgadgetbank;
-							break;
-						}
-						break;
+					}
+					break;
+				}
+				if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
+				{
+					switch(code)
+					{
 					case 0x13: // r
 						if(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))
 						{
@@ -840,207 +1041,11 @@ void doidcmp()
 							function = FUNC_BUFFERLIST;
 						}
 						break;
-					case RAWKEY_SPACE: // ' '
-						if(qual & IEQUALIFIER_LCOMMAND)
-						{
-							findfirstsel(data_active_window, ENTRY_FILE);
-						}
-						else
-						{
-							findfirstsel(data_active_window, ENTRY_DIRECTORY);
-						}
-						break;
-					case 0x1d:	// End 1
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(win == -1)
-								win = data_active_window;
-							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-								break;
-							dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-							fixvertprop(win);
-							displaydir(win);
-						}
-						break;
-					case 0x3d:	// Home 7
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(win == -1)
-								win = data_active_window;
-							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-								break;
-							dopus_curwin[win]->offset = 0;
-							fixvertprop(win);
-							displaydir(win);
-						}
-						break;
-					case 0x3f:	// PageUp 9
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(win == -1)
-								win = data_active_window;
-							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-								break;
-							dopus_curwin[win]->offset -= scrdata_dispwin_lines;
-							if(dopus_curwin[win]->offset < 0)
-							{
-								dopus_curwin[win]->offset = 0;
-							}
-							fixvertprop(win);
-							displaydir(win);
-						}
-						break;
-					case 0x1f:	// PageDown 3
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(win == -1)
-								win = data_active_window;
-							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-								break;
-							dopus_curwin[win]->offset += scrdata_dispwin_lines;
-							if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-							{
-								dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-							}
-							fixvertprop(win);
-							displaydir(win);
-						}
-						break;
-					case 0x3e:	// CrsrUp 8
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(win == -1)
-								win = data_active_window;
-							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-								break;
-							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-							{
-								if(qual & IEQUALIFIER_CONTROL)
-								{
-									dopus_curwin[win]->offset = 0;
-								}
-								else
-								{
-									dopus_curwin[win]->offset -= scrdata_dispwin_lines;
-									if(dopus_curwin[win]->offset < 0)
-										dopus_curwin[win]->offset = 0;
-								}
-								fixvertprop(win);
-								displaydir(win);
-								break;
-							}
-							verticalscroll(win, -1);
-						}
-						break;
-					case 0x1e:	// CrsrDown 2
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(win == -1)
-								win = data_active_window;
-							if(dopus_curwin[win]->total < scrdata_dispwin_lines)
-								break;
-							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-							{
-								if(qual & IEQUALIFIER_CONTROL)
-								{
-									dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-								}
-								else
-								{
-									dopus_curwin[win]->offset += scrdata_dispwin_lines;
-									if(dopus_curwin[win]->offset > dopus_curwin[win]->total - scrdata_dispwin_lines)
-										dopus_curwin[win]->offset = dopus_curwin[win]->total - scrdata_dispwin_lines;
-								}
-								fixvertprop(win);
-								displaydir(win);
-								break;
-							}
-							verticalscroll(win, 1);
-						}
-						break;
-					case 0x2d:	// CrsrLeft 4
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-							{
-								incrementbuf(data_active_window, -1, 1);
-								break;
-							}
-							if(win == -1)
-							{
-								win = data_active_window;
-							}
-							if(dopus_curwin[win]->total == 0)
-							{
-								break;
-							}
-							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-							{
-								if(qual & IEQUALIFIER_CONTROL)
-								{
-									dopus_curwin[win]->hoffset = 0;
-								}
-								else
-								{
-									dopus_curwin[win]->hoffset -= scrdata_dispwin_nchars[win];
-									if(dopus_curwin[win]->hoffset < 0)
-										dopus_curwin[win]->hoffset = 0;
-								}
-								refreshwindow(win, 1);
-								break;
-							}
-							horizontalscroll(win, -1);
-						}
-						break;
-					case 0x2f:	//CrsrRight 6
-						if(qual & IEQUALIFIER_NUMERICPAD)
-						{
-							if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
-							{
-								incrementbuf(data_active_window, 1, 1);
-								break;
-							}
-							if(win == -1)
-							{
-								win = data_active_window;
-							}
-							if(dopus_curwin[win]->total == 0)
-							{
-								break;
-							}
-							if(qual & (IEQUALIFIER_CONTROL | IEQUALIFIER_ANYSHIFT))
-							{
-								if(qual & IEQUALIFIER_CONTROL)
-								{
-									dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-									if(dopus_curwin[win]->hoffset < 0)
-										dopus_curwin[win]->hoffset = 0;
-								}
-								else
-								{
-									dopus_curwin[win]->hoffset += scrdata_dispwin_nchars[win];
-									if(dopus_curwin[win]->hoffset >= (dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win]))
-										dopus_curwin[win]->hoffset = dopus_curwin[win]->hlen - scrdata_dispwin_nchars[win];
-								}
-								refreshwindow(win, 1);
-								break;
-							}
-							horizontalscroll(win, 1);
-						}
-						break;
-					default:
-						if(code < 0x40 && !(qual & IEQUALIFIER_CONTROL)) // a digit or char
-						{
-							IDOpus->RawkeyToStr(code, qual, NULL, (char *)buf, 0);
-							ch = buf[0];
-							if(isprint(ch))
-							{
-								findfirstchar(data_active_window, ch);
-							}
-						}
-						break;
 					}
-//				}
+				}
+
+
+
 				unbusy();
 				break;
 
@@ -1094,7 +1099,9 @@ void doidcmp()
 							{
 								busy();
 								if(str_pathbuffer[data_active_window][0] && do_parent_multi(str_pathbuffer[data_active_window]))
+								{
 									startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
+								}
 								unbusy();
 							}
 							time_previous_sec = time_current_sec;
@@ -1108,7 +1115,9 @@ void doidcmp()
 						dosizedirwindows(65536);
 					}
 					else if((a = isinwindow(x, y)) != -1)	// lister area
+					{
 						doselection(a, TRUE);
+					}
 					else if(x >= scrdata_xoffset && x < scrdata_xoffset + scrdata_clock_width && y > scrdata_clock_ypos - 3)	// buttonbank area
 					{
 					      nextgadgetbank:
@@ -1117,14 +1126,22 @@ void doidcmp()
 							data_gadgetrow_offset = 0;
 							bank = dopus_curgadbank;
 							if(dopus_curgadbank && dopus_curgadbank->next)
+							{
 								dopus_curgadbank = dopus_curgadbank->next;
+							}
 							else
+							{
 								dopus_curgadbank = dopus_firstgadbank;
+							}
 							if(bank != dopus_curgadbank || scr_gadget_rows < 6)
+							{
 								drawgadgets(0, 0);
+							}
 						}
 						else
+						{
 							drawgadgets(0, 0);
+						}
 						fixgadgetprop();
 					}
 				}
@@ -1230,7 +1247,9 @@ void doidcmp()
 						if(x > 1 && x < scrdata_dispwin_center - 13)
 						{
 							if(config->generalflags & GENERAL_FMPARENT)
+							{
 								function = FUNC_PARENT;
+							}
 							else
 							{
 								dormbscroll(0);
@@ -1240,7 +1259,9 @@ void doidcmp()
 						else if(x > scrdata_dispwin_center + 12 && x < screen_gadgets[SCRGAD_RIGHTPARENT].LeftEdge)
 						{
 							if(config->generalflags & GENERAL_FMPARENT)
+							{
 								function = FUNC_PARENT;
+							}
 							else
 							{
 								doselinfo(1);
