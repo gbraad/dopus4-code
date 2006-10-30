@@ -606,7 +606,9 @@ void openprogresswindow(STRPTR title, int value, int total, int flag)
 			IGraphics->Text(prp, "100%", 4);
 
 			if(a == 0)
+			{
 				progresstext(bar[a].descY, value, total, NULL);
+			}
 			progressbar(&bar[a]);
 		}
 	}
@@ -618,13 +620,19 @@ void progresstext(int y, int val, int total, STRPTR text)
 	int x, y1, len;
 
 	if(val == -1)
+	{
 		ptr = globstring[total ? STR_ABORTED : STR_COMPLETED];
+	}
 	else
 	{
 		if(text)
+		{
 			IDOpus->LStrnCpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
+		}
 		else
+		{
 			sprintf(buf, globstring[STR_REMAINING], val, total);
+		}
 		ptr = buf;
 	}
 	x = 26 + ((pwindow->Width - prog_xextra - 56 - IGraphics->TextLength(prp, ptr, (len = strlen(ptr)))) / 2) + prog_xoff;

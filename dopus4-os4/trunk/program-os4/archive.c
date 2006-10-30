@@ -319,26 +319,74 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 	fib->fib_Size = (int)entry->size;
 	fib->fib_Date = entry->date;
 	if(entry->comment)
+	{
 		strcpy(fib->fib_Comment, entry->comment);
+	}
 	else
+	{
 		fib->fib_Comment[0] = 0;
-//	fib->fib_OwnerUID = entry->owner_id;
-//	fib->fib_OwnerGID = entry->group_id;
+	}
 }
 
 /* Progress Hook */
 
 HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
 {
+	int32 a;
+	struct EasyStruct es =
+	{
+		sizeof (struct EasyStruct),
+		ESF_EVENSIZE,
+		NULL,
+		NULL,
+		NULL
+	};
+
 	if(xadp && xadp->xpi_FileInfo)
 	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
 	}
 
-	if(xadp->xpi_Mode == XADPMODE_END)
+	switch(xadp->xpi_Mode)
 	{
-//		IExec->DebugPrintF("XAD END!\n");
+	case XADPMODE_END:
+		return XADPIF_OK;
+		break;
+	case XADPMODE_ASK:
+		if(xadskipall == 1)
+		{
+			return XADPIF_OK;
+		}
+		if(xadoverwrite == 0)
+		{
+			a = IDOS->TimedDosRequesterTags(TDR_Timeout, 0, TDR_Window, Window, TDR_ImageType, TDRIMAGE_WARNING, TDR_EasyStruct, &es, TDR_FormatString, formatstring, TDR_TitleString, "Extract...", TDR_GadgetString, gadgetstring, TAG_DONE);
+			switch(a)
+			{
+			case 0:
+				status_haveaborted = 1;
+				return XADPIF_OK;
+				break;
+			case 1:
+				return (XADPIF_OK|XADPIF_OVERWRITE);
+				break;
+			case 2:
+				xadoverwrite = 1;
+				return (XADPIF_OK|XADPIF_OVERWRITE);
+				break;
+			case 3:
+				return XADPIF_OK;
+				break;
+			case 4:
+				xadskipall = 1;
+				return XADPIF_OK;
+				break;
+			}
+		}
+
+		return (XADPIF_OK|XADPIF_OVERWRITE);
+		break;
 	}
+
 	return(XADPIF_OK);
 }
 MakeHook(ProgressHook, ProgressFunc);
@@ -350,6 +398,11 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 
 	struct xadArchiveInfo *xadai = NULL;
 	struct xadFileInfo *xadfi = NULL;
+
+	xadoverwrite = 0;
+	xadskipall = 0;
+
+	IUtility->SNPrintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
 
 	snprintf(sourcename, 1024, "%s%s", source, archivename);
 
@@ -379,7 +432,8 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 			memset(destname, 0, 1024);
 			snprintf(destname, 1024, "%s%s", destination, xadfi->xfi_FileName);
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
-			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, TRUE, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
+			IUtility->SNPrintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
+			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
 			{
 //				IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));
 			}

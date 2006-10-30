@@ -36,7 +36,6 @@ int ansicountlines(struct ViewData *);
 
 /* about.c */
 void about(void);
-void give_version_info(void);
 
 /* arbiter.c */
 int install_arbiter(void);

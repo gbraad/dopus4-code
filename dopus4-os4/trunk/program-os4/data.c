@@ -65,8 +65,11 @@ struct MsgPort *applibport;
 
 uint8 xadflags;
 uint32 xadoverwrite;
+uint32 xadskipall;
 uint32 xadnoabs;
 uint32 xadmaketree;
+char formatstring[1024];
+char gadgetstring[100];
 
 /* Graphics objects */
 

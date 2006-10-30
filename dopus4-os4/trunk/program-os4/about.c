@@ -47,22 +47,9 @@ STRPTR comp_date = __DATE__, comp_time = __TIME__;
 void about()
 {
 	char buf[1024] = { 0, };
-
-	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " VERSION_STR "." REVISION_STR "." SUBREVISION_STR, "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
-	simplerequest(buf, globstring[STR_CONTINUE], NULL);
-}
-
-void give_version_info()
-{
-	char buf[1024] = { 0, };
 	uint32 ver = DOpusBase->lib_Version, rev = DOpusBase->lib_Revision;
 
-//	sprintf(buf,globstring[STR_VERSION_CONTENTS],globstring[STR_VERSION_HEADER], 
+	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " VERSION_STR "." REVISION_STR "." SUBREVISION_STR, VERSION, REVISION, SUBREVISION, ver, rev, compiler, comp_date, comp_time);
 
-	sprintf(buf, "DirectoryOpus: %d.%d.%d\n" \
-		     "dopus.library: %ld.%ld\n\n" \
-		     "Compiled with: %s\n" \
-		     "Compilation date: %s\n" \
-		     "Compilation time: %s\n", VERSION, REVISION, SUBREVISION, ver, rev, compiler, comp_date, comp_time);
-	simplerequest(buf, globstring[STR_CONTINUE], NULL);
+	IDOS->TimedDosRequesterTags(TDR_Timeout, 0, TDR_Window, Window, TDR_ImageType, TDRIMAGE_INFO, TDR_FormatString, buf, TDR_TitleString, "About...", TDR_GadgetString, globstring[STR_CONTINUE], TAG_DONE);
 }

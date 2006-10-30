@@ -37,7 +37,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0, noshow = 0, err = 0;
 	int sourcewild = 0, destwild = 0, firstset = 0, breakout = 0, rexarg = 0, protstuff[2];
 	int pt = 1, okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
-	int globflag, noremove, doicons = 0, total = -1, value = 0, progtype = 0, blocksize = 0, retval = 0;
+	int globflag, noremove, doicons = 0, /*total = -1, */value = 0, progtype = 0, blocksize = 0, retval = 0;
+	int32 total = -1;
 	int64 byte, bb;
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
 	char *sourcename, *destname, *oldiconname, *newiconname;
@@ -322,7 +323,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		break;
 	case FUNC_HUNT:
 		if(rexx && rexx_argcount > 0)
+		{
 			strcpy(str_hunt_name, rexx_args[rexarg]);
+		}
 		else if(!(whatsit(globstring[STR_ENTER_HUNT_PATTERN], 80, str_hunt_name, NULL)) || !str_hunt_name[0])
 		{
 			myabort();
@@ -357,13 +360,21 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		break;
 	case FUNC_ENCRYPT:
 		if(!(checkdest(inact)) || (checksame(sourcedir, destdir, 1) == LOCK_SAME))
+		{
 			goto endfunction;
+		}
 		if(!(config->existflags & REPLACE_ALWAYS))
+		{
 			askeach = 1;
+		}
 		else
+		{
 			askeach = 0;
+		}
 		if(rexx && rexx_argcount > 0)
+		{
 			strcpy(buf2, rexx_args[rexarg]);
+		}
 		else if(!(whatsit(globstring[STR_ENTER_PASSWORD], 20, buf2, NULL)) || !buf2[0])
 		{
 			myabort();
@@ -375,7 +386,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			strcpy(buf2, &buf2[1]);
 		}
 		else
+		{
 			data = 1;
+		}
 		candoicon = 0;
 		progress_copy = 1;
 		break;
@@ -480,7 +493,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		for(x = 0;; x++)
 		{
 			if(!commandlist[x].name)
+			{
 				break;
+			}
 			if(commandlist[x].function == function && !(commandlist[x].flags & RCL_SYNONYM))
 			{
 				title = commandlist[x].name;
@@ -502,7 +517,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 		}
 		else
+		{
 			strcpy(titlebuf, "Directory Opus");
+		}
+
+		if(total == -1)
+		{
+			total = 1;
+		}
 
 		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total : 1, titlebuf, progress_copy | ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
 		prog_indicator = 1;

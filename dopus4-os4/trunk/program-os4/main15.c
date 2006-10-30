@@ -425,7 +425,6 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				about();
 				break;
 			case FUNC_VERSION:
-				give_version_info();
 				break;
 			case FUNC_CONFIGURE:
 				doconfig();
