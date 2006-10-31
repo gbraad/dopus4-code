@@ -63,6 +63,10 @@ the existing commercial status of Directory Opus 5.
 #include <hardware/intbits.h>
 
 #include <datatypes/datatypesclass.h>
+#include <datatypes/animationclass.h>
+#include <datatypes/pictureclass.h>
+#include <datatypes/soundclass.h>
+
 
 #include <proto/exec.h>
 #include <proto/dos.h>
@@ -97,35 +101,10 @@ the existing commercial status of Directory Opus 5.
 #include "dopusdata.h"
 #include "dopusstrings.h"
 #include "screendata.h"
-#include "dopusreqdata.h"
 #include "launchexternal.h"
 #include "view.h"
 
 #include "dopusproto.h"
-
-#define CONFIG_STRUCTURE_SIZE 9200
-
-#define DOPUSLIB_VERSION 22
-#define DOPUSLIB_REVISION 25
-
-#define OSVER_34 0
-#define OSVER_37 1
-#define OSVER_38 2
-#define OSVER_39 3
-#define OSVER_40 4
-#define OSVER_51 5
-
-/*
-#define ASYNC_READ_SIZE  16384
-#define ASYNC_WRITE_SIZE 16384
-#define COPY_BUF_SIZE    16384	//2048
-*/
-/*
-#define CURSOR_LEFT 0x4f
-#define CURSOR_RIGHT 0x4e
-#define CURSOR_UP 0x4c
-#define CURSOR_DOWN 0x4d
-*/
 
 #define APPWINID     1
 
@@ -150,15 +129,6 @@ the existing commercial status of Directory Opus 5.
 #define XAD_WRITEOVER 1
 #define XAD_NOABS     2
 #define XAD_MAKETREE  4
-
-
-#define IFFERR_NOTILBM  -2
-#define IFFERR_BADIFF   -3
-#define IFFERR_NOMEMORY -4
-#define IFFERR_BADMODE  -5
-#define IFFERR_NOSCREEN -6
-
-#define SOURCE 0
 
 #define ENTRY_FILE              -1
 #define ENTRY_DEVICE             0
@@ -188,8 +158,6 @@ the existing commercial status of Directory Opus 5.
 #define USEDRIVECOUNT 30
 #define FILETYPE_FUNCNUM   16
 
-#define SHIFTKEYS (IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)
-
 #define DRIVE1 200
 #define DRIVE2 201
 #define DRIVE3 202
@@ -203,41 +171,9 @@ the existing commercial status of Directory Opus 5.
 
 #define ABSI(n) ((n<0)?-n:n)
 
-#define PSTYLE_NORMAL  1
-#define PSTYLE_BOLD    2
-#define PSTYLE_ITALICS 3
-#define PSTYLE_ULINE   4
-#define PSTYLE_DSTRIKE 5
-#define PSTYLE_SHADOW  6
-
-#define NLQ_OFF        0
-#define NLQ_ON         1
-#define NLQ_HEADEROFF  2
-#define NLQ_HEADERON   3
-
-#define HEADER_OFF     0
-#define HEADER_TITLE   1
-#define HEADER_DATE    2
-#define HEADER_PAGE    4
-
-#define PNLQ_ON  "\x1b[2\"z"
-#define PNLQ_OFF "\x1b[1\"z"
-
 #define MODE_WORKBENCHUSE         1
 #define MODE_WORKBENCHCLONE       2
 #define MODE_PUBLICSCREEN         3
-
-#define REQOB_END        0
-#define REQOB_BOOLEAN    1
-#define REQOB_STRING     2
-#define REQOB_CYCLE      3
-#define REQOB_CHECK      4
-#define REQOB_TEXT     512
-
-#define REQOB_ISGADGET (511)
-
-#define REQFLAG_STR_INT  1
-#define REQFLAG_NOBORDER 1
 
 #define STATUS_HELP         1	/* Help mode is active */
 #define STATUS_IANSCRAP     2	/* Various things for Ian */
@@ -253,7 +189,6 @@ the existing commercial status of Directory Opus 5.
 #define STATUS_NEWLOOK      2048	/* New-look sliders */
 
 extern struct DiskObject *icontable[4];
-extern char *comp_date, *comp_time;
 
 #define MAXMENULENGTH 64
 

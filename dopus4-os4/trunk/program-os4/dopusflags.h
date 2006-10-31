@@ -120,15 +120,6 @@ enum
 	MOD_PORTNAME
 };
 
-/* DOpus NewScreen Tags */
-
-#define SCREENTAGS_DISPLAYID   0
-#define SCREENTAGS_PENS        1
-#define SCREENTAGS_PUBNAME     2
-#define SCREENTAGS_OVERSCAN    3
-#define SCREENTAGS_AUTOSCROLL  4
-#define SCREENTAGS_INTERLEAVED 5
-
 /* System-Signals Recognised By DOpus */
 
 #define INPUTSIG_ABORT      SIGBREAKF_CTRL_C

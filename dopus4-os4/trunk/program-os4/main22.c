@@ -2159,15 +2159,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		break;
 
 	case FUNC_SHOW:
-		if(config->viewbits & VIEWBITS_SHOWBLACK)
-		{
-			if(blankscreen)
-			{
-				IIntuition->CloseScreen(blankscreen);
-				blankscreen = NULL;
-			}
-			IIntuition->ClearPointer(Window);
-		}
 		break;
 	case FUNC_SEARCH:
 		if(count > -1)

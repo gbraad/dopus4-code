@@ -51,9 +51,9 @@ int main(int argc, char **argv)
 	IDOS->SetProcWindow((APTR)-1L);
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
-	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", DOPUSLIB_VERSION)))
+	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 22)))
 	{
-		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:libs/dopus.library", DOPUSLIB_VERSION)))
+		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:libs/dopus.library", 22)))
 		{
 			DOpusBase = NULL;
 		}
@@ -415,13 +415,13 @@ int SetUp(int tit)
 		status_publicscreen = 0;
 		if(config->screenmode == MODE_WORKBENCHCLONE)
 		{
-			mainscreen_tags[SCREENTAGS_DISPLAYID].ti_Data = clone_screen(NULL, &main_scr);
+			mainscreen_tags[0].ti_Data = clone_screen(NULL, &main_scr);
 		}
 		else
 		{
 			if((handle = IGraphics->FindDisplayInfo(config->screenmode)) && (IGraphics->GetDisplayInfoData(handle, (UBYTE *)&dims, sizeof(struct DimensionInfo), DTAG_DIMS, 0)))
 			{
-				mainscreen_tags[SCREENTAGS_DISPLAYID].ti_Data = (ULONG) config->screenmode;
+				mainscreen_tags[0].ti_Data = (ULONG) config->screenmode;
 				if(config->screenflags & SCRFLAGS_DEFWIDTH)
 					main_scr.Width = (dims.TxtOScan.MaxX - dims.TxtOScan.MinX) + 1;
 				else
@@ -529,20 +529,6 @@ int SetUp(int tit)
 		{
 			main_win.Type = CUSTOMSCREEN;
 
-/*			main_scr.LeftEdge = 0;
-			main_scr.TopEdge = 0;
-			if(config->screenflags & SCRFLAGS_HALFHEIGHT)
-			{
-				if(main_scr.Height < 400)
-				{
-					config->screenflags &= ~SCRFLAGS_HALFHEIGHT;
-				}
-				else
-				{
-					main_scr.Height /= 2;
-					main_scr.TopEdge = main_scr.Height;
-				}
-			}*/
 
 			if(!MainScreen)
 			{
@@ -555,7 +541,6 @@ int SetUp(int tit)
 					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_DisplayID, config->screenmode, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, TAG_DONE);
 				}
 
-//				if(!(MainScreen = (struct Screen *)IIntuition->OpenScreen((struct NewScreen *)&main_scr)))
 				if(!(MainScreen))
 				{
 					status_iconified = 1;
@@ -954,7 +939,9 @@ int SetUp(int tit)
 			if(!(Window = IIntuition->OpenWindow((struct NewWindow *)&main_win)))
 			{
 				if(MainScreen)
+				{
 					IIntuition->ScreenToFront(MainScreen);
+				}
 				simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
 				if(config->screenmode == HIRES_KEY && config->scr_winw == 640 && config->scr_winh == 200 + (scrdata_is_pal * 56) && config->scrdepth == 2 && config->screenflags == 0)
 					quit();
@@ -1496,7 +1483,7 @@ void setup_draw_info()
 	struct DrawInfo *drinfo;
 	struct Screen *wbscreen;
 
-	mainscreen_tags[SCREENTAGS_DISPLAYID].ti_Data = 0;
+	mainscreen_tags[0].ti_Data = 0;
 	if((wbscreen = IIntuition->LockPubScreen(NULL)))
 	{
 		drinfo = IIntuition->GetScreenDrawInfo(wbscreen);

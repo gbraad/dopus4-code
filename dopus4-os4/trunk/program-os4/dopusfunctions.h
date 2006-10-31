@@ -81,41 +81,6 @@ the existing commercial status of Directory Opus 5.
 #define RCL_NOFILE   4
 #define RCL_SYNONYM  8
 
-/* FileType Commands */
-/*
-#define FTYC_MATCH        1
-#define FTYC_MATCHNAME    2
-#define FTYC_MATCHBITS    3
-#define FTYC_MATCHCOMMENT 4
-#define FTYC_MATCHSIZE    5
-#define FTYC_MATCHDATE    6
-#define FTYC_MOVETO       7
-#define FTYC_MOVE         8
-#define FTYC_SEARCHFOR    9
-#define FTYC_MATCHI      10
-#define FTYC_OR         253
-#define FTYC_AND        254
-#define FTYC_ENDSECTION 255
-
-#define FTYC_ENDLIMIT   252
-#define FTYC_COMMANDOK  11
-*/
-
-/* FileType Functions */
-/*
-#define FTFUNC_AUTOFUNC1   0
-#define FTFUNC_AUTOFUNC2   1
-#define FTFUNC_DOUBLECLICK 2
-#define FTFUNC_CLICKMCLICK 3
-#define FTFUNC_ANSIREAD    4
-#define FTFUNC_AUTOFUNC3   5
-#define FTFUNC_HEXREAD     6
-#define FTFUNC_LOOPPLAY    7
-#define FTFUNC_PLAY        8
-#define FTFUNC_AUTOFUNC4   9
-#define FTFUNC_READ        10
-#define FTFUNC_SHOW        11
-*/
 /* Curly-Bracket Sequences */
 
 #define FUNC_QUERYINFO   235
@@ -330,7 +295,6 @@ extern LONG rexx_return_value;	/* RC for ARexx functions */
 
 extern ULONG func_global_function;	/* Global function number */
 extern char func_single_file[FILEBUF_SIZE];	/* Single file to operate on */
-//extern char func_external_file[256];	/* External file to operate on */
 extern char func_external_file[1024];	/* External file to operate on */
 extern struct Directory *func_single_entry;	/* Single entry to operate on */
 extern UBYTE func_entry_deleted;	/* Indicates entry was deleted */

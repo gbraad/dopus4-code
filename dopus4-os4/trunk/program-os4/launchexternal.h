@@ -58,7 +58,3 @@ struct dopus_func_start
 };
 
 #define SEG_PRINT 0
-
-/*#define SEG_DISK  0
-#define SEG_PRINT 1
-#define SEG_ICON  2*/

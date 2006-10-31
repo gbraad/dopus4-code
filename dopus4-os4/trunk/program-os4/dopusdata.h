@@ -30,9 +30,6 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_DATA
 #define DOPUS_DATA
 
-/* SAS Detach information */
-
-//extern long _stack;                              /* Stack size needed */
 extern long _priority;		/* Default task priority */
 extern long _BackGroundIO;	/* Background IO off */
 extern char *_procname;		/* Task name */
@@ -46,9 +43,7 @@ extern struct DOpusIFace *IDOpus;			/* dopus interface */
 
 extern struct IntuiMessage *IMsg;	/* Main IntuiMessage pointer */
 extern struct Screen *MainScreen;	/* Main screen */
-extern struct Screen *iffscreen;	/* IFF display screen */
 extern struct Screen *fontscreen;	/* Font display screen */
-extern struct Screen *blankscreen;	/* Blank screen for IFF viewer */
 extern struct Window *Window;		/* Main window */
 extern struct Image *iconifyimage;	/* Iconify Image for main window */
 extern struct Gadget *iconifygadget;	/* Iconify Gagdet for main window */
@@ -76,7 +71,6 @@ extern char gadgetstring[100];
 
 /* Graphics objects */
 
-//extern struct ViewPort *main_vp;                 /* Main screen ViewPort */
 extern struct RastPort *main_rp;	/* Main window RastPort */
 extern struct RastPort *bar_rp;	/* Screen BarLayer RastPort */
 extern struct RastPort dir_rp[2];	/* Directory window RastPorts */
@@ -103,7 +97,6 @@ extern struct MsgPort *arexx_port;	/* ARexx Port */
 extern struct MsgPort *hotkeymsg_port;	/* Messages to the hotkey task */
 extern struct MsgPort *clockmsg_port;	/* Messages to the clock task */
 
-//extern struct IOStdReq *keyboard_req;            /* Keyboard IO Request block */
 extern struct IOStdReq *input_req;	/* Input IO Request block */
 
 /* DOS objects */
@@ -165,7 +158,6 @@ extern char str_arcorgname[FILEBUF_SIZE];
 extern char str_version_string[30];	/* Current version string */
 extern char str_arexx_portname[30];	/* ARexx Port name */
 
-//extern UBYTE var_key_matrix[13];                 /* Keyboard matrix data area */
 extern char *str_last_statustext;	/* Last status text displayed */
 
 extern char *str_last_rexx_result;	/* Last ARexx result */

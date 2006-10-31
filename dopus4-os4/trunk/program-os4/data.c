@@ -43,9 +43,7 @@ struct DOpusIFace *IDOpus = NULL;		/* dopus interface */
 
 struct IntuiMessage *IMsg /*=NULL*/ ;		/* Main IntuiMessage pointer */
 struct Screen *MainScreen /*=NULL*/ ;		/* Main screen */
-struct Screen *iffscreen /*=NULL*/ ;		/* IFF display screen */
 struct Screen *fontscreen /*=NULL*/ ;		/* Font display screen */
-struct Screen *blankscreen /*=NULL*/ ;		/* Blank screen for IFF viewer */
 struct Window *Window /*=NULL*/ ;		/* Main window */
 struct Image *iconifyimage /*=NULL*/ ;		/* Iconify Image for main window */
 struct Gadget *iconifygadget /*=NULL */ ;	/* Iconify Gagdet for main window */
@@ -73,7 +71,6 @@ char gadgetstring[100];
 
 /* Graphics objects */
 
-//struct ViewPort *main_vp=NULL;		/* Main screen ViewPort */
 struct RastPort *main_rp /*=NULL*/ ;		/* Main window RastPort */
 struct RastPort dir_rp[2] /*={{0},{0}}*/ ;	/* Directory window RastPorts */
 
@@ -93,7 +90,6 @@ struct MsgPort *arexx_port /*=NULL*/ ;		/* ARexx Port */
 struct MsgPort *hotkeymsg_port /*=NULL*/ ;	/* Messages to the hotkey task */
 struct MsgPort *clockmsg_port /*=NULL*/ ;	/* Messages to the clock task */
 
-//struct IOStdReq *keyboard_req/*=NULL*/;	/* Keyboard IO Request block */
 struct IOStdReq *input_req /*=NULL*/ ;		/* Input IO Request block */
 
 /* DOS objects */

@@ -86,7 +86,7 @@ int showpic(STRPTR fullname, int np)
 
 	if(!(res = LoadPic(fullname)))
 		doerror(-1);
-	else if(res == IFFERR_NOTILBM)
+/*	else if(res == IFFERR_NOTILBM)
 		dostatustext(globstring[STR_FILE_NOT_ILBM]);
 	else if(res == IFFERR_BADIFF)
 		dostatustext(globstring[STR_ERROR_IN_IFF]);
@@ -95,7 +95,7 @@ int showpic(STRPTR fullname, int np)
 	else if(res == IFFERR_BADMODE)
 		dostatustext(globstring[STR_SCREEN_MODE_UNAVAILABLE]);
 	else if(res == IFFERR_NOSCREEN)
-		dostatustext(globstring[STR_UNABLE_TO_OPEN_WINDOW]);
+		dostatustext(globstring[STR_UNABLE_TO_OPEN_WINDOW]);*/
 	if(res == -1)
 		return (-1);
 	else if(!res || res < -1)

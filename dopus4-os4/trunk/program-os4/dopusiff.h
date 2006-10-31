@@ -32,23 +32,9 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_IFF
 #define DOPUS_IFF
 
-#include <datatypes/animationclass.h>
-#include <datatypes/pictureclass.h>
-#include <datatypes/soundclass.h>
-
 /* Form types and other defines */
 
-#define ID_CTBL MAKE_ID('C','T','B','L')
-#define ID_DPAN MAKE_ID('D','P','A','N')
-#define ID_DYCP MAKE_ID('D','Y','C','P')
-#define ID_SHAM MAKE_ID('S','H','A','M')
 #define ID_PAN  MAKE_ID('P','A','N',' ')
-
-#define CRNG_NORATE 36
-#define CRNG_ACTIVE 1<<0
-#define CRNG_REVERSE 1<<1
-#define CY_CYCL 0
-#define CY_WAIT 1
 
 /* IFF Chunk structures */
 
@@ -64,28 +50,5 @@ typedef struct
 	ULONG ckSize;
 	UBYTE ckData[1];
 } Chunk;
-
-/* IFF Animation structures */
-
-typedef struct
-{
-	UWORD version;
-	UWORD nframes;
-	unsigned char framespersecond;
-	char pad;
-	UWORD flags;
-} DPAnimChunk;
-
-/* IFF ILBM structures */
-
-#define BMHF_CMAPOK 1<<7
-
-typedef struct C_Range
-{
-	WORD pad1;
-	WORD rate;
-	WORD active;
-	UBYTE low, high;
-} CRange;
 
 #endif

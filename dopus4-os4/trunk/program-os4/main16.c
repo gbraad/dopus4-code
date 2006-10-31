@@ -113,7 +113,6 @@ int setupfontdisplay(int depth, UWORD *coltab)
 			font_scr.Height = dims.Nominal.MaxY - dims.Nominal.MinY + 1;
 		}
 	}
-//	if(!(fontscreen = IIntuition->OpenScreen((struct NewScreen *)&font_scr)))
 	if(!(fontscreen = IIntuition->OpenScreenTags(NULL, SA_LikeWorkbench, TRUE, TAG_DONE)))
 		return (0);
 	font_win.Width = fontscreen->Width;
@@ -140,7 +139,7 @@ int setupfontdisplay(int depth, UWORD *coltab)
 
 void cleanup_fontdisplay()
 {
-	IIntuition->ScreenToFront(blankscreen ? blankscreen : Window->WScreen);
+	IIntuition->ScreenToFront(Window->WScreen);
 	if(fontwindow)
 	{
 		IIntuition->CloseWindow(fontwindow);
