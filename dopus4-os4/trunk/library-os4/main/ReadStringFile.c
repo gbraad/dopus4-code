@@ -97,9 +97,11 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 							break;
 						stringdata->string_table[defstr[a].string_id] = ILocale->GetCatalogStr(stringdata->catalog, defstr[a].string_id, defstr[a].string);
 					}
+					ILocale->CloseCatalog(stringdata->catalog);
 				}
 				else
 				{
+					ILocale->CloseCatalog(stringdata->catalog);
 					stringdata->catalog = NULL;
 				}
 			}
