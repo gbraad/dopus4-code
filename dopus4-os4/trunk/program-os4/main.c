@@ -32,11 +32,9 @@ the existing commercial status of Directory Opus 5.
 /* BEGIN CLib2 stuff */
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }
-//BOOL __detach = TRUE;
 /* END CLib2 stuff */
 
 static BOOL staybehindWB;
-extern BOOL useAHI;
 
 int main(int argc, char **argv)
 {
@@ -141,8 +139,6 @@ int main(int argc, char **argv)
 				strcpy(str_config_basename, s);
 			if((IIcon->FindToolType(toolarray, "CHECK")))
 				ck = 1;
-//			if(IIcon->FindToolType(toolarray, "USEAHI"))
-				useAHI = TRUE;
 			if(IIcon->FindToolType(toolarray,"BEHINDWB"))
 				staybehindWB = TRUE;
 			if(IIcon->FindToolType(toolarray,"DOCKY"))

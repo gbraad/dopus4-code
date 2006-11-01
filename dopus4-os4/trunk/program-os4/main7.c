@@ -56,8 +56,6 @@ static struct AHIRequest *AHIio;
 static BYTE AHIDevice = -1;
 static struct AHIAudioCtrl *actrl;
 
-BOOL useAHI = FALSE;
-
 int showpic(STRPTR fullname, int np)
 {
 	int res, a;
@@ -406,54 +404,61 @@ int doplay8svxold(STRPTR fname, int loop)
 		stereo = size;
 	}
 	else
-		stereo = 0;
-
-	if(useAHI)
 	{
-		if(OpenAHI())
+		stereo = 0;
+	}
+
+	if(OpenAHI())
+	{
+		AHISoundHook.h_Entry = AHISoundFunc;
+		if((actrl = IAHI->AHI_AllocAudio(AHIA_AudioID, AHI_DEFAULT_ID, AHIA_MixFreq, AHI_DEFAULT_FREQ, AHIA_Channels, stereo ? 2 : 1, AHIA_Sounds, stereo ? 2 : 1, loop ? TAG_IGNORE : AHIA_SoundFunc, (Tag)&AHISoundHook, AHIA_UserData, (Tag) IExec->FindTask(NULL), TAG_DONE)))
 		{
-			AHISoundHook.h_Entry = AHISoundFunc;
-			if((actrl = IAHI->AHI_AllocAudio(AHIA_AudioID, AHI_DEFAULT_ID, AHIA_MixFreq, AHI_DEFAULT_FREQ, AHIA_Channels, stereo ? 2 : 1, AHIA_Sounds, stereo ? 2 : 1, loop ? TAG_IGNORE : AHIA_SoundFunc, (Tag)&AHISoundHook, AHIA_UserData, (Tag) IExec->FindTask(NULL), TAG_DONE)))
+			struct AHISampleInfo sample = { AHIST_M8S, psample, size };
+			UWORD snd0, snd1 = 1;
+
+			snd0 = IAHI->AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl);
+			if(stereo)
 			{
-				struct AHISampleInfo sample = { AHIST_M8S, psample, size };
-				UWORD snd0, snd1 = 1;
-
-				snd0 = IAHI->AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl);
-				if(stereo)
+				sample.ahisi_Address = psample + stereo;
+				snd1 = IAHI->AHI_LoadSound(1, AHIST_SAMPLE, &sample, actrl);
+			}
+			if((snd0 != AHI_NOSOUND) && (snd1 != AHI_NOSOUND))
+			{
+				if((AHIsignal = IExec->AllocSignal(-1)) != -1)
 				{
-					sample.ahisi_Address = psample + stereo;
-					snd1 = IAHI->AHI_LoadSound(1, AHIST_SAMPLE, &sample, actrl);
-				}
-				if((snd0 != AHI_NOSOUND) && (snd1 != AHI_NOSOUND))
-				{
-					if((AHIsignal = IExec->AllocSignal(-1)) != -1)
+					struct TagItem ahitags2[] =
 					{
-						struct TagItem ahitags2[] =
-						{
-							{ AHIP_BeginChannel, 1 },
-							{ AHIP_Freq, vhdr ? vhdr->vh_SamplesPerSec : 10000 },
-							{ AHIP_Vol, vhdr ? vhdr->vh_Volume : Unity },
-							{ AHIP_Pan, 0L },
-							{ AHIP_Sound, 1 },
-							{ AHIP_EndChannel, 0L },
-							{ TAG_END, 0 }
-						};
+						{ AHIP_BeginChannel, 1 },
+						{ AHIP_Freq, vhdr ? vhdr->vh_SamplesPerSec : 10000 },
+						{ AHIP_Vol, vhdr ? vhdr->vh_Volume : Unity },
+						{ AHIP_Pan, 0L },
+						{ AHIP_Sound, 1 },
+						{ AHIP_EndChannel, 0L },
+						{ TAG_END, 0 }
+					};
 
-						IAHI->AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
+					IAHI->AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
 
-						IAHI->AHI_Play(actrl, AHIP_BeginChannel, 0, AHIP_Freq, vhdr ? vhdr->vh_SamplesPerSec : 10000, AHIP_Vol, vhdr ? vhdr->vh_Volume : Unity, AHIP_Pan, stereo ? Unity : pan, AHIP_Sound, 0, AHIP_EndChannel, NULL, stereo ? TAG_MORE : TAG_END, (Tag) ahitags2);
-					}
-					else
-						CloseAHI();
+					IAHI->AHI_Play(actrl, AHIP_BeginChannel, 0, AHIP_Freq, vhdr ? vhdr->vh_SamplesPerSec : 10000, AHIP_Vol, vhdr ? vhdr->vh_Volume : Unity, AHIP_Pan, stereo ? Unity : pan, AHIP_Sound, 0, AHIP_EndChannel, NULL, stereo ? TAG_MORE : TAG_END, (Tag) ahitags2);
 				}
 				else
+				{
 					CloseAHI();
+				}
 			}
 			else
+			{
 				CloseAHI();
+			}
 		}
 		else
+		{
 			CloseAHI();
+		}
+	}
+	else
+	{
+		CloseAHI();
 	}
 	if(actrl == NULL)
 	{
@@ -671,38 +676,41 @@ void dosound(int type)
 		static UBYTE achannels[8] = { 1 + 2, 1 + 4, 2 + 8, 4 + 8, 1, 2, 4, 8 };
 		int a;
 
-		if(useAHI)
+		if(OpenAHI())
 		{
-			if(OpenAHI())
+			if((actrl = IAHI->AHI_AllocAudio(AHIA_AudioID, AHI_DEFAULT_ID, AHIA_MixFreq, AHI_DEFAULT_FREQ, AHIA_Channels, 1, AHIA_Sounds, 1, TAG_DONE)))
 			{
-				if((actrl = IAHI->AHI_AllocAudio(AHIA_AudioID, AHI_DEFAULT_ID, AHIA_MixFreq, AHI_DEFAULT_FREQ, AHIA_Channels, 1, AHIA_Sounds, 1, TAG_DONE)))
+				struct AHISampleInfo sample = { AHIST_M8S, beepwave, 16 };
+
+				if(IAHI->AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl) != AHI_NOSOUND)
 				{
-					struct AHISampleInfo sample = { AHIST_M8S, beepwave, 16 };
+					IAHI->AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
 
-					if(IAHI->AHI_LoadSound(0, AHIST_SAMPLE, &sample, actrl) != AHI_NOSOUND)
+					for(a = 0; a < 11; a++)
 					{
-						IAHI->AHI_ControlAudio(actrl, AHIC_Play, TRUE, TAG_END);
-
-						for(a = 0; a < 11; a++)
-						{
-							IAHI->AHI_Play(actrl, AHIP_BeginChannel, 0, AHIP_Freq, (a % 2) ? 6000 : 9000, AHIP_Vol, 0x10000L, AHIP_Pan, 0x8000L, AHIP_Sound, 0, AHIP_EndChannel, NULL, TAG_END);
-							IDOS->Delay(6);
-						}
-
-						IAHI->AHI_ControlAudio(actrl, AHIC_Play, FALSE, TAG_DONE);
-
-						CloseAHI();
-
-						return;
+						IAHI->AHI_Play(actrl, AHIP_BeginChannel, 0, AHIP_Freq, (a % 2) ? 6000 : 9000, AHIP_Vol, 0x10000L, AHIP_Pan, 0x8000L, AHIP_Sound, 0, AHIP_EndChannel, NULL, TAG_END);
+						IDOS->Delay(6);
 					}
-					else
-						CloseAHI();
+
+					IAHI->AHI_ControlAudio(actrl, AHIC_Play, FALSE, TAG_DONE);
+
+					CloseAHI();
+
+					return;
 				}
 				else
+				{
 					CloseAHI();
+				}
 			}
 			else
+			{
 				CloseAHI();
+			}
+		}
+		else
+		{
+			CloseAHI();
 		}
 		audio.ioa_Request.io_Message.mn_ReplyPort = general_port;
 		audio.ioa_Request.io_Message.mn_Node.ln_Pri = 90;

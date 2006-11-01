@@ -206,7 +206,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				goto endfunction;
 			}
 			if(a == 2)
+			{
 				askeach = 0;
+			}
 		}
 		glob_unprotect_all = 0;
 		break;
@@ -746,16 +748,19 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						if(config->deleteflags & DELETE_DIRS && askeach)
 						{
 							sprintf(buf2, globstring[STR_NOT_EMPTY], file->name);
-							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_LEAVE], globstring[STR_ALL], globstring[STR_ABORT], NULL)))
+//							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_LEAVE], globstring[STR_ALL], globstring[STR_ABORT], NULL)))
+							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL)))
 							{
-								okayflag = 1;
+								myabort();
 								break;
 							}
 							if(a == 2)
+							{
 								askeach = 0;
+							}
 							else if(a == 3)
 							{
-								myabort();
+								okayflag = 0;
 								break;
 							}
 						}

@@ -208,7 +208,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				a = 0;
 				if(dowhat & R_COMMENT)
 				{
-					FOREVER
+					for(;;)
 					{
 						if(!(IDOS->SetComment(name, dest)))
 						{
@@ -227,7 +227,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				{
 					pstuff = (int *)data;
 					b = getnewprot(myfinfo->fib_Protection, pstuff[0], pstuff[1]);
-					FOREVER
+					for(;;)
 					{
 						if(!(IDOS->SetProtection(name, b)))
 						{
@@ -272,7 +272,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				{
 					a = strlen(dname);
 					if(a > 0 && dname[a - 1] == '/')
+					{
 						dname[a - 1] = 0;
+					}
 					if((a = delfile(dname, IDOS->FilePart(dname), globstring[STR_DELETING], glob_unprotect_all, 1)) == -1)
 					{
 						myabort();
@@ -280,7 +282,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						break;
 					}
 					if(a == 2)
+					{
 						glob_unprotect_all = 1;
+					}
 				}
 				--depth;
 				continue;
@@ -333,7 +337,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							else
 							{
 								pos_rec = cur_recurse;
-								FOREVER
+								for(;;)
 								{
 									if(!pos_rec->next || (strcmp(new_rec->name, pos_rec->next->name) < 0))
 									{
@@ -401,7 +405,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					else
 					{
 						if(config->dynamicflags & UPDATE_FREE)
+						{
 							seename(data_active_window);
+						}
 						adir = NULL;
 					}
 				}
@@ -519,7 +525,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					if(!autoskip && (a != REPLACE_SKIP))
 					{
 						a = 0;
-						FOREVER
+						for(;;)
 						{
 							if(!(a = copyfile(name, dname, &err, NULL, 0)))
 							{
