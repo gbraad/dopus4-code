@@ -89,11 +89,18 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 		{
 			if((stringdata->catalog = ILocale->OpenCatalogA(NULL, filename, NULL)))
 			{
-				for(a = 0; a < stringdata->string_count; a++)
+				if(stringdata->catalog->cat_Version >= 2)
 				{
-					if(!defstr[a].string)
-						break;
-					stringdata->string_table[defstr[a].string_id] = ILocale->GetCatalogStr(stringdata->catalog, defstr[a].string_id, defstr[a].string);
+					for(a = 0; a < stringdata->string_count; a++)
+					{
+						if(!defstr[a].string)
+							break;
+						stringdata->string_table[defstr[a].string_id] = ILocale->GetCatalogStr(stringdata->catalog, defstr[a].string_id, defstr[a].string);
+					}
+				}
+				else
+				{
+					stringdata->catalog = NULL;
 				}
 			}
 		}
