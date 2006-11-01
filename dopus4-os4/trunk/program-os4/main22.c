@@ -818,7 +818,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(config->deleteflags & DELETE_FILES && askeach && !lastfile)
 			{
 				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);	// HUX
-				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_ABORT], globstring[STR_ALL], globstring[STR_LEAVE], NULL);
+//				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_ABORT], globstring[STR_ALL], globstring[STR_LEAVE], NULL);
+				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
 				if(a == 3)
 				{
 					okayflag = 1;
