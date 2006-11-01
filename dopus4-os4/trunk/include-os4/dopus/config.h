@@ -161,7 +161,6 @@ struct olddopusgadget
 	char name[10];
 	int which, stack;
 	unsigned char key, qual;
-//	char type, pri, delay;
 	int8 type, pri, delay;
 	UBYTE fpen, bpen;
 	char pad[3];
@@ -173,7 +172,6 @@ struct dopusfunction
 	char name[16];
 	int which, stack;
 	unsigned char key, qual;
-//	char type, pri, delay;
 	int8 type, pri, delay;
 	UBYTE fpen, bpen;
 	char pad;
@@ -186,7 +184,6 @@ struct newdopusfunction
 	int pad2[3];
 	int which, stack;
 	unsigned char key, qual;
-//	char type, pri, delay;
 	int8 type, pri, delay;
 	UBYTE fpen, bpen;
 	char pad;
@@ -210,7 +207,6 @@ struct olddopusfiletype
 	char recogchars[100];
 	char actionstring[4][60];
 	int which[4], stack[4];
-//	char pri[4], delay[4];
 	int8 pri[4], delay[4];
 	char and;
 	char pad[3];
@@ -224,7 +220,6 @@ struct dopusfiletype
 	char typeid[8];
 	char actionstring[FILETYPE_FUNCNUM][40];
 	int which[FILETYPE_FUNCNUM], stack[FILETYPE_FUNCNUM];
-//	char pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
 	int8 pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
 	char *recognition;
 	char *function[FILETYPE_FUNCNUM];
@@ -237,7 +232,6 @@ struct wr_dopusfiletype
 	char type[40];
 	char actionstring[FILETYPE_FUNCNUM][40];
 	int which[FILETYPE_FUNCNUM], stack[FILETYPE_FUNCNUM];
-//	char pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
 	int8 pri[FILETYPE_FUNCNUM], delay[FILETYPE_FUNCNUM];
 };
 

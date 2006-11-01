@@ -43,18 +43,12 @@ struct DefaultString
 
 struct StringData
 {
-	struct DefaultString	/* Pointer to array of default strings */
-	 *default_table;
+	struct DefaultString *default_table;	/* Pointer to array of default strings */
 	int string_count;	/* Number of strings in the table */
-
-	char **string_table;	/* This will point to the table of
-				   string pointers to actually use */
-
+	char **string_table;	/* This will point to the table of string pointers to actually use */
 	char *string_buffer;	/* Buffer of loaded string file */
 	ULONG string_size;	/* Size of buffer */
-
 	int min_version;	/* Minimum version to recognise */
-
 	struct Library *LocaleBase;	// JRZ
 	struct Catalog *catalog;	// JRZ
 };

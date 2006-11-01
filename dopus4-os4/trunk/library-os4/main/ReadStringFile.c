@@ -87,10 +87,9 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 	{
 		if(filename[0])
 		{
-			if((stringdata->catalog = ILocale->OpenCatalogA(NULL, filename, NULL /*OC_Language,NULL,TAG_END */)))
+			if((stringdata->catalog = ILocale->OpenCatalogA(NULL, filename, NULL)))
 			{
-				for(a = 0;
-				    a < stringdata->string_count; a++)
+				for(a = 0; a < stringdata->string_count; a++)
 				{
 					if(!defstr[a].string)
 						break;
