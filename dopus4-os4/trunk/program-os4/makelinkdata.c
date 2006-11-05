@@ -237,21 +237,6 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 			case IDCMP_GADGETUP:
 				switch (gadgetid)
 				{
-/*
-                        case SELECT_SELECTBASE:
-                            strcpy(buffer[select_base],sel_patternbuf);
-                            if (++select_base>3) select_base=0;
-                            DoCycleGadget(gadlist,swindow,select_base_array,select_base);
-                            strcpy(sel_patternbuf,buffer[select_base]);
-                            RefreshStrGad(gadlist->NextGadget,swindow);
-                            ActivateStrGad(gadlist->NextGadget,swindow);
-                            break;
-                        case SELECT_PATTERN:
-                            if (code==0) // RETURN
-                              ret=select_type+1;
-                            else if (code!=0xFFFF) // ESC
-                              break;
-*/
 				case MAKELINK_TYPE:
 					if(++makelink_type > 1)
 						makelink_type = 0;
@@ -261,7 +246,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 				case MAKELINK_DESTSELECT:
 					{
 						struct DOpusFileReq filereq;
-						char dirbuf[256], filebuf[FILEBUF_SIZE], *ptr;
+						char dirbuf[1024], filebuf[FILEBUF_SIZE], *ptr;
 
 						filereq.dirbuf = dirbuf;
 						filereq.filebuf = filebuf;
@@ -285,7 +270,9 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 							IDOpus->LStrCpy(filebuf, makelink_destbuf);
 						}
 						else
+						{
 							filebuf[0] = 0;
+						}
 						if(IDOpus->FileRequest(&filereq))
 						{
 							IDOpus->LStrCpy(makelink_destbuf, dirbuf);

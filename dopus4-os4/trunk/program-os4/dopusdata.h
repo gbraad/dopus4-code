@@ -30,8 +30,8 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_DATA
 #define DOPUS_DATA
 
-extern long _priority;		/* Default task priority */
-extern long _BackGroundIO;	/* Background IO off */
+//extern long _priority;		/* Default task priority */
+//extern long _BackGroundIO;	/* Background IO off */
 extern char *_procname;		/* Task name */
 
 /* Library bases */

@@ -402,7 +402,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 	xadoverwrite = 0;
 	xadskipall = 0;
 
-	IUtility->SNPrintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
+	IUtility->SNPrintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_CANCEL]);
 
 	snprintf(sourcename, 1024, "%s%s", source, archivename);
 

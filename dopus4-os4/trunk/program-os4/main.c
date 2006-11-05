@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
 	main_proc = (struct Process *)IExec->FindTask(NULL);
-	IDOS->SetProcWindow((APTR)-1L);
+//	IDOS->SetProcWindow((APTR)-1L);
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 22)))

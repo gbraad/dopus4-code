@@ -205,7 +205,7 @@ int checkerror(char *action, char *name, int err)
 
 	for(;;)
 	{
-		a = simplerequest(buf, globstring[STR_TRY_AGAIN], globstring[STR_ABORT], (skip) ? globstring[STR_SKIP] : NULL, (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, NULL);
+		a = simplerequest(buf, globstring[STR_TRY_AGAIN], globstring[STR_CANCEL], (skip) ? globstring[STR_SKIP] : NULL, (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, NULL);
 
 		if((skip && a == 3) || (!skip && a == 2))
 		{

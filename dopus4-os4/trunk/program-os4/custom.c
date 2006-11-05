@@ -1660,14 +1660,18 @@ int getdummyfile(struct Directory *fbuf, char *dirbuf, struct DOpusFileReq *freq
 	freq->lines = 15;
 	freq->flags = 0;
 	if(!dirbuf[0])
+	{
 		expand_path("", dirbuf);
+	}
 	if(!(IDOpus->FileRequest(freq)))
 	{
 		myabort();
 		return (0);
 	}
 	if(!dirbuf[0])
+	{
 		expand_path("", dirbuf);
+	}
 	if(fbuf)
 	{
 		strcpy(buf, dirbuf);
@@ -1691,9 +1695,13 @@ int filloutdummy(char *name, struct Directory *fbuf)
 	strcpy(fbuf->name, fib->fib_FileName);
 	fbuf->type = fib->fib_DirEntryType;
 	if(fbuf->type >= 0)
+	{
 		fbuf->size = -1;
+	}
 	else
+	{
 		fbuf->size = fib->fib_Size;
+	}
 	fbuf->subtype = 0;
 	fbuf->protection = fib->fib_Protection;
 	fbuf->comment = fbuf->dispstr = NULL;
@@ -1709,17 +1717,25 @@ int filloutdummy(char *name, struct Directory *fbuf)
 int dirrequester(struct DOpusFileReq *freq, char *buf, char *title)
 {
 	if(title)
+	{
 		freq->title = title;
+	}
 	else
+	{
 		freq->title = globstring[STR_SELECT_A_DIRECTORY];
+	}
 	freq->dirbuf = buf;
 	freq->flags = DFRF_DIRREQ;
 	if(!buf[0])
+	{
 		expand_path("", buf);
+	}
 	if(IDOpus->FileRequest(freq))
 	{
 		if(!buf[0])
+		{
 			expand_path("", buf);
+		}
 		return (1);
 	}
 	return (0);

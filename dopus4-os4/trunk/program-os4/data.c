@@ -29,10 +29,10 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-uint32 __stack = 16384;				/* Stack size needed */
-long __priority = 0;				/* Default task priority */
+//uint32 __stack = 16384;				/* Stack size needed */
+//long __priority = 0;				/* Default task priority */
 char *__procname = "dopus_task";		/* Task name */
-char __stdiowin[] = "";
+//char __stdiowin[] = "";
 
 /* Library bases */
 
