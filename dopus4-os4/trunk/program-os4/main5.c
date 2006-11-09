@@ -388,7 +388,9 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 			b++;
 			spat++;
 			if(*spat)
+			{
 				for(c1 = tolower(*spat); c1 != tolower(*sn); sn++);
+			}
 		}
 		else
 		{
@@ -410,8 +412,12 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 
 /* count asterisks in destination pattern */
 	for(c = 0; *dpat; dpat++)
+	{
 		if(*dpat == '*')
+		{
 			c++;
+		}
+	}
 
 	if(a && (b == c))	// try to build destination filename
 	{
@@ -426,20 +432,30 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 			{
 				for(; *spat && (*spat != '*'); spat++, sn++);
 				if(*spat)
+				{
 					spat++;
+				}
 			}
 			// copy replacement text
 			if(*dpat)
 			{
 				for(; *dpat && (*dpat != '*'); *dn++ = *dpat++);
 				if(*dpat)
+				{
 					dpat++;
+				}
 			}
 			// copy wildcard part of source filename
 			if(*sn)
+			{
 				for(c1 = tolower(*spat); c1 != tolower(*sn); sn++)
+				{
 					if(*spat != '*')
+					{
 						*dn++ = *sn;
+					}
+				}
+			}
 			*dn = 0;
 		}
 		return 1;

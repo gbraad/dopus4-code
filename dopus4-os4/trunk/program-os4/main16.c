@@ -80,14 +80,14 @@ int showfont(char *name, int size, int np)
 
 	IIntuition->ScreenToFront(fontscreen);
 	IIntuition->ActivateWindow(fontwindow);
-	FadeRGB4(fontscreen, fcols, 2, 1, config->fadetime);
+//	FadeRGB4(fontscreen, fcols, 2, 1, config->fadetime);
 	show_global_font = font;
 
 	fred = WaitForMouseClick(fontwindow);
 
 	show_global_font = NULL;
-	if(fred != -3)
-		FadeRGB4(fontscreen, fcols, 2, -1, config->fadetime);
+/*	if(fred != -3)
+		FadeRGB4(fontscreen, fcols, 2, -1, config->fadetime);*/
 
 	cleanup_fontdisplay();
 	IGraphics->CloseFont(font);

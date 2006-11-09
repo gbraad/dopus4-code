@@ -238,6 +238,7 @@ void doidcmp()
 				}
 			}
 		}
+
 		while(getintuimsg())
 		{
 			x = IMsg->MouseX;

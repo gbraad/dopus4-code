@@ -787,9 +787,13 @@ void iconify(int louise, int buttons, int banknum)
 					data_gadgetrow_offset = olddata_gadgetrow_offset;
 					SetUp(louise);
 					if(Window && status_publicscreen)
+					{
 						IIntuition->ScreenToFront(Window->WScreen);
+					}
 					rexx_command(config->uniconscript, NULL);
 					startnotifies();
+					startgetdir(0, 0);
+					startgetdir(1, 0);
 					IDOpus->LFreeRemember(&icon_key);
 					return;
 				}

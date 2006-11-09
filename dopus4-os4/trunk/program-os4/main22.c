@@ -216,13 +216,19 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		if(rexx)
 		{
 			if(rexx_argcount < 2)
+			{
 				goto endfunction;
+			}
 			strcpy(srename, rexx_args[0]);
 			strcpy(drename, rexx_args[1]);
 			if(strchr(srename, '*'))
+			{
 				sourcewild = 1;
+			}
 			if(strchr(drename, '*'))
+			{
 				destwild = 1;
+			}
 			else
 			{
 				strcpy(namebuf, drename);
@@ -862,7 +868,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 		case FUNC_RENAME:
 			if(firstset || lastfile)
+			{
 				a = 1;
+			}
 			else if(!destwild)
 			{
 				if(!(a = whatsit(globstring[STR_ENTER_NEW_NAME], FILEBUF_SIZE - 2, namebuf, globstring[STR_SKIP])))

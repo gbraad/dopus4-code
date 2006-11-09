@@ -87,7 +87,7 @@ extern BYTE scr_new_barheight;
 
 extern struct Process *main_proc;	/* Main Process */
 extern struct Task *hotkey_task;	/* HotKey Task */
-extern struct Task *clock_task;	/* Clock Task */
+extern struct Task *clock_task;		/* Clock Task */
 
 extern struct MsgPort *count_port;	/* Port to establish run count */
 extern struct MsgPort *general_port;	/* General Message Port */

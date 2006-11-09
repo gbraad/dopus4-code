@@ -62,7 +62,9 @@ int showpic(STRPTR fullname, int np)
 	char buf[256];
 
 	if(checkexec(fullname) && checkisfont(fullname, buf))
+	{
 		return ((showfont(buf, atoi(IDOS->FilePart(fullname)), np)));
+	}
 
 	a = strlen(fullname);
 	if(a > 5 && strcmp(&fullname[a - 5], ".info") == 0)
@@ -166,12 +168,18 @@ int readicon(STRPTR name, int np)
 	icon_image[0] = (struct Image *)(gad->GadgetRender);
 
 	if(gad->Flags & GFLG_GADGHIMAGE)
+	{
 		icon_image[1] = (struct Image *)gad->SelectRender;
+	}
 	else
+	{
 		icon_image[1] = icon_image[0];
+	}
 
 	for(x = 0; x < 2; x++)
+	{
 		icon_image[x]->NextImage = NULL;
+	}
 
 	imagenum = 0;
 
@@ -183,7 +191,7 @@ int readicon(STRPTR name, int np)
 
 	IIntuition->DrawImage(fontwindow->RPort, icon_image[0], ((width - icon_image[0]->Width) / 2), ((height - icon_image[0]->Height) / 2));
 
-	FadeRGB4(fontscreen, coltab, (1 << depth), 1, config->fadetime);
+//	FadeRGB4(fontscreen, coltab, (1 << depth), 1, config->fadetime);
 	show_global_icon = dobj;
 	show_global_icon_name = IDOS->FilePart(name);
 
@@ -202,15 +210,19 @@ int readicon(STRPTR name, int np)
 		else
 		{
 			if(fred == 0 || fred == -3)
+			{
 				ret = TRUE;
+			}
 			else
+			{
 				ret = -1;
+			}
 			break;
 		}
 	}
 	show_global_icon = NULL;
-	if(fred != -3)
-		FadeRGB4(fontscreen, coltab, (1 << depth), -1, config->fadetime);
+/*	if(fred != -3)
+		FadeRGB4(fontscreen, coltab, (1 << depth), -1, config->fadetime);*/
 	IIcon->FreeDiskObject(dobj);
 	cleanup_fontdisplay();
 	return (ret);

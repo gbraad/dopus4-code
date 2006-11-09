@@ -28,6 +28,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
+#include <graphics/rpattr.h>
 
 /* BEGIN CLib2 stuff */
 BOOL __check_abort_enabled = FALSE;
@@ -196,14 +197,18 @@ int main(int argc, char **argv)
 	initlistermenu();
 
 	if(!(install_arbiter()) || !(count_port = IExec->CreatePort(NULL, 0)) || !(general_port = IExec->CreatePort(NULL, 0)) || !(arexx_port = CreateUniquePort("DOPUS", str_arexx_portname, &system_dopus_runcount)))
+	{
 		quit();
+	}
 
 	rexx_signalbit = 1 << arexx_port->mp_SigBit;
 
 	if(WorkbenchBase && IWorkbench)
 	{
 		if(!(appmsg_port = IExec->CreatePort(0, 0)))
+		{
 			quit();
+		}
 	}
 
 	for(a = 0; a < 2; a++)
@@ -1373,7 +1378,9 @@ void load_palette(struct Screen *screen, uint32 *palette)
 
 	numcols = 1 << ((screen->RastPort.BitMap->Depth > 4) ? 4 : screen->RastPort.BitMap->Depth);
 	if(numcols > 32)
+	{
 		numcols = 32;
+	}
 
 	IExec->CopyMem((char *)palette, (char *)&backup_palette[1], numcols * 3 * sizeof(ULONG));
 	backup_palette[0] = numcols << 16;

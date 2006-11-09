@@ -92,8 +92,9 @@ void dostatustext(char *text)
 			x = scrdata_status_xpos;
 		IGraphics->Move(r, x, scr_font[FONT_STATUS]->tf_Baseline + 2 + scrdata_yoffset);
 		IGraphics->Text(r, text, len);
-		IGraphics->SetFont(r, scr_font[FONT_GENERAL]);
-		IGraphics->SetAPen(r, screen_pens[config->statusbg].pen);
+//		IGraphics->SetFont(r, scr_font[FONT_GENERAL]);
+//		IGraphics->SetAPen(r, screen_pens[config->statusbg].pen);
+		IGraphics->SetRPAttrs(r, RPTAG_Font, scr_font[FONT_GENERAL], RPTAG_APen, screen_pens[config->statusbg].pen, TAG_DONE);
 		if(x > scrdata_status_xpos)
 			IGraphics->RectFill(r, scrdata_status_xpos, scrdata_status_ypos + 1, x - 1, scrdata_yoffset + scrdata_status_height - 2);
 		if(x + l < scrdata_status_xpos + scrdata_status_width)

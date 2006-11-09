@@ -652,6 +652,7 @@ void set_reqobject(struct TagItem *object, uint32 tagmatch, uint32 data)
 	}
 }
 
+/*
 void FadeRGB32(struct Screen *screen, uint32 *cmap, int count, int dir, int fadetime)
 {
 	ULONG *tempmap;
@@ -669,7 +670,9 @@ void FadeRGB32(struct Screen *screen, uint32 *cmap, int count, int dir, int fade
 			IGraphics->LoadRGB32(&screen->ViewPort, tempmap);
 		}
 		else
+		{
 			load_palette(screen, cmap);
+		}
 	}
 	else
 	{
@@ -806,6 +809,7 @@ void FadeRGB4(struct Screen *screen, uint16 *cmap, int count, int dir, int fadet
 	if(tempmap)
 		IExec->FreeMem(tempmap, count * sizeof(UWORD));
 }
+*/
 
 void removewindowgadgets(struct Window *window)
 {

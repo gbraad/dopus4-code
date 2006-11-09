@@ -227,7 +227,7 @@ void arbiter_process()
 
 	if(replyport)
 		IExec->DeletePort(replyport);
-	IExec->Forbid();
+	IExec->Forbid(); // what is this really?
 	IExec->ReplyMsg(my_startup_message);
 	return;
 }
@@ -302,6 +302,6 @@ struct Screen *open_subprocess_screen(char *title, struct TextFont *font, struct
 
 	if(!(screen = IIntuition->OpenScreen((struct NewScreen *)&newscreen)))
 		return (NULL);
-	load_palette(screen, config->new_palette);
+//	load_palette(screen, config->new_palette);
 	return (screen);
 }

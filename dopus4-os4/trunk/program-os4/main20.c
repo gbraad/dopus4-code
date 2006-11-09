@@ -253,7 +253,9 @@ void closedisplay()
 			{
 				simplerequest(globstring[STR_CANNOT_CLOSE_SCREEN], str_okaystring, NULL);
 				while(!(IIntuition->CloseScreen(MainScreen)))
+				{
 					IDOS->Delay(50);
+				}
 			}
 			MainScreen = NULL;
 		}

@@ -569,7 +569,7 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 	IExec->Permit();
 	IExec->SetSignal(0, INPUTSIG_ABORT);
 
-	FOREVER
+	for(;;)
 	{
 		/* If abort sequence hit, break out immediately. The message is now lost to us, we can never free it */
 		if((IExec->Wait(1 << general_port->mp_SigBit | INPUTSIG_ABORT)) & INPUTSIG_ABORT)

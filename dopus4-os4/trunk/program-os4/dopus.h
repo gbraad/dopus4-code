@@ -47,6 +47,7 @@ the existing commercial status of Directory Opus 5.
 #include <intuition/sghooks.h>
 #include <graphics/gfxbase.h>
 #include <graphics/gfxmacros.h>
+#include <graphics/rpattr.h>
 #include <libraries/commodities.h>
 #include <workbench/workbench.h>
 #include <workbench/startup.h>

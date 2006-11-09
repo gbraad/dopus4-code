@@ -214,8 +214,8 @@ void fix_stringex(struct StringExtend *);
 struct Gadget *addreqgadgets(struct RequesterBase *, struct TagItem **, int, int *);
 void set_reqobject_text(struct TagItem *, char *);
 void set_reqobject(struct TagItem *, ULONG, ULONG);
-void FadeRGB32(struct Screen *, ULONG *, int, int, int);
-void FadeRGB4(struct Screen *, UWORD *, int, int, int);
+//void FadeRGB32(struct Screen *, ULONG *, int, int, int);
+//void FadeRGB4(struct Screen *, UWORD *, int, int, int);
 void removewindowgadgets(struct Window *);
 
 /* main9.c */
