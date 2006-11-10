@@ -193,7 +193,7 @@ extern struct DiskObject *icontable[4];
 
 #define MAXMENULENGTH 64
 
-extern USHORT pageflip_data1[5], pageflip_data2[3], null_pointer[6];
+extern USHORT pageflip_data1[5], pageflip_data2[3]; //, null_pointer[6];
 
 extern char beepwave[16];
 

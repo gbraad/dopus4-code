@@ -100,10 +100,12 @@ UWORD pageflip_data2[] =
 	0x4000, 0x6000, 0x7000
 };
 
+/*
 UWORD null_pointer[] =
 {
 	0, 0, 0, 0, 0, 0
 };
+*/
 
 BYTE beepwave[] =
 {

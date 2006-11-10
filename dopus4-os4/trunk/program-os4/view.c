@@ -2020,7 +2020,7 @@ void view_togglescroll(struct ViewData *vdata)
 	else if(vdata->view_line_count > vdata->view_lines_per_screen)
 	{
 		vdata->view_scroll = 1;
-		setnullpointer(vdata->view_window);
+//		setnullpointer(vdata->view_window);
 	}
 }
 

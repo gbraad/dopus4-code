@@ -29,6 +29,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+/*
 #define OLD_ACTION_Dummy            20000
 
 #define OLD_ACTION_SET_USER         (OLD_ACTION_Dummy+0)
@@ -38,8 +39,8 @@ the existing commercial status of Directory Opus 5.
 
 #define ACTION_UID_TO_USERINFO      1037
 #define ACTION_GID_TO_GROUPINFO     1038
-
-static struct Requester dopus_busy_requester;	/* Busy requester */
+*/
+//static struct Requester dopus_busy_requester;	/* Busy requester */
 
 int doparent(char *str)
 {
@@ -189,9 +190,13 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 	case DISPLAY_DATE:
 		a = IDOS->CompareDates(&entry2->date, &entry1->date);
 		if(a == 0)
+		{
 			goto sortname;
+		}
 		if((reverse && a > 0) || (!reverse && a < 0))
+		{
 			return 1;
+		}
 		break;
 
 	case DISPLAY_FILETYPE:
@@ -1042,12 +1047,12 @@ void busy()
 	{
 		size_gadgets[0].GadgetType = GTYP_BOOLGADGET;
 		size_gadgets[1].GadgetType = GTYP_BOOLGADGET;
-		if(!Window->FirstRequest)
+/*		if(!Window->FirstRequest)
 		{
 			IIntuition->InitRequester(&dopus_busy_requester);
 			dopus_busy_requester.Flags = NOISYREQ;
 			IIntuition->Request(&dopus_busy_requester, Window);
-		}
+		}*/
 		endnotifies();
 		status_flags |= STATUS_BUSY;
 	}
@@ -1060,11 +1065,15 @@ void unbusy()
 	{
 		struct Message *msg;
 
-		if(Window->FirstRequest)
+/*		if(Window->FirstRequest)
+		{
 			IIntuition->EndRequest(&dopus_busy_requester, Window);
+		}*/
 		flushidcmp();
 		while((msg = IExec->GetMsg(count_port)))
+		{
 			IExec->ReplyMsg(msg);
+		}
 		startnotifies();
 		size_gadgets[0].GadgetType = GTYP_SIZING;
 		size_gadgets[1].GadgetType = GTYP_SIZING;
@@ -1073,10 +1082,12 @@ void unbusy()
 	IIntuition->ClearPointer(Window);
 }
 
+/*
 void setnullpointer(struct Window *wind)
 {
 	IIntuition->SetPointer(wind, null_pointer, 1, 16, 0, 0);
 }
+*/
 
 void free_file_memory(struct Directory *file)
 {

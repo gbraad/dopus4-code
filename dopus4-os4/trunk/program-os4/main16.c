@@ -36,7 +36,7 @@ int showfont(char *name, int size, int np)
 	unsigned char a;
 	struct TextFont *font;
 	char fontbuf[256], *fontptr;
-	static UWORD fcols[2] = { 0xfff, 0 };
+//	static UWORD fcols[2] = { 0xfff, 0 };
 	struct TextAttr sfattr = { (STRPTR) name, size, 0, 0 };
 	struct RastPort *font_rp;
 
@@ -130,10 +130,12 @@ int setupfontdisplay(int depth, UWORD *coltab)
 
 		num = 1 << depth;
 		for(a = 0; a < num; a++)
+		{
 			coltab[a] = IGraphics->GetRGB4(fontscreen->ViewPort.ColorMap, a);
+		}
 	}
 	IGraphics->LoadRGB4(&fontscreen->ViewPort, nullpalette, 1 << depth);
-	setnullpointer(fontwindow);
+//	setnullpointer(fontwindow);
 	return (1);
 }
 

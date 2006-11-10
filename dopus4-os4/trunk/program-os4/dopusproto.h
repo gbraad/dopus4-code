@@ -137,7 +137,7 @@ void sortdir(struct DirectoryWindow *, int);
 int dorun(char *, int, int);
 void busy(void);
 void unbusy(void);
-void setnullpointer(struct Window *);
+//void setnullpointer(struct Window *);
 void free_file_memory(struct Directory *);
 
 /* main4.c */
