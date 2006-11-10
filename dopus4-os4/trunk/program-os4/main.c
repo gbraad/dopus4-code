@@ -290,6 +290,12 @@ int main(int argc, char **argv)
 
 	hotkey_task = (struct Task *)IExec->CreateTask("dopus_hotkeez", config->priority + 1, hotkeytaskcode, 8192, NULL);
 
+	/* Semaphore locking for external launch */
+	IExec->Forbid();
+	ss = IExec->FindSemaphore("DosResident");
+	IExec->Permit();
+	/* END Semaphore */
+
 	/* BEGIN: application.library code */
 	if((config->icontype & ICON_APPICON) && docky)
 	{

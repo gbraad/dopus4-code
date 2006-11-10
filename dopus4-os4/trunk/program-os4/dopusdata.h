@@ -99,6 +99,8 @@ extern struct MsgPort *clockmsg_port;	/* Messages to the clock task */
 
 extern struct IOStdReq *input_req;	/* Input IO Request block */
 
+extern struct SignalSemaphore *ss;
+
 /* DOS objects */
 
 extern BPTR ramdisk_lock;	/* Lock on RAM: */

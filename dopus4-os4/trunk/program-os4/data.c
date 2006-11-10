@@ -92,6 +92,8 @@ struct MsgPort *clockmsg_port /*=NULL*/ ;	/* Messages to the clock task */
 
 struct IOStdReq *input_req /*=NULL*/ ;		/* Input IO Request block */
 
+struct SignalSemaphore *ss;
+
 /* DOS objects */
 
 BPTR ramdisk_lock /*=0*/ ;			/* Lock on RAM: */

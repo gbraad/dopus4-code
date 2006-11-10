@@ -35,11 +35,6 @@ int start_external(struct dopus_func_start *func)
 {
 	int arg;
 	char path[256], *ptr;
-	struct SignalSemaphore *ss;
-
-	IExec->Forbid();
-	ss= IExec->FindSemaphore("DosResident");
-	IExec->Permit();
 
 	func->key = NULL;
 	func->status = 0;
