@@ -35,6 +35,11 @@ int start_external(struct dopus_func_start *func)
 {
 	int arg;
 	char path[256], *ptr;
+	struct SignalSemaphore *ss;
+
+	IExec->Forbid();
+	ss= IExec->FindSemaphore("DosResident");
+	IExec->Permit();
 
 	func->key = NULL;
 	func->status = 0;
@@ -67,15 +72,19 @@ int start_external(struct dopus_func_start *func)
 
 	if(!func->segment)
 	{
-		IExec->Forbid();
+//		IExec->Forbid();
+		IExec->ObtainSemaphore(ss);
 		if((func->resseg = IDOS->FindSegment(func->segname, NULL, 0)))
 		{
 			func->resseg->seg_UC++;
 			func->segment = func->resseg->seg_Seg;
 		}
-		IExec->Permit();
+		IExec->ReleaseSemaphore(ss);
+//		IExec->Permit();
 		if(!func->segment && !(func->segment = (BPTR) IDOS->LoadSeg(func->segname)))
+		{
 			return (0);
+		}
 	}
 
 	func->status = FS_SEGMENT;
