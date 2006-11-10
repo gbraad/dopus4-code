@@ -263,7 +263,9 @@ void doidcmp()
 /// "IDCMP_ACTIVEWINDOW"
 			case IDCMP_ACTIVEWINDOW:
 				for(a = 0; a < 2; a++)
+				{
 					check_old_buffer(a);
+				}
 				break;
 
 /// "IDCMP_NEWSIZE"
@@ -622,8 +624,9 @@ void doidcmp()
 					}
 				}
 				win = -1;
-				switch (code)
+				switch(code)
 				{
+				case 0x3d:	// Home 7
 				case RAWKEY_HOME:
 					if(win == -1)
 						win = data_active_window;
@@ -633,6 +636,7 @@ void doidcmp()
 					fixvertprop(win);
 					displaydir(win);
 					break;
+				case 0x1d:	// End 1
 				case RAWKEY_END:
 					if(win == -1)
 						win = data_active_window;
@@ -642,6 +646,7 @@ void doidcmp()
 					fixvertprop(win);
 					displaydir(win);
 					break;
+				case 0x3f:	// PageUp 9
 				case RAWKEY_PAGEUP:
 					if(win == -1)
 						win = data_active_window;
@@ -655,6 +660,7 @@ void doidcmp()
 					fixvertprop(win);
 					displaydir(win);
 					break;
+				case 0x1f:	// PageDown 3
 				case RAWKEY_PAGEDOWN:
 					if(win == -1)
 						win = data_active_window;
@@ -668,6 +674,7 @@ void doidcmp()
 					fixvertprop(win);
 					displaydir(win);
 					break;
+				case 0x3e:	// CrsrUp 8
 				case RAWKEY_CRSRUP:
 					if(win == -1)
 						win = data_active_window;
@@ -691,6 +698,7 @@ void doidcmp()
 					}
 					verticalscroll(win, -1);
 					break;
+				case 0x1e:	// CrsrDown 2
 				case RAWKEY_CRSRDOWN:
 					if(win == -1)
 						win = data_active_window;
@@ -714,6 +722,7 @@ void doidcmp()
 					}
 					verticalscroll(win, 1);
 					break;
+				case 0x2d:	// CrsrLeft 4
 				case RAWKEY_CRSRLEFT:
 					if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 					{
@@ -745,6 +754,7 @@ void doidcmp()
 					}
 					horizontalscroll(win, -1);
 					break;
+				case 0x2f:	//CrsrRight 6
 				case RAWKEY_CRSRRIGHT:
 					if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 					{
@@ -824,8 +834,8 @@ void doidcmp()
 						break;
 					}
 					break;
-				case 0x1d:	// End 1
-					if(qual & IEQUALIFIER_NUMERICPAD)
+/*				case 0x1d:	// End 1
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(win == -1)
 							win = data_active_window;
@@ -837,7 +847,7 @@ void doidcmp()
 					}
 					break;
 				case 0x3d:	// Home 7
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(win == -1)
 							win = data_active_window;
@@ -849,7 +859,7 @@ void doidcmp()
 					}
 					break;
 				case 0x3f:	// PageUp 9
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(win == -1)
 							win = data_active_window;
@@ -865,7 +875,7 @@ void doidcmp()
 					}
 					break;
 				case 0x1f:	// PageDown 3
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(win == -1)
 							win = data_active_window;
@@ -881,7 +891,7 @@ void doidcmp()
 					}
 					break;
 				case 0x3e:	// CrsrUp 8
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(win == -1)
 							win = data_active_window;
@@ -907,7 +917,7 @@ void doidcmp()
 					}
 					break;
 				case 0x1e:	// CrsrDown 2
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(win == -1)
 							win = data_active_window;
@@ -933,7 +943,7 @@ void doidcmp()
 					}
 					break;
 				case 0x2d:	// CrsrLeft 4
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
@@ -967,7 +977,7 @@ void doidcmp()
 					}
 					break;
 				case 0x2f:	//CrsrRight 6
-					if(qual & IEQUALIFIER_NUMERICPAD)
+//					if(qual & IEQUALIFIER_NUMERICPAD)
 					{
 						if(qual & (IEQUALIFIER_LALT | IEQUALIFIER_RALT))
 						{
@@ -1001,7 +1011,7 @@ void doidcmp()
 						}
 						horizontalscroll(win, 1);
 					}
-					break;
+					break;*/
 				default:
 					if(code < 0x40 && !(qual & IEQUALIFIER_CONTROL) && !(qual & (IEQUALIFIER_RCOMMAND | IEQUALIFIER_LCOMMAND))) // a digit or char
 					{
