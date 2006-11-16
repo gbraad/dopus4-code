@@ -193,7 +193,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 		{
 			goto sortname;
 		}
-		if((reverse && a > 0) || (!reverse && a < 0))
+		if((reverse && a < 0) || (!reverse && a > 0))
 		{
 			return 1;
 		}
@@ -586,7 +586,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 					}
 				}
 				if(!endwhile)
+				{
 					endwhile = !entryorder(sortmethod, reverse, newentry, entry);
+				}
 
 				if(endwhile)
 				{

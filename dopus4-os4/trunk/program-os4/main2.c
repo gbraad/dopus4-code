@@ -324,7 +324,9 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		{
 			seename(win);
 			if(tot == 1)
+			{
 				okay();
+			}
 		}
 		refreshwindow(win, 1);
 	}

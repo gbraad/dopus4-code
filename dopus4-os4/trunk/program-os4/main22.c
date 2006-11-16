@@ -1036,14 +1036,18 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 		case FUNC_MOVE:
 			if(lastfile)
+			{
 				strcpy(destname, newiconname);
+			}
 			else
 			{
 				IDOpus->StrCombine(destname, destdir, namebuf, 256);
 				IDOpus->StrCombine(newiconname, destname, ".info", 256);
 			}
 			if(checksame(destdir, sourcename, 0) == LOCK_SAME)
+			{
 				break;
+			}
 		      retry_move:
 			if((exist = IDOpus->CheckExist(destname, NULL)))
 			{
@@ -1055,7 +1059,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						break;
 					}
 					if(a == REPLACE_SKIP)
+					{
 						break;
+					}
 					if(a == REPLACE_ALL)
 					{
 						if(function == FUNC_MOVEAS)
@@ -1074,7 +1080,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 				}
 				if(autoskip)
+				{
 					break;
+				}
 				if((a = delfile(destname, namebuf, globstring[STR_MOVING], 1, 1)) == -1)
 				{
 					myabort();
@@ -1086,7 +1094,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					break;
 				}
 				if(a && (tempfile = findfile(dwindow, namebuf, NULL)))
+				{
 					removefile(tempfile, dwindow, inact, 0);
+				}
 			}
 			if(!(IDOS->Rename(sourcename, destname)))
 			{
@@ -1099,7 +1109,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						break;
 					}
 					if(a == 1)
+					{
 						goto functionloop;
+					}
 				}
 				else
 				{
@@ -1109,7 +1121,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						if(a == 0)
 						{
 							if(!func_external_file[0])
+							{
 								setdirsize(file, dos_global_bytecount - dos_global_deletedbytes, act);
+							}
 						}
 						else if(status_justabort || a < 0)
 						{
@@ -1216,10 +1230,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			else
 			{
 				if(progress_copy)
+				{
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, file->name, 1);
+				}
 				addfile(dwindow, inact, namebuf, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 				if(!noremove)
+				{
 					removefile(file, swindow, act, 1);
+				}
 				file = NULL;
 				okayflag = 1;
 			}

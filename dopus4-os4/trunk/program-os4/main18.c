@@ -547,17 +547,23 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 								if(dowhat == R_COPY)
 								{
 									if(config->copyflags & COPY_ARC && !(enfinfo->fib_Protection & FIBF_ARCHIVE))
+									{
 										IDOS->SetProtection(name, enfinfo->fib_Protection | FIBF_ARCHIVE);
+									}
 								}
 								dos_global_copiedbytes += enfinfo->fib_Size;
 							}
 							if(config->dynamicflags & UPDATE_FREE)
+							{
 								seename(data_active_window);
+							}
 							break;
 						}
 						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
 						if(!mylock)
+						{
 							removetemparcfile(name);
+						}
 						if(a == 3)
 						{
 							ret = -10;
@@ -570,7 +576,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						}
 					}
 					else if(!mylock)
+					{
 						removetemparcfile(name);
+					}
 				}
 				if(dowhat & R_DELETE)
 				{
@@ -700,7 +708,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			}
 		}
 		if(mylock)
+		{
 			to_do = IDOS->ExNext(mylock, myfinfo);
+		}
 		else
 		{
 			arcfillfib(myfinfo, entry = entry->next);
@@ -719,7 +729,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		struct makedirlist *last = first_makedir;
 
 		while(last->next)
+		{
 			last = last->next;
+		}
 
 		while(last)
 		{

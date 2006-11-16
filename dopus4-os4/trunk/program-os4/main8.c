@@ -126,6 +126,16 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	}
 */
 
+	if(suc_dfib && FIB_IS_DRAWER(d_fib))
+	{
+		if(FIB_IS_DRAWER(s_fib))
+		{
+			IDOS->FreeDosObject(DOS_FIB, d_fib);
+			IDOS->FreeDosObject(DOS_FIB, s_fib);
+			return (REPLACE_OK);
+		}
+	}
+
 	if(config->existflags & REPLACE_ALWAYS)
 	{
 		IDOS->FreeDosObject(DOS_FIB, d_fib);
@@ -203,7 +213,9 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 				}
 			}
 			else
+			{
 				break;
+			}
 		}
 		while(IDOpus->CheckExist(destname, NULL));
 		IDOS->FreeDosObject(DOS_FIB, d_fib);
