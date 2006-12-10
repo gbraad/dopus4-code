@@ -28,10 +28,8 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <proto/locale.h>
 
-#define EXALL_NUM 1
-#define EXALL_BUFSIZE (sizeof(struct ExAllData) * EXALL_NUM)
+#define EXALL_BUFSIZE 16384
 
 void freedir(struct DirectoryWindow *dir, int win)
 {
@@ -80,13 +78,16 @@ void freedir(struct DirectoryWindow *dir, int win)
 int getdir(struct DirectoryWindow *dir, int win, int incmess)
 {
 	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int tot = 1, a, exall_entry = 0, exall_type = ED_OWNER, subtype = 0;
+	int32 tot = 1, a, exall_entry = 0, subtype = 0, type;
+	int64 size;
 	BPTR mylock;
 	char buf[256], commentbuf[80];
-	struct ExAllControl *exall_control = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL);
-	struct ExAllData *exall_current = NULL, EABuff[EXALL_BUFSIZE];
+	struct ExAllControl *exall_control = NULL;
+	struct ExAllData *exall_current = NULL;
 	struct MsgPort *deviceport;
 	BOOL exall_continue = TRUE;
+	APTR EABuff = NULL;
+
 	endnotify(win);
 	freedir(dir, win);
 
@@ -109,7 +110,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				seename(win);
 				refreshwindow(win, 1);
 				startnotify(win);
-				IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
 				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (1);
 			}
@@ -127,7 +127,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		{
 			IDOpus->LStrnCpy(dir->realdevice, str_pathbuffer[win], a + 1);
 		}
-		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
@@ -163,7 +162,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				seename(win);
 				refreshwindow(win, 1);
 				startnotify(win);
-				IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
 				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (1);
 			}
@@ -172,7 +170,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		{
 			doerror(ERROR_OBJECT_WRONG_TYPE);
 		}
-		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
@@ -194,12 +191,12 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	}
 	copy_datestamp(&fileinfo->fib_Date, &dir->dirstamp);
 
-	if((exall_control))// = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
+	if((exall_control = IDOS->AllocDosObject(DOS_FIB, NULL)) && (EABuff = IExec->AllocVec(EXALL_BUFSIZE, MEMF_ANY | MEMF_CLEAR)))
 	{
 		exall_control->eac_LastKey = 0;
 		while(exall_continue)
 		{
-			exall_continue = IDOS->ExAll(mylock, EABuff, sizeof(EABuff), ED_OWNER, exall_control);
+			exall_continue = IDOS->ExAll(mylock, EABuff, EXALL_BUFSIZE, ED_OWNER, exall_control);
 			if(!exall_continue && (IDOS->IoErr() != ERROR_NO_MORE_ENTRIES))
 			{
 				break;
@@ -213,44 +210,25 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 			while(exall_current)
 			{
-				if(exall_current->ed_Name)
-				{
-					strcpy(fileinfo->fib_FileName, exall_current->ed_Name);
-				}
-				else
-				{
-					fileinfo->fib_FileName[0] = 0;
-				}
-
-				fileinfo->fib_DirEntryType = exall_current->ed_Type;
-				fileinfo->fib_Size = exall_current->ed_Size;
-				fileinfo->fib_Protection = exall_current->ed_Prot;
-				fileinfo->fib_Date.ds_Days = exall_current->ed_Days;
-				fileinfo->fib_Date.ds_Minute = exall_current->ed_Mins;
-				fileinfo->fib_Date.ds_Tick = exall_current->ed_Ticks;
-				fileinfo->fib_OwnerUID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerUID : 0;
-				fileinfo->fib_OwnerGID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerGID : 0;
-				if(exall_current->ed_Comment)
-				{
-					strcpy(fileinfo->fib_Comment, exall_current->ed_Comment);
-					IUtility->SNPrintf(commentbuf, 80, "%s", exall_current->ed_Comment);
-				}
-				else
-				{
-					fileinfo->fib_Comment[0] = 0;
-				}
+				struct DateStamp Date;
+				Date.ds_Days = exall_current->ed_Days;
+				Date.ds_Minute = exall_current->ed_Mins;
+				Date.ds_Tick = exall_current->ed_Ticks;
 				++exall_entry;
 
+				type = exall_current->ed_Type;
+				size = exall_current->ed_Size;
+				IUtility->SNPrintf(commentbuf, 80, "%s", exall_current->ed_Comment);
 				if(EAD_IS_LINK(exall_current))
 				{
 					subtype = ST_SOFTLINK;
 					if(EAD_IS_LINK(exall_current) && EAD_IS_LINKDIR(exall_current))
 					{
-						fileinfo->fib_DirEntryType = ENTRY_DIRECTORY;
+						type = ENTRY_DIRECTORY;
 					}
 					if(EAD_IS_LINK(exall_current) && !EAD_IS_LINKDIR(exall_current))
 					{
-						fileinfo->fib_DirEntryType = ENTRY_FILE;
+						type = ENTRY_FILE;
 					}
 					IUtility->ClearMem(commentbuf, 80);
 					IUtility->Strlcpy(commentbuf, "> ", 80);
@@ -264,7 +242,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 						ld = IDOS->Lock(linkbuf, ACCESS_READ);
 						if((dp = IDOS->GetDeviceProc(linkbuf, NULL)))
 						{
-							if(IDOS->ReadLink(dp->dvp_Port, ld, fileinfo->fib_FileName, buf, 256))
+							if(IDOS->ReadLink(dp->dvp_Port, ld, exall_current->ed_Name, buf, 256))
 							{
 								struct FileInfoBlock *linkfib = IDOS->AllocDosObject(DOS_FIB, NULL);
 								BPTR linklock;
@@ -275,7 +253,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 								{
 									if((IDOS->Examine(linklock, linkfib)))
 									{
-										fileinfo->fib_Size = linkfib->fib_Size;
+										size = linkfib->fib_Size;
 									}
 									IDOS->UnLock(linklock);
 								}
@@ -294,7 +272,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 					tot = -1;
 					break;
 				}
-				if(!(addfile(dir, win, fileinfo->fib_FileName, FIB_IS_FILE(fileinfo) ? (int64) fileinfo->fib_Size : -1, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, commentbuf, fileinfo->fib_Protection, exall_current->ed_Type, FALSE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID)))
+				if(!(addfile(dir, win, exall_current->ed_Name, (EAD_IS_FILE(exall_current) || EAD_IS_LINK(exall_current)) ? (int64) size : -1, type, &Date, commentbuf, exall_current->ed_Prot, exall_current->ed_Type, FALSE, NULL, NULL, 0, 0)))
 				{
 					if(Window)
 					{
@@ -334,12 +312,17 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	{
 		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
 	}
+	if(EABuff)
+	{
+		IExec->FreeVec(EABuff);
+	}
 
 	IDOS->FreeDosObject(DOS_FIB, fileinfo);
 
 	startnotify(win);
 	return (1);
 }
+
 
 void fixprop(int win)
 {

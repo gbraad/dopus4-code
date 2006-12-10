@@ -68,7 +68,6 @@ the existing commercial status of Directory Opus 5.
 #include <datatypes/pictureclass.h>
 #include <datatypes/soundclass.h>
 
-
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/datatypes.h>

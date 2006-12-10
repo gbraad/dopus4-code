@@ -32,12 +32,12 @@ the existing commercial status of Directory Opus 5.
 
 int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int act, int inact, int rexx)
 {
-	struct InfoData *infodata = IDOS->AllocDosObject(DOS_INFODATA, NULL);
+	struct InfoData *infodata = NULL;
 	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0, noshow = 0, err = 0;
 	int sourcewild = 0, destwild = 0, firstset = 0, breakout = 0, rexarg = 0, protstuff[2];
 	int pt = 1, okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
-	int globflag, noremove, doicons = 0, /*total = -1, */value = 0, progtype = 0, blocksize = 0, retval = 0;
+	int globflag, noremove, doicons = 0, value = 0, progtype = 0, blocksize = 0, retval = 0;
 	int32 total = -1;
 	int64 byte, bb;
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
@@ -69,7 +69,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	{
 		dostatustext(globstring[STR_OPERATION_NOT_SUPPORTED]);
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
-		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return 0;
 	}
 
@@ -85,8 +84,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 	if(status_flags & STATUS_GLOBALFILE)	/* kludge */
 		flags = FUNCFLAGS_FILES;
-
-//	total = -1;
 
 	if(func_single_entry)
 	{
@@ -142,14 +139,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(!file)
 	{
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
-		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return (0);	/* No files selected, return */
 	}
 
 	if(!(database = IDOpus->LAllocRemember(&funckey, 3000, MEMF_CLEAR)))
 	{
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
-		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		return (0);
 	}
 
@@ -469,7 +464,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		special = 2;
 		count = 1;
 		IDOS->SetProcWindow((APTR)-1L);
-		if(destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ)))
+		infodata = IDOS->AllocDosObject(DOS_INFODATA, NULL);
+		if(infodata && destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ)))
 		{
 			IDOS->Info(filelock, infodata);
 			IDOS->UnLock(filelock);
@@ -485,6 +481,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		}
 		total = -1;
 		dos_global_files = 0;
+		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		break;
 	}
 
@@ -754,7 +751,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						if(config->deleteflags & DELETE_DIRS && askeach)
 						{
 							sprintf(buf2, globstring[STR_NOT_EMPTY], file->name);
-//							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_LEAVE], globstring[STR_ALL], globstring[STR_ABORT], NULL)))
 							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL)))
 							{
 								myabort();
@@ -824,7 +820,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(config->deleteflags & DELETE_FILES && askeach && !lastfile)
 			{
 				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);	// HUX
-//				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_ABORT], globstring[STR_ALL], globstring[STR_LEAVE], NULL);
 				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
 				if(a == 3)
 				{
@@ -2212,6 +2207,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			int64 memvalue;
 
 			IDOS->SetProcWindow((APTR)-1L);
+			infodata = IDOS->AllocDosObject(DOS_INFODATA, NULL);
 			if(!(destdir && (filelock = IDOS->Lock(destdir, ACCESS_READ))))
 			{
 				memvalue = 0;
@@ -2261,6 +2257,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				dostatustext(str_select_info);
 			}
 			okayflag = 0;
+			IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		}
 		break;
 	}
@@ -2334,7 +2331,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	--entry_depth;
 
 	IDOS->FreeDosObject(DOS_FIB, fileinfo);
-	IDOS->FreeDosObject(DOS_INFODATA, infodata);
+//	IDOS->FreeDosObject(DOS_INFODATA, infodata);
 
 	return (retval);
 }

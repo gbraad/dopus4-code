@@ -972,11 +972,6 @@ int SetUp(int tit)
 				if(iconifyimage)
 				{
 					iconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, FUNC_ICONIFY, GA_RelVerify, TRUE, GA_Image, iconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
-/*					if(iconifygadget)
-					{
-						IIntuition->AddGadget(Window, iconifygadget, -1); //~0);
-						IIntuition->RefreshGadgets(iconifygadget, Window, NULL);
-					}*/
 				}
 				IIntuition->FreeScreenDrawInfo(Window->WScreen, DRI);
 				

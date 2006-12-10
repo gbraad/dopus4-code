@@ -332,7 +332,7 @@ int getfunction(char *func, char **funcptr)
 int customthing(char *name, char *title, char *function, struct dopusfuncpar *par, struct function_data *funcdata)
 {
 	int moretodo, a, b, len, retval, type, count;
-	unsigned char buf[256], *ptr;
+	char buf[256], *ptr;
 	char buf2[MAXCOMMANDLEN], tbuf[512];
 	struct args *usearg, *endarg;
 
@@ -1649,7 +1649,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 
 int getdummyfile(struct Directory *fbuf, char *dirbuf, struct DOpusFileReq *freq)
 {
-	char file[FILEBUF_SIZE], buf[300];
+	char file[FILEBUF_SIZE], buf[256];
 
 	freq->x = freq->y = -2;
 	freq->title = globstring[STR_SELECT_A_FILE];

@@ -29,19 +29,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-/*
-#define OLD_ACTION_Dummy            20000
-
-#define OLD_ACTION_SET_USER         (OLD_ACTION_Dummy+0)
-#define OLD_ACTION_SET_GROUP        (OLD_ACTION_Dummy+1)
-#define OLD_ACTION_UID_TO_USERINFO  (OLD_ACTION_Dummy+2)
-#define OLD_ACTION_GID_TO_GROUPINFO (OLD_ACTION_Dummy+3)
-
-#define ACTION_UID_TO_USERINFO      1037
-#define ACTION_GID_TO_GROUPINFO     1038
-*/
-//static struct Requester dopus_busy_requester;	/* Busy requester */
-
 int doparent(char *str)
 {
 	int i, b, c;
@@ -193,7 +180,8 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 		{
 			goto sortname;
 		}
-		if((reverse && a < 0) || (!reverse && a > 0))
+//		if((reverse && a < 0) || (!reverse && a > 0)) // Old at top
+		if((reverse && a > 0) || (!reverse && a < 0)) // New at top
 		{
 			return 1;
 		}
@@ -301,7 +289,7 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int64 size, int type, struct DateStamp *date, char *comment, int protection, int subtype, int show, char *dispstr, struct Directory *addafter, UWORD ownerid, UWORD groupid)
 {
 	struct Directory *addposition = NULL, *entry, *workfirst, *newentry;
-	char *description = NULL, *owner = NULL, *group = NULL;
+	char *description = NULL;
 
 	if(status_iconified && status_flags & STATUS_ISINBUTTONS)
 		return ((struct Directory *)1);
@@ -357,33 +345,7 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 
 			int a;
 
-			if(type <= ENTRY_FILE)
-			{
-				char *c, *d = newentry->name;
-
-				while((c = strchr(d, '.')))
-					d = c + 1;
-				if((d == newentry->name) || (d == (newentry->name + 1)))
-					c = NULL;
-				else
-					c = d - 1;
-				if(c)
-				{
-					if(c == name)
-						c = NULL;
-					else
-						c++;
-					newentry->extension = c;
-				}
-				else
-				{
-					newentry->extension = NULL;
-				}
-			}
-			else
-			{
-				newentry->extension = NULL;
-			}
+			newentry->extension = NULL;
 
 			for(a = 0; a < DISPLAY_LAST + 1; a++)
 			{
@@ -392,20 +354,6 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 				case DISPLAY_FILETYPE:
 					if(!description)
 						description = getfiledescription(name, win);
-					break;
-				case DISPLAY_OWNER:
-					if(!owner && ownerid)
-					{
-						if(dir->last_owner == ownerid)
-							owner = dir->owner_name;
-					}
-					break;
-				case DISPLAY_GROUP:
-					if(!group && groupid)
-					{
-						if(dir->last_group == groupid)
-							group = dir->group_name;
-					}
 					break;
 				}
 			}
@@ -459,7 +407,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 	{
 		workfirst = dir->firstentry;
 		if(addafter)
+		{
 			addposition = addafter;
+		}
 		else
 		{
 			switch (subtype)
@@ -484,8 +434,7 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 	}
 	else
 	{
-		int /*a,b, */ reverse = 0, check = 0, sortmethod, endwhile;
-
+		int reverse = 0, check = 0, sortmethod, endwhile;
 
 		workfirst = addposition = NULL;
 
@@ -593,9 +542,13 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 				if(endwhile)
 				{
 					if(entry->last)
+					{
 						addposition = entry->last;
+					}
 					else
+					{
 						addposition = (struct Directory *)-1;
+					}
 					break;
 				}
 				entry = entry->next;
@@ -614,7 +567,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 	case -1:		/* Add at head of list */
 		newentry->next = workfirst;
 		if(workfirst)
+		{
 			workfirst->last = newentry;
+		}
 		switch (config->separatemethod[win])
 		{
 		case SEPARATE_DIRSFIRST:
@@ -1049,12 +1004,6 @@ void busy()
 	{
 		size_gadgets[0].GadgetType = GTYP_BOOLGADGET;
 		size_gadgets[1].GadgetType = GTYP_BOOLGADGET;
-/*		if(!Window->FirstRequest)
-		{
-			IIntuition->InitRequester(&dopus_busy_requester);
-			dopus_busy_requester.Flags = NOISYREQ;
-			IIntuition->Request(&dopus_busy_requester, Window);
-		}*/
 		endnotifies();
 		status_flags |= STATUS_BUSY;
 	}
@@ -1067,10 +1016,6 @@ void unbusy()
 	{
 		struct Message *msg;
 
-/*		if(Window->FirstRequest)
-		{
-			IIntuition->EndRequest(&dopus_busy_requester, Window);
-		}*/
 		flushidcmp();
 		while((msg = IExec->GetMsg(count_port)))
 		{
@@ -1083,13 +1028,6 @@ void unbusy()
 	}
 	IIntuition->ClearPointer(Window);
 }
-
-/*
-void setnullpointer(struct Window *wind)
-{
-	IIntuition->SetPointer(wind, null_pointer, 1, 16, 0, 0);
-}
-*/
 
 void free_file_memory(struct Directory *file)
 {

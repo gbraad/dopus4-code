@@ -47,7 +47,9 @@ void newcli(char *spec)
 
 	sprintf(buf, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
 	if(!(IDOS->Execute(buf, 0, nil_file_handle)))
+	{
 		doerror(-1);
+	}
 	else
 	{
 		IIntuition->WBenchToFront();

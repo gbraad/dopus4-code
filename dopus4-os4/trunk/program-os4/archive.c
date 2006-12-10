@@ -394,7 +394,7 @@ MakeHook(ProgressHook, ProgressFunc);
 uint32 extractarchive(char *archivename, char *source, char *destination)
 {
 	int32 xad_result;
-	char sourcename[1024] = { 0, }, destname[1024] = { 0, };
+	char sourcename[256] = { 0, }, destname[256] = { 0, };
 
 	struct xadArchiveInfo *xadai = NULL;
 	struct xadFileInfo *xadfi = NULL;
