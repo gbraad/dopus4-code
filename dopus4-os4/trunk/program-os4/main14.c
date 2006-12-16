@@ -125,7 +125,7 @@ void doassign(int rexx)
 			buf[a] = 0;
 		}
 	}
-	if(!(IDOS->AssignPath(buf, str_pathbuffer[data_active_window])))
+	if((IDOS->AssignPath(buf, str_pathbuffer[data_active_window])))
 	{
 		okay();
 	}
