@@ -649,9 +649,13 @@ int doscreenconfig()
 					if(view->itemselected >= 0 && view->itemselected < 13)
 					{
 						if(view->itemselected == 0)
+						{
 							load_palette(Screen, palette_backup, 1 << ((screen_depth > 4) ? 4 : screen_depth));
+						}
 						else if(view->itemselected == 1)
+						{
 							loadrgb4(Screen, def_dopus_palette, 1 << ((screen_depth > 4) ? 4 : screen_depth));
+						}
 						else if(view->itemselected == 3)
 						{
 							ULONG *palbuf;

@@ -1747,7 +1747,7 @@ void open_screen()
 		}
 	}
 
-	load_palette(Screen, config->new_palette, 1 << ((screen_depth > 4) ? 4 : screen_depth));
+//	load_palette(Screen, config->new_palette, 1 << ((screen_depth > 4) ? 4 : screen_depth));
 
 	doradiobuttons();
 	fix_gadget_positions();
