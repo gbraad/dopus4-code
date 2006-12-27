@@ -394,7 +394,7 @@ MakeHook(ProgressHook, ProgressFunc);
 uint32 extractarchive(char *archivename, char *source, char *destination)
 {
 	int32 xad_result;
-	char sourcename[256] = { 0, }, destname[256] = { 0, };
+	char sourcename[2048] = { 0, }, destname[2048] = { 0, };
 
 	struct xadArchiveInfo *xadai = NULL;
 	struct xadFileInfo *xadfi = NULL;
@@ -404,16 +404,16 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 
 	IUtility->SNPrintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_CANCEL]);
 
-	snprintf(sourcename, 1024, "%s%s", source, archivename);
+	IUtility->SNPrintf(sourcename, 2048, "%s%s", source, archivename);
 
-	if((xadai = IxadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, 0)) == NULL)
+	if((xadai = IxadMaster->xadAllocObject(XADOBJ_ARCHIVEINFO, TAG_END)) == NULL)
 	{
 		return 0;
 	}
 
 	if((xad_result = IxadMaster->xadGetInfo(xadai, XAD_INFILENAME, (uint32)sourcename, TAG_END )))
 	{
-		IxadMaster->xadFreeObjectA(xadai, NULL);
+		IxadMaster->xadFreeObject(xadai, TAG_END);
 		return 0;
 	}
 
@@ -424,13 +424,13 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 		if(status_haveaborted)
 		{
 			IxadMaster->xadFreeInfo(xadai);
-			IxadMaster->xadFreeObjectA(xadai, NULL);
+			IxadMaster->xadFreeObject(xadai, TAG_END);
 			return 0;
 		}
 		else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)
 		{
-			memset(destname, 0, 1024);
-			snprintf(destname, 1024, "%s%s", destination, xadfi->xfi_FileName);
+			IUtility->SetMem(destname, 0, 2048);
+			IUtility->SNPrintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
 			IUtility->SNPrintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
 			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
@@ -443,7 +443,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 	}
 
 	IxadMaster->xadFreeInfo(xadai);
-	IxadMaster->xadFreeObjectA(xadai, NULL);
+	IxadMaster->xadFreeObject(xadai, TAG_END);
 	
 	return 1;
 }

@@ -1885,11 +1885,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		case FUNC_EXTRACT:
 			{
 				dostatustext(globstring[STR_EXTRACT_ARCHIVE]);
-				a = extractarchive(file->name, sourcedir, destdir);
-				if(a == 0)
+				if((a = extractarchive(file->name, sourcedir, destdir)) == 0)
 				{
 					myabort();
-					break;
 				}
 				else
 				{
