@@ -175,28 +175,6 @@ enum
 #define NUMFONTS 16
 #define USEDRIVECOUNT 30
 
-/*
-#define FTYC_MATCH        1
-#define FTYC_MATCHNAME    2
-#define FTYC_MATCHBITS    3
-#define FTYC_MATCHCOMMENT 4
-#define FTYC_MATCHSIZE    5
-#define FTYC_MATCHDATE    6
-#define FTYC_MOVETO       7
-#define FTYC_MOVE         8
-#define FTYC_SEARCHFOR    9
-#define FTYC_MATCHI      10
-#define FTYC_OR         253
-#define FTYC_AND        254
-#define FTYC_ENDSECTION 255
-
-#define FTYC_ENDLIMIT   252
-#define FTYC_COMMANDOK   11
-#define FTYC_CYCLEEND    12
-
-#define FILETYPE_FUNCNUM   16
-*/
-
 struct fileclass
 {
 	struct fileclass *last, *next;
@@ -612,7 +590,7 @@ extern int fileview_lines, fileview_size, fileview_topline, fileview_type, filev
 extern int fileview_offset, fileview_position;
 extern char *fileview_types[];
 
-extern char *icontypes[], *palettenames[14], *fontplacenames[FONT_COUNT + 1];
+extern char *icontypes[3], *palettenames[14], *fontplacenames[FONT_COUNT + 1];
 
 extern struct IntuiText newtext, opentext, savetext, saveastext, cuttext, copytext, pastetext, erasetext, newclasstext, editclasstext, deleteclasstext, clearclasstext, duplicateclasstext, clearcliptext, gadrowstext[5], paintmodetext;
 

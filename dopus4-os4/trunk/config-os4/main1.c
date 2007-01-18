@@ -953,6 +953,7 @@ void system_makeiconlist(int make)
 	int a, count;
 
 	IDOpus->LFreeRemember(&key);
+
 	if(make)
 	{
 		for(count = 3, type = firsttype; type; count++, type = type->next)
@@ -961,21 +962,38 @@ void system_makeiconlist(int make)
 				--count;
 		}
 		if((iconlistview.items = IDOpus->LAllocRemember(&key, (count + 1) * 4, MEMF_CLEAR)))
+		if((iconlistview.items[0] = IDOpus->LAllocRemember(&key, 256, MEMF_CLEAR)))
+		if((iconlistview.items[1] = IDOpus->LAllocRemember(&key, 256, MEMF_CLEAR)))
+		if((iconlistview.items[2] = IDOpus->LAllocRemember(&key, 256, MEMF_CLEAR)))
 		{
 			for(a = 0; a < 3; a++)
-				iconlistview.items[a] = icontypes[a];
+			{
+				strcpy(iconlistview.items[a], icontypes[a]);
+			}
 			if(config->drawericon[0])
-				icontypes[0][1] = '*';
+			{
+				iconlistview.items[0][1] = '*';
+			}
 			else
-				icontypes[0][1] = ' ';
+			{
+				iconlistview.items[0][1] = ' ';
+			}
 			if(config->toolicon[0])
-				icontypes[1][1] = '*';
+			{
+				iconlistview.items[1][1] = '*';
+			}
 			else
-				icontypes[1][1] = ' ';
+			{
+				iconlistview.items[1][1] = ' ';
+			}
 			if(config->projecticon[0])
-				icontypes[2][1] = '*';
+			{
+				iconlistview.items[2][1] = '*';
+			}
 			else
-				icontypes[2][1] = ' ';
+			{
+				iconlistview.items[2][1] = ' ';
+			}
 			for(a = 3, type = firsttype; a < count; a++, type = type->next)
 			{
 				if(IDOpus->LStrCmpI(type->type, "Default") == 0)
