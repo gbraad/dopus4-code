@@ -19,10 +19,8 @@ autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
 autoinit_application_application.o autoinit_application_base.o
 
-CFLAGS = -maltivec -mcrt=newlib -Wall -Os -I../include-os4
-#CFLAGS = -maltivec -mcrt=clib2 -Wall -Os -I../include-os4
-LDFLAGS = -maltivec -mcrt=newlib -lauto -lm
-#LDFLAGS = -maltivec -mcrt=clib2 -lauto -lm
+CFLAGS = -maltivec -Wall -Os -I../include-os4
+LDFLAGS = -maltivec -lauto -lm
 FLEXCAT = flexcat
 
 ifdef REVISE

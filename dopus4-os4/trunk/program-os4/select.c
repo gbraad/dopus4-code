@@ -58,7 +58,7 @@ void doselection(int win, int state)
 				offx = drag_sprite.Width * 16;
 			offy = y - (scrdata_dirwin_ypos[data_active_window] + (a * scrdata_font_ysize));
 		}
-		if((b = select(win, a)) == 2)
+		if((b = dopus_select(win, a)) == 2)
 		{
 			return;
 		}
@@ -392,7 +392,7 @@ void dormbscroll(int win)
 	}
 }
 
-int select(int win, int o)
+int dopus_select(int win, int o)
 {
 	int a, dbclick, sel = 1, foundcount;
 	char sbuf[FILEBUF_SIZE], *dir;

@@ -430,7 +430,7 @@ int getrenamedata(char *, char *);
 /* select.c */
 void doselection(int, int);
 void dormbscroll(int);
-int select(int, int);
+int dopus_select(int, int);
 int unselect(int, struct Directory *);
 void defselect(int, int, int);
 void globalselect(int, int);

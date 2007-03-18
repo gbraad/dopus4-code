@@ -77,7 +77,8 @@ static struct TextFont *winfont;
 static char icontitletext[200];
 static struct DOpusRemember *icon_key;
 static struct MsgPort *iconify_time_port;
-static struct timerequest iconify_timereq;
+//static struct timerequest iconify_timereq;
+static struct TimeRequest iconify_timereq;
 
 static struct DiskObject iconify_appicon =
 {
@@ -354,13 +355,13 @@ void iconify(int louise, int buttons, int banknum)
 		{
 			if((iconify_time_port = IExec->CreatePort(0, 0)))
 			{
-				IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, &iconify_timereq.tr_node, 0);
-				iconify_timereq.tr_node.io_Message.mn_ReplyPort = iconify_time_port;
-				iconify_timereq.tr_node.io_Command = TR_ADDREQUEST;
-				iconify_timereq.tr_node.io_Flags = 0;
-				iconify_timereq.tr_time.tv_secs = 0;
-				iconify_timereq.tr_time.tv_micro = 2;
-				IExec->SendIO(&iconify_timereq.tr_node);
+				IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, &iconify_timereq.Request, 0);
+				iconify_timereq.Request.io_Message.mn_ReplyPort = iconify_time_port;
+				iconify_timereq.Request.io_Command = TR_ADDREQUEST;
+				iconify_timereq.Request.io_Flags = 0;
+				iconify_timereq.Time.Seconds = 0;
+				iconify_timereq.Time.Microseconds = 2;
+				IExec->SendIO(&iconify_timereq.Request);
 			}
 			else
 				icon_gotclock = 0;
@@ -799,12 +800,12 @@ void iconify(int louise, int buttons, int banknum)
 				}
 			}
 		}
-		if(icon_gotclock && IExec->CheckIO(&iconify_timereq.tr_node))
+		if(icon_gotclock && IExec->CheckIO(&iconify_timereq.Request))
 		{
-			IExec->WaitIO(&iconify_timereq.tr_node);
-			iconify_timereq.tr_time.tv_secs = 1;
-			iconify_timereq.tr_time.tv_micro = 0;
-			IExec->SendIO(&iconify_timereq.tr_node);
+			IExec->WaitIO(&iconify_timereq.Request);
+			iconify_timereq.Time.Seconds = 1;
+			iconify_timereq.Time.Microseconds = 0;
+			IExec->SendIO(&iconify_timereq.Request);
 			if(cdelay)
 			{
 				if(!(--cdelay) && !system_version2)
@@ -820,10 +821,10 @@ void iconify(int louise, int buttons, int banknum)
 
 void remiclock()
 {
-	if(!(IExec->CheckIO(&iconify_timereq.tr_node)))
-		IExec->AbortIO(&iconify_timereq.tr_node);
-	IExec->WaitIO(&iconify_timereq.tr_node);
-	IExec->CloseDevice(&iconify_timereq.tr_node);
+	if(!(IExec->CheckIO(&iconify_timereq.Request)))
+		IExec->AbortIO(&iconify_timereq.Request);
+	IExec->WaitIO(&iconify_timereq.Request);
+	IExec->CloseDevice(&iconify_timereq.Request);
 	IExec->DeletePort(iconify_time_port);
 }
 

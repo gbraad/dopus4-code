@@ -697,7 +697,7 @@ void clocktask()
 	USHORT clock_width, clock_height, scr_height;
 	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
 	struct MsgPort *clock_time_port;
-	struct timerequest ctimereq;
+	struct TimeRequest ctimereq;
 	struct DateTime datetime = { { 0, } };
 	struct dopustaskmsg *cmsg;
 	struct RastPort clock_rp;
@@ -716,13 +716,13 @@ void clocktask()
 	clockmsg_port = IExec->CreatePort(NULL, 0);
 	clock_time_port = IExec->CreatePort(0, 0);
 
-	IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, (struct IORequest *)&ctimereq, 0);
-	ctimereq.tr_node.io_Message.mn_ReplyPort = clock_time_port;
-	ctimereq.tr_node.io_Command = TR_ADDREQUEST;
-	ctimereq.tr_node.io_Flags = 0;
-	ctimereq.tr_time.tv_secs = 0;
-	ctimereq.tr_time.tv_micro = 2;
-	IExec->SendIO(&ctimereq.tr_node);
+	IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, (struct IORequest *)&ctimereq.Request, 0);
+	ctimereq.Request.io_Message.mn_ReplyPort = clock_time_port;
+	ctimereq.Request.io_Command = TR_ADDREQUEST;
+	ctimereq.Request.io_Flags = 0;
+	ctimereq.Time.Seconds = 0;
+	ctimereq.Time.Microseconds = 2;
+	IExec->SendIO(&ctimereq.Request);
 
 	chipnum = getmaxmem(MEMF_CHIP);
 	fastnum = getmaxmem(MEMF_FAST);
@@ -765,10 +765,10 @@ void clocktask()
 				switch (cmsg->command)
 				{
 				case TASK_QUIT:
-					if(!(IExec->CheckIO(&ctimereq.tr_node)))
-						IExec->AbortIO(&ctimereq.tr_node);
-					IExec->WaitIO(&ctimereq.tr_node);
-					IExec->CloseDevice((struct IORequest *)&ctimereq);
+					if(!(IExec->CheckIO(&ctimereq.Request)))
+						IExec->AbortIO(&ctimereq.Request);
+					IExec->WaitIO(&ctimereq.Request);
+					IExec->CloseDevice((struct IORequest *)&ctimereq.Request);
 					IExec->DeletePort(clock_time_port);
 					IExec->DeletePort(clockmsg_port);
 					clockmsg_port = NULL;
@@ -865,9 +865,9 @@ void clocktask()
 						IGraphics->RectFill(&clock_rp, clock_rp.cp_x, ct, clock_width - 2, scr_height - 2);
 				}
 			}
-			ctimereq.tr_time.tv_secs = 1;
-			ctimereq.tr_time.tv_micro = 0;
-			IExec->SendIO(&ctimereq.tr_node);
+			ctimereq.Time.Seconds = 1;
+			ctimereq.Time.Microseconds = 0;
+			IExec->SendIO(&ctimereq.Request);
 		}
 	}
 }

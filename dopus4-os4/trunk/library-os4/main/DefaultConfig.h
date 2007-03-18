@@ -280,7 +280,7 @@ const static char *defgads[42] =
 	"\001%PDF-1.?\376\002#?.pdf",
 	"\001%!PS\376\002#?.(ps|eps|pdf)",
 	"\001$E310\376\002#?.info",
-	"\002*"
+	"\002#?"
 }, *deftype_funcs[5][4] =
 {
 	{
