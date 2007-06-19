@@ -109,7 +109,7 @@ void dostatustext(char *text)
 			IIntuition->SetWindowTitles(Window, (char *)-1, str_last_statustext);
 			if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveScreen == MainScreen && ((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow != Window)
 				IIntuition->SetWindowTitles(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow, (char *)-1, str_last_statustext);
-			MainScreen->DefaultTitle = str_last_statustext;
+			MainScreen->DefaultTitle = str_last_statustext; // Why write statustext in both window and screen title?
 		}
 	}
 }

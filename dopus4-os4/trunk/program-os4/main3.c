@@ -441,7 +441,9 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 		if(addafter)
 		{
 			if(!(workfirst = addafter->next))
+			{
 				workfirst = addposition = addafter;
+			}
 		}
 		else
 		{
@@ -1007,7 +1009,8 @@ void busy()
 		endnotifies();
 		status_flags |= STATUS_BUSY;
 	}
-	IDOpus->SetBusyPointer(Window);
+//	IDOpus->SetBusyPointer(Window);
+	IIntuition->SetWindowPointer(Window, WA_BusyPointer, TRUE, WA_PointerDelay, TRUE, TAG_DONE);
 }
 
 void unbusy()
@@ -1026,7 +1029,8 @@ void unbusy()
 		size_gadgets[1].GadgetType = GTYP_SIZING;
 		status_flags &= ~STATUS_BUSY;
 	}
-	IIntuition->ClearPointer(Window);
+//	IIntuition->ClearPointer(Window);
+	IIntuition->SetWindowPointer(Window, TAG_DONE);
 }
 
 void free_file_memory(struct Directory *file)

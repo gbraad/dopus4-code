@@ -85,10 +85,11 @@ void HighlightRMBGad(struct RastPort *rp, struct RMBGadget *gad, int state);
 /* From function.c */
 
 void SwapMem(char *src, char *dst, int size);
+/*
 void stuffChar(char c, char *buf);
 void LSprintfA(char *buf, char *fmt, void *args);
 void VARARGS68K LSprintf(char *buf, char *fmt, ...);
-
+*/
 /* END From functions.c */
 
 /* From imagery.c */

@@ -255,6 +255,7 @@ void SwapMem(char *src, char *dst, int size)
 	}
 }
 
+/*
 void LSprintfA(char *buf, char *fmt, void *args)
 {
 	IExec->RawDoFmt(fmt, args, NULL, buf);
@@ -268,6 +269,7 @@ void VARARGS68K LSprintf(char *buf, char *fmt, ...)
 	LSprintfA(buf, fmt, va_getlinearva(args, void *));
 	va_end(args);
 }
+*/
 /* END From functions.c */
 
 /* From imagery.c */

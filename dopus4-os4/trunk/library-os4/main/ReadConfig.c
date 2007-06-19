@@ -441,7 +441,8 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 				}
 				buf[0] = 0;
 				if(otype.filepat[0])
-					LSprintf(buf, "%lc%s%lc", FTYC_MATCHNAME, otype.filepat, ((otype.recogchars[0]) ? ((otype.and) ? FTYC_AND : FTYC_OR) : FTYC_ENDSECTION));
+//					LSprintf(buf, "%lc%s%lc", FTYC_MATCHNAME, otype.filepat, ((otype.recogchars[0]) ? ((otype.and) ? FTYC_AND : FTYC_OR) : FTYC_ENDSECTION));
+					sprintf(buf, "%lc%s%lc", FTYC_MATCHNAME, otype.filepat, ((otype.recogchars[0]) ? ((otype.and) ? FTYC_AND : FTYC_OR) : FTYC_ENDSECTION));
 				if(otype.recogchars[0])
 				{
 					b = mv = 0;
@@ -454,14 +455,16 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 							{
 								if((IDOS->HexToLong(buf2, &b)) > 0)
 								{
-									LSprintf(buf3, "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
+//									LSprintf(buf3, "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
+									sprintf(buf3, "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
 									Self->StrConcat(buf, buf3, 4096);
 								}
 								mv = 1;
 							}
 							else
 							{
-								LSprintf(buf3, "%lc$%s%lc", FTYC_MATCH, buf2, FTYC_AND);
+//								LSprintf(buf3, "%lc$%s%lc", FTYC_MATCH, buf2, FTYC_AND);
+								sprintf(buf3, "%lc$%s%lc", FTYC_MATCH, buf2, FTYC_AND);
 								Self->StrConcat(buf, buf3, 4096);
 								mv = 0;
 							}

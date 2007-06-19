@@ -132,7 +132,8 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, char *name, char *buf, int si
 		req_gads[1] = string_table[STR_CANCEL];
 		req_gads[2] = NULL;
 
-		LSprintf(reqbuf, string_table[STR_CANNOT_FIND_FILE_REQ], name, req_gads[0], req_gads[1]);
+//		LSprintf(reqbuf, string_table[STR_CANNOT_FIND_FILE_REQ], name, req_gads[0], req_gads[1]);
+		sprintf(reqbuf, string_table[STR_CANNOT_FIND_FILE_REQ], name, req_gads[0], req_gads[1]);
 
 		req.text = reqbuf;
 		req.gads = req_gads;

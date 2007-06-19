@@ -69,7 +69,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			IDOS->SetProtection(dst, cfinfo->fib_Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
 		if(config->copyflags & COPY_NOTE)
 			IDOS->SetComment(dst, cfinfo->fib_Comment);
-//		IDOS->SetOwner(dst, (cfinfo->fib_OwnerUID << 16) | cfinfo->fib_OwnerGID);
 		IDOS->FreeDosObject(DOS_FIB, cfinfo);
 		return (1);
 	}

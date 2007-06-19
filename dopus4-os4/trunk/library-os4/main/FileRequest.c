@@ -188,7 +188,8 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 					}
 					if(freq->filebuf)
 					{
-						LSprintf(freq->filebuf, "%ld", ((struct FontRequester *)request)->fo_Attr.ta_YSize);
+//						LSprintf(freq->filebuf, "%ld", ((struct FontRequester *)request)->fo_Attr.ta_YSize);
+						sprintf(freq->filebuf, "%ld", ((struct FontRequester *)request)->fo_Attr.ta_YSize);
 					}
 				}
 				else

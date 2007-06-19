@@ -349,6 +349,9 @@ HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
 
 	switch(xadp->xpi_Mode)
 	{
+	case XADPMODE_ERROR:
+		IDOS->Printf("XAD ERROR!\n");
+		break;
 	case XADPMODE_END:
 		return XADPIF_OK;
 		break;

@@ -97,7 +97,7 @@ void startnotify(int win)
 			dos_notify_req[win]->nr_stuff.nr_Msg.nr_Port = count_port;
 			if(!(IDOS->StartNotify(dos_notify_req[win])))
 			{
-				dos_notify_names[win][0] = 0;
+				dos_notify_names[win][0] = '\0';
 			}
 		}
 	}
@@ -112,7 +112,7 @@ void endnotify(int win)
 	if(dos_notify_req[win] && dos_notify_names[win][0])
 	{
 		IDOS->EndNotify(dos_notify_req[win]);
-		dos_notify_names[win][0] = 0;
+		dos_notify_names[win][0] = '\0';
 	}
 }
 

@@ -1,8 +1,8 @@
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -maltivec -mcrt=newlib -Os -Wall -I../include-os4
-LDFLAGS = -maltivec -mcrt=newlib -lauto
+CFLAGS = -ggdb -mcrt=newlib -Os -Wall -I../include-os4
+LDFLAGS = -mcrt=newlib -lauto
 
 ifdef REVISE
 BUMPREV:= revision

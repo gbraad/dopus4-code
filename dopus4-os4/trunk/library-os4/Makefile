@@ -23,7 +23,7 @@ RM     = rm -f
 
 # Change these as required
 OPTIMIZE = -Os
-DEBUG = -s # -g -DDEBUG
+DEBUG = -s -ggdb # -g -DDEBUG
 CFLAGS = -maltivec -mcrt=newlib -Wall -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 
 # Flags passed to gcc during linking

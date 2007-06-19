@@ -111,17 +111,17 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		}
 		IDOS->Examine(mylock, myfinfo);
 	}
-	if(!(name = IDOpus->LAllocRemember(&memkey, 5 * 512, MEMF_CLEAR)))
+	if(!(name = IDOpus->LAllocRemember(&memkey, 5 * 2048, MEMF_CLEAR)))
 	{
 		doerror(-1);
 		IDOS->FreeDosObject(DOS_FIB, myfinfo);
 		IDOS->FreeDosObject(DOS_FIB, enfinfo);
 		return (-1);
 	}
-	dir = name + 512;
-	dest = dir + 512;
-	dname = dest + 512;
-	ddir = dname + 512;
+	dir = name + 2048;
+	dest = dir + 2048;
+	dname = dest + 2048;
+	ddir = dname + 2048;
 	if(fdir)
 		strcpy(dir, fdir);
 	if(fdest)
@@ -839,7 +839,7 @@ int getdircontentsinfo(STRPTR path, uint64 *size, uint32 *files)
 		{
 			if((eac = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
 			{
-				eac->eac_LastKey = 0; //NULL;
+				eac->eac_LastKey = 0;
 
 				do
 				{

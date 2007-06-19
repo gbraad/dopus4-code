@@ -72,7 +72,8 @@ int _DOpus_CheckNumGad(struct DOpusIFace *Self, struct Gadget *gad, struct Windo
 		a = min;
 	else if(a > max)
 		a = max;
-	LSprintf((char *)sinfo->Buffer, "%ld", a);
+//	LSprintf((char *)sinfo->Buffer, "%ld", a);
+	sprintf((char *)sinfo->Buffer, "%ld", a);
 	if(a != b)
 	{
 		if(win)

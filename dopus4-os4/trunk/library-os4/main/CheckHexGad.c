@@ -79,7 +79,8 @@ int _DOpus_CheckHexGad(struct DOpusIFace *Self, struct Gadget *gad, struct Windo
 		else if(a > max)
 			a = max;
 	}
-	LSprintf((char *)sinfo->Buffer, "%lx", a);
+//	LSprintf((char *)sinfo->Buffer, "%lx", a);
+	sprintf((char *)sinfo->Buffer, "%lx", a);
 	if(a != b)
 	{
 		if(win)
