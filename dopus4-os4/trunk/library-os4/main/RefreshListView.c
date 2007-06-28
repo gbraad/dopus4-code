@@ -25,6 +25,8 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
+#include "extras.h"
+
 /****** dopus/main/RefreshListView ******************************************
 *
 *   NAME
@@ -66,8 +68,10 @@ int _DOpus_RefreshListView(struct DOpusIFace *Self, struct DOpusListView *view, 
 			view->count = 0;
 		if(view->selectarray)
 		{
-			if(view->selected = (char *)Self->LAllocRemember(&view->key, view->count, MEMF_CLEAR))
+			if((view->selected = (char *)Self->LAllocRemember(&view->key, view->count, MEMF_CLEAR)))
+			{
 				IExec->CopyMem(view->selectarray, view->selected, view->count);
+			}
 		}
 		if(view->topitem > (view->count - view->lines))
 			view->topitem = view->count - view->lines;

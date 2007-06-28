@@ -13,8 +13,9 @@
  *
  */
 
-
+#include <stdio.h>
 #include <stdlib.h>
+
 #include <exec/exec.h>
 #include <proto/dos.h>
 #include <proto/exec.h>
@@ -73,7 +74,7 @@ int _DOpus_CheckNumGad(struct DOpusIFace *Self, struct Gadget *gad, struct Windo
 	else if(a > max)
 		a = max;
 //	LSprintf((char *)sinfo->Buffer, "%ld", a);
-	sprintf((char *)sinfo->Buffer, "%ld", a);
+	sprintf((char *)sinfo->Buffer, "%d", a);
 	if(a != b)
 	{
 		if(win)

@@ -13,7 +13,9 @@
  *
  */
 
+#include <stdio.h>
 #include <string.h>
+
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <proto/dos.h>

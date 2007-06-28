@@ -62,10 +62,10 @@
 *
 */
 
-void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, short left, short top, short width, short height, char *text, uint16 textpos)
+void _DOpus_ObjectText(struct DOpusIFace *Self, struct RequesterBase *reqbase, int16 left, int16 top, int16 width, int16 height, char *text, uint16 textpos)
 {
 	struct RastPort *rp;
-	short x, y, text_width, text_height, cx, cy, len, got_uscore = -1, uscoreok = 1;
+	int16 x = 0, y = 0, text_width, text_height, cx, cy, len, got_uscore = -1, uscoreok = 1;
 	char *ptr, textbuf[82];
 
 	rp = reqbase->rb_window->RPort;

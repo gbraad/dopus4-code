@@ -76,17 +76,11 @@ void _DOpus_Do3DCycleBox(struct DOpusIFace *Self, struct RastPort *rp, int x, in
 
 	IGraphics->SetAPen(rp, bp);
 
-	if(/*DOpusBase->*/pdb_cycletop)
-	{
-		IGraphics->BltTemplate(/*DOpusBase->*/pdb_cycletop, 0, 2, rp, x + 4, y + 1, 11, 6);
-	}
-	if (/*DOpusBase->*/pdb_cyclebot)
-	{
-		IGraphics->BltTemplate(/*DOpusBase->*/pdb_cyclebot, 0, 2, rp, x + 4, y + 1 + h - 12 + 7, 11, 2);
-	}
+	IGraphics->BltTemplate((CONST PLANEPTR)pdb_cycletop, 0, 2, rp, x + 4, y + 1, 11, 6);
+	IGraphics->BltTemplate((CONST PLANEPTR)pdb_cyclebot, 0, 2, rp, x + 4, y + 1 + h - 12 + 7, 11, 2);
 
-	drawline(rp, x + 4, y + 7, x + 4, /*y + 7 + */y + 1 + h - 12 + 7/* -12*/);
-	drawline(rp, x + 5, y + 7, x + 5, /*y + 7 + */y + 1 + h - 12 + 7/* -12*/);
+	drawline(rp, x + 4, y + 7, x + 4, y + 1 + h - 12 + 7);
+	drawline(rp, x + 5, y + 7, x + 5, y + 1 + h - 12 + 7);
 	drawline(rp, x + 18, y + 1, x + 18, y + h - 2);
 
 	IGraphics->SetAPen(rp, tp);

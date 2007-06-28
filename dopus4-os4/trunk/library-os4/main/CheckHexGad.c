@@ -13,7 +13,7 @@
  *
  */
 
-
+#include <stdio.h>
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <dos/dos.h>
@@ -80,7 +80,7 @@ int _DOpus_CheckHexGad(struct DOpusIFace *Self, struct Gadget *gad, struct Windo
 			a = max;
 	}
 //	LSprintf((char *)sinfo->Buffer, "%lx", a);
-	sprintf((char *)sinfo->Buffer, "%lx", a);
+	sprintf((char *)sinfo->Buffer, "%x", a);
 	if(a != b)
 	{
 		if(win)

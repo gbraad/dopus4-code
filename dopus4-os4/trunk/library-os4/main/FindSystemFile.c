@@ -13,6 +13,7 @@
  *
  */
 
+#include <stdio.h>
 
 #include <exec/exec.h>
 #include <proto/exec.h>

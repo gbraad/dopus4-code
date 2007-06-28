@@ -58,11 +58,30 @@
 int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 {
 	int a = 0;
-	BPTR lock;
+//	BPTR lock;
 	APTR wsave;
+	struct ExamineData *data;
 
 	wsave = IDOS->SetProcWindow((APTR)-1L);
-	if((lock = IDOS->Lock(name, ACCESS_READ)))
+
+	if((data = IDOS->ExamineObjectTags(EX_StringName, name, TAG_END)))
+	{
+		if(size)
+		{
+			*size = data->FileSize;
+		}
+		if(EXD_IS_FILE(data))
+		{
+			a = -1;
+		}
+		else if (EXD_IS_DIRECTORY(data))
+		{
+			a = 1;
+		}
+		IDOS->FreeDosObject(DOS_EXAMINEDATA,data);
+	}
+
+/*	if((lock = IDOS->Lock(name, ACCESS_READ)))
 	{
 		struct FileInfoBlock *fib = IDOS->AllocDosObjectTags(DOS_FIB, NULL);
 		IDOS->Examine(lock, fib);
@@ -74,7 +93,8 @@ int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 
 		IDOS->UnLock(lock);
 		IDOS->FreeDosObject(DOS_FIB, fib);
-	}
+	}*/
+
 	IDOS->SetProcWindow(wsave);
 
 	return(a);

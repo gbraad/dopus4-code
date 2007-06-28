@@ -198,7 +198,7 @@ struct Window *_DOpus_OpenRequester(struct DOpusIFace *Self, struct RequesterBas
 
 			newwin.FirstGadget = NULL;
 			newwin.CheckMark = NULL;
-			newwin.Title = (UBYTE *)reqbase->rb_title;
+			newwin.Title = reqbase->rb_title;
 
 			/* Try to open window; if we succeed, then render border and fill
 			   in background */

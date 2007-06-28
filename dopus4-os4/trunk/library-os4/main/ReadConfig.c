@@ -13,6 +13,7 @@
  *
  */
 
+#include <stdio.h>
 #include <string.h>
 
 #include <exec/exec.h>
@@ -62,7 +63,8 @@
 
 int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *cstuff)
 {
-	int a, in, size, pos, bk, gad, mv;
+	int a, in, /*size,*/ pos, bk, gad, mv;
+	uint32 size;
 	uint32 b;
 	USHORT ver, mag;
 	STRPTR cbuf, buf, tbuf;

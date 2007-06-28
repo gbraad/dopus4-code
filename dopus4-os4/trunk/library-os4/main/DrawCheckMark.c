@@ -61,8 +61,7 @@ extern USHORT pdb_check[];
 
 void _DOpus_DrawCheckMark(struct DOpusIFace *Self, struct RastPort *rp, int x, int y, int clear)
 {
-	UBYTE old_apen;
-	UBYTE old_drmd = IGraphics->GetDrMd(rp);
+	uint8 old_apen = 0, old_drmd = IGraphics->GetDrMd(rp);
 
 	IGraphics->SetDrMd(rp,JAM1);
 
@@ -71,10 +70,7 @@ void _DOpus_DrawCheckMark(struct DOpusIFace *Self, struct RastPort *rp, int x, i
 		old_apen = IGraphics->GetAPen(rp);
 		IGraphics->SetAPen(rp, IGraphics->GetBPen(rp));
 	}
-	if(/*DOpusBase->*/pdb_check)
-	{
-		IGraphics->BltTemplate(/*DOpusBase->*/pdb_check, 0, 2, rp, x, y, 13, 7);
-	}
+	IGraphics->BltTemplate((CONST PLANEPTR)pdb_check, 0, 2, rp, x, y, 13, 7);
 	if(clear == 0)
 	{
 		IGraphics->SetAPen(rp, old_apen);

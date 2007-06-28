@@ -71,7 +71,7 @@ APTR _DOpus_AddRequesterObject(struct DOpusIFace *Self, struct RequesterBase *re
 	struct RequesterObject *object = NULL, *tempobject;
 	struct PrivateData *private;
 	ULONG data;
-	int tag, size, type, xoffset, yoffset;
+	int tag, size = 0, type = 0, xoffset, yoffset;
 	struct StringInfo *stringinfo = NULL;
 	struct PropInfo *propinfo;
 	struct Image *propimage;
@@ -426,7 +426,7 @@ APTR _DOpus_AddRequesterObject(struct DOpusIFace *Self, struct RequesterBase *re
 		case RO_StringBuf:
 			if(!stringinfo)
 				break;
-			stringinfo->Buffer = (UBYTE *) data;
+			stringinfo->Buffer = (STRPTR)data;
 			break;
 
 		case RO_StringLen:
@@ -438,7 +438,7 @@ APTR _DOpus_AddRequesterObject(struct DOpusIFace *Self, struct RequesterBase *re
 		case RO_StringUndo:
 			if(!stringinfo)
 				break;
-			stringinfo->UndoBuffer = (UBYTE *) data;
+			stringinfo->UndoBuffer = (STRPTR)data;
 			break;
 
 			/* Boolean gadget setting */
