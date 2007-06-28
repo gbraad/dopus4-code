@@ -63,8 +63,7 @@
 
 int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *cstuff)
 {
-	int a, in, /*size,*/ pos, bk, gad, mv;
-	uint32 size;
+	int a, in, size, pos, bk, gad, mv;
 	uint32 b;
 	USHORT ver, mag;
 	STRPTR cbuf, buf, tbuf;
