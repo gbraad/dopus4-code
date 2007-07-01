@@ -19,7 +19,7 @@ autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
 autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
 autoinit_application_application.o autoinit_application_base.o
 
-CFLAGS = -ggdb -Wall -Os -I../include-os4
+CFLAGS = -Wall -Os -I../include-os4
 LDFLAGS = -lauto -lm
 FLEXCAT = flexcat
 

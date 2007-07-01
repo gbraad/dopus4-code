@@ -66,24 +66,26 @@ void quit()
 		if(completion[a].memory)
 			IDOpus->LFreeRemember(&completion[a].memory);
 	}
-	if(dir_memory_pool)
-		IExec->FreeSysObject(ASOT_MEMPOOL, dir_memory_pool);
-	if(general_memory_pool)
-		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
-	if(help_memory_pool)
-		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
-	if(filetype_memory_pool)
-		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
-	if(menu_memory_pool)
-		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
 
 	for(a = 0; a < NUMFONTS; a++)
 		freefont(a);
 	freedynamiccfg();
 	freehelp();
-	IDOpus->LFreeRemember(&general_key);
+
+	if(dir_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, dir_memory_pool);
+	if(general_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
+	if(help_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, help_memory_pool);
+	if(filetype_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, filetype_memory_pool);
+	if(menu_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, menu_memory_pool);
+
+//	IDOpus->LFreeRemember(&general_key);
 	IDOpus->LFreeRemember(&border_key);
-	IDOpus->LFreeRemember(&menu_key);
+//	IDOpus->LFreeRemember(&menu_key);
 	IDOpus->FreeStringFile(&stringdata);
 
 	if(configopus_segment)

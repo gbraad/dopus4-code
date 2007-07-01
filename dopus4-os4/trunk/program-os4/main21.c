@@ -380,7 +380,9 @@ void layout_menus()
 
 	if(Window->MenuStrip)
 		IIntuition->ClearMenuStrip(Window);
-	IDOpus->LFreeRemember(&menu_key);
+//	IDOpus->LFreeRemember(&menu_key);
+	IExec->FreeSysObject(ASOT_MEMPOOL, menu_memory_pool);
+	menu_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
 
 	title_font = Window->WScreen->RastPort.Font;
 	if(!MainScreen)
@@ -689,7 +691,8 @@ void get_bar_item(struct MenuItem *item, struct MenuItem *nextitem, struct Image
 {
 	struct MenuItem *baritem;
 
-	if(item->MutualExclude == 1 && (baritem = IDOpus->LAllocRemember(&menu_key, sizeof(struct MenuItem), MEMF_CLEAR)))
+//	if(item->MutualExclude == 1 && (baritem = IDOpus->LAllocRemember(&menu_key, sizeof(struct MenuItem), MEMF_CLEAR)))
+	if(item->MutualExclude == 1 && (baritem = IExec->AllocPooled(menu_memory_pool, sizeof(struct MenuItem))))
 	{
 
 		if(nextitem)
@@ -719,40 +722,13 @@ struct Image *get_bar_image(int fg, int bg, int width)
 {
 	struct Image *image;
 
-	if(!(image = IDOpus->LAllocRemember(&menu_key, sizeof(struct Image), MEMF_CLEAR)))
+//	if(!(image = IDOpus->LAllocRemember(&menu_key, sizeof(struct Image), MEMF_CLEAR)))
+	if(!(image = IExec->AllocPooled(menu_memory_pool, sizeof(struct Image))))
 		return (NULL);
 
 	image->Width = width;
 	image->Height = 2;
 	image->PlaneOnOff = fg;
-/*
-    if (newlook) image->PlaneOnOff=fg;
-    else {
-        USHORT *imagedata;
-        int words,a,b,depth,pos;
 
-        words=(width+15)/16;
-        for (depth=0;;depth++)
-            if ((1<<depth)>fg && (1<<depth)>bg) break;
-
-        if (!(imagedata=LAllocRemember(&menu_key,words*2*depth*sizeof(USHORT),MEMF_CLEAR|MEMF_CHIP)))
-            return(NULL);
-
-        for (a=0,pos=0;a<depth;a++) {
-            for (b=0;b<words;b++,pos++) {
-                if (fg&(1<<a)) imagedata[pos]=0xdddd;
-                if (bg&(1<<a)) imagedata[pos]|=0x2222;
-            }
-            for (b=0;b<words;b++,pos++) {
-                if (fg&(1<<a)) imagedata[pos]=0x7777;
-                if (bg&(1<<a)) imagedata[pos]|=0x8888;
-            }
-        }
-
-        image->ImageData=imagedata;
-        image->Depth=depth;
-        image->PlanePick=(1<<depth)-1;
-    }
-*/
 	return (image);
 }

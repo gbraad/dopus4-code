@@ -48,7 +48,8 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 	struct Directory *curcf;
 	struct function_data *funcdata;
 
-	if(!func || !func[0] || !(funcdata = IDOpus->LAllocRemember(&general_key, sizeof(struct function_data), MEMF_CLEAR)))
+//	if(!func || !func[0] || !(funcdata = IDOpus->LAllocRemember(&general_key, sizeof(struct function_data), MEMF_CLEAR)))
+	if(!func || !func[0] || !(funcdata = IExec->AllocPooled(general_memory_pool, sizeof(struct function_data))))
 		return;
 
 	a = strlen(func);
@@ -160,7 +161,8 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 	closescriptfile(pars, run, funcdata);
 	func_single_file[0] = 0;
 	func_external_file[0] = 0;
-	IDOpus->LFreeRemEntry(&general_key, (char *)funcdata);
+//	IDOpus->LFreeRemEntry(&general_key, (char *)funcdata);
+	IExec->FreePooled(general_memory_pool, funcdata, sizeof(struct function_data));
 
 	if(norm && Window)
 	{

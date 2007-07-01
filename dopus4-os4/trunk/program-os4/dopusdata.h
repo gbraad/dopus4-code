@@ -113,10 +113,10 @@ extern void *old_pr_consoletask;	/* Old pr_ConsoleTask pointer */
 
 /* General objects */
 
-extern struct DOpusRemember *general_key;	/* General memory key */
+//extern struct DOpusRemember *general_key;	/* General memory key */
 extern struct DOpusRemember *help_key;	/* Memory key for help files */
 extern struct DOpusRemember *filetype_key;	/* Memory key for filetype list */
-extern struct DOpusRemember *menu_key;	/* Memory key for menus */
+//extern struct DOpusRemember *menu_key;	/* Memory key for menus */
 
 extern USHORT *nullpalette;	/* Pointer to a black palette */
 

@@ -176,6 +176,17 @@ int main(int argc, char **argv)
 		*s = 0;
 	}
 
+	/* Memory Pools used in different places */
+	dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 1024, TAG_DONE);
+	general_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	help_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	filetype_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	menu_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	if(!dir_memory_pool && !general_memory_pool && !help_memory_pool && !filetype_memory_pool && !menu_memory_pool)
+	{
+		quit();
+	}
+
 	allocstrings();
 
 	nullpalette = (UWORD *)astring(sizeof(UWORD) * 256);
@@ -213,7 +224,8 @@ int main(int argc, char **argv)
 
 	for(a = 0; a < 2; a++)
 	{
-		if((dos_notify_req[a] = IDOpus->LAllocRemember(&general_key, sizeof(struct NotifyRequest), MEMF_ANY | MEMF_CLEAR)))
+//		if((dos_notify_req[a] = IDOpus->LAllocRemember(&general_key, sizeof(struct NotifyRequest), MEMF_ANY | MEMF_CLEAR)))
+		if((dos_notify_req[a] = IExec->AllocPooled(general_memory_pool, sizeof(struct NotifyRequest))))
 			dos_notify_req[a]->nr_Name = dos_notify_names[a];
 	}
 
@@ -275,17 +287,6 @@ int main(int argc, char **argv)
 	setupchangestate();
 
 	do_remember_config(remember_data);
-
-	/* Memory Pools used in different places */
-	dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 1024, TAG_DONE);
-	general_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	help_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	filetype_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	menu_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	if(!dir_memory_pool && !general_memory_pool && !help_memory_pool && !filetype_memory_pool && !menu_memory_pool)
-	{
-		quit();
-	}
 
 	allocdirbuffers(config->bufcount);
 
@@ -1321,8 +1322,9 @@ void allocstrings()
 
 char *astring(int len)
 {
-	char *foo;
-	if(!(foo = IDOpus->LAllocRemember(&general_key, len, MEMF_CLEAR)))
+	STRPTR foo;
+//	if(!(foo = IDOpus->LAllocRemember(&general_key, len, MEMF_CLEAR)))
+	if(!(foo = (STRPTR)IExec->AllocPooled(general_memory_pool, len)))
 	{
 		quit();
 	}
