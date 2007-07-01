@@ -47,7 +47,7 @@ static struct IOAudio *audio_req1[2];	/* Audio IO Request block #1 */
 static struct IOAudio *audio_req2[2];	/* Audio IO Request block #2 */
 
 static STRPTR audiodata;	/* Audio data to play */
-static uint32 audio_size;	/* Size of audio data */
+static int64 audio_size;	/* Size of audio data */
 
 struct Library *AHIBase;
 struct AHIIFace *IAHI;

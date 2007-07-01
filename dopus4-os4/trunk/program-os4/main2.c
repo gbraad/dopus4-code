@@ -1299,7 +1299,8 @@ void getprotdatelengths(struct RastPort *rp)
 	dt.dat_StrTime = date;
 	dt.dat_Stamp.ds_Minute = 488;
 	dt.dat_Stamp.ds_Tick = 400;
-	IDOpus->StampToStr(&dt);
+	IDOS->DateToStr(&dt);
+//	IDOpus->StampToStr(&dt);
 	for(l = 0; date[l]; l++);
 	b = IGraphics->TextLength(rp, date, l);
 	config->displaylength[0][DISPLAY_DATE] += b + scrdata_font_xsize;

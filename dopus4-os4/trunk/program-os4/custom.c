@@ -370,7 +370,7 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 	{
 		if(type != FT_AREXX)
 		{
-			ptr = (unsigned char *)name;
+			ptr = name;
 			while (*ptr)
 			{
 				if(*ptr == ';')

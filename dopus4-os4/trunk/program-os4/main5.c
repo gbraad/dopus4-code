@@ -293,10 +293,10 @@ struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 
 	if(dir)
 	{
-		if(str_arcorgname[0])
+		if(str_arcorgname[0]) /* required for double-click */
 		{
 			name = str_arcorgname;
-		} /* required for double-click */
+		}
 
 		find = dir->firstentry;
 		if(count)
@@ -320,8 +320,8 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 	char buf[300], buf2[100];
 
       loop:
-	suc = IDOS->DeleteFile(name);
-	if(!suc)
+//	suc = IDOS->DeleteFile(name);
+	if(!(suc = IDOS->DeleteFile(name)))
 	{
 		if((err = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
 			suc = 1;

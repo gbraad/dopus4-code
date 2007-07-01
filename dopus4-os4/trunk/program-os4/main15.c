@@ -32,7 +32,8 @@ the existing commercial status of Directory Opus 5.
 
 void ftype_doubleclick(char *path, char *name, int state)
 {
-	int a, b, dodef = 0, size;
+	int a, b, dodef = 0;
+	int64 size;
 	ULONG threelongs[3];
 	char buf[256], buf2[256];
 	struct dopusfiletype *type;

@@ -98,17 +98,26 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	int a, suc_dfib;
 	struct DateStamp ds;
 
-	if(!(lockandexamine(sourcename, s_fib)))
+	if(d_fib && s_fib)
 	{
-		IDOS->FreeDosObject(DOS_FIB, d_fib);
-		IDOS->FreeDosObject(DOS_FIB, s_fib);
-		return (REPLACE_OK);
+		if(!(lockandexamine(sourcename, s_fib)))
+		{
+			IDOS->FreeDosObject(DOS_FIB, d_fib);
+			IDOS->FreeDosObject(DOS_FIB, s_fib);
+			return (REPLACE_OK);
+		}
+		if(!(suc_dfib = lockandexamine(destname, d_fib)))
+		{
+			IDOS->FreeDosObject(DOS_FIB, d_fib);
+			IDOS->FreeDosObject(DOS_FIB, s_fib);
+			return (REPLACE_OK);
+		}
 	}
-	if(!(suc_dfib = lockandexamine(destname, d_fib)))
+	else
 	{
 		IDOS->FreeDosObject(DOS_FIB, d_fib);
 		IDOS->FreeDosObject(DOS_FIB, s_fib);
-		return (REPLACE_OK);
+		return (REPLACE_SKIP);
 	}
 
 //	if(suc_dfib && d_fib->fib_DirEntryType > 0)

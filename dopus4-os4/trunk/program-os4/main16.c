@@ -36,7 +36,6 @@ int showfont(char *name, int size, int np)
 	unsigned char a;
 	struct TextFont *font;
 	char fontbuf[256], *fontptr;
-//	static UWORD fcols[2] = { 0xfff, 0 };
 	struct TextAttr sfattr = { (STRPTR) name, size, 0, 0 };
 	struct RastPort *font_rp;
 
@@ -80,14 +79,11 @@ int showfont(char *name, int size, int np)
 
 	IIntuition->ScreenToFront(fontscreen);
 	IIntuition->ActivateWindow(fontwindow);
-//	FadeRGB4(fontscreen, fcols, 2, 1, config->fadetime);
 	show_global_font = font;
 
 	fred = WaitForMouseClick(fontwindow);
 
 	show_global_font = NULL;
-/*	if(fred != -3)
-		FadeRGB4(fontscreen, fcols, 2, -1, config->fadetime);*/
 
 	cleanup_fontdisplay();
 	IGraphics->CloseFont(font);
@@ -170,7 +166,7 @@ void readhelp(char *file)
 void doreadhelp(char *file)
 {
 	int a, b = 0, inmsg;
-	uint32 helpsize;
+	int64 helpsize;
 	STRPTR helpbuf, buf;
 	struct Help *temph, *curhelp;
 

@@ -29,6 +29,51 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+uint32 recursive_delete(STRPTR fdir, STRPTR fdest, uint32 DoWhat, uint32 fdata)
+{
+	uint32 success = FALSE;
+	APTR context = IDOS->ObtainDirContextTags(EX_StringName, fdir, EX_DoCurrentDir, TRUE, TAG_END);
+
+	if(context)
+	{
+		struct ExamineData *dat;
+		while((dat = IDOS->ExamineDir(context)))
+		{
+			if(EXD_IS_LINK(dat))
+			{
+				IExec->DebugPrintF("link = %s points to %s\n", dat->Name, dat->Link);
+			}
+			else if(EXD_IS_FILE(dat))
+			{
+				IExec->DebugPrintF("filename = %s\n", dat->Name);
+			}
+			else if(EXD_IS_DIRECTORY(dat))
+			{
+				IExec->DebugPrintF("dirname = %s\n", dat->Name);
+				if(!recursive_delete(dat->Name, NULL, R_DELETE, 0))	/* recurse */
+				{
+					break;
+				}
+				IExec->DebugPrintF("Back from Recurse!\n");
+			}
+		}
+		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
+		{
+			success = TRUE;	/* normal exit */
+		}
+		else
+		{
+			IExec->DebugPrintF("%ld\n", IDOS->IoErr(), NULL);	/* failure - find out why */
+		}
+	}
+	else
+	{
+		IExec->DebugPrintF("%ld\n", IDOS->IoErr(), NULL);	/* failure - find out why */
+	}
+	IDOS->ReleaseDirContext(context);	/* NULL safe */
+	return (success);
+}
+
 struct makedirlist
 {
 	struct makedirlist *last, *next;
@@ -54,11 +99,11 @@ struct recurse *current_recurse;
 
 int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 {
-	struct FileInfoBlock * const myfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	struct FileInfoBlock * const enfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct FileInfoBlock *const myfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct FileInfoBlock *const enfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	BPTR mylock;
 	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL, *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
-	int suc = 0, to_do, ret = 0, a, err, adata =0, depth = 0, b, rtry, data = fdata, *pstuff, blocks;
+	int suc = 0, to_do, ret = 0, a, err, adata = 0, depth = 0, b, rtry, data = fdata, *pstuff, blocks;
 	struct recpath *crec = NULL, *trec = NULL;
 	struct RecursiveDirectory *cur_recurse = NULL, *addparent_recurse = NULL, *new_rec = NULL, *pos_rec = NULL, *cur_parent = NULL, *cur_lastparent = NULL;
 	APTR data2 = NULL, adata2 = NULL, data3 = NULL, adata3 = NULL;
@@ -185,7 +230,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				current_recurse = current_recurse->last;
 
 				strcpy(name, dir);
-				IDOS->AddPart(name, myfinfo->fib_FileName, 512);
+				IDOS->AddPart(name, myfinfo->fib_FileName, 2048);
 
 				if(dowhat & R_GETNAMES)
 				{
@@ -199,7 +244,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					strcpy(ddir, dest);
 					if(config->copyflags & COPY_DATE)
 					{
-						IDOS->AddPart(ddir, myfinfo->fib_FileName, 512);
+						IDOS->AddPart(ddir, myfinfo->fib_FileName, 2048);
 						IDOS->SetFileDate(ddir, &myfinfo->fib_Date);
 						strcpy(ddir, dest);
 					}
@@ -297,7 +342,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		IExec->CopyMemQuick((char *)myfinfo, (char *)enfinfo, sizeof(struct FileInfoBlock));
 
 		strcpy(name, dir);
-		IDOS->AddPart(name, enfinfo->fib_FileName, 512);
+		IDOS->AddPart(name, enfinfo->fib_FileName, 2048);
 
 		if(FIB_IS_DRAWER(enfinfo))
 		{
@@ -367,7 +412,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 
-					IDOS->AddPart(dname, enfinfo->fib_FileName, 512);
+					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 					adir = dir;
 					adest = dest;
 					adata = data;
@@ -491,7 +536,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				if(dowhat & R_COPY)
 				{
 					strcpy(dname, ddir);
-					IDOS->AddPart(dname, enfinfo->fib_FileName, 512);
+					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 					if(!mylock)
@@ -501,7 +546,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						strcpy(name, "T:");
 						if(!unarcfiledir(&lister, name, tempname, enfinfo->fib_FileName))
 							continue;
-						IDOS->AddPart(name, tempname, 512);
+						IDOS->AddPart(name, tempname, 2048);
 					}
 					a = 0;
 					if(askeach)
@@ -825,7 +870,7 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 	return (1);
 }
 
-int getdircontentsinfo(STRPTR path, uint64 *size, uint32 *files)
+int getdircontentsinfo(STRPTR path, uint64 * size, uint32 * files)
 {
 	char *buf, *c;
 	struct ExAllControl *eac;

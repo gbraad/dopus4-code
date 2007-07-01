@@ -130,8 +130,16 @@ struct DirectoryWindow *dopus_firstwin[2] /*={0}*/ ;	/* First buffer in each win
 struct DirectoryWindow *dopus_specialwin[2] /*={0}*/ ;	/* Special buffer for each window */
 struct DirectoryWindow *dopus_oldwin[2] /*={0}*/ ;	/* Last buffer displayed */
 
-void *dir_memory_pool /*=NULL*/ ;		/* Memory pool for allocations */
+/* Memory Pool objects */
 
+void *dir_memory_pool /*=NULL*/ ;		/* Memory pool for allocations */
+void *general_memory_pool /*=NULL*/ ;		/* Memory pool for general stuff */
+void *help_memory_pool /*=NULL*/ ;		/* Memory pool for help files */
+void *filetype_memory_pool /*=NULL*/ ;		/* Memory pool for filetype list */
+void *menu_memory_pool /*=NULL*/ ;		/* Memory pool for menus */
+
+void *dirlist_memory_pool /*=NULL*/ ;		/* Memory pool for dir list */
+void *recurse_memory_pool /*=NULL*/ ;		/* Memory pool for recursive directories */
 
 /* String data */
 

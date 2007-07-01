@@ -177,7 +177,9 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 
 void view_file_process()
 {
-	int a, size, retcode = 100;
+//	int64 size;
+	int32 size;
+	int a, retcode = 100;
 	char buf[60];
 	struct ConUnit *view_console_unit = NULL;
 	struct ViewData *vdata = NULL;

@@ -151,12 +151,21 @@ int checksame(char *src, char *dst, int type)
 	BPTR lk1, lk2;
 	int ret;
 
-	if(!(lk1 = IDOS->Lock(src, ACCESS_READ)))
+/*	if(!(lk1 = IDOS->Lock(src, ACCESS_READ)))
 		return (LOCK_DIFFERENT);
 	if(!(lk2 = IDOS->Lock(dst, ACCESS_READ)))
 	{
 		IDOS->UnLock(lk1);
 		return (LOCK_DIFFERENT);
+	}*/
+	lk1 = IDOS->Lock(src, ACCESS_READ);
+	lk2 = IDOS->Lock(dst, ACCESS_READ);
+	if(!(lk1) || !(lk2))
+	{
+		IDOS->UnLock(lk1);
+		IDOS->UnLock(lk2);
+		return (LOCK_DIFFERENT);
+
 	}
 	ret = IDOS->SameLock(lk1, lk2);
 	if((ret == LOCK_SAME) && (type < 2))

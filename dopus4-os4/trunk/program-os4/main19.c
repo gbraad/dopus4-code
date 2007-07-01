@@ -244,48 +244,8 @@ int simplerequest(STRPTR txt, ...)
 
 	return (IIntuition->EasyRequest(NULL, &es, NULL, TAG_DONE));
 }
-/*
-int simplerequest(STRPTR txt, ...)
-{
-	char *gads[11], *cancelgad = NULL, *gad;
-	int a, r = 1, rets[10], gnum = 0, rnum = 0;
-	va_list ap;
-	struct DOpusSimpleRequest request;
 
-	va_start(ap, txt);
-	for(a = 0; a < 10; a++)
-	{
-		if(!(gad = (STRPTR)va_arg(ap, STRPTR)))
-		{
-			  break;
-		}
-		if(a == 1)
-		{
-			cancelgad = gad;
-		}
-		else
-		{
-			gads[gnum++] = gad;
-			if(gad[0] != '\n')
-				rets[rnum++] = r++;
-		}
-	}
-	va_end(ap);
-	if(cancelgad)
-	{
-		gads[gnum] = cancelgad;
-		rets[rnum] = 0;
-		a = gnum + 1;
-	}
-	for(; a < 11; a++)
-		gads[a] = NULL;
-
-	request.strbuf = NULL;
-	request.flags = 0;
-	return (dorequest(&request, txt, gads, rets, NULL));
-}
-*/
-int whatsit(char *txt, int max, char *buffer, char *skiptxt)
+int whatsit(char *txt, int max, const char *buffer, char *skiptxt)
 {
 	char *gads[4];
 	int a = 1, rets[3];

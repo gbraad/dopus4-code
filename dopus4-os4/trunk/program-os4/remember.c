@@ -127,9 +127,7 @@ void do_restore_config(struct RememberData *data)
 		config->separatemethod[a] = data->separatemethod[a];
 	}
 
-//	IDOpus->LParsePatternI(config->showpat, config->showpatparsed);
 	IDOS->ParsePatternNoCase(config->showpat, config->showpatparsed, 40);
-//	IDOpus->LParsePatternI(config->hidepat, config->hidepatparsed);
 	IDOS->ParsePatternNoCase(config->hidepat, config->hidepatparsed, 40);
 	dosizedirwindows(data->windowdelta);
 	config->wbwinx = data->wbwinx;

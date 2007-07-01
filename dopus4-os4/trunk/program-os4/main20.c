@@ -68,6 +68,14 @@ void quit()
 	}
 	if(dir_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, dir_memory_pool);
+	if(general_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
+	if(help_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
+	if(filetype_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
+	if(menu_memory_pool)
+		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
 
 	for(a = 0; a < NUMFONTS; a++)
 		freefont(a);

@@ -276,7 +276,13 @@ int main(int argc, char **argv)
 
 	do_remember_config(remember_data);
 
-	if(!(dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 1024, TAG_DONE)))
+	/* Memory Pools used in different places */
+	dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 1024, TAG_DONE);
+	general_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	help_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	filetype_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	menu_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	if(!dir_memory_pool && !general_memory_pool && !help_memory_pool && !filetype_memory_pool && !menu_memory_pool)
 	{
 		quit();
 	}

@@ -49,7 +49,8 @@ void initdatetime(struct DateTime *datetime, STRPTR datebuf, STRPTR timebuf, int
 		datetime->dat_Flags |= DDTF_12HOUR;
 	}
 
-	IDOpus->StampToStr(datetime);
+	IDOS->DateToStr(datetime);
+//	IDOpus->StampToStr(datetime);
 }
 
 void doarexx(int rexx)

@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 
 void makedir(int rexx)
 {
-	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct FileInfoBlock *fileinfo = NULL;
 	int a, success, win, err, addicon = 0;
 	char dirname[FILEBUF_SIZE], new_directory[256];
 	BPTR lock;
@@ -39,7 +39,6 @@ void makedir(int rexx)
 	win = data_active_window;
 	if((dopus_curwin[win]->directory[0] == 0))
 	{
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return;
 	}
 	dirname[0] = new_directory[0] = 0;
@@ -57,7 +56,6 @@ void makedir(int rexx)
 			{
 				if(!(isvalidwindow(data_active_window)))
 				{
-					IDOS->FreeDosObject(DOS_FIB, fileinfo);
 					return;
 				}
 				strcpy(new_directory, str_pathbuffer[data_active_window]);
@@ -75,7 +73,6 @@ void makedir(int rexx)
 		{
 			if(!(status_flags & STATUS_ISINBUTTONS) || (!(getdummypath(new_directory, STR_ENTER_DIRECTORY_NAME))))
 			{
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			win = -1;
@@ -84,7 +81,6 @@ void makedir(int rexx)
 		{
 			if(!(isvalidwindow(data_active_window)))
 			{
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			strcpy(new_directory, str_pathbuffer[data_active_window]);
@@ -92,7 +88,6 @@ void makedir(int rexx)
 			if(!(whatsit(globstring[STR_ENTER_DIRECTORY_NAME], config->iconflags & ICONFLAG_MAKEDIRICON ? FILEBUF_SIZE - 7 : FILEBUF_SIZE - 2, dirname, NULL)) || !dirname[0])
 			{
 				myabort();
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			for(a = 0; dirname[a]; a++)
@@ -106,7 +101,6 @@ void makedir(int rexx)
 			if(!dirname[0])
 			{
 				myabort();
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			IDOS->AddPart(new_directory, dirname, 256);
@@ -118,12 +112,12 @@ void makedir(int rexx)
 			if(rexx || (a = checkerror(globstring[STR_CREATING_DIRECTORY], IDOS->FilePart(new_directory), -err)) == 3)
 			{
 				myabort();
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return;
 			}
 			continue;
 		}
 
+		fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 		IDOS->Examine(lock, fileinfo);
 		IDOS->UnLock(lock);
 
@@ -153,7 +147,9 @@ void makedir(int rexx)
 		break;
 	}
 	if(success)
+	{
 		dostatustext(globstring[STR_DIRECTORY_CREATED]);
+	}
 
 	IDOS->FreeDosObject(DOS_FIB, fileinfo);
 
@@ -195,9 +191,10 @@ int iconwrite(int type, STRPTR name)
 			strcat(sourcebuf, ".info");
 	}
 
-	FOREVER
+	for(;;)
 	{
-		if(originalicon && originalicon[0] && (IDOpus->CheckExist(sourcebuf, NULL) < 0))
+//		if(originalicon && originalicon[0] && (IDOpus->CheckExist(sourcebuf, NULL) < 0))
+		if(originalicon && originalicon[0] && (IDOpus->CheckExist(sourcebuf, NOLL) < 0))
 		{
 			if((copyicon(originalicon, namebuf, &err)) > 0)
 				return (1);
@@ -251,8 +248,11 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 	{
 		suc = IIcon->PutDiskObject(dest, diskobj);
 		IIcon->FreeDiskObject(diskobj);
-		if(!suc || IDOpus->CheckExist(dest, NULL) >= 0)
+//		if(!suc || IDOpus->CheckExist(dest, NULL) >= 0)
+		if(!suc || IDOpus->CheckExist(dest, NOLL) >= 0)
+		{
 			*err = IDOS->IoErr();
+		}
 	}
 	else
 	{
@@ -276,7 +276,8 @@ char *isicon(STRPTR name)
 char *getarexxpath(int rexx, int win, int num, int argnum)
 {
 	struct FileInfoBlock *fblock = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int a, b;
+	int a; //, b;
+	int64 b;
 	char *ptr;
 	APTR save;
 
@@ -336,11 +337,11 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 	return (str_pathbuffer[win]);
 }
 
-int readfile(STRPTR name, STRPTR *buf, uint32 *size)
+int readfile(STRPTR name, STRPTR *buf, int64 *size)
 {
 	int in, retval  = 0;
 
-	if(IDOpus->CheckExist(name, (int *)size) >= 0 || !(in = IDOS->Open(name, MODE_OLDFILE)))
+	if(IDOpus->CheckExist(name, size) >= 0 || !(in = IDOS->Open(name, MODE_OLDFILE)))
 		return (-1);
 	if((*buf = IExec->AllocVec(*size, MEMF_ANY)))
 	{
