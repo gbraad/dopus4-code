@@ -57,6 +57,10 @@ the existing commercial status of Directory Opus 5.
 #include <graphics/gfx.h>
 #include <dos/datetime.h>
 
+
+/* 64bit NULL pointer */
+#define NOLL ((void *)0LL)
+
 /* File requester definition structure */
 
 #define DIRBUF_SIZE  256
@@ -237,7 +241,7 @@ struct DOpusSimpleRequest
 	int *rets;		/* Gadget return values       */
 	int hi, lo;		/* 3D hi and lo pen colours   */
 	int fg, bg;		/* Text Fg and Bg pen colours */
-	char *strbuf;		/* Buffer for string gadget   */
+	const char *strbuf;		/* Buffer for string gadget   */
 	int strlen;		/* Maximum string length      */
 	int flags;		/* Flags, see below           */
 	struct TextFont *font;	/* Font to use, must be open  */

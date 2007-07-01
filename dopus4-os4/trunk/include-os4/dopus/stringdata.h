@@ -43,7 +43,7 @@ struct DefaultString
 
 struct StringData
 {
-	struct DefaultString *default_table;	/* Pointer to array of default strings */
+	const struct DefaultString *default_table;	/* Pointer to array of default strings */
 	int string_count;	/* Number of strings in the table */
 	char **string_table;	/* This will point to the table of string pointers to actually use */
 	char *string_buffer;	/* Buffer of loaded string file */

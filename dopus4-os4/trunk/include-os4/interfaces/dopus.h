@@ -72,7 +72,7 @@ struct DOpusIFace
 	void APICALL (*SetBusyPointer)(struct DOpusIFace *Self, struct Window * window);
 	void APICALL (*GetWBScreen)(struct DOpusIFace *Self, struct Screen * scrbuf);
 	int APICALL (*SearchPathList)(struct DOpusIFace *Self, char * name, char * buffer, int size);
-	int APICALL (*CheckExist)(struct DOpusIFace *Self, char * name, int * size);
+	int APICALL (*CheckExist)(struct DOpusIFace *Self, char * name, int64 * size);
 	void APICALL (*StrToUpper)(struct DOpusIFace *Self, char * from, char * to);
 	void APICALL (*StrToLower)(struct DOpusIFace *Self, char * from, char * to);
 	int APICALL (*RawkeyToStr)(struct DOpusIFace *Self, USHORT code, USHORT qual, char * buf, char * kbuf, int len);

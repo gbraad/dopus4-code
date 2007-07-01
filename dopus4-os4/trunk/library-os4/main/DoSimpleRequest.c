@@ -167,7 +167,8 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 			Self->LFreeRemember(&key);
 			return (0);
 		}
-		Self->LStrCpy(strbuf, simple->strbuf);
+//		Self->LStrCpy(strbuf, simple->strbuf);
+		strcpy(strbuf, simple->strbuf);
 		if(simple->flags & SRF_GLASS)
 			glassgad = Self->LAllocRemember(&key, sizeof(struct Gadget), MEMF_CLEAR);
 	}
@@ -469,7 +470,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 			{
 				dl = 0;
 				if(num)
-					Self->AddGadgets(Window, contgad, &(string_table[STR_CONTINUE])/*contstring */ , 1, simple->hi, simple->lo, 1);
+					Self->AddGadgets(Window, contgad, &(string_table[STR_CONTINUE]), 1, simple->hi, simple->lo, 1);
 				c = 0;
 				for(;;)
 				{
@@ -641,9 +642,6 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					filereq.dirbuf = dirbuf;
 					filereq.filebuf = filebuf;
 					filereq.window = Window;
-//					filereq.x = -2;
-//					filereq.y = -2;
-//					filereq.lines = 15;
 					if(simple->flags & SRF_DIRGLASS)
 					{
 						filereq.flags = DFRF_DIRREQ;
@@ -689,7 +687,8 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				IIntuition->CloseWindow(Window);
 				if(gadgetid && simple->strbuf)
 				{
-					Self->LStrCpy(simple->strbuf, strbuf);
+//					Self->LStrCpy(simple->strbuf, strbuf);
+					strcpy(simple->strbuf, strbuf);
 				}
 				Self->LFreeRemember(&key);
 
