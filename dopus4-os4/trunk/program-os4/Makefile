@@ -10,14 +10,6 @@ main10.o main11.o main12.o main13.o main14.o main15.o main16.o main17.o\
 main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
-#autoinit_amigaguide_base.o autoinit_amigaguide_main.o\
-#autoinit_commodities_base.o autoinit_commodities_main.o\
-#autoinit_gadtools_base.o autoinit_gadtools_main.o\
-#autoinit_layers_base.o autoinit_layers_main.o\
-#autoinit_pm_base.o autoinit_pm_main.o\
-#autoinit_rexxsyslib_base.o autoinit_rexxsyslib_main.o\
-#autoinit_xadmaster_base.o autoinit_xadmaster_main.o\
-#autoinit_application_application.o autoinit_application_base.o
 
 CFLAGS = -ggdb -Wall -Os -I../include-os4
 LDFLAGS = -lauto -lm
