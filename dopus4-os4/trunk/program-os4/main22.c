@@ -45,7 +45,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	char *buf, *buf1, *buf2, *namebuf, *srename, *drename, *database;
 	static char tbuf[256], titlebuf[32];
 	struct DateTime datetime;
-	struct DOpusRemember *funckey;
+	void *function_memory_pool;
 	struct dopusfiletype *type;
 	struct dopusfuncpar par;
 	struct DirectoryWindow *swindow, *dwindow;
@@ -73,7 +73,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	}
 
 	data = rexarg = 0;
-	funckey = NULL;
+	function_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 4096, TAG_DONE);
 	specflags = flags & ~255;
 	flags &= 255;
 
@@ -142,7 +142,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		return (0);	/* No files selected, return */
 	}
 
-	if(!(database = IDOpus->LAllocRemember(&funckey, 3000, MEMF_CLEAR)))
+	if(!(database = IExec->AllocPooled(function_memory_pool, 3000)))
 	{
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
@@ -180,7 +180,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_HEXREAD:
 	case FUNC_ANSIREAD:
 	case FUNC_SMARTREAD:
-		if(!globflag && !(viewdata = IDOpus->LAllocRemember(&funckey, sizeof(struct ViewData), MEMF_CLEAR)))
+		if(!globflag && !(viewdata = IExec->AllocPooled(function_memory_pool, sizeof(struct ViewData))))
 			goto endfunction;
 	case FUNC_LOOPPLAY:
 	case FUNC_SHOW:
@@ -2326,7 +2326,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
       endfunction:
 	if(prog_indicator)
 		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
-	IDOpus->LFreeRemember(&funckey);
+	IExec->FreeSysObject(ASOT_MEMPOOL, function_memory_pool);
 	--entry_depth;
 
 	IDOS->FreeDosObject(DOS_FIB, fileinfo);

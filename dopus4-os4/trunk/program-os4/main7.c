@@ -39,7 +39,8 @@ the existing commercial status of Directory Opus 5.
 #define RAWKEY_Q   0x10
 #define RAWKEY_X   0x32
 
-static struct DOpusRemember *audio_key;	/* Memory key for 8SVX player */
+//static struct DOpusRemember *audio_key;	/* Memory key for 8SVX player */
+void *audio_memory_pool; /* Memory pool for 8SVX player */
 
 static struct MsgPort *audio_port[2];	/* 8SVX Sound player Ports */
 
@@ -347,6 +348,11 @@ int doplay8svxold(STRPTR fname, int loop)
 	struct IOAudio *audioptr[2];
 	UBYTE *playdata[2];
 
+	if(!(audio_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 4096, TAG_DONE)))
+	{
+		return(-2);
+	}
+
 	status_flags &= ~STATUS_AUDIOLED;
 
 	if((a = readfile(fname, (char **)&audiodata, &audio_size)))
@@ -402,7 +408,8 @@ int doplay8svxold(STRPTR fname, int loop)
 		if(vhdr->vh_Compression == CMP_FIBDELTA)
 		{
 			size -= 2;
-			if(!(compressbuf = IDOpus->LAllocRemember(&audio_key, size * 2, MEMF_ANY)))
+//			if(!(compressbuf = IDOpus->LAllocRemember(&audio_key, size * 2, MEMF_ANY)))
+			if(!(compressbuf = IExec->AllocPooled(audio_memory_pool, size * 2)))
 				return (-2);
 			DUnpack(psample + 2, size, compressbuf, psample[1]);
 			psample = compressbuf;
@@ -478,7 +485,8 @@ int doplay8svxold(STRPTR fname, int loop)
 
 		for(a = 0; a < 2; a++)
 		{
-			if(!(audio_req1[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_req2[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
+//			if(!(audio_req1[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_req2[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
+			if(!(audio_req1[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) || !(audio_req2[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
 				return (-2);
 		}
 
@@ -495,8 +503,11 @@ int doplay8svxold(STRPTR fname, int loop)
 		playsize = (size < 25600) ? size : 25600;
 		for(a = 0; a < 2; a++)
 		{
-			if(!(playdata[a] = IDOpus->LAllocRemember(&audio_key, playsize, MEMF_CHIP)))
+//			if(!(playdata[a] = IDOpus->LAllocRemember(&audio_key, playsize, MEMF_CHIP)))
+			if(!(playdata[a] = IExec->AllocPooled(audio_memory_pool, playsize)))
+			{
 				return (-2);
+			}
 		}
 
 		for(a = 0; a < 2; a++)
@@ -656,7 +667,8 @@ void kill8svx()
 	}
 	if(audiodata && audio_size)
 		IExec->FreeVec(audiodata);
-	IDOpus->LFreeRemember(&audio_key);
+//	IDOpus->LFreeRemember(&audio_key);
+	IExec->FreeSysObject(ASOT_MEMPOOL, audio_memory_pool);
 	audiodata = NULL;
 }
 

@@ -196,9 +196,11 @@ void doreadhelp(char *file)
 				if(b == 9999 || helpbuf[a] == '\n')
 				{
 					buf[b] = 0;
-					if(!(temph = IDOpus->LAllocRemember(&help_key, sizeof(struct Help), MEMF_CLEAR)))
+//					if(!(temph = IDOpus->LAllocRemember(&help_key, sizeof(struct Help), MEMF_CLEAR)))
+					if(!(temph = IExec->AllocPooled(help_memory_pool, sizeof(struct Help))))
 						break;
-					if(!(temph->lookup = IDOpus->LAllocRemember(&help_key, b + 1, MEMF_CLEAR)))
+//					if(!(temph->lookup = IDOpus->LAllocRemember(&help_key, b + 1, MEMF_CLEAR)))
+					if(!(temph->lookup = IExec->AllocPooled(help_memory_pool, b + 1)))
 						break;
 					IExec->CopyMem(buf, temph->lookup, b);
 					if(curhelp)
@@ -221,7 +223,8 @@ void doreadhelp(char *file)
 					if(curhelp)
 					{
 						buf[b] = 0;
-						if(!(curhelp->message = IDOpus->LAllocRemember(&help_key, b + 1, MEMF_CLEAR)))
+//						if(!(curhelp->message = IDOpus->LAllocRemember(&help_key, b + 1, MEMF_CLEAR)))
+						if(!(curhelp->message = IExec->AllocPooled(help_memory_pool, b + 1)))
 							break;
 						IExec->CopyMem(buf, curhelp->message, b);
 					}

@@ -107,7 +107,7 @@ void *old_pr_consoletask /*=NULL*/ ;		/* Old pr_ConsoleTask pointer */
 /* General objects */
 
 //struct DOpusRemember *general_key /*=NULL*/ ;	/* General memory key */
-struct DOpusRemember *help_key /*=NULL*/ ;	/* Memory key for help files */
+//struct DOpusRemember *help_key /*=NULL*/ ;	/* Memory key for help files */
 struct DOpusRemember *filetype_key /*=NULL*/ ;	/* Memory key for filetype list */
 //struct DOpusRemember *menu_key /*=NULL*/ ;	/* Memory key for menus */
 

@@ -300,22 +300,26 @@ BPTR CloneCommandDir(const char *taskname)
 
 void WBRun(int argc, char **argv)
 {
-	struct WBStartup *WBStartup;
+	struct WBStartup *WBStartup = NULL;
 	struct DiskObject *diskobj = NULL;
 	char namebuf[256];
 	int stacksize, i, ok = 1;
 	struct Process *ourtask;
 	struct MsgPort *replyport = NULL;
 	BPTR olddir = -1;
-	struct DOpusRemember *key = NULL;
+//	struct DOpusRemember *key = NULL;
 	struct CommandLineInterface *cli;
+	void *key;
 
 	if(argc < 1)
 		return;
 
+	key = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 4096, TAG_DONE);
+
 	ourtask = (struct Process *)IExec->FindTask(NULL);
 
-	if((WBStartup = IDOpus->LAllocRemember(&key, sizeof(struct WBStartup), MEMF_CLEAR)) && (WBStartup->sm_ArgList = IDOpus->LAllocRemember(&key, sizeof(struct WBArg) * (argc + 1), MEMF_CLEAR)) && (replyport = IExec->CreatePort(NULL, 0)))
+//	if((WBStartup = IDOpus->LAllocRemember(&key, sizeof(struct WBStartup), MEMF_CLEAR)) && (WBStartup->sm_ArgList = IDOpus->LAllocRemember(&key, sizeof(struct WBArg) * (argc + 1), MEMF_CLEAR)) && (replyport = IExec->CreatePort(NULL, 0)))
+	if(key && (WBStartup = IExec->AllocPooled(key, sizeof(struct WBStartup))) && (WBStartup->sm_ArgList = IExec->AllocPooled(key, sizeof(struct WBArg) * (argc + 1))) && (replyport = IExec->CreatePort(NULL, 0)))
 	{
 		WBStartup->sm_Message.mn_ReplyPort = replyport;
 		WBStartup->sm_NumArgs = argc;
@@ -417,7 +421,8 @@ void WBRun(int argc, char **argv)
 			}
 		}
 	}
-	IDOpus->LFreeRemember(&key);
+//	IDOpus->LFreeRemember(&key);
+	IExec->FreeSysObject(ASOT_MEMPOOL, key);
 }
 
 int setarg(struct WBArg *WBArg, char *name, BPTR curdir)

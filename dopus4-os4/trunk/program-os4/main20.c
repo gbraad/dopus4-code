@@ -70,14 +70,17 @@ void quit()
 	for(a = 0; a < NUMFONTS; a++)
 		freefont(a);
 	freedynamiccfg();
-	freehelp();
+//	freehelp();
 
 	if(dir_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, dir_memory_pool);
 	if(general_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, general_memory_pool);
 	if(help_memory_pool)
+	{
 		IExec->FreeSysObject(ASOT_MEMPOOL, help_memory_pool);
+		dopus_firsthelp = NULL;
+	}
 	if(filetype_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, filetype_memory_pool);
 	if(menu_memory_pool)
@@ -159,7 +162,7 @@ void freefont(num)
 
 void freehelp()
 {
-	IDOpus->LFreeRemember(&help_key);
+//	IDOpus->LFreeRemember(&help_key);
 	dopus_firsthelp = NULL;
 }
 
