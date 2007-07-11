@@ -30,14 +30,29 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_DATA
 #define DOPUS_DATA
 
-//extern long _priority;		/* Default task priority */
-//extern long _BackGroundIO;	/* Background IO off */
 extern char *_procname;		/* Task name */
 
 /* Library bases */
 
 extern struct Library *DOpusBase;			/* dopus.library */
 extern struct DOpusIFace *IDOpus;			/* dopus interface */
+
+extern struct Library *AmigaGuideBase;
+extern struct AmigaGuideIFace *IAmigaGuide;
+extern struct Library *ApplicationBase;
+extern struct ApplicationIFace *IApplication;
+extern struct Library *CxBase;
+extern struct CommoditiesIFace *ICommodities;
+extern struct Library *GadToolsBase;
+extern struct GadToolsIFace *IGadTools;
+extern struct Library *LayersBase;
+extern struct LayersIFace *ILayers;
+extern struct Library *PopupMenuBase;
+extern struct PopupMenuIFace *IPopupMenu;
+extern struct Library *RexxSysBase;
+extern struct RexxSysIFace *IRexxSys;
+extern struct Library *xadMasterBase;
+extern struct xadMasterIFace *IxadMaster;
 
 /* Intuition objects */
 

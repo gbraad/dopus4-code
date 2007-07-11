@@ -29,15 +29,30 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-//uint32 __stack = 16384;				/* Stack size needed */
-//long __priority = 0;				/* Default task priority */
 char *__procname = "dopus_task";		/* Task name */
-//char __stdiowin[] = "";
 
 /* Library bases */
 
 struct Library *DOpusBase = NULL;		/* dopus.library */
 struct DOpusIFace *IDOpus = NULL;		/* dopus interface */
+
+struct Library *AmigaGuideBase = NULL;
+struct AmigaGuideIFace *IAmigaGuide = NULL;
+struct Library *ApplicationBase = NULL;
+struct ApplicationIFace *IApplication = NULL;
+struct Library *CxBase = NULL;
+struct CommoditiesIFace *ICommodities = NULL;
+struct Library *GadToolsBase = NULL;
+struct GadToolsIFace *IGadTools = NULL;
+struct Library *LayersBase = NULL;
+struct LayersIFace *ILayers = NULL;
+struct Library *PopupMenuBase = NULL;
+struct PopupMenuIFace *IPopupMenu = NULL;
+struct Library *RexxSysBase = NULL;
+struct RexxSysIFace *IRexxSys = NULL;
+struct Library *xadMasterBase = NULL;
+struct xadMasterIFace *IxadMaster = NULL;
+
 
 /* Intuition objects */
 

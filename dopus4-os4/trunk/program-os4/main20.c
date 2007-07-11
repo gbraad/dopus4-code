@@ -126,6 +126,24 @@ void quit()
 	if(DOpusBase)
 		IExec->CloseLibrary(DOpusBase);
 
+
+	IExec->DropInterface((struct Interface *)IxadMaster);
+	IExec->CloseLibrary(xadMasterBase);
+	IExec->DropInterface((struct Interface *)IRexxSys);
+	IExec->CloseLibrary(RexxSysBase);
+	IExec->DropInterface((struct Interface *)ICommodities);
+	IExec->CloseLibrary(CxBase);
+	IExec->DropInterface((struct Interface *)IGadTools);
+	IExec->CloseLibrary(GadToolsBase);
+	IExec->DropInterface((struct Interface *)ILayers);
+	IExec->CloseLibrary(LayersBase);
+	IExec->DropInterface((struct Interface *)IPopupMenu);
+	IExec->CloseLibrary(PopupMenuBase);
+	IExec->DropInterface((struct Interface *)IRexxSys);
+	IExec->CloseLibrary(RexxSysBase);
+	IExec->DropInterface((struct Interface *)IAmigaGuide);
+	IExec->CloseLibrary(AmigaGuideBase);
+
 	main_proc->pr_CIS = old_pr_cis;
 	main_proc->pr_COS = old_pr_cos;
 	main_proc->pr_ConsoleTask = old_pr_consoletask;

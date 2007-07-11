@@ -69,6 +69,23 @@ int main(int argc, char **argv)
 		return 5;
 	}
 
+	AmigaGuideBase = IExec->OpenLibrary("amigaguide.library", 0L);
+	IAmigaGuide = (struct AmigaGuideIFace *)IExec->GetInterface(AmigaGuideBase, "main", 1, NULL);
+	ApplicationBase = IExec->OpenLibrary("application.library", 0L);
+	IApplication = (struct ApplicationIFace *)IExec->GetInterface(ApplicationBase, "application", 1, NULL);
+	CxBase = IExec->OpenLibrary("commodities.library", 0L);
+	ICommodities = (struct CommoditiesIFace *)IExec->GetInterface(CxBase, "main", 1, NULL);
+	GadToolsBase = IExec->OpenLibrary("gadtools.library", 0L);
+	IGadTools = (struct GadToolsIFace *)IExec->GetInterface(GadToolsBase, "main", 1, NULL);
+	LayersBase = IExec->OpenLibrary("layers.library", 0L);
+	ILayers = (struct LayersIFace *)IExec->GetInterface(LayersBase, "main", 1, NULL);
+	PopupMenuBase = IExec->OpenLibrary("popupmenu.library", 0L);
+	IPopupMenu = (struct PopupMenuIFace *)IExec->GetInterface(PopupMenuBase, "main", 1, NULL);
+	RexxSysBase = IExec->OpenLibrary("rexxsyslib.library", 0L);
+	IRexxSys = (struct RexxSysIFace *)IExec->GetInterface(RexxSysBase, "main", 1, NULL);
+	xadMasterBase = IExec->OpenLibrary("xadmaster.library", 0L);
+	IxadMaster = (struct xadMasterIFace *)IExec->GetInterface(xadMasterBase, "main", 1, NULL);
+
 	/* status_flags contains various flags; initialise it to 0 to start with */
 
 	/* Initialise various data */
