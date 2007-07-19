@@ -86,6 +86,12 @@ int main(int argc, char **argv)
 	xadMasterBase = IExec->OpenLibrary("xadmaster.library", 0L);
 	IxadMaster = (struct xadMasterIFace *)IExec->GetInterface(xadMasterBase, "main", 1, NULL);
 
+	if(!IAmigaGuide || !IApplication || !ICommodities || !IGadTools || !ILayers || !IPopupMenu || !IRexxSys || !IxadMaster)
+	{
+		quit();
+		return 5;
+	}
+
 	/* status_flags contains various flags; initialise it to 0 to start with */
 
 	/* Initialise various data */
@@ -194,11 +200,11 @@ int main(int argc, char **argv)
 	}
 
 	/* Memory Pools used in different places */
-	dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 16384, ASOPOOL_Threshold, 1024, TAG_DONE);
-	general_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	help_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	filetype_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
-	menu_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 1024, ASOPOOL_Threshold, 1024, TAG_DONE);
+	dir_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 64 * 1024, ASOPOOL_Threshold, 16 * 1024, TAG_DONE);
+	general_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 64 * 1024, ASOPOOL_Threshold, 16 * 1024, TAG_DONE);
+	help_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 64 * 1024, ASOPOOL_Threshold, 16 * 1024, TAG_DONE);
+	filetype_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 64 * 1024, ASOPOOL_Threshold, 16 * 1024, TAG_DONE);
+	menu_memory_pool = IExec->AllocSysObjectTags(ASOT_MEMPOOL, ASOPOOL_MFlags, MEMF_CLEAR, ASOPOOL_Puddle, 64 * 1024, ASOPOOL_Threshold, 16 * 1024, TAG_DONE);
 	if(!dir_memory_pool && !general_memory_pool && !help_memory_pool && !filetype_memory_pool && !menu_memory_pool)
 	{
 		quit();

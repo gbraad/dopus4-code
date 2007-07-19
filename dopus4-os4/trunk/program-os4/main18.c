@@ -29,10 +29,10 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-uint32 recursive_delete(STRPTR fdir, STRPTR fdest, uint32 DoWhat, uint32 fdata)
+uint32 recursive_delete(STRPTR directory, STRPTR destination, uint32 dowhat, uint32 data)
 {
 	uint32 success = FALSE;
-	APTR context = IDOS->ObtainDirContextTags(EX_StringName, fdir, EX_DoCurrentDir, TRUE, TAG_END);
+	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 
 	if(context)
 	{
@@ -50,7 +50,7 @@ uint32 recursive_delete(STRPTR fdir, STRPTR fdest, uint32 DoWhat, uint32 fdata)
 			else if(EXD_IS_DIRECTORY(dat))
 			{
 				IExec->DebugPrintF("dirname = %s\n", dat->Name);
-				if(!recursive_delete(dat->Name, NULL, R_DELETE, 0))	/* recurse */
+				if(!recursive_delete(dat->Name, NULL, R_DELETE, 0))
 				{
 					break;
 				}
@@ -59,18 +59,18 @@ uint32 recursive_delete(STRPTR fdir, STRPTR fdest, uint32 DoWhat, uint32 fdata)
 		}
 		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
 		{
-			success = TRUE;	/* normal exit */
+			success = TRUE;
 		}
 		else
 		{
-			IExec->DebugPrintF("%ld\n", IDOS->IoErr(), NULL);	/* failure - find out why */
+			IExec->DebugPrintF("Error: %ld\n", IDOS->IoErr(), NULL);
 		}
 	}
 	else
 	{
-		IExec->DebugPrintF("%ld\n", IDOS->IoErr(), NULL);	/* failure - find out why */
+		IExec->DebugPrintF("Error: %ld\n", IDOS->IoErr(), NULL);
 	}
-	IDOS->ReleaseDirContext(context);	/* NULL safe */
+	IDOS->ReleaseDirContext(context);
 	return (success);
 }
 

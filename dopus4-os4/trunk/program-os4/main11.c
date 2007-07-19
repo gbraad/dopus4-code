@@ -77,7 +77,6 @@ static struct TextFont *winfont;
 static char icontitletext[200];
 static struct DOpusRemember *icon_key;
 static struct MsgPort *iconify_time_port;
-//static struct timerequest iconify_timereq;
 static struct TimeRequest iconify_timereq;
 
 static struct DiskObject iconify_appicon =
