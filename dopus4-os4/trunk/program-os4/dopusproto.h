@@ -137,7 +137,6 @@ void sortdir(struct DirectoryWindow *, int);
 int dorun(char *, int, int);
 void busy(void);
 void unbusy(void);
-//void setnullpointer(struct Window *);
 void free_file_memory(struct Directory *);
 
 /* main4.c */
@@ -165,8 +164,6 @@ struct Directory *checkalltot(struct DirectoryWindow *);
 struct Directory *findfile(struct DirectoryWindow *, char *, int *);
 int delfile(char *, char *, char *, int, int);
 int getwildrename(char *, char *, char *, char *);
-void filloutcopydata(struct Directory *);
-void filloutcopydatafile(char *);
 void update_buffer_stamp(int, int);
 int check_key_press(struct dopusfunction *, USHORT, USHORT);
 
@@ -214,8 +211,6 @@ void fix_stringex(struct StringExtend *);
 struct Gadget *addreqgadgets(struct RequesterBase *, struct TagItem **, int, int *);
 void set_reqobject_text(struct TagItem *, char *);
 void set_reqobject(struct TagItem *, ULONG, ULONG);
-//void FadeRGB32(struct Screen *, ULONG *, int, int, int);
-//void FadeRGB4(struct Screen *, UWORD *, int, int, int);
 void removewindowgadgets(struct Window *);
 
 /* main9.c */
@@ -322,7 +317,6 @@ int simplerequest(char *, ...);
 int whatsit(char *, int, const char *, char *);
 struct dopusfiletype *checkfiletype(char *, int, int);
 int checkfiletypefunc(char *, int);
-//int dochecktype(struct dopusfiletype *, char *, int, struct FileInfoBlock *);
 int dochecktype(struct dopusfiletype *, char *, int, struct ExamineData *);
 int checktypechars(int, char *, int);
 int64 typesearch(int, char *, int, char *, int);

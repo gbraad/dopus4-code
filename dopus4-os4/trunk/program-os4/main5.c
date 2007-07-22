@@ -462,34 +462,6 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 	return (0);
 }
 
-void filloutcopydata(struct Directory *dir)
-{
-	dos_copy_date.ds_Days = dir->date.ds_Days;
-	dos_copy_date.ds_Minute = dir->date.ds_Minute;
-	dos_copy_date.ds_Tick = dir->date.ds_Tick;
-	dos_copy_protection = dir->protection;
-	if(dir->comment)
-		strcpy(dos_copy_comment, dir->comment);
-	else
-		dos_copy_comment[0] = 0;
-}
-
-void filloutcopydatafile(STRPTR fil)
-{
-	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-
-	if(lockandexamine(fil, fileinfo))
-	{
-		dos_copy_date.ds_Days = fileinfo->fib_Date.ds_Days;
-		dos_copy_date.ds_Minute = fileinfo->fib_Date.ds_Minute;
-		dos_copy_date.ds_Tick = fileinfo->fib_Date.ds_Tick;
-		dos_copy_protection = fileinfo->fib_Protection;
-		strcpy(dos_copy_comment, fileinfo->fib_Comment);
-	}
-
-	IDOS->FreeDosObject(DOS_FIB, NULL);
-}
-
 void update_buffer_stamp(int win, int true)
 {
 	struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);
@@ -504,7 +476,7 @@ void update_buffer_stamp(int win, int true)
 
 	dirwin = dopus_curwin[win];
 	strcpy(dirbuf, str_pathbuffer[win]);
-	FOREVER
+	for(;;)
 	{
 		if(true)
 		{

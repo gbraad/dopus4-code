@@ -1327,7 +1327,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(a == 1 && (tempfile = findfile(dwindow, namebuf, NULL)))
 				{
 					if(!noremove)
+					{
 						removefile(tempfile, dwindow, inact, (tempfile->type != file->type));
+					}
 					exist = 0;
 				}
 			}
@@ -1344,13 +1346,26 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					byte = dos_global_copiedbytes;
 				}
 				if(config->copyflags & COPY_DATE)
+				{
 					IDOS->SetFileDate(destname, &file->date);
+				}
 
 				if(!a && !func_external_file[0])
 				{
 					setdirsize(file, dos_global_bytecount, act);
 					refreshwindow(act, 0);
-					filloutcopydata(file);
+					dos_copy_date.ds_Days = file->date.ds_Days;
+					dos_copy_date.ds_Minute = file->date.ds_Minute;
+					dos_copy_date.ds_Tick = file->date.ds_Tick;
+					dos_copy_protection = file->protection;
+					if(file->comment)
+					{
+						strcpy(dos_copy_comment, file->comment);
+					}
+					else
+					{
+						dos_copy_comment[0] = 0;
+					}
 				}
 				else if(a == -1 || a == -10)
 				{
