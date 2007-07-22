@@ -364,18 +364,20 @@ int checkfiletypefunc(char *name, int fn)
 
 struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 {
-	struct FileInfoBlock *info = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct ExamineData *exadat;
 	struct dopusfiletype *type;
 	int file;
 
-	if(!(lockandexamine(fullname, info)))
+	if((exadat = IDOS->ExamineObjectTags(EX_StringName, fullname, TAG_END)))
 	{
-		IDOS->FreeDosObject(DOS_FIB, info);
-		return (NULL);
+		if(!(file = IDOS->Open(fullname, MODE_OLDFILE)))
+		{
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
+			return (NULL);
+		}
 	}
-	if(!(file = IDOS->Open(fullname, MODE_OLDFILE)))
+	else
 	{
-		IDOS->FreeDosObject(DOS_FIB, info);
 		return (NULL);
 	}
 
@@ -388,10 +390,10 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 		}
 		if(ftype == -2)
 		{
-			if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, info)))
+			if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, exadat)))
 			{
 				IDOS->Close(file);
-				IDOS->FreeDosObject(DOS_FIB, info);
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
 				return (type);
 			}
 		}
@@ -399,10 +401,10 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 		{
 			if(!funconly || (type->function[ftype] && type->function[ftype][0]))
 			{
-				if(type->recognition && dochecktype(type, fullname, file, info) && (ftype == -1 || (type->function[ftype] && type->function[ftype][0])))
+				if(type->recognition && dochecktype(type, fullname, file, exadat) && (ftype == -1 || (type->function[ftype] && type->function[ftype][0])))
 				{
 					IDOS->Close(file);
-					IDOS->FreeDosObject(DOS_FIB, info);
+					IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
 					return (type);
 				}
 			}
@@ -410,11 +412,11 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 		type = type->next;
 	}
 	IDOS->Close(file);
-	IDOS->FreeDosObject(DOS_FIB, info);
+	IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
 	return (NULL);
 }
 
-int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInfoBlock *info)
+int dochecktype(struct dopusfiletype *type, char *name, int file, struct ExamineData *exadat)
 {
 	char buf[514], buf2[1024], *recog;
 	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, err = 0, gotone = 0, test;
@@ -452,18 +454,18 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 				break;
 			case FTYC_MATCHNAME:
 				IDOS->ParsePatternNoCase(buf, buf2, 1024);
-				if(!(IDOS->MatchPatternNoCase(buf2, info->fib_FileName)))
+				if(!(IDOS->MatchPatternNoCase(buf2, exadat->Name)))
 					fail = 1;
 				break;
 			case FTYC_MATCHBITS:
 				getprotselvals(buf, prot);
-				tprot = ((~info->fib_Protection) & 15) + (info->fib_Protection & ~15);
+				tprot = ((~exadat->Protection) & 15) + (exadat->Protection & ~15);
 				if(!((tprot & prot[0]) == prot[0] && ((tprot & ~prot[0]) & prot[1]) == 0))
 					fail = 1;
 				break;
 			case FTYC_MATCHCOMMENT:
 				IDOS->ParsePatternNoCase(buf, buf2, 1024);
-				if(!(IDOS->MatchPatternNoCase(buf2, info->fib_Comment)))
+				if(!(IDOS->MatchPatternNoCase(buf2, exadat->Comment)))
 					fail = 1;
 				break;
 			case FTYC_MATCHSIZE:
@@ -493,17 +495,17 @@ int dochecktype(struct dopusfiletype *type, char *name, int file, struct FileInf
 				}
 				if(equ != 2)
 				{
-					if(equ == -1 && info->fib_Size >= val)
+					if(equ == -1 && exadat->FileSize >= val)
 						fail = 1;
-					else if(equ == 0 && info->fib_Size != val)
+					else if(equ == 0 && exadat->FileSize != val)
 						fail = 1;
-					else if(equ == 1 && info->fib_Size <= val)
+					else if(equ == 1 && exadat->FileSize <= val)
 						fail = 1;
 				}
 				break;
 			case FTYC_MATCHDATE:
 				getseldatestamps(buf, &ds1, &ds2);
-				if(IDOS->CompareDates(&(info->fib_Date), &ds1) < 0 || IDOS->CompareDates(&ds2, &(info->fib_Date)) < 0)
+				if(IDOS->CompareDates(&(exadat->Date), &ds1) < 0 || IDOS->CompareDates(&ds2, &(exadat->Date)) < 0)
 					fail = 1;
 				break;
 			case FTYC_MOVETO:

@@ -82,7 +82,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		goto failed;
 
 	buffer_size = size;
-	if(buffer_size > (10 * 1024 *1024))
+	if(buffer_size > (10 * 1024 * 1024))
 	{
 		buffer_size = 10 * 1024 * 1024;
 	}

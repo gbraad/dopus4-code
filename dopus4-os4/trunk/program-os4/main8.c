@@ -92,68 +92,47 @@ int getprotval(STRPTR buf)
 
 int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int all)
 {
-	struct FileInfoBlock *d_fib = IDOS->AllocDosObject(DOS_FIB, NULL);
-	struct FileInfoBlock *s_fib = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct ExamineData *sdata, *ddata;
 	char buf[400], datebuf1[40], datebuf2[40];
-	int a, suc_dfib;
+	int a;
 	struct DateStamp ds;
-
-	if(d_fib && s_fib)
-	{
-		if(!(lockandexamine(sourcename, s_fib)))
-		{
-			IDOS->FreeDosObject(DOS_FIB, d_fib);
-			IDOS->FreeDosObject(DOS_FIB, s_fib);
-			return (REPLACE_OK);
-		}
-		if(!(suc_dfib = lockandexamine(destname, d_fib)))
-		{
-			IDOS->FreeDosObject(DOS_FIB, d_fib);
-			IDOS->FreeDosObject(DOS_FIB, s_fib);
-			return (REPLACE_OK);
-		}
-	}
-	else
-	{
-		IDOS->FreeDosObject(DOS_FIB, d_fib);
-		IDOS->FreeDosObject(DOS_FIB, s_fib);
-		return (REPLACE_SKIP);
-	}
-
-//	if(suc_dfib && d_fib->fib_DirEntryType > 0)
-/*	if(suc_dfib && FIB_IS_DRAWER(d_fib))
-	{
-//		if(s_fib->fib_DirEntryType < 0)
-		if(FIB_IS_FILE(s_fib))
-		{
-			doerror(ERROR_OBJECT_EXISTS);
-			IDOS->FreeDosObject(DOS_FIB, d_fib);
-			IDOS->FreeDosObject(DOS_FIB, s_fib);
-			return (REPLACE_ABORT);
-		}
-		IDOS->FreeDosObject(DOS_FIB, d_fib);
-		IDOS->FreeDosObject(DOS_FIB, s_fib);
-		return (REPLACE_OK);
-	}
-*/
-
-	if(suc_dfib && FIB_IS_DRAWER(d_fib))
-	{
-		if(FIB_IS_DRAWER(s_fib))
-		{
-			IDOS->FreeDosObject(DOS_FIB, d_fib);
-			IDOS->FreeDosObject(DOS_FIB, s_fib);
-			return (REPLACE_OK);
-		}
-	}
 
 	if(config->existflags & REPLACE_ALWAYS)
 	{
-		IDOS->FreeDosObject(DOS_FIB, d_fib);
-		IDOS->FreeDosObject(DOS_FIB, s_fib);
 		return (REPLACE_OK);
 	}
-	else if(config->existflags & REPLACE_NEVER)
+
+	if(!(sdata = IDOS->ExamineObjectTags(EX_StringName, sourcename, TAG_END)))
+ 	{
+		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
+		{
+			return (REPLACE_OK);
+		}
+		else
+		{
+			return (REPLACE_SKIP);
+		}
+	}
+	if(!(ddata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
+ 	{
+		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
+		{
+			return (REPLACE_OK);
+		}
+		else
+		{
+			return (REPLACE_SKIP);
+		}
+	}
+
+	if(EXD_IS_DIRECTORY(ddata) && EXD_IS_DIRECTORY(sdata))
+	{
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+		return (REPLACE_OK);
+	}
+
+	if(config->existflags & REPLACE_NEVER)
 	{
 		doerror(ERROR_OBJECT_EXISTS);
 	}
@@ -164,12 +143,12 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			IDOS->DateStamp(&ds);
 			date = &ds;
 		}
-		if(suc_dfib)
+		if(ddata)
 		{
-			if(IDOS->CompareDates(date, &(d_fib->fib_Date)) > 0)
+			if(IDOS->CompareDates(date, &(ddata->Date)) > 0)
 			{
-				IDOS->FreeDosObject(DOS_FIB, d_fib);
-				IDOS->FreeDosObject(DOS_FIB, s_fib);
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
 				return (REPLACE_OK);
 			}
 			doerror(ERROR_OBJECT_EXISTS);
@@ -178,34 +157,34 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	else if(config->existflags & REPLACE_ASK)
 	{
 		doerror(ERROR_OBJECT_EXISTS);
-		if(sourcename == destname || !suc_dfib)
+		if(sourcename == destname || !ddata)
 		{
 			sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 		}
 		else
 		{
-			seedate(&s_fib->fib_Date, datebuf1, 0);
-			seedate(&d_fib->fib_Date, datebuf2, 0);
+			seedate(&sdata->Date, datebuf1, 0);
+			seedate(&ddata->Date, datebuf2, 0);
 
-			if(FIB_IS_DRAWER(d_fib) && FIB_IS_DRAWER(s_fib))
+			if(EXD_IS_DIRECTORY(ddata) && EXD_IS_DIRECTORY(sdata))
 			{
 				/* Both entries are directories */
 				sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 			}
-			else if(FIB_IS_DRAWER(d_fib))
+			else if(EXD_IS_DIRECTORY(ddata))
 			{
 				/* Destination is directory, source is file */
-				sprintf(buf, globstring[STR_REPLACE_DIR_WITH_FILE], IDOS->FilePart(destname), s_fib->fib_Size, datebuf1, datebuf2);
+				sprintf(buf, globstring[STR_REPLACE_DIR_WITH_FILE], IDOS->FilePart(destname), sdata->FileSize, datebuf1, datebuf2);
 			}
-			else if(FIB_IS_DRAWER(s_fib))
+			else if(EXD_IS_DIRECTORY(sdata))
 			{
 				/* Source is directory, destination is file */
-				sprintf(buf, globstring[STR_REPLACE_FILE_WITH_DIR], IDOS->FilePart(destname), datebuf1, d_fib->fib_Size, datebuf2);
+				sprintf(buf, globstring[STR_REPLACE_FILE_WITH_DIR], IDOS->FilePart(destname), datebuf1, ddata->FileSize, datebuf2);
 			}
 			else
 			{
 				/* Both entries are files */
-				sprintf(buf, globstring[STR_OLD_NEW_FILE_REPLACE], IDOS->FilePart(destname), s_fib->fib_Size, datebuf1, d_fib->fib_Size, datebuf2);
+				sprintf(buf, globstring[STR_OLD_NEW_FILE_REPLACE], IDOS->FilePart(destname), sdata->FileSize, datebuf1, ddata->FileSize, datebuf2);
 			}
 		}
 		do
@@ -229,12 +208,12 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			}
 		}
 		while(IDOpus->CheckExist(destname, NULL));
-		IDOS->FreeDosObject(DOS_FIB, d_fib);
-		IDOS->FreeDosObject(DOS_FIB, s_fib);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
 		return (a);
 	}
-	IDOS->FreeDosObject(DOS_FIB, d_fib);
-	IDOS->FreeDosObject(DOS_FIB, s_fib);
+	IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+	IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
 	return REPLACE_SKIP;
 }
 
@@ -674,165 +653,6 @@ void set_reqobject(struct TagItem *object, uint32 tagmatch, uint32 data)
 		}
 	}
 }
-
-/*
-void FadeRGB32(struct Screen *screen, uint32 *cmap, int count, int dir, int fadetime)
-{
-	ULONG *tempmap;
-	int i, j, s, t, n, mod, val, orval, maxval;
-	struct timerequest treq;
-	struct MsgPort *fade_port = NULL;
-	struct DisplayInfo dinfo;
-
-	if(!(tempmap = IExec->AllocMem(((count * 3) + 2) * sizeof(ULONG), MEMF_CLEAR)) || fadetime < 1 || !(fade_port = IExec->CreatePort(NULL, 0)) || !(IGraphics->GetDisplayInfoData(NULL, (char *)&dinfo, sizeof(struct DisplayInfo), DTAG_DISP, IGraphics->GetVPModeID(&screen->ViewPort))) || (IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, &treq.tr_node, 0)))
-	{
-		if(tempmap)
-		{
-			IExec->CopyMem((char *)cmap, (char *)&tempmap[1], count * 3 * sizeof(ULONG));
-			tempmap[0] = count << 16;
-			IGraphics->LoadRGB32(&screen->ViewPort, tempmap);
-		}
-		else
-		{
-			load_palette(screen, cmap);
-		}
-	}
-	else
-	{
-		maxval = 1 << dinfo.RedBits;
-		if(dinfo.RedBits < 4)
-			i = 1;
-		else
-			i = maxval >> 4;
-
-		tempmap[0] = count << 16;
-
-		if(dir == 1)
-		{
-			s = maxval - 1;
-			t = -1;
-			n = -i;
-			IGraphics->LoadRGB32(&screen->ViewPort, tempmap);
-		}
-		else
-		{
-			s = 1;
-			t = maxval;
-			n = i;
-		}
-		mod = 32 - dinfo.RedBits;
-		orval = (1 << mod) - 1;
-
-		treq.tr_node.io_Message.mn_ReplyPort = fade_port;
-		treq.tr_node.io_Command = TR_ADDREQUEST;
-		treq.tr_node.io_Flags = 0;
-
-		for(i = s; i += n;)
-		{
-			if(dir == 1)
-			{
-				if(i <= t)
-					break;
-			}
-			else
-			{
-				if(i >= t)
-					break;
-			}
-			for(j = 0; j < count * 3; j++)
-			{
-				val = (cmap[j] >> mod) - i;
-				if(val < 0)
-					val = 0;
-				else if(val >= maxval)
-					val = maxval - 1;
-				tempmap[j + 1] = (val << mod) | orval;
-			}
-
-			treq.tr_time.tv_secs = 0;
-			treq.tr_time.tv_micro = fadetime * 22000;
-			IExec->SendIO(&treq.tr_node);
-			IGraphics->WaitBOVP(&screen->ViewPort);
-			IGraphics->LoadRGB32(&screen->ViewPort, tempmap);
-			IExec->WaitIO(&treq.tr_node);
-		}
-		if(dir > 0)
-			IExec->CopyMem((char *)cmap, (char *)&tempmap[1], count * 3 * sizeof(ULONG));
-		else
-			for(j = 0; j < count * 3; j++)
-				tempmap[j + 1] = 0;
-		IGraphics->LoadRGB32(&screen->ViewPort, tempmap);
-		IExec->CloseDevice(&treq.tr_node);
-	}
-	if(fade_port)
-		IExec->DeletePort(fade_port);
-	if(tempmap)
-		IExec->FreeMem(tempmap, ((count * 3) + 2) * sizeof(ULONG));
-}
-
-void FadeRGB4(struct Screen *screen, uint16 *cmap, int count, int dir, int fadetime)
-{
-	UWORD *tempmap = NULL;
-	int8 red, green, blue;
-	int i, j, s, t, n;
-	struct timerequest treq;
-	struct MsgPort *fade_port = NULL;
-
-	if(dir == 1)
-	{
-		s = 15;
-		t = -1;
-		n = -1;
-	}
-	else
-	{
-		s = 1;
-		t = 16;
-		n = 1;
-	}
-
-	if(fadetime < 1 || !(tempmap = IExec->AllocMem(count * sizeof(UWORD), MEMF_CLEAR)) || !(fade_port = IExec->CreatePort(NULL, 0)) || (IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, &treq.tr_node, 0)))
-	{
-		IGraphics->LoadRGB4(&screen->ViewPort, cmap, count);
-	}
-	else
-	{
-		treq.tr_node.io_Message.mn_ReplyPort = fade_port;
-		treq.tr_node.io_Command = TR_ADDREQUEST;
-		treq.tr_node.io_Flags = 0;
-
-		if(dir == 1)
-			IGraphics->LoadRGB4(&screen->ViewPort, tempmap, count);
-		for(i = s; i != t; i += n)
-		{
-			for(j = 0; j < count; j++)
-			{
-				red = ((cmap[j] >> 8) & 0xf) - i;
-				green = ((cmap[j] >> 4) & 0xf) - i;
-				blue = (cmap[j] & 0xf) - i;
-				if(red < 0)
-					red = 0;
-				if(green < 0)
-					green = 0;
-				if(blue < 0)
-					blue = 0;
-				tempmap[j] = (UWORD) red << 8 | (UWORD) green << 4 | (UWORD) blue;
-			}
-			treq.tr_time.tv_secs = 0;
-			treq.tr_time.tv_micro = fadetime * 20000;
-			IExec->SendIO(&treq.tr_node);
-			IGraphics->WaitBOVP(&screen->ViewPort);
-			IGraphics->LoadRGB4(&screen->ViewPort, tempmap, count);
-			IExec->WaitIO(&treq.tr_node);
-		}
-		IExec->CloseDevice(&treq.tr_node);
-	}
-	if(fade_port)
-		IExec->DeletePort(fade_port);
-	if(tempmap)
-		IExec->FreeMem(tempmap, count * sizeof(UWORD));
-}
-*/
 
 void removewindowgadgets(struct Window *window)
 {
