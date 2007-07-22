@@ -63,7 +63,7 @@ the existing commercial status of Directory Opus 5.
 
 /* File requester definition structure */
 
-#define DIRBUF_SIZE  256
+//#define DIRBUF_SIZE  256
 #define FILEBUF_SIZE 108	// 32
 
 struct DOpusFileReq
@@ -103,12 +103,12 @@ struct DOpusFileReq
 #define LOCK_SAME_VOLUME  1
 
 /* return values of Assign() */
-
+/*
 #define ASSIGN_OK     0
 #define ASSIGN_NODEV  1
 #define ASSIGN_NOMEM  2
 #define ASSIGN_CANCEL 3
-
+*/
 /* DOpusDateTime structure for StampToStr() and StrToStamp() */
 
 #define DDTB_SUBST  0

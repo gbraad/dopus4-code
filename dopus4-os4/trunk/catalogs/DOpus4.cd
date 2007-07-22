@@ -648,8 +648,8 @@ Playing selected animation...
 ;
 STR_OLD_NEW_FILE_REPLACE (//)
 \"%s\" already exists! Replace?\n\n\
-New  -  Size : %7ld  Date : %19s\n\
-Old  -  Size : %7ld  Date : %19s
+New  -  Size : %9lld  Date : %19s\n\
+Old  -  Size : %9lld  Date : %19s
 ;
 STR_REMAINING (//)
 %ld of %ld items
