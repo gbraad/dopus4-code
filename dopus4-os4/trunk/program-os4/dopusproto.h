@@ -221,7 +221,7 @@ void SetDrawModes(struct RastPort *, UBYTE, UBYTE, UBYTE);
 void do3dbox(struct RastPort *, int, int, int, int);
 
 /* main10.c */
-void initdatetime(struct /*DOpus*/DateTime *, char *, char *, int);
+void initdatetime(struct DateTime *, char *, char *, int);
 void doarexx(int);
 void setcurdir(int);
 void dodevicelist(int);

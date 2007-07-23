@@ -241,36 +241,6 @@ int entryorder(int sortmethod, int reverse, struct Directory *entry1, struct Dir
 			return 1;
 		break;
 
-	case DISPLAY_OWNER:
-		if(entry2->network && entry2->network->owner && entry1->network && entry1->network->owner)
-			a = strcmp(entry2->network->owner, entry1->network->owner);
-		else if(entry2->network && entry2->network->owner)
-			a = 1;
-		else if(entry1->network && entry1->network->owner)
-			a = -1;
-		else
-			a = 0;
-		if(a == 0)
-			goto sortname;
-		if((reverse && a > 0) || (!reverse && a < 0))
-			return 1;
-		break;
-
-	case DISPLAY_GROUP:
-		if(entry2->network && entry2->network->group && entry1->network && entry1->network->group)
-			a = strcmp(entry2->network->group, entry1->network->group);
-		else if(entry2->network && entry2->network->group)
-			a = 1;
-		else if(entry1->network && entry1->network->group)
-			a = -1;
-		else
-			a = 0;
-		if(a == 0)
-			goto sortname;
-		if((reverse && a > 0) || (!reverse && a < 0))
-			return 1;
-		break;
-
 	case DISPLAY_NETPROT:
 		a = entry1->protection & (~255);
 		b = entry2->protection & (~255);
@@ -316,7 +286,6 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 	newentry->comment = NULL;
 	newentry->dispstr = NULL;
 	newentry->description = NULL;
-	newentry->network = NULL;
 
 	newentry->size = size;
 	newentry->type = type;
@@ -1009,7 +978,6 @@ void busy()
 		endnotifies();
 		status_flags |= STATUS_BUSY;
 	}
-//	IDOpus->SetBusyPointer(Window);
 	IIntuition->SetWindowPointer(Window, WA_BusyPointer, TRUE, WA_PointerDelay, TRUE, TAG_DONE);
 }
 
@@ -1029,7 +997,6 @@ void unbusy()
 		size_gadgets[1].GadgetType = GTYP_SIZING;
 		status_flags &= ~STATUS_BUSY;
 	}
-//	IIntuition->ClearPointer(Window);
 	IIntuition->SetWindowPointer(Window, TAG_DONE);
 }
 
@@ -1045,17 +1012,6 @@ void free_file_memory(struct Directory *file)
 
 		if(file->description)
 			IExec->FreePooled(dir_memory_pool, file->description, strlen(file->description) + 1);
-
-		if(file->network)
-		{
-			if(file->network->owner)
-				IExec->FreePooled(dir_memory_pool, file->network->owner, strlen(file->network->owner) + 1);
-
-			if(file->network->group)
-				IExec->FreePooled(dir_memory_pool, file->network->group, strlen(file->network->group) + 1);
-
-			IExec->FreePooled(dir_memory_pool, file->network, sizeof(struct NetworkStuff));
-		}
 
 		IExec->FreePooled(dir_memory_pool, file, sizeof(struct Directory));
 	}

@@ -28,6 +28,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
+#include <proto/asl.h>
 
 enum
 {
@@ -245,18 +246,8 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 					break;
 				case MAKELINK_DESTSELECT:
 					{
-						struct DOpusFileReq filereq;
+						struct FileRequester *aslreq;
 						char dirbuf[1024], filebuf[FILEBUF_SIZE], *ptr;
-
-						filereq.dirbuf = dirbuf;
-						filereq.filebuf = filebuf;
-						filereq.window = swindow;
-						filereq.x = -2;
-						filereq.y = -2;
-						filereq.lines = 15;
-						filereq.flags = 0;
-						filereq.title = globstring[STR_FILE_REQUEST];
-						filereq.filearraykey = NULL;
 
 						IDOpus->LStrCpy(dirbuf, makelink_destbuf);
 						if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
@@ -273,15 +264,19 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 						{
 							filebuf[0] = 0;
 						}
-						if(IDOpus->FileRequest(&filereq))
+						if((aslreq = IAsl->AllocAslRequestTags(ASL_FileRequest, ASLFR_Window, swindow, ASLFR_TitleText, globstring[STR_FILE_REQUEST], ASLFR_InitialFile, filebuf, ASLFR_InitialDrawer, dirbuf, TAG_END)))
 						{
-							IDOpus->LStrCpy(makelink_destbuf, dirbuf);
-							IDOS->AddPart(makelink_destbuf, filebuf, 256);
+							if(IAsl->AslRequest(aslreq, NULL))
+							{
+								IDOpus->LStrCpy(makelink_destbuf, aslreq->fr_Drawer);
+								IDOS->AddPart(makelink_destbuf, aslreq->fr_File, 256);
+							}
+							IDOpus->RefreshStrGad(makelink_destname_gad, swindow);
+							IDOpus->ActivateStrGad(makelink_destname_gad, swindow);
+							IAsl->FreeAslRequest(aslreq);
 						}
-						IDOpus->RefreshStrGad(makelink_destname_gad, swindow);
-						IDOpus->ActivateStrGad(makelink_destname_gad, swindow);
-						break;
 					}
+					break;
 				case MAKELINK_OKAY:
 					ret = 1;
 					strcpy(namebuf, str_pathbuffer[data_active_window]);
@@ -300,7 +295,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 
 int makelink(int rexx)
 {
-	char name[256], path[256];
+	char name[256], path[2048];
 	int mode;
 
 	name[0] = path[0] = mode = 0;
