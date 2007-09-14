@@ -27,6 +27,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+/*
 #define FILEBASE 1
 #define FILENAME 1000
 #define DRAWERNAME 1001
@@ -38,7 +39,7 @@ the existing commercial status of Directory Opus 5.
 #define DRIVES 1007
 #define PARENT 1008
 
-//#define INTERRUPT 2000
+#define INTERRUPT 2000
 
 
 struct direntry
@@ -78,3 +79,5 @@ struct FileReqData
 #define DFRF_DIRREQ (1<<DFRB_DIRREQ)
 #define DFRF_MULTI  (1<<DFRB_MULTI)
 #define DFRF_SAVE   (1<<DFRB_SAVE)
+*/
+

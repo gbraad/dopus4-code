@@ -807,7 +807,8 @@ void iconify(int louise, int buttons, int banknum)
 			IExec->SendIO(&iconify_timereq.Request);
 			if(cdelay)
 			{
-				if(!(--cdelay) && !system_version2)
+//				if(!(--cdelay) && !system_version2)
+				if(!(--cdelay))
 				{
 					old = Window->Title;
 					IIntuition->SetWindowTitles(Window, str_space_string, (char *)-1);

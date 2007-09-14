@@ -320,7 +320,6 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 	char buf[300], buf2[100];
 
       loop:
-//	suc = IDOS->DeleteFile(name);
 	if(!(suc = IDOS->DeleteFile(name)))
 	{
 		if((err = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)

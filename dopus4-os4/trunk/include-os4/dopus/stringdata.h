@@ -53,28 +53,4 @@ struct StringData
 	struct Catalog *catalog;	// JRZ
 };
 
-
-/* IFF definitions for the external string file */
-
-#define ID_OSTR MAKE_ID('O','S','T','R')
-#define ID_STHD MAKE_ID('S','T','H','D')
-#define ID_STRN MAKE_ID('S','T','R','N')
-
-typedef struct StringFile_Header
-{
-	ULONG header_id;	/* STHD */
-	ULONG header_size;
-	ULONG version;
-	ULONG stringcount;
-	ULONG flags;
-	char language[20];
-} StringHeader;
-
-typedef struct StringFile_String
-{
-	ULONG chunk_id;		/* STRN */
-	ULONG chunk_size;
-	ULONG string_id;
-} String;
-
 #endif /* DOPUS_STRINGDATA_H */

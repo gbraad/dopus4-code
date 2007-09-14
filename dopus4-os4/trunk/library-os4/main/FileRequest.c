@@ -32,7 +32,7 @@
 #include <dopus/config.h>
 #include <dopus/stringdata.h>
 #include <proto/dopus.h>
-#include <dopus/filereq.h>
+//#include <dopus/filereq.h>
 #include <stdarg.h>
 
 #include "extras.h"

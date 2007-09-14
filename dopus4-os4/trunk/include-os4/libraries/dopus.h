@@ -111,6 +111,7 @@ struct DOpusFileReq
 */
 /* DOpusDateTime structure for StampToStr() and StrToStamp() */
 
+
 #define DDTB_SUBST  0
 #define DDTB_FUTURE 1
 
@@ -122,6 +123,7 @@ struct DOpusFileReq
 
 #define DDTF_CUSTOM (1<<DDTB_CUSTOM)
 #define DDTF_12HOUR (1<<DDTB_12HOUR)
+
 
 /* ListView definition structure */
 

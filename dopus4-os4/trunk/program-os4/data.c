@@ -203,7 +203,7 @@ ULONG time_current_micro /*=0*/ ;		/* Current Micro (from Intuition) */
 ULONG time_previous_sec /*=0*/ ;		/* Previous Second (from Intuition) */
 ULONG time_previous_micro /*=0*/ ;		/* Previous Micro (from Intuition) */
 
-UBYTE system_version2 /*=0*/ ;			/* OS version 2 or greater */
+//UBYTE system_version2 /*=0*/ ;			/* OS version 2 or greater */
 int system_dopus_runcount /*=0*/ ;		/* Run count of this copy */
 
 USHORT scr_gadget_rows /*=0*/ ;			/* Number of button rows */

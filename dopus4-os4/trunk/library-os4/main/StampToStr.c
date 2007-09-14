@@ -100,12 +100,10 @@ void _DOpus_StampToStr(struct DOpusIFace *Self, struct DateTime *datetime)
 					hr = 12;
 				ampm = 0;
 			}
-//			LSprintf(datetime->dat_StrTime, "%2ld:%02ld:%02ld%lc", hr, min, sec, (ampm) ? 'P' : 'A');
 			sprintf(datetime->dat_StrTime, "%2ld:%02ld:%02ld%lc", hr, min, sec, (ampm) ? 'P' : 'A');
 		}
 		else
 		{
-//			LSprintf(datetime->dat_StrTime, "%02ld:%02ld:%02ld", hr, min, sec);
 			sprintf(datetime->dat_StrTime, "%02ld:%02ld:%02ld", hr, min, sec);
 		}
 	}

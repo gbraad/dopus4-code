@@ -30,13 +30,6 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-struct NetworkStuff
-{
-	char *owner;
-	char *group;
-	char net_protbuf[10];
-};
-
 struct Directory
 {
 	struct Directory *last, *next;
@@ -53,7 +46,6 @@ struct Directory
 	int userdata, userdata2;
 	struct DateStamp date;
 	UWORD owner_id, group_id;
-	struct NetworkStuff *network;
 	char *extension;
 };
 

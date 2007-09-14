@@ -1608,7 +1608,8 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			break;
 
 		case MOD_WINDOWXYWH:
-			if(rexx_argcount < 4 || !system_version2)
+//			if(rexx_argcount < 4 || !system_version2)
+			if(rexx_argcount < 4)
 				break;
 			config->wbwinx = b;
 			config->wbwiny = atoi(rexx_args[2]);

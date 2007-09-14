@@ -29,37 +29,83 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-uint32 recursive_delete(STRPTR directory, STRPTR destination, uint32 dowhat, uint32 data)
+uint32 recursive_delete(STRPTR directory)
 {
-	uint32 success = FALSE;
+	uint32 ret = 0, a, x;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
+	int32 errorcode;
+	char buf[300], buf2[100];
 
 	if(context)
 	{
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
 		{
+/*			if(EXD_IS_SOFTLINK(dat))
+			{
+			}
+			if(EXD_IS_PIPE(dat))
+			{
+			}
+			if(EXD_IS_SOCKET(dat))
+			{
+			}*/
 			if(EXD_IS_LINK(dat))
 			{
 				IExec->DebugPrintF("link = %s points to %s\n", dat->Name, dat->Link);
 			}
 			else if(EXD_IS_FILE(dat))
 			{
-				IExec->DebugPrintF("filename = %s\n", dat->Name);
+				dofilename(dat->Name);
+
+				if(!(IDOS->DeleteFile(dat->Name)))
+				{
+					if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
+					{
+						IExec->DebugPrintF("Object not found!\n");
+					}
+					else if(errorcode == ERROR_DELETE_PROTECTED)
+					{
+						if((config->deleteflags & DELETE_SET) || glob_unprotect_all)
+						{
+							IDOS->SetProtection(dat->Name, 0);
+							IDOS->DeleteFile(dat->Name);
+						}
+						else
+						{
+							/* Requester here! */
+						}
+					}
+					else
+					{
+						IExec->DebugPrintF("Something else!\n");
+					}
+				}
 			}
 			else if(EXD_IS_DIRECTORY(dat))
 			{
-				IExec->DebugPrintF("dirname = %s\n", dat->Name);
-				if(!recursive_delete(dat->Name, NULL, R_DELETE, 0))
+				if(recursive_delete(dat->Name))
 				{
 					break;
 				}
-				IExec->DebugPrintF("Back from Recurse!\n");
+
+				if(IDOS->DeleteFile(dat->Name))
+				{
+				}
+				else
+				{
+					if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
+					{
+					}
+					else
+					{
+					}
+				}
 			}
 		}
 		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
 		{
-			success = TRUE;
+			ret = 0;
 		}
 		else
 		{
@@ -71,7 +117,7 @@ uint32 recursive_delete(STRPTR directory, STRPTR destination, uint32 dowhat, uin
 		IExec->DebugPrintF("Error: %ld\n", IDOS->IoErr(), NULL);
 	}
 	IDOS->ReleaseDirContext(context);
-	return (success);
+	return (ret);
 }
 
 struct makedirlist
