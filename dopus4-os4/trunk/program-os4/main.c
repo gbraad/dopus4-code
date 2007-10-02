@@ -245,13 +245,6 @@ int main(int argc, char **argv)
 		}
 	}
 
-	for(a = 0; a < 2; a++)
-	{
-//		if((dos_notify_req[a] = IDOpus->LAllocRemember(&general_key, sizeof(struct NotifyRequest), MEMF_ANY | MEMF_CLEAR)))
-		if((dos_notify_req[a] = IExec->AllocPooled(general_memory_pool, sizeof(struct NotifyRequest))))
-			dos_notify_req[a]->nr_Name = dos_notify_names[a];
-	}
-
 	if(!CxBase && ICommodities)
 	{
 		if(!(input_req = (struct IOStdReq *)IExec->CreateIORequest(general_port, sizeof(struct IOStdReq))))
