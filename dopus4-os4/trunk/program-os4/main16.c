@@ -131,7 +131,6 @@ int setupfontdisplay(int depth, UWORD *coltab)
 		}
 	}
 	IGraphics->LoadRGB4(&fontscreen->ViewPort, nullpalette, 1 << depth);
-//	setnullpointer(fontwindow);
 	return (1);
 }
 
@@ -196,10 +195,8 @@ void doreadhelp(char *file)
 				if(b == 9999 || helpbuf[a] == '\n')
 				{
 					buf[b] = 0;
-//					if(!(temph = IDOpus->LAllocRemember(&help_key, sizeof(struct Help), MEMF_CLEAR)))
 					if(!(temph = IExec->AllocPooled(help_memory_pool, sizeof(struct Help))))
 						break;
-//					if(!(temph->lookup = IDOpus->LAllocRemember(&help_key, b + 1, MEMF_CLEAR)))
 					if(!(temph->lookup = IExec->AllocPooled(help_memory_pool, b + 1)))
 						break;
 					IExec->CopyMem(buf, temph->lookup, b);
@@ -223,7 +220,6 @@ void doreadhelp(char *file)
 					if(curhelp)
 					{
 						buf[b] = 0;
-//						if(!(curhelp->message = IDOpus->LAllocRemember(&help_key, b + 1, MEMF_CLEAR)))
 						if(!(curhelp->message = IExec->AllocPooled(help_memory_pool, b + 1)))
 							break;
 						IExec->CopyMem(buf, curhelp->message, b);
@@ -242,7 +238,7 @@ void doreadhelp(char *file)
 	IExec->FreeVec(helpbuf);
 }
 
-static STRPTR helpcontext[] =
+CONST_STRPTR helpcontext[] =
 {
 	"Main",
 	"About",
@@ -268,7 +264,6 @@ static STRPTR helpcontext[] =
 	"Clone",
 	"Comment",
 	"Configure",
-//	"ContST",
 	"Copy",
 	"CopyAs",
 	"CopyWindow",
@@ -276,8 +271,6 @@ static STRPTR helpcontext[] =
 	"Defaults",
 	"Delete",
 	"DirTree",
-//	"DiskCopy",
-//	"DiskCopyBG",
 	"DiskInfo",
 	"DisplayDir",
 	"DOpusToBack",
@@ -288,8 +281,6 @@ static STRPTR helpcontext[] =
 	"Extract",
 	"FileInfo",
 	"FinishSection",
-//	"Format",
-//	"FormatBG",
 	"GetAll",
 	"GetDevices",
 	"GetDirs",
@@ -306,8 +297,6 @@ static STRPTR helpcontext[] =
 	"Hunt",
 	"Iconify",
 	"IconInfo",
-//	"Install",
-//	"InstallBG",
 	"LastSaved",
 	"LoadConfig",
 	"LoopPlay",
@@ -326,7 +315,6 @@ static STRPTR helpcontext[] =
 	"PatternMatch",
 	"Play",
 	"Play8svx",
-//	"PlayST",
 	"Print",
 	"PrintDir",
 	"Protect",
@@ -359,7 +347,6 @@ static STRPTR helpcontext[] =
 	"Show",
 	"SmartRead",
 	"Status",
-//	"StopST",
 	"SwapWindow",
 	"Toggle",
 	"TopText",

@@ -35,7 +35,7 @@ the existing commercial status of Directory Opus 5.
 struct DefaultString
 {
 	USHORT string_id;	/* Unique ID number for this string */
-	char *string;		/* Pointer to the string itself */
+	CONST_STRPTR string;	/* Pointer to the string itself */
 };
 
 

@@ -11,7 +11,7 @@ main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 
-CFLAGS = -ggdb -Wall -Os -I../include-os4
+CFLAGS = -ggdb -Wall -O3 -Wwrite-strings -I../include-os4
 LDFLAGS = -lauto -lm
 FLEXCAT = flexcat
 

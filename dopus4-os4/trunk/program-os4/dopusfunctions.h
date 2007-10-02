@@ -273,7 +273,7 @@ enum functionnums
 
 struct CommandList
 {
-	char *name;
+	CONST_STRPTR name;
 	ULONG function;
 	ULONG flags;
 };
@@ -303,7 +303,8 @@ extern struct DirWindowPars func_reselection;	/* Reselection data */
 
 /* Parameters recognised by the Modify command */
 
-extern char *modifynames[];
+//extern char *modifynames[];
+extern CONST_STRPTR modifynames[];
 
 /* Data for Remember/Restore function */
 

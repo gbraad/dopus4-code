@@ -198,7 +198,7 @@ struct DirWindowPars func_reselection;	/* Reselection data */
 
 /* Parameters recognised by the Modify command */
 
-char *modifynames[] =
+CONST_STRPTR modifynames[] =
 {
 	"CopyFlags",		/* copyflags */
 	"DeleteFlags",		/* deleteflags */
