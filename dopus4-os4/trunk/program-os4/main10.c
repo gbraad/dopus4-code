@@ -420,16 +420,6 @@ void copy_datestamp(struct DateStamp *source, struct DateStamp *dest)
 	dest->ds_Tick = source->ds_Tick;
 }
 
-/*
-void readkeys(keys)
-APTR keys;
-{
-    keyboard_req->io_Length=13;
-    keyboard_req->io_Data=(APTR)keys;
-    keyboard_req->io_Command=KBD_READMATRIX;
-    DoIO((struct IORequest *)keyboard_req);
-}
-*/
 ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 {
 	struct Screen scrbuf;
@@ -472,7 +462,7 @@ int copy_string(STRPTR string, STRPTR * copy, struct DOpusRemember **memkey)
 	return (1);
 }
 
-char *strstri(char *string, char *substring)
+STRPTR strstri(CONST_STRPTR string, CONST_STRPTR substring)
 {
 	int a, len, sublen;
 
@@ -502,7 +492,7 @@ struct MsgPort *CreateUniquePort(STRPTR base, STRPTR buffer, int *count)
 			sprintf(buffer, "%s.%d", base, a + 1);
 			if(!(IExec->FindPort(buffer)))
 			{
-				port = IExec->CreatePort(buffer, 0);
+				port = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, buffer, ASOPORT_CopyName, TRUE, TAG_DONE);
 				if(count)
 					*count = a;
 				break;

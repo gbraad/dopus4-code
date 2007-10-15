@@ -49,7 +49,7 @@ void quit()
 	if(input_req)
 	{
 		IExec->CloseDevice((struct IORequest *)input_req);
-		IExec->DeleteIORequest((struct IORequest *)input_req);
+		IExec->FreeSysObject(ASOT_IOREQUEST, (struct IORequest *)input_req);
 	}
 
 	close_rexx_port();
@@ -86,9 +86,7 @@ void quit()
 	if(menu_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, menu_memory_pool);
 
-//	IDOpus->LFreeRemember(&general_key);
 	IDOpus->LFreeRemember(&border_key);
-//	IDOpus->LFreeRemember(&menu_key);
 	IDOpus->FreeStringFile(&stringdata);
 
 	if(configopus_segment)
@@ -104,28 +102,28 @@ void quit()
 
 	if(nil_file_handle)
 		IDOS->Close(nil_file_handle);
+
 	IDOS->UnLock(ramdisk_lock);
+
 	if(func_reselection.reselection_list)
 		IExec->FreeMem(func_reselection.reselection_list, func_reselection.reselection_size);
+
 	if(count_port)
-		IExec->DeletePort(count_port);
+		IExec->FreeSysObject(ASOT_PORT, count_port);
 	if(arexx_port)
-		IExec->DeletePort(arexx_port);
+		IExec->FreeSysObject(ASOT_PORT, arexx_port);
 	if(general_port)
-		IExec->DeletePort(general_port);
+		IExec->FreeSysObject(ASOT_PORT, general_port);
 	if(appmsg_port)
-		IExec->DeletePort(appmsg_port);
+		IExec->FreeSysObject(ASOT_PORT, appmsg_port);
 
 	if(sortmenu)
 		IPopupMenu->PM_FreePopupMenu(sortmenu);
 
 	ILocale->CloseLocale(locale);
 
-	if(IDOpus)
-		IExec->DropInterface((struct Interface *)IDOpus);
-	if(DOpusBase)
-		IExec->CloseLibrary(DOpusBase);
-
+	IExec->DropInterface((struct Interface *)IDOpus);
+	IExec->CloseLibrary(DOpusBase);
 
 	IExec->DropInterface((struct Interface *)IxadMaster);
 	IExec->CloseLibrary(xadMasterBase);
@@ -170,8 +168,7 @@ void removehotkeys()
 	}
 }
 
-void freefont(num)
-     int num;
+void freefont(int num)
 {
 	if(scr_font[num])
 		IGraphics->CloseFont(scr_font[num]);

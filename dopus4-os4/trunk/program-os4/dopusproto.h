@@ -233,7 +233,7 @@ char *parsedatetime(char *, char *, char *, int *);
 void copy_datestamp(struct DateStamp *, struct DateStamp *);
 ULONG clone_screen(struct Screen *, struct ExtNewScreen *);
 int copy_string(char *, char **, struct DOpusRemember **);
-char *strstri(char *, char *);
+STRPTR strstri(CONST_STRPTR, CONST_STRPTR);
 struct MsgPort *CreateUniquePort(char *, char *, int *);
 int identify_and_load(int, int);
 

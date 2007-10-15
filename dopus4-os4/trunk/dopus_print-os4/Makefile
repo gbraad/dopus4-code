@@ -1,7 +1,7 @@
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -ggdb -mcrt=newlib -Wall -Os -I../include-os4
+CFLAGS = -ggdb -mcrt=newlib -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=newlib -lauto -lm
 
 OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o

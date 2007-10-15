@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	}
 	if(!DOpusBase || !IDOpus)
 	{
-		IDOS->Printf("Can't Open dopus.library and get IDOpus interface\n");
+		IDOS->Printf("Can't open dopus.library and get IDOpus interface!\n");
 		IExec->DropInterface((struct Interface *)IDOpus);
 		IExec->CloseLibrary(DOpusBase);
 		return 5;
@@ -88,6 +88,7 @@ int main(int argc, char **argv)
 
 	if(!IAmigaGuide || !IApplication || !ICommodities || !IGadTools || !ILayers || !IPopupMenu || !IRexxSys || !IxadMaster)
 	{
+		IDOS->Printf("Can't open required libraries and interfaces!\n");
 		quit();
 		return 5;
 	}
@@ -230,7 +231,7 @@ int main(int argc, char **argv)
 
 	initlistermenu();
 
-	if(!(install_arbiter()) || !(count_port = IExec->CreatePort(NULL, 0)) || !(general_port = IExec->CreatePort(NULL, 0)) || !(arexx_port = CreateUniquePort("DOPUS", str_arexx_portname, &system_dopus_runcount)))
+	if(!(install_arbiter()) || !(count_port = IExec->AllocSysObject(ASOT_PORT, NULL)) || !(general_port = IExec->AllocSysObject(ASOT_PORT, NULL)) || !(arexx_port = CreateUniquePort("DOPUS", str_arexx_portname, &system_dopus_runcount)))
 	{
 		quit();
 	}
@@ -239,7 +240,7 @@ int main(int argc, char **argv)
 
 	if(WorkbenchBase && IWorkbench)
 	{
-		if(!(appmsg_port = IExec->CreatePort(0, 0)))
+		if(!(appmsg_port = IExec->AllocSysObject(ASOT_PORT, NULL)))
 		{
 			quit();
 		}
@@ -247,19 +248,21 @@ int main(int argc, char **argv)
 
 	if(!CxBase && ICommodities)
 	{
-		if(!(input_req = (struct IOStdReq *)IExec->CreateIORequest(general_port, sizeof(struct IOStdReq))))
+		if(!(input_req = (struct IOStdReq *)IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_ReplyPort, general_port, TAG_DONE)))
+		{
 			quit();
+		}
 		if((IExec->OpenDevice("input.device", 0, (struct IORequest *)input_req, 0)) != 0)
 		{
-			IExec->DeleteIORequest((struct IORequest *)input_req);
+			IExec->FreeSysObject(ASOT_IOREQUEST, (struct IORequest *)input_req);
 			input_req = NULL;
 			quit();
 		}
 	}
 	ramdisk_lock = IDOS->Lock("RAM:", ACCESS_READ);
 
-	strcpy(str_select_pattern[0], "#?"); //"*");
-	strcpy(str_select_pattern[3], "#?"); //"*");
+	strcpy(str_select_pattern[0], "#?");
+	strcpy(str_select_pattern[3], "#?");
 
 	{
 		struct DateTime dt;
@@ -1339,7 +1342,6 @@ void allocstrings()
 char *astring(int len)
 {
 	STRPTR foo;
-//	if(!(foo = IDOpus->LAllocRemember(&general_key, len, MEMF_CLEAR)))
 	if(!(foo = (STRPTR)IExec->AllocPooled(general_memory_pool, len)))
 	{
 		quit();
