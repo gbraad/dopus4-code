@@ -1041,7 +1041,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				IDOpus->StrCombine(destname, destdir, namebuf, 256);
 				IDOpus->StrCombine(newiconname, destname, ".info", 256);
 			}
-			if(checksame(destdir, sourcename, 0) == LOCK_SAME)
+			if(((checksame(destdir, sourcename, 0) == LOCK_SAME)) || (checksame(destname, sourcename, 0) == LOCK_SAME))
 			{
 				break;
 			}
