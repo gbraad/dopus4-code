@@ -68,7 +68,7 @@ int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
 	{
 		if(size)
 		{
-			*size = data->FileSize;
+			*size = (int)data->FileSize;
 		}
 		if(EXD_IS_FILE(data))
 		{

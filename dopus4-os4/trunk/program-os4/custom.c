@@ -1552,7 +1552,8 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 		if(!tnil)
 			tnil = IDOS->Open("NIL:", MODE_NEWFILE);
 
-		IDOS->SystemTags(buf2, SYS_Input, IDOS->Open("NIL:", MODE_OLDFILE), SYS_Output, tnil, SYS_Asynch, flags & FLAG_ASYNC, TAG_END);
+//		IDOS->SystemTags(buf2, SYS_Input, IDOS->Open("NIL:", MODE_OLDFILE), SYS_Output, tnil, SYS_Error, 0, SYS_Asynch, flags & FLAG_ASYNC, TAG_END);
+		IDOS->SystemTags(buf2, SYS_Input, 0, SYS_Output, tnil, SYS_Error, 0, SYS_Asynch, flags & FLAG_ASYNC, TAG_END);
 
 		if(flags & FLAG_OUTWIND && !wb2f && MainScreen)
 		{

@@ -28,7 +28,7 @@ extern "C" {
 void ActivateStrGad(struct Gadget *,struct Window *);
 int AddGadgets(struct Window *,struct Gadget *,char **,int,int,int,int);
 int AddListView(struct DOpusListView *,int);
-int CheckExist(char *,int64 *);
+int CheckExist(char *,int *);
 int CheckHexGad(struct Gadget *,struct Window *,int,int);
 int CheckNumGad(struct Gadget *,struct Window *,int,int);
 void DisableGadget(struct Gadget *,struct RastPort *,int,int);

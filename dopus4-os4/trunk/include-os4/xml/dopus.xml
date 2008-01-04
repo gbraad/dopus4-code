@@ -160,7 +160,7 @@
 		</method>
 		<method name="CheckExist" result="int">
 			<arg name="name" type="char *"/>
-			<arg name="size" type="int64 *"/>
+			<arg name="size" type="int *"/>
 		</method>
 		<method name="StrToUpper" result="void">
 			<arg name="from" type="char *"/>
