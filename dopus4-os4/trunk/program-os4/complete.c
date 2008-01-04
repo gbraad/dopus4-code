@@ -31,16 +31,17 @@ the existing commercial status of Directory Opus 5.
 
 void do_path_completion(int win, USHORT qual)
 {
-	struct FileInfoBlock *finfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	char path[256], match[FILEBUF_SIZE], *ptr;
-	BPTR lock;
+	char path[2048], match[FILEBUF_SIZE], *ptr;
 	struct complete_entry *entry, *curentry, *addpos;
 	int new = 0, a;
 
-	strcpy(path, str_pathbuffer[win]);
+	IUtility->Strlcpy(path, str_pathbuffer[win], 2048);
 	a = strlen(path);
+
 	if(a > 0 && (path[a - 1] == '/' || path[a - 1] == ':'))
+	{
 		match[0] = 0;
+	}
 	else if((ptr = IDOS->FilePart(path)))
 	{
 		IDOpus->LStrnCpy(match, ptr, FILEBUF_SIZE - 1);
@@ -49,13 +50,13 @@ void do_path_completion(int win, USHORT qual)
 	}
 	else
 	{
-		IIntuition->DisplayBeep(NULL);
-		IDOS->FreeDosObject(DOS_FIB, finfo);
 		return;
 	}
 
 	if(IDOpus->LStrCmp(completion[win].path, path) != 0)
+	{
 		new = 1;
+	}
 	else if(IDOpus->LStrCmp(completion[win].match, match) != 0)
 	{
 		entry = completion[win].firstentry;
@@ -76,6 +77,8 @@ void do_path_completion(int win, USHORT qual)
 
 	if(new)
 	{
+		APTR context = NULL;
+
 		strcpy(completion[win].match, match);
 		strcpy(completion[win].path, path);
 		IDOpus->LFreeRemember(&completion[win].memory);
@@ -83,55 +86,63 @@ void do_path_completion(int win, USHORT qual)
 		completion[win].currententry = NULL;
 
 		busy();
-		if((lock = IDOS->Lock(path, ACCESS_READ)))
+
+		if((context = IDOS->ObtainDirContextTags(EX_StringName, path, TAG_END)))
 		{
-			IDOS->Examine(lock, finfo);
-			if(finfo->fib_DirEntryType > 0)
+			struct ExamineData *data = NULL;
+
+			while((data = IDOS->ExamineDir(context)))
 			{
-				while(IDOS->ExNext(lock, finfo))
+				if(status_haveaborted)
+					break;
+
+				if(EXD_IS_DIRECTORY(data) && (!match[0] || IUtility->Strnicmp(data->Name, match, strlen(match)) == 0))
 				{
-					if(status_haveaborted)
-						break;
-					if(finfo->fib_DirEntryType > 0 && (!match[0] || IDOpus->LStrnCmpI(finfo->fib_FileName, match, strlen(match)) == 0))
+					if((entry = IDOpus->LAllocRemember(&completion[win].memory, sizeof(struct complete_entry), MEMF_CLEAR)))
 					{
-						if((entry = IDOpus->LAllocRemember(&completion[win].memory, sizeof(struct complete_entry), MEMF_CLEAR)))
+						strcpy(entry->name, data->Name);
+						addpos = completion[win].firstentry;
+						curentry = NULL;
+						while (addpos)
 						{
-							strcpy(entry->name, finfo->fib_FileName);
-							addpos = completion[win].firstentry;
-							curentry = NULL;
-							while (addpos)
+							curentry = addpos;
+							if(strcmp(addpos->name, entry->name) > 0)
+								break;
+
+							addpos = addpos->next;
+						}
+						if(addpos)
+						{
+							entry->next = addpos;
+							entry->last = addpos->last;
+							addpos->last = entry;
+							if(entry->last)
 							{
-								curentry = addpos;
-								if(strcmp(addpos->name, entry->name) > 0)
-									break;
-								addpos = addpos->next;
+								entry->last->next = entry;
 							}
-							if(addpos)
+							if(addpos == completion[win].firstentry)
 							{
-								entry->next = addpos;
-								entry->last = addpos->last;
-								addpos->last = entry;
-								if(entry->last)
-									entry->last->next = entry;
-								if(addpos == completion[win].firstentry)
-									completion[win].firstentry = entry;
+								completion[win].firstentry = entry;
+							}
+						}
+						else
+						{
+							if(curentry)
+							{
+								curentry->next = entry;
+								entry->last = curentry;
 							}
 							else
 							{
-								if(curentry)
-								{
-									curentry->next = entry;
-									entry->last = curentry;
-								}
-								else
-									completion[win].firstentry = entry;
+								completion[win].firstentry = entry;
 							}
 						}
 					}
 				}
 			}
-			IDOS->UnLock(lock);
+			IDOS->ReleaseDirContext(context);
 		}
+
 		unbusy();
 	}
 
@@ -158,7 +169,6 @@ void do_path_completion(int win, USHORT qual)
 		{
 			IIntuition->DisplayBeep(NULL);
 			IDOpus->ActivateStrGad(&path_strgadget[win], Window);
-			IDOS->FreeDosObject(DOS_FIB, finfo);
 			return;
 		}
 	}
@@ -168,5 +178,5 @@ void do_path_completion(int win, USHORT qual)
 	IDOpus->RefreshStrGad(&path_strgadget[win], Window);
 	IDOpus->ActivateStrGad(&path_strgadget[win], Window);
 
-	IDOS->FreeDosObject(DOS_FIB, finfo);
+	return;
 }
