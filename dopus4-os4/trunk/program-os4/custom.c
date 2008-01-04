@@ -1321,14 +1321,13 @@ struct Directory *reload_file(int win, char *name)
 
 int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 {
-	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	char buf[256], buf2[256];
-	BPTR lock;
+	char buf[2048], buf2[2048];
 	int a;
+	struct ExamineData *data = NULL;
+	APTR context = NULL;
 
 	if(funcdata->output_file)
 	{
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (1);
 	}
 
@@ -1337,7 +1336,6 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		if(!(simplerequest(globstring[STR_NO_SOURCE_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
 		{
 			myabort();
-			IDOS->FreeDosObject(DOS_FIB, fileinfo);
 			return (0);
 		}
 	}
@@ -1346,7 +1344,6 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		if(!(simplerequest(globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
 		{
 			myabort();
-			IDOS->FreeDosObject(DOS_FIB, fileinfo);
 			return (0);
 		}
 	}
@@ -1355,43 +1352,31 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	IDOS->SetProcWindow((APTR)-1L);
 
-	if(IDOpus->CheckExist("T:", NULL))
+	if((data = IDOS->ExamineObjectTags(EX_StringName, "T:")))
 	{
-		strcpy(buf, "T:");
+		IUtility->Strlcpy(buf, "T:", 2048);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 	}
 	else
 	{
-		strcpy(buf, "RAM:");
+		IUtility->Strlcpy(buf, "RAM:", 2048);
 	}
-
-	if((lock = IDOS->Lock(buf, ACCESS_READ)))
+	
+	if((context = IDOS->ObtainDirContextTags(EX_StringName, buf, TAG_END)))
 	{
-		IDOS->Examine(lock, fileinfo);
-		if(IDOS->ExNext(lock, fileinfo))
+		while((data = IDOS->ExamineDir(context)))
 		{
-			FOREVER
+			if(EXD_IS_FILE(data))
 			{
-				if(IDOpus->LStrnCmp(fileinfo->fib_FileName, "dopustemp", 9) == 0)
+				if(IUtility->Strnicmp(data->Name, "dopustemp", 9) == 0)
 				{
-					sprintf(funcdata->scriptname, "%s%s", buf, fileinfo->fib_FileName);
-				}
-				else
-				{
-					funcdata->scriptname[0] = 0;
-				}
-				a = IDOS->ExNext(lock, fileinfo);
-				if(funcdata->scriptname[0])
-				{
-					IDOS->DeleteFile(funcdata->scriptname);
-				}
-				if(!a)
-				{
-					break;
+					IDOS->DeleteFile(data->Name);
 				}
 			}
 		}
-		IDOS->UnLock(lock);
+		IDOS->ReleaseDirContext(context);
 	}
+
 	if(config->errorflags & ERROR_ENABLE_DOS)
 	{
 		IDOS->SetProcWindow(Window);
@@ -1408,7 +1393,6 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	if(!funcdata->output_file)
 	{
 		doerror(-1);
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
 
@@ -1422,21 +1406,33 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	if(par->which & FLAG_SHELLUP)
 	{
 		if(config->shellstartup[0])
+		{
 			IDOpus->StrCombine(buf, "S:", config->shellstartup, 40);
+		}
 		else
+		{
 			strcpy(buf, "S:Shell-Startup");
-		if(IDOpus->CheckExist(buf, NULL))
+		}
+
+		if((data = IDOS->ExamineObjectTags(EX_StringName, buf, TAG_END)))
 		{
 			sprintf(buf2, "Execute %s\n", buf);
 			IDOS->Write(funcdata->output_file, buf2, strlen(buf2));
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
 	}
 	if(par->which & FLAG_DOPUSUP)
 	{
-		if(IDOpus->CheckExist("S:DOpus-Startup", NULL))
+		if((data = IDOS->ExamineObjectTags(EX_StringName, "S:DOpus-Startup", TAG_END)))
+		{
 			IDOS->Write(funcdata->output_file, "Execute S:DOpus-Startup\n", 24);
-		else if(IDOpus->CheckExist("S:DOpusShell-Startup", NULL))
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		}
+		else if((data = IDOS->ExamineObjectTags(EX_StringName, "S:DOpusShell-Startup", TAG_END)))
+		{
 			IDOS->Write(funcdata->output_file, "Execute S:DOpusShell-Startup\n", 29);
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		}
 	}
 	IDOS->Write(funcdata->output_file, "FailAt 999999\n", 14);
 
@@ -1454,7 +1450,6 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		{
 			if(!(check_dest_path(funcdata)))
 			{
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (0);
 			}
 			sprintf(buf, "CD \"%s\"\n", funcdata->dest_path);
@@ -1471,7 +1466,6 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		sprintf(buf, "ChangeTaskPri %d\n", par->pri);
 		IDOS->Write(funcdata->output_file, buf, strlen(buf));
 	}
-	IDOS->FreeDosObject(DOS_FIB, fileinfo);
 	return (1);
 }
 
