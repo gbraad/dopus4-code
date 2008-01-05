@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 
 void makedir(int rexx)
 {
-	struct FileInfoBlock *fileinfo = NULL;
+	struct ExamineData *data = NULL;
 	int a, success, win, err, addicon = 0;
 	char dirname[FILEBUF_SIZE], new_directory[256];
 	BPTR lock;
@@ -116,33 +116,39 @@ void makedir(int rexx)
 			}
 			continue;
 		}
-
-		fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-		IDOS->Examine(lock, fileinfo);
 		IDOS->UnLock(lock);
 
-		if(win > -1)
+		if((data = IDOS->ExamineObjectTags(EX_StringName, new_directory, TAG_END)))
 		{
-			addfile(dopus_curwin[win], win, fileinfo->fib_FileName, -1, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, NULL, fileinfo->fib_Protection, 0, TRUE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID);
-			seename(win);
-			update_buffer_stamp(win, 1);
+			if(win > -1)
+			{
+				addfile(dopus_curwin[win], win, data->Name, -1, data->Type, &data->Date, NULL, data->Protection, 0, TRUE, NULL, NULL, data->OwnerUID, data->OwnerGID);
+				seename(win);
+				update_buffer_stamp(win, 1);
+			}
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
 
 		success = 1;
 		if((config->iconflags & ICONFLAG_MAKEDIRICON) || addicon)
 		{
+			struct ExamineData *data = NULL;
+
 			strcat(new_directory, ".info");
-			if((iconwrite(ICONTYPE_DRAWER, new_directory)) == 1 && (lockandexamine(new_directory, fileinfo)))
+			if((iconwrite(ICONTYPE_DRAWER, new_directory)) == 1 && (data = IDOS->ExamineObjectTags(EX_StringName, new_directory, TAG_END)))
 			{
 				if(win > -1)
 				{
-					addfile(dopus_curwin[win], win, fileinfo->fib_FileName, fileinfo->fib_Size, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, 0, TRUE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID);
+					addfile(dopus_curwin[win], win, data->Name, data->FileSize, data->Type, &data->Date, data->Comment, data->Protection, 0, TRUE, NULL, NULL, data->OwnerUID, data->OwnerGID);
 					seename(win);
 					update_buffer_stamp(win, 1);
 				}
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			}
 			else
+			{
 				success = 0;
+			}
 		}
 		break;
 	}
@@ -151,8 +157,7 @@ void makedir(int rexx)
 		dostatustext(globstring[STR_DIRECTORY_CREATED]);
 	}
 
-	IDOS->FreeDosObject(DOS_FIB, fileinfo);
-
+	return;
 }
 
 int iconwrite(int type, STRPTR name)
@@ -193,8 +198,7 @@ int iconwrite(int type, STRPTR name)
 
 	for(;;)
 	{
-//		if(originalicon && originalicon[0] && (IDOpus->CheckExist(sourcebuf, NULL) < 0))
-		if(originalicon && originalicon[0] && (IDOpus->CheckExist(sourcebuf, NOLL) < 0))
+		if(originalicon && originalicon[0] && (IDOpus->CheckExist(sourcebuf, NULL) < 0))
 		{
 			if((copyicon(originalicon, namebuf, &err)) > 0)
 				return (1);
@@ -248,8 +252,8 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 	{
 		suc = IIcon->PutDiskObject(dest, diskobj);
 		IIcon->FreeDiskObject(diskobj);
-//		if(!suc || IDOpus->CheckExist(dest, NULL) >= 0)
-		if(!suc || IDOpus->CheckExist(dest, NOLL) >= 0)
+		if(!suc || IDOpus->CheckExist(dest, NULL) >= 0)
+//		if(!suc || IDOpus->CheckExist(dest, NOLL) >= 0)
 		{
 			*err = IDOS->IoErr();
 		}
@@ -275,33 +279,34 @@ char *isicon(STRPTR name)
 
 char *getarexxpath(int rexx, int win, int num, int argnum)
 {
-	struct FileInfoBlock *fblock = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int a; //, b;
-	int64 b;
+	int a, b;
 	char *ptr;
 	APTR save;
 
 	if(!rexx || !rexx_argcount)
 	{
-		IDOS->FreeDosObject(DOS_FIB, fblock);
 		return (str_pathbuffer[win]);
 	}
 	if((strchr(rexx_args[argnum], ':') || strchr(rexx_args[argnum], '/')) && (a = IDOpus->CheckExist(rexx_args[argnum], &b)))
 	{
 		if(!num)
 		{
+			struct ExamineData *data = NULL;
+
 			save = IDOS->SetProcWindow((APTR)-1L);
 			dos_global_entry.subtype = 0;
-			if(lockandexamine(rexx_args[argnum], fblock))
+			if((data = IDOS->ExamineObjectTags(EX_StringName, rexx_args[argnum], TAG_END)))
 			{
-				dos_global_entry.protection = fblock->fib_Protection;
+				dos_global_entry.protection = data->Protection;
 				dos_global_entry.comment = dos_copy_comment;
-				strcpy(dos_copy_comment, fblock->fib_Comment);
+				strcpy(dos_copy_comment, data->Comment);
 				dos_global_entry.dispstr = NULL;
 				getprot(dos_global_entry.protection, dos_global_entry.protbuf);
-				IExec->CopyMem(&fblock->fib_Date, &dos_global_entry.date, sizeof(struct DateStamp));
+				IExec->CopyMem(&data->Date, &dos_global_entry.date, sizeof(struct DateStamp));
 				seedate(&dos_global_entry.date, dos_global_entry.datebuf, 1);
 				dos_global_entry.selected = 0;
+
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			}
 			IDOS->SetProcWindow(save);
 			ptr = IDOS->FilePart(rexx_args[argnum]);
@@ -321,7 +326,6 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 			dos_global_entry.size = b;
 			func_single_entry = &dos_global_entry;
 			removeargstring(argnum);
-			IDOS->FreeDosObject(DOS_FIB, fblock);
 			return (rexx_pathbuffer[win]);
 		}
 		else
@@ -329,11 +333,9 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 			strcpy(rexx_pathbuffer[win], rexx_args[argnum]);
 			IDOpus->TackOn(rexx_pathbuffer[win], NULL, 256);
 			removeargstring(argnum);
-			IDOS->FreeDosObject(DOS_FIB, fblock);
 			return (rexx_pathbuffer[win]);
 		}
 	}
-	IDOS->FreeDosObject(DOS_FIB, fblock);
 	return (str_pathbuffer[win]);
 }
 
