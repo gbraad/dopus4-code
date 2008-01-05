@@ -122,7 +122,7 @@ void makedir(int rexx)
 		{
 			if(win > -1)
 			{
-				addfile(dopus_curwin[win], win, data->Name, -1, data->Type, &data->Date, NULL, data->Protection, 0, TRUE, NULL, NULL, data->OwnerUID, data->OwnerGID);
+				addfile(dopus_curwin[win], win, data->Name, -1, 2, &data->Date, NULL, data->Protection, 0, TRUE, NULL, NULL, data->OwnerUID, data->OwnerGID);
 				seename(win);
 				update_buffer_stamp(win, 1);
 			}
@@ -139,7 +139,7 @@ void makedir(int rexx)
 			{
 				if(win > -1)
 				{
-					addfile(dopus_curwin[win], win, data->Name, data->FileSize, data->Type, &data->Date, data->Comment, data->Protection, 0, TRUE, NULL, NULL, data->OwnerUID, data->OwnerGID);
+					addfile(dopus_curwin[win], win, data->Name, data->FileSize, ST_FILE, &data->Date, data->Comment, data->Protection, 0, TRUE, NULL, NULL, data->OwnerUID, data->OwnerGID);
 					seename(win);
 					update_buffer_stamp(win, 1);
 				}

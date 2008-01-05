@@ -32,6 +32,16 @@ the existing commercial status of Directory Opus 5.
 
 #define MAXCOMMANDLEN 510
 
+int returntype(struct ExamineData *data)
+{
+	if(EXD_IS_FILE(data))
+		return ST_FILE;
+	if(EXD_IS_SOFTLINK(data))
+		return ST_SOFTLINK;
+
+	return ST_USERDIR;
+}
+
 void defaultpar(struct dopusfuncpar *par)
 {
 	par->which = /*FLAG_OUTWIND | */FLAG_WB2F | FLAG_DOPUSF | FLAG_CDSOURCE;
@@ -48,7 +58,6 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 	struct Directory *curcf;
 	struct function_data *funcdata;
 
-//	if(!func || !func[0] || !(funcdata = IDOpus->LAllocRemember(&general_key, sizeof(struct function_data), MEMF_CLEAR)))
 	if(!func || !func[0] || !(funcdata = IExec->AllocPooled(general_memory_pool, sizeof(struct function_data))))
 		return;
 
@@ -161,7 +170,6 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 	closescriptfile(pars, run, funcdata);
 	func_single_file[0] = 0;
 	func_external_file[0] = 0;
-//	IDOpus->LFreeRemEntry(&general_key, (char *)funcdata);
 	IExec->FreePooled(general_memory_pool, funcdata, sizeof(struct function_data));
 
 	if(norm && Window)
@@ -1310,7 +1318,7 @@ struct Directory *reload_file(int win, char *name)
 		{
 			removefile(cust, dopus_curwin[win], win, FALSE);
 		}
-		ret = (struct Directory *)addfile(dopus_curwin[win], win, data->Name, data->FileSize, data->Type, &(data->Date), data->Comment, data->Protection, 0, FALSE, NULL, NULL, data->OwnerUID, data->OwnerGID);
+		ret = (struct Directory *)addfile(dopus_curwin[win], win, data->Name, data->FileSize, returntype(data), &(data->Date), data->Comment, data->Protection, 0, FALSE, NULL, NULL, data->OwnerUID, data->OwnerGID);
 		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 	}
 	else
@@ -1690,7 +1698,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 	{
 		fbuf->last = fbuf->next = NULL;
 		strcpy(fbuf->name, data->Name);
-		fbuf->type = data->Type;
+		fbuf->type = returntype(data);
 		if(EXD_IS_FILE(data))
 		{
 			fbuf->size = data->FileSize;
@@ -1704,7 +1712,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 		fbuf->comment = fbuf->dispstr = NULL;
 		getprot(fbuf->protection, fbuf->protbuf);
 		seedate(&data->Date, fbuf->datebuf, 1);
-		IExec->CopyMem(/*(char *)*/&data->Date, &fbuf->date, sizeof(struct DateStamp));
+		IExec->CopyMem(&data->Date, &fbuf->date, sizeof(struct DateStamp));
 		fbuf->selected = 1;
 
 		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
