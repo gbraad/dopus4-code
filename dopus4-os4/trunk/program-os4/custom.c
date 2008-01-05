@@ -1301,21 +1301,24 @@ void doreloadfiles(struct function_data *funcdata)
 
 struct Directory *reload_file(int win, char *name)
 {
-	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct ExamineData *data = NULL;
 	struct Directory *cust, *ret = NULL;
 
-	if((lockandexamine(name, fileinfo)))
+	if((data = IDOS->ExamineObjectTags(EX_StringName, name, TAG_END)))
 	{
-		if((cust = findfile(dopus_curwin[win], fileinfo->fib_FileName, NULL)))
+		if((cust = findfile(dopus_curwin[win], data->Name, NULL)))
+		{
 			removefile(cust, dopus_curwin[win], win, FALSE);
-		ret = (struct Directory *)addfile(dopus_curwin[win], win, fileinfo->fib_FileName, fileinfo->fib_Size, fileinfo->fib_DirEntryType, &(fileinfo->fib_Date), fileinfo->fib_Comment, fileinfo->fib_Protection, 0, FALSE, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID);
+		}
+		ret = (struct Directory *)addfile(dopus_curwin[win], win, data->Name, data->FileSize, data->Type, &(data->Date), data->Comment, data->Protection, 0, FALSE, NULL, NULL, data->OwnerUID, data->OwnerGID);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 	}
 	else
 	{
 		if((cust = findfile(dopus_curwin[win], IDOS->FilePart(name), NULL)))
 			removefile(cust, dopus_curwin[win], win, FALSE);
 	}
-	IDOS->FreeDosObject(DOS_FIB, fileinfo);
+
 	return (ret);
 }
 
@@ -1681,34 +1684,34 @@ int getdummyfile(struct Directory *fbuf, char *dirbuf, struct DOpusFileReq *freq
 
 int filloutdummy(char *name, struct Directory *fbuf)
 {
-	struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);;
+	struct ExamineData *data = NULL;
 
-	if(!(lockandexamine(name, fib)))
+	if((data = IDOS->ExamineObjectTags(EX_StringName, name, TAG_END)))
 	{
-		IDOS->FreeDosObject(DOS_FIB, fib);
-		return (0);
-	}
-	fbuf->last = fbuf->next = NULL;
-	strcpy(fbuf->name, fib->fib_FileName);
-	fbuf->type = fib->fib_DirEntryType;
-	if(fbuf->type >= 0)
-	{
-		fbuf->size = -1;
-	}
-	else
-	{
-		fbuf->size = fib->fib_Size;
-	}
-	fbuf->subtype = 0;
-	fbuf->protection = fib->fib_Protection;
-	fbuf->comment = fbuf->dispstr = NULL;
-	getprot(fbuf->protection, fbuf->protbuf);
-	seedate(&fib->fib_Date, fbuf->datebuf, 1);
-	IExec->CopyMem((char *)&fib->fib_Date, &fbuf->date, sizeof(struct DateStamp));
-	fbuf->selected = 1;
+		fbuf->last = fbuf->next = NULL;
+		strcpy(fbuf->name, data->Name);
+		fbuf->type = data->Type;
+		if(EXD_IS_FILE(data))
+		{
+			fbuf->size = data->FileSize;
+		}
+		else
+		{
+			fbuf->size = -1;
+		}
+		fbuf->subtype = 0;
+		fbuf->protection = data->Protection;
+		fbuf->comment = fbuf->dispstr = NULL;
+		getprot(fbuf->protection, fbuf->protbuf);
+		seedate(&data->Date, fbuf->datebuf, 1);
+		IExec->CopyMem(/*(char *)*/&data->Date, &fbuf->date, sizeof(struct DateStamp));
+		fbuf->selected = 1;
 
-	IDOS->FreeDosObject(DOS_FIB, fib);
-	return (1);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		return 1;
+	}
+
+	return 0;
 }
 
 int dirrequester(struct DOpusFileReq *freq, char *buf, char *title)
