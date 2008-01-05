@@ -323,7 +323,6 @@ void clearbuffers()
 
 struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int onlyreturn)
 {
-	struct FileInfoBlock *fblock = IDOS->AllocDosObject(DOS_FIB, NULL);
 	int a, founddir = 0, ret = 0, try, checklocks = 0;
 	struct DirectoryWindow *dir;
 	BPTR lock = 0, testlock;
@@ -368,8 +367,22 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 				}
 				if(founddir || (strcmp(tempbuf, dir->directory)) == 0)
 				{
-					if(!(lockandexamine(tempbuf, fblock)) || (IDOS->CompareDates(&fblock->fib_Date, &dir->dirstamp) != 0))
+					struct ExamineData *data = NULL;
+
+					if((data = IDOS->ExamineObjectTags(EX_StringName, tempbuf, TAG_END)))
+					{
+						if(IDOS->CompareDates(&data->Date, &dir->dirstamp) != 0)
+						{
+							IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+							continue;
+						}
+						IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+					}
+					else
+					{
 						continue;
+					}
+
 					if(!onlyreturn)
 						go_to_buffer(win, dir);
 					ret = 1;
@@ -385,7 +398,6 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 			break;
 	}
 	IDOS->UnLock(lock);
-	IDOS->FreeDosObject(DOS_FIB, fblock);
 	if(config->errorflags & ERROR_ENABLE_DOS)
 	{
 		IDOS->SetProcWindow(Window);
@@ -394,12 +406,10 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	return ((ret) ? dir : NULL);
 
 failed:
-	IDOS->FreeDosObject(DOS_FIB, fblock);
 	return NULL;
 }
 
-/* Checks all buffers for a pathname and changes it to the new
-   pathname if found */
+/* Checks all buffers for a pathname and changes it to the new pathname if found */
 
 void renamebuffers(char *old, char *new)
 {
@@ -621,12 +631,13 @@ void check_old_buffer(int win)
 		}
 		else
 		{
-			struct FileInfoBlock *testinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+			struct ExamineData *data = NULL;
 
 			IDOS->SetProcWindow((APTR)-1L);
-			if(lockandexamine(dopus_curwin[win]->directory, testinfo))
+
+			if((data = IDOS->ExamineObjectTags(EX_StringName, dopus_curwin[win]->directory, TAG_END)))
 			{
-				if(IDOS->CompareDates(&dopus_curwin[win]->dirstamp, &testinfo->fib_Date) != 0)
+				if(IDOS->CompareDates(&dopus_curwin[win]->dirstamp, &data->Date) != 0)
 				{
 					reread = 1;
 				}
@@ -641,12 +652,13 @@ void check_old_buffer(int win)
 						reread = 1;
 					}
 				}
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			}
+
 			if(config->errorflags & ERROR_ENABLE_DOS)
 			{
 				IDOS->SetProcWindow(Window);
 			}
-			IDOS->FreeDosObject(DOS_FIB, testinfo);
 		}
 		if(reread)
 		{
