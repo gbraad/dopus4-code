@@ -29,6 +29,8 @@
 #include "dopus.library_rev.h"
 STATIC CONST UBYTE __attribute__ ((used)) verstag[] = VERSTAG " OS4";
 
+struct Interface *INewlib;
+
 struct Library *SysBase;
 struct ExecIFace *IExec;
 struct Library *DOSBase;
@@ -141,8 +143,13 @@ STATIC APTR libExpunge(struct LibraryManagerInterface * Self)
 
 	if(libBase->LibNode.lib_OpenCnt == 0)
 	{
+		struct Library *newlibbase = INewlib->Data.LibBase;
+
 		result = (APTR) libBase->SegList;
 		/* Undo what the init code did */
+
+		IExec->DropInterface(INewlib);
+		IExec->CloseLibrary(newlibbase);
 
 		IExec->Remove((struct Node *)libBase);
 		IExec->DeleteLibrary((struct Library *)libBase);
@@ -158,6 +165,7 @@ STATIC APTR libExpunge(struct LibraryManagerInterface * Self)
 /* The ROMTAG Init Function */
 STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct Interface *exec)
 {
+	struct Library *newlibbase;
 	struct DOpusBase *libBase = (struct DOpusBase *)LibraryBase;
 	struct ExecIFace *IExec __attribute__ ((unused)) = (struct ExecIFace *)exec;
 
@@ -170,6 +178,23 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
 	libBase->LibNode.lib_IdString = VSTRING;
 
 	libBase->SegList = (BPTR) seglist;
+
+	newlibbase = IExec->OpenLibrary("newlib.library", 52);
+	if (newlibbase)
+	{
+		INewlib = IExec->GetInterface(newlibbase, "main", 1, NULL);
+	}
+
+	if (INewlib)
+	{
+		return (struct Library *)libBase;
+	}
+	else
+	{
+//		IExec->DebugPrintF("foobar.library couldn't open newlib.library V52\n");
+		IExec->Alert(AT_Recovery|AG_OpenLib);
+		return NULL;
+	}
 
 	return (struct Library *)libBase;
 }
