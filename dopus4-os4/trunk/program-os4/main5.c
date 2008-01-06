@@ -31,11 +31,13 @@ the existing commercial status of Directory Opus 5.
 
 int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate)
 {
-	struct FileInfoBlock *cfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct ExamineData *data = NULL;
 	char *buffer = NULL;
-	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size = 0, size;
+	int ret = 0;
+	int32 length;
+	int64 readsize, size_read, size_write, size_total, size, buffer_size;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
-	BPTR inhandle = 0, outhandle = 0;
+	BPTR out, inhandle = 0, outhandle = 0;
 	struct DateStamp ds, *dsp;
 
 	if(password)
@@ -49,27 +51,24 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		srand(encrypt);
 	}
 
-	suc = lockandexamine(src, cfinfo);
-
-	if(!suc)
+	if((data = IDOS->ExamineObjectTags(EX_StringName, src, TAG_END)) == NULL)
 	{
 		*err = IDOS->IoErr();
-		IDOS->FreeDosObject(DOS_FIB, cfinfo);
 		return (0);
 	}
 
-	if(!(size = cfinfo->fib_Size))
+	if(data->FileSize == 0)
 	{
 		if(!(out = IDOS->Open(dst, MODE_NEWFILE)))
 			goto failed;
 		IDOS->Close(out);
 		if(config->copyflags & COPY_DATE)
-			IDOS->SetFileDate(dst, &(cfinfo->fib_Date));
+			IDOS->SetFileDate(dst, &(data->Date));
 		if(config->copyflags & COPY_PROT)
-			IDOS->SetProtection(dst, cfinfo->fib_Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
+			IDOS->SetProtection(dst, data->Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
 		if(config->copyflags & COPY_NOTE)
-			IDOS->SetComment(dst, cfinfo->fib_Comment);
-		IDOS->FreeDosObject(DOS_FIB, cfinfo);
+			IDOS->SetComment(dst, data->Comment);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		return (1);
 	}
 
@@ -81,7 +80,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	if(!(outhandle = IDOS->Open(dst, MODE_NEWFILE)))
 		goto failed;
 
-	buffer_size = size;
+	size = buffer_size = data->FileSize;
 	if(buffer_size > (10 * 1024 * 1024))
 	{
 		buffer_size = 10 * 1024 * 1024;
@@ -170,8 +169,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 	if(config->copyflags & COPY_DATE)
 	{
-		IDOS->SetFileDate(dst, &(cfinfo->fib_Date));
-		dsp = &cfinfo->fib_Date;
+		IDOS->SetFileDate(dst, &(data->Date));
+		dsp = &data->Date;
 	}
 	else
 	{
@@ -182,20 +181,20 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 	if(config->copyflags & COPY_PROT)
 	{
-		IDOS->SetProtection(dst, cfinfo->fib_Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
+		IDOS->SetProtection(dst, data->Protection & ((config->copyflags & COPY_COPYARC) ? ~0 : ~FIBF_ARCHIVE));
 	}
-	dos_copy_protection = cfinfo->fib_Protection;
+	dos_copy_protection = data->Protection;
 
 	if(config->copyflags & COPY_NOTE)
 	{
-		IDOS->SetComment(dst, cfinfo->fib_Comment);
-		strcpy(dos_copy_comment, cfinfo->fib_Comment);
+		IDOS->SetComment(dst, data->Comment);
+		strcpy(dos_copy_comment, data->Comment);
 	}
 	else
 	{
 		dos_copy_comment[0] = 0;
 	}
-	IDOS->FreeDosObject(DOS_FIB, cfinfo);
+	IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 
 	return (1);
 
@@ -215,9 +214,9 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		IDOS->DeleteFile(dst);
 	}
 
-	if(cfinfo)
+	if(data)
 	{
-		IDOS->FreeDosObject(DOS_FIB, cfinfo);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 	}
 
 	return (ret);
@@ -463,13 +462,11 @@ int getwildrename(STRPTR sname, STRPTR dname, STRPTR name, STRPTR newn)
 
 void update_buffer_stamp(int win, int true)
 {
-	struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);
-	char dirbuf[256];
+	char dirbuf[2048];
 	struct DirectoryWindow *dirwin;
 
 	if(win == -1 || !(config->dirflags & DIRFLAGS_REREADOLD))
 	{
-		IDOS->FreeDosObject(DOS_FIB, fib);
 		return;
 	}
 
@@ -479,8 +476,13 @@ void update_buffer_stamp(int win, int true)
 	{
 		if(true)
 		{
-			if(lockandexamine(dirbuf, fib))
-				copy_datestamp(&fib->fib_Date, &dirwin->dirstamp);
+			struct ExamineData *data = NULL;
+
+			if((data = IDOS->ExamineObjectTags(EX_StringName, dirbuf, TAG_END)))
+			{
+				copy_datestamp(&data->Date, &dirwin->dirstamp);
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+			}
 			if(!(doparent(dirbuf)) || !(dirwin = findbuffer(dirbuf, win, 0, 1)))
 				break;
 		}
@@ -496,8 +498,6 @@ void update_buffer_stamp(int win, int true)
 			}
 		}
 	}
-
-	IDOS->FreeDosObject(DOS_FIB, fib);
 }
 
 int check_key_press(struct dopusfunction *func, USHORT code, USHORT qual)
