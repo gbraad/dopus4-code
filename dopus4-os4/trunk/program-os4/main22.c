@@ -30,10 +30,20 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "view.h"
 
+int return_type(struct ExamineData *data)
+{
+	if(EXD_IS_FILE(data))
+		return ST_FILE;
+	if(EXD_IS_SOFTLINK(data))
+		return ST_SOFTLINK;
+
+	return ST_USERDIR;
+}
+
 int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int act, int inact, int rexx)
 {
 	struct InfoData *infodata = NULL;
-	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
+	struct ExamineData *exdata = NULL;
 	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0, noshow = 0, err = 0;
 	int sourcewild = 0, destwild = 0, firstset = 0, breakout = 0, rexarg = 0, protstuff[2];
 	int pt = 1, okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
@@ -43,7 +53,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
 	char *sourcename, *destname, *oldiconname, *newiconname;
 	char *buf, *buf1, *buf2, *namebuf, *srename, *drename, *database;
-	static char tbuf[256], titlebuf[32];
+	static char /*tbuf[2048],*/ titlebuf[32];
 	struct DateTime datetime;
 	void *function_memory_pool;
 	struct dopusfiletype *type;
@@ -68,7 +78,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(destdir && (dwindow->flags & DWF_ARCHIVE))
 	{
 		dostatustext(globstring[STR_OPERATION_NOT_SUPPORTED]);
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return 0;
 	}
 
@@ -138,13 +147,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 	if(!file)
 	{
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);	/* No files selected, return */
 	}
 
 	if(!(database = IExec->AllocPooled(function_memory_pool, 3000)))
 	{
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
 
@@ -674,9 +681,15 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				else
 				{
-					IDOpus->StrCombine(tbuf, sourcedir, oldiconname, 256);
-					if(lockandexamine(tbuf, fileinfo))
-						bb = fileinfo->fib_Size;
+					char filenamebuffer[2048];
+
+					IUtility->Strlcpy(filenamebuffer, sourcedir, 2048);
+					IDOS->AddPart(filenamebuffer, oldiconname, 2048);
+					if((exdata = IDOS->ExamineObjectTags(EX_StringName, filenamebuffer, TAG_END)))
+					{
+						bb = exdata->FileSize;
+						IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
+					}
 				}
 				if(bb > -1)
 				{
@@ -1191,9 +1204,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							myabort();
 							break;
 						}
-						else if(lockandexamine(destname, fileinfo))
+						else if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
 						{
-							addfile(dwindow, inact, fileinfo->fib_FileName, fileinfo->fib_Size, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, file->subtype, 1, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID);
+							addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata), &exdata->Date, exdata->Comment, exdata->Protection, file->subtype, 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+							IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
 							if((a = delfile(sourcename, file->name, globstring[STR_DELETING], 1, 1)) == -2)
 							{
 								if(!(a = recursedir(sourcename, NULL, R_DELETE, 0)))
@@ -1413,13 +1427,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				byte = file->size;
 			}
+
 			if(exist && (tempfile = findfile(dwindow, namebuf, NULL)))
 				removefile(tempfile, dwindow, inact, 0);
-			if(lockandexamine(destname, fileinfo))
+			if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
 			{
-				if(fileinfo->fib_DirEntryType < 0)
-					byte = fileinfo->fib_Size;
-				addfile(dwindow, inact, fileinfo->fib_FileName, byte, fileinfo->fib_DirEntryType, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, file->subtype, 1, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID);
+				if(EXD_IS_FILE(exdata))
+					byte = exdata->FileSize;
+				addfile(dwindow, inact, exdata->Name, byte, return_type(exdata), &exdata->Date, exdata->Comment, exdata->Protection, file->subtype, 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
 				if(config->copyflags & COPY_ARC && !(file->protection & FIBF_ARCHIVE))
 				{
 					if(IDOS->SetProtection(sourcename, file->protection | FIBF_ARCHIVE))
@@ -1428,6 +1443,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						getprot(file->protection, file->protbuf);
 					}
 				}
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
 			}
 			okayflag = 1;
 			show = inact;
@@ -1696,9 +1712,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if((iconwrite(data, destname)) != -1)
 			{
-				if(lockandexamine(destname, fileinfo))
+				if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
 				{
-					addfile(swindow, act, buf2, fileinfo->fib_Size, -1, &fileinfo->fib_Date, fileinfo->fib_Comment, fileinfo->fib_Protection, 0, 1, NULL, NULL, fileinfo->fib_OwnerUID, fileinfo->fib_OwnerGID);
+					addfile(swindow, act, buf2, exdata->FileSize, ST_FILE, &exdata->Date, exdata->Comment, exdata->Protection, 0, 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+					IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
 					show = act;
 					okayflag = 1;
 				}
@@ -1873,7 +1890,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				FOREVER
 				{
-					if(copyfile(sourcename, destname, &err, /*-1*/ buf2 /*NULL*/, data))
+					if(copyfile(sourcename, destname, &err, buf2, data))
 					{
 						addfile(dwindow, inact, file->name, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 						okayflag = 1;
@@ -2344,8 +2361,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
 	IExec->FreeSysObject(ASOT_MEMPOOL, function_memory_pool);
 	--entry_depth;
-
-	IDOS->FreeDosObject(DOS_FIB, fileinfo);
 
 	return (retval);
 }

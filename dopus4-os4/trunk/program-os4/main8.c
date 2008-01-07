@@ -217,18 +217,6 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	return REPLACE_SKIP;
 }
 
-int lockandexamine(STRPTR name, struct FileInfoBlock *fib)
-{
-	BPTR lock;
-
-	fib->fib_OwnerUID = fib->fib_OwnerGID = 0;
-	if(!(lock = IDOS->Lock(name, ACCESS_READ)))
-		return (0);
-	IDOS->Examine(lock, fib);
-	IDOS->UnLock(lock);
-	return (1);
-}
-
 void layoutcenter(int off)
 {
 	int a, max;

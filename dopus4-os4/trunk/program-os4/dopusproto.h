@@ -201,7 +201,6 @@ void newcli(char *);
 void getprot(int, char *);
 int getprotval(char *);
 int checkexistreplace(char *, char *, struct DateStamp *, int, int);
-int lockandexamine(char *, struct FileInfoBlock *);
 void layoutcenter(int);
 void fix_rmb_gadgets(void);
 void dosizedirwindows(int);
