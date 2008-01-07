@@ -1336,6 +1336,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	int a;
 	struct ExamineData *data = NULL;
 	APTR context = NULL;
+	BPTR tlock = 0;
 
 	if(funcdata->output_file)
 	{
@@ -1363,16 +1364,16 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	IDOS->SetProcWindow((APTR)-1L);
 
-	if((data = IDOS->ExamineObjectTags(EX_StringName, "T:")))
+	if((tlock = IDOS->Lock("T:", SHARED_LOCK)))
 	{
 		IUtility->Strlcpy(buf, "T:", 2048);
-		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		IDOS->UnLock(tlock);
 	}
 	else
 	{
 		IUtility->Strlcpy(buf, "RAM:", 2048);
 	}
-	
+
 	if((context = IDOS->ObtainDirContextTags(EX_StringName, buf, TAG_END)))
 	{
 		while((data = IDOS->ExamineDir(context)))
