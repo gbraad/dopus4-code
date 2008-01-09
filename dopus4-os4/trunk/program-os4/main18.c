@@ -918,64 +918,40 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 
 int getdircontentsinfo(STRPTR path, uint64 * size, uint32 * files)
 {
-	char *buf, *c;
-	struct ExAllControl *eac;
-	struct ExAllData *ead;
-	BPTR lock;
-	int more, ret = 1;
+	APTR context = NULL;
+	int ret = 1;
 
-	if((lock = IDOS->Lock(path, ACCESS_READ)))
+	if((context = IDOS->ObtainDirContextTags(EX_StringName, path, TAG_END)))
 	{
-		if((buf = IExec->AllocMem(1024, MEMF_ANY)))
+		struct ExamineData *data = NULL;
+
+		while((data = IDOS->ExamineDir(context)))
 		{
-			if((eac = IDOS->AllocDosObject(DOS_EXALLCONTROL, NULL)))
+			if(EXD_IS_DIRECTORY(data))
 			{
-				eac->eac_LastKey = 0;
+				STRPTR pathbuf = IExec->AllocVec(2048, MEMF_CLEAR);
 
-				do
+				if(pathbuf)
 				{
-					ead = (struct ExAllData *)buf;
-					more = IDOS->ExAll(lock, ead, 1024, ED_SIZE, eac);
-					if((!more) && (IDOS->IoErr() != ERROR_NO_MORE_ENTRIES))
-					{
-						ret = 0;
-						break;
-					}
-					if(eac->eac_Entries == 0)
-						continue;
-
-					for(; ead; ead = ead->ed_Next)
-					{
-						if(ead->ed_Type > 0)
-						{
-							IDOS->AddPart(path, ead->ed_Name, 256);
-
-							ret = getdircontentsinfo(path, size, files);
-
-							c = IDOS->PathPart(path);
-							if(c)
-								*c = 0;
-						}
-						else
-						{
-							*size += ead->ed_Size;
-							(*files)++;
-						}
-					}
+					IUtility->Strlcpy(pathbuf, path, 2048);
+					IDOS->AddPart(pathbuf, data->Name, 2048);
+					ret = getdircontentsinfo(pathbuf, size, files);
+					IExec->FreeVec(pathbuf);
 				}
-				while(more);
 
-				IDOS->FreeDosObject(DOS_EXALLCONTROL, eac);
 			}
 			else
-				ret = 0;
-			IExec->FreeMem(buf, 1024);
+			{
+				*size += data->FileSize;
+				(*files)++;
+			}
 		}
-		else
-			ret = 0;
-		IDOS->UnLock(lock);
+		IDOS->ReleaseDirContext(context);
 	}
 	else
+	{
 		ret = 0;
+	}
+
 	return ret;
 }
