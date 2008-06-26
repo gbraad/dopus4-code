@@ -9,12 +9,12 @@
 # $Log
 # 
 
-CC     = ppc-morphos-gcc -noixemul
-CXX    = ppc-morphos-c++ -noixemul
-AS     = ppc-morphos-as 
-LD     = ppc-morphos-ld 
-RANLIB = ppc-morphos-ranlib 
-STRIP  = ppc-morphos-strip
+CC     = gcc -noixemul
+CXX    = c++ -noixemul
+AS     = as
+LD     = ld
+RANLIB = ranlib
+STRIP  = strip
 # RM     = delete
 RM     = rm -f
 

@@ -1,7 +1,7 @@
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.7'
-   from "..../catalogs/DOpus4_Config.cd".
+   This file was created automatically by `FlexCat 2.6.7'
+   from "../catalogs/DOpus4_Config.cd".
 
    Do NOT edit by hand!
 
@@ -44,7 +44,7 @@ the existing commercial status of Directory Opus 5.
 
 char **cfg_string;
 
-CONST struct DefaultString default_strings[] =
+struct DefaultString default_strings[] =
 {
         { STR_REALLY_DISCARD_CONFIG, "Do you really want to discard the\ncurrent configuration settings?" },
         { STR_EXIT_WITHOUT_SAVING, "Do you really want to exit without\nsaving the current configuration settings?" },
@@ -674,7 +674,7 @@ void read_strings()
 	stringdata.string_count = STR_STRING_COUNT;
 	stringdata.min_version = STRING_VERSION;
 
-	if(!(ReadStringFile(&stringdata, "dopus4_config.catalog")))
+	if(!ReadStringFile(&stringdata, "dopus4_config.catalog"))
 		quit();
 	cfg_string = stringdata.string_table;
 	init_strings();

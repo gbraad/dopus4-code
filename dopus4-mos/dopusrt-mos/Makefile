@@ -1,7 +1,7 @@
 CC = gcc -noixemul
 STRIP = strip
 
-CFLAGS = -O3 -Wall -I../include-os4 -DUSE_INLINE_STDARG
+CFLAGS = -O3 -Wall -I../include-mos -DUSE_INLINE_STDARG
 LDFLAGS =
 
 DOpusRT: main.o

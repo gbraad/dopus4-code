@@ -28,6 +28,8 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
+
 #include "config.h"
 
 int dofiletypeconfig()

@@ -110,3 +110,13 @@ typedef struct MyPrinterData
 extern struct DefaultString default_strings[];
 
 #define STRING_VERSION 1
+
+int dopus_message(int cmd, APTR data, char *portname);
+void fill_out_req(struct RequesterBase *req, struct VisInfo *vis);
+void set_print_env(PrintData *printdata);
+void get_print_env(PrintData *printdata);
+struct Gadget *addreqgadgets(struct RequesterBase *reqbase, struct TagItem **gadgets, struct Gadget **gadgetlist);
+void activate_next_gadget(struct Gadget *gadget, struct Window *window);
+int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save);
+int check_error(struct RequesterBase *reqbase, char *str, int abort);
+

@@ -59,7 +59,7 @@ void readstrings(STRPTR file)
 	stringdata.string_count = STR_STRING_COUNT;
 	stringdata.min_version = %v;
 
-	if(!(IDOpus->ReadStringFile(&stringdata, file)))
+	if(!ReadStringFile(&stringdata, file))
 		quit();
 	globstring = stringdata.string_table;
 

@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <clib/alib_protos.h>
+
 #include "print.h"
+#include "printdir.h"
+#include "printreq.h"
 
 void get_vis_info(struct VisInfo *vis, char *portname);
 
@@ -158,7 +162,7 @@ void get_vis_info(struct VisInfo *vis, char *portname)
 	}
 }
 
-dopus_message(int cmd, APTR data, char *portname)
+int dopus_message(int cmd, APTR data, char *portname)
 {
 	struct MsgPort *port, *replyport;
 	struct DOpusMessage msg;
@@ -331,7 +335,7 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 
 int error_rets[2] = { 1, 0 };
 
-check_error(struct RequesterBase *reqbase, char *str, int abort)
+int check_error(struct RequesterBase *reqbase, char *str, int abort)
 {
 	struct DOpusSimpleRequest *req;
 	char *error_gads[3];

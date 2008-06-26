@@ -36,6 +36,15 @@ the existing commercial status of Directory Opus 5.
 #ifndef SAMPLETYPE_Stereo
 #define SAMPLETYPE_Stereo SVX_STEREO
 #endif
+/* Comments in MorphOS include files say these tags are not implemented yet,
+   and definitions are commented out. Strange... */
+#ifndef SDTA_SignalTask
+#define SDTA_SignalTask (SDTA_Dummy + 7)
+#endif
+#ifndef SDTA_SignalBit
+#define SDTA_SignalBit  (SDTA_Dummy + 8)
+#endif
+
 
 #define RAWKEY_ESC 0x45
 #define RAWKEY_Q   0x10

@@ -32,7 +32,7 @@ the existing commercial status of Directory Opus 5.
 
 #include <proto/alib.h>
 #include <proto/locale.h>
-#include <proto/popupmenu.h>
+#include <proto/pm.h>
 
 void quit()
 {

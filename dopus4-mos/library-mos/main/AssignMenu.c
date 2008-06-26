@@ -22,6 +22,8 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
+#include "extras.h"
+
 /****** dopus/main/AssignMenu ******************************************
 *
 *   NAME

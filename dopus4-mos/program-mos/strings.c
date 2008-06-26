@@ -1,6 +1,6 @@
 /****************************************************************
 
-   This file was created automatically by `FlexCat 2.6'
+   This file was created automatically by `FlexCat 2.6.7'
    from "../catalogs/DOpus4.cd".
 
    Do NOT edit by hand!
@@ -417,7 +417,7 @@ void readstrings(STRPTR file)
 	stringdata.string_count = STR_STRING_COUNT;
 	stringdata.min_version = 0;
 
-	if(!(ReadStringFile(&stringdata, file)))
+	if(!ReadStringFile(&stringdata, file))
 		quit();
 	globstring = stringdata.string_table;
 

@@ -29,6 +29,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "print.h"
+#include "printdir.h"
 
 #define PD_SIZE 1
 #define PD_DATE 2

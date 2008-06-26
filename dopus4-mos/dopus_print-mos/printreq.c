@@ -28,7 +28,12 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
+#include <stdio.h>
+
 #include "print.h"
+#include "doprint.h"
+#include "printreq.h"
 
 enum
 {

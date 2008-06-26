@@ -28,7 +28,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
+#include <stdio.h>
+
 #include "print.h"
+#include "doprint.h"
 
 struct PrintHandle
 {
@@ -69,7 +73,7 @@ char *esc_styles[] =
 	"\x1b[4\"z",		/* STYLE_DOUBLESTRIKE */
 	"\x1b[6\"z"		/* STYLE_SHADOW       */
 };
-printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, struct Requester *requester)
+int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, struct Requester *requester)
 {
 	int fileh = 0, a, lastspace = -1, margin, filesize, ret = 0;
 	int buffersize, size, pos = 0, bufpos = 0;

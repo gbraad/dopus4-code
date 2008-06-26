@@ -1,7 +1,7 @@
 CC = gcc -noixemul
 STRIP = strip
 
-CFLAGS = -O3 -Wall -I../include-os4 -DUSE_INLINE_STDARG
+CFLAGS = -O3 -Wall -I../include-mos -DUSE_INLINE_STDARG
 LDFLAGS =
 
 FLEXCAT = flexcat
@@ -21,10 +21,10 @@ $(APPNAME) : $(OBJS)
 	$(STRIP) --remove-section=.comment $@.debug -o $@
 
 configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
-	$(FLEXCAT) ../catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd
+	$(FLEXCAT) /catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd
 
 strings.c: ../catalogs/DOpus4_Config.cd configstrings.h strings_c.sd
-	$(FLEXCAT) ../catalogs/DOpus4_Config.cd strings.c=strings_c.sd
+	$(FLEXCAT) /catalogs/DOpus4_Config.cd strings.c=strings_c.sd
 
 clean:
 	@rm -f *.o ConfigOpus ConfigOpus.debug
