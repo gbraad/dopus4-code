@@ -432,7 +432,7 @@ STATIC APTR DOPUS_AddGadgetBorders(void)
 
 STATIC APTR DOPUS_CreateGadgetBorders(void)
 {
-	return _DOpus_CreateGadgetBorders(REG_A0, REG_D0, REG_D1, REG_A1, REG_A2, REG_D2, REG_D4, REG_D4);
+	return _DOpus_CreateGadgetBorders(REG_A0, REG_D0, REG_D1, REG_A1, REG_A2, REG_D2, REG_D3, REG_D4);
 }
 
 STATIC VOID DOPUS_SelectGadget(void)

@@ -140,13 +140,12 @@ void hotkeytaskcode()
 	muiapp = ApplicationObject,
 		MUIA_Application_NoIconify, TRUE,
 		MUIA_Application_UseRexx, FALSE,
+		MUIA_Application_UseCommodities, FALSE,
 		End;
 
 	waitbits = 1 << hotkeymsg_port->mp_SigBit;
 	if(commodity)
 		waitbits |= 1 << inputport->mp_SigBit;
-
-	NewRawDoFmt("DOPUS: muiapp is %08lx\n", (APTR)1, NULL, muiapp);
 
 	sig = 0;
 
@@ -533,7 +532,7 @@ static APTR openprogresswindow(APTR muiapp, CONST_STRPTR title, int value, int t
 			!reqwin ? MUIA_Window_DepthGadget : TAG_IGNORE, FALSE,
 
 			WindowContents, VGroup,
-				Child, mui_gauge = GaugeObject, MUIA_Gauge_Horiz, TRUE, End,
+				Child, mui_gauge = GaugeObject, MUIA_Gauge_Horiz, TRUE, MUIA_Frame, MUIV_Frame_Gauge, End,
 				Child, mui_text = TextObject, MUIA_Text_Copy, FALSE, End,
 				Child, HCenter(abort = MakeButton(globstring[STR_ABORT])),
 			End,

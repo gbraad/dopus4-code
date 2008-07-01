@@ -30,7 +30,7 @@ LINK =
 TARGET = dopus.library
 
 # Additional linker libraries
-LIBS =
+LIBS = -ldebug
 
 # Version of the library to build
 VERSION = 22
@@ -75,10 +75,15 @@ main_SRCS = main/FileRequest.c main/Do3DBox.c \
 #    main/PathName.c main/SendPacket.c main/TackOn.c main/StampToStr.c \
 
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
+
+init.o: stubs.c
+
 # Rules for building
 $(TARGET): $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET).debug $(OBJS) $(LIBS)
 	$(STRIP) --remove-section=.comment $(TARGET).debug -o $(TARGET)
+
+all: $(TARGET)
 
 .PHONY: clean
 clean:

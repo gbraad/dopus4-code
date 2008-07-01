@@ -8,7 +8,7 @@ OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
 
 FLEXCAT = flexcat
 
-All : DOpus_Print
+all : DOpus_Print
 
 DOpus_Print : $(OBJS)
 	$(CC) $^ -o $@.debug $(LDFLAGS)
