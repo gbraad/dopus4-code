@@ -1,24 +1,26 @@
 #include <proto/alib.h>
 
-STATIC APTR DOPUS_FileRequest(void)
+#include "functions.h"
+
+STATIC int DOPUS_FileRequest(void)
 {
-	return _DOpus_FileRequest(REG_A0);
+	return _DOpus_FileRequest((struct DOpusFileReq *)REG_A0);
 }
-STATIC APTR DOPUS_Do3DBox(void)
+STATIC void DOPUS_Do3DBox(void)
 {
-	return _DOpus_Do3DBox(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
+	_DOpus_Do3DBox((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
 }
-STATIC APTR DOPUS_Do3DStringBox(void)
+STATIC void DOPUS_Do3DStringBox(void)
 {
-	return _DOpus_Do3DStringBox(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
+	_DOpus_Do3DStringBox((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
 }
-STATIC APTR DOPUS_Do3DCycleBox(void)
+STATIC void DOPUS_Do3DCycleBox(void)
 {
-	return _DOpus_Do3DCycleBox(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
+	_DOpus_Do3DCycleBox((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
 }
-STATIC APTR DOPUS_DoArrow(void)
+STATIC void DOPUS_DoArrow(void)
 {
-	return _DOpus_DoArrow(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5, REG_D6);
+	_DOpus_DoArrow((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5, REG_D6);
 }
 
 STATIC VOID DOPUS_LSprintf(void)
@@ -64,45 +66,45 @@ STATIC ULONG DOPUS_LToLower(void)
 	return tolower(REG_D0);
 }
 
-STATIC APTR DOPUS_LStrCat(void)
+STATIC void DOPUS_LStrCat(void)
 {
-	return _DOpus_LStrCat(REG_A0, REG_A1);
+	_DOpus_LStrCat((char *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_LStrnCat(void)
+STATIC void DOPUS_LStrnCat(void)
 {
-	return _DOpus_LStrnCat(REG_A0, REG_A1, REG_D0);
+	_DOpus_LStrnCat((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
-STATIC APTR DOPUS_LStrCpy(void)
+STATIC void DOPUS_LStrCpy(void)
 {
-	return _DOpus_LStrCpy(REG_A0, REG_A1);
+	_DOpus_LStrCpy((char *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_LStrnCpy(void)
+STATIC void DOPUS_LStrnCpy(void)
 {
-	return _DOpus_LStrnCpy(REG_A0, REG_A1, REG_D0);
+	_DOpus_LStrnCpy((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
-STATIC APTR DOPUS_LStrCmp(void)
+STATIC int DOPUS_LStrCmp(void)
 {
-	return _DOpus_LStrCmp(REG_A0, REG_A1);
+	return _DOpus_LStrCmp((char *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_LStrnCmp(void)
+STATIC int DOPUS_LStrnCmp(void)
 {
-	return _DOpus_LStrnCmp(REG_A0, REG_A1, REG_D0);
+	return _DOpus_LStrnCmp((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
-STATIC APTR DOPUS_LStrCmpI(void)
+STATIC int DOPUS_LStrCmpI(void)
 {
-	return _DOpus_LStrCmpI(REG_A0, REG_A1);
+	return _DOpus_LStrCmpI((char *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_LStrnCmpI(void)
+STATIC int DOPUS_LStrnCmpI(void)
 {
-	return _DOpus_LStrnCmpI(REG_A0, REG_A1, REG_D0);
+	return _DOpus_LStrnCmpI((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
-STATIC APTR DOPUS_StrCombine(void)
+STATIC int DOPUS_StrCombine(void)
 {
-	return _DOpus_StrCombine(REG_A0, REG_A1, REG_A2, REG_D0);
+	return _DOpus_StrCombine((char *)REG_A0, (char *)REG_A1, (char *)REG_A2, REG_D0);
 }
-STATIC APTR DOPUS_StrConcat(void)
+STATIC int DOPUS_StrConcat(void)
 {
-	return _DOpus_StrConcat(REG_A0, REG_A1, REG_D0);
+	return _DOpus_StrConcat((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
 STATIC APTR DOPUS_LParsePattern(void)
 {
@@ -134,9 +136,9 @@ STATIC APTR DOPUS_BtoCStr(void)
 	return NULL;
 }
 
-STATIC APTR DOPUS_Assign(void)
+STATIC int DOPUS_Assign(void)
 {
-	return _DOpus_Assign(REG_A0, REG_A1);
+	return _DOpus_Assign((char *)REG_A0, (char *)REG_A1);
 }
 
 STATIC APTR DOPUS_BaseName(void)
@@ -151,9 +153,9 @@ STATIC APTR DOPUS_CompareLock(void)
 	return NULL;
 }
 
-STATIC APTR DOPUS_PathName(void)
+STATIC int DOPUS_PathName(void)
 {
-	return _DOpus_PathName(REG_A0, REG_A1, REG_D0);
+	return _DOpus_PathName(REG_A0, (char *)REG_A1, REG_D0);
 }
 STATIC APTR DOPUS_SendPacket(void)
 {
@@ -161,73 +163,73 @@ STATIC APTR DOPUS_SendPacket(void)
 	return NULL;
 }
 
-STATIC APTR DOPUS_TackOn(void)
+STATIC int DOPUS_TackOn(void)
 {
-	return _DOpus_TackOn(REG_A0, REG_A1, REG_D0);
+	return _DOpus_TackOn((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
-STATIC APTR DOPUS_StampToStr(void)
+STATIC void DOPUS_StampToStr(void)
 {
-	return _DOpus_StampToStr(REG_A0);
+	_DOpus_StampToStr((struct DateTime *)REG_A0);
 }
-STATIC APTR DOPUS_StrToStamp(void)
+STATIC int DOPUS_StrToStamp(void)
 {
-	return _DOpus_StrToStamp(REG_A0);
+	return _DOpus_StrToStamp((struct DateTime *)REG_A0);
 }
-STATIC APTR DOPUS_AddListView(void)
+STATIC int DOPUS_AddListView(void)
 {
-	return _DOpus_AddListView(REG_A0, REG_D0);
+	return _DOpus_AddListView((struct DOpusListView *)REG_A0, REG_D0);
 }
-STATIC APTR DOPUS_ListViewIDCMP(void)
+STATIC struct DOpusListView *DOPUS_ListViewIDCMP(void)
 {
-	return _DOpus_ListViewIDCMP(REG_A0, REG_A1);
+	return _DOpus_ListViewIDCMP((struct DOpusListView *)REG_A0, (struct IntuiMessage *)REG_A1);
 }
-STATIC APTR DOPUS_RefreshListView(void)
+STATIC int DOPUS_RefreshListView(void)
 {
-	return _DOpus_RefreshListView(REG_A0, REG_D0);
+	return _DOpus_RefreshListView((struct DOpusListView *)REG_A0, REG_D0);
 }
-STATIC APTR DOPUS_RemoveListView(void)
+STATIC int DOPUS_RemoveListView(void)
 {
-	return _DOpus_RemoveListView(REG_A0, REG_D0);
+	return _DOpus_RemoveListView((struct DOpusListView *)REG_A0, REG_D0);
 }
-STATIC APTR DOPUS_DrawCheckMark(void)
+STATIC void DOPUS_DrawCheckMark(void)
 {
-	return _DOpus_DrawCheckMark(REG_A0, REG_D0, REG_D1, REG_D2);
+	_DOpus_DrawCheckMark((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2);
 }
-STATIC APTR DOPUS_FixSliderBody(void)
+STATIC void DOPUS_FixSliderBody(void)
 {
-	return _DOpus_FixSliderBody(REG_A0, REG_A1, REG_D0, REG_D1, REG_D2);
+	_DOpus_FixSliderBody((struct Window *)REG_A0, (struct Gadget *)REG_A1, REG_D0, REG_D1, REG_D2);
 }
-STATIC APTR DOPUS_FixSliderPot(void)
+STATIC void DOPUS_FixSliderPot(void)
 {
-	return _DOpus_FixSliderPot(REG_A0, REG_A1, REG_D0, REG_D1, REG_D2, REG_D3);
+	_DOpus_FixSliderPot((struct Window *)REG_A0, (struct Gadget *)REG_A1, REG_D0, REG_D1, REG_D2, REG_D3);
 }
-STATIC APTR DOPUS_GetSliderPos(void)
+STATIC int DOPUS_GetSliderPos(void)
 {
-	return _DOpus_GetSliderPos(REG_A0, REG_D0, REG_D1);
+	return _DOpus_GetSliderPos((struct Gadget *)REG_A0, REG_D0, REG_D1);
 }
 STATIC APTR DOPUS_LAllocRemember(void)
 {
-	return _DOpus_LAllocRemember(REG_A0, REG_D0, REG_D1);
+	return _DOpus_LAllocRemember((struct DOpusRemember **)REG_A0, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_LFreeRemember(void)
+STATIC void DOPUS_LFreeRemember(void)
 {
-	return _DOpus_LFreeRemember(REG_A0);
+	_DOpus_LFreeRemember((struct DOpusRemember **)REG_A0);
 }
-STATIC APTR DOPUS_SetBusyPointer(void)
+STATIC void DOPUS_SetBusyPointer(void)
 {
-	return _DOpus_SetBusyPointer(REG_A0);
+	_DOpus_SetBusyPointer((struct Window *)REG_A0);
 }
-STATIC APTR DOPUS_GetWBScreen(void)
+STATIC void DOPUS_GetWBScreen(void)
 {
-	return _DOpus_GetWBScreen(REG_A0);
+	_DOpus_GetWBScreen((struct Screen *)REG_A0);
 }
-STATIC APTR DOPUS_SearchPathList(void)
+STATIC int DOPUS_SearchPathList(void)
 {
-	return _DOpus_SearchPathList(REG_A0, REG_A1, REG_D0);
+	return _DOpus_SearchPathList((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
-STATIC APTR DOPUS_CheckExist(void)
+STATIC int DOPUS_CheckExist(void)
 {
-	return _DOpus_CheckExist(REG_A0, REG_A1);
+	return _DOpus_CheckExist((char *)REG_A0, (int *)REG_A1);
 }
 
 STATIC APTR DOPUS_CompareDate(void)
@@ -248,199 +250,199 @@ STATIC APTR DOPUS_Random(void)
 	return NULL;
 }
 
-STATIC APTR DOPUS_StrToUpper(void)
+STATIC void DOPUS_StrToUpper(void)
 {
-	return _DOpus_StrToUpper(REG_A0, REG_A1);
+	_DOpus_StrToUpper((char *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_StrToLower(void)
+STATIC void DOPUS_StrToLower(void)
 {
-	return _DOpus_StrToLower(REG_A0, REG_A1);
+	_DOpus_StrToLower((char *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_RawkeyToStr(void)
+STATIC int DOPUS_RawkeyToStr(void)
 {
-	return _DOpus_RawkeyToStr(REG_D0, REG_D1, REG_A0, REG_A1, REG_D2);
+	return _DOpus_RawkeyToStr(REG_D0, REG_D1, (char *)REG_A0, (char *)REG_A1, REG_D2);
 }
-STATIC APTR DOPUS_DoRMBGadget(void)
+STATIC int DOPUS_DoRMBGadget(void)
 {
-	return _DOpus_DoRMBGadget(REG_A0, REG_A1);
+	return _DOpus_DoRMBGadget((struct RMBGadget *)REG_A0, (struct Window *)REG_A1);
 }
-STATIC APTR DOPUS_AddGadgets(void)
+STATIC int DOPUS_AddGadgets(void)
 {
-	return _DOpus_AddGadgets(REG_A0, REG_A1, REG_A2, REG_D0, REG_D1, REG_D2, REG_D3);
+	return _DOpus_AddGadgets((struct Window *)REG_A0, (struct Gadget *)REG_A1, (char **)REG_A2, REG_D0, REG_D1, REG_D2, REG_D3);
 }
-STATIC APTR DOPUS_ActivateStrGad(void)
+STATIC void DOPUS_ActivateStrGad(void)
 {
-	return _DOpus_ActivateStrGad(REG_A0, REG_A1);
+	_DOpus_ActivateStrGad((struct Gadget *)REG_A0, (struct Window *)REG_A1);
 }
-STATIC APTR DOPUS_RefreshStrGad(void)
+STATIC void DOPUS_RefreshStrGad(void)
 {
-	return _DOpus_RefreshStrGad(REG_A0, REG_A1);
+	_DOpus_RefreshStrGad((struct Gadget *)REG_A0, (struct Window *)REG_A1);
 }
-STATIC APTR DOPUS_CheckNumGad(void)
+STATIC int DOPUS_CheckNumGad(void)
 {
-	return _DOpus_CheckNumGad(REG_A0, REG_A1, REG_D0, REG_D1);
+	return _DOpus_CheckNumGad((struct Gadget *)REG_A0, (struct Window *)REG_A1, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_CheckHexGad(void)
+STATIC int DOPUS_CheckHexGad(void)
 {
-	return _DOpus_CheckHexGad(REG_A0, REG_A1, REG_D0, REG_D1);
+	return _DOpus_CheckHexGad((struct Gadget *)REG_A0, (struct Window *)REG_A1, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_Atoh(void)
+STATIC int DOPUS_Atoh(void)
 {
-	return _DOpus_Atoh(REG_A0, REG_D0);
+	return _DOpus_Atoh((char *)REG_A0, REG_D0);
 }
-STATIC APTR DOPUS_HiliteGad(void)
+STATIC VOID DOPUS_HiliteGad(void)
 {
-	return _DOpus_HiliteGad(REG_A0, REG_A1);
+	_DOpus_HiliteGad((struct Gadget *)REG_A0, (struct RastPort *)REG_A1);
 }
-STATIC APTR DOPUS_DoSimpleRequest(void)
+STATIC int DOPUS_DoSimpleRequest(void)
 {
-	return _DOpus_DoSimpleRequest(REG_A0, REG_A1);
+	return _DOpus_DoSimpleRequest((struct Window *)REG_A0, (struct DOpusSimpleRequest *)REG_A1);
 }
 
-STATIC APTR DOPUS_ReadConfig(void)
+STATIC int DOPUS_ReadConfig(void)
 {
-	return _DOpus_ReadConfig(REG_A0, REG_A1);
+	return _DOpus_ReadConfig((STRPTR)REG_A0, (struct ConfigStuff *)REG_A1);
 }
-STATIC APTR DOPUS_SaveConfig(void)
+STATIC int DOPUS_SaveConfig(void)
 {
-	return _DOpus_SaveConfig(REG_A0, REG_A1);
+	return _DOpus_SaveConfig((char *)REG_A0, (struct ConfigStuff *)REG_A1);
 }
 STATIC LONG DOPUS_DefaultConfig(void)
 {
-	return _DOpus_DefaultConfig(REG_A0);
+	return _DOpus_DefaultConfig((struct ConfigStuff *)REG_A0);
 }
 
 STATIC LONG DOPUS_GetDevices(void)
 {
-	return _DOpus_GetDevices(REG_A0);
+	return _DOpus_GetDevices((struct ConfigStuff *)REG_A0);
 }
 
-STATIC APTR DOPUS_AssignGadget(void)
+STATIC int DOPUS_AssignGadget(void)
 {
-	return _DOpus_AssignGadget(REG_A0, REG_D0, REG_D1, REG_A1, REG_A2);
+	return _DOpus_AssignGadget((struct ConfigStuff *)REG_A0, REG_D0, REG_D1, (char *)REG_A1, (char *)REG_A2);
 }
-STATIC APTR DOPUS_AssignMenu(void)
+STATIC int DOPUS_AssignMenu(void)
 {
-	return _DOpus_AssignMenu(REG_A0, REG_D0, REG_A1, REG_A2);
+	return _DOpus_AssignMenu((struct ConfigStuff *)REG_A0, REG_D0, (char *)REG_A1, (char *)REG_A2);
 }
-STATIC APTR DOPUS_FindSystemFile(void)
+STATIC int DOPUS_FindSystemFile(void)
 {
-	return _DOpus_FindSystemFile(REG_A0, REG_A1, REG_D0, REG_D1);
+	return _DOpus_FindSystemFile((char *)REG_A0, (char *)REG_A1, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_Do3DFrame(void)
+STATIC VOID DOPUS_Do3DFrame(void)
 {
-	return _DOpus_Do3DFrame(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_A1, REG_D4, REG_D5);
+	_DOpus_Do3DFrame((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, (char *)REG_A1, REG_D4, REG_D5);
 }
-STATIC APTR DOPUS_FreeConfig(void)
+STATIC int DOPUS_FreeConfig(void)
 {
-	return _DOpus_FreeConfig(REG_A0);
+	return _DOpus_FreeConfig((struct ConfigStuff *)REG_A0);
 }
-STATIC APTR DOPUS_DoCycleGadget(void)
+STATIC VOID DOPUS_DoCycleGadget(void)
 {
-	return _DOpus_DoCycleGadget(REG_A0, REG_A1, REG_A2, REG_D0);
+	_DOpus_DoCycleGadget((struct Gadget *)REG_A0, (struct Window *)REG_A1, (char **)REG_A2, REG_D0);
 }
 
 STATIC VOID DOPUS_UScoreText(void)
 {
-	_DOpus_UScoreText(REG_A0, REG_A1, REG_D0, REG_D1, REG_D2);
+	_DOpus_UScoreText((struct RastPort *)REG_A0, (char *)REG_A1, REG_D0, REG_D1, REG_D2);
 }
 
-STATIC APTR DOPUS_DisableGadget(void)
+STATIC VOID DOPUS_DisableGadget(void)
 {
-	return _DOpus_DisableGadget(REG_A0, REG_A1, REG_D0, REG_D1);
+	_DOpus_DisableGadget((struct Gadget *)REG_A0, (struct RastPort *)REG_A1, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_EnableGadget(void)
+STATIC VOID DOPUS_EnableGadget(void)
 {
-	return _DOpus_EnableGadget(REG_A0, REG_A1, REG_D0, REG_D1);
+	_DOpus_EnableGadget((struct Gadget *)REG_A0, (struct RastPort *)REG_A1, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_GhostGadget(void)
+STATIC VOID DOPUS_GhostGadget(void)
 {
-	return _DOpus_GhostGadget(REG_A0, REG_A1, REG_D0, REG_D1);
+	_DOpus_GhostGadget((struct Gadget *)REG_A0, (struct RastPort *)REG_A1, REG_D0, REG_D1);
 }
-STATIC APTR DOPUS_DrawRadioButton(void)
+STATIC VOID DOPUS_DrawRadioButton(void)
 {
-	return _DOpus_DrawRadioButton(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
+	_DOpus_DrawRadioButton((struct RastPort *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5);
 }
 STATIC APTR DOPUS_GetButtonImage(void)
 {
-	return _DOpus_GetButtonImage(REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5, REG_A0);
+	return _DOpus_GetButtonImage(REG_D0, REG_D1, REG_D2, REG_D3, REG_D4, REG_D5, (struct DOpusRemember **)REG_A0);
 }
-STATIC APTR DOPUS_ShowSlider(void)
+STATIC VOID DOPUS_ShowSlider(void)
 {
-	return _DOpus_ShowSlider(REG_A0, REG_A1);
+	_DOpus_ShowSlider((struct Window *)REG_A0, (struct Gadget*)REG_A1);
 }
 
-STATIC APTR DOPUS_CheckConfig(void)
+STATIC int DOPUS_CheckConfig(void)
 {
-	return _DOpus_CheckConfig(REG_A0);
+	return _DOpus_CheckConfig((struct ConfigStuff *)REG_A0);
 }
 
 STATIC APTR DOPUS_GetCheckImage(void)
 {
-	return _DOpus_GetCheckImage(REG_D0, REG_D1, REG_D2, REG_A0);
+	return _DOpus_GetCheckImage(REG_D0, REG_D1, REG_D2, (struct DOpusRemember **)REG_A0);
 }
 STATIC APTR DOPUS_OpenRequester(void)
 {
-	return _DOpus_OpenRequester(REG_A0);
+	return _DOpus_OpenRequester((struct RequesterBase *)REG_A0);
 }
-STATIC APTR DOPUS_CloseRequester(void)
+STATIC VOID DOPUS_CloseRequester(void)
 {
-	return _DOpus_CloseRequester(REG_A0);
+	return _DOpus_CloseRequester((struct RequesterBase *)REG_A0);
 }
-STATIC APTR DOPUS_AddRequesterObject(void)
+STATIC VOID DOPUS_AddRequesterObject(void)
 {
-	return _DOpus_AddRequesterObject(REG_A0, REG_A1);
+	_DOpus_AddRequesterObject((struct RequesterBase *)REG_A0, (struct TagItem *)REG_A1);
 }
 
 STATIC VOID DOPUS_RefreshRequesterObject(void)
 {
-	_DOpus_RefreshRequesterObject(REG_A0, REG_A1);
+	_DOpus_RefreshRequesterObject((struct RequesterBase *)REG_A0, (struct RequesterObject *)REG_A1);
 }
 
-STATIC APTR DOPUS_ObjectText(void)
+STATIC void DOPUS_ObjectText(void)
 {
-	return _DOpus_ObjectText(REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, REG_A1, REG_D4);
+	_DOpus_ObjectText((struct RequesterBase *)REG_A0, REG_D0, REG_D1, REG_D2, REG_D3, (char *)REG_A1, REG_D4);
 }
-STATIC APTR DOPUS_DoGlassImage(void)
+STATIC void DOPUS_DoGlassImage(void)
 {
-	return _DOpus_DoGlassImage(REG_A0, REG_A1, REG_D0, REG_D1, REG_D2);
+	_DOpus_DoGlassImage((struct RastPort *)REG_A0, (struct Gadget *)REG_A1, REG_D0, REG_D1, REG_D2);
 }
 
 STATIC VOID DOPUS_Decode_RLE(void)
 {
-	_DOpus_Decode_RLE(REG_A0, REG_A1, REG_D0);
+	_DOpus_Decode_RLE((char *)REG_A0, (char *)REG_A1, REG_D0);
 }
 
-STATIC APTR DOPUS_ReadStringFile(void)
+STATIC int DOPUS_ReadStringFile(void)
 {
-	return _DOpus_ReadStringFile(REG_A0, REG_A1);
+	return _DOpus_ReadStringFile((struct StringData *)REG_A0, (char *)REG_A1);
 }
-STATIC APTR DOPUS_FreeStringFile(void)
+STATIC int DOPUS_FreeStringFile(void)
 {
-	return _DOpus_FreeStringFile(REG_A0);
-}
-
-STATIC APTR DOPUS_LFreeRemEntry(void)
-{
-	return _DOpus_LFreeRemEntry(REG_A0, REG_A1);
+	return _DOpus_FreeStringFile((struct StringData *)REG_A0);
 }
 
-STATIC APTR DOPUS_AddGadgetBorders(void)
+STATIC void DOPUS_LFreeRemEntry(void)
 {
-	return _DOpus_AddGadgetBorders(REG_A0, REG_A1, REG_D0, REG_D1, REG_D2);
+	_DOpus_LFreeRemEntry((struct DOpusRemember **)REG_A0, (char *)REG_A1);
 }
 
-STATIC APTR DOPUS_CreateGadgetBorders(void)
+STATIC void DOPUS_AddGadgetBorders(void)
 {
-	return _DOpus_CreateGadgetBorders(REG_A0, REG_D0, REG_D1, REG_A1, REG_A2, REG_D2, REG_D3, REG_D4);
+	_DOpus_AddGadgetBorders((struct DOpusRemember **)REG_A0, (struct Gadget *)REG_A1, REG_D0, REG_D1, REG_D2);
+}
+
+STATIC void DOPUS_CreateGadgetBorders(void)
+{
+	_DOpus_CreateGadgetBorders((struct DOpusRemember **)REG_A0, REG_D0, REG_D1, (struct Border **)REG_A1, (struct Border **)REG_A2, REG_D2, REG_D3, REG_D4);
 }
 
 STATIC VOID DOPUS_SelectGadget(void)
 {
-	_DOpus_SelectGadget(REG_A0, REG_A1);
+	_DOpus_SelectGadget((struct Window *)REG_A0, (struct Gadget *)REG_A1);
 }
 
 STATIC int DOPUS_FSSetMenuStrip(void)
 {
-	return _DOpus_FSSetMenuStrip(REG_A0, REG_A1);
+	return _DOpus_FSSetMenuStrip((struct Window *)REG_A0, (struct Menu *)REG_A1);
 }

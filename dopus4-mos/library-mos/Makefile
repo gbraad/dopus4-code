@@ -76,8 +76,6 @@ main_SRCS = main/FileRequest.c main/Do3DBox.c \
 
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 
-init.o: stubs.c
-
 # Rules for building
 $(TARGET): $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET).debug $(OBJS) $(LIBS)
