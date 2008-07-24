@@ -28,6 +28,8 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#define USE_INLINE_STDARG
+
 #include "dopus.h"
 #include <proto/xadmaster.h>
 
@@ -268,7 +270,7 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 			{
 				while (err != XADERR_OK)
 				{
-					err = xadFileUnArc(dir->xai, XAD_ENTRYNUMBER, xfi->xfi_EntryNumber, XAD_OUTFILENAME, (ULONG) arcname, dir->arcpassword[0] ? XAD_PASSWORD : TAG_IGNORE, dir->arcpassword, TAG_END);
+					err = xadFileUnArc(dir->xai, XAD_ENTRYNUMBER, xfi->xfi_EntryNumber, XAD_OUTFILENAME, (ULONG) arcname, dir->arcpassword[0] ? XAD_PASSWORD : TAG_IGNORE, (IPTR)dir->arcpassword, TAG_END);
 					switch (err)
 					{
 					case XADERR_OK:
@@ -316,7 +318,7 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 	fib->fib_DirEntryType = entry->type;
 	strcpy(fib->fib_FileName, entry->name);
 	fib->fib_Protection = entry->protection;
-	fib->fib_Size = (int)entry->size;
+	fib->fib_Size64 = (int)entry->size;
 	fib->fib_Date = entry->date;
 	if(entry->comment)
 		strcpy(fib->fib_Comment, entry->comment);

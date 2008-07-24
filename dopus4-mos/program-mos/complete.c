@@ -86,6 +86,7 @@ void do_path_completion(int win, USHORT qual)
 		if((lock = Lock(path, ACCESS_READ)))
 		{
 			Examine(lock, &finfo);
+
 			if(finfo.fib_DirEntryType > 0)
 			{
 				while(ExNext(lock, &finfo))

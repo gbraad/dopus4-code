@@ -32,7 +32,7 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 
 #define DOPUS_VERSION  "4"
-#define DOPUS_REV      "17"
+#define DOPUS_REV      "18"
 #define DOPUS_BETAREV  "pre19"
 
 #define DOPUS_REVISION DOPUS_REV
@@ -53,15 +53,15 @@ CONST TEXT comp_date[] = __DATE__, comp_time[] = __TIME__;
 
 void about()
 {
-	TEXT buf[1024] = { 0, };
+	TEXT buf[1024];
 
-	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " DOPUS_VERSION "." DOPUS_REVISION " " DOPUS_BETAREV, "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
+	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " DOPUS_VERSION "." DOPUS_REVISION /*" " DOPUS_BETAREV*/, "Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
 	simplerequest(buf, globstring[STR_CONTINUE], NULL);
 }
 
 void give_version_info()
 {
-	TEXT buf[1024] = { 0, };
+	TEXT buf[1024];
 	ULONG ver = DOpusBase->lib_Version, rev = DOpusBase->lib_Revision;
 
 //	sprintf(buf,globstring[STR_VERSION_CONTENTS],globstring[STR_VERSION_HEADER], 

@@ -35,11 +35,12 @@ int copyfile(CONST_STRPTR src, CONST_STRPTR dst, int *err, CONST_STRPTR password
 {
 	struct FileInfoBlock cfinfo;
 	char *buffer;
-	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size = 0, size;
+	int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, buffer_size = 0;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
 	int inhandle, outhandle;
 	struct AsyncFile *infile = NULL;
 	struct DateStamp ds, *dsp;
+	QUAD size;
 
 	buffer = NULL;
 
@@ -63,7 +64,7 @@ int copyfile(CONST_STRPTR src, CONST_STRPTR dst, int *err, CONST_STRPTR password
 		return (0);
 	}
 
-	if(!(size = cfinfo.fib_Size))
+	if(!(size = cfinfo.fib_Size64))
 	{
 		if(!(out = Open(dst, MODE_NEWFILE)))
 			goto failed;

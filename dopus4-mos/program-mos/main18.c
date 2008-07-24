@@ -108,7 +108,16 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			doerror(-1);
 			return (-1);
 		}
-		Examine(mylock, &myfinfo);
+
+		if (SysBase->LibNode.lib_Version >= 51)
+		{
+			Examine64(mylock, &myfinfo, NULL);
+		}
+		else
+		{
+			Examine(mylock, &myfinfo);
+			myfinfo.fib_Size64 = myfinfo.fib_Size;
+		}
 	}
 	if(!(name = LAllocRemember(&memkey, 5 * 512, MEMF_CLEAR)))
 	{
@@ -136,7 +145,15 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	}
 	if(mylock)
 	{
-		to_do = ExNext(mylock, &myfinfo);
+		if (SysBase->LibNode.lib_Version >= 51)
+		{
+			to_do = ExNext64(mylock, &myfinfo, NULL);
+		}
+		else
+		{
+			to_do = ExNext(mylock, &myfinfo);
+			myfinfo.fib_Size64 = myfinfo.fib_Size;
+		}
 	}
 	else
 	{
@@ -258,7 +275,15 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 				if(mylock)
 				{
-					to_do = ExNext(mylock, &myfinfo);
+					if (SysBase->LibNode.lib_Version >= 51)
+					{
+						to_do = ExNext64(mylock, &myfinfo, NULL);
+					}
+					else
+					{
+						to_do = ExNext(mylock, &myfinfo);
+						myfinfo.fib_Size64 = myfinfo.fib_Size;
+					}
 				}
 				else
 				{
@@ -429,8 +454,18 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							to_do = 0;
 							continue;
 						}
-						Examine(mylock, &myfinfo);
-						to_do = ExNext(mylock, &myfinfo);
+
+						if (SysBase->LibNode.lib_Version >= 51)
+						{
+							Examine64(mylock, &myfinfo, NULL);
+							to_do = ExNext64(mylock, &myfinfo, NULL);
+						}
+						else
+						{
+							Examine(mylock, &myfinfo);
+							to_do = ExNext(mylock, &myfinfo);
+							myfinfo.fib_Size64 = myfinfo.fib_Size;
+						}
 					}
 					else
 					{
@@ -454,11 +489,11 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		if(enfinfo.fib_DirEntryType < 0 || enfinfo.fib_DirEntryType == ST_SOFTLINK || enfinfo.fib_DirEntryType == ST_LINKFILE)
 		{
 			a = 0;
-			dos_global_bytecount += enfinfo.fib_Size;
+			dos_global_bytecount += enfinfo.fib_Size64;
 			dos_global_files++;
 			if(dowhat & R_GETBYTES && data)
 			{
-				blocks = (enfinfo.fib_Size + (data - 1)) / data;
+				blocks = (enfinfo.fib_Size64 + (data - 1)) / data;
 				dos_global_blocksneeded += blocks + (blocks / 72) + 1;
 			}
 
@@ -540,7 +575,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 									if(config->copyflags & COPY_ARC && !(enfinfo.fib_Protection & FIBF_ARCHIVE))
 										SetProtection(name, enfinfo.fib_Protection | FIBF_ARCHIVE);
 								}
-								dos_global_copiedbytes += enfinfo.fib_Size;
+								dos_global_copiedbytes += enfinfo.fib_Size64;
 							}
 							if(config->dynamicflags & UPDATE_FREE)
 								seename(data_active_window);
@@ -577,7 +612,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							glob_unprotect_all = 1;
 						if(config->dynamicflags & UPDATE_FREE)
 							seename(data_active_window);
-						dos_global_deletedbytes += enfinfo.fib_Size;
+						dos_global_deletedbytes += enfinfo.fib_Size64;
 					}
 				}
 				else if(dowhat & R_COMMENT)
@@ -690,8 +725,19 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				}
 			}
 		}
+
 		if(mylock)
-			to_do = ExNext(mylock, &myfinfo);
+		{
+			if (SysBase->LibNode.lib_Version >= 51)
+			{
+				to_do = ExNext64(mylock, &myfinfo, NULL);
+			}
+			else
+			{
+				to_do = ExNext(mylock, &myfinfo);
+				myfinfo.fib_Size64 = myfinfo.fib_Size;
+			}
+		}
 		else
 		{
 			arcfillfib(&myfinfo, entry = entry->next);
@@ -813,17 +859,34 @@ int getdircontentsinfo(STRPTR path, UQUAD *size, ULONG *files)
 		{
 			if((eac = AllocDosObject(DOS_EXALLCONTROL, NULL)))
 			{
+				ULONG edtype;
+
 				eac->eac_LastKey = 0; //NULL;
+				edtype = ED_SIZE64;
 
 				do
 				{
 					ead = (struct ExAllData *)buf;
 					more = ExAll(lock, ead, 1024, ED_SIZE, eac);
-					if((!more) && (IoErr() != ERROR_NO_MORE_ENTRIES))
+
+					if (!more)
 					{
-						ret = 0;
-						break;
+						LONG err = IoErr();
+
+						if (err == ERROR_BAD_NUMBER && edtype == ED_SIZE64)
+						{
+							edtype = ED_SIZE;
+							more = 1;
+							continue;
+						}
+
+						if (err != ERROR_NO_MORE_ENTRIES)
+						{
+							ret = 0;
+							break;
+						}
 					}
+
 					if(eac->eac_Entries == 0)
 						continue;
 

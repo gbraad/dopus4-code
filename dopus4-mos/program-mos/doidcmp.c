@@ -594,14 +594,14 @@ void doidcmp()
 					win = -1;
 					switch (code)
 					{
-					case RAWKEY_NM_WHEEL_DOWN:
+					case RAWKEY_NM_WHEEL_UP:
 						win = data_active_window;
 						verticalscroll(win, -1);
 						verticalscroll(win, -1);
 						verticalscroll(win, -1);
 						break;
 
-					case RAWKEY_NM_WHEEL_UP:
+					case RAWKEY_NM_WHEEL_DOWN:
 						win = data_active_window;
 						verticalscroll(win, 1);
 						verticalscroll(win, 1);

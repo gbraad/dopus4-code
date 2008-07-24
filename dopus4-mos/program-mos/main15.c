@@ -28,6 +28,9 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#define XAD_OBSOLETE
+#define USE_INLINE_STDARG
+
 #include "dopus.h"
 #include <proto/xadmaster.h>
 
@@ -290,9 +293,9 @@ void initclock()
 	{
 		clockmsg_port = NULL;
 		clock_task = (struct Task *)CreateNewProcTags(
-			NP_Name, "dopus_clock",
+			NP_Name, (IPTR)"dopus_clock",
 			NP_Priority, config->priority + 1,
-			NP_Entry, &clocktask,
+			NP_Entry, (IPTR)&clocktask,
 			NP_CodeType, CODETYPE_PPC,
 			TAG_DONE);
 	}
@@ -303,7 +306,7 @@ int internal_function(int function, int rexx, STRPTR source, STRPTR dest)
 	int a, b, actwin = -1, inactwin = -1, flag = 0;
 	char buf[256], buf2[256], *spath = NULL, *dpath = NULL;
 	struct Directory dummy_entry;
-	struct CommandList *command = NULL;
+	const struct CommandList *command = NULL;
 
 	for(a = 0;; a++)
 	{

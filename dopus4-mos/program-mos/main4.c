@@ -111,7 +111,16 @@ void makedir(int rexx)
 			continue;
 		}
 
-		Examine(lock, &fileinfo);
+		if (SysBase->LibNode.lib_Version >= 51)
+		{
+			Examine64(lock, &fileinfo, NULL);
+		}
+		else
+		{
+			Examine(lock, &fileinfo);
+			fileinfo.fib_Size64 = fileinfo.fib_Size;
+		}
+
 		UnLock(lock);
 
 		if(win > -1)
@@ -129,7 +138,7 @@ void makedir(int rexx)
 			{
 				if(win > -1)
 				{
-					addfile(dopus_curwin[win], win, fileinfo.fib_FileName, fileinfo.fib_Size, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, 0, TRUE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
+					addfile(dopus_curwin[win], win, fileinfo.fib_FileName, fileinfo.fib_Size64, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, 0, TRUE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
 					seename(win);
 					update_buffer_stamp(win, 1);
 				}

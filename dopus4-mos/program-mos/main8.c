@@ -102,6 +102,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	if(!(suc_dfib = lockandexamine(destname, &d_fib)))
 		return (REPLACE_OK);
 
+	#if 0
 	if(suc_dfib && d_fib.fib_DirEntryType > 0)
 	{
 		if(s_fib.fib_DirEntryType < 0)
@@ -111,6 +112,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		}
 		return (REPLACE_OK);
 	}
+	#endif
 
 	if(config->existflags & REPLACE_ALWAYS)
 		return (REPLACE_OK);
@@ -152,17 +154,17 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			else if(d_fib.fib_DirEntryType > 0)
 			{
 				/* Destination is directory, source is file */
-				sprintf(buf, globstring[STR_REPLACE_DIR_WITH_FILE], FilePart(destname), s_fib.fib_Size, datebuf1, datebuf2);
+				sprintf(buf, globstring[STR_REPLACE_DIR_WITH_FILE], FilePart(destname), s_fib.fib_Size64, datebuf1, datebuf2);
 			}
 			else if(s_fib.fib_DirEntryType > 0)
 			{
 				/* Source is directory, destination is file */
-				sprintf(buf, globstring[STR_REPLACE_FILE_WITH_DIR], FilePart(destname), datebuf1, d_fib.fib_Size, datebuf2);
+				sprintf(buf, globstring[STR_REPLACE_FILE_WITH_DIR], FilePart(destname), datebuf1, d_fib.fib_Size64, datebuf2);
 			}
 			else
 			{
 				/* Both entries are files */
-				sprintf(buf, globstring[STR_OLD_NEW_FILE_REPLACE], FilePart(destname), s_fib.fib_Size, datebuf1, d_fib.fib_Size, datebuf2);
+				sprintf(buf, globstring[STR_OLD_NEW_FILE_REPLACE], FilePart(destname), s_fib.fib_Size64, datebuf1, d_fib.fib_Size64, datebuf2);
 			}
 		}
 		do
@@ -196,7 +198,17 @@ int lockandexamine(STRPTR name, struct FileInfoBlock *fib)
 	fib->fib_OwnerUID = fib->fib_OwnerGID = 0;
 	if(!(lock = Lock(name, ACCESS_READ)))
 		return (0);
-	Examine(lock, fib);
+
+	if (SysBase->LibNode.lib_Version >= 51)
+	{
+		Examine64(lock, fib, NULL);
+	}
+	else
+	{
+		Examine(lock, fib);
+		fib->fib_Size64 = fib->fib_Size;
+	}
+
 	UnLock(lock);
 	return (1);
 }

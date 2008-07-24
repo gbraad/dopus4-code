@@ -427,7 +427,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 
 	if(config->dynamicflags & UPDATE_PROGRESSINDICATOR && (progress_copy || total > 1))
 	{
-		char *title = NULL;
+		CONST_STRPTR title = NULL;
 		int x;
 
 		for(x = 0;; x++)
@@ -600,7 +600,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 				{
 					StrCombine(tbuf, sourcedir, oldiconname, 256);
 					if(lockandexamine(tbuf, &fileinfo))
-						bb = fileinfo.fib_Size;
+						bb = fileinfo.fib_Size64;
 				}
 				if(bb > -1)
 				{
@@ -1089,7 +1089,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 						}
 						else if(lockandexamine(destname, &fileinfo))
 						{
-							addfile(dwindow, inact, fileinfo.fib_FileName, fileinfo.fib_Size, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, file->subtype, 1, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
+							addfile(dwindow, inact, fileinfo.fib_FileName, fileinfo.fib_Size64, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, file->subtype, 1, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
 							if((a = delfile(sourcename, file->name, globstring[STR_DELETING], 1, 1)) == -2)
 							{
 								if(!(a = recursedir(sourcename, NULL, R_DELETE, 0)))
@@ -1295,7 +1295,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			if(lockandexamine(destname, &fileinfo))
 			{
 				if(fileinfo.fib_DirEntryType < 0)
-					byte = fileinfo.fib_Size;
+					byte = fileinfo.fib_Size64;
 				addfile(dwindow, inact, fileinfo.fib_FileName, byte, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, file->subtype, 1, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
 				if(config->copyflags & COPY_ARC && !(file->protection & FIBF_ARCHIVE))
 				{
@@ -1600,7 +1600,7 @@ int dofilefunction(int function, int flags, STRPTR sourcedir, STRPTR destdir, in
 			{
 				if(lockandexamine(destname, &fileinfo))
 				{
-					addfile(swindow, act, buf2, fileinfo.fib_Size, -1, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, 0, 1, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
+					addfile(swindow, act, buf2, fileinfo.fib_Size64, -1, &fileinfo.fib_Date, fileinfo.fib_Comment, fileinfo.fib_Protection, 0, 1, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
 					show = act;
 					okayflag = 1;
 				}

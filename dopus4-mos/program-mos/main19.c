@@ -210,7 +210,7 @@ int simplerequest(STRPTR txt, ...)
 	return (dorequest(&request, txt, gads, rets, NULL));
 }
 
-int whatsit(STRPTR txt, int max, STRPTR buffer, STRPTR skiptxt)
+int whatsit(CONST_STRPTR txt, int max, STRPTR buffer, CONST_STRPTR skiptxt)
 {
 	char *gads[4];
 	int a = 1, rets[3];
@@ -377,11 +377,14 @@ struct dopusfiletype *checkfiletype(STRPTR fullname, int ftype, int funconly)
 int dochecktype(struct dopusfiletype *type, STRPTR name, int file, struct FileInfoBlock *info)
 {
 	char buf[514], buf2[1024], *recog;
-	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, val = 0, oldpos, err = 0, gotone = 0, test;
+	int a, b, c, d, len, operation, fail = 0, prot[2], tprot, equ, oldpos, gotone = 0, test;
 	struct DateStamp ds1, ds2;
+	QUAD err, val;
 
 	len = strlen((recog = type->recognition)) + 1;
 	b = operation = 0;
+	err = 0;
+	val = 0;
 
 	Seek(file, 0, OFFSET_BEGINNING);
 	for(a = 0; a < len; a++)
@@ -450,11 +453,11 @@ int dochecktype(struct dopusfiletype *type, STRPTR name, int file, struct FileIn
 				}
 				if(equ != 2)
 				{
-					if(equ == -1 && info->fib_Size >= val)
+					if(equ == -1 && info->fib_Size64 >= val)
 						fail = 1;
-					else if(equ == 0 && info->fib_Size != val)
+					else if(equ == 0 && info->fib_Size64 != val)
 						fail = 1;
-					else if(equ == 1 && info->fib_Size <= val)
+					else if(equ == 1 && info->fib_Size64 <= val)
 						fail = 1;
 				}
 				break;
@@ -470,9 +473,19 @@ int dochecktype(struct dopusfiletype *type, STRPTR name, int file, struct FileIn
 				else
 					val = atoi(buf);
 				if(val == -1)
-					err = Seek(file, 0, OFFSET_END);
+				{
+					if (SysBase->LibNode.lib_Version >= 51)
+						err = Seek64(file, 0, OFFSET_END);
+					else
+						err = Seek(file, 0, OFFSET_END);
+				}
 				else if(val > -1)
-					err = Seek(file, val, OFFSET_BEGINNING);
+				{
+					if (SysBase->LibNode.lib_Version >= 51)
+						err = Seek64(file, val, OFFSET_BEGINNING);
+					else
+						err = Seek(file, val, OFFSET_BEGINNING);
+				}
 				else
 					err = -1;
 				if(err == -1)
@@ -484,21 +497,41 @@ int dochecktype(struct dopusfiletype *type, STRPTR name, int file, struct FileIn
 					val = Atoh(&buf[1], -1);
 				else
 					val = atoi(buf);
-				if((Seek(file, val, OFFSET_CURRENT)) == -1)
-					fail = 1;
+
+				if (SysBase->LibNode.lib_Version >= 51)
+				{
+					if((Seek64(file, val, OFFSET_CURRENT)) == -1)
+						fail = 1;
+				}
+				else
+				{
+					if((Seek(file, val, OFFSET_CURRENT)) == -1)
+						fail = 1;
+				}
+
 				if(err == -1)
 					fail = 1;
 				break;
 			case FTYC_SEARCHFOR:
-				oldpos = Seek(file, 0, OFFSET_CURRENT);
+				if (SysBase->LibNode.lib_Version >= 51)
+					oldpos = Seek64(file, 0, OFFSET_CURRENT);
+				else
+					oldpos = Seek(file, 0, OFFSET_CURRENT);
 				if((val = typesearch(file, buf, SEARCH_NOCASE | SEARCH_WILDCARD, NULL, 0)) == -1)
 				{
 					fail = 1;
-					Seek(file, oldpos, OFFSET_BEGINNING);
+
+					if (SysBase->LibNode.lib_Version >= 51)
+						Seek64(file, oldpos, OFFSET_BEGINNING);
+					else
+						Seek(file, oldpos, OFFSET_BEGINNING);
 				}
 				else
 				{
-					Seek(file, val, OFFSET_BEGINNING);
+					if (SysBase->LibNode.lib_Version >= 51)
+						Seek64(file, val, OFFSET_BEGINNING);
+					else
+						Seek(file, val, OFFSET_BEGINNING);
 				}
 				break;
 			default:
@@ -613,7 +646,8 @@ int checktypechars(int file, STRPTR match, int nocase)
 int typesearch(int file, STRPTR find, int flags, STRPTR buffer, int bufsize)
 {
 	char *findbuf, matchbuf[256];
-	int matchsize, a, len, size, oldpos;
+	int a, len, size;
+	QUAD matchsize, oldpos;
 
 	len = strlen(find);
 	if(find[0] == '$')
@@ -665,7 +699,12 @@ int typesearch(int file, STRPTR find, int flags, STRPTR buffer, int bufsize)
 				myabort();
 				break;
 			}
-			oldpos = Seek(file, 0, OFFSET_CURRENT);
+
+			if (SysBase->LibNode.lib_Version >= 51)
+				oldpos = Seek64(file, 0, OFFSET_CURRENT);
+			else
+				oldpos = Seek(file, 0, OFFSET_CURRENT);
+
 			if((size = Read(file, findbuf, 32000)) < 1)
 				break;
 			if((searchbuffer(findbuf, size, matchbuf, matchsize, flags)) == 1)
@@ -678,7 +717,11 @@ int typesearch(int file, STRPTR find, int flags, STRPTR buffer, int bufsize)
 				continue;
 			if(size < 32000)
 				break;
-			Seek(file, -matchsize, OFFSET_CURRENT);
+
+			if (SysBase->LibNode.lib_Version >= 51)
+				Seek64(file, -matchsize, OFFSET_CURRENT);
+			else
+				Seek(file, -matchsize, OFFSET_CURRENT);
 		}
 		FreeMem(findbuf, 32004);
 	}

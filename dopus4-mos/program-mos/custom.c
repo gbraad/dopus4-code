@@ -1309,7 +1309,7 @@ struct Directory *reload_file(int win, char *name)
 	{
 		if((cust = findfile(dopus_curwin[win], fileinfo.fib_FileName, NULL)))
 			removefile(cust, dopus_curwin[win], win, FALSE);
-		ret = (struct Directory *)addfile(dopus_curwin[win], win, fileinfo.fib_FileName, fileinfo.fib_Size, fileinfo.fib_DirEntryType, &(fileinfo.fib_Date), fileinfo.fib_Comment, fileinfo.fib_Protection, 0, FALSE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
+		ret = (struct Directory *)addfile(dopus_curwin[win], win, fileinfo.fib_FileName, fileinfo.fib_Size64, fileinfo.fib_DirEntryType, &(fileinfo.fib_Date), fileinfo.fib_Comment, fileinfo.fib_Protection, 0, FALSE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID);
 	}
 	else
 	{
@@ -1356,8 +1356,20 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	if((lock = Lock(buf, ACCESS_READ)))
 	{
-		Examine(lock, &fileinfo);
-		if(ExNext(lock, &fileinfo))
+		ULONG retval;
+
+		if (SysBase->LibNode.lib_Version >= 51)
+		{
+			Examine64(lock, &fileinfo, NULL);
+			retval = ExNext64(lock, &fileinfo, NULL);
+		}
+		else
+		{
+			Examine(lock, &fileinfo);
+			retval = ExNext(lock, &fileinfo);
+		}
+
+		if (retval)
 		{
 			FOREVER
 			{
@@ -1365,7 +1377,12 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 					sprintf(funcdata->scriptname, "%s%s", buf, fileinfo.fib_FileName);
 				else
 					funcdata->scriptname[0] = 0;
-				a = ExNext(lock, &fileinfo);
+
+				if (SysBase->LibNode.lib_Version >= 51)
+					a = ExNext64(lock, &fileinfo, NULL);
+				else
+					a = ExNext(lock, &fileinfo);
+
 				if(funcdata->scriptname[0])
 					DeleteFile(funcdata->scriptname);
 				if(!a)
@@ -1668,7 +1685,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 	if(fbuf->type >= 0)
 		fbuf->size = -1;
 	else
-		fbuf->size = fib.fib_Size;
+		fbuf->size = fib.fib_Size64;
 	fbuf->subtype = 0;
 	fbuf->protection = fib.fib_Protection;
 	fbuf->comment = fbuf->dispstr = NULL;

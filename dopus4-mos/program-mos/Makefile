@@ -11,7 +11,7 @@ remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 init_libs.o mui.o
 
-CFLAGS = -Wall -O3 -I../include-mos -Iusr:local/include
+CFLAGS = -Wall -O3 -I../include-mos -Iusr:local/include -DSYSTEM_PRIVATE
 LDFLAGS = -Llib
 FLEXCAT = flexcat
 

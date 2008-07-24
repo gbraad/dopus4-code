@@ -328,7 +328,7 @@ void shutthingsdown(int);
 void setupwindreq(struct Window *);
 void hilite_req_gadget(struct Window *, USHORT);
 int simplerequest(STRPTR, ...);
-int whatsit(STRPTR, int, STRPTR, STRPTR);
+int whatsit(CONST_STRPTR, int, STRPTR, CONST_STRPTR);
 struct dopusfiletype *checkfiletype(STRPTR, int, int);
 int checkfiletypefunc(STRPTR, int);
 int dochecktype(struct dopusfiletype *, STRPTR, int, struct FileInfoBlock *);

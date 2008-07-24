@@ -81,13 +81,14 @@ void freedir(struct DirectoryWindow *dir, int win)
 int getdir(struct DirectoryWindow *dir, int win, int incmess)
 {
 	struct FileInfoBlock fileinfo;
-	int tot = 1, a, exall_entry = 0, exall_type = ED_OWNER, subtype = 0;
+	int tot = 1, a, exall_entry = 0, exall_type = ED_SIZE64;
 	BPTR mylock;
-	char buf[256], commentbuf[80];
+	TEXT buf[256];
 	struct ExAllControl *exall_control = AllocDosObject(DOS_EXALLCONTROL, NULL);
-	struct ExAllData *exall_current = NULL, EABuff[EXALL_BUFSIZE];
+	struct ExAllData *exall_current = NULL;	//, EABuff[EXALL_BUFSIZE];
 	struct MsgPort *deviceport;
-	BOOL exall_continue = TRUE;
+	UBYTE EABuff[2048];
+
 	endnotify(win);
 	freedir(dir, win);
 
@@ -189,23 +190,40 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 	if((exall_control = AllocDosObject(DOS_EXALLCONTROL, NULL)))
 	{
+		BOOL exall_continue = TRUE;
+
 		exall_control->eac_LastKey = 0;
-		while(exall_continue)
+
+		do
 		{
-			exall_continue = ExAll(mylock, EABuff, sizeof(EABuff), ED_OWNER, exall_control);
-			if(!exall_continue && (IoErr() != ERROR_NO_MORE_ENTRIES))
+			exall_continue = ExAll(mylock, (APTR)&EABuff, sizeof(EABuff), exall_type, exall_control);
+
+			if (!exall_continue)
 			{
-				break;
+				LONG err = IoErr();
+
+				if (err == ERROR_BAD_NUMBER && exall_type == ED_SIZE64)
+				{
+					exall_type = ED_OWNER;
+					exall_continue = TRUE;
+					continue;
+				}
+
+				if (err != ERROR_NO_MORE_ENTRIES)
+					break;
 			}
+
 			if(exall_control->eac_Entries == 0)
 			{
 				break;
 			}
 			exall_entry = 0;
-			exall_current = EABuff;
+			exall_current = (APTR)&EABuff;
 
 			while(exall_current)
 			{
+				TEXT commentbuf[80];
+
 				if(exall_current->ed_Name)
 				{
 					strcpy(fileinfo.fib_FileName, exall_current->ed_Name);
@@ -216,13 +234,13 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				}
 
 				fileinfo.fib_DirEntryType = exall_current->ed_Type;
-				fileinfo.fib_Size = exall_current->ed_Size;
+				fileinfo.fib_Size64 = (exall_type >= ED_SIZE64) ? exall_current->ed_Size64 : exall_current->ed_Size;
 				fileinfo.fib_Protection = exall_current->ed_Prot;
 				fileinfo.fib_Date.ds_Days = exall_current->ed_Days;
 				fileinfo.fib_Date.ds_Minute = exall_current->ed_Mins;
 				fileinfo.fib_Date.ds_Tick = exall_current->ed_Ticks;
-				fileinfo.fib_OwnerUID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerUID : 0;
-				fileinfo.fib_OwnerGID = (exall_type == ED_OWNER) ? exall_current->ed_OwnerGID : 0;
+				fileinfo.fib_OwnerUID = (exall_type >= ED_OWNER) ? exall_current->ed_OwnerUID : 0;
+				fileinfo.fib_OwnerGID = (exall_type >= ED_OWNER) ? exall_current->ed_OwnerGID : 0;
 				if(exall_current->ed_Comment)
 				{
 					strcpy(fileinfo.fib_Comment, exall_current->ed_Comment);
@@ -236,6 +254,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 				if(exall_current->ed_Type == ST_SOFTLINK || exall_current->ed_Type == ST_LINKDIR || exall_current->ed_Type == ST_LINKFILE)
 				{
+					LONG subtype;
+
 					subtype = ST_SOFTLINK;
 					if(exall_current->ed_Type == ST_LINKDIR)
 					{
@@ -266,10 +286,21 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 								strncat(commentbuf, linkbuf, 80);
 								if((linklock = Lock(linkbuf, ACCESS_READ)))
 								{
-									if((Examine(linklock, &linkfib)))
+									if (SysBase->LibNode.lib_Version >= 51)
 									{
-										fileinfo.fib_Size = linkfib.fib_Size;
+										if((Examine64(linklock, &linkfib, NULL)))
+										{
+											fileinfo.fib_Size64 = linkfib.fib_Size64;
+										}
 									}
+									else
+									{
+										if((Examine(linklock, &linkfib)))
+										{
+											fileinfo.fib_Size64 = linkfib.fib_Size;
+										}
+									}
+
 									UnLock(linklock);
 								}
 							}
@@ -286,7 +317,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 					tot = -1;
 					break;
 				}
-				if(!(addfile(dir, win, fileinfo.fib_FileName, (fileinfo.fib_DirEntryType < 0) ? (QUAD) fileinfo.fib_Size : -1, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, commentbuf, fileinfo.fib_Protection, exall_current->ed_Type, FALSE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID)))
+				if(!(addfile(dir, win, fileinfo.fib_FileName, (fileinfo.fib_DirEntryType < 0) ? (QUAD) fileinfo.fib_Size64 : -1, fileinfo.fib_DirEntryType, &fileinfo.fib_Date, commentbuf, fileinfo.fib_Protection, exall_current->ed_Type, FALSE, NULL, NULL, fileinfo.fib_OwnerUID, fileinfo.fib_OwnerGID)))
 				{
 					if(Window)
 					{
@@ -305,6 +336,9 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				exall_current = exall_current->ed_Next;
 			}
 		}
+		while(exall_continue);
+
+		FreeDosObject(DOS_EXALLCONTROL, exall_control);
 	}
 
 	UnLock(mylock);
@@ -319,10 +353,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				okay();
 		}
 		refreshwindow(win, 1);
-	}
-	if(exall_control)
-	{
-		FreeDosObject(DOS_EXALLCONTROL, exall_control);
 	}
 
 	startnotify(win);
@@ -962,7 +992,7 @@ void buildkmgstring(char *buf, UQUAD size, int kmgmode)
 				tmp[3] = 0;
 			else if(tmp[4] == '.')
 				tmp[4] = 0;
-			sprintf(buf, "%4s%lc", tmp, c);
+			sprintf(buf, "%4s%lc", tmp, (long)c);
 		}
 		else
 			sprintf(buf, "%4lld", size);
