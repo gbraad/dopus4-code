@@ -751,7 +751,7 @@ void iconify(int louise, int buttons, int banknum)
 			SendIO(&iconify_timereq.tr_node);
 			if(cdelay)
 			{
-				if(!(--cdelay) && !system_version2)
+				if(!(--cdelay))
 				{
 					old = Window->Title;
 					SetWindowTitles(Window, str_space_string, (char *)-1);

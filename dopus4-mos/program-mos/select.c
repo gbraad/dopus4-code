@@ -782,8 +782,6 @@ void doselect(int rexx)
 	struct DateStamp ds1, ds2;
 	int selecttype;
 
-//	DosControlTags(DC_WildStarW, TRUE, TAG_DONE, 0); // User setting, SYS:Prefs/DOS on AmigaOS4. This would override that.
-
 	if(dopus_curwin[data_active_window]->total == 0 || dopus_curwin[data_active_window]->firstentry->type == ENTRY_CUSTOM)
 		return;
 

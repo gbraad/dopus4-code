@@ -30,6 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+#include <intuition/extensions.h>
 #include <proto/alib.h>
 
 static BOOL staybehindWB;
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
 	ULONG a, in, iconstart, sup, ck, nsee;
 	struct WBStartup *WBmsg = NULL;
 	struct WBArg *p = NULL;
-	char **toolarray, *s, *startdir = NULL;
+	char *s, *startdir = NULL;
 	char buf[1024];
 
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
@@ -118,6 +119,8 @@ int main(int argc, char **argv)
 		p = WBmsg->sm_ArgList;
 		if((user_appicon = GetDiskObject(p->wa_Name)))
 		{
+			STRPTR *toolarray;
+
 			toolarray = user_appicon->do_ToolTypes;
 			if((FindToolType(toolarray, "ICONSTART")))
 				iconstart = 1;
@@ -534,8 +537,11 @@ int SetUp(int tit)
 	{
 		if(MainScreen)
 		{
-			scrdata_xoffset = MainScreen->WBorLeft;
-			scrdata_yoffset = MainScreen->WBorTop + scr_font[FONT_SCREEN]->tf_YSize + 1;
+			APTR dri;
+
+			dri = GetScreenDrawInfo(MainScreen);
+			scrdata_yoffset = GetSkinInfoAttrA(dri, SI_BorderTopTitle, NULL);
+			scrdata_xoffset = GetSkinInfoAttrA(dri, SI_BorderLeft, NULL);
 		}
 		else
 		{

@@ -48,7 +48,7 @@ the existing commercial status of Directory Opus 5.
   #endif
 #endif
 
-CONST TEXT version[] = VERSTAG " MOS";
+CONST TEXT version[] = VERSTAG;
 CONST TEXT comp_date[] = __DATE__, comp_time[] = __TIME__;
 
 void about()

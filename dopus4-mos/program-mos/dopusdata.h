@@ -67,12 +67,6 @@ extern struct RastPort dir_rp[2];	/* Directory window RastPorts */
 
 extern struct TextFont *scr_font[NUMFONTS];	/* Fonts used in screen display */
 
-extern struct Layer *scr_barlayer;	/* New Screen BarLayer */
-extern struct Layer *scr_old_barlayer;	/* Old Screen BarLayer */
-
-extern BYTE scr_old_barheight;	/* Old Screen BarHeight */
-extern BYTE scr_new_barheight;
-
 /* Exec objects */
 
 extern struct Process *main_proc;	/* Main Process */
@@ -178,7 +172,6 @@ extern ULONG time_current_micro;	/* Current Micro (from Intuition) */
 extern ULONG time_previous_sec;	/* Previous Second (from Intuition) */
 extern ULONG time_previous_micro;	/* Previous Micro (from Intuition) */
 
-extern UBYTE system_version2;	/* OS version 2 or greater */
 extern int system_dopus_runcount;	/* Run count of this copy */
 
 extern USHORT scr_gadget_rows;	/* Number of button rows */

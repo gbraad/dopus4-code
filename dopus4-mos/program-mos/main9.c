@@ -91,20 +91,17 @@ void get_colour_table()
 
 void free_colour_table()
 {
-/*    if (system_version2>=OSVER_39)*/
+	int a;
+	struct ColorMap *cm;
+
+	cm = Window->WScreen->ViewPort.ColorMap;
+
+	for(a = 0; a < 16; a++)
 	{
-		int a;
-		struct ColorMap *cm;
-
-		cm = Window->WScreen->ViewPort.ColorMap;
-
-		for(a = 0; a < 16; a++)
+		if(screen_pens[a].alloc)
 		{
-			if(screen_pens[a].alloc)
-			{
-				ReleasePen(cm, screen_pens[a].pen);
-				screen_pens[a].alloc = 0;
-			}
+			ReleasePen(cm, screen_pens[a].pen);
+			screen_pens[a].alloc = 0;
 		}
 	}
 }
