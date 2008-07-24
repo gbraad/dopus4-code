@@ -65,10 +65,19 @@ int _DOpus_CheckExist(char *name, int *size)
 	if((lock = Lock(name, ACCESS_READ)))
 	{
 		struct FileInfoBlock fib;
-		Examine(lock, &fib);
+
+		if (SysBase->LibNode.lib_Version >= 51)
+		{
+			Examine64(lock, &fib, NULL);
+		}
+		else
+		{
+			Examine(lock, &fib);
+			fib.fib_Size64 = fib.fib_Size;
+		}
 
 		if(size)
-			*size = fib.fib_Size;
+			*size = fib.fib_Size64;
 
 		a = fib.fib_DirEntryType;
 
