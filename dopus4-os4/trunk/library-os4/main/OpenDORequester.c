@@ -66,7 +66,7 @@ struct PrivateData
 
 const struct TextAttr topazfont = { (STRPTR)"topaz.font", 8, 0, 0 };
 
-struct Window *_DOpus_OpenRequester(struct DOpusIFace *Self, struct RequesterBase *reqbase)
+struct Window *_DOpus_OpenDORequester(struct DOpusIFace *Self, struct RequesterBase *reqbase)
 {
 	struct NewWindow newwin;
 	struct Screen *screen = NULL, screendata;
