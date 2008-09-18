@@ -92,7 +92,7 @@ extern struct Image *       VARARGS68K _DOpus_GetButtonImage(struct DOpusIFace *
 extern void                 VARARGS68K _DOpus_ShowSlider(struct DOpusIFace *, struct Window * window, struct Gadget * gadget);
 extern int                  VARARGS68K _DOpus_CheckConfig(struct DOpusIFace *, struct ConfigStuff * cstuff);
 extern struct Image *       VARARGS68K _DOpus_GetCheckImage(struct DOpusIFace *, UBYTE fg, UBYTE bg, int pen, struct DOpusRemember ** key);
-extern struct Window *      VARARGS68K _DOpus_OpenRequester(struct DOpusIFace *, struct RequesterBase * reqbase);
+extern struct Window *      VARARGS68K _DOpus_OpenDORequester(struct DOpusIFace *, struct RequesterBase * reqbase);
 extern void                 VARARGS68K _DOpus_CloseRequester(struct DOpusIFace *, struct RequesterBase * reqbase);
 extern APTR                 VARARGS68K _DOpus_AddRequesterObject(struct DOpusIFace *, struct RequesterBase * reqbase, struct TagItem * taglist);
 extern void                 VARARGS68K _DOpus_RefreshRequesterObject(struct DOpusIFace *, struct RequesterBase * reqbase, struct RequesterObject * object);
@@ -176,7 +176,7 @@ STATIC CONST APTR main_vectors[] =
     _DOpus_ShowSlider,
     _DOpus_CheckConfig,
     _DOpus_GetCheckImage,
-    _DOpus_OpenRequester,
+    _DOpus_OpenDORequester,
     _DOpus_CloseRequester,
     _DOpus_AddRequesterObject,
     _DOpus_RefreshRequesterObject,

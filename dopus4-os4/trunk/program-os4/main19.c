@@ -169,6 +169,21 @@ void hilite_req_gadget(struct Window *win, USHORT gadid)
 	}
 }
 
+int new_simplerequest(CONST_STRPTR format, CONST_STRPTR gadgets)
+{
+	Object *requester;
+	uint32 result = 0;
+
+	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_TitleText, "Directory Opus Request", REQ_BodyText, format, REQ_GadgetText, gadgets, End;
+	if(requester)
+	{
+		result = OpenRequester(requester, Window);
+		IIntuition->DisposeObject(requester);
+	}
+
+	return result;
+}
+
 int simplerequest(STRPTR txt, ...)
 {
 	char *gads[11], *cancelgad = NULL, *gad, gadgets[1024] = { 0, };

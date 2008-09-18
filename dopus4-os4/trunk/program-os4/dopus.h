@@ -93,6 +93,11 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/dopusmessage.h>
 #include <dopus/configflags.h>
 
+#define ALL_REACTION_CLASSES
+#include <reaction/reaction.h>
+#define ALL_REACTION_MACROS
+#include <reaction/reaction_macros.h>
+
 #include "arbiter.h"
 #include "dopusstructures.h"
 #include "dopusflags.h"

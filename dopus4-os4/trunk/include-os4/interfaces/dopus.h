@@ -103,7 +103,7 @@ struct DOpusIFace
 	void APICALL (*ShowSlider)(struct DOpusIFace *Self, struct Window * window, struct Gadget * gadget);
 	int APICALL (*CheckConfig)(struct DOpusIFace *Self, struct ConfigStuff * cstuff);
 	struct Image * APICALL (*GetCheckImage)(struct DOpusIFace *Self, UBYTE fg, UBYTE bg, int pen, struct DOpusRemember ** key);
-	struct Window * APICALL (*OpenRequester)(struct DOpusIFace *Self, struct RequesterBase * reqbase);
+	struct Window * APICALL (*OpenDORequester)(struct DOpusIFace *Self, struct RequesterBase * reqbase);
 	void APICALL (*CloseRequester)(struct DOpusIFace *Self, struct RequesterBase * reqbase);
 	APTR APICALL (*AddRequesterObject)(struct DOpusIFace *Self, struct RequesterBase * reqbase, struct TagItem * taglist);
 	void APICALL (*RefreshRequesterObject)(struct DOpusIFace *Self, struct RequesterBase * reqbase, struct RequesterObject * object);

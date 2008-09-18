@@ -471,7 +471,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 
 	for(a = 0; a < 2; a++)
 	{
-		if(window = IDOpus->OpenRequester(&printreq))
+		if(window = IDOpus->OpenDORequester(&printreq))
 			break;
 		IDOpus->CloseRequester(&printreq);
 

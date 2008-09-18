@@ -104,7 +104,7 @@ int do_parent_multi(STRPTR path)
 
 	fix_requester(&pm_req, globstring[STR_SELECT_A_DIRECTORY]);
 
-	if(!(rwindow = IDOpus->OpenRequester(&pm_req)) || !(gadlist = addreqgadgets(&pm_req, pm_gadgets, 0, NULL)) || !(listview = (struct DOpusListView *)IDOpus->AddRequesterObject(&pm_req, pm_lister)))
+	if(!(rwindow = IDOpus->OpenDORequester(&pm_req)) || !(gadlist = addreqgadgets(&pm_req, pm_gadgets, 0, NULL)) || !(listview = (struct DOpusListView *)IDOpus->AddRequesterObject(&pm_req, pm_lister)))
 	{
 		IDOpus->CloseRequester(&pm_req);
 		IDOS->UnLock(lock);

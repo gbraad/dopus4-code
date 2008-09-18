@@ -326,7 +326,7 @@
 			<arg name="pen" type="int"/>
 			<arg name="key" type="struct DOpusRemember **"/>
 		</method>
-		<method name="OpenRequester" result="struct Window *">
+		<method name="OpenDORequester" result="struct Window *">
 			<arg name="reqbase" type="struct RequesterBase *"/>
 		</method>
 		<method name="CloseRequester" result="void">

@@ -255,7 +255,7 @@ int getprotectdata(int *prot, int *mask)
 		protect_bits[a][5].ti_Data = STR_PROTECT_HIDDEN + a;
 	}
 
-	if(!(pwindow = IDOpus->OpenRequester(&protect_req)) || !(gadlist = addreqgadgets(&protect_req, protect_gadgets, 0, NULL)) || !(old_text = IDOpus->AddRequesterObject(&protect_req, protect_old_text)) || !(new_text = IDOpus->AddRequesterObject(&protect_req, protect_new_text)) || !(mask_text = IDOpus->AddRequesterObject(&protect_req, protect_mask_text)))
+	if(!(pwindow = IDOpus->OpenDORequester(&protect_req)) || !(gadlist = addreqgadgets(&protect_req, protect_gadgets, 0, NULL)) || !(old_text = IDOpus->AddRequesterObject(&protect_req, protect_old_text)) || !(new_text = IDOpus->AddRequesterObject(&protect_req, protect_new_text)) || !(mask_text = IDOpus->AddRequesterObject(&protect_req, protect_mask_text)))
 	{
 		IDOpus->CloseRequester(&protect_req);
 		return (0);

@@ -155,7 +155,7 @@ int getselectdata(STRPTR *buffer, int *selbase)
 	select_base_array[3] = globstring[STR_SELECT_COMMENT];
 	strcpy(sel_patternbuf, buffer[select_base]);
 
-	if(!(swindow = IDOpus->OpenRequester(&select_req)) || !(gadlist = addreqgadgets(&select_req, select_gadgets, 0, NULL)) || !(IDOpus->AddRequesterObject(&select_req, select_title_text)))
+	if(!(swindow = IDOpus->OpenDORequester(&select_req)) || !(gadlist = addreqgadgets(&select_req, select_gadgets, 0, NULL)) || !(IDOpus->AddRequesterObject(&select_req, select_title_text)))
 	{
 		IDOpus->CloseRequester(&select_req);
 		return (0);

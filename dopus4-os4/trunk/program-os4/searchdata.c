@@ -205,7 +205,7 @@ int get_search_data(STRPTR buffer, int *flagptr, struct Window *window, struct T
 	set_reqobject(search_wild_gadget, RO_BoolOn, (flags & SEARCH_WILDCARD) ? TRUE : FALSE);
 	set_reqobject(search_onlyword_gadget, RO_BoolOn, (flags & SEARCH_ONLYWORDS) ? TRUE : FALSE);
 
-	if(!(swindow = IDOpus->OpenRequester(&search_req)) || !(gadlist = addreqgadgets(&search_req, search_gadgets, 0, NULL)))
+	if(!(swindow = IDOpus->OpenDORequester(&search_req)) || !(gadlist = addreqgadgets(&search_req, search_gadgets, 0, NULL)))
 	{
 		IDOpus->CloseRequester(&search_req);
 		return (0);

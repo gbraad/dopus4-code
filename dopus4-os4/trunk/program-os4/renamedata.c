@@ -140,7 +140,7 @@ int getrenamedata(STRPTR src, STRPTR dst)
 	strcpy(oldname_buffer, src);
 	strcpy(newname_buffer, dst);
 
-	if(!(rwindow = IDOpus->OpenRequester(&rename_req)) || !(gadlist = addreqgadgets(&rename_req, rename_gadgets, 0, NULL)))
+	if(!(rwindow = IDOpus->OpenDORequester(&rename_req)) || !(gadlist = addreqgadgets(&rename_req, rename_gadgets, 0, NULL)))
 	{
 		IDOpus->CloseRequester(&rename_req);
 		return (0);

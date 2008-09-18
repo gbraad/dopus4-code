@@ -312,6 +312,7 @@ void doreselect(struct DirWindowPars *, int);
 void shutthingsdown(int);
 void setupwindreq(struct Window *);
 void hilite_req_gadget(struct Window *, USHORT);
+int new_simplerequest(CONST_STRPTR, CONST_STRPTR);
 int simplerequest(char *, ...);
 int whatsit(char *, int, const char *, char *);
 struct dopusfiletype *checkfiletype(char *, int, int);

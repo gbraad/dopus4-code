@@ -201,7 +201,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 	set_reqobject(makelink_name_gadget, RO_StringBuf, (ULONG) makelink_namebuf);
 	set_reqobject(makelink_destname_gadget, RO_StringBuf, (ULONG) makelink_destbuf);
 
-	if(!(swindow = IDOpus->OpenRequester(&makelink_req)) || !(name_gad = addreqgadgets(&makelink_req, makelink_gadgets, 0, NULL)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_type_text)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_name_text)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_dest_text)))
+	if(!(swindow = IDOpus->OpenDORequester(&makelink_req)) || !(name_gad = addreqgadgets(&makelink_req, makelink_gadgets, 0, NULL)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_type_text)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_name_text)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_dest_text)))
 	{
 		IDOpus->CloseRequester(&makelink_req);
 		return (0);

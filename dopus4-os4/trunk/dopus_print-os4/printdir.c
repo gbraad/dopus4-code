@@ -284,7 +284,7 @@ void do_printdir(struct VisInfo *vis, char *portname, int wind)
 	for(a = 0; a < 4; a++)
 		stringex.Reserved[a] = 0;
 
-	if(!(window = IDOpus->OpenRequester(&printdirreq)) || !(addreqgadgets(&printdirreq, printdir_gadgets, gadgets)) || !(IDOpus->AddRequesterObject(&printdirreq, printdir_print_text)) || !(IDOpus->AddRequesterObject(&printdirreq, printdir_output_text)))
+	if(!(window = IDOpus->OpenDORequester(&printdirreq)) || !(addreqgadgets(&printdirreq, printdir_gadgets, gadgets)) || !(IDOpus->AddRequesterObject(&printdirreq, printdir_print_text)) || !(IDOpus->AddRequesterObject(&printdirreq, printdir_output_text)))
 	{
 		IDOpus->CloseRequester(&printdirreq);
 		return;

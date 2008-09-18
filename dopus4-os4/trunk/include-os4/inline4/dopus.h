@@ -99,7 +99,7 @@
 #define ShowSlider(window, gadget) IDOpus->ShowSlider(window, gadget) 
 #define CheckConfig(cstuff) IDOpus->CheckConfig(cstuff) 
 #define GetCheckImage(fg, bg, pen, key) IDOpus->GetCheckImage(fg, bg, pen, key) 
-#define OpenRequester(reqbase) IDOpus->OpenRequester(reqbase) 
+#define OpenDORequester(reqbase) IDOpus->OpenDORequester(reqbase) 
 #define CloseRequester(reqbase) IDOpus->CloseRequester(reqbase) 
 #define AddRequesterObject(reqbase, taglist) IDOpus->AddRequesterObject(reqbase, taglist) 
 #define RefreshRequesterObject(reqbase, object) IDOpus->RefreshRequesterObject(reqbase, object) 
