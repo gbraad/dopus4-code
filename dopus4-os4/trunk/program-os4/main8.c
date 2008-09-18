@@ -104,15 +104,8 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 
 	if(!(sdata = IDOS->ExamineObjectTags(EX_StringName, sourcename, TAG_END)))
  	{
-/*		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
-		{
-			return (REPLACE_SKIP);
-		}
-		else
-		{*/
-			doerror(IDOS->IoErr());
-			return (REPLACE_SKIP);
-//		}
+		doerror(IDOS->IoErr());
+		return (REPLACE_SKIP);
 	}
 	if(!(ddata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
  	{
@@ -186,9 +179,8 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		}
 		do
 		{
-			sprintf(gadgetbuf, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_ABORT], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL]);
+			sprintf(gadgetbuf, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
 			a = new_simplerequest(buf, gadgetbuf);
-//			a = simplerequest(buf, globstring[STR_REPLACE], globstring[STR_ABORT], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], "\n", globstring[STR_SKIP], globstring[STR_SKIP_ALL], NULL);
 			if(a == REPLACE_RENAME)
 			{
 				char dname[FILEBUF_SIZE];

@@ -119,17 +119,17 @@ uint32 recursive_delete(STRPTR directory)
 				sprintf(buf, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
 				strcat(buf, globstring[STR_SELECT_UNPROTECT]);
 				memset(buf2, 0, 100);
-				sprintf(buf2, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_ABORT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP]);
+				sprintf(buf2, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
 				if((a = new_simplerequest(buf, buf2)) == 1)
 				{
 					unprotectdelete = 1;
 				}
-				else if(a == 2)
+				else if(a == 0)
 				{
 					myabort();
 					break;
 				}
-				else if(a == 3)
+				else if(a == 2)
 				{
 					unprotectdelete = 1;
 					glob_unprotect_all = 1;
