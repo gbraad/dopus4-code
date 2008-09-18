@@ -93,7 +93,7 @@ int getprotval(STRPTR buf)
 int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int all)
 {
 	struct ExamineData *sdata, *ddata;
-	char buf[400], datebuf1[40], datebuf2[40];
+	char buf[400], datebuf1[40], datebuf2[40], gadgetbuf[100];
 	int a;
 	struct DateStamp ds;
 
@@ -104,32 +104,29 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 
 	if(!(sdata = IDOS->ExamineObjectTags(EX_StringName, sourcename, TAG_END)))
  	{
-		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
-		{
-			return (REPLACE_OK);
-		}
-		else
+/*		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
 		{
 			return (REPLACE_SKIP);
 		}
+		else
+		{*/
+			doerror(IDOS->IoErr());
+			return (REPLACE_SKIP);
+//		}
 	}
 	if(!(ddata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
  	{
 		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
 		{
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
 			return (REPLACE_OK);
 		}
 		else
 		{
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+			doerror(IDOS->IoErr());
 			return (REPLACE_SKIP);
 		}
-	}
-
-	if(EXD_IS_DIRECTORY(ddata) && EXD_IS_DIRECTORY(sdata))
-	{
-		IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
-		IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
-		return (REPLACE_OK);
 	}
 
 	if(config->existflags & REPLACE_NEVER)
@@ -189,7 +186,9 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		}
 		do
 		{
-			a = simplerequest(buf, globstring[STR_REPLACE], globstring[STR_ABORT], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], "\n", globstring[STR_SKIP], globstring[STR_SKIP_ALL], NULL);
+			sprintf(gadgetbuf, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_ABORT], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL]);
+			a = new_simplerequest(buf, gadgetbuf);
+//			a = simplerequest(buf, globstring[STR_REPLACE], globstring[STR_ABORT], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], "\n", globstring[STR_SKIP], globstring[STR_SKIP_ALL], NULL);
 			if(a == REPLACE_RENAME)
 			{
 				char dname[FILEBUF_SIZE];
