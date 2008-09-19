@@ -174,7 +174,7 @@ int new_simplerequest(CONST_STRPTR format, CONST_STRPTR gadgets)
 	Object *requester;
 	uint32 result = 0;
 
-	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_TitleText, "Directory Opus Request", REQ_BodyText, format, REQ_GadgetText, gadgets, End;
+	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
 	if(requester)
 	{
 		result = OpenRequester(requester, Window);
@@ -194,9 +194,9 @@ int simplerequest(STRPTR txt, ...)
 	{
 		sizeof(struct EasyStruct),
 		ESF_SCREEN | ESF_TAGGED | ESF_EVENSIZE,
-		"Directory Opus Request",
+		globstring[STR_DIRECTORY_OPUS_REQUEST],
 		txt,
-		"OK",
+		globstring[STR_OKAY],
 		MainScreen,
 		tags
 	};
@@ -270,19 +270,22 @@ int whatsit(char *txt, int max, const char *buffer, char *skiptxt)
 	request.strlen = max;
 	request.flags = 0;
 
-	gads[0] = str_okaystring;
+	gads[0] = globstring[STR_OKAY];
 	rets[0] = 1;
-	if(skiptxt == (char *)-1)
+
+/*	if(skiptxt == (char *)-1)
 		request.flags = SRF_GLASS | SRF_DIRGLASS;
 	else if(skiptxt == (char *)-2)
 		request.flags = SRF_GLASS;
-	else if(skiptxt)
+	else*/
+
+	if(skiptxt)
 	{
 		rets[1] = 2;
 		gads[a++] = skiptxt;
 	}
 	rets[a] = 0;
-	gads[a++] = str_cancelstring;
+	gads[a++] = globstring[STR_CANCEL];
 	for(; a < 4; a++)
 		gads[a] = NULL;
 

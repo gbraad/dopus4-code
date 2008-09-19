@@ -320,7 +320,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				if(!a || simplerequest(globstring[STR_SIZES_NOT_KNOWN], globstring[STR_YES], globstring[STR_NO], NULL))
 				{
-					if(status_justabort || (!(dofilefunction(FUNC_BYTE, FUNCFLAGS_BYTEISCHECKFIT, sourcedir, destdir, act, inact, 0)) && !(simplerequest(globstring[STR_ENTRIES_MAY_NOT_FIT], globstring[STR_CONTINUE], str_cancelstring, NULL))))
+					if(status_justabort || (!(dofilefunction(FUNC_BYTE, FUNCFLAGS_BYTEISCHECKFIT, sourcedir, destdir, act, inact, 0)) && !(simplerequest(globstring[STR_ENTRIES_MAY_NOT_FIT], globstring[STR_CONTINUE], globstring[STR_CANCEL], NULL))))
 					{
 						myabort();
 						goto endfunction;
@@ -763,8 +763,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						if(config->deleteflags & DELETE_DIRS && askeach)
 						{
-							sprintf(buf2, globstring[STR_NOT_EMPTY], file->name);
-							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL)))
+							char txtformat[400], gadformat[100];
+
+							sprintf(txtformat, globstring[STR_NOT_EMPTY], file->name);
+							sprintf(gadformat, "%s|%s|%s|%s", globstring[STR_DELETE], globstring[STR_ALL], globstring[STR_SKIP], globstring[STR_CANCEL]);
+							if(!(a = new_simplerequest(txtformat, gadformat)))
+//							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL)))
 							{
 								myabort();
 								break;
@@ -829,7 +833,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(config->deleteflags & DELETE_FILES && askeach && !lastfile)
 			{
-				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);	// HUX
+				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);
 				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
 				if(a == 3)
 				{
@@ -1249,7 +1253,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			break;
 
-		case FUNC_COPYAS:	/* If flag is set then won't ask for new name */
+		case FUNC_COPYAS: /* If flag is set then won't ask for new name */
 			if(!lastfile && !flag)
 			{
 				if(rexx && rexx_argcount > 1)
