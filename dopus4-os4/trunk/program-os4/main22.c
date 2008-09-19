@@ -779,12 +779,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 								break;
 							}
 						}
-						IDOpus->TackOn(sourcename, NULL, 256);
-						a = recursive_delete(sourcename);
-//						glob_unprotect_all = 0;
-//						a = recursedir(sourcename, NULL, R_DELETE, 0);
-						sourcename[strlen(sourcename) - 1] = 0;
-						if(!a)
+						if((a = recursive_delete(sourcename)) == 0)
 						{
 							if((a = delfile(sourcename, file->name, globstring[STR_DELETING], glob_unprotect_all, 1)) == -1)
 							{

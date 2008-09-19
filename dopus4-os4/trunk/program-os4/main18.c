@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 
 uint32 recursive_delete(STRPTR directory)
 {
-	uint32 ret = 0, a, ask = 0; //, x;
+	uint32 ret = 0, a, is_deleted = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 errorcode = 0, unprotectdelete = 0;
 	char buf[300], buf2[100];
@@ -57,20 +57,21 @@ uint32 recursive_delete(STRPTR directory)
 			{
 				dofilename(dat->Name);
 
-				if(!(IDOS->DeleteFile(dat->Name)))
+				if(IDOS->DeleteFile(dat->Name))
+				{
+					dos_global_deletedbytes += dat->FileSize;
+					is_deleted = 1;
+				}
+				else
 				{
 					if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
 					{
 					}
 					else if(errorcode == ERROR_DELETE_PROTECTED)
 					{
-						if((config->deleteflags & DELETE_SET) || glob_unprotect_all)
+						if((config->deleteflags & DELETE_SET) || (askeach == 0))
 						{
 							unprotectdelete = 1;
-						}
-						else
-						{
-							ask = 1;
 						}
 					}
 					else
@@ -89,6 +90,7 @@ uint32 recursive_delete(STRPTR directory)
 
 				if(IDOS->DeleteFile(dat->Name))
 				{
+					is_deleted = 1;
 				}
 				else
 				{
@@ -97,13 +99,9 @@ uint32 recursive_delete(STRPTR directory)
 					}
 					else if(errorcode == ERROR_DELETE_PROTECTED)
 					{
-						if((config->deleteflags & DELETE_SET) || glob_unprotect_all)
+						if((config->deleteflags & DELETE_SET) || (askeach == 0))
 						{
 							unprotectdelete = 1;
-						}
-						else
-						{
-							ask = 1;
 						}
 					}
 					else
@@ -112,7 +110,7 @@ uint32 recursive_delete(STRPTR directory)
 				}
 			}
 
-			if(ask == 1)
+			if((askeach == 1) && (is_deleted == 0))
 			{
 				doerror(ERROR_DELETE_PROTECTED);
 				geterrorstring(buf2, ERROR_DELETE_PROTECTED);
@@ -127,22 +125,25 @@ uint32 recursive_delete(STRPTR directory)
 				else if(a == 0)
 				{
 					myabort();
+					ret = -10;
 					break;
 				}
 				else if(a == 2)
 				{
 					unprotectdelete = 1;
+					askeach = 0;
 					glob_unprotect_all = 1;
 				}
-				ask = 0;
 			}
 
-			if(unprotectdelete == 1)
+			if((unprotectdelete == 1) || (glob_unprotect_all))
 			{
 				IDOS->SetProtection(dat->Name, 0);
 				IDOS->DeleteFile(dat->Name);
+				dos_global_deletedbytes += dat->FileSize;
 				unprotectdelete = 0;
 			}
+			is_deleted = 0;
 		}
 		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
 		{
@@ -150,12 +151,10 @@ uint32 recursive_delete(STRPTR directory)
 		}
 		else
 		{
-//			IExec->DebugPrintF("Error: %ld\n", IDOS->IoErr(), NULL);
 		}
 	}
 	else
 	{
-//		IExec->DebugPrintF("Error: %ld\n", IDOS->IoErr(), NULL);
 	}
 	IDOS->ReleaseDirContext(context);
 	return (ret);
