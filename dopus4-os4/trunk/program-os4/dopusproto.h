@@ -300,7 +300,6 @@ void modify(uint8 *);
 void rexx_return(struct RexxMsg *, long long);
 
 /* main18.c */
-uint32 recursive_delete(STRPTR);
 int recursedir(STRPTR, STRPTR, int, int);
 int addrecurse(struct DOpusRemember **, STRPTR, STRPTR, int, APTR, APTR, BPTR, struct FileInfoBlock *, struct Directory *, struct DirectoryWindow *);
 int getdircontentsinfo(STRPTR, uint64 *, uint32 *);
@@ -508,3 +507,7 @@ int makelink(int);
 
 /* getusage.c */
 int getusage(void);
+
+/* recurse.c */
+uint32 recursive_delete(STRPTR);
+
