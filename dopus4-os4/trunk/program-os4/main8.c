@@ -159,7 +159,10 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			if(EXD_IS_DIRECTORY(ddata) && EXD_IS_DIRECTORY(sdata))
 			{
 				/* Both entries are directories */
-				sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+				IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
+				return (REPLACE_OK);
+//				sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 			}
 			else if(EXD_IS_DIRECTORY(ddata))
 			{

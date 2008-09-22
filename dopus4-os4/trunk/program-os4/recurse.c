@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 
 uint32 recursive_delete(STRPTR directory)
 {
-	uint32 ret = 0, a, is_deleted = 0;
+	uint32 ret = 0, a, is_deleted = 0, rd_error = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 errorcode = 0, unprotectdelete = 0;
 	char buf[300], buf2[100];
@@ -76,6 +76,7 @@ uint32 recursive_delete(STRPTR directory)
 					}
 					else
 					{
+						rd_error = 1;
 					}
 				}
 			}
@@ -106,7 +107,18 @@ uint32 recursive_delete(STRPTR directory)
 					}
 					else
 					{
+						rd_error = 1;
 					}
+				}
+			}
+
+			if(rd_error == 1)
+			{
+				doerror((a = IDOS->IoErr()));
+				if((a = checkerror(globstring[STR_DELETING], dat->Name, a)) == 3)
+				{
+					myabort();
+					break;
 				}
 			}
 
@@ -143,7 +155,9 @@ uint32 recursive_delete(STRPTR directory)
 				dos_global_deletedbytes += dat->FileSize;
 				unprotectdelete = 0;
 			}
+
 			is_deleted = 0;
+			rd_error = 0;
 		}
 		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
 		{
