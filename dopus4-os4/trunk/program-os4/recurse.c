@@ -31,9 +31,9 @@ the existing commercial status of Directory Opus 5.
 
 uint32 recursive_delete(STRPTR directory)
 {
-	uint32 ret = 0, a, rd_deleted = 0, rd_error = 0, rd_continue = 0, rd_abort = 0;
+	uint32 ret = 0, a, rd_continue = 0, rd_abort = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
-	int32 errorcode = 0, unprotectdelete = 0;
+	int32 errorcode = 0;
 	char buf[300], buf2[100];
 
 	if(context)
@@ -56,21 +56,49 @@ uint32 recursive_delete(STRPTR directory)
 					{
 						dos_global_deletedbytes += dat->FileSize;
 					}
-					rd_deleted = 1;
 					rd_continue = 0;
 				}
 				else
 				{
-					rd_error = 1;
-
 					if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
 					{
 					}
 					else if(errorcode == ERROR_DELETE_PROTECTED)
 					{
-						if((config->deleteflags & DELETE_SET) || (askeach == 0))
+						if((config->deleteflags & DELETE_SET) || ((askeach == 0) && (glob_unprotect_all == 1)))
 						{
-							unprotectdelete = 1;
+							IDOS->SetProtection(dat->Name, 0);
+							IDOS->DeleteFile(dat->Name);
+							dos_global_deletedbytes += dat->FileSize;
+							rd_continue = 0;
+						}
+						else
+						{
+							doerror(ERROR_DELETE_PROTECTED);
+							geterrorstring(buf2, ERROR_DELETE_PROTECTED);
+							sprintf(buf, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
+							strcat(buf, globstring[STR_SELECT_UNPROTECT]);
+							sprintf(buf2, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
+							if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1) // Unprotect
+							{
+								rd_continue = 1;
+								IDOS->SetProtection(dat->Name, 0);
+							}
+							else if(a == 2) // Unprotect All
+							{
+								rd_continue = 1;
+								askeach = 0;
+								glob_unprotect_all = 1;
+							}
+							else if(a == 3) // Skip
+							{
+								rd_continue = 0;
+							}
+							else if(a == 0) // Cancel
+							{
+								rd_continue = 0;
+								rd_abort = 1;
+							}
 						}
 					}
 					else
@@ -101,46 +129,11 @@ uint32 recursive_delete(STRPTR directory)
 			if(rd_abort == 1)
 			{
 				myabort();
+				ret = -10;
 				break;
 			}
 
-			if((askeach == 1) && (rd_deleted == 0) && (rd_error == 0))
-			{
-				doerror(ERROR_DELETE_PROTECTED);
-				geterrorstring(buf2, ERROR_DELETE_PROTECTED);
-				sprintf(buf, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
-				strcat(buf, globstring[STR_SELECT_UNPROTECT]);
-				memset(buf2, 0, 100);
-				sprintf(buf2, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
-				if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1)
-				{
-					unprotectdelete = 1;
-				}
-				else if(a == 0)
-				{
-					myabort();
-					ret = -10;
-					break;
-				}
-				else if(a == 2)
-				{
-					unprotectdelete = 1;
-					askeach = 0;
-					glob_unprotect_all = 1;
-				}
-			}
-
-			if((unprotectdelete == 1) || (glob_unprotect_all))
-			{
-				IDOS->SetProtection(dat->Name, 0);
-				IDOS->DeleteFile(dat->Name);
-				dos_global_deletedbytes += dat->FileSize;
-				unprotectdelete = 0;
-			}
-
 			rd_continue = 0;
-			rd_deleted = 0;
-			rd_error = 0;
 		}
 		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
 		{
