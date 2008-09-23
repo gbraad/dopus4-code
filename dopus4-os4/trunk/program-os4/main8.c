@@ -183,7 +183,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		do
 		{
 			sprintf(gadgetbuf, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
-			a = new_simplerequest(buf, gadgetbuf);
+			a = ra_simplerequest(buf, gadgetbuf, REQIMAGE_WARNING);
 			if(a == REPLACE_RENAME)
 			{
 				char dname[FILEBUF_SIZE];

@@ -767,7 +767,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 							sprintf(txtformat, globstring[STR_NOT_EMPTY], file->name);
 							sprintf(gadformat, "%s|%s|%s|%s", globstring[STR_DELETE], globstring[STR_ALL], globstring[STR_SKIP], globstring[STR_CANCEL]);
-							if(!(a = new_simplerequest(txtformat, gadformat)))
+							if(!(a = ra_simplerequest(txtformat, gadformat, REQIMAGE_WARNING)))
 //							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL)))
 							{
 								myabort();

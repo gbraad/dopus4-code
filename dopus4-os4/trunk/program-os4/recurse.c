@@ -112,7 +112,7 @@ uint32 recursive_delete(STRPTR directory)
 				strcat(buf, globstring[STR_SELECT_UNPROTECT]);
 				memset(buf2, 0, 100);
 				sprintf(buf2, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
-				if((a = new_simplerequest(buf, buf2)) == 1)
+				if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1)
 				{
 					unprotectdelete = 1;
 				}
