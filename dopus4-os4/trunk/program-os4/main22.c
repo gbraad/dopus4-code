@@ -735,7 +735,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				else if(a > 0)
 				{
 					if(a == 2)
+					{
+						askeach = 0;
 						glob_unprotect_all = 1;
+					}
 					if(!noremove)
 						removefile(file, swindow, act, 1);
 					file = NULL;
