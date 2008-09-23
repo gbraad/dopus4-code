@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 
 uint32 recursive_delete(STRPTR directory)
 {
-	uint32 ret = 0, a, is_deleted = 0, rd_error = 0;
+	uint32 ret = 0, a, rd_deleted = 0, rd_error = 0, rd_continue = 0, rd_abort = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 errorcode = 0, unprotectdelete = 0;
 	char buf[300], buf2[100];
@@ -41,29 +41,28 @@ uint32 recursive_delete(STRPTR directory)
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
 		{
-/*			if(EXD_IS_SOFTLINK(dat))
-			{
-			}
-			if(EXD_IS_PIPE(dat))
-			{
-			}
-			if(EXD_IS_SOCKET(dat))
-			{
-			}*/
-			if(EXD_IS_LINK(dat))
-			{
-			}
-			else if(EXD_IS_FILE(dat))
+			do
 			{
 				dofilename(dat->Name);
 
+				if(EXD_IS_DIRECTORY(dat))
+				{
+					recursive_delete(dat->Name);
+				}
+
 				if(IDOS->DeleteFile(dat->Name))
 				{
-					dos_global_deletedbytes += dat->FileSize;
-					is_deleted = 1;
+					if(EXD_IS_FILE(dat))
+					{
+						dos_global_deletedbytes += dat->FileSize;
+					}
+					rd_deleted = 1;
+					rd_continue = 0;
 				}
 				else
 				{
+					rd_error = 1;
+
 					if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
 					{
 					}
@@ -76,53 +75,36 @@ uint32 recursive_delete(STRPTR directory)
 					}
 					else
 					{
-						rd_error = 1;
-					}
-				}
-			}
-			else if(EXD_IS_DIRECTORY(dat))
-			{
-				dofilename(dat->Name);
-
-				if(recursive_delete(dat->Name))
-				{
-					break;
-				}
-
-				if(IDOS->DeleteFile(dat->Name))
-				{
-					is_deleted = 1;
-				}
-				else
-				{
-					if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
-					{
-					}
-					else if(errorcode == ERROR_DELETE_PROTECTED)
-					{
-						if((config->deleteflags & DELETE_SET) || (askeach == 0))
+						doerror((a = IDOS->IoErr()));
+						if((a = checkerror(globstring[STR_DELETING], dat->Name, a)) == 3)
 						{
-							unprotectdelete = 1;
+							rd_continue = 0;
+						}
+						else if(a == 2)
+						{
+							rd_continue = 0;
+						}
+						else if(a == 1)
+						{
+							rd_continue = 1;
+						}
+						else if(a == 0)
+						{
+							rd_abort = 1;
+							rd_continue = 0;
 						}
 					}
-					else
-					{
-						rd_error = 1;
-					}
 				}
 			}
+			while(rd_continue == 1);
 
-			if(rd_error == 1)
+			if(rd_abort == 1)
 			{
-				doerror((a = IDOS->IoErr()));
-				if((a = checkerror(globstring[STR_DELETING], dat->Name, a)) == 3)
-				{
-					myabort();
-					break;
-				}
+				myabort();
+				break;
 			}
 
-			if((askeach == 1) && (is_deleted == 0))
+			if((askeach == 1) && (rd_deleted == 0) && (rd_error == 0))
 			{
 				doerror(ERROR_DELETE_PROTECTED);
 				geterrorstring(buf2, ERROR_DELETE_PROTECTED);
@@ -156,7 +138,8 @@ uint32 recursive_delete(STRPTR directory)
 				unprotectdelete = 0;
 			}
 
-			is_deleted = 0;
+			rd_continue = 0;
+			rd_deleted = 0;
 			rd_error = 0;
 		}
 		if(ERROR_NO_MORE_ENTRIES == IDOS->IoErr())
