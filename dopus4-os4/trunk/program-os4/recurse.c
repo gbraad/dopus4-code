@@ -41,6 +41,13 @@ uint32 recursive_delete(STRPTR directory)
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
 		{
+			if(status_haveaborted)
+			{
+				myabort();
+				ret = -10;
+				break;
+			}
+
 			do
 			{
 				dofilename(dat->Name);
@@ -65,7 +72,7 @@ uint32 recursive_delete(STRPTR directory)
 					}
 					else if(errorcode == ERROR_DELETE_PROTECTED)
 					{
-						if((config->deleteflags & DELETE_SET) || ((askeach == 0) && (glob_unprotect_all == 1)))
+						if((config->deleteflags & DELETE_SET) || (glob_unprotect_all == 1))
 						{
 							IDOS->SetProtection(dat->Name, 0);
 							IDOS->DeleteFile(dat->Name);
@@ -87,7 +94,6 @@ uint32 recursive_delete(STRPTR directory)
 							else if(a == 2) // Unprotect All
 							{
 								rd_continue = 1;
-								askeach = 0;
 								glob_unprotect_all = 1;
 							}
 							else if(a == 3) // Skip

@@ -316,33 +316,46 @@ struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 {
 	int suc, a, err, try = 0, recplus = 0;
-	char buf[300], buf2[100];
 
       loop:
-	if(!(suc = IDOS->DeleteFile(name)))
+	if((suc = IDOS->DeleteFile(name)) == 0)
 	{
 		if((err = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
+		{
 			suc = 1;
+		}
 		else
 		{
 			if(err == ERROR_DIRECTORY_NOT_EMPTY)
+			{
 				return (-2);
+			}
 			else if(err == ERROR_DELETE_PROTECTED && try == 0)
 			{
 				if(!(config->deleteflags & DELETE_SET))
 				{
 					if(!unprotect)
 					{
+						char textformat[400], gadformat[100], errortext[100];
+
 						doerror(ERROR_DELETE_PROTECTED);
-						geterrorstring(buf2, ERROR_DELETE_PROTECTED);
-						sprintf(buf, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], nam, buf2);
-						strcat(buf, globstring[STR_SELECT_UNPROTECT]);
-						if(!(a = simplerequest(buf, globstring[STR_UNPROTECT], globstring[STR_ABORT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], NULL)))
+						geterrorstring(errortext, ERROR_DELETE_PROTECTED);
+						sprintf(textformat, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], nam, errortext);
+						strcat(textformat, globstring[STR_SELECT_UNPROTECT]);
+						sprintf(gadformat, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
+						if(!(a = ra_simplerequest(textformat, gadformat, REQIMAGE_WARNING)))
+						{
 							return (-1);
+						}
 						if(a == 3)
+						{
 							return (0);
+						}
 						if(a == 2)
+						{
+							glob_unprotect_all = 1;
 							recplus = 1;
+						}
 					}
 				}
 				try = 1;
@@ -350,12 +363,18 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 				goto loop;
 			}
 			else if(!errcheck)
+			{
 				return (-2);
+			}
 			doerror(err);
 			if((a = checkerror(errs, nam, err)) == 3)
+			{
 				return (-1);
+			}
 			if(a == 1)
+			{
 				goto loop;
+			}
 		}
 	}
 	else
