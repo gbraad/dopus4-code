@@ -29,12 +29,13 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-uint32 recursive_delete(STRPTR directory)
+int32 recursive_delete(STRPTR directory)
 {
-	uint32 ret = 0, a, rd_continue = 0, rd_abort = 0;
+	uint32 a, rd_continue = 0, rd_abort = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
-	int32 errorcode = 0;
+	int32 ret = 0, errorcode = 0;
 	char buf[300], buf2[100];
+//	STRPTR nodename;
 //	struct Node *node;
 //	struct List *flist, *dlist;
 

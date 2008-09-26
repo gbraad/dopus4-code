@@ -508,7 +508,7 @@ int makelink(int);
 int getusage(void);
 
 /* recurse.c */
-uint32 recursive_delete(STRPTR);
+int32 recursive_delete(STRPTR);
 
 /* reaction.c */
 int ra_simplerequest(CONST_STRPTR, CONST_STRPTR, uint32);
