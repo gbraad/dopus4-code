@@ -94,6 +94,7 @@ uint32 recursive_delete(STRPTR directory)
 							else if(a == 2) // Unprotect All
 							{
 								rd_continue = 1;
+								IDOS->SetProtection(dat->Name, 0);
 								glob_unprotect_all = 1;
 							}
 							else if(a == 3) // Skip
