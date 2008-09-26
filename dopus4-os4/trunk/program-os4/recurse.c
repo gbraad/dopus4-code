@@ -35,8 +35,13 @@ uint32 recursive_delete(STRPTR directory)
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 errorcode = 0;
 	char buf[300], buf2[100];
+	struct Node *node;
+	struct List *flist, *dlist;
 
-	if(context)
+	flist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
+	dlist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
+
+	if(context && flist && dlist)
 	{
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
@@ -154,6 +159,10 @@ uint32 recursive_delete(STRPTR directory)
 	{
 	}
 	IDOS->ReleaseDirContext(context);
+
+	IExec->FreeSysObject(ASOT_LIST, flist);
+	IExec->FreeSysObject(ASOT_LIST, dlist);
+
 	return (ret);
 }
 
