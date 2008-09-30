@@ -630,7 +630,8 @@ int SetUp(int tit)
 		if(MainScreen)
 		{
 			scrdata_xoffset = MainScreen->WBorLeft;
-			scrdata_yoffset = MainScreen->WBorTop + scr_font[FONT_SCREEN]->tf_YSize + 1;
+//			scrdata_yoffset = MainScreen->WBorTop + scr_font[FONT_SCREEN]->tf_YSize + 1;
+			scrdata_yoffset = MainScreen->WBorTop + MainScreen->Font->ta_YSize + 1; // Fixes some corruption on own screen on OS4.x it seems
 		}
 		else
 		{
@@ -1041,10 +1042,13 @@ int SetUp(int tit)
 			horiz_propgad[y].MutualExclude = screen_pens[config->sliderbgcol].pen;
 		}
 
+		if(WorkbenchBase && IWorkbench && !dopus_appwindow) // Fixes AppWindow problem
+			dopus_appwindow = IWorkbench->AddAppWindowA(APPWINID, 0, Window, appmsg_port, NULL);
+
 		if(status_publicscreen)
 		{
-			if(WorkbenchBase && IWorkbench && !dopus_appwindow)
-				dopus_appwindow = IWorkbench->AddAppWindowA(APPWINID, 0, Window, appmsg_port, NULL);
+//			if(WorkbenchBase && IWorkbench && !dopus_appwindow)
+//				dopus_appwindow = IWorkbench->AddAppWindowA(APPWINID, 0, Window, appmsg_port, NULL);
 
 			IIntuition->SetWindowTitles(Window, (char *)-1, str_arexx_portname);
 			screen_gadgets[SCRGAD_LEFTPARENT].Width = Window->BorderLeft + 2;

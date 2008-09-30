@@ -258,13 +258,11 @@ int whatsit(char *txt, int max, const char *buffer, char *skiptxt)
 	gads[0] = globstring[STR_OKAY];
 	rets[0] = 1;
 
-/*	if(skiptxt == (char *)-1)
+	if(skiptxt == (char *)-1)
 		request.flags = SRF_GLASS | SRF_DIRGLASS;
 	else if(skiptxt == (char *)-2)
 		request.flags = SRF_GLASS;
-	else*/
-
-	if(skiptxt)
+	else if(skiptxt)
 	{
 		rets[1] = 2;
 		gads[a++] = skiptxt;

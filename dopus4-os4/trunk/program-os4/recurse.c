@@ -34,19 +34,22 @@ int32 recursive_delete(STRPTR directory)
 	uint32 a, rd_continue = 0, rd_abort = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 ret = 0, errorcode = 0;
-	char buf[300], buf2[100];
-//	STRPTR nodename;
-//	struct Node *node;
-//	struct List *flist, *dlist;
+	char buf[300], buf2[100], recursivename[2048];
+	STRPTR nodename;
+	struct Node *node;
+	struct List *flist, *dlist;
 
-//	flist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
-//	dlist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
+	flist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
+	dlist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
 
-	if(context) // && flist && dlist)
+	if(context && flist && dlist)
 	{
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
 		{
+			IUtility->SetMem(recursivename, 0, 2048);
+			IUtility->Strlcpy(recursivename, directory, 2048);
+
 			if(status_haveaborted)
 			{
 				myabort();
@@ -60,7 +63,24 @@ int32 recursive_delete(STRPTR directory)
 
 				if(EXD_IS_DIRECTORY(dat))
 				{
-					recursive_delete(dat->Name);
+					IDOS->AddPart(recursivename, dat->Name, 2048);
+					recursive_delete(recursivename);
+					nodename = IExec->AllocVec(strlen(recursivename) + 1, MEMF_ANY);
+					IUtility->Strlcpy(nodename, recursivename, strlen(recursivename) + 1);
+					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
+					{
+						IExec->AddTail(dlist, node);
+					}
+				}
+				else if(EXD_IS_FILE(dat))
+				{
+					IDOS->AddPart(recursivename, dat->Name, 2048);
+					nodename = IExec->AllocVec(strlen(recursivename) + 1, MEMF_ANY);
+					IUtility->Strlcpy(nodename, recursivename, strlen(recursivename) + 1);
+					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
+					{
+						IExec->AddTail(flist, node);
+					}
 				}
 
 				if(IDOS->DeleteFile(dat->Name))
@@ -162,8 +182,26 @@ int32 recursive_delete(STRPTR directory)
 
 	IDOS->ReleaseDirContext(context);
 
-//	IExec->FreeSysObject(ASOT_LIST, flist);
-//	IExec->FreeSysObject(ASOT_LIST, dlist);
+	if(flist)
+	{
+		while((node = IExec->RemTail(flist)))
+		{
+			IExec->FreeVec(node->ln_Name);
+			IExec->FreeSysObject(ASOT_NODE, node);
+		}
+	}
+
+	if(dlist)
+	{
+		while((node = IExec->RemTail(dlist)))
+		{
+			IExec->FreeVec(node->ln_Name);
+			IExec->FreeSysObject(ASOT_NODE, node);
+		}
+	}
+
+	IExec->FreeSysObject(ASOT_LIST, flist);
+	IExec->FreeSysObject(ASOT_LIST, dlist);
 
 	return (ret);
 }
