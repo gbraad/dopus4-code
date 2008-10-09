@@ -39,7 +39,6 @@ struct ArbiterMessage
 extern struct MsgPort *arbiter_reply_port;
 extern struct MsgPort *arbiter_msg_port;
 extern struct ProcessStart *arbiter_seglist;
-extern struct Message arbiter_startup;
 
 enum
 {

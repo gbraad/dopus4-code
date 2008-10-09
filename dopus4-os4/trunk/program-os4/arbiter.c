@@ -34,22 +34,20 @@ the existing commercial status of Directory Opus 5.
 struct MsgPort *arbiter_reply_port;
 struct MsgPort *arbiter_msg_port;
 struct ProcessStart *arbiter_seglist;
-struct Message arbiter_startup;
 
 int install_arbiter()
 {
-	if(!(arbiter_reply_port = IExec->CreatePort(NULL, 0)))
+	struct Message *arbiter_startup;
+
+	if(!(arbiter_reply_port = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 		return (0);
 
-	arbiter_startup.mn_Node.ln_Type = NT_MESSAGE;
-	arbiter_startup.mn_Node.ln_Pri = 0;
-	arbiter_startup.mn_ReplyPort = arbiter_reply_port;
-	arbiter_startup.mn_Length = (UWORD) sizeof(struct ArbiterMessage);
+	arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, ASOMSG_Size, sizeof(struct ArbiterMessage), TAG_END);
 
-	if(!(arbiter_msg_port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag) "dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, NP_StackSize, 8192, NP_FreeSeglist, FALSE, TAG_END)->pr_MsgPort))
+	if(!(arbiter_msg_port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag) "dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, NP_StackSize, 8192, NP_FreeSeglist, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
 		return (0);
 
-	IExec->PutMsg(arbiter_msg_port, &arbiter_startup);
+	IExec->PutMsg(arbiter_msg_port, arbiter_startup);
 	return (1);
 }
 
@@ -63,7 +61,7 @@ void remove_arbiter()
 	}
 
 	if(arbiter_reply_port)
-		IExec->DeletePort(arbiter_reply_port);
+		IExec->FreeSysObject(ASOT_PORT, arbiter_reply_port);
 }
 
 int arbiter_command(int command, APTR data, int flags)
@@ -98,9 +96,9 @@ struct LaunchList
 	struct DOpusRemember *memory;
 };
 
-void arbiter_process()
+int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 {
-	struct Process *my_process = (struct Process *)IExec->FindTask(NULL);
+	struct MsgPort *my_process_port;
 	struct Message *my_startup_message;
 	struct ArbiterMessage *arb_msg, *remove_msg = NULL;
 	struct LaunchList *first_launch = NULL, *launch, *launchpos;
@@ -108,12 +106,14 @@ void arbiter_process()
 	char ret, remove = 0;
 	int wait_mask;
 
-	IExec->WaitPort(&my_process->pr_MsgPort);
-	my_startup_message = IExec->GetMsg(&my_process->pr_MsgPort);
+	my_process_port = IDOS->GetProcMsgPort(NULL);
 
-	wait_mask = 1 << my_process->pr_MsgPort.mp_SigBit;
+	IExec->WaitPort(my_process_port);
+	my_startup_message = IExec->GetMsg(my_process_port);
 
-	if((replyport = IExec->CreatePort(NULL, 0)))
+	wait_mask = 1 << my_process_port->mp_SigBit;
+
+	if((replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 	{
 		wait_mask |= 1 << replyport->mp_SigBit;
 	}
@@ -153,7 +153,7 @@ void arbiter_process()
 				break;
 			}
 		}
-		while ((arb_msg = (struct ArbiterMessage *)IExec->GetMsg(&my_process->pr_MsgPort)))
+		while ((arb_msg = (struct ArbiterMessage *)IExec->GetMsg(my_process_port)))
 		{
 			ret = 0;
 			switch (arb_msg->command)
@@ -194,7 +194,7 @@ void arbiter_process()
 						launch->launch_msg.flags = arb_msg->flags;
 
 
-						if((port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Name, (Tag)arb_launch->launch_name, NP_Priority, 0, NP_Entry, arb_launch->launch_code, NP_StackSize, 8192, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, TAG_END)->pr_MsgPort))
+						if((port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Name, (Tag)arb_launch->launch_name, NP_Priority, 0, NP_Entry, arb_launch->launch_code, NP_StackSize, 8192, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
 						{
 							IExec->PutMsg(port, (struct Message *)&launch->launch_msg);
 							if(arb_msg->flags & ARB_WAIT)
@@ -229,7 +229,8 @@ void arbiter_process()
 		IExec->DeletePort(replyport);
 	IExec->Forbid(); // what is this really?
 	IExec->ReplyMsg(my_startup_message);
-	return;
+
+	return 0;
 }
 
 struct Screen *open_subprocess_screen(char *title, struct TextFont *font, struct DOpusRemember **memkey, short *pens)

@@ -1885,7 +1885,7 @@ void view_printtext(struct ViewData *vdata, int state)
 		print_args.file_list = NULL;
 		print_args.last_select = NULL;
 
-//		dopus_print(0, &print_args, 0, vdata->view_port_name, vdata);
+		dopus_print(0, &print_args, 0, vdata->view_port_name, vdata);
 		return;
 	}
 
@@ -1970,10 +1970,10 @@ void view_printtext(struct ViewData *vdata, int state)
 
 void view_checkprint(struct ViewData *vdata, int code)
 {
-	view_busy(vdata);
-	if((code == 0 && !vdata->view_display_as_hex) || (view_simplerequest(vdata, globstring[STR_READY_PRINTER], str_okaystring, str_cancelstring, NULL)))
-		view_printtext(vdata, code);
-	view_unbusy(vdata);
+//	view_busy(vdata);
+//	if((code == 0 && !vdata->view_display_as_hex) || (view_simplerequest(vdata, globstring[STR_READY_PRINTER], str_okaystring, str_cancelstring, NULL)))
+//		view_printtext(vdata, code);
+//	view_unbusy(vdata);
 }
 
 void view_makeuphex(struct ViewData *vdata, STRPTR hex, UBYTE *textbuf, int line)

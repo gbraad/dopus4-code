@@ -86,7 +86,7 @@ int start_external(struct dopus_func_start *func)
 
 	func->startup.wbstartup.sm_Segment = func->segment;
 
-	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag) func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, TAG_END)->pr_MsgPort))
+	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag) func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
 		return (0);
 
 	func->startup.wbstartup.sm_ToolWindow = NULL;
@@ -167,7 +167,7 @@ void doconfig()
 	config_func.segname = funcpath;
 	config_func.argcount = 2;
 	config_func.args = func_args;
-	config_func.stack = 8192;
+	config_func.stack = 65536; //8192;
 	config_func.flags = (config->loadexternal & LOAD_CONFIG) ? FF_SAVESEG : 0;
 
 	if(!(start_external(&config_func)))
@@ -388,7 +388,7 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 	print_func.argcount = argcount;
 	print_func.args = args;
-	print_func.stack = 8192;
+	print_func.stack = 65536; //8192;
 	print_func.flags = (config->loadexternal & LOAD_PRINT) ? FF_SAVESEG : 0;
 
 	if(!(start_external(&print_func)))

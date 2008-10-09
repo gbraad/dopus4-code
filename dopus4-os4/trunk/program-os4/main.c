@@ -30,16 +30,16 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <graphics/rpattr.h>
 
-/* BEGIN CLib2 stuff */
+/* BEGIN clib stuff */
 BOOL __check_abort_enabled = FALSE;
 void __check_abort(void) { return; }
-/* END CLib2 stuff */
+/* END clib stuff */
 
 static BOOL staybehindWB;
 
 int main(int argc, char **argv)
 {
-	uint32 a, in, iconstart, sup, ck, nsee;
+	uint32 a, iconstart, sup, checkrunning, nsee;
 	struct WBStartup *WBmsg = NULL;
 	struct WBArg *p = NULL;
 	char **toolarray, *s, *startdir = NULL;
@@ -107,8 +107,8 @@ int main(int argc, char **argv)
 
 	scrdata_is_pal = getpal();
 
-	iconstart = in = 0;
-	ck = 0;
+	iconstart = 0;
+	checkrunning = 0;
 
 	strcpy(str_config_basename, "DirectoryOpus");
 
@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 					strcpy(str_config_basename, &argv[a][2]);
 					break;
 				case 'C':
-					ck = 1;
+					checkrunning = 1;
 					break;
 				case 'B':
 					staybehindWB = TRUE;
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
 			if((s = (STRPTR)IIcon->FindToolType(toolarray, "CONFIGFILE")))
 				strcpy(str_config_basename, s);
 			if((IIcon->FindToolType(toolarray, "CHECK")))
-				ck = 1;
+				checkrunning = 1;
 			if(IIcon->FindToolType(toolarray,"BEHINDWB"))
 				staybehindWB = TRUE;
 			if(IIcon->FindToolType(toolarray,"DOCKY"))
@@ -272,7 +272,7 @@ int main(int argc, char **argv)
 
 	init_menus();
 
-	if(ck && (IExec->FindTask("dopus_hotkeez")))
+	if(checkrunning && (IExec->FindTask("dopus_hotkeez")))
 	{
 		status_iconified = 1;
 		switch (simplerequest(globstring[STR_DOPUS_ALREADY_RUNNING], globstring[STR_RUN], str_cancelstring, globstring[STR_BRING_TO_FRONT], NULL))
