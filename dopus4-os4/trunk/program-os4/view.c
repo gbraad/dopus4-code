@@ -1074,7 +1074,8 @@ int view_setupdisplay(struct ViewData *vdata)
 	}
 	else
 	{
-		if(!(vdata->view_screen = open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE], scr_font[FONT_TEXT], &vdata->view_memory, NULL)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
+//		if(!(vdata->view_screen = open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE], scr_font[FONT_TEXT], &vdata->view_memory, NULL)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
+		if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_LikeWorkbench, TRUE, TAG_END)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
 		{
 			return -4;
 		}

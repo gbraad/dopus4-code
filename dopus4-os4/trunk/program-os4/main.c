@@ -396,6 +396,9 @@ int main(int argc, char **argv)
 	}
 
 	doidcmp();
+
+	quit();
+
 	return 0;
 }
 

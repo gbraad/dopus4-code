@@ -41,9 +41,7 @@ void about(void);
 int install_arbiter(void);
 void remove_arbiter(void);
 int arbiter_command(int, APTR, int);
-//void arbiter_process(void);
 int arbiter_process(char *, int32, struct ExecBase *);
-struct Screen *open_subprocess_screen(char *, struct TextFont *, struct DOpusRemember **, short *);
 
 /* archive.c */
 int readarchive(struct DirectoryWindow *, int);

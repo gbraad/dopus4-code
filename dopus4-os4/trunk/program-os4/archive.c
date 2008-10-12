@@ -28,7 +28,6 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include <SDI_hook.h>
 
 #define EXALL_NUM 2
 
@@ -330,17 +329,9 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 
 /* Progress Hook */
 
-HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
+uint32 ProgressFunc(struct Hook *hook, APTR *Obj, struct xadProgressInfo *xadp)
 {
 	int32 a;
-	struct EasyStruct es =
-	{
-		sizeof (struct EasyStruct),
-		ESF_EVENSIZE,
-		NULL,
-		NULL,
-		NULL
-	};
 
 	if(xadp && xadp->xpi_FileInfo)
 	{
@@ -362,7 +353,7 @@ HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
 		}
 		if(xadoverwrite == 0)
 		{
-			a = IDOS->TimedDosRequesterTags(TDR_Timeout, 0, TDR_Window, Window, TDR_ImageType, TDRIMAGE_WARNING, TDR_EasyStruct, &es, TDR_FormatString, formatstring, TDR_TitleString, "Extract...", TDR_GadgetString, gadgetstring, TAG_DONE);
+			a = ra_simplerequest(formatstring, gadgetstring, REQIMAGE_WARNING);
 			switch(a)
 			{
 			case 0:
@@ -392,11 +383,12 @@ HOOKPROTONHNO(ProgressFunc, uint32, struct xadProgressInfo *xadp)
 
 	return(XADPIF_OK);
 }
-MakeHook(ProgressHook, ProgressFunc);
 
 uint32 extractarchive(char *archivename, char *source, char *destination)
 {
+	struct Hook *ProgressHook;
 	int32 xad_result;
+	uint32 retval = 0;
 	char sourcename[2048] = { 0, }, destname[2048] = { 0, };
 
 	struct xadArchiveInfo *xadai = NULL;
@@ -409,45 +401,43 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 
 	IUtility->SNPrintf(sourcename, 2048, "%s%s", source, archivename);
 
-	if((xadai = IxadMaster->xadAllocObject(XADOBJ_ARCHIVEINFO, TAG_END)) == NULL)
+	if((ProgressHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, ProgressFunc, TAG_END)))
 	{
-		return 0;
-	}
-
-	if((xad_result = IxadMaster->xadGetInfo(xadai, XAD_INFILENAME, (uint32)sourcename, TAG_END )))
-	{
-		IxadMaster->xadFreeObject(xadai, TAG_END);
-		return 0;
-	}
-
-	xadfi = xadai->xai_FileInfo;
-
-	while(xadfi != NULL)
-	{
-		if(status_haveaborted)
+		if((xadai = IxadMaster->xadAllocObject(XADOBJ_ARCHIVEINFO, TAG_END)))
 		{
-			IxadMaster->xadFreeInfo(xadai);
-			IxadMaster->xadFreeObject(xadai, TAG_END);
-			return 0;
-		}
-		else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)
-		{
-			IUtility->SetMem(destname, 0, 2048);
-			IUtility->SNPrintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
-			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
-			IUtility->SNPrintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
-			if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, &ProgressHook, TAG_END)) != 0L)
+			if((xad_result = IxadMaster->xadGetInfo(xadai, XAD_INFILENAME, (uint32)sourcename, TAG_END )) == 0L)
 			{
-//				IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));
-			}
-		}
+				xadfi = xadai->xai_FileInfo;
 
-		xadfi = xadfi->xfi_Next;
+				while(xadfi != NULL)
+				{
+					if(status_haveaborted)
+					{
+						IxadMaster->xadFreeInfo(xadai);
+						IxadMaster->xadFreeObject(xadai, TAG_END);
+						return 0;
+					}
+					else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)
+					{
+						IUtility->SetMem(destname, 0, 2048);
+						IUtility->SNPrintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
+						dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
+						IUtility->SNPrintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
+						if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) != 0L)
+						{
+//							IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));
+						}
+					}
+					xadfi = xadfi->xfi_Next;
+				}
+				retval = 1;
+				IxadMaster->xadFreeInfo(xadai);
+			}
+			IxadMaster->xadFreeObject(xadai, TAG_END);
+		}
+		IExec->FreeSysObject(ASOT_HOOK, ProgressHook);
 	}
 
-	IxadMaster->xadFreeInfo(xadai);
-	IxadMaster->xadFreeObject(xadai, TAG_END);
-	
-	return 1;
+	return retval;
 }
 

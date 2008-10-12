@@ -86,7 +86,7 @@ int start_external(struct dopus_func_start *func)
 
 	func->startup.wbstartup.sm_Segment = func->segment;
 
-	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag) func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
+	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag) func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, NP_EntryData, &func->startup.wbstartup, TAG_END)->pr_MsgPort))
 		return (0);
 
 	func->startup.wbstartup.sm_ToolWindow = NULL;
@@ -140,9 +140,6 @@ void doconfig()
 	struct dopus_func_start config_func;
 	char *func_args[2], *old_name;
 
-//	if(!(checkwindowquit()))
-//		return;
-
 	sprintf(replyname, "%s%d", config_replyport_basename, system_dopus_runcount);
 	if(!(conport = IExec->CreatePort(replyname, 20)))
 		return;
@@ -182,7 +179,7 @@ void doconfig()
 	sprintf(portname, "dopus4_config_port%d", system_dopus_runcount);
 	cmdport = NULL;
 
-	for(a = 0; a < 100; a++)
+	for(a = 0; a < 1000; a++)
 	{
 		IExec->Forbid();
 		cmdport = IExec->FindPort(portname);
@@ -294,7 +291,6 @@ void doconfig()
 	{
 		initclock();
 		fixcstuff(&cstuff);
-//		setupdisplay(1); // removed to not cause color corruption on some systems. Why redraw screen after cancel?
 		dostatustext(globstring[STR_WELCOME_BACK_TO_DOPUS]);
 		dopustofront();
 	}
@@ -313,9 +309,7 @@ void doconfig()
 
 static char *external_modules[1] =
 {
-//      "DOpus_Disk",
 	"DOpus_Print",
-//      "DOpus_Icon"
 };
 
 struct DiskData

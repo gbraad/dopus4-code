@@ -33,22 +33,26 @@ the existing commercial status of Directory Opus 5.
 
 struct MsgPort *arbiter_reply_port;
 struct MsgPort *arbiter_msg_port;
+struct Process *arbiter_proc;
 struct ProcessStart *arbiter_seglist;
+struct Message *arbiter_startup;
 
 int install_arbiter()
 {
-	struct Message *arbiter_startup;
-
 	if(!(arbiter_reply_port = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
-		return (0);
+		return 0;
 
-	arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, ASOMSG_Size, sizeof(struct ArbiterMessage), TAG_END);
+	arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, TAG_END);
 
-	if(!(arbiter_msg_port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag) "dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, NP_StackSize, 8192, NP_FreeSeglist, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
-		return (0);
+	if(!(arbiter_proc = (struct Process *)IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag)"dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, TAG_END)))
+		return 0;
+
+	if(!(arbiter_msg_port = IDOS->GetProcMsgPort(arbiter_proc)))
+		return 0;
 
 	IExec->PutMsg(arbiter_msg_port, arbiter_startup);
-	return (1);
+
+	return 1;
 }
 
 void remove_arbiter()
@@ -60,8 +64,12 @@ void remove_arbiter()
 		IExec->GetMsg(arbiter_reply_port);
 	}
 
+	if(arbiter_startup)
+		IExec->FreeSysObject(ASOT_MESSAGE, arbiter_startup);
 	if(arbiter_reply_port)
 		IExec->FreeSysObject(ASOT_PORT, arbiter_reply_port);
+
+	return;
 }
 
 int arbiter_command(int command, APTR data, int flags)
@@ -164,7 +172,9 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 					remove_msg = arb_msg;
 				}
 				else
+				{
 					remove = 1;
+				}
 				break;
 			case ARBITER_LAUNCH:
 				if(replyport && (launch = IExec->AllocMem(sizeof(struct LaunchList), MEMF_CLEAR)))
@@ -222,87 +232,15 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 		}
 		if(remove)
 			break;
+
 		IExec->Wait(wait_mask);
 	}
 
 	if(replyport)
-		IExec->DeletePort(replyport);
+		IExec->FreeSysObject(ASOT_PORT, replyport);
 	IExec->Forbid(); // what is this really?
 	IExec->ReplyMsg(my_startup_message);
 
 	return 0;
 }
 
-struct Screen *open_subprocess_screen(char *title, struct TextFont *font, struct DOpusRemember **memkey, short *pens)
-{
-	struct ExtNewScreen newscreen;
-	struct TagItem *screentags;
-	struct TextAttr *screenattr;
-	struct Screen *screen;
-	UWORD *screen_drawinfo;
-
-	if(!(screenattr = IDOpus->LAllocRemember(memkey, sizeof(struct TextAttr), MEMF_CLEAR)) || !(screentags = IDOpus->LAllocRemember(memkey, sizeof(struct TagItem) * 5, MEMF_CLEAR)) || !(screen_drawinfo = IDOpus->LAllocRemember(memkey, sizeof(scr_drawinfo), 0)))
-		return (NULL);
-
-	IExec->CopyMem((char *)scr_drawinfo, (char *)screen_drawinfo, sizeof(scr_drawinfo));
-
-	if(pens)
-	{
-		screen_drawinfo[DETAILPEN] = pens[ARB_PEN_DETAIL];
-		screen_drawinfo[BLOCKPEN] = pens[ARB_PEN_BLOCK];
-	}
-
-	screentags[0].ti_Tag = SA_DisplayID;
-	screentags[0].ti_Data = clone_screen(MainScreen, &newscreen);
-	screentags[1].ti_Tag = SA_Pens;
-	screentags[1].ti_Data = (ULONG) screen_drawinfo;
-	screentags[2].ti_Tag = SA_AutoScroll;
-	screentags[2].ti_Data = TRUE;
-	screentags[3].ti_Tag = SA_Interleaved;
-	screentags[3].ti_Data = TRUE;
-	screentags[4].ti_Tag = TAG_END;
-	screentags[4].ti_Data = 0;
-
-	{
-		struct DimensionInfo dimbuf;
-		int width, height;
-
-		if((IGraphics->GetDisplayInfoData(NULL, (char *)&dimbuf, sizeof(struct DimensionInfo), DTAG_DIMS, screentags[0].ti_Data)))
-		{
-
-			width = (dimbuf.TxtOScan.MaxX - dimbuf.TxtOScan.MinX) + 1;
-			height = (dimbuf.TxtOScan.MaxY - dimbuf.TxtOScan.MinY) + 1;
-			if(newscreen.Width > width)
-				newscreen.Width = width;
-			if(newscreen.Height > height)
-				newscreen.Height = height;
-		}
-	}
-
-	screenattr->ta_Name = font->tf_Message.mn_Node.ln_Name;
-	screenattr->ta_YSize = font->tf_YSize;
-
-	newscreen.LeftEdge = 0;
-	newscreen.TopEdge = 0;
-	if(pens)
-	{
-		newscreen.DetailPen = pens[ARB_PEN_DETAIL];
-		newscreen.BlockPen = pens[ARB_PEN_BLOCK];
-	}
-	else
-	{
-		newscreen.DetailPen = 0;
-		newscreen.BlockPen = 1;
-	}
-	newscreen.Type = CUSTOMSCREEN | NS_EXTENDED;
-	newscreen.Font = screenattr;
-	newscreen.DefaultTitle = title;
-	newscreen.Gadgets = NULL;
-	newscreen.Extension = screentags;
-	newscreen.Depth = config->scrdepth;
-
-	if(!(screen = IIntuition->OpenScreen((struct NewScreen *)&newscreen)))
-		return (NULL);
-//	load_palette(screen, config->new_palette);
-	return (screen);
-}
