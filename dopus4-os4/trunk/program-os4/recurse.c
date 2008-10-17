@@ -34,7 +34,7 @@ int32 recursive_delete(STRPTR directory)
 	uint32 a, rd_continue = 0, rd_abort = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 ret = 0, errorcode = 0;
-	char buf[300], buf2[100], recursivename[2048];
+	char buf[300], buf2[100], recursivename[256];
 	STRPTR nodename;
 	struct Node *node;
 	struct List *flist, *dlist;
@@ -47,8 +47,8 @@ int32 recursive_delete(STRPTR directory)
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
 		{
-			IUtility->SetMem(recursivename, 0, 2048);
-			IUtility->Strlcpy(recursivename, directory, 2048);
+			IUtility->SetMem(recursivename, 0, 256);
+			IUtility->Strlcpy(recursivename, directory, 256);
 
 			if(status_haveaborted)
 			{
@@ -63,7 +63,7 @@ int32 recursive_delete(STRPTR directory)
 
 				if(EXD_IS_DIRECTORY(dat))
 				{
-					IDOS->AddPart(recursivename, dat->Name, 2048);
+					IDOS->AddPart(recursivename, dat->Name, 256);
 					recursive_delete(recursivename);
 					nodename = IExec->AllocVec(strlen(recursivename) + 1, MEMF_ANY);
 					IUtility->Strlcpy(nodename, recursivename, strlen(recursivename) + 1);
@@ -74,7 +74,7 @@ int32 recursive_delete(STRPTR directory)
 				}
 				else if(EXD_IS_FILE(dat))
 				{
-					IDOS->AddPart(recursivename, dat->Name, 2048);
+					IDOS->AddPart(recursivename, dat->Name, 256);
 					nodename = IExec->AllocVec(strlen(recursivename) + 1, MEMF_ANY);
 					IUtility->Strlcpy(nodename, recursivename, strlen(recursivename) + 1);
 					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
