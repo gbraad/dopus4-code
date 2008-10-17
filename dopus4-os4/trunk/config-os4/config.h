@@ -215,6 +215,7 @@ extern struct ConfigStuff cstuff;
 extern struct DOpusRemember *mainkey, *gadgetkey, *tickkey, *screenkey, *clipkey, *buttonkey;
 extern struct Gadget *maingad, *tickgad, *gadgads, *menugads, *drivegads;
 extern int tickcount;
+
 extern struct dopusconfigmsg msg;
 
 extern struct TagItem taglist[2];

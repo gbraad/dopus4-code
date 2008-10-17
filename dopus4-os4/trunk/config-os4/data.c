@@ -107,6 +107,7 @@ struct DOpusRemember *mainkey = NULL, *gadgetkey = NULL, *tickkey = NULL, *scree
 struct Gadget *maingad = NULL, *tickgad = NULL, *gadgads = NULL, *menugads = NULL, *drivegads = NULL;
 struct Clip *firstclip = NULL;
 int tickcount = 0;
+
 struct dopusconfigmsg msg;
 
 int lchanged = 0, changed = 0;

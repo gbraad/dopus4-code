@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	uint16 gadgetid = 0, code;
 	int32 num, a;
 	char portname[50], rportname[50], oldconfigname[256];
-	struct WBStartup *wbmsg;
+	struct WBStartup *wbmsg = NULL;
 	struct ConfigUndo *undo;
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
@@ -95,14 +95,13 @@ int main(int argc, char **argv)
 	else
 	{
 		wbmsg = (struct WBStartup *)argv;
-
 		dropboxicon = IIcon->GetDiskObject(wbmsg->sm_ArgList->wa_Name);
 
 		if(wbmsg->sm_NumArgs > 1)
 		{
 			IDOS->StrToLong(wbmsg->sm_ArgList[1].wa_Name, &num);
 			sprintf(portname, "dopus4_config_port%ld", num);
-			if(!(conport = IExec->CreatePort(portname, 20)))
+			if(!(conport = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, portname, ASOPORT_Pri, 20, ASOPORT_Public, TRUE, TAG_END)))
 			{
 				quit();
 			}
@@ -110,18 +109,20 @@ int main(int argc, char **argv)
 			IExec->Forbid();
 			if(!(cmdport = IExec->FindPort(rportname)))
 			{
-				IExec->DeletePort(conport);
+				IExec->FreeSysObject(ASOT_PORT, conport);
 				conport = NULL;
 			}
+			else
 			IExec->Permit();
 		}
 	}
+
 	if(!dropboxicon)
 	{
 		dropboxicon = &dropboxobj;
 	}
 
-	myproc = (struct Process *)IExec->FindTask(0);
+	myproc = (struct Process *)IExec->FindTask(NULL);
 	wsave = IDOS->SetProcWindow((APTR)-1L);
 
 	for(a = 0; a < 13; a++)
@@ -145,11 +146,6 @@ int main(int argc, char **argv)
 	read_strings();
 	load_clips();
 	readhelp();
-
-/*	if(config->scrdepth < 2)
-	{
-		config->scrdepth += 2;
-	}*/
 
 	open_screen();
 
@@ -298,7 +294,7 @@ void quit()
 	IDOpus->FreeStringFile(&stringdata);
 	if(conport)
 	{
-		IExec->DeletePort(conport);
+		IExec->FreeSysObject(ASOT_PORT, conport);
 	}
 	if(appport)
 	{
@@ -427,7 +423,7 @@ void cstufffix(struct ConfigStuff *cstuff)
 void cleanconfigscreen()
 {
 	struct Gadget *gad;
-	struct Message *msg;
+	struct Message *mmsg;
 
 	for(;;)
 	{
@@ -455,8 +451,8 @@ void cleanconfigscreen()
 	IDOpus->LFreeRemember(&gadgetkey);
 	removetickgads();
 
-	while((msg = IExec->GetMsg(Window->UserPort)))
-		IExec->ReplyMsg(msg);
+	while((mmsg = IExec->GetMsg(Window->UserPort)))
+		IExec->ReplyMsg(mmsg);
 }
 
 void showconfigscreen(int scr)
@@ -1429,26 +1425,26 @@ void doscreentitle(STRPTR str)
 
 struct IntuiMessage *getintuimsg()
 {
-	struct IntuiMessage *msg;
+	struct IntuiMessage *imsg;
 	struct MenuItem *item;
 	int a;
 	char buf[10], c;
 
-	if((msg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
+	if((imsg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)))
 	{
-		if(msg->Class == IDCMP_RAWKEY)
+		if(imsg->Class == IDCMP_RAWKEY)
 		{
-			if(msg->Code == 0x5f && help_ok)
+			if(imsg->Code == 0x5f && help_ok)
 			{
 				doconfighelp();
-				IExec->ReplyMsg((struct Message *)msg);
-				msg = NULL;
+				IExec->ReplyMsg((struct Message *)imsg);
+				imsg = NULL;
 			}
-			else if(msg->Qualifier & IEQUALIFIER_RCOMMAND && Window->MenuStrip)
+			else if(imsg->Qualifier & IEQUALIFIER_RCOMMAND && Window->MenuStrip)
 			{
-				if(!(msg->Code & 0x80))
+				if(!(imsg->Code & 0x80))
 				{
-					IDOpus->RawkeyToStr(msg->Code, 0, NULL, buf, 10);
+					IDOpus->RawkeyToStr(imsg->Code, 0, NULL, buf, 10);
 					c = IUtility->ToUpper(buf[0]);
 					item = Window->MenuStrip->FirstItem;
 					a = 0;
@@ -1456,8 +1452,8 @@ struct IntuiMessage *getintuimsg()
 					{
 						if(item->Command && c == item->Command)
 						{
-							msg->Class = IDCMP_MENUPICK;
-							msg->Code = a << 5;
+							imsg->Class = IDCMP_MENUPICK;
+							imsg->Code = a << 5;
 							break;
 						}
 						item = item->NextItem;
@@ -1466,13 +1462,13 @@ struct IntuiMessage *getintuimsg()
 				}
 			}
 		}
-		else if(msg->Class == IDCMP_MENUPICK)
+		else if(imsg->Class == IDCMP_MENUPICK)
 		{
 			doscreentitle((char *)-1);
-			if(Window->MenuStrip == &projectmenu && MENUNUM(msg->Code) == 0)
+			if(Window->MenuStrip == &projectmenu && MENUNUM(imsg->Code) == 0)
 			{
 				a = 0;
-				switch (ITEMNUM(msg->Code))
+				switch (ITEMNUM(imsg->Code))
 				{
 				case 3:
 					dosave(0);
@@ -1485,20 +1481,20 @@ struct IntuiMessage *getintuimsg()
 				}
 				if(a)
 				{
-					IExec->ReplyMsg((struct Message *)msg);
-					msg = NULL;
+					IExec->ReplyMsg((struct Message *)imsg);
+					imsg = NULL;
 				}
 			}
 		}
-		else if(msg->Class == IDCMP_MOUSEMOVE && Window->MenuStrip)
+		else if(imsg->Class == IDCMP_MOUSEMOVE && Window->MenuStrip)
 		{
-			if(msg->MouseY > Window->BorderTop && msg->MouseY < Window->Height && msg->MouseX >= 0 && msg->MouseX < Window->Width)
+			if(imsg->MouseY > Window->BorderTop && imsg->MouseY < Window->Height && imsg->MouseX >= 0 && imsg->MouseX < Window->Width)
 				Window->Flags |= WFLG_RMBTRAP;
 			else
 				Window->Flags &= ~WFLG_RMBTRAP;
 		}
 	}
-	return (msg);
+	return (imsg);
 }
 
 struct TextFont *getfont(STRPTR font, int *size, int flags)
