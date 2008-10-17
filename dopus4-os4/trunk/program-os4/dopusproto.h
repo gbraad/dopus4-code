@@ -184,7 +184,7 @@ char *get_our_pubscreen(void);
 void change_port_name(char *);
 
 /* main7.c */
-int showpic(char *, int);
+//int showpic(char *, int);
 int readicon(char *, int);
 void drawrecaround(struct RastPort *, int, int, int, int, int, int);
 int doplay8svx(char *, int);
@@ -233,7 +233,6 @@ ULONG clone_screen(struct Screen *, struct ExtNewScreen *);
 int copy_string(char *, char **, struct DOpusRemember **);
 STRPTR strstri(CONST_STRPTR, CONST_STRPTR);
 struct MsgPort *CreateUniquePort(char *, char *, int *);
-int identify_and_load(int, int);
 
 /* main11.c */
 void iconify(int, int, int);

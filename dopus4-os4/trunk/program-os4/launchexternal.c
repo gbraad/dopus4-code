@@ -30,7 +30,9 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "view.h"
 #include <dos/dostags.h>
- 
+
+struct MsgPort *conport, *cmdport;
+
 int start_external(struct dopus_func_start *func)
 {
 	int arg;
@@ -40,10 +42,12 @@ int start_external(struct dopus_func_start *func)
 	func->status = 0;
 	func->resseg = NULL;
 
-	if(!(func->replyport = IExec->CreatePort(NULL, 0)))
+	if(!(func->replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 		return (0);
-	if(!(func->startup.wbstartup.sm_ArgList = IDOpus->LAllocRemember(&func->key, sizeof(struct WBArg) * (func->argcount + 1), MEMF_CLEAR | MEMF_PUBLIC)))
+	if(!(func->startup.wbstartup.sm_ArgList = IDOpus->LAllocRemember(&func->key, sizeof(struct WBArg) * (func->argcount + 1), MEMF_CLEAR | MEMF_SHARED)))
 		return (0);
+
+	func->startup.wbstartup.sm_Message.mn_Node.ln_Name = NULL;
 
 	func->startup.wbstartup.sm_Message.mn_Node.ln_Type = NT_MESSAGE;
 	func->startup.wbstartup.sm_Message.mn_ReplyPort = func->replyport;
@@ -67,7 +71,6 @@ int start_external(struct dopus_func_start *func)
 
 	if(!func->segment)
 	{
-//		IExec->Forbid();
 		IExec->ObtainSemaphore(ss);
 		if((func->resseg = IDOS->FindSegment(func->segname, NULL, 0)))
 		{
@@ -75,7 +78,6 @@ int start_external(struct dopus_func_start *func)
 			func->segment = func->resseg->seg_Seg;
 		}
 		IExec->ReleaseSemaphore(ss);
-//		IExec->Permit();
 		if(!func->segment && !(func->segment = (BPTR) IDOS->LoadSeg(func->segname)))
 		{
 			return (0);
@@ -86,7 +88,7 @@ int start_external(struct dopus_func_start *func)
 
 	func->startup.wbstartup.sm_Segment = func->segment;
 
-	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, (Tag) func->procname, NP_Priority, main_proc->pr_Task.tc_Node.ln_Pri, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, NP_EntryData, &func->startup.wbstartup, TAG_END)->pr_MsgPort))
+	if(!(func->startup.wbstartup.sm_Process = &IDOS->CreateNewProcTags(NP_Name, func->procname, NP_Seglist, func->startup.wbstartup.sm_Segment, NP_StackSize, func->stack, NP_FreeSeglist, FALSE, TAG_END)->pr_MsgPort))
 		return (0);
 
 	func->startup.wbstartup.sm_ToolWindow = NULL;
@@ -124,7 +126,7 @@ int close_external(struct dopus_func_start *func, int wait)
 		IDOS->UnLock(func->startup.wbstartup.sm_ArgList[0].wa_Lock);
 	}
 	if(func->replyport)
-		IExec->DeletePort(func->replyport);
+		IExec->FreeSysObject(ASOT_PORT, func->replyport);
 	IDOpus->LFreeRemember(&func->key);
 	return (func->startup.retcode);
 }
@@ -132,8 +134,8 @@ int close_external(struct dopus_func_start *func, int wait)
 void doconfig()
 {
 	char buf[100], buf1[20], replyname[50], portname[50], funcpath[80], old_language[30];
-	int old_bufcount, a;
-	struct MsgPort *conport, *cmdport;
+	int old_bufcount, a, confignotdone = 1;
+//	struct MsgPort *conport, *cmdport;
 	struct dopusconfigmsg *repmsg;
 	struct configconfig cfg, *rcfg;
 	struct ConfigStuff cstuff;
@@ -141,7 +143,7 @@ void doconfig()
 	char *func_args[2], *old_name;
 
 	sprintf(replyname, "%s%d", config_replyport_basename, system_dopus_runcount);
-	if(!(conport = IExec->CreatePort(replyname, 20)))
+	if(!(conport = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, replyname, ASOPORT_Pri, 20, ASOPORT_Public, TRUE, TAG_DONE)))
 		return;
 
 	sprintf(buf, "%d", system_dopus_runcount);
@@ -164,14 +166,14 @@ void doconfig()
 	config_func.segname = funcpath;
 	config_func.argcount = 2;
 	config_func.args = func_args;
-	config_func.stack = 65536; //8192;
+	config_func.stack = 65536;
 	config_func.flags = (config->loadexternal & LOAD_CONFIG) ? FF_SAVESEG : 0;
 
 	if(!(start_external(&config_func)))
 	{
 		close_external(&config_func, 0);
 		dostatustext(globstring[STR_CONFIG_NOT_FOUND]);
-		IExec->DeletePort(conport);
+		IExec->FreeSysObject(ASOT_PORT, conport);
 		return;
 	}
 
@@ -193,9 +195,10 @@ void doconfig()
 	{
 		close_external(&config_func, 0);
 		dostatustext(globstring[STR_CONFIG_NOT_FOUND]);
-		IExec->DeletePort(conport);
+		IExec->FreeSysObject(ASOT_PORT, conport);
 		return;
 	}
+
 	status_configuring = -1;
 	shutthingsdown(1);
 	old_bufcount = config->bufcount;
@@ -209,15 +212,15 @@ void doconfig()
 	arexx_port->mp_Node.ln_Name = "foo";
 	IExec->Permit();
 
-	for(;;)
+	while(confignotdone == 1)
 	{
 		while((repmsg = (struct dopusconfigmsg *)IExec->GetMsg(conport)))
 		{
 			switch (repmsg->command)
 			{
 			case CONFIG_ALL_DONE:
-				IExec->ReplyMsg((struct Message *)repmsg);
-				goto configdone;
+				confignotdone = 0;
+				break;
 			case CONFIG_GET_CONFIG:
 				cfg.config = config;
 				cfg.firsttype = dopus_firsttype;
@@ -247,10 +250,12 @@ void doconfig()
 			IExec->ReplyMsg((struct Message *)repmsg);
 		}
 
-		IExec->Wait(1 << conport->mp_SigBit);
+		if(confignotdone == 1)
+		{
+			IExec->Wait(1 << conport->mp_SigBit);
+		}
 	}
 
-      configdone:
 	config_func.flags = (config->loadexternal & LOAD_CONFIG) ? FF_SAVESEG : 0;
 	close_external(&config_func, 1);
 	configopus_segment = config_func.segment;
@@ -295,7 +300,7 @@ void doconfig()
 		dopustofront();
 	}
 
-	IExec->DeletePort(conport);
+	IExec->FreeSysObject(ASOT_PORT, conport);
 
 	IExec->Forbid();
 	arexx_port->mp_Node.ln_Name = old_name;
@@ -305,6 +310,8 @@ void doconfig()
 
 	startnotifies();
 	status_configuring = 0;
+
+	return;
 }
 
 static char *external_modules[1] =

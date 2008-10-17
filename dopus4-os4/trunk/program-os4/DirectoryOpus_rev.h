@@ -1,16 +1,16 @@
 #define VERSION			4
 #define REVISION		18
-#define SUBREVISION		8
+#define SUBREVISION		10
 
-#define DATE			"30.09.2008"
+#define DATE			"17.10.2008"
 #define VERS			"DirectoryOpus 4.18"
-#define VSTRING			"DirectoryOpus 4.18 (30.09.2008)\r\n"
-#define VERSTAG			"\0$VER: DirectoryOpus 4.18 (30.09.2008)"
+#define VSTRING			"DirectoryOpus 4.18 (17.10.2008)\r\n"
+#define VERSTAG			"\0$VER: DirectoryOpus 4.18 (17.10.2008)"
 
 #define VERSION_STR		"4"
 #define REVISION_STR		"18"
-#define SUBREVISION_STR		"8"
+#define SUBREVISION_STR		"10"
 
-#define NEW_VERS		"DirectoryOpus 4.18.8"
-#define NEW_VSTRING		"DirectoryOpus 4.18.8 (30.09.2008)\r\n"
-#define NEW_VERSTAG		"\0$VER: DirectoryOpus 4.18.8 (30.09.2008)"
+#define NEW_VERS		"DirectoryOpus 4.18.10"
+#define NEW_VSTRING		"DirectoryOpus 4.18.10 (17.10.2008)\r\n"
+#define NEW_VERSTAG		"\0$VER: DirectoryOpus 4.18.10 (17.10.2008)"

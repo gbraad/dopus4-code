@@ -158,7 +158,6 @@ void ftype_doubleclick(char *path, char *name, int state)
 	{
 		dostatustext(globstring[STR_SHOWING_FILE]);
 		strcpy(func_single_file, name);
-//		a = showpic(buf, 1);
 		a = LoadPic(buf);
 		if(a)
 		{

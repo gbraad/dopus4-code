@@ -46,7 +46,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	struct ExamineData *exdata = NULL;
 	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0, noshow = 0, err = 0;
 	int sourcewild = 0, destwild = 0, firstset = 0, breakout = 0, rexarg = 0, protstuff[2];
-	int pt = 1, okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
+	int okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
 	int globflag, noremove, doicons = 0, value = 0, progtype = 0, blocksize = 0, retval = 0;
 	int32 total = -1;
 	int64 byte, bb;
@@ -1536,7 +1536,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				if((a = showpic(sourcename, pt)) == -1)
+				if((a = LoadPic(sourcename)) == -1)
 				{
 					okayflag = 1;
 					myabort();
@@ -2211,7 +2211,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		if(act > -1)
 			refreshwindow(act, 0);
 		if(viewdata)
+		{
 			cleanupviewfile(viewdata);
+			IExec->FreePooled(function_memory_pool, viewdata, sizeof(struct ViewData));
+		}
 		if(status_justabort)
 			myabort();
 		else if(!okayflag && !(doerror(-1)))

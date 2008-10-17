@@ -178,7 +178,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 void view_file_process()
 {
 //	int64 size;
-	int32 size;
+	int size;
 	int a, retcode = 100;
 	char buf[60];
 	struct ConUnit *view_console_unit = NULL;
@@ -231,8 +231,10 @@ void view_file_process()
 				}
 				else
 				{
-					if(!(vdata = IExec->AllocMem(sizeof(struct ViewData), MEMF_CLEAR)))
+					if(!(vdata = IExec->AllocVecTags(sizeof(struct ViewData), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+					{
 						retcode = -4;
+					}
 				}
 				if(vdata)
 				{
@@ -389,7 +391,7 @@ void view_file_process()
 						retcode = view_idcmp(vdata);
 					}
 					if(vdata->view_text_buffer)
-						IExec->FreeMem(vdata->view_text_buffer, vdata->view_buffer_size);
+						IExec->FreeVec(vdata->view_text_buffer);
 					if(view_console_unit)
 						IExec->CloseDevice((struct IORequest *)&vdata->view_console_request);
 					if(vdata->view_ansiread_window)
@@ -401,7 +403,7 @@ void view_file_process()
 					if(!viewdata)
 					{
 						cleanupviewfile(vdata);
-						IExec->FreeMem(vdata, sizeof(struct ViewData));
+						IExec->FreeVec(vdata);
 					}
 					else
 					{
@@ -470,7 +472,7 @@ int view_loadfile(struct ViewData *vdata)
 
 	for(a = 0; a < 2; a++)
 	{
-		if((vdata->view_text_buffer = IExec->AllocMem(vdata->view_buffer_size, MEMF_ANY)))
+		if((vdata->view_text_buffer = IExec->AllocVecTags(vdata->view_buffer_size, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 			break;
 		view_status_text(vdata, globstring[STR_NO_MEMORY_TO_DECRUNCH]);
 		if((vdata->view_buffer_size = IExec->AvailMem(MEMF_PUBLIC | MEMF_LARGEST)) < 16)
@@ -1971,10 +1973,10 @@ void view_printtext(struct ViewData *vdata, int state)
 
 void view_checkprint(struct ViewData *vdata, int code)
 {
-//	view_busy(vdata);
-//	if((code == 0 && !vdata->view_display_as_hex) || (view_simplerequest(vdata, globstring[STR_READY_PRINTER], str_okaystring, str_cancelstring, NULL)))
-//		view_printtext(vdata, code);
-//	view_unbusy(vdata);
+	view_busy(vdata);
+	if((code == 0 && !vdata->view_display_as_hex) || (view_simplerequest(vdata, globstring[STR_READY_PRINTER], str_okaystring, str_cancelstring, NULL)))
+		view_printtext(vdata, code);
+	view_unbusy(vdata);
 }
 
 void view_makeuphex(struct ViewData *vdata, STRPTR hex, UBYTE *textbuf, int line)
@@ -2023,7 +2025,6 @@ void view_togglescroll(struct ViewData *vdata)
 	else if(vdata->view_line_count > vdata->view_lines_per_screen)
 	{
 		vdata->view_scroll = 1;
-//		setnullpointer(vdata->view_window);
 	}
 }
 
@@ -2031,7 +2032,7 @@ void view_viewhilite(struct ViewData *vdata, int x, int y, int x1, int y1)
 {
 	struct viewhilite *hi;
 
-	if(!(hi = IExec->AllocMem(sizeof(struct viewhilite), MEMF_CLEAR)))
+	if(!(hi = IExec->AllocVecTags(sizeof(struct viewhilite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 		return;
 	if(vdata->view_current_hilite)
 		vdata->view_current_hilite->next = hi;
@@ -2059,7 +2060,7 @@ void view_clearhilite(struct ViewData *vdata, int show)
 		next = hi->next;
 		if(show)
 			IGraphics->RectFill(vdata->view_rastport, hi->x, hi->y, hi->x1, hi->y1);
-		IExec->FreeMem(hi, sizeof(struct viewhilite));
+		IExec->FreeVec(hi);
 		hi = next;
 	}
 	vdata->view_first_hilite = vdata->view_current_hilite = NULL;
@@ -2184,7 +2185,7 @@ void view_clearsearch(struct ViewData *vdata)
 int view_simplerequest(struct ViewData *vdata, char *txt, ...)
 {
 	char *gads[4], *cancelgad = NULL, *gad;
-	int a /*=1*/ , r, rets[3], num;
+	int a, r, rets[3], num;
 	va_list ap;
 	struct DOpusSimpleRequest request;
 

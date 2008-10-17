@@ -148,7 +148,8 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 							IExec->ReplyMsg((struct Message *)launch->reply_msg);
 						}
 						IDOpus->LFreeRemember(&launch->memory);
-						IExec->FreeMem(launch, sizeof(struct LaunchList));
+//						IExec->FreeMem(launch, sizeof(struct LaunchList));
+						IExec->FreeVec(launch);
 						break;
 					}
 					launchpos = launch;
@@ -177,7 +178,8 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				}
 				break;
 			case ARBITER_LAUNCH:
-				if(replyport && (launch = IExec->AllocMem(sizeof(struct LaunchList), MEMF_CLEAR)))
+//				if(replyport && (launch = IExec->AllocMem(sizeof(struct LaunchList), MEMF_CLEAR)))
+				if(replyport && (launch = IExec->AllocVecTags(sizeof(struct LaunchList), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 				{
 					struct ArbiterLaunch *arb_launch;
 					struct MsgPort *port;

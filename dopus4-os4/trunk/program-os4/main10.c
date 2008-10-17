@@ -503,29 +503,3 @@ struct MsgPort *CreateUniquePort(STRPTR base, STRPTR buffer, int *count)
 	return (port);
 }
 
-int identify_and_load(int win, int unit)
-{
-	char buf[20];
-	BPTR lock;
-	APTR wsave;
-
-	wsave = IDOS->SetProcWindow((APTR)-1L);
-
-	sprintf(buf, "DF%d:", unit);
-	if(!(lock = IDOS->Lock(buf, ACCESS_READ)))
-	{
-		sprintf(buf, "PC%d:", unit);
-		if(!(lock = IDOS->Lock(buf, ACCESS_READ)))
-			return (0);
-	}
-	IDOS->UnLock(lock);
-
-	IDOS->SetProcWindow(wsave);
-
-	if(win > -1)
-	{
-		strcpy(str_pathbuffer[win], buf);
-		startgetdir(win, SGDFLAGS_CANMOVEEMPTY);
-	}
-	return (1);
-}

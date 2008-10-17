@@ -367,54 +367,52 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 {
 	struct ExamineData *exadat;
 	struct dopusfiletype *type;
-	int file;
+	BPTR file;
 
 	if((exadat = IDOS->ExamineObjectTags(EX_StringName, fullname, TAG_END)))
 	{
-		if(!(file = IDOS->Open(fullname, MODE_OLDFILE)))
+		if((file = IDOS->Open(fullname, MODE_OLDFILE)))
 		{
-			IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
-			return (NULL);
-		}
-	}
-	else
-	{
-		return (NULL);
-	}
-
-	type = dopus_firsttype;
-	while(type)
-	{
-		if(status_haveaborted)
-		{
-			break;
-		}
-		if(ftype == -2)
-		{
-			if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, exadat)))
+			type = dopus_firsttype;
+			while(type)
 			{
-				IDOS->Close(file);
-				IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
-				return (type);
+				if(status_haveaborted)
+				{
+					break;
+				}
+				if(ftype == -2)
+				{
+					if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, exadat)))
+					{
+						break;
+					}
+				}
+				else
+				{
+					if(!funconly || (type->function[ftype] && type->function[ftype][0]))
+					{
+						if(type->recognition && dochecktype(type, fullname, file, exadat) && (ftype == -1 || (type->function[ftype] && type->function[ftype][0])))
+						{
+							break;
+						}
+					}
+				}
+				type = type->next;
 			}
 		}
 		else
 		{
-			if(!funconly || (type->function[ftype] && type->function[ftype][0]))
-			{
-				if(type->recognition && dochecktype(type, fullname, file, exadat) && (ftype == -1 || (type->function[ftype] && type->function[ftype][0])))
-				{
-					IDOS->Close(file);
-					IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
-					return (type);
-				}
-			}
+			type = NULL;
 		}
-		type = type->next;
+			IDOS->Close(file);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
 	}
-	IDOS->Close(file);
-	IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
-	return (NULL);
+	else
+	{
+		type = NULL;
+	}
+
+	return (type);
 }
 
 int dochecktype(struct dopusfiletype *type, char *name, int file, struct ExamineData *exadat)
