@@ -67,10 +67,10 @@ int main(int argc, char **argv)
 
 		if(argc == 0)
 		{
-			struct WBStartup *startup;
+			struct WBStartup *startup = (struct WBStartup *)argv;
 			int arg;
 
-			startup = (struct WBStartup *)argv;
+//			startup = (struct WBStartup *)argv;
 			for(arg = 0; arg < startup->sm_NumArgs && arg < 16; arg++)
 			{
 				dummy_args[arg] = startup->sm_ArgList[arg].wa_Name;
