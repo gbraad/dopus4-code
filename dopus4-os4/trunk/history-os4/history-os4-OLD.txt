@@ -1,0 +1,135 @@
+* Much happened in the porting that I didn't write down, stupid I know, but
+here we are now.
+
+* IconInfo module was replaced, IWorkbench->WBInfo() used instead.
+
+* Removed the other modules. IMO they're useless anyway.
+
+* Changed some of the default behaviour. Opens on WB Screen as default now,
+same with Read and Hex Read windows.
+
+* Ripped out the old iff/datatype loader, replaced it with a new datatypes
+loader, that opens a window on DOpus screen.
+
+* Fixed issues with * not working in select by pattern. * Will always work
+now.
+
+* Later un-fixed the above. It's a user setting in SYS:Prefs/DOS.
+
+* Added scrollwheel support. Both in the main program but also in some of
+the listviews in ConfigOpus. Of course the scrollwheel also works in Read
+window.
+
+* I've removed a lot of functions from the original library, replacing them
+with system calls instead. Some of those looked like they were invented when
+AmigaOS 1.3 was hot.
+
+* Changed the tooltypes and arguments somewhat.
+	ICONSTART=1		--> ICONSTART
+	BUTTONSTART=1	--> BUTTONSTART
+	CHECK=1 		--> CHECK
+
+* Removed the following tooltypes.
+	FORCEOPENXAD (always opens xadmaster.library now)
+	FORCEOPENXFD (removed support for now)
+	USESYSINFO   (not very useful on OS4)
+
+* CLI options have changed.
+	-i Iconify
+	-b Buttonstart
+	-C Check (was -g)
+	-c Configfile
+
+* Removed following CLI options.
+	-x xfdmaster
+	-X xadmaster
+
+* Changed the version requester a little.
+
+* Fixed xadmaster.library support. This falls under the category "Don't
+port stuff when you're tired".
+
+* Finally fixed loading of .CFG bug. BIG thanks to Colin Wenzel for leading
+me in the right direction.
+
+* Added DOpus_Print to the archive. It prints to a file at least.
+
+* Fixed broken new/old slider look.
+
+* dopus.library can now be flushed.
+
+* Aborting operations no longer crashes.
+
+* Icon Info now opens on same screen as DOpus itself.
+
+* Replaced the old doplay8svx() function with a simple datatypes function
+instead.
+
+* Readded the old 8svx routine as Play8svx and LoopPlay8svx commands.
+
+* Delay -1 now works for commands again. Stupid signedness problem.
+
+* Removed IDOpus->SendPacket() function from dopus.library as it was very
+old and would eventually break on OS4. DOpusRT now uses a better way of
+getting the CON: window pointer.
+
+* Fixed displaying of links. DOpus4 now shows the link underlined as it
+used to, and adds "> path:to/real/file" to the comment field as C:List
+does.
+
+* Copying dirs with links in them will copy the real file instead of the
+link, instead of just ignoring them as it did before.
+
+* Added iconifygadget to main Window. Does the same as the little [I]
+button or iconify menuitem.
+
+* Iconifygadget now stays when window is resized.
+
+* Added application.library support. Use tooltype DOCKY or commandline
+option -d to enable it. No normal appicon will appear but instead it will
+be in AmiDock. Only works if AppIcon is chosen as iconify method.
+
+* Added iconifygadget to View window.
+
+* Added DirectoryOpus.CLA to PROGDIR:S, now you will get all this filetypes
+again.
+
+* Removed the custom FileRequester from dopus.library, it's all ASL now.
+Please let me know if it causes any problems.
+
+* Added project Icons in PROGDIR:WBStartup, copy one of them into
+SYS:WBStartup to have DOpus start at boot time. Particulary usefull if you
+set tooltypes to ICONIFY, and perhaps DOCKY. It doesn't read tooltypes from
+project icons (yet?) though, only from main executable icon.
+
+* Fixed DOpusRT so that dopus.library now can be flushed. Same fix done to
+DOpus_Print
+
+* Fixed crashing when iconifying several viewer windows.
+
+* Internal viewer should now work with the chosen font even in screen mode.
+
+* Removed ASyncIO support. This fix will allow DOpus4 OS4 to work with
+FTPMount. Copy routine could still be improved I think.
+
+* Fixed memory leak when copying files.
+
+* Small fixes to the copyfile routine. Should speed up copying.
+
+* Finally nailed the sorting bug.
+
+* Added support for Page Up/Page Down/Home/End keys in both listers and 
+text-viewer. Kept the old keypad 1,3,7,9 support for now.
+
+* Fixed serious memory issue that appeared when I removed ASyncIO support.
+Using freed memory isn't very nice.
+
+* Finally fixed the version numbering. Had to create a new tool for it but
+it was worth it.
+
+* When doubleclicking a file, it will now check if it's a picture or sound
+via datatypes.
+
+* Fixed the default config to look and feel more modern, and use the new
+things in AmigaOS 4. Thanks to Christoph Gutjahr for the suggested default
+config.

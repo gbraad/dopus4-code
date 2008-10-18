@@ -1,0 +1,46 @@
+dopus.library - ChangeLog:
+--------------------------
+
+2006-09-24 - dopus.library 22.29
+* Changed default config in Operation->Update to have "Current file
+progress indicator" set. It's now also used with the new Extract commad.
+
+2006-09-26 - dopus.library 22.30
+* Fixed a NULL pointer referance in StrToUpper(). It prevented [S]elect by
+comment from working.
+
+2006-09-27 - dopus.library 22.31
+* Removed unused function Atoh(). HexToLong() from dos.library used
+instead.
+
+2006-09-28 - dopus.library 22.32
+* Removed unused function IDOpus->PathName(). IDOS->NameFromLock() is a
+better alternative.
+
+2006-09-28 - dopus.library 22.33
+* IDOpus->Assign() is the next function to go. IDOS->AssignPath() is a
+better choice.
+
+2006-09-28 - dopus.library 22.34
+* IDOpus->Decode_RLE() gone. Unused.
+
+2006-09-29 - dopus.library 22.35
+* Fixed DSI in IDOpus->DoSimpleRequest();.
+
+2006-10-04 - dopus.library 22.36
+* Removed "Encrypt" from default config, don't think anyone uses it. Also
+readded "Print" to def-config.
+
+2006-10-07 - dopus.library 22.37
+* Fixed some hotkey issues in default config.
+
+2006-11-01 - dopus.library 22.38
+* Changed IDOpus->ReadStringFile() to only read catalogs >= v2, since some
+of the strings have changed and would crash with an old catalog.
+
+2007-06-26 - dopus.library 22.39
+* Changed IDOpus->CheckExist() to use IDOS->ExamineObjectTags() instead of
+old IDOS->Lock()/IDOS->Examine() pair.
+
+2008-01-07 - dopus.library 22.40
+Switched dopus.library over to use newlib instead of clib2 as well.

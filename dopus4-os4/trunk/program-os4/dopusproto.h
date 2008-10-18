@@ -338,8 +338,6 @@ void setupgadgets(void);
 void allocate_borders(void);
 void add_gadget_borders(struct DOpusRemember **, struct Gadget *, int);
 void create_gadget_borders(struct DOpusRemember **, int, int, struct Border **, struct Border **, int);
-void fill_out_border_data(short *, short *, int, int);
-void fill_out_border(struct Border *, int, int, short *, short *);
 void drawgadgets(int, int);
 void fix_gadget_highlight(struct newdopusfunction *, struct Gadget *, int);
 void init_menus(void);

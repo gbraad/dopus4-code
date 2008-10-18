@@ -53,14 +53,15 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
 	char *sourcename, *destname, *oldiconname, *newiconname;
 	char *buf, *buf1, *buf2, *namebuf, *srename, *drename, *database;
-	static char /*tbuf[2048],*/ titlebuf[32];
+	static char titlebuf[32];
 	struct DateTime datetime;
-	void *function_memory_pool;
+//	void *function_memory_pool;
+	APTR function_memory_pool;
 	struct dopusfiletype *type;
 	struct dopusfuncpar par;
 	struct DirectoryWindow *swindow, *dwindow;
 	struct DOpusArgsList arglist;
-	struct ViewData *viewdata = NULL;
+//	struct ViewData *viewdata = NULL;
 	BPTR filelock;
 	static int entry_depth;
 	char progress_copy = 0, prog_indicator = 0;
@@ -187,8 +188,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_HEXREAD:
 	case FUNC_ANSIREAD:
 	case FUNC_SMARTREAD:
-		if(!globflag && !(viewdata = IExec->AllocPooled(function_memory_pool, sizeof(struct ViewData))))
-			goto endfunction;
+/*		if(!globflag && !(viewdata = IExec->AllocPooled(function_memory_pool, sizeof(struct ViewData))))
+			goto endfunction;*/
 	case FUNC_LOOPPLAY:
 	case FUNC_SHOW:
 		total = -1;
@@ -1486,7 +1487,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				break;
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
-			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, viewdata, (viewdata || str_arcorgname[0]) ? 1 : 0, (entry_depth > 1));
+//			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, viewdata, (viewdata || str_arcorgname[0]) ? 1 : 0, (entry_depth > 1));
+			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, NULL, str_arcorgname[0] ? 1 : 0, (entry_depth > 1));
 			if(a != -2)
 			{
 				if(a != -3)
@@ -2210,11 +2212,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_SMARTREAD:
 		if(act > -1)
 			refreshwindow(act, 0);
-		if(viewdata)
+/*		if(viewdata)
 		{
 			cleanupviewfile(viewdata);
 			IExec->FreePooled(function_memory_pool, viewdata, sizeof(struct ViewData));
-		}
+		}*/
 		if(status_justabort)
 			myabort();
 		else if(!okayflag && !(doerror(-1)))

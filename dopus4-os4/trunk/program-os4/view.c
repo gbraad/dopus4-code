@@ -159,7 +159,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 		launch.data = (APTR)view_message;
 
 		view_message->function = function;
-		view_message->viewdata = viewdata;
+		view_message->viewdata = NULL; //viewdata;
 		if(dopus_curwin[data_active_window]->flags & DWF_ARCHIVE)
 			view_message->deleteonexit = TRUE;
 

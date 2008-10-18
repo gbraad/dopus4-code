@@ -1,0 +1,16 @@
+ConfigOpus - ChangeLog:
+-----------------------
+
+2006-09-19 - ConfigOpus 4.17.8
+* ConfigOpus now longer crashes when you clear a hotkey with right mouse
+button.
+
+2006-09-24 - ConfigOpus 4.17.9
+* Extract command added.
+
+2006-10-01 - ConfigOpus 4.17.10
+* Changed some of the old requesters into IDOS->TimedDosRequester().
+
+2007-01-11 - ConfigOpus 4.18.1
+* Small fix to System->Icons part. Doesn't give a DSI anymore, and shows
+the '*' part for the three default icons, if icons are chosen by the user.

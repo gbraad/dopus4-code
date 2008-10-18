@@ -382,6 +382,9 @@ int internal_function(int function, int rexx, char *source, char *dest)
 			case FUNC_ERRORHELP:
 				geterrorhelp(rexx);
 				break;
+			case FUNC_PRINTDIR:
+				dopus_print(rexx, NULL, 1, str_arexx_portname, NULL);
+				break;
 			case FUNC_NEWCLI:
 				newcli((rexx && rexx_args[0][0]) ? rexx_args[0] : NULL);
 				break;
