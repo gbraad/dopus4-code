@@ -108,7 +108,7 @@ struct Gadget *maingad = NULL, *tickgad = NULL, *gadgads = NULL, *menugads = NUL
 struct Clip *firstclip = NULL;
 int tickcount = 0;
 
-struct dopusconfigmsg msg;
+struct DOpusMessage msg;
 
 int lchanged = 0, changed = 0;
 

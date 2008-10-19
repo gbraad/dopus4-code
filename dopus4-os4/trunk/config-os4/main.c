@@ -329,7 +329,7 @@ void getconfig()
 	if(cmdport)
 	{
 		configmsg(CONFIG_GET_CONFIG);
-		cfg = (struct configconfig *)msg.buffer;
+		cfg = (struct configconfig *)msg.data;
 		config = cfg->config;
 		firsttype = cfg->firsttype;
 		firstbank = cfg->firstbank;
@@ -367,7 +367,7 @@ void giveconfig()
 			*ptr = 0;
 		cfg.Window = Window;
 		cfg.Screen = Screen;
-		msg.buffer = (char *)&cfg;
+		msg.data = &cfg;
 		configmsg(CONFIG_HERES_CONFIG);
 	}
 }
@@ -387,7 +387,7 @@ void configmsg(int command)
 	{
 		msg.msg.mn_Node.ln_Type = NT_MESSAGE;
 		msg.msg.mn_ReplyPort = conport;
-		msg.msg.mn_Length = (UWORD) sizeof(struct dopusconfigmsg);
+		msg.msg.mn_Length = sizeof(struct DOpusMessage);
 		msg.command = command;
 		IExec->PutMsg(cmdport, (struct Message *)&msg);
 		IExec->WaitPort(conport);
