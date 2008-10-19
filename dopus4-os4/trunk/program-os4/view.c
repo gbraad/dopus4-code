@@ -1021,6 +1021,7 @@ int view_setupdisplay(struct ViewData *vdata)
 	int tc = 0;
 	short int a, width, fontx;
 	uint16 zoom[4] = { ~0, ~0, config->viewtext_width, config->viewtext_height };
+	struct TextAttr screenattr;
 
 	vdata->view_colour_table[PEN_BACKGROUND] = 0;
 	vdata->view_colour_table[PEN_SHADOW] = config->gadgetbotcol;
@@ -1076,8 +1077,11 @@ int view_setupdisplay(struct ViewData *vdata)
 	}
 	else
 	{
+		screenattr.ta_Name=scr_font[FONT_TEXT]->tf_Message.mn_Node.ln_Name;
+		screenattr.ta_YSize=scr_font[FONT_TEXT]->tf_YSize;
+
 //		if(!(vdata->view_screen = open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE], scr_font[FONT_TEXT], &vdata->view_memory, NULL)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
-		if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_LikeWorkbench, TRUE, TAG_END)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
+		if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Font, &screenattr, SA_Interleaved, TRUE, SA_LikeWorkbench, TRUE, TAG_END)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
 		{
 			return -4;
 		}

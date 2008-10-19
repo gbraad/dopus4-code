@@ -31,8 +31,6 @@ the existing commercial status of Directory Opus 5.
 #include "view.h"
 #include <dos/dostags.h>
 
-struct MsgPort *conport, *cmdport;
-
 int start_external(struct dopus_func_start *func)
 {
 	int arg;
@@ -135,8 +133,8 @@ void doconfig()
 {
 	char buf[100], buf1[20], replyname[50], portname[50], funcpath[80], old_language[30];
 	int old_bufcount, a, confignotdone = 1;
-//	struct MsgPort *conport, *cmdport;
-	struct dopusconfigmsg *repmsg;
+	struct MsgPort *conport, *cmdport;
+	struct DOpusMessage *replymsg;
 	struct configconfig cfg, *rcfg;
 	struct ConfigStuff cstuff;
 	struct dopus_func_start config_func;
@@ -214,9 +212,9 @@ void doconfig()
 
 	while(confignotdone == 1)
 	{
-		while((repmsg = (struct dopusconfigmsg *)IExec->GetMsg(conport)))
+		while((replymsg = (struct DOpusMessage *)IExec->GetMsg(conport)))
 		{
-			switch (repmsg->command)
+			switch (replymsg->command)
 			{
 			case CONFIG_ALL_DONE:
 				confignotdone = 0;
@@ -230,10 +228,10 @@ void doconfig()
 				cfg.firsthotkey = dopus_firsthotkey;
 				strcpy(cfg.configname, str_config_basename);
 				cfg.Screen = MainScreen;
-				repmsg->buffer = (char *)&cfg;
+				replymsg->data = &cfg;
 				break;
 			case CONFIG_HERES_CONFIG:
-				rcfg = (struct configconfig *)repmsg->buffer;
+				rcfg = (struct configconfig *)replymsg->data;
 				dopus_firsttype = rcfg->firsttype;
 				dopus_firstgadbank = rcfg->firstbank;
 				dopus_firsthotkey = rcfg->firsthotkey;
@@ -247,7 +245,7 @@ void doconfig()
 				dotaskmsg(hotkeymsg_port, HOTKEY_HOTKEYCHANGE, 0, 0, NULL, 0);
 				break;
 			}
-			IExec->ReplyMsg((struct Message *)repmsg);
+			IExec->ReplyMsg((struct Message *)replymsg);
 		}
 
 		if(confignotdone == 1)

@@ -399,12 +399,12 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 				}
 				type = type->next;
 			}
+			IDOS->Close(file);
 		}
 		else
 		{
 			type = NULL;
 		}
-			IDOS->Close(file);
 		IDOS->FreeDosObject(DOS_EXAMINEDATA, exadat);
 	}
 	else
