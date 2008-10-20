@@ -91,11 +91,8 @@ void quit()
 
 	if(configopus_segment)
 		IDOS->UnLoadSeg(configopus_segment);
-	for(a = 0; a < 3; a++)
-	{
-		if(external_mod_segment[a])
-			IDOS->UnLoadSeg(external_mod_segment[a]);
-	}
+	if(dopusprint_segment)
+		IDOS->UnLoadSeg(dopusprint_segment);
 
 	if(user_appicon)
 		IIcon->FreeDiskObject(user_appicon);

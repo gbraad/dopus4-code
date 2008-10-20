@@ -189,7 +189,6 @@ LONG rexx_return_value;		/* RC for ARexx functions */
 
 ULONG func_global_function = 0;	/* Global function number */
 char func_single_file[FILEBUF_SIZE] = { 0 };	/* Single file to operate on */
-//char func_external_file[256] = { 0 };	/* External file to operate on */
 char func_external_file[1024] = { 0 };	/* External file to operate on */
 struct Directory *func_single_entry = NULL;	/* Single entry to operate on */
 UBYTE func_entry_deleted = 0;	/* Indicates entry was deleted */
@@ -258,8 +257,3 @@ int search_found_size;		/* Bytes searched */
 int search_found_lines;		/* Lines searched */
 int search_last_line_pos;	/* Last line position searched */
 
-/* Data for Show Info routine */
-
-struct TextFont *show_global_font = NULL;	/* Font info */
-struct DiskObject *show_global_icon = NULL;	/* Icon info */
-char *show_global_icon_name;	/* Icon name */

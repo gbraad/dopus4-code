@@ -147,12 +147,13 @@ void doconfig()
 	sprintf(buf, "%d", system_dopus_runcount);
 	sprintf(buf1, "dopus4_config%d", system_dopus_runcount);
 
-	strcpy(funcpath, "ConfigOpus");
+//	strcpy(funcpath, "ConfigOpus");
+	IUtility->Strlcpy(funcpath, "PROGDIR:Modules/ConfigOpus", 80);
 
 	if(!configopus_segment)
 	{
 		dostatustext(globstring[STR_LOADING_CONFIG]);
-		strcpy(funcpath, "PROGDIR:Modules/ConfigOpus");
+//		strcpy(funcpath, "PROGDIR:Modules/ConfigOpus");
 	}
 
 	func_args[0] = funcpath;
@@ -164,7 +165,7 @@ void doconfig()
 	config_func.segname = funcpath;
 	config_func.argcount = 2;
 	config_func.args = func_args;
-	config_func.stack = 65536;
+	config_func.stack = 8192;
 	config_func.flags = (config->loadexternal & LOAD_CONFIG) ? FF_SAVESEG : 0;
 
 	if(!(start_external(&config_func)))
@@ -277,13 +278,22 @@ void doconfig()
 		if(strcmp(old_language, config->language))
 			read_data_files(0);
 
-		for(a = 0; a < 3; a++)
+		if(config->loadexternal & LOAD_CONFIG)
 		{
-			if(!(config->loadexternal & (1 << a)) && external_mod_segment[a])
-			{
-				IDOS->UnLoadSeg(external_mod_segment[a]);
-				external_mod_segment[a] = 0;
-			}
+			configopus_segment = IDOS->LoadSeg("PROGDIR:Modules/ConfigOpus");
+		}
+		else
+		{
+			configopus_segment = 0L;
+		}
+
+		if(config->loadexternal & LOAD_PRINT)
+		{
+			dopusprint_segment = IDOS->LoadSeg("PROGDIR:Modules/DOpus_Print");
+		}
+		else
+		{
+			dopusprint_segment = 0L;
 		}
 
 		fixcstuff(&cstuff);
@@ -312,20 +322,6 @@ void doconfig()
 	return;
 }
 
-static char *external_modules[1] =
-{
-	"DOpus_Print",
-};
-
-struct DiskData
-{
-	int function;
-	char funcpath[80];
-	char *args[16];
-	int argcount;
-	int background;
-};
-
 void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *port, struct ViewData *vdata)
 {
 	char *args[16], portname[21], arglistbuf[20], funcpath[80];
@@ -335,13 +331,10 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 	if(!vdata)
 		dostatustext(globstring[STR_STARTING_PRINT_MODULE]);
 
-	print_func.segment = external_mod_segment[SEG_PRINT];
-	print_func.procname = external_modules[SEG_PRINT];
+	print_func.segment = dopusprint_segment;
+	print_func.procname = "DOpus_Print";
 
-	strcpy(funcpath, external_modules[SEG_PRINT]);
-
-	if(!print_func.segment)
-		IDOpus->FindSystemFile(external_modules[SEG_PRINT], funcpath, 80, SYSFILE_MODULE);
+	IUtility->Strlcpy(funcpath, "PROGDIR:Modules/DOpus_Print", 80); //external_modules[SEG_PRINT]);
 
 	print_func.segname = funcpath;
 
@@ -387,7 +380,7 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 	print_func.argcount = argcount;
 	print_func.args = args;
-	print_func.stack = 65536; //8192;
+	print_func.stack = 8192;
 	print_func.flags = (config->loadexternal & LOAD_PRINT) ? FF_SAVESEG : 0;
 
 	if(!(start_external(&print_func)))
@@ -448,7 +441,7 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 	}
 
 	close_external(&print_func, 0);
-	external_mod_segment[SEG_PRINT] = print_func.segment;
+	dopusprint_segment = print_func.segment;
 
 	if(!vdata)
 	{
@@ -517,33 +510,26 @@ int dopus_iconinfo(char *filename)
 
 void setup_externals()
 {
-	int a;
-	char funcbuf[256];
 	APTR wsave;
 
 	wsave = IDOS->SetProcWindow((APTR)-1L);
 
 	if(config->loadexternal & LOAD_CONFIG)
 	{
-		IDOpus->FindSystemFile("ConfigOpus", funcbuf, 256, SYSFILE_MODULE);
-		configopus_segment = IDOS->LoadSeg(funcbuf);
+		configopus_segment = IDOS->LoadSeg("PROGDIR:Modules/ConfigOpus");
 	}
 	else
 	{
 		configopus_segment = 0L;
 	}
 
-	for(a = 0; a < 1; a++)
+	if(config->loadexternal & LOAD_PRINT)
 	{
-		if(config->loadexternal & (1 << a))
-		{
-			IDOpus->FindSystemFile(external_modules[a], funcbuf, 256, SYSFILE_MODULE);
-			external_mod_segment[a] = IDOS->LoadSeg(funcbuf);
-		}
-		else
-		{
-			external_mod_segment[a] = 0L;
-		}
+		dopusprint_segment = IDOS->LoadSeg("PROGDIR:Modules/DOpus_Print");
+	}
+	else
+	{
+		dopusprint_segment = 0L;
 	}
 
 	IDOS->SetProcWindow(wsave);

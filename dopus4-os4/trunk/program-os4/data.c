@@ -219,7 +219,8 @@ int autoskip /* = 0 */ ;			/* Should files be automatically owerwritten */
 
 struct Config *config /*=NULL*/ ;		/* Configuration structure */
 BPTR configopus_segment /*=NULL*/ ;		/* Segment pointer for ConfigOpus */
-BPTR external_mod_segment[3] /*={0}*/ ;		/* External module segments */
+BPTR dopusprint_segment /*=NULL*/ ;		/* Segment pointer for ConfigOpus */
+//BPTR external_mod_segment[3] /*={0}*/ ;		/* External module segments */
 BYTE config_changed /*=0*/ ;			/* Configuration has been changed */
 
 const char *config_replyport_basename = "dopus4_config_reply";

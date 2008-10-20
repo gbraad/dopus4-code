@@ -86,13 +86,13 @@ static struct DiskObject iconify_appicon =
 
 void iconify(int louise, int buttons, int banknum)
 {
-	ULONG class;
-	USHORT code, gadgetid = 0;
+	uint32 class;
+	uint16 code, gadgetid = 0;
 	struct DateTime dt;
 	struct Screen scrbuf, *sptr;
 	struct DrawInfo *drinfo;
 	int wmes, chipc, fast, h, m, s, waitbits, a = 0, b, nheight, nwidth, buttonrows = 0, oldrows, olddata_gadgetrow_offset, x, y, x1, y1, c, d, w, fastnum = 0, chipnum = 0, bankcount = 0, bankstep = 0, menunum, itemnum, num, cdelay, usage, oldusage = 100;
-	char date[16], time[16], buf[50], buf1[50], buf2[50], /*ampm, */formstring[100], *old;
+	char date[16], time[16], buf[50], buf1[50], buf2[50], formstring[100], *old;
 	struct dopusgadgetbanks *bank, *oldbank, **bankarray = { NULL, };
 	struct dopushotkey *hotkey;
 	struct dopusfuncpar par;

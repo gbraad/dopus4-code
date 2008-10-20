@@ -227,7 +227,7 @@ extern int autoskip;		/* Should files be automatically owerwritten */
 
 extern struct Config *config;	/* Configuration structure */
 extern BPTR configopus_segment;	/* Segment pointer for ConfigOpus */
-extern BPTR external_mod_segment[3];	/* External module segments */
+extern BPTR dopusprint_segment;	/* Segment pointer for ConfigOpus */
 extern BYTE config_changed;	/* Configuration has been changed */
 
 extern const char *config_replyport_basename;

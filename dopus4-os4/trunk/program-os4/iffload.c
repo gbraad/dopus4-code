@@ -74,7 +74,7 @@ int LoadPic(char *name)
 				
 				dostatustext(name);
 				
-				if((dtwin = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, dtscreen, WA_Left, winx, WA_Top, winy, WA_InnerWidth, winw, WA_InnerHeight, winh, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END)))
+				if((dtwin = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, dtscreen, WA_Left, winx, WA_Top, winy, WA_InnerWidth, winw, WA_InnerHeight, winh, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE | WFLG_RMBTRAP, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END)))
 				{
 					IGraphics->BltBitMapRastPort(bm, 0, 0, dtwin->RPort, 0, 0, winw, winh, 0xC0);
 
@@ -89,7 +89,7 @@ int LoadPic(char *name)
 							case IDCMP_MOUSEBUTTONS:
 								if(mess->Code == IECODE_LBUTTON)
 									cont = FALSE;
-								if(mess->Code == IECODE_RBUTTON)
+								else if(mess->Code == IECODE_RBUTTON)
 									cont = FALSE;
 								break;
 							case IDCMP_VANILLAKEY:
@@ -160,9 +160,9 @@ int WaitForMouseClick(struct Window *wind)
 				}
 				code = SELECTDOWN;
 			case IDCMP_MOUSEBUTTONS:
-				if(code == SELECTDOWN)
+				if(code == IECODE_LBUTTON)
 					retcode = 0;
-				else if(code == MENUDOWN)
+				else if(code == IECODE_RBUTTON)
 					retcode = -1;
 				break;
 			}

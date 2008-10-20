@@ -29,7 +29,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 #include <proto/ahi.h>
-#include <workbench/icon.h>
 
 #ifndef SAMPLETYPE_Stereo
 #define SAMPLETYPE_Stereo SVX_STEREO
@@ -39,7 +38,6 @@ the existing commercial status of Directory Opus 5.
 #define RAWKEY_Q   0x10
 #define RAWKEY_X   0x32
 
-//static struct DOpusRemember *audio_key;	/* Memory key for 8SVX player */
 void *audio_memory_pool; /* Memory pool for 8SVX player */
 
 static struct MsgPort *audio_port[2];	/* 8SVX Sound player Ports */
@@ -56,55 +54,6 @@ static struct MsgPort *AHImp;
 static struct AHIRequest *AHIio;
 static BYTE AHIDevice = -1;
 static struct AHIAudioCtrl *actrl;
-
-/*
-int showpic(STRPTR fullname, int np)
-{
-	int res, a;
-	char buf[256];
-
-	if(checkexec(fullname) && checkisfont(fullname, buf))
-	{
-		return ((showfont(buf, atoi(IDOS->FilePart(fullname)), np)));
-	}
-
-	a = strlen(fullname);
-	if(a > 5 && strcmp(&fullname[a - 5], ".info") == 0)
-	{
-		if((res = readicon(fullname, np)) == 0)
-			return (1);
-		if(res == -2)
-		{
-			doerror(-1);
-			return (0);
-		}
-		if(res == -3)
-		{
-			dostatustext(globstring[STR_NO_CHIP_FOR_ICON]);
-			return (0);
-		}
-		return (res);
-	}
-
-	if(!(res = LoadPic(fullname)))
-		doerror(-1);
-	else if(res == IFFERR_NOTILBM)
-		dostatustext(globstring[STR_FILE_NOT_ILBM]);
-	else if(res == IFFERR_BADIFF)
-		dostatustext(globstring[STR_ERROR_IN_IFF]);
-	else if(res == IFFERR_NOMEMORY)
-		dostatustext(globstring[STR_NO_CHIP_FOR_PICTURE]);
-	else if(res == IFFERR_BADMODE)
-		dostatustext(globstring[STR_SCREEN_MODE_UNAVAILABLE]);
-	else if(res == IFFERR_NOSCREEN)
-		dostatustext(globstring[STR_UNABLE_TO_OPEN_WINDOW]);
-	if(res == -1)
-		return (-1);
-	else if(!res || res < -1)
-		return (0);
-	return (1);
-}
-*/
 
 int checkisfont(STRPTR pathname, STRPTR fontname)
 {
@@ -137,99 +86,6 @@ int checkisfont(STRPTR pathname, STRPTR fontname)
 	return (0);
 }
 
-int readicon(STRPTR name, int np)
-{
-	struct DiskObject *dobj;
-	struct Gadget *gad;
-	struct Image *icon_image[2];
-	UWORD coltab[256];
-	int fred, ret, width, height, x, y, x1, y1, imagenum, depth;
-
-	if(!IconBase)
-		return (0);
-
-	name[(strlen(name) - 5)] = 0;
-	dobj = IIcon->GetIconTags(name, ICONGETA_Screen, NULL, ICONGETA_GenerateImageMasks, FALSE, TAG_END);
-
-	if(dobj == NULL)
-		return (-2);
-
-	gad = &(dobj->do_Gadget);
-
-	icon_image[0] = (struct Image *)1;
-	depth = 8;
-
-	if(!icon_image[0] || !(setupfontdisplay(depth, coltab)))
-	{
-		IIcon->FreeDiskObject(dobj);
-		return (-3);
-	}
-
-	IGraphics->LoadRGB4(&fontscreen->ViewPort, coltab, 256);
-	IIcon->LayoutIconA(dobj, fontscreen, NULL);
-	IGraphics->LoadRGB4(&fontscreen->ViewPort, nullpalette, 256);
-	icon_image[0] = (struct Image *)(gad->GadgetRender);
-
-	if(gad->Flags & GFLG_GADGHIMAGE)
-	{
-		icon_image[1] = (struct Image *)gad->SelectRender;
-	}
-	else
-	{
-		icon_image[1] = icon_image[0];
-	}
-
-	for(x = 0; x < 2; x++)
-	{
-		icon_image[x]->NextImage = NULL;
-	}
-
-	imagenum = 0;
-
-	IIntuition->ScreenToFront(fontscreen);
-	IIntuition->ActivateWindow(fontwindow);
-
-	width = fontscreen->Width;
-	height = fontscreen->Height;
-
-	IIntuition->DrawImage(fontwindow->RPort, icon_image[0], ((width - icon_image[0]->Width) / 2), ((height - icon_image[0]->Height) / 2));
-
-//	FadeRGB4(fontscreen, coltab, (1 << depth), 1, config->fadetime);
-	show_global_icon = dobj;
-	show_global_icon_name = IDOS->FilePart(name);
-
-	for(;;)
-	{
-		if((fred = WaitForMouseClick(fontwindow)) == -2)
-		{
-			imagenum = 1 - imagenum;
-			x = (width - icon_image[imagenum]->Width) / 2;
-			y = (height - icon_image[imagenum]->Height) / 2;
-			x1 = x + icon_image[imagenum]->Width;
-			y1 = y + icon_image[imagenum]->Height;
-			IIntuition->DrawImage(fontwindow->RPort, icon_image[imagenum], x, y);
-			drawrecaround(fontwindow->RPort, x, y, x1, y1, width, height);
-		}
-		else
-		{
-			if(fred == 0 || fred == -3)
-			{
-				ret = TRUE;
-			}
-			else
-			{
-				ret = -1;
-			}
-			break;
-		}
-	}
-	show_global_icon = NULL;
-/*	if(fred != -3)
-		FadeRGB4(fontscreen, coltab, (1 << depth), -1, config->fadetime);*/
-	IIcon->FreeDiskObject(dobj);
-	cleanup_fontdisplay();
-	return (ret);
-}
 
 void drawrecaround(struct RastPort *r, int x, int y, int x1, int y1, int width, int height)
 {
@@ -364,13 +220,13 @@ int doplay8svxold(STRPTR fname, int loop)
 		return (-2);
 	}
 	vxcheck = (uint32 *)audiodata;
-	if(audio_size < 12 || vxcheck[0] != ID_FORM || vxcheck[2] != ID_8SVX)
-	{			// Raw data
+	if(audio_size < 12 || vxcheck[0] != ID_FORM || vxcheck[2] != ID_8SVX) // Raw data
+	{
 		size = audio_size;
 		psample = p8data = audiodata;
 	}
-	else
-	{			// 8SVX sample
+	else // 8SVX sample
+	{
 		p8data = audiodata + 12;
 		size = 0;
 		while(p8data < audiodata + vxcheck[1])
@@ -410,7 +266,6 @@ int doplay8svxold(STRPTR fname, int loop)
 		if(vhdr->vh_Compression == CMP_FIBDELTA)
 		{
 			size -= 2;
-//			if(!(compressbuf = IDOpus->LAllocRemember(&audio_key, size * 2, MEMF_ANY)))
 			if(!(compressbuf = IExec->AllocPooled(audio_memory_pool, size * 2)))
 				return (-2);
 			DUnpack(psample + 2, size, compressbuf, psample[1]);
@@ -487,7 +342,6 @@ int doplay8svxold(STRPTR fname, int loop)
 
 		for(a = 0; a < 2; a++)
 		{
-//			if(!(audio_req1[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_req2[a] = IDOpus->LAllocRemember(&audio_key, sizeof(struct IOAudio), MEMF_CLEAR)) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
 			if(!(audio_req1[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) || !(audio_req2[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
 				return (-2);
 		}
@@ -505,7 +359,6 @@ int doplay8svxold(STRPTR fname, int loop)
 		playsize = (size < 25600) ? size : 25600;
 		for(a = 0; a < 2; a++)
 		{
-//			if(!(playdata[a] = IDOpus->LAllocRemember(&audio_key, playsize, MEMF_CHIP)))
 			if(!(playdata[a] = IExec->AllocPooled(audio_memory_pool, playsize)))
 			{
 				return (-2);
@@ -669,7 +522,6 @@ void kill8svx()
 	}
 	if(audiodata && audio_size)
 		IExec->FreeVec(audiodata);
-//	IDOpus->LFreeRemember(&audio_key);
 	IExec->FreeSysObject(ASOT_MEMPOOL, audio_memory_pool);
 	audiodata = NULL;
 }

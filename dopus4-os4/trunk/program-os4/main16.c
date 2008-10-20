@@ -33,23 +33,35 @@ the existing commercial status of Directory Opus 5.
 int showfont(char *name, int size, int np)
 {
 	int base, y, fred, t, len;
-	unsigned char a;
+	char a;
 	struct TextFont *font;
 	char fontbuf[256], *fontptr;
 	struct TextAttr sfattr = { (STRPTR) name, size, 0, 0 };
 	struct RastPort *font_rp;
 
-	font = IDiskfont ? IDiskfont->OpenDiskFont(&sfattr) : IGraphics->OpenFont(&sfattr);
-	if(!font || !(setupfontdisplay(1, NULL)))
+	if(MainScreen)
+	{
+		fontscreen = MainScreen;
+	}
+	else
+	{
+		fontscreen = IIntuition->LockPubScreen(NULL);
+	}
+
+	font = IDiskfont->OpenDiskFont(&sfattr);
+
+	fontwindow = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, fontscreen, WA_Left, config->viewtext_topleftx, WA_Top, config->viewtext_toplefty, WA_Width, config->viewtext_width, WA_Height, config->viewtext_height, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE | WFLG_RMBTRAP, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END);
+
+	if(!font || !fontwindow)
 	{
 		doerror(-1);
 		return (0);
 	}
 
+
 	base = font->tf_Baseline;
-	IGraphics->SetFont(font_rp = fontwindow->RPort, font);
-	IGraphics->SetAPen(font_rp, 1);
-	IGraphics->SetDrMd(font_rp, JAM1);
+
+	IGraphics->SetRPAttrs(font_rp = fontwindow->RPort, RPTAG_Font, font, RPTAG_APen, 1, RPTAG_DrMd, JAM1, TAG_END);
 
 	y = base;
 	a = font->tf_LoChar;
@@ -60,15 +72,15 @@ int showfont(char *name, int size, int np)
 
 	for(;;)
 	{
-		len += IGraphics->TextLength(font_rp, (char *)&a, 1);
-		if(len > fontscreen->Width || t > 254)
+		len += IGraphics->TextLength(font_rp, &a, 1);
+		if(len > fontwindow->GZZWidth || t > 254)
 		{
 			IGraphics->Text(font_rp, fontbuf, t);
 			y += size;
 			IGraphics->Move(font_rp, 0, y);
 			len = t = 0;
 			fontptr = fontbuf;
-			if(y - base > fontscreen->Height)
+			if(y - base > fontwindow->GZZHeight)
 				break;
 		}
 		*(fontptr++) = a;
@@ -77,20 +89,20 @@ int showfont(char *name, int size, int np)
 			a = font->tf_LoChar;
 	}
 
-	IIntuition->ScreenToFront(fontscreen);
 	IIntuition->ActivateWindow(fontwindow);
-	show_global_font = font;
 
 	fred = WaitForMouseClick(fontwindow);
-
-	show_global_font = NULL;
 
 	cleanup_fontdisplay();
 	IGraphics->CloseFont(font);
 
+	if(fontscreen != MainScreen)
+		IIntuition->UnlockPubScreen(NULL, fontscreen);
+
 	return ((fred == 0) ? 1 : -1);
 }
 
+/*
 int setupfontdisplay(int depth, UWORD *coltab)
 {
 	struct DimensionInfo dims;
@@ -133,6 +145,7 @@ int setupfontdisplay(int depth, UWORD *coltab)
 	IGraphics->LoadRGB4(&fontscreen->ViewPort, nullpalette, 1 << depth);
 	return (1);
 }
+*/
 
 void cleanup_fontdisplay()
 {
@@ -141,11 +154,6 @@ void cleanup_fontdisplay()
 	{
 		IIntuition->CloseWindow(fontwindow);
 		fontwindow = NULL;
-	}
-	if(fontscreen)
-	{
-		IIntuition->CloseScreen(fontscreen);
-		fontscreen = NULL;
 	}
 	IIntuition->ActivateWindow(Window);
 }

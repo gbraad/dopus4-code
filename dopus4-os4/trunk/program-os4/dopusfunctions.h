@@ -303,7 +303,6 @@ extern struct DirWindowPars func_reselection;	/* Reselection data */
 
 /* Parameters recognised by the Modify command */
 
-//extern char *modifynames[];
 extern CONST_STRPTR modifynames[];
 
 /* Data for Remember/Restore function */
@@ -317,12 +316,6 @@ extern char *search_found_position;	/* Position of match */
 extern int search_found_size;	/* Bytes searched */
 extern int search_found_lines;	/* Lines searched */
 extern int search_last_line_pos;	/* Last line position searched */
-
-/* Data for Show Info routine */
-
-extern struct TextFont *show_global_font;	/* Font info */
-extern struct DiskObject *show_global_icon;	/* Icon info */
-extern char *show_global_icon_name;	/* Icon name */
 
 /* Directory tree graphics items */
 
