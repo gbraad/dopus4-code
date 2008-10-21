@@ -439,7 +439,7 @@ ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 		return (modes);
 	}
 
-	IIntuition->GetScreenData( /*(char *) */ &scrbuf, sizeof(struct Screen), (original) ? CUSTOMSCREEN : WBENCHSCREEN, original);
+	IIntuition->GetScreenData(&scrbuf, sizeof(struct Screen), (original) ? CUSTOMSCREEN : WBENCHSCREEN, original);
 
 	clone->Width = scrbuf.Width;
 	clone->Height = scrbuf.Height;

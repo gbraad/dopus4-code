@@ -46,6 +46,7 @@ struct RequesterBase rename_req =
 
 static char oldname_buffer[FILEBUF_SIZE], newname_buffer[FILEBUF_SIZE];
 
+
 struct TagItem rename_oldname_gadget[] =
 {
 	{ RO_Type, OBJECT_GADGET },
@@ -128,6 +129,7 @@ struct TagItem rename_oldname_gadget[] =
 {
 	rename_oldname_gadget, rename_newname_gadget, rename_okay_gadget, rename_skip_gadget, rename_cancel_gadget, NULL
 };
+
 
 int getrenamedata(STRPTR src, STRPTR dst)
 {

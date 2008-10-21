@@ -32,31 +32,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-
-void setupchangestate(void)
-{
-	int unit;
-	struct IOStdReq *diskreq;
-
-	disk_change_state = 0;
-	if((diskreq = (struct IOStdReq *)IExec->CreateIORequest(general_port, sizeof(struct IOStdReq))))
-	{
-		for(unit = 0; unit < 4; unit++)
-		{
-			if(!(IExec->OpenDevice("trackdisk.device", unit, (struct IORequest *)diskreq, 0)))
-			{
-				diskreq->io_Command = TD_CHANGESTATE;
-				IExec->DoIO((struct IORequest *)diskreq);
-				if(!diskreq->io_Actual)
-					disk_change_state |= 1 << unit;
-				IExec->CloseDevice((struct IORequest *)diskreq);
-			}
-		}
-		IExec->DeleteIORequest((struct IORequest *)diskreq);
-	}
-}
-
-
 #define ITEM_NUM 11
 
 static short diskinfo_heads[] =
@@ -88,7 +63,6 @@ void dodiskinfo(char *path)
 	struct Gadget contgad;
 	char *gad_gads[2], *uscore, cont_key;
 	BPTR lock;
-	UBYTE old_change_state;
 	ULONG class;
 	USHORT code;
 	struct DOpusRemember *key = NULL;
@@ -328,7 +302,7 @@ void dodiskinfo(char *path)
 	contgad.SpecialInfo = NULL;
 	contgad.GadgetID = 0;
 
-	gad_gads[0] = globstring[STR_CONTINUE] /*buf */ ;
+	gad_gads[0] = globstring[STR_CONTINUE];
 	gad_gads[1] = NULL;
 
 	if(!(fontwindow = IIntuition->OpenWindow(&disk_win)))
@@ -367,21 +341,6 @@ void dodiskinfo(char *path)
 			IExec->ReplyMsg((struct Message *)IMsg);
 			switch (class)
 			{
-			case IDCMP_DISKREMOVED:
-				setupchangestate();
-				break;
-			case IDCMP_DISKINSERTED:
-				if(isd != -1)
-				{
-					old_change_state = disk_change_state;
-					setupchangestate();
-					if((old_change_state & (1 << isd)) != (disk_change_state & (1 << isd)))
-					{
-						i = 2;
-						break;
-					}
-				}
-				break;
 			case IDCMP_VANILLAKEY:
 				if(code != '\r' && tolower(code) != cont_key)
 					break;

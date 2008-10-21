@@ -107,7 +107,6 @@ enum
 	VIEW_JUMPTOLINE2,
 	VIEW_LINECOUNT,
 	VIEW_FILENAME,
-	VIEW_ICONIFY,
 
 	VIEW_GAD_COUNT
 };
@@ -117,10 +116,7 @@ static struct NewWindow viewwin =
 	0, 0, 0, 0, 255, 255, IDCMP_RAWKEY | IDCMP_VANILLAKEY | IDCMP_MOUSEBUTTONS | IDCMP_EXTENDEDMOUSE | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
 };
 
-/* iconifygagdet stuff */ 
 static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
-static struct Gadget *viewiconifygadget;
-static struct Image *viewiconifyimage;
 
 ULONG view_runcount;
 
@@ -130,6 +126,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 	struct ViewMessage *view_message;
 	struct DOpusRemember *memkey = NULL;
 	int flags;
+	char launchname[30] = "dopus_view";
 
 	if(!noftype)
 	{
@@ -154,12 +151,12 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 	{
 
 		launch.launch_code = (void *)&view_file_process;
-		launch.launch_name = "dopus_view";
+		launch.launch_name = launchname;
 		launch.launch_memory = memkey;
 		launch.data = (APTR)view_message;
 
 		view_message->function = function;
-		view_message->viewdata = NULL; //viewdata;
+		view_message->viewdata = NULL;
 		if(dopus_curwin[data_active_window]->flags & DWF_ARCHIVE)
 			view_message->deleteonexit = TRUE;
 
@@ -175,9 +172,16 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 	return (0);
 }
 
+
+int view_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
+{
+	struct ExecIFace *iexec = (struct ExecIFace *)sysbase->MainInterface;
+
+	return 0;
+}
+
 void view_file_process()
 {
-//	int64 size;
 	int size;
 	int a, retcode = 100;
 	char buf[60];
@@ -213,7 +217,7 @@ void view_file_process()
 	}
 	IExec->Permit();
 
-	if((view_port = IExec->CreatePort(portname, 0)))
+	if((view_port = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, portname, TAG_END)))
 	{
 		if(IDOpus->CheckExist(filename, &size) < 0)
 		{
@@ -417,7 +421,7 @@ void view_file_process()
 		else
 			retcode = -2;
 	      view_end:
-		IExec->DeletePort(view_port);
+		IExec->FreeSysObject(ASOT_PORT, view_port);
 	}
 	my_startup_message->command = retcode;
 	if(view_msg->deleteonexit)
@@ -435,12 +439,6 @@ void cleanupviewfile(struct ViewData *vdata)
 		{
 			config->viewtext_topleftx = vdata->view_window->LeftEdge;
 			config->viewtext_toplefty = vdata->view_window->TopEdge;
-			IIntuition->RemoveGadget(vdata->view_window, viewiconifygadget);
-			if(view_runcount == 0)
-			{
-				IIntuition->DisposeObject(viewiconifygadget);
-				IIntuition->DisposeObject(viewiconifyimage);
-			}
 
 			IIntuition->CloseWindow(vdata->view_window);
 		}
@@ -498,7 +496,6 @@ int view_loadfile(struct ViewData *vdata)
 			{
 				IGadTools->GT_BeginRefresh(vdata->view_window);
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
-				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 			}
 			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == MENUDOWN))
 			{
@@ -533,10 +530,6 @@ int view_idcmp(struct ViewData *vdata)
 	int retcode = 1;
 	BOOL quit = FALSE;
 
-	struct DiskObject *viewdobj = NULL;
-	struct AppIcon *viewappicon = NULL;
-	struct MsgPort *view_appport = NULL;
-
 	for(a = 0; a < 7; a++)
 	{
 		scroll_pos[a] = (vdata->view_window->Height / 8) * (a + 1);
@@ -559,7 +552,6 @@ int view_idcmp(struct ViewData *vdata)
 			case IDCMP_REFRESHWINDOW:
 				IGadTools->GT_BeginRefresh(vdata->view_window);
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
-				IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 				break;
 			case IDCMP_CLOSEWINDOW:
 				view_runcount--;
@@ -622,45 +614,6 @@ int view_idcmp(struct ViewData *vdata)
 			      testgad:
 				switch (gadgetid)
 				{
-				case VIEW_ICONIFY:
-					if(!view_appport)
-					{
-						view_appport = IExec->CreatePort(NULL, 0);
-					}
-					if(!viewdobj)
-					{
-						viewdobj = IIcon->GetDiskObject("ENV:Sys/def_ascii");
-					}
-					if(viewdobj && view_appport)
-					{
-						struct AppMessage *viewappmsg;
-						viewappicon = IWorkbench->AddAppIcon(0, 0, vdata->view_file_name, view_appport, 0, viewdobj, NULL);
-						IIntuition->HideWindow(vdata->view_window);
-						IExec->Wait(1 << view_appport->mp_SigBit);
-						while((viewappmsg = (struct AppMessage *)IExec->GetMsg(view_appport)))
-						{
-							switch(viewappmsg->am_Type)
-							{
-							case AMTYPE_APPICON:
-								if((viewappmsg->am_NumArgs == 0) && (viewappmsg->am_ArgList == NULL))
-								{
-									IWorkbench->RemoveAppIcon(viewappicon);
-									IIcon->FreeDiskObject(viewdobj);
-									IIntuition->ShowWindow(vdata->view_window, WINDOW_FRONTMOST);
-									IExec->DeletePort(view_appport);
-								}
-								break;
-							}
-							IExec->ReplyMsg((struct Message *)viewappmsg);
-						}
-
-					}
-					else
-					{
-						IIcon->FreeDiskObject(viewdobj);
-						IExec->DeletePort(view_appport);
-					}
-					break;
 				case VIEW_SCROLLGADGET:
 					view_fix_scroll_gadget(vdata);
 					break;
@@ -1080,7 +1033,6 @@ int view_setupdisplay(struct ViewData *vdata)
 		screenattr.ta_Name=scr_font[FONT_TEXT]->tf_Message.mn_Node.ln_Name;
 		screenattr.ta_YSize=scr_font[FONT_TEXT]->tf_YSize;
 
-//		if(!(vdata->view_screen = open_subprocess_screen(globstring[STR_TEXT_VIEWER_TITLE], scr_font[FONT_TEXT], &vdata->view_memory, NULL)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
 		if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Font, &screenattr, SA_Interleaved, TRUE, SA_LikeWorkbench, TRUE, TAG_END)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
 		{
 			return -4;
@@ -1113,26 +1065,6 @@ int view_setupdisplay(struct ViewData *vdata)
 		}
 		IDOpus->LFreeRemember(&vdata->view_memory);
 		return -4;
-	}
-	else
-	{
-		if(config->viewbits & VIEWBITS_INWINDOW)
-		{
-			struct DrawInfo *DRI;
-
-			DRI = IIntuition->GetScreenDrawInfo(vdata->view_window->WScreen);
-			viewiconifyimage = (struct Image *)IIntuition->NewObject(NULL, "sysiclass", SYSIA_DrawInfo, DRI, SYSIA_Which, ICONIFYIMAGE, TAG_END);
-			if(viewiconifyimage)
-			{
-				viewiconifygadget = (struct Gadget *)IIntuition->NewObject(NULL, "buttongclass", GA_ID, VIEW_ICONIFY, GA_RelVerify, TRUE, GA_Image, viewiconifyimage, GA_TopBorder, TRUE, GA_RelRight, 0, GA_Titlebar, TRUE, TAG_END);
-				if(viewiconifygadget)
-				{
-					IIntuition->AddGadget(vdata->view_window, viewiconifygadget, ~0);
-					IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
-				}
-			}
-			IIntuition->FreeScreenDrawInfo(vdata->view_window->WScreen, DRI);
-		}
 	}
 	vdata->view_screen = vdata->view_window->WScreen;
 	vdata->view_rastport = vdata->view_window->RPort;
@@ -1299,7 +1231,6 @@ int view_setupdisplay(struct ViewData *vdata)
 	IIntuition->AddGList(vdata->view_window, vdata->view_gadgets, -1, -1, NULL);
 	IIntuition->RefreshGList(vdata->view_gadgets, vdata->view_window, NULL, -1);
 	IGadTools->GT_RefreshWindow(vdata->view_window, NULL);
-	IIntuition->RefreshGadgets(viewiconifygadget, vdata->view_window, NULL);
 
 	vdata->view_vis_info.vi_font = vdata->view_font;
 	vdata->view_vis_info.vi_language = config->language;

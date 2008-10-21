@@ -724,10 +724,6 @@ void iconify(int louise, int buttons, int banknum)
 					else if(gadgetid == BUTEXIT)
 						goto deiconify;
 					break;
-				case IDCMP_DISKREMOVED:
-				case IDCMP_DISKINSERTED:
-					setupchangestate();
-					break;
 				case IDCMP_CLOSEWINDOW:
 					if(!(a = simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_UNICONIFY], NULL)))
 						break;

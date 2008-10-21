@@ -58,11 +58,6 @@ struct TagItem mainscreen_tags[] =			/* Tags for the main screen */
 	{ SA_SharePens, TRUE },
 	{ SA_SysFont, 1 },
 	{ TAG_DONE, 0 }
-}, stdscreen_tags[] =
-{				/* Tags for a standard HIRES screen */
-	{ SA_DisplayID, HIRES_KEY },
-	{ SA_Pens, (ULONG) scr_drawinfo },
-	{ TAG_DONE, 0 }
 }, mainwindow_tags[] =
 {				/* Tags for the main window */
 	{ WA_PubScreen, 0 },
@@ -81,15 +76,6 @@ struct ExtNewScreen main_scr =
 	(STRPTR) str_arexx_portname,
 	NULL, NULL,
 	mainscreen_tags
-}, font_scr =
-{
-	0, 0, 640, 0, 1, 0, 1,	/* Font screen */
-	HIRES, CUSTOMSCREEN | SCREENBEHIND | SCREENQUIET | NS_EXTENDED,
-	NULL, NULL, NULL, NULL,
-	stdscreen_tags
-}, blank_scr =
-{	/* Blank screen */
-	0, 0, 320, STDSCREENHEIGHT, 1, 0, 1, 0, CUSTOMSCREEN | SCREENQUIET, NULL, NULL, NULL, NULL, NULL
 };
 
 /* NewWindow structures */
@@ -103,13 +89,7 @@ struct ExtNewWindow main_win =
 	mainwindow_tags
 };
 
-struct NewWindow font_win =
-{	/* Font window */
-	0, 0, 640, 200, 255, 255,
-	IDCMP_MOUSEBUTTONS | IDCMP_RAWKEY | IDCMP_INACTIVEWINDOW,
-	WFLG_RMBTRAP | WFLG_BORDERLESS | WFLG_SIMPLE_REFRESH | WFLG_NOCAREREFRESH,
-	NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
-}, disk_win =
+struct NewWindow disk_win =
 {	/* DiskInfo window */
 	0, 0, 0, 0, 255, 255,
 	IDCMP_RAWKEY | IDCMP_DISKINSERTED | IDCMP_DISKREMOVED | IDCMP_GADGETUP | IDCMP_VANILLAKEY, WFLG_BORDERLESS | WFLG_RMBTRAP | WFLG_ACTIVATE,
@@ -118,7 +98,7 @@ struct NewWindow font_win =
 	CUSTOMSCREEN
 };
 
-struct AppWindow *dopus_appwindow = NULL;	/* AppWindow when on Workbench screen */
+struct AppWindow *dopus_appwindow = NULL; /* AppWindow */
 
 
 /* Definitions for the custom menus */

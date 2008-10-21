@@ -46,25 +46,21 @@ extern struct TextAttr main_screen_attr,	/* Main screen font */
 extern UWORD scr_drawinfo[NUMDRIPENS + 1];	/* Pen lists */
 
 extern struct TagItem mainscreen_tags[],	/* Tags for the main screen */
-  stdscreen_tags[],		/* Tags for a standard HIRES screen */
   mainwindow_tags[];		/* Tags for the main window */
 
 /* NewScreen structures */
 
-extern struct ExtNewScreen main_scr,	/* Main screen */
-  font_scr,			/* Font screen */
-  blank_scr;			/* Blank screen */
+extern struct ExtNewScreen main_scr; /* Main screen */
 
 /* NewWindow structures */
 
 extern struct ExtNewWindow main_win;	/* Main window */
 
-extern struct NewWindow font_win,	/* Font window */
-  disk_win;			/* DiskInfo window */
+extern struct NewWindow disk_win;	/* DiskInfo window */
 
 extern struct NewWindow icon_win;	/* Iconified window */
 
-extern struct AppWindow *dopus_appwindow;	/* AppWindow when on Workbench screen */
+extern struct AppWindow *dopus_appwindow; /* AppWindow */
 
 /* Definitions for the custom menus */
 

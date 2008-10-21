@@ -184,7 +184,6 @@ char *get_our_pubscreen(void);
 void change_port_name(char *);
 
 /* main7.c */
-//int showpic(char *, int);
 int readicon(char *, int);
 void drawrecaround(struct RastPort *, int, int, int, int, int, int);
 int doplay8svx(char *, int);
@@ -242,7 +241,7 @@ void iconstatustext(char *, int);
 void cleanupiconify(void);
 
 /* main12.c */
-void setupchangestate(void);
+//void setupchangestate(void);
 void dodiskinfo(char *);
 void get_device_task(BPTR, char *, struct MsgPort *);
 void getsizestring(char *, uint64);

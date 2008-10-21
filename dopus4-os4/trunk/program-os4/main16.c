@@ -50,7 +50,7 @@ int showfont(char *name, int size, int np)
 
 	font = IDiskfont->OpenDiskFont(&sfattr);
 
-	fontwindow = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, fontscreen, WA_Left, config->viewtext_topleftx, WA_Top, config->viewtext_toplefty, WA_Width, config->viewtext_width, WA_Height, config->viewtext_height, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE | WFLG_RMBTRAP, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END);
+	fontwindow = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, fontscreen, WA_Left, 128, WA_Top, 128, WA_Width, 1024, WA_Height, 768, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE | WFLG_RMBTRAP, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END);
 
 	if(!font || !fontwindow)
 	{

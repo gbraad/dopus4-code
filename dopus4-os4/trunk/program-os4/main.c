@@ -303,8 +303,6 @@ int main(int argc, char **argv)
 
 	setup_externals();
 
-	setupchangestate();
-
 	do_remember_config(remember_data);
 
 	allocdirbuffers(config->bufcount);

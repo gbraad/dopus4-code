@@ -227,8 +227,6 @@ const char *config_replyport_basename = "dopus4_config_reply";
 
 /* Disk and DOS operations data */
 
-UBYTE disk_change_state /*=0*/ ;		/* Lower bits indicate change state */
-
 uint64 dos_global_bytecount /*=0*/ ;			/* Global byte count from recursive op */
 uint64 dos_global_copiedbytes /*=0*/ ;			/* Bytes copied in a recursive op */
 uint64 dos_global_deletedbytes /*=0*/ ;			/* Bytes copied in a recursive op */

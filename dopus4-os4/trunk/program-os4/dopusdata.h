@@ -234,7 +234,6 @@ extern const char *config_replyport_basename;
 
 /* Disk and DOS operations data */
 
-extern UBYTE disk_change_state;	/* Lower bits indicate change state */
 extern uint64 dos_global_bytecount;	/* Global byte count from recursive op */
 extern uint64 dos_global_copiedbytes;	/* Bytes copied in a recursive op */
 extern uint64 dos_global_deletedbytes;	/* Bytes copied in a recursive op */
