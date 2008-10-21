@@ -103,3 +103,6 @@ checking it out.
 
 2008-10-18 - DirectoryOpus 4.18.12
 * Fixed "PrintDir" command. It was removed somehow.
+
+2008-10-21 - DirectoryOpus 4.18.13
+* Lots of code cleanups and minor fixes.

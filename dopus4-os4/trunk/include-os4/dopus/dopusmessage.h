@@ -113,12 +113,14 @@ struct DirWindowPars
 #define CONFIG_NEW_HOTKEY 4
 #define CONFIG_HOTKEYS_CHANGE 5
 
+/*
 struct dopusconfigmsg
 {
 	struct Message msg;
 	int command;
 	char *buffer;
 };
+*/
 
 struct configconfig
 {
