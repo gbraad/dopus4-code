@@ -44,7 +44,7 @@ int returntype(struct ExamineData *data)
 
 void defaultpar(struct dopusfuncpar *par)
 {
-	par->which = /*FLAG_OUTWIND | */FLAG_WB2F | FLAG_DOPUSF | FLAG_CDSOURCE;
+	par->which = /*FLAG_OUTWIND | FLAG_WB2F |*/ FLAG_DOPUSF | FLAG_CDSOURCE;
 	par->delay = 2;
 	par->key = par->qual = par->type = 0;
 	par->pri = config->priority;

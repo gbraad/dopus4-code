@@ -935,15 +935,17 @@ int dorun(STRPTR name, int state, int workbench)
 		buf[1] = 0;
 	}
 	else
+	{
 		buf[0] = 0;
-	strcat(buf, "\"");
-	strcat(buf, name);
-	strcat(buf, "\"");
+	}
+	strncat(buf, "\"", 256);
+	strncat(buf, name, 256);
+	strncat(buf, "\"", 256);
 
 	len = 256 - strlen(buf);
 	if(state)
 	{
-		sprintf(louise, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
+		snprintf(louise, 80, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
 		if(!(rec = whatsit(louise, len, argbuf, globstring[STR_SKIP])))
 		{
 			myabort();
@@ -953,7 +955,9 @@ int dorun(STRPTR name, int state, int workbench)
 			return (-2);
 	}
 	else
+	{
 		rec = 1;
+	}
 	if(!rec)
 	{
 		myabort();
@@ -961,8 +965,8 @@ int dorun(STRPTR name, int state, int workbench)
 	}
 	if(argbuf[0])
 	{
-		strcat(buf, " ");
-		strcat(buf, argbuf);
+		strncat(buf, " ", 256);
+		strncat(buf, argbuf, 256);
 	}
 	defaultpar(&par);
 	dofunctionstring(buf, NULL, IDOS->FilePart(name), &par);
