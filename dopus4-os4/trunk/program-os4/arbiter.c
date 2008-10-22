@@ -177,7 +177,8 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				}
 				break;
 			case ARBITER_LAUNCH:
-				if(replyport && (launch = IExec->AllocVecTags(sizeof(struct LaunchList), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+//				if(replyport && (launch = IExec->AllocVecTags(sizeof(struct LaunchList), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+				if(replyport && (launch = IExec->AllocVec(sizeof(struct LaunchList), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					struct ArbiterLaunch *arb_launch;
 					struct MsgPort *port;

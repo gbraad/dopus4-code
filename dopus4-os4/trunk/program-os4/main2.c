@@ -87,6 +87,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	struct MsgPort *deviceport;
 	BOOL exall_continue = TRUE;
 	APTR EABuff = NULL;
+//	struct ExamineData *dat;
 
 	endnotify(win);
 	freedir(dir, win);
@@ -132,7 +133,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		return (0);
 	}
 
-	strcpy(buf, str_pathbuffer[win]);
+	strncpy(buf, str_pathbuffer[win], 256);
 	if(getroot(buf, NULL))
 	{
 		strcpy(dir->volumename, buf);

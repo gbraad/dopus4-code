@@ -209,7 +209,8 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		{
 			if(size > 0)
 			{
-				if(!(vdata = IExec->AllocVecTags(sizeof(struct ViewData), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+//				if(!(vdata = IExec->AllocVecTags(sizeof(struct ViewData), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+				if(!(vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					retcode = -4;
 				}
@@ -434,7 +435,8 @@ int view_loadfile(struct ViewData *vdata)
 
 	for(a = 0; a < 2; a++)
 	{
-		if((vdata->view_text_buffer = IExec->AllocVecTags(vdata->view_buffer_size, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+//		if((vdata->view_text_buffer = IExec->AllocVecTags(vdata->view_buffer_size, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+		if((vdata->view_text_buffer = IExec->AllocVec(vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
 			break;
 		view_status_text(vdata, globstring[STR_NO_MEMORY_TO_DECRUNCH]);
 		if((vdata->view_buffer_size = IExec->AvailMem(MEMF_PUBLIC | MEMF_LARGEST)) < 16)
@@ -1934,7 +1936,8 @@ void view_viewhilite(struct ViewData *vdata, int x, int y, int x1, int y1)
 {
 	struct viewhilite *hi;
 
-	if(!(hi = IExec->AllocVecTags(sizeof(struct viewhilite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+//	if(!(hi = IExec->AllocVecTags(sizeof(struct viewhilite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+	if(!(hi = IExec->AllocVec(sizeof(struct viewhilite), MEMF_SHARED | MEMF_CLEAR)))
 		return;
 	if(vdata->view_current_hilite)
 		vdata->view_current_hilite->next = hi;
