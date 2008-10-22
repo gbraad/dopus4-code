@@ -31,15 +31,16 @@ the existing commercial status of Directory Opus 5.
 
 struct ViewData
 {
+//	int64 view_file_size;
 	int view_file_size;
 	int view_max_line_length;
 	int view_tab_size;
 
-	char *view_text_buffer;
+	STRPTR view_text_buffer;
 	int view_buffer_size;
 
-	char *view_file_name;
-	char *view_path_name;
+	STRPTR view_file_name;
+	STRPTR view_path_name;
 
 	int view_line_count;
 
@@ -51,7 +52,7 @@ struct ViewData
 	int view_lines_per_screen;
 	int view_last_line;
 	int view_last_charpos;
-	char *view_last_char;
+	STRPTR view_last_char;
 
 	int view_scroll;
 	int view_scroll_dir;
@@ -88,7 +89,7 @@ struct ViewData
 
 	struct DOpusRemember *view_memory;
 	struct IOStdReq view_console_request;
-	struct Requester view_busy_request;
+//	struct Requester view_busy_request;
 	struct PropInfo view_prop_info;
 	struct Image view_prop_image;
 

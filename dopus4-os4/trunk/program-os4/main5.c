@@ -80,7 +80,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	if(!(outhandle = IDOS->Open(dst, MODE_NEWFILE)))
 		goto failed;
 
-	size = buffer_size = data->FileSize;
+	size = data->FileSize;
+	buffer_size = 64 *1024;
 	if(buffer_size > (10 * 1024 * 1024))
 	{
 		buffer_size = 10 * 1024 * 1024;

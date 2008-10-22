@@ -1634,7 +1634,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 	IDOpus->LFreeRemember(&funcdata->arg_memkey);
 	if(otemp)
 	{
-		viewfile(funcdata->tempfile, globstring[STR_TEMPORARY_OUTPUT_FILE], FUNC_SMARTREAD, NULL, NULL, 1, 0);
+		viewfile(funcdata->tempfile, globstring[STR_TEMPORARY_OUTPUT_FILE], FUNC_SMARTREAD, NULL, /*NULL,*/ 1, 0);
 		IDOS->DeleteFile(funcdata->tempfile);
 	}
 	IDOpus->LFreeRemember(&rec_pathkey);

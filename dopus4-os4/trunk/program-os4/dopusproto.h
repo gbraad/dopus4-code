@@ -456,7 +456,7 @@ void openprogresswindow(char *, int, int, int);
 void progresstext(int, int, int, char *);
 
 /* view.c */
-int viewfile(char *, char *, int, char *, struct ViewData *, int, int);
+int viewfile(STRPTR, STRPTR, int, STRPTR, /*struct ViewData *,*/ int, int);
 void cleanupviewfile(struct ViewData *);
 
 

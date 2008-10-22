@@ -148,7 +148,6 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 							IExec->ReplyMsg((struct Message *)launch->reply_msg);
 						}
 						IDOpus->LFreeRemember(&launch->memory);
-//						IExec->FreeMem(launch, sizeof(struct LaunchList));
 						IExec->FreeVec(launch);
 						break;
 					}
@@ -178,7 +177,6 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				}
 				break;
 			case ARBITER_LAUNCH:
-//				if(replyport && (launch = IExec->AllocMem(sizeof(struct LaunchList), MEMF_CLEAR)))
 				if(replyport && (launch = IExec->AllocVecTags(sizeof(struct LaunchList), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 				{
 					struct ArbiterLaunch *arb_launch;
@@ -206,7 +204,7 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 						launch->launch_msg.flags = arb_msg->flags;
 
 
-						if((port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Name, (Tag)arb_launch->launch_name, NP_Priority, 0, NP_Entry, arb_launch->launch_code, NP_StackSize, 8192, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
+						if((port = (struct MsgPort *)&IDOS->CreateNewProcTags(NP_Name, arb_launch->launch_name, NP_Priority, 0, NP_Entry, arb_launch->launch_code, NP_StackSize, 8192, NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE, NP_Child, TRUE, TAG_END)->pr_MsgPort))
 						{
 							IExec->PutMsg(port, (struct Message *)&launch->launch_msg);
 							if(arb_msg->flags & ARB_WAIT)

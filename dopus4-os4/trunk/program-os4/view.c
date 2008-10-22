@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "view.h"
 #include "searchdata.h"
 
-void view_file_process(void);
+int32 view_file_process(char *, int32, struct ExecBase *);
 int view_loadfile(struct ViewData *);
 int view_idcmp(struct ViewData *);
 void view_display(struct ViewData *, int, int);
@@ -63,11 +63,10 @@ int view_whatsit(struct ViewData *, char *, int, char *);
 
 struct ViewMessage
 {
-	char *filename;
-	char *name;
+	STRPTR filename;
+	STRPTR name;
 	int function;
-	char *initialsearch;
-	struct ViewData *viewdata;
+	STRPTR initialsearch;
 	BOOL deleteonexit;
 };
 
@@ -120,7 +119,7 @@ static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
 
 ULONG view_runcount;
 
-int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, struct ViewData *viewdata, int wait, int noftype)
+int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
 	struct ArbiterLaunch launch;
 	struct ViewMessage *view_message;
@@ -156,11 +155,10 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 		launch.data = (APTR)view_message;
 
 		view_message->function = function;
-		view_message->viewdata = NULL;
 		if(dopus_curwin[data_active_window]->flags & DWF_ARCHIVE)
 			view_message->deleteonexit = TRUE;
 
-		if(wait || viewdata)
+		if(wait)
 			flags = ARB_WAIT;
 		else
 			flags = 0;
@@ -172,41 +170,29 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, s
 	return (0);
 }
 
-
-int view_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
-{
-	struct ExecIFace *iexec = (struct ExecIFace *)sysbase->MainInterface;
-
-	return 0;
-}
-
-void view_file_process()
+int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 {
 	int size;
 	int a, retcode = 100;
 	char buf[60];
 	struct ConUnit *view_console_unit = NULL;
 	struct ViewData *vdata = NULL;
-	struct Process *my_process;
+	struct MsgPort *view_process_msgport, *view_port;
 	struct ArbiterMessage *my_startup_message;
 	struct ViewMessage *view_msg;
-	char *filename, *name;
+	STRPTR filename, name, initialsearch;
 	int function;
-	char *initialsearch;
-	struct ViewData *viewdata;
-	struct MsgPort *view_port;
 	char portname[20], titlebuf[300];
 
-	my_process = (struct Process *)IExec->FindTask(NULL);
-	IExec->WaitPort(&my_process->pr_MsgPort);
-	my_startup_message = (struct ArbiterMessage *)IExec->GetMsg(&my_process->pr_MsgPort);
+	view_process_msgport = IDOS->GetProcMsgPort(NULL);
+	IExec->WaitPort(view_process_msgport);
+	my_startup_message = (struct ArbiterMessage *)IExec->GetMsg(view_process_msgport);
 
 	view_msg = (struct ViewMessage *)(my_startup_message->data);
 	filename = view_msg->filename;
 	name = view_msg->name;
 	function = view_msg->function;
 	initialsearch = view_msg->initialsearch;
-	viewdata = view_msg->viewdata;
 
 	IExec->Forbid();
 	for(a = 0;; a++)
@@ -223,26 +209,13 @@ void view_file_process()
 		{
 			if(size > 0)
 			{
-				if(viewdata)
+				if(!(vdata = IExec->AllocVecTags(sizeof(struct ViewData), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 				{
-					vdata = viewdata;
-
-					vdata->view_search_string[0] = vdata->view_scroll_dir = vdata->view_scroll = vdata->view_last_line = vdata->view_last_charpos = vdata->view_text_offset = vdata->view_old_offset = vdata->view_line_count = vdata->view_top_buffer_pos = vdata->view_bottom_buffer_pos = 0;
-
-					vdata->view_last_char = NULL;
-
-					vdata->view_first_hilite = vdata->view_current_hilite = NULL;
-				}
-				else
-				{
-					if(!(vdata = IExec->AllocVecTags(sizeof(struct ViewData), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
-					{
-						retcode = -4;
-					}
+					retcode = -4;
 				}
 				if(vdata)
 				{
-					strcpy(vdata->view_port_name, portname);
+					IUtility->Strlcpy(vdata->view_port_name, portname, 20);
 					vdata->view_port = view_port;
 					vdata->view_file_size = size;
 					vdata->view_file_name = name;
@@ -252,24 +225,14 @@ void view_file_process()
 					view_clearsearch(vdata);
 					vdata->view_search_flags = search_flags;
 
-					if(vdata->view_window)
-					{
-						IExec->Forbid();
-						vdata->view_window->UserPort->mp_SigTask = (void *)my_process;
-						IExec->Permit();
-					}
-					else
-					{
-						retcode = view_setupdisplay(vdata);
-						if(retcode)
-							goto view_end;
-					}
+					if((retcode = view_setupdisplay(vdata)))
+						goto view_end;
 
 					sprintf(titlebuf, "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
 					if(config->viewbits & VIEWBITS_INWINDOW)
 						IIntuition->SetWindowTitles(vdata->view_window, titlebuf, "Directory Opus Reader");
 					else
-						IIntuition->SetWindowTitles(vdata->view_window, (char *)-1, titlebuf);
+						IIntuition->SetWindowTitles(vdata->view_window, (STRPTR)~0, titlebuf);
 
 					IIntuition->ActivateWindow(vdata->view_window);
 
@@ -388,7 +351,7 @@ void view_file_process()
 
 						if(initialsearch)
 						{
-							strcpy(vdata->view_search_string, initialsearch);
+							IUtility->Strlcpy(vdata->view_search_string, initialsearch, 80);
 							view_search(vdata, 1);
 						}
 
@@ -404,22 +367,22 @@ void view_file_process()
 						vdata->view_ansiread_window = NULL;
 					}
 					view_clearhilite(vdata, 0);
-					if(!viewdata)
+					if(vdata)
 					{
 						cleanupviewfile(vdata);
 						IExec->FreeVec(vdata);
 					}
-					else
-					{
-						IDOpus->SetBusyPointer(vdata->view_window);
-					}
 				}
 			}
 			else
+			{
 				retcode = -3;
+			}
 		}
 		else
+		{
 			retcode = -2;
+		}
 	      view_end:
 		IExec->FreeSysObject(ASOT_PORT, view_port);
 	}
@@ -428,7 +391,8 @@ void view_file_process()
 		IDOS->DeleteFile(filename);
 	IExec->Forbid();
 	IExec->ReplyMsg((struct Message *)my_startup_message);
-	return;
+
+	return 0;
 }
 
 void cleanupviewfile(struct ViewData *vdata)
@@ -1595,7 +1559,7 @@ void view_search(struct ViewData *vdata, int ask)
 
 	if(!vdata->view_search_string[0])
 		ask = 1;
-	strcpy(temp, vdata->view_search_string);
+	IUtility->Strlcpy(temp, vdata->view_search_string, 128);
 	view_busy(vdata);
 
 	if(ask)
@@ -1613,7 +1577,8 @@ void view_search(struct ViewData *vdata, int ask)
 		return;
 	}
 
-	if(IDOpus->LStrCmpI(temp, vdata->view_search_string))
+//	if(IDOpus->LStrCmpI(temp, vdata->view_search_string))
+	if(IUtility->Stricmp(temp, vdata->view_search_string))
 		view_clearsearch(vdata);
 
 	if(vdata->view_display_as_hex)
@@ -1744,20 +1709,22 @@ void view_search(struct ViewData *vdata, int ask)
 
 void view_busy(struct ViewData *vdata)
 {
-	if(!vdata->view_window->Pointer)
+	IIntuition->SetWindowPointer(vdata->view_window, WA_BusyPointer, TRUE, TAG_END);
+/*	if(!vdata->view_window->Pointer)
 		IDOpus->SetBusyPointer(vdata->view_window);
 	if(!vdata->view_window->FirstRequest)
 	{
 		IIntuition->InitRequester(&vdata->view_busy_request);
 		IIntuition->Request(&vdata->view_busy_request, vdata->view_window);
-	}
+	}*/
 }
 
 void view_unbusy(struct ViewData *vdata)
 {
-	IIntuition->ClearPointer(vdata->view_window);
+	IIntuition->SetWindowPointer(vdata->view_window, WA_BusyPointer, FALSE, TAG_END);
+/*	IIntuition->ClearPointer(vdata->view_window);
 	if(vdata->view_window->FirstRequest)
-		IIntuition->EndRequest(&vdata->view_busy_request, vdata->view_window);
+		IIntuition->EndRequest(&vdata->view_busy_request, vdata->view_window);*/
 }
 
 void view_doscroll(struct ViewData *vdata, int dy, int w)
