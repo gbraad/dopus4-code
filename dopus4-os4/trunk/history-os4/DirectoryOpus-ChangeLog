@@ -106,3 +106,7 @@ checking it out.
 
 2008-10-21 - DirectoryOpus 4.18.13
 * Lots of code cleanups and minor fixes.
+
+2008-10-23 - DirectoryOpus 4.18.14
+* Fixed jumping to WB screen when DOpus is run on it's own screen and "Run"
+command is used.
