@@ -125,7 +125,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 		if(str_pathbuffer[win][a] == ':')
 		{
-			IDOpus->LStrnCpy(dir->realdevice, str_pathbuffer[win], a + 1);
+//			IDOpus->LStrnCpy(dir->realdevice, str_pathbuffer[win], a + 1);
+			strncpy(dir->realdevice, str_pathbuffer[win], a + 1);
 		}
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);

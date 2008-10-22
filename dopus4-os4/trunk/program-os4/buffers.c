@@ -339,7 +339,7 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	}
 	IDOS->SetProcWindow((APTR)-1L);
 
-	strcpy(tempbuf, dirbuf);
+	strncpy(tempbuf, dirbuf, 300);
 
 	if(config->dirflags & DIRFLAGS_EXPANDPATHS)
 	{
@@ -347,6 +347,7 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 		expand_path(dirbuf, tempbuf);
 	}
 	IDOpus->TackOn(tempbuf, NULL, 300);
+//	strncat(tempbuf, "/", 300);
 
 	for(try = 0; try < 2; try++)
 	{
@@ -449,7 +450,8 @@ int replacepart(char *string, char *old, char *new)
 		stringlen = 0;
 	strcpy(string, new);
 	if(stringlen > 0)
-		IDOpus->StrConcat(string, tempbuf, 256);
+//		IDOpus->StrConcat(string, tempbuf, 256);
+		strncat(string, tempbuf, 256);
 	return (1);
 }
 

@@ -31,7 +31,11 @@ the existing commercial status of Directory Opus 5.
 
 static unsigned char displenmap[] =
 {
-	DISPLAY_NAME, DISPLAY_COMMENT, DISPLAY_FILETYPE, DISPLAY_OWNER, DISPLAY_GROUP
+	DISPLAY_NAME,
+	DISPLAY_COMMENT,
+	DISPLAY_FILETYPE,
+	DISPLAY_OWNER,
+	DISPLAY_GROUP
 };
 
 int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
@@ -140,9 +144,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			buf[0] = 0;
 			for(a = 1; a < rexx_argcount; a++)
 			{
-				IDOpus->StrConcat(buf, rexx_args[a], 520);
+//				IDOpus->StrConcat(buf, rexx_args[a], 520);
+				strncat(buf, rexx_args[a], 520);
 				if(a < rexx_argcount - 1)
-					IDOpus->StrConcat(buf, " ", 520);
+//					IDOpus->StrConcat(buf, " ", 520);
+					strncat(buf, " ", 520);
 			}
 
 			if(IDOS->SetVar(rexx_args[0], buf, -1, GVF_LOCAL_ONLY))
@@ -296,7 +302,8 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		}
 		else
 		{
-			IDOpus->LStrnCpy(pad, rexx_args[0], 7);
+//			IDOpus->LStrnCpy(pad, rexx_args[0], 7);
+			strncpy(pad, rexx_args[0], 7);
 			pad[7] = 0;
 		}
 		val = strlen(pad);
@@ -1008,7 +1015,8 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 	case FUNC_SETWINTITLE:
 		if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 			win = data_active_window;
-		IDOpus->LStrnCpy(dopus_curwin[win]->diskname, rexx_args[0], 32);
+//		IDOpus->LStrnCpy(dopus_curwin[win]->diskname, rexx_args[0], 32);
+		strncpy(dopus_curwin[win]->diskname, rexx_args[0], 32);
 		dopus_curwin[win]->diskfree = dopus_curwin[win]->disktot = dopus_curwin[win]->diskblock = -1;
 		if(!status_iconified)
 			displayname(win, 1);
@@ -1018,7 +1026,8 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		if(rexx_argcount < 2 || (win = atoi(rexx_args[1])) < 0 || win > 1)
 			win = data_active_window;
 		strcpy(buf, dopus_curwin[win]->custhandler);
-		IDOpus->LStrnCpy(dopus_curwin[win]->custhandler, rexx_args[0], 32);
+//		IDOpus->LStrnCpy(dopus_curwin[win]->custhandler, rexx_args[0], 32);
+		strncpy(dopus_curwin[win]->custhandler, rexx_args[0], 32);
 		rexx_set_return(msg, 0, buf);
 		return (1);
 

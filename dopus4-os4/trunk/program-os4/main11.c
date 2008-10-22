@@ -583,7 +583,8 @@ void iconify(int louise, int buttons, int banknum)
 												IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
 											if(!(IDOpus->CheckExist(func_external_file, NULL)))
 											{
-												IDOpus->StrConcat(func_external_file, ".info", 256);
+//												IDOpus->StrConcat(func_external_file, ".info", 256);
+												strncat(func_external_file, ".info", 256);
 												if(!isicon(func_external_file))
 													func_external_file[0] = 0;
 											}

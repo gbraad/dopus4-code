@@ -473,7 +473,8 @@ void layout_menus()
 				barflag = 0;
 				if(config->menu[f].name && config->menu[f].name[0])
 				{
-					IDOpus->LStrnCpy(name, config->menu[f].name, MAXMENULENGTH - 1);
+//					IDOpus->LStrnCpy(name, config->menu[f].name, MAXMENULENGTH - 1);
+					strncpy(name, config->menu[f].name, MAXMENULENGTH - 1);
 					if(name[(t = (strlen(name) - 1))] == '~')
 					{
 						barflag = 1;

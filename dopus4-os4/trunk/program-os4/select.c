@@ -415,7 +415,9 @@ int dopus_select(int win, int o)
 			display_entry(temp, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
 			if(config->iconflags & ICONFLAG_AUTOSELECT)
 			{
-				IDOpus->StrCombine(sbuf, temp->name, ".info", FILEBUF_SIZE - 1);
+				strncpy(sbuf, temp->name, FILEBUF_SIZE - 1);
+				strncat(sbuf, ".info", FILEBUF_SIZE - 1);
+//				IDOpus->StrCombine(sbuf, temp->name, ".info", FILEBUF_SIZE - 1);
 				if((temp2 = findfile(dopus_curwin[win], sbuf, &foundcount)))
 				{
 					if(temp2->selected != temp->selected)
@@ -637,7 +639,9 @@ void defselect(int win, int o, int state)
 		}
 		if(config->iconflags & ICONFLAG_AUTOSELECT)
 		{
-			IDOpus->StrCombine(sbuf, temp->name, ".info", FILEBUF_SIZE - 1);
+			strncpy(sbuf, temp->name, FILEBUF_SIZE - 1);
+			strncat(sbuf, ".info", FILEBUF_SIZE - 1);
+//			IDOpus->StrCombine(sbuf, temp->name, ".info", FILEBUF_SIZE - 1);
 			if((temp2 = findfile(dopus_curwin[win], sbuf, &foundcount)))
 			{
 				if(temp2->selected != temp->selected)
@@ -1068,7 +1072,9 @@ int doactive(int state, int showinfo)
 				unselect(data_active_window, last_selected_entry);
 				entry = last_selected_entry;
 				dostatustext(globstring[STR_INTERROGATING_FILE]);
-				IDOpus->StrCombine(buf, str_pathbuffer[data_active_window], last_selected_entry->name, 256);
+				strncpy(buf, str_pathbuffer[data_active_window], 256);
+				strncat(buf, last_selected_entry->name, 256);
+//				IDOpus->StrCombine(buf, str_pathbuffer[data_active_window], last_selected_entry->name, 256);
 				busy();
 				if((type = checkfiletype(buf, FTFUNC_CLICKMCLICK, 0)))
 				{

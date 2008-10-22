@@ -249,16 +249,19 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 						struct FileRequester *aslreq;
 						char dirbuf[1024], filebuf[FILEBUF_SIZE], *ptr;
 
-						IDOpus->LStrCpy(dirbuf, makelink_destbuf);
+//						IDOpus->LStrCpy(dirbuf, makelink_destbuf);
+						strncpy(dirbuf, makelink_destbuf, 1024);
 						if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
 						{
-							IDOpus->LStrCpy(filebuf, ptr);
+//							IDOpus->LStrCpy(filebuf, ptr);
+							strncpy(filebuf, ptr, FILEBUF_SIZE);
 							*ptr = 0;
 						}
 						else if(IDOpus->CheckExist(dirbuf, NULL) < 1)
 						{
 							dirbuf[0] = 0;
-							IDOpus->LStrCpy(filebuf, makelink_destbuf);
+//							IDOpus->LStrCpy(filebuf, makelink_destbuf);
+							strncpy(filebuf, makelink_destbuf, FILEBUF_SIZE);
 						}
 						else
 						{
@@ -268,7 +271,8 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 						{
 							if(IAsl->AslRequest(aslreq, NULL))
 							{
-								IDOpus->LStrCpy(makelink_destbuf, aslreq->fr_Drawer);
+//								IDOpus->LStrCpy(makelink_destbuf, aslreq->fr_Drawer);
+								strncpy(makelink_destbuf, aslreq->fr_Drawer, 256);
 								IDOS->AddPart(makelink_destbuf, aslreq->fr_File, 256);
 							}
 							IDOpus->RefreshStrGad(makelink_destname_gad, swindow);

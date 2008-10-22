@@ -151,7 +151,8 @@ int do_parent_multi(STRPTR path)
 		IDOS->NameFromLock(parentlock, buf, 256);
 		if((table[count] = IDOpus->LAllocRemember(&pm_req.rb_memory, (a = (strlen(buf) + 3)), 0)))
 		{
-			strcpy(table[count], buf);
+			strncpy(table[count], buf, a - 1);
+//			strncat(table[count], "/", a - 1);
 			IDOpus->TackOn(table[count], NULL, a - 1);
 			++count;
 		}
@@ -226,10 +227,13 @@ int do_parent_multi(STRPTR path)
 			{
 				if(table[view->itemselected])
 				{
-					if(IDOpus->LStrnCmp(table[view->itemselected], "  + ", 4) == 0)
-						strcpy(buf, &table[view->itemselected][4]);
+//					if(IDOpus->LStrnCmp(table[view->itemselected], "  + ", 4) == 0)
+					if(strncmp(table[view->itemselected], "  + ", 4) == 0)
+//						strcpy(buf, &table[view->itemselected][4]);
+						strncpy(buf, &table[view->itemselected][4], 256);
 					else
-						strcpy(buf, table[view->itemselected]);
+//						strcpy(buf, table[view->itemselected]);
+						strncpy(buf, table[view->itemselected], 256);
 					if(view->itemselected == lastsel && (IIntuition->DoubleClick(lastseconds, lastmicros, seconds, micros)))
 					{
 						IDOpus->RemoveListView(listview, 1);

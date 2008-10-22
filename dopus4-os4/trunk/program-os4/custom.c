@@ -368,7 +368,8 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 			for(a = 1; a < b; a++)
 				if(function[a] == '!')
 					break;
-			IDOpus->LStrnCpy(buf2, &function[1], a - 1);
+//			IDOpus->LStrnCpy(buf2, &function[1], a - 1);
+			strncpy(buf2, &function[1], a - 1);
 			sprintf(tbuf, "CD %s\n", buf2);
 			IDOS->Write(funcdata->output_file, tbuf, strlen(tbuf));
 			return (1);
@@ -502,7 +503,9 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 						{
 							IDOpus->LFreeRemember(&rec_pathkey);
 							funcdata->entry_current = cust;
-							IDOpus->StrCombine(buf3, funcdata->source_path, cust->name, 256);
+							strncpy(buf3, funcdata->source_path, 256);
+							strncat(buf3, cust->name, 256);
+//							IDOpus->StrCombine(buf3, funcdata->source_path, cust->name, 256);
 							if(recursedir(buf3, NULL, R_STARDIR, strlen(funcdata->source_path)))
 								return (0);
 							setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -571,7 +574,9 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 							{
 								IDOpus->LFreeRemember(&rec_pathkey);
 								funcdata->entry_current = cust;
-								IDOpus->StrCombine(buf3, funcdata->source_path, cust->name, 256);
+								strncpy(buf3, funcdata->source_path, 256);
+								strncat(buf3, cust->name, 256);
+//								IDOpus->StrCombine(buf3, funcdata->source_path, cust->name, 256);
 								if(recursedir(buf3, NULL, R_STARDIR, strlen(funcdata->source_path)))
 									return (0);
 								setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -610,7 +615,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 									custunselect(cust, reload, funcdata);
 							}
 						}
-						IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+//						IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+						strncat(buffer, " ", MAXCOMMANDLEN);
 						a = strlen(buffer);
 					}
 					if(!funcdata->recursive_path)
@@ -630,7 +636,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			else
 			{
 				bufpos += addfilename(buffer, func_single_file, NULL, quote);
-				IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+				strncat(buffer, " ", MAXCOMMANDLEN);
 				++bufpos;
 			}
 			break;
@@ -646,6 +653,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 					else
 						return (0);
 					IDOpus->TackOn(dirbuf, NULL, 256);
+//					strncat(dirbuf, "/", 256);
 					spath = dirbuf;
 				}
 				else
@@ -663,7 +671,9 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 						{
 							IDOpus->LFreeRemember(&rec_pathkey);
 							funcdata->entry_current = cust;
-							IDOpus->StrCombine(buf3, spath, cust->name, 256);
+							strncpy(buf3, spath, 256);
+							strncat(buf3, cust->name, 256);
+//							IDOpus->StrCombine(buf3, spath, cust->name, 256);
 							if(recursedir(buf3, NULL, R_STARDIR, 0))
 								return (0);
 							setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -722,6 +732,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 					else
 						return (0);
 					IDOpus->TackOn(dirbuf, NULL, 256);
+//					strncat(dirbuf, "/", 256);
 					spath = dirbuf;
 				}
 				else
@@ -740,7 +751,9 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 							{
 								IDOpus->LFreeRemember(&rec_pathkey);
 								funcdata->entry_current = cust;
-								IDOpus->StrCombine(buf3, spath, cust->name, 256);
+								strncpy(buf3, spath, 256);
+								strncat(buf3, cust->name, 256);
+//								IDOpus->StrCombine(buf3, spath, cust->name, 256);
 								if(recursedir(buf3, NULL, R_STARDIR, 0))
 									return (0);
 								setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -779,7 +792,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 									custunselect(cust, reload, funcdata);
 							}
 						}
-						IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+//						IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+						strncat(buffer, " ", MAXCOMMANDLEN);
 						a = strlen(buffer);
 					}
 					if(!funcdata->recursive_path)
@@ -799,7 +813,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			else
 			{
 				bufpos += addfilename(buffer, funcdata->source_path, func_single_file, quote);
-				IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+				strncat(buffer, " ", MAXCOMMANDLEN);
 				++bufpos;
 			}
 			break;
@@ -814,12 +829,14 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 					myabort();
 					return (0);
 				}
-				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+				strncat(buffer, buf3, MAXCOMMANDLEN);
 				bufpos = strlen(buffer);
 			}
 			else
 			{
-				IDOpus->StrConcat(buffer, funcdata->source_path, MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, funcdata->source_path, MAXCOMMANDLEN);
+				strncat(buffer, funcdata->source_path, MAXCOMMANDLEN);
 				bufpos += sblen;
 			}
 		case FUNC_NOSOURCE_RR:
@@ -831,7 +848,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 		case FUNC_DEST_RR:
 			if(!(check_dest_path(funcdata)))
 				return (0);
-			IDOpus->StrConcat(buffer, funcdata->dest_path, MAXCOMMANDLEN);
+//			IDOpus->StrConcat(buffer, funcdata->dest_path, MAXCOMMANDLEN);
+			strncat(buffer, funcdata->dest_path, MAXCOMMANDLEN);
 			bufpos += strlen(funcdata->dest_path);
 		case FUNC_NODEST_RR:
 			if(function[pos] != FUNC_DEST)
@@ -839,7 +857,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			break;
 
 		case FUNC_SCREENNAME:
-			IDOpus->StrConcat(buffer, str_arexx_portname, MAXCOMMANDLEN);
+//			IDOpus->StrConcat(buffer, str_arexx_portname, MAXCOMMANDLEN);
+			strncat(buffer, str_arexx_portname, MAXCOMMANDLEN);
 			bufpos += strlen(str_arexx_portname);
 			break;
 
@@ -869,7 +888,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 
 				if(data && data[0])
 				{
-					IDOpus->StrConcat(buffer, data, MAXCOMMANDLEN);
+//					IDOpus->StrConcat(buffer, data, MAXCOMMANDLEN);
+					strncat(buffer, data, MAXCOMMANDLEN);
 					bufpos += strlen(data);
 				}
 			}
@@ -889,7 +909,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 
 			if((a = IDOS->GetVar(titlebuf, buf3, 256, 0)) > 0)
 			{
-				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+				strncat(buffer, buf3, MAXCOMMANDLEN);
 				bufpos += a;
 			}
 			break;
@@ -898,7 +919,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			if(funcdata->function_count && funcdata->arg_use)
 			{
 			      use_old_arg:
-				IDOpus->StrConcat(buffer, funcdata->arg_use->argstring, MAXCOMMANDLEN);
+//				IDOpus->StrConcat(buffer, funcdata->arg_use->argstring, MAXCOMMANDLEN);
+				strncat(buffer, funcdata->arg_use->argstring, MAXCOMMANDLEN);
 				bufpos += strlen(funcdata->arg_use->argstring);
 				funcdata->arg_use = funcdata->arg_use->next;
 				for(f = pos + 1; f < line_len && function[f] != FUNC_ENDARG; f++);
@@ -955,7 +977,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				funcdata->arg_current = arg;
 				strcpy(funcdata->arg_current->argstring, buf3);
 			}
-			IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+//			IDOpus->StrConcat(buffer, buf3, MAXCOMMANDLEN);
+			strncat(buffer, buf3, MAXCOMMANDLEN);
 			bufpos += strlen(buf3);
 			pos = f;
 			break;
@@ -971,7 +994,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 						if((bufpos + strlen(funcdata->file_request.filearray[funcdata->fileargpos]) + qad) < MAXCOMMANDLEN)
 						{
 							bufpos += addfilename(buffer, funcdata->file_request.filearray[funcdata->fileargpos], NULL, quote);
-							IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+//							IDOpus->StrConcat(buffer, " ", MAXCOMMANDLEN);
+							strncat(buffer, " ", MAXCOMMANDLEN);
 							++bufpos;
 							++funcdata->fileargpos;
 						}
@@ -1065,14 +1089,18 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				if(!(h & DFRF_DIRREQ))
 				{
 					if(quote)
-						IDOpus->StrConcat(buffer, "\"", MAXCOMMANDLEN);
-					IDOpus->StrConcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
+//						IDOpus->StrConcat(buffer, "\"", MAXCOMMANDLEN);
+						strncat(buffer, "\"", MAXCOMMANDLEN);
+//					IDOpus->StrConcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
+					strncat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
 					IDOS->AddPart(buffer, filebuf, MAXCOMMANDLEN);
 					if(quote)
-						IDOpus->StrConcat(buffer, "\"", MAXCOMMANDLEN);
+//						IDOpus->StrConcat(buffer, "\"", MAXCOMMANDLEN);
+						strncat(buffer, "\"", MAXCOMMANDLEN);
 				}
 				else
-					IDOpus->StrConcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
+//					IDOpus->StrConcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
+					strncat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
 				bufpos = strlen(buffer);
 			}
 			else
@@ -1103,22 +1131,26 @@ int addfilename(char *buf, char *part1, char *part2, int quote)
 
 	if(quote)
 	{
-		IDOpus->StrConcat(buf, "\"", MAXCOMMANDLEN);
+//		IDOpus->StrConcat(buf, "\"", MAXCOMMANDLEN);
+		strncat(buf, "\"", MAXCOMMANDLEN);
 		++c;
 	}
 	if(part1)
 	{
-		IDOpus->StrConcat(buf, part1, MAXCOMMANDLEN);
+//		IDOpus->StrConcat(buf, part1, MAXCOMMANDLEN);
+		strncat(buf, part1, MAXCOMMANDLEN);
 		c += strlen(part1);
 	}
 	if(part2)
 	{
-		IDOpus->StrConcat(buf, part2, MAXCOMMANDLEN);
+//		IDOpus->StrConcat(buf, part2, MAXCOMMANDLEN);
+		strncat(buf, part2, MAXCOMMANDLEN);
 		c += strlen(part2);
 	}
 	if(quote)
 	{
-		IDOpus->StrConcat(buf, "\"", MAXCOMMANDLEN);
+//		IDOpus->StrConcat(buf, "\"", MAXCOMMANDLEN);
+		strncat(buf, "\"", MAXCOMMANDLEN);
 		++c;
 	}
 	return (c);
@@ -1299,7 +1331,9 @@ void doreloadfiles(struct function_data *funcdata)
 	off = dopus_curwin[funcdata->activewin]->offset;
 	while (rel)
 	{
-		IDOpus->StrCombine(buf, funcdata->source_path, rel->path, 256);
+		strncpy(buf, funcdata->source_path, 256);
+		strncat(buf, rel->path, 256);
+//		IDOpus->StrCombine(buf, funcdata->source_path, rel->path, 256);
 		reload_file(funcdata->activewin, buf);
 		rel = rel->next;
 	}
@@ -1419,7 +1453,9 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	{
 		if(config->shellstartup[0])
 		{
-			IDOpus->StrCombine(buf, "S:", config->shellstartup, 40);
+			strncpy(buf, "S:", 40);
+			strncat(buf, config->shellstartup, 40);
+//			IDOpus->StrCombine(buf, "S:", config->shellstartup, 40);
 		}
 		else
 		{
@@ -1873,17 +1909,21 @@ void build_default_string(char *string, char *buffer, char *filename, char *sour
 			switch (string[a + 1])
 			{
 			case 'f':
-				IDOpus->LStrnCpy(&buffer[pos], filename, 255 - pos);
+//				IDOpus->LStrnCpy(&buffer[pos], filename, 255 - pos);
+				strncpy(&buffer[pos], filename, 255 - pos);
 				break;
 			case 'o':
 				if((ptr = IDOS->FilePart(filename)))
-					IDOpus->LStrnCpy(&buffer[pos], ptr, 255 - pos);
+//					IDOpus->LStrnCpy(&buffer[pos], ptr, 255 - pos);
+					strncpy(&buffer[pos], ptr, 255 - pos);
 				break;
 			case 's':
-				IDOpus->LStrnCpy(&buffer[pos], sourcepath, 255 - pos);
+//				IDOpus->LStrnCpy(&buffer[pos], sourcepath, 255 - pos);
+				strncpy(&buffer[pos], sourcepath, 255 - pos);
 				break;
 			case 'd':
-				IDOpus->LStrnCpy(&buffer[pos], destpath, 255 - pos);
+//				IDOpus->LStrnCpy(&buffer[pos], destpath, 255 - pos);
+				strncpy(&buffer[pos], destpath, 255 - pos);
 				break;
 			default:
 				flag = 0;

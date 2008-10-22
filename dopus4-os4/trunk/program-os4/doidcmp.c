@@ -179,7 +179,8 @@ void doidcmp()
 									else
 										IDOS->AddPart(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
 									if(!(IDOpus->CheckExist(func_external_file, NULL)))
-										IDOpus->StrConcat(func_external_file, ".info", 256);
+//										IDOpus->StrConcat(func_external_file, ".info", 256);
+										strncat(func_external_file, ".info", 256);
 									dofunctionstring(dopus_curgadbank->gadgets[b].function, dopus_curgadbank->gadgets[b].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[b].which);
 								}
 							}

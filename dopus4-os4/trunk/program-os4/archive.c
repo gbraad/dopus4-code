@@ -29,8 +29,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-#define EXALL_NUM 2
-
 int readarchive(struct DirectoryWindow *dir, int win)
 {
 	BPTR lock;
@@ -398,7 +396,6 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 	xadskipall = 0;
 
 	IUtility->SNPrintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_CANCEL]);
-
 	IUtility->SNPrintf(sourcename, 2048, "%s%s", source, archivename);
 
 	if((ProgressHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, ProgressFunc, TAG_END)))
@@ -415,6 +412,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 					{
 						IxadMaster->xadFreeInfo(xadai);
 						IxadMaster->xadFreeObject(xadai, TAG_END);
+						IExec->FreeSysObject(ASOT_HOOK, ProgressHook);
 						return 0;
 					}
 					else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)

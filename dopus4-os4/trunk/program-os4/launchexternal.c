@@ -238,8 +238,10 @@ void doconfig()
 				dopus_firsthotkey = rcfg->firsthotkey;
 				filetype_key = rcfg->typekey;
 				config_changed = rcfg->changed;
-				IDOpus->StrCombine(str_config_file, rcfg->configname, ".CFG", 256);
-				strcpy(str_config_basename, rcfg->configname);
+				strncpy(str_config_file, rcfg->configname, 256);
+				strncat(str_config_file, ".CFG", 256);
+//				IDOpus->StrCombine(str_config_file, rcfg->configname, ".CFG", 256);
+				strncpy(str_config_basename, rcfg->configname, 256);
 				status_configuring = 1;
 				break;
 			case CONFIG_NEW_HOTKEY:
@@ -340,7 +342,9 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 	args[0] = print_func.segname;
 
-	IDOpus->StrCombine(portname, "&", port, 20);
+	strncpy(portname, "&", 20);
+	strncat(portname, port, 20);
+//	IDOpus->StrCombine(portname, "&", port, 20);
 	args[1] = portname;
 
 	if(printdir)

@@ -138,7 +138,9 @@ void ftype_doubleclick(char *path, char *name, int state)
 			return;
 		}
 		dostatustext(globstring[STR_RUNNING_FILE]);
-		IDOpus->StrCombine(buf2, buf, ".info", 256);
+		strncpy(buf2, buf, 256);
+		strncat(buf2, ".info", 256);
+//		IDOpus->StrCombine(buf2, buf, ".info", 256);
 		if(IDOpus->CheckExist(buf2, NULL) < 0)
 		{
 			a = 1;
@@ -634,6 +636,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 							if(!(getdummyfile(&dummy_entry, buf2, &freq)))
 								return (0);
 							IDOpus->TackOn(buf2, NULL, 256);
+//							strncat(buf2, "/", 256);
 							spath = buf2;
 							func_single_entry = &dummy_entry;
 							strcpy(func_external_file, buf2);

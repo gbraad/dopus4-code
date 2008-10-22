@@ -134,7 +134,9 @@ void displayname(int win, int clear)
 		tot = dopus_curwin[win]->disktot;
 		IGraphics->SetDrMd(main_rp, JAM2);
 
-		IDOpus->StrCombine(buf2, dopus_curwin[win]->diskname, str_space_string, 80);
+		strncpy(buf2, dopus_curwin[win]->diskname, 80);
+		strncat(buf2, str_space_string, 80);
+//		IDOpus->StrCombine(buf2, dopus_curwin[win]->diskname, str_space_string, 80);
 		IGraphics->SetFont(main_rp, scr_font[FONT_NAMES]);
 
 		len = 30;
@@ -184,7 +186,9 @@ void displayname(int win, int clear)
 				else
 					sprintf(buf, " %d%%", b);
 			}
-			IDOpus->StrCombine(buf3, buf, str_space_string, 14);
+			strncpy(buf3, buf, 14);
+			strncat(buf3, str_space_string, 14);
+//			IDOpus->StrCombine(buf3, buf, str_space_string, 14);
 			len2 = 12;
 			len3 = strlen(buf);
 			FOREVER
@@ -275,7 +279,7 @@ void relabel_disk(int rexx, char *path)
 	if(name[strlen(name) - 1] == ':')
 		name[strlen(name) - 1] = 0;
 
-	strcat(buf, ":");
+	strncat(buf, ":", 256);
 	if(!IDOS->Relabel(buf, name))
 	{
 		doerror(-1);
@@ -284,8 +288,9 @@ void relabel_disk(int rexx, char *path)
 	{
 		if((strncmp(str_pathbuffer[data_active_window], oldname, strlen(oldname))) == 0 && str_pathbuffer[data_active_window][strlen(oldname)] == ':')
 		{
-			strcpy(buf, name);
-			IDOpus->StrConcat(buf, &str_pathbuffer[data_active_window][strlen(oldname)], 256);
+			strncpy(buf, name, 256);
+//			IDOpus->StrConcat(buf, &str_pathbuffer[data_active_window][strlen(oldname)], 256);
+			strncat(buf, &str_pathbuffer[data_active_window][strlen(oldname)], 256);
 			strcpy(str_pathbuffer[data_active_window], buf);
 			checkdir(str_pathbuffer[data_active_window], &path_strgadget[data_active_window]);
 			strcpy(dopus_curwin[data_active_window]->directory, str_pathbuffer[data_active_window]);
@@ -314,7 +319,8 @@ int getroot(char *name, struct DateStamp *ds)
 	dl = (struct DeviceList *)BADDR(lock2->fl_Volume);
 	p = (char *)BADDR(dl->dl_Name);
 	if(p)
-		IDOpus->LStrnCpy(name, p + 1, *p);
+//		IDOpus->LStrnCpy(name, p + 1, *p);
+		strncpy(name, p + 1, *p);
 	if(ds)
 		IExec->CopyMem((char *)&dl->dl_VolumeDate, (char *)ds, sizeof(struct DateStamp));
 	IDOS->Info(lock1, info);

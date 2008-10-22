@@ -346,7 +346,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
         case FUNC_PRINT:
 		if(globflag)
 		{
-			IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
+			strncpy(sourcename, sourcedir, 256);
+			strncat(sourcename, file->name, 256);
+//			IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
 			arglist.single_file = sourcename;
 			arglist.file_list = NULL;
 			arglist.last_select = NULL;
@@ -519,16 +521,21 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 			case FUNC_SEARCH:
 			case FUNC_HUNT:
-				IDOpus->StrCombine(titlebuf, title, ": ", 32);
-				IDOpus->StrConcat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
+				strncpy(titlebuf, title, 32);
+				strncat(titlebuf, ": ", 32);
+				strncat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
+//				IDOpus->StrCombine(titlebuf, title, ": ", 32);
+//				IDOpus->StrConcat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
 				break;
 			default:
-				IDOpus->StrCombine(titlebuf, title, "...", 32);
+				strncpy(titlebuf, title, 32);
+				strncat(titlebuf, "...", 32);
+//				IDOpus->StrCombine(titlebuf, title, "...", 32);
 			}
 		}
 		else
 		{
-			strcpy(titlebuf, "Directory Opus");
+			strncpy(titlebuf, "Directory Opus", 32);
 		}
 
 		if(total == -1)
@@ -557,8 +564,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 		if(doicons && candoicon && !(isicon(file->name)))
 		{
-			IDOpus->StrCombine(oldiconname, file->name, ".info", 256);
-			IDOpus->StrCombine(buf1, sourcedir, oldiconname, 256);
+			strncpy(oldiconname, file->name, 256);
+			strncat(oldiconname, ".info", 256);
+			strncpy(buf1, sourcedir, 256);
+			strncat(buf1, oldiconname, 256);
+
+//			IDOpus->StrCombine(oldiconname, file->name, ".info", 256);
+//			IDOpus->StrCombine(buf1, sourcedir, oldiconname, 256);
 			if(!(IDOpus->CheckExist(buf1, NULL)))
 				oldiconname[0] = 0;
 		}
@@ -580,16 +592,18 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 		arcfile = FALSE;
 	      functionloop:
-		IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
+		strncpy(sourcename, sourcedir, 256);
+		strncat(sourcename, file->name, 256);
+//		IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
 		if(!special || count == 0 || (special == 2 && file->type >= 0))
 		{
 			dofilename(sourcename);
 			displaydirgiven(act, file, 0);
 		}
 		if(!firstset && !lastfile && !namebuf[0])
-			strcpy(namebuf, file->name);
+			strncpy(namebuf, file->name, 300);
 		else if(lastfile)
-			strcpy(namebuf, IDOS->FilePart(newiconname));
+			strncpy(namebuf, IDOS->FilePart(newiconname), 300);
 		okayflag = a = 0;
 		show = -1;
 
@@ -670,7 +684,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(doicons && !(isicon(file->name)))
 			{
-				IDOpus->StrCombine(oldiconname, file->name, ".info", 256);
+				strncpy(oldiconname, file->name, 256);
+				strncat(oldiconname, ".info", 256);
+//				IDOpus->StrCombine(oldiconname, file->name, ".info", 256);
 				bb = -1;
 				if((file = findfile(swindow, oldiconname, NULL)))
 				{
@@ -681,7 +697,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					char filenamebuffer[2048];
 
-					IUtility->Strlcpy(filenamebuffer, sourcedir, 2048);
+					strncpy(filenamebuffer, sourcedir, 2048);
 					IDOS->AddPart(filenamebuffer, oldiconname, 2048);
 					if((exdata = IDOS->ExamineObjectTags(EX_StringName, filenamebuffer, TAG_END)))
 					{
@@ -908,13 +924,19 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(lastfile)
 				{
-					IDOpus->StrCombine(destname, sourcedir, newiconname, 256);
+					strncpy(destname, sourcedir, 256);
+					strncat(destname, newiconname, 256);
+//					IDOpus->StrCombine(destname, sourcedir, newiconname, 256);
 				}
 				else
 				{
 					namebuf[FILEBUF_SIZE - 1] = 0;
-					IDOpus->StrCombine(destname, sourcedir, namebuf, 256);
-					IDOpus->StrCombine(newiconname, namebuf, ".info", 256);
+					strncpy(destname, sourcedir, 256);
+					strncat(destname, namebuf, 256);
+					strncpy(newiconname, namebuf, 256);
+					strncat(newiconname, ".info", 256);
+//					IDOpus->StrCombine(destname, sourcedir, namebuf, 256);
+//					IDOpus->StrCombine(newiconname, namebuf, ".info", 256);
 				}
 			      retry_rename:
 				if(!(IDOS->Rename(sourcename, destname)))
@@ -990,9 +1012,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					if(file->type >= ENTRY_DIRECTORY)
 					{
-						IDOpus->StrCombine(buf, sourcedir, file->name, 256);
+						strncpy(buf, sourcedir, 256);
+						strncat(buf, file->name, 256);
+//						IDOpus->StrCombine(buf, sourcedir, file->name, 256);
 						IDOpus->TackOn(buf, NULL, 256);
-						IDOpus->StrCombine(buf1, sourcedir, namebuf, 256);
+						strncpy(buf1, sourcedir, 256);
+						strncat(buf1, namebuf, 256);
+//						IDOpus->StrCombine(buf1, sourcedir, namebuf, 256);
 						IDOpus->TackOn(buf1, NULL, 256);
 						renamebuffers(buf, buf1);
 					}
@@ -1050,8 +1076,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				IDOpus->StrCombine(destname, destdir, namebuf, 256);
-				IDOpus->StrCombine(newiconname, destname, ".info", 256);
+				strncpy(destname, destdir, 256);
+				strncat(destname, namebuf, 256);
+//				IDOpus->StrCombine(destname, destdir, namebuf, 256);
+				strncpy(newiconname, destname, 256);
+				strncat(newiconname, ".info", 256);
+//				IDOpus->StrCombine(newiconname, destname, ".info", 256);
 			}
 			if(((checksame(destdir, sourcename, 0) == LOCK_SAME)) || (checksame(destname, sourcename, 0) == LOCK_SAME))
 			{
@@ -1084,7 +1114,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					else if(a == REPLACE_RENAME)
 					{
-						IDOpus->StrCombine(newiconname, destname, ".info", 256);
+						strncpy(newiconname, destname, 256);
+						strncat(newiconname, ".info", 256);
+//						IDOpus->StrCombine(newiconname, destname, ".info", 256);
 						goto retry_move;
 					}
 				}
@@ -1288,8 +1320,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				IDOpus->StrCombine(destname, destdir, namebuf, 256);
-				IDOpus->StrCombine(newiconname, destname, ".info", 256);
+				strncpy(destname, destdir, 256);
+				strncat(destname, namebuf, 256);
+//				IDOpus->StrCombine(destname, destdir, namebuf, 256);
+				strncpy(newiconname, destname, 256);
+				strncat(newiconname, ".info", 256);
+//				IDOpus->StrCombine(newiconname, destname, ".info", 256);
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
 			if(checksame(destdir, sourcename, 0) == LOCK_SAME)
@@ -1319,7 +1355,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					else if(a == REPLACE_RENAME)
 					{
-						IDOpus->StrCombine(newiconname, destname, ".info", 256);
+						strncpy(newiconname, destname, 256);
+						strncat(newiconname, ".info", 256);
+//						IDOpus->StrCombine(newiconname, destname, ".info", 256);
 						goto retry_copy;
 					}
 				}
@@ -1657,8 +1695,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				file = NULL;
 				break;
 			}
-			IDOpus->StrCombine(buf2, file->name, ".info", FILEBUF_SIZE - 1);
-			IDOpus->StrCombine(destname, sourcename, ".info", 256);
+			strncpy(buf2, file->name, FILEBUF_SIZE - 1);
+			strncat(buf2, ".info", FILEBUF_SIZE - 1);
+//			IDOpus->StrCombine(buf2, file->name, ".info", FILEBUF_SIZE - 1);
+			strncpy(destname, sourcename, 256);
+			strncat(destname, ".info", 256);
+//			IDOpus->StrCombine(destname, sourcename, ".info", 256);
 			if((a = IDOpus->CheckExist(sourcename, NULL)) == 0)
 			{
 				doerror((a = IDOS->IoErr()));
@@ -1853,7 +1895,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				file = NULL;
 				break;
 			}
-			IDOpus->StrCombine(destname, destdir, file->name, 256);
+			strncpy(destname, destdir, 256);
+			strncat(destname, file->name, 256);
+//			IDOpus->StrCombine(destname, destdir, file->name, 256);
 			if(IDOpus->CheckExist(destname, NULL))
 			{
 				if(askeach)
@@ -2158,7 +2202,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				IDOpus->StrCombine(sourcename, sourcedir, oldiconname, 256);
+				strncpy(sourcename, sourcedir, 256);
+				strncat(sourcename, oldiconname, 256);
+//				IDOpus->StrCombine(sourcename, sourcedir, oldiconname, 256);
 				if(filloutdummy(sourcename, &dummyfile))
 				{
 					dummyfile.selected = 0;

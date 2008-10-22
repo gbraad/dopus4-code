@@ -629,7 +629,8 @@ void progresstext(int y, int val, int total, STRPTR text)
 	{
 		if(text)
 		{
-			IDOpus->LStrnCpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
+//			IDOpus->LStrnCpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
+			strncpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
 		}
 		else
 		{
