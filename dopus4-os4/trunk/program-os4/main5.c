@@ -107,7 +107,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		length = IDOS->Read(inhandle, buffer, readsize);
 
 		size -= readsize;
-		size_read += length;
+//		size_read += length;
+		size_read = size_read + (int64)length;
 
 		if(prog)
 		{
@@ -148,7 +149,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			if((IDOS->Write(outhandle, buffer, length)) == -1)
 				goto failed;
 		}
-		size_write += length;
+//		size_write += length;
+		size_write = size_write + (int64)length;
 
 		if(prog)
 		{

@@ -94,7 +94,10 @@ void startnotify(int win)
 			strcpy(dos_notify_names[win], str_pathbuffer[win]);
 			if((dos_notify_req[win] = IDOS->AllocDosObjectTags(DOS_NOTIFYREQUEST, ADO_NotifyName, dos_notify_names[win], ADO_NotifyMethod, NRF_SEND_MESSAGE, ADO_NotifyUserData, win, ADO_NotifyPort, count_port, TAG_END)))
 			{
-				dos_notify_names[win][0] = '\0';
+				if(IDOS->StartNotify(dos_notify_req[win]))
+				{
+					dos_notify_names[win][0] = '\0';
+				}
 			}
 		}
 	}
@@ -108,6 +111,7 @@ void endnotify(int win)
 {
 	if(dos_notify_req[win] && dos_notify_names[win][0])
 	{
+		IDOS->EndNotify(dos_notify_req[win]);
 		IDOS->FreeDosObject(DOS_NOTIFYREQUEST, dos_notify_req[win]);
 		dos_notify_names[win][0] = '\0';
 	}
