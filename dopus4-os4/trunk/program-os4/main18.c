@@ -296,7 +296,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		}
 		IExec->CopyMemQuick((char *)myfinfo, (char *)enfinfo, sizeof(struct FileInfoBlock));
 
-		strcpy(name, dir);
+		strncpy(name, dir, 2048);
 		IDOS->AddPart(name, enfinfo->fib_FileName, 2048);
 
 		if(FIB_IS_DRAWER(enfinfo))
@@ -825,6 +825,7 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 	return (1);
 }
 
+/*
 int getdircontentsinfo(STRPTR path, uint64 * size, uint32 * files)
 {
 	APTR context = NULL;
@@ -842,7 +843,7 @@ int getdircontentsinfo(STRPTR path, uint64 * size, uint32 * files)
 
 				if(pathbuf)
 				{
-					IUtility->Strlcpy(pathbuf, path, 2048);
+					strncpy(pathbuf, path, 2048);
 					IDOS->AddPart(pathbuf, data->Name, 2048);
 					ret = getdircontentsinfo(pathbuf, size, files);
 					IExec->FreeVec(pathbuf);
@@ -863,4 +864,4 @@ int getdircontentsinfo(STRPTR path, uint64 * size, uint32 * files)
 	}
 
 	return ret;
-}
+}*/

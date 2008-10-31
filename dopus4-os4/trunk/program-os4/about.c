@@ -35,21 +35,20 @@ the existing commercial status of Directory Opus 5.
 
 #if defined(__GNUC__)
   #if defined(__GNUC_PATCHLEVEL__)
-    const char * const compiler = "GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__) "." STR(__GNUC_PATCHLEVEL__);
+    CONST_STRPTR compiler = "GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__) "." STR(__GNUC_PATCHLEVEL__);
   #else
-    const char * const compiler = "GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__) ".x";
+    CONST_SRPTR compiler = "GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__) ".x";
   #endif
 #endif
 
-static const char * const version __attribute__ ((used)) = NEW_VERSTAG " OS4";
-STRPTR comp_date = __DATE__, comp_time = __TIME__;
+CONST_STRPTR USED version = NEW_VERSTAG " OS4", comp_date = __DATE__, comp_time = __TIME__;
 
 void about()
 {
 	char buf[1024] = { 0, };
 	uint32 ver = DOpusBase->lib_Version, rev = DOpusBase->lib_Revision;
 
-	sprintf(buf, globstring[STR_ABOUT], "Directory Opus " VERSION_STR "." REVISION_STR "." SUBREVISION_STR, VERSION, REVISION, SUBREVISION, ver, rev, compiler, comp_date, comp_time);
+	snprintf(buf, 1024, globstring[STR_ABOUT], "Directory Opus " VERSION_STR "." REVISION_STR "." SUBREVISION_STR, VERSION, REVISION, SUBREVISION, ver, rev, compiler, comp_date, comp_time);
 
 	IDOS->TimedDosRequesterTags(TDR_Timeout, 0, TDR_Window, Window, TDR_ImageType, TDRIMAGE_INFO, TDR_FormatString, buf, TDR_TitleString, "About...", TDR_GadgetString, globstring[STR_CONTINUE], TAG_DONE);
 }

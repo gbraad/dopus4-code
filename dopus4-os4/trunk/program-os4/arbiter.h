@@ -57,10 +57,3 @@ struct ArbiterLaunch
 	APTR data;
 };
 
-enum
-{
-	ARB_PEN_DETAIL,
-	ARB_PEN_BLOCK,
-
-	ARB_PEN_LASTPEN
-};

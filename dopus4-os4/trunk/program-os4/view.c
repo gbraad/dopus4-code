@@ -124,8 +124,10 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 	struct ArbiterLaunch launch;
 	struct ViewMessage *view_message;
 	struct DOpusRemember *memkey = NULL;
-	int flags;
+//	int flags;
 	char launchname[30] = "dopus_view";
+	struct MsgPort *deathmsg_replyport;
+	struct DeathMessage *deathmsg = NULL;
 
 	if(!noftype)
 	{
@@ -146,7 +148,10 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 		}
 	}
 
-	if((view_message = IDOpus->LAllocRemember(&memkey, sizeof(struct ViewMessage), MEMF_CLEAR)) && copy_string(filename, &view_message->filename, &memkey) && copy_string(name, &view_message->name, &memkey) && copy_string(initialsearch, &view_message->initialsearch, &memkey))
+	if((view_message = IDOpus->LAllocRemember(&memkey, sizeof(struct ViewMessage), MEMF_CLEAR))
+		       && copy_string(filename, &view_message->filename, &memkey)
+		       && copy_string(name, &view_message->name, &memkey)
+		       && copy_string(initialsearch, &view_message->initialsearch, &memkey))
 	{
 
 		launch.launch_code = (void *)&view_file_process;
@@ -159,11 +164,32 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 			view_message->deleteonexit = TRUE;
 
 		if(wait)
-			flags = ARB_WAIT;
-		else
-			flags = 0;
+		{
+			if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
+			{
+				if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
+				{
+					deathmsg = NULL;
+				}
+			}
+		}
 
-		return(arbiter_command(ARBITER_LAUNCH, (APTR)&launch, flags));
+//			flags = ARB_WAIT;
+//		else
+//			flags = 0;
+
+		IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, NP_NotifyOnDeathMessage, deathmsg, /*NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE,*/ NP_Child, TRUE, TAG_END);
+
+		if(wait)
+		{
+			IExec->WaitPort(deathmsg_replyport);
+			IExec->GetMsg(deathmsg_replyport);
+			IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
+			IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
+		}
+
+		return 2;
+//		return(arbiter_command(ARBITER_LAUNCH, (APTR)&launch, flags));
 	}
 
 	IDOpus->LFreeRemember(&memkey);
@@ -177,18 +203,19 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	char buf[60];
 	struct ConUnit *view_console_unit = NULL;
 	struct ViewData *vdata = NULL;
-	struct MsgPort *view_process_msgport, *view_port;
-	struct ArbiterMessage *my_startup_message;
+	struct MsgPort /* *view_process_msgport,*/ *view_port;
+//	struct ArbiterMessage *my_startup_message;
 	struct ViewMessage *view_msg;
 	STRPTR filename, name, initialsearch;
 	int function;
 	char portname[20], titlebuf[300];
 
-	view_process_msgport = IDOS->GetProcMsgPort(NULL);
+/*	view_process_msgport = IDOS->GetProcMsgPort(NULL);
 	IExec->WaitPort(view_process_msgport);
-	my_startup_message = (struct ArbiterMessage *)IExec->GetMsg(view_process_msgport);
+	my_startup_message = (struct ArbiterMessage *)IExec->GetMsg(view_process_msgport);*/
 
-	view_msg = (struct ViewMessage *)(my_startup_message->data);
+//	view_msg = (struct ViewMessage *)(my_startup_message->data);
+	view_msg = (struct ViewMessage *)IDOS->GetEntryData();
 	filename = view_msg->filename;
 	name = view_msg->name;
 	function = view_msg->function;
@@ -209,14 +236,13 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		{
 			if(size > 0)
 			{
-//				if(!(vdata = IExec->AllocVecTags(sizeof(struct ViewData), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 				if(!(vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					retcode = -4;
 				}
 				if(vdata)
 				{
-					IUtility->Strlcpy(vdata->view_port_name, portname, 20);
+					strncpy(vdata->view_port_name, portname, 20);
 					vdata->view_port = view_port;
 					vdata->view_file_size = size;
 					vdata->view_file_name = name;
@@ -229,7 +255,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 					if((retcode = view_setupdisplay(vdata)))
 						goto view_end;
 
-					sprintf(titlebuf, "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
+					snprintf(titlebuf, 300, "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
 					if(config->viewbits & VIEWBITS_INWINDOW)
 						IIntuition->SetWindowTitles(vdata->view_window, titlebuf, "Directory Opus Reader");
 					else
@@ -329,7 +355,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 										view_console_unit->cu_TabStops[a] = a * config->tabsize;
 									view_console_unit->cu_TabStops[MAXTABS - 1] = 0xffff;
 
-									sprintf(buf, "\x9b\x30\x20\x70\x9b%d\x75\x9b%d\x74", vdata->view_max_line_length + 1, vdata->view_lines_per_screen);
+									snprintf(buf, 60, "\x9b\x30\x20\x70\x9b%d\x75\x9b%d\x74", vdata->view_max_line_length + 1, vdata->view_lines_per_screen);
 									view_print(vdata, buf, 1, strlen(buf));
 
 									vdata->view_max_line_length = 255;
@@ -387,11 +413,11 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	      view_end:
 		IExec->FreeSysObject(ASOT_PORT, view_port);
 	}
-	my_startup_message->command = retcode;
+//	my_startup_message->command = retcode;
 	if(view_msg->deleteonexit)
 		IDOS->DeleteFile(filename);
-	IExec->Forbid();
-	IExec->ReplyMsg((struct Message *)my_startup_message);
+//	IExec->Forbid();
+//	IExec->ReplyMsg((struct Message *)my_startup_message);
 
 	return 0;
 }
@@ -421,7 +447,6 @@ void cleanupviewfile(struct ViewData *vdata)
 	vdata->view_gadgets = NULL;
 	IGadTools->FreeVisualInfo(vdata->view_GTvi);
 	vdata->view_GTvi = NULL;
-	IDOpus->LFreeRemember(&vdata->view_memory);
 }
 
 int view_loadfile(struct ViewData *vdata)
@@ -435,7 +460,6 @@ int view_loadfile(struct ViewData *vdata)
 
 	for(a = 0; a < 2; a++)
 	{
-//		if((vdata->view_text_buffer = IExec->AllocVecTags(vdata->view_buffer_size, AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 		if((vdata->view_text_buffer = IExec->AllocVec(vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
 			break;
 		view_status_text(vdata, globstring[STR_NO_MEMORY_TO_DECRUNCH]);
@@ -1029,7 +1053,6 @@ int view_setupdisplay(struct ViewData *vdata)
 		{
 			IIntuition->CloseScreen(vdata->view_screen);
 		}
-		IDOpus->LFreeRemember(&vdata->view_memory);
 		return -4;
 	}
 	vdata->view_screen = vdata->view_window->WScreen;
@@ -1770,8 +1793,8 @@ void view_status_text(struct ViewData *vdata, char *str)
 
 	if(config->viewbits & VIEWBITS_TEXTBORDERS)
 	{
-		strcpy(buf, str);
-		IGadTools->GT_SetGadgetAttrs(g, vdata->view_window, NULL, GTTX_Text, (Tag) buf, TAG_END);
+		strncpy(buf, str, 108);
+		IGadTools->GT_SetGadgetAttrs(g, vdata->view_window, NULL, GTTX_Text, buf, TAG_END);
 	}
 }
 
@@ -1936,7 +1959,6 @@ void view_viewhilite(struct ViewData *vdata, int x, int y, int x1, int y1)
 {
 	struct viewhilite *hi;
 
-//	if(!(hi = IExec->AllocVecTags(sizeof(struct viewhilite), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 	if(!(hi = IExec->AllocVec(sizeof(struct viewhilite), MEMF_SHARED | MEMF_CLEAR)))
 		return;
 	if(vdata->view_current_hilite)

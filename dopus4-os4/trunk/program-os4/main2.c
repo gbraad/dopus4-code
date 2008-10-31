@@ -45,9 +45,13 @@ void freedir(struct DirectoryWindow *dir, int win)
 				while(free)
 				{
 					if(free->next)
+					{
 						work = free->next;
+					}
 					else
+					{
 						work = NULL;
+					}
 					free->next = NULL;
 					free->last = NULL;
 
@@ -126,7 +130,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 		if(str_pathbuffer[win][a] == ':')
 		{
-//			IDOpus->LStrnCpy(dir->realdevice, str_pathbuffer[win], a + 1);
 			strncpy(dir->realdevice, str_pathbuffer[win], a + 1);
 		}
 		IDOS->FreeDosObject(DOS_FIB, fileinfo);
@@ -606,7 +609,7 @@ void endfollow(int win)
 
 void displaydir(int win)
 {
-	int d, a, l, tl, bl, b, ds, my, c, /*f, */ pw, px, lpst8, sc, to, y;
+	int d, a, l, tl, bl, b, ds, my, c, pw, px, lpst8, sc, to, y;
 	char sbuf[MAXDISPLAYLENGTH];
 	struct Directory *entry;
 	struct Region *oldreg = NULL, *newreg;

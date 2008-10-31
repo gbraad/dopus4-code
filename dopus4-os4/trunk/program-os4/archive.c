@@ -317,7 +317,7 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 	fib->fib_Date = entry->date;
 	if(entry->comment)
 	{
-		strcpy(fib->fib_Comment, entry->comment);
+		strncpy(fib->fib_Comment, entry->comment, 80);
 	}
 	else
 	{
@@ -395,8 +395,8 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 	xadoverwrite = 0;
 	xadskipall = 0;
 
-	IUtility->SNPrintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_CANCEL]);
-	IUtility->SNPrintf(sourcename, 2048, "%s%s", source, archivename);
+	snprintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_CANCEL]);
+	snprintf(sourcename, 2048, "%s%s", source, archivename);
 
 	if((ProgressHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, ProgressFunc, TAG_END)))
 	{
@@ -417,10 +417,10 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 					}
 					else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)
 					{
-						IUtility->SetMem(destname, 0, 2048);
-						IUtility->SNPrintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
+						memset(destname, 0, 2048);
+						snprintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
 						dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
-						IUtility->SNPrintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
+						snprintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
 						if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) != 0L)
 						{
 //							IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));

@@ -140,7 +140,6 @@ void ftype_doubleclick(char *path, char *name, int state)
 		dostatustext(globstring[STR_RUNNING_FILE]);
 		strncpy(buf2, buf, 256);
 		strncat(buf2, ".info", 256);
-//		IDOpus->StrCombine(buf2, buf, ".info", 256);
 		if(IDOpus->CheckExist(buf2, NULL) < 0)
 		{
 			a = 1;
@@ -241,7 +240,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 	{
 		dostatustext(globstring[STR_READING_SELECTED_FILE]);
 		strcpy(func_single_file, name);
-		if(viewfile(buf, str_arcorgname[0] ? str_arcorgname : name, FUNC_SMARTREAD, NULL, /*NULL,*/ str_arcorgname[0] ? 1 : 0, 1))
+		if(viewfile(buf, str_arcorgname[0] ? str_arcorgname : name, FUNC_SMARTREAD, NULL, str_arcorgname[0] ? 1 : 0, 1))
 			okay();
 		func_single_file[0] = 0;
 	}
@@ -256,7 +255,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 
 int filesearch(char *name, int *found, int skipall)
 {
-	char *message;
+	STRPTR message;
 	int rec, in, suc;
 
 	*found = 0;
@@ -276,7 +275,7 @@ int filesearch(char *name, int *found, int skipall)
 			{
 				message = IDOS->FilePart(name);
 				busy();
-				rec = viewfile(name, message, 0, str_search_string, /*NULL,*/ 1, 0);
+				rec = viewfile(name, message, 0, str_search_string, 1, 0);
 				unbusy();
 				if(rec == -1)
 					return (-1);

@@ -34,8 +34,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	struct ExamineData *data = NULL;
 	char *buffer = NULL;
 	int ret = 0;
-	int32 length;
-	int64 readsize, size_read, size_write, size_total, size, buffer_size;
+	int64 length, readsize, size_read, size_write, size_total, size, buffer_size;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
 	BPTR out, inhandle = 0, outhandle = 0;
 	struct DateStamp ds, *dsp;
@@ -81,7 +80,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		goto failed;
 
 	size = data->FileSize;
-	buffer_size = 64 *1024;
+	buffer_size = 64 * 1024;
 	if(buffer_size > (10 * 1024 * 1024))
 	{
 		buffer_size = 10 * 1024 * 1024;
@@ -104,15 +103,15 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	while(size > 0)
 	{
 		readsize = (size > buffer_size) ? buffer_size : size;
-		length = IDOS->Read(inhandle, buffer, readsize);
+		length = (int64)IDOS->Read(inhandle, buffer, readsize);
 
 		size -= readsize;
-//		size_read += length;
-		size_read = size_read + (int64)length;
+		size_read += length;
 
 		if(prog)
 		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
+//			ra_progresswindow_update_one(size_read + size_write, size_total);
 		}
 
 		if(status_haveaborted)
@@ -149,12 +148,12 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 			if((IDOS->Write(outhandle, buffer, length)) == -1)
 				goto failed;
 		}
-//		size_write += length;
-		size_write = size_write + (int64)length;
+		size_write += length;
 
 		if(prog)
 		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
+//			ra_progresswindow_update_one(size_read + size_write, size_total);
 		}
 
 		if(status_haveaborted)
@@ -343,9 +342,9 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 
 						doerror(ERROR_DELETE_PROTECTED);
 						geterrorstring(errortext, ERROR_DELETE_PROTECTED);
-						sprintf(textformat, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], nam, errortext);
-						strcat(textformat, globstring[STR_SELECT_UNPROTECT]);
-						sprintf(gadformat, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
+						snprintf(textformat, 400, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], nam, errortext);
+						strncat(textformat, globstring[STR_SELECT_UNPROTECT], 400);
+						snprintf(gadformat, 100, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
 						if(!(a = ra_simplerequest(textformat, gadformat, REQIMAGE_WARNING)))
 						{
 							return (-1);

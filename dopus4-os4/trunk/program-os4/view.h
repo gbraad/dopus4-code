@@ -87,16 +87,14 @@ struct ViewData
 	struct viewhilite *view_first_hilite;
 	struct viewhilite *view_current_hilite;
 
-	struct DOpusRemember *view_memory;
 	struct IOStdReq view_console_request;
-//	struct Requester view_busy_request;
 	struct PropInfo view_prop_info;
 	struct Image view_prop_image;
 
 	char view_port_name[20];
 	struct MsgPort *view_port;
 
-	short view_colour_table[8];
+	int16 view_colour_table[8];
 	struct VisInfo view_vis_info;
 };
 

@@ -34,7 +34,7 @@ int32 recursive_delete(STRPTR directory)
 	uint32 a, rd_continue = 0, rd_abort = 0;
 	APTR context = IDOS->ObtainDirContextTags(EX_StringName, directory, EX_DoCurrentDir, TRUE, TAG_END);
 	int32 ret = 0, errorcode = 0;
-	char buf[300], buf2[100], recursivename[256];
+	char buf[300], buf2[100], recursivename[2048];
 	STRPTR nodename;
 	struct Node *node;
 	struct List *flist, *dlist;
@@ -47,8 +47,8 @@ int32 recursive_delete(STRPTR directory)
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
 		{
-			IUtility->SetMem(recursivename, 0, 256);
-			IUtility->Strlcpy(recursivename, directory, 256);
+			memset(recursivename, 0, 2048);
+			strncpy(recursivename, directory, 2048);
 
 			if(status_haveaborted)
 			{
@@ -63,10 +63,10 @@ int32 recursive_delete(STRPTR directory)
 
 				if(EXD_IS_DIRECTORY(dat))
 				{
-					IDOS->AddPart(recursivename, dat->Name, 256);
+					IDOS->AddPart(recursivename, dat->Name, 2048);
 					recursive_delete(recursivename);
 					nodename = IExec->AllocVec(strlen(recursivename) + 1, MEMF_ANY);
-					IUtility->Strlcpy(nodename, recursivename, strlen(recursivename) + 1);
+					strncpy(nodename, recursivename, strlen(recursivename) + 1);
 					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
 					{
 						IExec->AddTail(dlist, node);
@@ -74,9 +74,9 @@ int32 recursive_delete(STRPTR directory)
 				}
 				else if(EXD_IS_FILE(dat))
 				{
-					IDOS->AddPart(recursivename, dat->Name, 256);
+					IDOS->AddPart(recursivename, dat->Name, 2048);
 					nodename = IExec->AllocVec(strlen(recursivename) + 1, MEMF_ANY);
-					IUtility->Strlcpy(nodename, recursivename, strlen(recursivename) + 1);
+					strncpy(nodename, recursivename, strlen(recursivename) + 1);
 					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
 					{
 						IExec->AddTail(flist, node);
@@ -102,16 +102,19 @@ int32 recursive_delete(STRPTR directory)
 						{
 							IDOS->SetProtection(dat->Name, 0);
 							IDOS->DeleteFile(dat->Name);
-							dos_global_deletedbytes += dat->FileSize;
+							if(EXD_IS_FILE(dat))
+							{
+								dos_global_deletedbytes += dat->FileSize;
+							}
 							rd_continue = 0;
 						}
 						else
 						{
 							doerror(ERROR_DELETE_PROTECTED);
 							geterrorstring(buf2, ERROR_DELETE_PROTECTED);
-							sprintf(buf, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
-							strcat(buf, globstring[STR_SELECT_UNPROTECT]);
-							sprintf(buf2, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
+							snprintf(buf, 300, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
+							strncat(buf, globstring[STR_SELECT_UNPROTECT], 300);
+							snprintf(buf2, 100, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
 							if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1) // Unprotect
 							{
 								rd_continue = 1;

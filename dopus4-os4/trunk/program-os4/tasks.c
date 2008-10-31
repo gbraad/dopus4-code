@@ -97,8 +97,8 @@ void hotkeytaskcode()
 		{
 			char tmp[8];
 
-			sprintf(tmp, " (%d)", system_dopus_runcount + 1);
-			strcat(cxname, tmp);
+			snprintf(tmp, 8, " (%d)", system_dopus_runcount + 1);
+			strncat(cxname, tmp, 20);
 		}
 		hotkey_broker.nb_Name = cxname;
 		hotkey_broker.nb_Port = inputport;
@@ -576,8 +576,6 @@ void openprogresswindow(STRPTR title, int value, int total, int flag)
 	IDOpus->AddGadgetBorders(&prog_key, &abortopgad, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
 	IDOpus->AddGadgets(pwindow, &abortopgad, gadtxt, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
 
-//	IGraphics->SetAPen(prp, screen_pens[0].pen);
-//	IGraphics->SetDrMd(prp, JAM2);
 	IGraphics->SetRPAttrs(prp, RPTAG_APen, screen_pens[0].pen, RPTAG_DrMd, JAM2, TAG_DONE);
 	IGraphics->RectFill(prp, 26 + prog_xoff, 6 + prog_yoff, (prog_areax = prog_xoff + pwindow->Width - prog_xextra - 31), prog_yoff + (font->tf_YSize * 4) + prog_yextra + 5);
 
@@ -599,8 +597,6 @@ void openprogresswindow(STRPTR title, int value, int total, int flag)
 
 			bar[a].descY = bar[a].barY + font->tf_YSize + (font->tf_YSize / 2) + font->tf_Baseline;
 
-//			IGraphics->SetAPen(prp, screen_pens[1].pen);
-//			IGraphics->SetBPen(prp, screen_pens[0].pen);
 			IGraphics->SetRPAttrs(prp, RPTAG_APen, screen_pens[1].pen, RPTAG_BPen, screen_pens[0].pen, TAG_DONE);
 			IGraphics->Move(prp, bar[a].barX - (IGraphics->TextLength(prp, "0% ", 3)) - 4, bar[a].barY + font->tf_Baseline);
 			IGraphics->Text(prp, "0%", 2);
@@ -629,7 +625,6 @@ void progresstext(int y, int val, int total, STRPTR text)
 	{
 		if(text)
 		{
-//			IDOpus->LStrnCpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
 			strncpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
 		}
 		else
@@ -693,7 +688,7 @@ static char *Kstr = "K  ";
 
 void clocktask()
 {
-	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, /*len,*/ ct, chipnum, fastnum, a, active = 1, usage;
+	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, ct, chipnum, fastnum, a, active = 1, usage;
 	int len;
 	USHORT clock_width, clock_height, scr_height;
 	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;

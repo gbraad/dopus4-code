@@ -60,8 +60,6 @@ int LoadPic(char *name)
 				struct BitMap *bm = NULL;
 				int32 winw, winh, winx, winy;
 				struct Window *dtwin = NULL;
-				BOOL cont;
-				struct IntuiMessage *mess;
 
 				IDataTypes->DoDTMethod(dto, NULL, NULL, DTM_PROCLAYOUT, NULL, TRUE);
 
@@ -78,29 +76,7 @@ int LoadPic(char *name)
 				{
 					IGraphics->BltBitMapRastPort(bm, 0, 0, dtwin->RPort, 0, 0, winw, winh, 0xC0);
 
-					cont = TRUE;
-					do
-					{
-						IExec->WaitPort(dtwin->UserPort);
-						while((mess = (struct IntuiMessage *)IExec->GetMsg(dtwin->UserPort)))
-						{
-							switch (mess->Class)
-							{
-							case IDCMP_MOUSEBUTTONS:
-								if(mess->Code == IECODE_LBUTTON)
-									cont = FALSE;
-								else if(mess->Code == IECODE_RBUTTON)
-									cont = FALSE;
-								break;
-							case IDCMP_VANILLAKEY:
-								if(mess->Code == 0x1b)
-									cont = FALSE;
-								break;
-							}
-							IExec->ReplyMsg((struct Message *)mess);
-						}
-					}
-					while(cont);
+					WaitForMouseClick(dtwin);
 
 					IIntuition->CloseWindow(dtwin);
 				}

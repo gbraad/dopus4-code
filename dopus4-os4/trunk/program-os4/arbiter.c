@@ -29,7 +29,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 #include "view.h"
-#include <dos/dostags.h>
 
 struct MsgPort *arbiter_reply_port;
 struct MsgPort *arbiter_msg_port;
@@ -39,20 +38,24 @@ struct Message *arbiter_startup;
 
 int install_arbiter()
 {
-	if(!(arbiter_reply_port = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
-		return 0;
+	if((arbiter_reply_port = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
+	{
+		if((arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, TAG_END)))
+		{
+			if((arbiter_proc = (struct Process *)IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, "dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, TAG_END)))
+			{
+				if((arbiter_msg_port = IDOS->GetProcMsgPort(arbiter_proc)))
+				{
+					IExec->PutMsg(arbiter_msg_port, arbiter_startup);
+					return 1;
+				}
+			}
+			IExec->FreeSysObject(ASOT_MESSAGE, arbiter_startup);
+		}
+		IExec->FreeSysObject(ASOT_PORT, arbiter_reply_port);
+	}
 
-	arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, TAG_END);
-
-	if(!(arbiter_proc = (struct Process *)IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, (Tag)"dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, TAG_END)))
-		return 0;
-
-	if(!(arbiter_msg_port = IDOS->GetProcMsgPort(arbiter_proc)))
-		return 0;
-
-	IExec->PutMsg(arbiter_msg_port, arbiter_startup);
-
-	return 1;
+	return 0;
 }
 
 void remove_arbiter()
@@ -177,7 +180,6 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				}
 				break;
 			case ARBITER_LAUNCH:
-//				if(replyport && (launch = IExec->AllocVecTags(sizeof(struct LaunchList), AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
 				if(replyport && (launch = IExec->AllocVec(sizeof(struct LaunchList), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					struct ArbiterLaunch *arb_launch;

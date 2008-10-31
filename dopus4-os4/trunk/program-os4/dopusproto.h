@@ -299,7 +299,7 @@ void rexx_return(struct RexxMsg *, long long);
 /* main18.c */
 int recursedir(STRPTR, STRPTR, int, int);
 int addrecurse(struct DOpusRemember **, STRPTR, STRPTR, int, APTR, APTR, BPTR, struct FileInfoBlock *, struct Directory *, struct DirectoryWindow *);
-int getdircontentsinfo(STRPTR, uint64 *, uint32 *);
+//int getdircontentsinfo(STRPTR, uint64 *, uint32 *);
 
 /* main19.c */
 int checkshift(void);
@@ -507,4 +507,8 @@ int32 recursive_delete(STRPTR);
 
 /* reaction.c */
 int ra_simplerequest(CONST_STRPTR, CONST_STRPTR, uint32);
+int ra_progresswindow_open(STRPTR, int32, int32);
+int ra_progresswindow_close(void);
+int ra_progresswindow_update_one(int64, int64);
+int ra_progresswindow_update_two(int32, STRPTR); //int64, int64);
 

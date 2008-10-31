@@ -543,7 +543,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			total = 1;
 		}
 
-		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total : 1, titlebuf, progress_copy | ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
+		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total : 1, titlebuf, progress_copy || ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
+//		ra_progresswindow_open(titlebuf, total, progress_copy || (swindow->dirsel && (!dos_global_files)));
 		prog_indicator = 1;
 	}
 
@@ -584,8 +585,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if((progtype == 1 && file->type >= ENTRY_DEVICE) || (progtype == 0 && file->type <= ENTRY_FILE) || (progtype == 2))
 				++value;
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, value, total, NULL, 0);
+//			ra_progresswindow_update_two(value, NULL);
 			if(progress_copy)
+			{
 				dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
+//				ra_progresswindow_update_two(-2, file->name);
+			}
 		}
 
 		lastfile = flag = breakout = 0;
@@ -1274,6 +1279,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(progress_copy)
 				{
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, file->name, 1);
+//					ra_progresswindow_update_one(100, 100);
 				}
 				addfile(dwindow, inact, namebuf, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 				if(!noremove)
@@ -1522,7 +1528,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				break;
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
-			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, /*NULL,*/ str_arcorgname[0] ? 1 : 0, (entry_depth > 1));
+			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, str_arcorgname[0] ? 1 : 0, (entry_depth > 1));
 			if(a != -2)
 			{
 				if(a != -3)
@@ -2194,10 +2200,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						++value;
 						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
+//						ra_progresswindow_update_two(value, NULL);
 					}
 				}
 				if(progress_copy)
+				{
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
+//					ra_progresswindow_update_two(-2, file->name);
+				}
 				goto functionloop;
 			}
 			else
@@ -2227,8 +2237,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(prog_indicator)
 	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 0);
-		if(progress_copy)
+//		ra_progresswindow_update_two(-2, globstring[status_justabort ? STR_ABORTED : STR_COMPLETED]);
+/*		if(progress_copy)
+		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 1);
+		}*/
 	}
 
 	switch (function)
@@ -2401,7 +2414,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
       endfunction:
 	if(prog_indicator)
+	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
+//		ra_progresswindow_close();
+	}
 	IExec->FreeSysObject(ASOT_MEMPOOL, function_memory_pool);
 	--entry_depth;
 

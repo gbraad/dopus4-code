@@ -253,7 +253,6 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 		suc = IIcon->PutDiskObject(dest, diskobj);
 		IIcon->FreeDiskObject(diskobj);
 		if(!suc || IDOpus->CheckExist(dest, NULL) >= 0)
-//		if(!suc || IDOpus->CheckExist(dest, NOLL) >= 0)
 		{
 			*err = IDOS->IoErr();
 		}
