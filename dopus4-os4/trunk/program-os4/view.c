@@ -121,10 +121,11 @@ ULONG view_runcount;
 
 int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
-	struct ArbiterLaunch launch;
+//	struct ArbiterLaunch launch;
 	struct ViewMessage *view_message;
 	struct DOpusRemember *memkey = NULL;
 //	int flags;
+	int ret = 0;
 	char launchname[30] = "dopus_view";
 	struct MsgPort *deathmsg_replyport;
 	struct DeathMessage *deathmsg = NULL;
@@ -154,23 +155,20 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 		       && copy_string(initialsearch, &view_message->initialsearch, &memkey))
 	{
 
-		launch.launch_code = (void *)&view_file_process;
+/*		launch.launch_code = (void *)&view_file_process;
 		launch.launch_name = launchname;
 		launch.launch_memory = memkey;
-		launch.data = (APTR)view_message;
+		launch.data = (APTR)view_message;*/
 
 		view_message->function = function;
 		if(dopus_curwin[data_active_window]->flags & DWF_ARCHIVE)
 			view_message->deleteonexit = TRUE;
 
-		if(wait)
+		if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 		{
-			if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
+			if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
 			{
-				if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
-				{
-					deathmsg = NULL;
-				}
+				deathmsg = NULL;
 			}
 		}
 
@@ -178,22 +176,22 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 //		else
 //			flags = 0;
 
-		IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, NP_NotifyOnDeathMessage, deathmsg, /*NP_FreeSeglist, FALSE, NP_CloseInput, FALSE, NP_CloseOutput, FALSE,*/ NP_Child, TRUE, TAG_END);
+		IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, NP_NotifyOnDeathMessage, deathmsg, NP_Child, TRUE, TAG_END);
 
-		if(wait)
+		if(deathmsg)
 		{
 			IExec->WaitPort(deathmsg_replyport);
 			IExec->GetMsg(deathmsg_replyport);
+			ret = deathmsg->dm_ReturnCode;
 			IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
 			IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
 		}
 
-		return 2;
 //		return(arbiter_command(ARBITER_LAUNCH, (APTR)&launch, flags));
 	}
 
 	IDOpus->LFreeRemember(&memkey);
-	return (0);
+	return ret;
 }
 
 int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
@@ -224,7 +222,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	IExec->Forbid();
 	for(a = 0;; a++)
 	{
-		sprintf(portname, "DOPUS_VIEW%d", a);
+		snprintf(portname, 20, "DOPUS_VIEW%d", a);
 		if(!(IExec->FindPort(portname)))
 			break;
 	}
@@ -419,7 +417,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 //	IExec->Forbid();
 //	IExec->ReplyMsg((struct Message *)my_startup_message);
 
-	return 0;
+	return retcode;
 }
 
 void cleanupviewfile(struct ViewData *vdata)
@@ -964,7 +962,6 @@ int view_setupdisplay(struct ViewData *vdata)
 	int tc = 0;
 	short int a, width, fontx;
 	uint16 zoom[4] = { ~0, ~0, config->viewtext_width, config->viewtext_height };
-	struct TextAttr screenattr;
 
 	vdata->view_colour_table[PEN_BACKGROUND] = 0;
 	vdata->view_colour_table[PEN_SHADOW] = config->gadgetbotcol;
@@ -1020,12 +1017,19 @@ int view_setupdisplay(struct ViewData *vdata)
 	}
 	else
 	{
-		screenattr.ta_Name=scr_font[FONT_TEXT]->tf_Message.mn_Node.ln_Name;
-		screenattr.ta_YSize=scr_font[FONT_TEXT]->tf_YSize;
+		struct Screen *test;
+		struct TextAttr screenattr;
 
-		if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Font, &screenattr, SA_Interleaved, TRUE, SA_LikeWorkbench, TRUE, TAG_END)) || !(vdata->view_font = IDiskfont->OpenDiskFont(vdata->view_screen->Font)))
+		screenattr.ta_Name = scr_font[FONT_TEXT]->tf_Message.mn_Node.ln_Name;
+		screenattr.ta_YSize = scr_font[FONT_TEXT]->tf_YSize;
+
+		if((test = IIntuition->LockPubScreen(NULL)))
 		{
-			return -4;
+			if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_DisplayID, IGraphics->GetVPModeID(&test->ViewPort), SA_Depth, config->scrdepth, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Font, &screenattr, SA_Interleaved, TRUE, TAG_END)) || !(vdata->view_font = IGraphics->OpenFont(vdata->view_screen->Font)))
+			{
+				return -4;
+			}
+			IIntuition->UnlockPubScreen(NULL, test);
 		}
 		viewwin.Screen = vdata->view_screen;
 		viewwin.TopEdge = vdata->view_screen->BarHeight + 2;
@@ -1060,7 +1064,9 @@ int view_setupdisplay(struct ViewData *vdata)
 
 	fontx = vdata->view_font->tf_XSize;
 
-	viewGta.ta_Name = vdata->view_font->tf_Message.mn_Node.ln_Name, viewGta.ta_YSize = vdata->view_font->tf_YSize, vdata->view_status_bar_ypos = vdata->view_window->Height - (vdata->view_font->tf_YSize + 1);
+	viewGta.ta_Name = vdata->view_font->tf_Message.mn_Node.ln_Name;
+	viewGta.ta_YSize = vdata->view_font->tf_YSize;
+	vdata->view_status_bar_ypos = vdata->view_window->Height - (vdata->view_font->tf_YSize + 1);
 
 	if(config->viewbits & VIEWBITS_INWINDOW)
 	{

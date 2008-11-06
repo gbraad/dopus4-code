@@ -33,24 +33,28 @@ the existing commercial status of Directory Opus 5.
 struct MsgPort *arbiter_reply_port;
 struct MsgPort *arbiter_msg_port;
 struct Process *arbiter_proc;
-struct ProcessStart *arbiter_seglist;
-struct Message *arbiter_startup;
+//struct ProcessStart *arbiter_seglist;
+//struct Message *arbiter_startup;
+struct DeathMessage *arbiter_dmsg;
 
 int install_arbiter()
 {
 	if((arbiter_reply_port = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 	{
-		if((arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, TAG_END)))
+		if((arbiter_dmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, arbiter_reply_port, TAG_END)))
 		{
-			if((arbiter_proc = (struct Process *)IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, "dopus_arbiter", NP_WindowPtr, (APTR)-1, NP_Priority, 0, TAG_END)))
+//		if((arbiter_startup = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_ReplyPort, arbiter_reply_port, TAG_END)))
+//		{
+			if((arbiter_proc = (struct Process *)IDOS->CreateNewProcTags(NP_Entry, &arbiter_process, NP_Name, "dopus_arbiter", NP_NotifyOnDeathMessage, arbiter_dmsg, TAG_END)))
 			{
 				if((arbiter_msg_port = IDOS->GetProcMsgPort(arbiter_proc)))
 				{
-					IExec->PutMsg(arbiter_msg_port, arbiter_startup);
+//					IExec->PutMsg(arbiter_msg_port, arbiter_startup);
 					return 1;
 				}
 			}
-			IExec->FreeSysObject(ASOT_MESSAGE, arbiter_startup);
+//			IExec->FreeSysObject(ASOT_MESSAGE, arbiter_startup);
+			IExec->FreeSysObject(ASOT_MESSAGE, arbiter_dmsg);
 		}
 		IExec->FreeSysObject(ASOT_PORT, arbiter_reply_port);
 	}
@@ -67,8 +71,10 @@ void remove_arbiter()
 		IExec->GetMsg(arbiter_reply_port);
 	}
 
-	if(arbiter_startup)
-		IExec->FreeSysObject(ASOT_MESSAGE, arbiter_startup);
+//	if(arbiter_startup)
+//		IExec->FreeSysObject(ASOT_MESSAGE, arbiter_startup);
+	if(arbiter_dmsg)
+		IExec->FreeSysObject(ASOT_MESSAGE, arbiter_dmsg);
 	if(arbiter_reply_port)
 		IExec->FreeSysObject(ASOT_PORT, arbiter_reply_port);
 
@@ -77,8 +83,8 @@ void remove_arbiter()
 
 int arbiter_command(int command, APTR data, int flags)
 {
-	struct ArbiterMessage arbiter_msg;
-	struct MsgPort command_port;
+	struct ArbiterMessage *arbiter_msg;
+/*	struct MsgPort command_port;
 
 	IExec->CopyMem((char *)arbiter_reply_port, (char *)&command_port, sizeof(struct MsgPort));
 	IExec->NewList(&command_port.mp_MsgList);
@@ -86,18 +92,23 @@ int arbiter_command(int command, APTR data, int flags)
 	arbiter_msg.msg.mn_Node.ln_Type = NT_MESSAGE;
 	arbiter_msg.msg.mn_Node.ln_Pri = 0;
 	arbiter_msg.msg.mn_ReplyPort = &command_port;
-	arbiter_msg.msg.mn_Length = (UWORD) sizeof(struct ArbiterMessage);
-	arbiter_msg.command = command;
-	arbiter_msg.data = data;
-	arbiter_msg.flags = flags;
+	arbiter_msg.msg.mn_Length = (UWORD) sizeof(struct ArbiterMessage);*/
+	arbiter_msg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct ArbiterMessage), ASOMSG_ReplyPort, arbiter_reply_port, TAG_END);
+	arbiter_msg->command = command;
+	arbiter_msg->data = data;
+	arbiter_msg->flags = flags;
 
-	IExec->PutMsg(arbiter_msg_port, (struct Message *)&arbiter_msg);
-	IExec->WaitPort(&command_port);
-	IExec->GetMsg(&command_port);
+//	IExec->PutMsg(arbiter_msg_port, (struct Message *)&arbiter_msg);
+	IExec->PutMsg(arbiter_msg_port, (struct Message *)arbiter_msg);
+//	IExec->WaitPort(&command_port);
+	IExec->WaitPort(arbiter_reply_port);
+//	IExec->GetMsg(&command_port);
+	IExec->GetMsg(arbiter_reply_port);
 
-	return (arbiter_msg.command);
+	return (arbiter_msg->command);
 }
 
+/*
 struct LaunchList
 {
 	struct LaunchList *next;
@@ -106,32 +117,35 @@ struct LaunchList
 	struct ArbiterMessage *reply_msg;
 	struct DOpusRemember *memory;
 };
+*/
 
 int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 {
 	struct MsgPort *my_process_port;
-	struct Message *my_startup_message;
-	struct ArbiterMessage *arb_msg, *remove_msg = NULL;
-	struct LaunchList *first_launch = NULL, *launch, *launchpos;
-	struct MsgPort *replyport;
+//	struct Message *my_startup_message;
+	struct ArbiterMessage *arb_msg; //, *remove_msg = NULL;
+//	struct LaunchList *first_launch = NULL, *launch, *launchpos;
+//	struct MsgPort *replyport;
 	char ret, remove = 0;
-	int wait_mask;
+	uint32 wait_mask;
 
 	my_process_port = IDOS->GetProcMsgPort(NULL);
 
-	IExec->WaitPort(my_process_port);
-	my_startup_message = IExec->GetMsg(my_process_port);
+//	IExec->WaitPort(my_process_port);
+//	my_startup_message = IExec->GetMsg(my_process_port);
 
 	wait_mask = 1 << my_process_port->mp_SigBit;
 
-	if((replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
+/*	if((replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 	{
 		wait_mask |= 1 << replyport->mp_SigBit;
-	}
+	}*/
 
-	for(;;)
+//	for(;;)
+	while(remove == 0)
 	{
-		if(replyport)
+		IExec->Wait(wait_mask);
+/*		if(replyport)
 		{
 			while ((arb_msg = (struct ArbiterMessage *)IExec->GetMsg(replyport)))
 			{
@@ -163,23 +177,23 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				IExec->ReplyMsg((struct Message *)remove_msg);
 				break;
 			}
-		}
+		}*/
 		while ((arb_msg = (struct ArbiterMessage *)IExec->GetMsg(my_process_port)))
 		{
 			ret = 0;
 			switch (arb_msg->command)
 			{
 			case ARBITER_REMOVE:
-				if(first_launch)
+/*				if(first_launch)
 				{
 					remove_msg = arb_msg;
 				}
 				else
-				{
+				{*/
 					remove = 1;
-				}
+//				}
 				break;
-			case ARBITER_LAUNCH:
+/*			case ARBITER_LAUNCH:
 				if(replyport && (launch = IExec->AllocVec(sizeof(struct LaunchList), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					struct ArbiterLaunch *arb_launch;
@@ -225,7 +239,7 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 						IExec->FreeMem(launch, sizeof(struct ProcessStart));
 					}
 				}
-				break;
+				break;*/
 			}
 			if(arb_msg)
 			{
@@ -233,16 +247,16 @@ int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				IExec->ReplyMsg((struct Message *)arb_msg);
 			}
 		}
-		if(remove)
+/*		if(remove)
 			break;
 
-		IExec->Wait(wait_mask);
+		IExec->Wait(wait_mask);*/
 	}
 
-	if(replyport)
-		IExec->FreeSysObject(ASOT_PORT, replyport);
-	IExec->Forbid(); // what is this really?
-	IExec->ReplyMsg(my_startup_message);
+//	if(replyport)
+//		IExec->FreeSysObject(ASOT_PORT, replyport);
+//	IExec->Forbid(); // what is this really?
+//	IExec->ReplyMsg(my_startup_message);
 
 	return 0;
 }

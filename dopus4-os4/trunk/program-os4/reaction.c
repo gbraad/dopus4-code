@@ -51,7 +51,6 @@ enum
 	OBJ_WINDOW,
 	OBJ_MAINGROUP,
 	OBJ_FUELGAUGE_ONE,
-	OBJ_TEXT,
 	OBJ_FUELGAUGE_TWO,
 	OBJ_ABORT,
 
@@ -96,10 +95,6 @@ int ra_progresswindow_open(STRPTR title, int32 totalfiles, int32 ignore)
 				FUELGAUGE_Level, 0,
 				FUELGAUGE_Ticks, TRUE,
 				FUELGAUGE_ShortTicks, TRUE,
-			End,
-			LAYOUT_AddChild, OBJ(OBJ_TEXT) = ButtonObject,
-				BUTTON_BevelStyle, BVS_NONE,
-				BUTTON_Justification, BCJ_LEFT,
 			End,
 			LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_TWO) = FuelGaugeObject,
 				FUELGAUGE_Min, 0,
@@ -154,7 +149,6 @@ int ra_progresswindow_update_one(int64 readwrite, int64 total)
 
 int ra_progresswindow_update_two(int32 value, STRPTR name) //int64 value, int64 total)
 {
-	IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_TEXT), progresswindow, NULL, name ? GA_Text : TAG_IGNORE, name, TAG_END);
 	IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_TWO), progresswindow, NULL, /*name ? GA_Text : TAG_IGNORE, name,*/ (value > -2) ? FUELGAUGE_Level : TAG_IGNORE, value /*(int32)((readwrite * 100) / total)*/, TAG_END);
 
 	return 0;
