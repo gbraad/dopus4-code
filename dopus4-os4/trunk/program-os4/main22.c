@@ -55,7 +55,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	char *buf, *buf1, *buf2, *namebuf, *srename, *drename, *database;
 	static char titlebuf[32];
 	struct DateTime datetime;
-//	void *function_memory_pool;
 	APTR function_memory_pool;
 	struct dopusfiletype *type;
 	struct dopusfuncpar par;
@@ -348,7 +347,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			strncpy(sourcename, sourcedir, 256);
 			strncat(sourcename, file->name, 256);
-//			IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
 			arglist.single_file = sourcename;
 			arglist.file_list = NULL;
 			arglist.last_select = NULL;
@@ -931,7 +929,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					strncpy(destname, sourcedir, 256);
 					strncat(destname, newiconname, 256);
-//					IDOpus->StrCombine(destname, sourcedir, newiconname, 256);
 				}
 				else
 				{
@@ -940,8 +937,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					strncat(destname, namebuf, 256);
 					strncpy(newiconname, namebuf, 256);
 					strncat(newiconname, ".info", 256);
-//					IDOpus->StrCombine(destname, sourcedir, namebuf, 256);
-//					IDOpus->StrCombine(newiconname, namebuf, ".info", 256);
 				}
 			      retry_rename:
 				if(!(IDOS->Rename(sourcename, destname)))
@@ -980,7 +975,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							break;
 						if((a = delfile(destname, namebuf, globstring[STR_DELETING], 1, 1)) == -2)
 						{
-							if(!(a = recursedir(destname, NULL, R_DELETE, 0)))
+//							if(!(a = recursedir(destname, NULL, R_DELETE, 0)))
+							if(!(a = recursedir(destname, sourcename, R_COPY | R_DELETE, 0)))
 								a = 1;
 							else if(a == -10)
 								a = -1;
@@ -1019,11 +1015,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						strncpy(buf, sourcedir, 256);
 						strncat(buf, file->name, 256);
-//						IDOpus->StrCombine(buf, sourcedir, file->name, 256);
 						IDOpus->TackOn(buf, NULL, 256);
 						strncpy(buf1, sourcedir, 256);
 						strncat(buf1, namebuf, 256);
-//						IDOpus->StrCombine(buf1, sourcedir, namebuf, 256);
 						IDOpus->TackOn(buf1, NULL, 256);
 						renamebuffers(buf, buf1);
 					}
@@ -1083,10 +1077,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				strncpy(destname, destdir, 256);
 				strncat(destname, namebuf, 256);
-//				IDOpus->StrCombine(destname, destdir, namebuf, 256);
 				strncpy(newiconname, destname, 256);
 				strncat(newiconname, ".info", 256);
-//				IDOpus->StrCombine(newiconname, destname, ".info", 256);
 			}
 			if(((checksame(destdir, sourcename, 0) == LOCK_SAME)) || (checksame(destname, sourcename, 0) == LOCK_SAME))
 			{
@@ -1097,7 +1089,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_MOVE), 1)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_MOVE), 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1121,7 +1113,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						strncpy(newiconname, destname, 256);
 						strncat(newiconname, ".info", 256);
-//						IDOpus->StrCombine(newiconname, destname, ".info", 256);
 						goto retry_move;
 					}
 				}
@@ -1341,7 +1332,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 1)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1731,7 +1722,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(askeach)
 				{
 					doerror(ERROR_OBJECT_EXISTS);
-					if((a = checkexistreplace(destname, destname, NULL, 1, 1)) == REPLACE_ABORT)
+					if((a = checkexistreplace(destname, destname, NULL, 1, 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1908,7 +1899,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, 1, 1)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, &file->date, 1, 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;

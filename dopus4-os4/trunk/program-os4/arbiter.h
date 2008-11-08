@@ -36,10 +36,6 @@ struct ArbiterMessage
 	APTR data;
 };
 
-//extern struct MsgPort *arbiter_reply_port;
-//extern struct MsgPort *arbiter_msg_port;
-//extern struct ProcessStart *arbiter_seglist;
-
 enum
 {
 	ARBITER_INSTALL,
@@ -47,15 +43,3 @@ enum
 	ARBITER_LAUNCH
 };
 
-/*
-#define ARB_WAIT 1
-
-
-struct ArbiterLaunch
-{
-	void *launch_code;
-	char *launch_name;
-	struct DOpusRemember *launch_memory;
-	APTR data;
-};
-*/

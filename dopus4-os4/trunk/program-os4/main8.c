@@ -90,7 +90,7 @@ int getprotval(STRPTR buf)
 	return (prot);
 }
 
-int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int all)
+int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int rename)
 {
 	struct ExamineData *sdata, *ddata;
 	char buf[400], datebuf1[40], datebuf2[40], gadgetbuf[100];
@@ -149,7 +149,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		doerror(ERROR_OBJECT_EXISTS);
 		if(sourcename == destname || !ddata)
 		{
-			sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
+			snprintf(buf, 400, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 		}
 		else
 		{
@@ -162,33 +162,32 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 				IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
 				IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
 				return (REPLACE_OK);
-//				sprintf(buf, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 			}
 			else if(EXD_IS_DIRECTORY(ddata))
 			{
 				/* Destination is directory, source is file */
-				sprintf(buf, globstring[STR_REPLACE_DIR_WITH_FILE], IDOS->FilePart(destname), sdata->FileSize, datebuf1, datebuf2);
+				snprintf(buf, 400, globstring[STR_REPLACE_DIR_WITH_FILE], IDOS->FilePart(destname), sdata->FileSize, datebuf1, datebuf2);
 			}
 			else if(EXD_IS_DIRECTORY(sdata))
 			{
 				/* Source is directory, destination is file */
-				sprintf(buf, globstring[STR_REPLACE_FILE_WITH_DIR], IDOS->FilePart(destname), datebuf1, ddata->FileSize, datebuf2);
+				snprintf(buf, 400, globstring[STR_REPLACE_FILE_WITH_DIR], IDOS->FilePart(destname), datebuf1, ddata->FileSize, datebuf2);
 			}
 			else
 			{
 				/* Both entries are files */
-				sprintf(buf, globstring[STR_OLD_NEW_FILE_REPLACE], IDOS->FilePart(destname), sdata->FileSize, datebuf1, ddata->FileSize, datebuf2);
+				snprintf(buf, 400, globstring[STR_OLD_NEW_FILE_REPLACE], IDOS->FilePart(destname), sdata->FileSize, datebuf1, ddata->FileSize, datebuf2);
 			}
 		}
 		do
 		{
-			sprintf(gadgetbuf, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
+			snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
 			a = ra_simplerequest(buf, gadgetbuf, REQIMAGE_WARNING);
 			if(a == REPLACE_RENAME)
 			{
 				char dname[FILEBUF_SIZE];
 
-				strcpy(dname, IDOS->FilePart(sourcename));
+				strncpy(dname, IDOS->FilePart(sourcename), FILEBUF_SIZE);
 
 				if(whatsit(globstring[STR_ENTER_NEW_NAME], FILEBUF_SIZE, dname, NULL))
 				{

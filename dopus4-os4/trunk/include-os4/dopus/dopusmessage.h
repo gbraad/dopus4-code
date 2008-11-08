@@ -35,6 +35,7 @@ struct Directory
 	struct Directory *last, *next;
 	char name[FILEBUF_SIZE];
 	int type;
+//	uint32 Type;
 	int64 size;
 	int subtype;
 	int protection;

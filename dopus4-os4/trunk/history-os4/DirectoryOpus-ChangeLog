@@ -110,3 +110,17 @@ checking it out.
 2008-10-23 - DirectoryOpus 4.18.14
 * Fixed jumping to WB screen when DOpus is run on it's own screen and "Run"
 command is used.
+
+2008-10-23 - DirectoryOpus 4.18.15
+* Ooops! Forgot to actually start notifies. Fixed now.
+
+2008-10-31 - DirectoryOpus 4.18.16
+* Removed the need for dopus_arbiter task.
+
+2008-11-04 - DirectoryOpus 4.18.17
+* Finally nailed the text viewer font bug, I hope.
+
+2008-11-08 - DirectoryOpus 4.18.18
+* Serious raname-bug fixed. It shouldn't be possible to rename over an
+existing dir and lose files anymore.
+

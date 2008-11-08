@@ -506,7 +506,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					a = 0;
 					if(askeach)
 					{
-						if((a = checkexistreplace(name, dname, &enfinfo->fib_Date, 1, 1)) == REPLACE_ABORT)
+						if((a = checkexistreplace(name, dname, &enfinfo->fib_Date, 1, 0)) == REPLACE_ABORT)
 						{
 							myabort();
 							ret = -10;

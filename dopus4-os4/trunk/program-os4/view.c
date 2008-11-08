@@ -1025,7 +1025,7 @@ int view_setupdisplay(struct ViewData *vdata)
 
 		if((test = IIntuition->LockPubScreen(NULL)))
 		{
-			if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_DisplayID, IGraphics->GetVPModeID(&test->ViewPort), SA_Depth, config->scrdepth, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Font, &screenattr, SA_Interleaved, TRUE, TAG_END)) || !(vdata->view_font = IGraphics->OpenFont(vdata->view_screen->Font)))
+			if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_DisplayID, IGraphics->GetVPModeID(&test->ViewPort), SA_Depth, config->scrdepth, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Font, &screenattr, SA_Pens, -1, SA_FullPalette, TRUE, TAG_END)) || !(vdata->view_font = IGraphics->OpenFont(vdata->view_screen->Font)))
 			{
 				return -4;
 			}
