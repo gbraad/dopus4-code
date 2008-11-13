@@ -747,7 +747,7 @@ void clocktask()
 	}
 
 	if(!(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME)))
-		sprintf(formstring, NEW_VSTRING); //"Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
+		snprintf(formstring, 160, NEW_VSTRING); //"Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
 
 	sig = 1 << clock_time_port->mp_SigBit | 1 << clockmsg_port->mp_SigBit;
 

@@ -223,21 +223,32 @@ void dotaskmsg(struct MsgPort *port, int command, int value, int total, char *da
 {
 	if(port)
 	{
-		struct dopustaskmsg taskmsg;
+		struct dopustaskmsg *taskmsg;
 
-		taskmsg.msg.mn_Node.ln_Type = NT_MESSAGE;
+		if((taskmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct dopustaskmsg), ASOMSG_ReplyPort, general_port, TAG_END)))
+		{
+/*		taskmsg.msg.mn_Node.ln_Type = NT_MESSAGE;
 		taskmsg.msg.mn_ReplyPort = general_port;
 		taskmsg.msg.mn_Length = (UWORD) sizeof(struct dopustaskmsg);
 		taskmsg.command = command;
 		taskmsg.total = total;
 		taskmsg.value = value;
 		taskmsg.flag = flag;
-		taskmsg.data = data;
-		IExec->Forbid();
-		IExec->PutMsg(port, (struct Message *)&taskmsg);
-		IExec->Permit();
-		IExec->WaitPort(general_port);
-		while(IExec->GetMsg(general_port) != (struct Message *)&taskmsg);
+		taskmsg.data = data;*/
+			taskmsg->command = command;
+			taskmsg->total = total;
+			taskmsg->value = value;
+			taskmsg->flag = flag;
+			taskmsg->data = data;
+
+			IExec->Forbid();
+			IExec->PutMsg(port, (struct Message *)taskmsg);
+			IExec->Permit();
+			IExec->WaitPort(general_port);
+			while(IExec->GetMsg(general_port) != (struct Message *)taskmsg);
+
+			IExec->FreeSysObject(ASOT_MESSAGE, taskmsg);
+		}
 	}
 }
 

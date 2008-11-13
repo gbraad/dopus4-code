@@ -38,10 +38,10 @@ int ansicountlines(struct ViewData *);
 void about(void);
 
 /* arbiter.c */
-int install_arbiter(void);
+int32 install_arbiter(void);
 void remove_arbiter(void);
-int arbiter_command(int, APTR, int);
-int arbiter_process(char *, int32, struct ExecBase *);
+int32 arbiter_command(int, APTR, int);
+int32 arbiter_process(char *, int32, struct ExecBase *);
 
 /* archive.c */
 int readarchive(struct DirectoryWindow *, int);
@@ -229,19 +229,16 @@ void centerwindow(struct NewWindow *);
 char *parsedatetime(char *, char *, char *, int *);
 void copy_datestamp(struct DateStamp *, struct DateStamp *);
 ULONG clone_screen(struct Screen *, struct ExtNewScreen *);
-int copy_string(char *, char **, struct DOpusRemember **);
-STRPTR strstri(CONST_STRPTR, CONST_STRPTR);
 struct MsgPort *CreateUniquePort(char *, char *, int *);
 
 /* main11.c */
 void iconify(int, int, int);
 void remiclock(void);
-int getmaxmem(ULONG /*,ULONG */ );
+int getmaxmem(ULONG);
 void iconstatustext(char *, int);
 void cleanupiconify(void);
 
 /* main12.c */
-//void setupchangestate(void);
 void dodiskinfo(char *);
 void get_device_task(BPTR, char *, struct MsgPort *);
 void getsizestring(char *, uint64);
@@ -299,7 +296,6 @@ void rexx_return(struct RexxMsg *, long long);
 /* main18.c */
 int recursedir(STRPTR, STRPTR, int, int);
 int addrecurse(struct DOpusRemember **, STRPTR, STRPTR, int, APTR, APTR, BPTR, struct FileInfoBlock *, struct Directory *, struct DirectoryWindow *);
-//int getdircontentsinfo(STRPTR, uint64 *, uint32 *);
 
 /* main19.c */
 int checkshift(void);
@@ -456,7 +452,7 @@ void openprogresswindow(char *, int, int, int);
 void progresstext(int, int, int, char *);
 
 /* view.c */
-int viewfile(STRPTR, STRPTR, int, STRPTR, /*struct ViewData *,*/ int, int);
+int viewfile(STRPTR, STRPTR, int, STRPTR, int, int);
 void cleanupviewfile(struct ViewData *);
 
 
@@ -501,6 +497,9 @@ int makelink(int);
 
 /* getusage.c */
 int getusage(void);
+
+/* strstri.c */
+CONST_STRPTR strstri(CONST_STRPTR, CONST_STRPTR);
 
 /* recurse.c */
 int32 recursive_delete(STRPTR);

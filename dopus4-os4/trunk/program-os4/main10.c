@@ -59,10 +59,10 @@ void doarexx(int rexx)
 
 	buf[0] = 0;
 	if(rexx)
-		strcpy(buf, rexx_args[0]);
+		strncpy(buf, rexx_args[0], 256);
 	else
 	{
-		strcpy(buf, str_arexx_command);
+		strncpy(buf, str_arexx_command, 256);
 		if(!(whatsit(globstring[STR_ENTER_AREXX_COMMAND], 256, buf, (char *)-2)))
 			return;
 	}
@@ -78,7 +78,7 @@ void doarexx(int rexx)
 			dofunctionstring(buf, NULL, NULL, NULL);
 			return;
 		}
-		strcpy(buf, str_arexx_command);
+		strncpy(buf, str_arexx_command, 256);
 	}
 	if(!(IExec->FindPort("REXX")))
 	{
@@ -106,7 +106,7 @@ void setcurdir(int rexx)
 		}
 	}
 	else
-		strcpy(dir, rexx_args[0]);
+		strncpy(dir, rexx_args[0], 256);
 	if(!(lock = IDOS->Lock(dir, ACCESS_READ)))
 	{
 		doerror(-1);
@@ -200,7 +200,7 @@ int huntfile(char *name, char *completename, int *aa)
 
 		if((ptr = IDOS->FilePart(completename)))
 		{
-			strcpy(buf, IDOS->FilePart(completename));
+			strncpy(buf, IDOS->FilePart(completename), 300);
 			*ptr = 0;
 		}
 		else
@@ -208,7 +208,7 @@ int huntfile(char *name, char *completename, int *aa)
 
 		*aa = 1;
 
-		sprintf(mesbuf, globstring[STR_FOUND_A_MATCH], buf, completename);
+		snprintf(mesbuf, 300, globstring[STR_FOUND_A_MATCH], buf, completename);
 		if((rec = simplerequest(mesbuf, str_okaystring, globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
 		{
 			if(!status_iconified)
@@ -449,35 +449,6 @@ ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 	return ((ULONG) clone->ViewModes);
 }
 
-int copy_string(STRPTR string, STRPTR * copy, struct DOpusRemember **memkey)
-{
-	if(!string)
-	{
-		*copy = NULL;
-		return (1);
-	}
-	if(!(*copy = IDOpus->LAllocRemember(memkey, strlen(string) + 1, 0)))
-		return (0);
-	strcpy(*copy, string);
-	return (1);
-}
-
-STRPTR strstri(CONST_STRPTR string, CONST_STRPTR substring)
-{
-	int a, len, sublen;
-
-	len = (strlen(string) - (sublen = strlen(substring))) + 1;
-	if(len < 1)
-		return (NULL);
-
-	for(a = 0; a < len; a++)
-	{
-		if(strncmp(&string[a], substring, sublen) == 0)
-			return (string + a);
-	}
-	return (NULL);
-}
-
 struct MsgPort *CreateUniquePort(STRPTR base, STRPTR buffer, int *count)
 {
 	int a;
@@ -486,7 +457,7 @@ struct MsgPort *CreateUniquePort(STRPTR base, STRPTR buffer, int *count)
 	IExec->Forbid();
 	for(a = 0;; a++)
 	{
-		sprintf(buffer, "%s%d", config_replyport_basename, a);
+		snprintf(buffer, 30, "%s%d", config_replyport_basename, a);
 		if(!(IExec->FindPort(buffer)))
 		{
 			sprintf(buffer, "%s.%d", base, a + 1);

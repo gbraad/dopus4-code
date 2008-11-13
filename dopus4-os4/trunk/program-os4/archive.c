@@ -311,7 +311,7 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 	if(entry == NULL)
 		return;
 	fib->fib_DirEntryType = entry->type;
-	strcpy(fib->fib_FileName, entry->name);
+	strncpy(fib->fib_FileName, entry->name, 108);
 	fib->fib_Protection = entry->protection;
 	fib->fib_Size = (int)entry->size;
 	fib->fib_Date = entry->date;

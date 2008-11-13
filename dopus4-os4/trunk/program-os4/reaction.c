@@ -88,7 +88,6 @@ int ra_progresswindow_open(STRPTR title, int32 totalfiles, int32 ignore)
 		WINDOW_Position, WPOS_CENTERSCREEN,
 		WINDOW_ParentGroup, OBJ(OBJ_MAINGROUP) = VLayoutObject,
 			LAYOUT_SpaceOuter, TRUE,
-//			LAYOUT_BevelStyle, BVS_GROUP,
 			LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_ONE) = FuelGaugeObject,
 				FUELGAUGE_Min, 0,
 				FUELGAUGE_Max, 100,
@@ -119,7 +118,7 @@ int ra_progresswindow_open(STRPTR title, int32 totalfiles, int32 ignore)
 		End,
 	End;
 
-	if(ignore == 0)
+	if(ignore)
 	{
 		IIntuition->SetAttrs(OBJ(OBJ_MAINGROUP), LAYOUT_RemoveChild, OBJ(OBJ_FUELGAUGE_ONE), TAG_DONE);
 		ignoreinc = 1;

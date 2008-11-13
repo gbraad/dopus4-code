@@ -36,13 +36,8 @@ int32 recursive_delete(STRPTR directory)
 	int32 ret = 0, errorcode = 0;
 	char buf[300], buf2[100];
 	STRPTR nodename;
-	struct Node *node;
-	struct List *flist, *dlist;
 
-	flist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
-	dlist = IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
-
-	if(context && flist && dlist)
+	if(context)
 	{
 		struct ExamineData *dat;
 		while((dat = IDOS->ExamineDir(context)))
@@ -65,17 +60,9 @@ int32 recursive_delete(STRPTR directory)
 				if(EXD_IS_DIRECTORY(dat))
 				{
 					recursive_delete(nodename);
-					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
-					{
-						IExec->AddTail(dlist, node);
-					}
 				}
 				else if(EXD_IS_FILE(dat))
 				{
-					if((node = IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Name, nodename, TAG_END)))
-					{
-						IExec->AddTail(flist, node);
-					}
 				}
 
 				if(IDOS->DeleteFile(nodename))
@@ -179,27 +166,6 @@ int32 recursive_delete(STRPTR directory)
 	}
 
 	IDOS->ReleaseDirContext(context);
-
-	if(flist)
-	{
-		while((node = IExec->RemTail(flist)))
-		{
-			IExec->FreeVec(node->ln_Name);
-			IExec->FreeSysObject(ASOT_NODE, node);
-		}
-	}
-
-	if(dlist)
-	{
-		while((node = IExec->RemTail(dlist)))
-		{
-			IExec->FreeVec(node->ln_Name);
-			IExec->FreeSysObject(ASOT_NODE, node);
-		}
-	}
-
-	IExec->FreeSysObject(ASOT_LIST, flist);
-	IExec->FreeSysObject(ASOT_LIST, dlist);
 
 	return (ret);
 }

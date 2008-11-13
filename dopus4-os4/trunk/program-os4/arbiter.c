@@ -35,7 +35,7 @@ struct MsgPort *arbiter_msg_port;
 struct Process *arbiter_proc;
 struct DeathMessage *arbiter_dmsg;
 
-int install_arbiter()
+int32 install_arbiter()
 {
 	if((arbiter_reply_port = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 	{
@@ -73,8 +73,9 @@ void remove_arbiter()
 	return;
 }
 
-int arbiter_command(int command, APTR data, int flags)
+int32 arbiter_command(int command, APTR data, int flags)
 {
+	int ret;
 	struct ArbiterMessage *arbiter_msg;
 
 	arbiter_msg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct ArbiterMessage), ASOMSG_ReplyPort, arbiter_reply_port, TAG_END);
@@ -86,10 +87,14 @@ int arbiter_command(int command, APTR data, int flags)
 	IExec->WaitPort(arbiter_reply_port);
 	IExec->GetMsg(arbiter_reply_port);
 
-	return (arbiter_msg->command);
+	ret = arbiter_msg->command;
+
+	IExec->FreeSysObject(ASOT_MESSAGE, arbiter_msg);
+
+	return ret;
 }
 
-int arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
+int32 arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 {
 	struct MsgPort *my_process_port;
 	struct ArbiterMessage *arb_msg;
