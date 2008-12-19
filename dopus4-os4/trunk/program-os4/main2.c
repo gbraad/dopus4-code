@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-#define EXALL_BUFSIZE 16384
+//#define EXALL_BUFSIZE 16384
 
 void freedir(struct DirectoryWindow *dir, int win)
 {
@@ -81,17 +81,13 @@ void freedir(struct DirectoryWindow *dir, int win)
 
 int getdir(struct DirectoryWindow *dir, int win, int incmess)
 {
-	struct FileInfoBlock *fileinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
-	int32 tot = 1, a, exall_entry = 0, subtype = 0, type;
+	int32 tot = 1, a, type = 0, subtype = 0;
 	int64 size;
 	BPTR mylock;
 	char buf[256], commentbuf[80];
-	struct ExAllControl *exall_control = NULL;
-	struct ExAllData *exall_current = NULL;
 	struct MsgPort *deviceport;
-	BOOL exall_continue = TRUE;
-	APTR EABuff = NULL;
-//	struct ExamineData *dat;
+	APTR context = NULL;
+	struct ExamineData *data;
 
 	endnotify(win);
 	freedir(dir, win);
@@ -107,18 +103,14 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 
 	if(!(mylock = IDOS->Lock(dir->directory, ACCESS_READ)))
 	{
-		if(IxadMaster && xadMasterBase)
+		if(readarchive(dir, win))
 		{
-			if(readarchive(dir, win))
-			{
-				unbusy();
-				seename(win);
-				refreshwindow(win, 1);
-				startnotify(win);
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
-				return (1);
+			unbusy();
+			seename(win);
+			refreshwindow(win, 1);
+			startnotify(win);
+			return (1);
 			}
-		}
 		if(Window)
 		{
 			doerror(-1);
@@ -132,7 +124,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		{
 			strncpy(dir->realdevice, str_pathbuffer[win], a + 1);
 		}
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
 		return (0);
 	}
 
@@ -155,29 +146,31 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		strcpy(dir->directory, str_pathbuffer[win]);
 	}
 
-	IDOS->Examine(mylock, fileinfo);
-	if(FIB_IS_FILE(fileinfo))
+	if((data = IDOS->ExamineObjectTags(EX_FileLock, mylock, TAG_END)))
 	{
-		IDOS->UnLock(mylock);
-		if(IxadMaster)
+		if(EXD_IS_FILE(data))
 		{
+			IDOS->UnLock(mylock);
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			if(readarchive(dir, win))
 			{
 				unbusy();
 				seename(win);
 				refreshwindow(win, 1);
 				startnotify(win);
-				IDOS->FreeDosObject(DOS_FIB, fileinfo);
 				return (1);
 			}
+			if(Window)
+			{
+				doerror(ERROR_OBJECT_WRONG_TYPE);
+			}
+			return (0);
 		}
-		if(Window)
-		{
-			doerror(ERROR_OBJECT_WRONG_TYPE);
-		}
-		IDOS->FreeDosObject(DOS_FIB, fileinfo);
-		return (0);
+		copy_datestamp(&data->Date, &dir->dirstamp);
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		data = NULL;
 	}
+
 	dir->flags = 0;
 	dir->firstentry = NULL;
 	freearchive(dir);
@@ -194,108 +187,95 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 		busy();
 	}
-	copy_datestamp(&fileinfo->fib_Date, &dir->dirstamp);
 
-	if((exall_control = IDOS->AllocDosObject(DOS_FIB, NULL)) && (EABuff = IExec->AllocVec(EXALL_BUFSIZE, MEMF_ANY | MEMF_CLEAR)))
+	if((context = IDOS->ObtainDirContextTags(EX_StringName, dir->directory, TAG_END)))
 	{
-		exall_control->eac_LastKey = 0;
-		while(exall_continue)
+		BPTR oldlock;
+
+		oldlock = IDOS->CurrentDir(mylock);
+
+		while((data = IDOS->ExamineDir(context)))
 		{
-			exall_continue = IDOS->ExAll(mylock, EABuff, EXALL_BUFSIZE, ED_OWNER, exall_control);
-			if(!exall_continue && (IDOS->IoErr() != ERROR_NO_MORE_ENTRIES))
-			{
-				break;
-			}
-			if(exall_control->eac_Entries == 0)
-			{
-				break;
-			}
-			exall_entry = 0;
-			exall_current = EABuff;
+			struct DateStamp Date;
+			copy_datestamp(&data->Date, &Date);
 
-			while(exall_current)
-			{
-				struct DateStamp Date;
-				Date.ds_Days = exall_current->ed_Days;
-				Date.ds_Minute = exall_current->ed_Mins;
-				Date.ds_Tick = exall_current->ed_Ticks;
-				++exall_entry;
+			size = data->FileSize;
+			snprintf(commentbuf, 80, "%s", data->Comment);
 
-				type = exall_current->ed_Type;
-				size = exall_current->ed_Size;
-				IUtility->SNPrintf(commentbuf, 80, "%s", exall_current->ed_Comment);
-				if(EAD_IS_LINK(exall_current))
+			if(EXD_IS_LINK(data))
+			{
+				struct ExamineData *linkdata = NULL;
+	
+				type = ENTRY_FILE;
+				subtype = ST_SOFTLINK;
+				memset(commentbuf, 0, 80);
+				snprintf(commentbuf, 80, ">%s", data->Link);
+
+				if((linkdata = IDOS->ExamineObjectTags(EX_StringName, data->Link, TAG_END)))
 				{
-					subtype = ST_SOFTLINK;
-					if(EAD_IS_LINK(exall_current) && EAD_IS_LINKDIR(exall_current))
-					{
-						type = ENTRY_DIRECTORY;
-					}
-					if(EAD_IS_LINK(exall_current) && !EAD_IS_LINKDIR(exall_current))
+					size = linkdata->FileSize;
+					if(EXD_IS_FILE(linkdata))
 					{
 						type = ENTRY_FILE;
 					}
-					IUtility->ClearMem(commentbuf, 80);
-					IUtility->Strlcpy(commentbuf, "> ", 80);
-
+					if(EXD_IS_DIRECTORY(linkdata))
 					{
-						struct DevProc *dp;
-						BPTR ld;
-						char linkbuf[512];
-
-						IDOS->NameFromLock(mylock, linkbuf, 512);
-						ld = IDOS->Lock(linkbuf, ACCESS_READ);
-						if((dp = IDOS->GetDeviceProc(linkbuf, NULL)))
-						{
-							if(IDOS->ReadLink(dp->dvp_Port, ld, exall_current->ed_Name, buf, 256))
-							{
-								struct FileInfoBlock *linkfib = IDOS->AllocDosObject(DOS_FIB, NULL);
-								BPTR linklock;
-
-								IDOS->AddPart(linkbuf, buf, 512);
-								IUtility->Strlcat(commentbuf, linkbuf, 80);
-								if((linklock = IDOS->Lock(linkbuf, ACCESS_READ)))
-								{
-									if((IDOS->Examine(linklock, linkfib)))
-									{
-										size = linkfib->fib_Size;
-									}
-									IDOS->UnLock(linklock);
-								}
-								IDOS->FreeDosObject(DOS_FIB, linkfib);
-							}
-						}
-						IDOS->FreeDeviceProc(dp);
-						IDOS->UnLock(ld);
+						type = ENTRY_DIRECTORY;
 					}
-				}
-					
-				if(status_haveaborted && Window)
-				{
-					myabort();
-					dir->flags |= DWF_ABORTED;
-					tot = -1;
-					break;
-				}
-				if(!(addfile(dir, win, exall_current->ed_Name, (EAD_IS_FILE(exall_current) || EAD_IS_LINK(exall_current)) ? (int64) size : -1, type, &Date, commentbuf, exall_current->ed_Prot, exall_current->ed_Type, FALSE, NULL, NULL, 0, 0)))
-				{
-					if(Window)
+					else
 					{
-						doerror(-1);
+						type = ENTRY_FILE;
 					}
-					tot = 0;
-					break;
+					IDOS->FreeDosObject(DOS_EXAMINEDATA, linkdata);
 				}
-				else if(Window)
+			}
+			if(EXD_IS_DIRECTORY(data))
+			{
+				type = ENTRY_DIRECTORY;
+				subtype = ENTRY_DIRECTORY;
+			}
+			if(EXD_IS_FILE(data))
+			{
+				type = ENTRY_FILE;
+				subtype = ENTRY_FILE;
+			}
+
+			if(status_haveaborted && Window)
+			{
+				myabort();
+				dir->flags |= DWF_ABORTED;
+				tot = -1;
+				break;
+			}
+
+			if(!(addfile(dir, win, data->Name, size, type, &Date, commentbuf, data->Protection, subtype, FALSE, NULL, NULL, 0, 0)))
+			{
+				if(Window)
 				{
-					if(config->dynamicflags & UPDATE_QUIETGETDIR)
-					{
-						fixprop(win);
-					}
+					doerror(-1);
 				}
-				exall_current = exall_current->ed_Next;
+				tot = 0;
+				break;
+			}
+			else if(Window)
+			{
+				if(config->dynamicflags & UPDATE_QUIETGETDIR)
+				{
+					fixprop(win);
+				}
 			}
 		}
+		if( ERROR_NO_MORE_ENTRIES != IDOS->IoErr() )
+		{
+			IDOS->PrintFault(IDOS->IoErr(),NULL);
+		}
+
+		IDOS->CurrentDir(oldlock);
+		IDOS->ReleaseDirContext(context);
+	}
+	else
+	{
+		IDOS->PrintFault(IDOS->IoErr(),NULL);
 	}
 
 	IDOS->UnLock(mylock);
@@ -313,16 +293,6 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 		refreshwindow(win, 1);
 	}
-	if(exall_control)
-	{
-		IDOS->FreeDosObject(DOS_EXALLCONTROL, exall_control);
-	}
-	if(EABuff)
-	{
-		IExec->FreeVec(EABuff);
-	}
-
-	IDOS->FreeDosObject(DOS_FIB, fileinfo);
 
 	startnotify(win);
 	return (1);

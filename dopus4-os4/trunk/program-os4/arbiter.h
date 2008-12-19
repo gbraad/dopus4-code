@@ -31,8 +31,7 @@ the existing commercial status of Directory Opus 5.
 struct ArbiterMessage
 {
 	struct Message msg;
-	int command;
-	int flags;
+	uint32 command;
 	APTR data;
 };
 

@@ -29,10 +29,12 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
+/*
 long min(long a, long b)
 {
 	return (a < b ? a : b);
 }
+*/
 
 int LoadPic(char *name)
 {
@@ -65,8 +67,8 @@ int LoadPic(char *name)
 
 				IDataTypes->GetDTAttrs(dto, PDTA_BitMapHeader, &bmhd, PDTA_DestBitMap, &bm, TAG_DONE);
 
-				winw = min(dtscreen->Width, bmhd->bmh_Width);
-				winh = min(dtscreen->Height, bmhd->bmh_Height);
+				winw = (dtscreen->Width < bmhd->bmh_Width) ? dtscreen->Width : bmhd->bmh_Width; //min(dtscreen->Width, bmhd->bmh_Width);
+				winh = (dtscreen->Height < bmhd->bmh_Height) ? dtscreen->Height : bmhd->bmh_Height; //min(dtscreen->Height, bmhd->bmh_Height);
 				winx = (dtscreen->Width - winw) >> 1;
 				winy = (dtscreen->Height - winh) >> 1;
 				

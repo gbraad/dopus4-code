@@ -43,7 +43,7 @@ extern struct TextAttr main_screen_attr,	/* Main screen font */
 
 /* Screen tag lists */
 
-extern UWORD scr_drawinfo[NUMDRIPENS + 1];	/* Pen lists */
+//extern UWORD scr_drawinfo[NUMDRIPENS + 1];	/* Pen lists */
 
 extern struct TagItem mainscreen_tags[],	/* Tags for the main screen */
   mainwindow_tags[];		/* Tags for the main window */

@@ -73,8 +73,10 @@ void abortfunction(Object *obj, struct IntuiMessage *imsg)
 }
 
 
-int ra_progresswindow_open(STRPTR title, int32 totalfiles, int32 ignore)
+Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, int32 ignore)
 {
+	ignoreinc = 0;
+
 	OBJ(OBJ_WINDOW) = WindowObject,
 		WA_DragBar, TRUE,
 		WA_Title, title,
@@ -85,7 +87,7 @@ int ra_progresswindow_open(STRPTR title, int32 totalfiles, int32 ignore)
 		WA_PubScreen, MainScreen,
 		WA_InnerWidth, 400,
 		WA_Activate, TRUE,
-		WINDOW_Position, WPOS_CENTERSCREEN,
+		WINDOW_Position, WPOS_TOPLEFT, //CENTERSCREEN,
 		WINDOW_ParentGroup, OBJ(OBJ_MAINGROUP) = VLayoutObject,
 			LAYOUT_SpaceOuter, TRUE,
 			LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_ONE) = FuelGaugeObject,
@@ -123,9 +125,20 @@ int ra_progresswindow_open(STRPTR title, int32 totalfiles, int32 ignore)
 		IIntuition->SetAttrs(OBJ(OBJ_MAINGROUP), LAYOUT_RemoveChild, OBJ(OBJ_FUELGAUGE_ONE), TAG_DONE);
 		ignoreinc = 1;
 	}
-	progresswindow = RA_OpenWindow(OBJ(OBJ_WINDOW));
 
-	return 0;
+	return OBJ(OBJ_WINDOW);
+}
+
+struct Window *ra_progresswindow_open(Object *obj)
+{
+	struct Window *progwindow = NULL;
+
+	if(obj)
+	{
+		progwindow = RA_OpenWindow(obj);
+	}
+
+	return progwindow;
 }
 
 int ra_progresswindow_close()
@@ -146,9 +159,9 @@ int ra_progresswindow_update_one(int64 readwrite, int64 total)
 	return 0;
 }
 
-int ra_progresswindow_update_two(int32 value, STRPTR name) //int64 value, int64 total)
+int ra_progresswindow_update_two(int32 value, STRPTR name)
 {
-	IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_TWO), progresswindow, NULL, /*name ? GA_Text : TAG_IGNORE, name,*/ (value > -2) ? FUELGAUGE_Level : TAG_IGNORE, value /*(int32)((readwrite * 100) / total)*/, TAG_END);
+	IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_TWO), progresswindow, NULL, (value > -2) ? FUELGAUGE_Level : TAG_IGNORE, value , TAG_END);
 
 	return 0;
 }

@@ -6,7 +6,8 @@ int countlines(struct ViewData *vd)
 {
 	char *buf, *lws;	// Last whitespace character (for wordwrap)
 
-	int size, linecount;
+//	int size, linecount;
+	int64 size, linecount;
 	short int charcount, tabsize;
 
 	short int max_line_length;

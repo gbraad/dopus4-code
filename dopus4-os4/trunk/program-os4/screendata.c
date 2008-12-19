@@ -44,13 +44,13 @@ struct TextAttr main_screen_attr = { "Bitstream Vera Sans Mono", 16, 0, 0 },	/* 
 
 /* Screen tag lists */
 
-UWORD scr_drawinfo[NUMDRIPENS + 1];			/* Pen lists */
+//UWORD scr_drawinfo[NUMDRIPENS + 1];			/* Pen lists */
 UWORD zoom_data[] = { 0, 0, 640, 200 };			/* Zoom gadget data */
 
 struct TagItem mainscreen_tags[] =			/* Tags for the main screen */
 {
 	{ SA_DisplayID, 0},
-	{ SA_Pens, (ULONG) scr_drawinfo },
+//	{ SA_Pens, (ULONG) scr_drawinfo },
 	{ SA_PubName, (ULONG) str_arexx_portname },
 	{ SA_Overscan, OSCAN_TEXT },
 	{ SA_AutoScroll, TRUE },

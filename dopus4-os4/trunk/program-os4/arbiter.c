@@ -60,7 +60,7 @@ void remove_arbiter()
 {
 	if(arbiter_msg_port)
 	{
-		arbiter_command(ARBITER_REMOVE, NULL, 0);
+		arbiter_command(ARBITER_REMOVE, NULL);
 		IExec->WaitPort(arbiter_reply_port);
 		IExec->GetMsg(arbiter_reply_port);
 	}
@@ -73,7 +73,7 @@ void remove_arbiter()
 	return;
 }
 
-int32 arbiter_command(int command, APTR data, int flags)
+int32 arbiter_command(uint32 command, APTR data)
 {
 	int ret;
 	struct ArbiterMessage *arbiter_msg;
@@ -81,7 +81,6 @@ int32 arbiter_command(int command, APTR data, int flags)
 	arbiter_msg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct ArbiterMessage), ASOMSG_ReplyPort, arbiter_reply_port, TAG_END);
 	arbiter_msg->command = command;
 	arbiter_msg->data = data;
-	arbiter_msg->flags = flags;
 
 	IExec->PutMsg(arbiter_msg_port, (struct Message *)arbiter_msg);
 	IExec->WaitPort(arbiter_reply_port);

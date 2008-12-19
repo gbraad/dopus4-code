@@ -684,13 +684,13 @@ void progressbar(struct ProgressBar *bar)
 	}
 }
 
-static char *Kstr = "K  ";
+const char *Kstr = "K  ";
 
 void clocktask()
 {
-	ULONG chipc, fast, wmes, h, m, s, cx, sig, cy, ct, chipnum, fastnum, a, active = 1, usage;
+	uint32 chipc, fast, wmes, h, m, s, cx, sig, cy, ct, chipnum, fastnum, a, active = 1, usage;
 	int len;
-	USHORT clock_width, clock_height, scr_height;
+	uint16 clock_width, clock_height, scr_height;
 	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
 	struct MsgPort *clock_time_port;
 	struct TimeRequest ctimereq;

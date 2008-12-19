@@ -206,7 +206,8 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 
 int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 {
-	int size;
+	int64 size;
+//	int size;
 	int a, retcode = 100;
 	char buf[60];
 	struct ConUnit *view_console_unit = NULL;
@@ -234,15 +235,20 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	if((view_port = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, portname, TAG_END)))
 	{
-		if(IDOpus->CheckExist(filename, &size) < 0)
+		struct ExamineData *data = NULL;
+//		if(IDOpus->CheckExist(filename, &size) < 0)
+		if((data = IDOS->ExamineObjectTags(EX_StringName, filename, TAG_END)))
 		{
+			size = data->FileSize;
+
 			if(size > 0)
 			{
-				if(!(vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
+/*				if(!(vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					retcode = -4;
 				}
-				if(vdata)
+				if(vdata)*/
+				if((vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					strncpy(vdata->view_port_name, portname, 20);
 					vdata->view_port = view_port;
@@ -402,6 +408,10 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 						IExec->FreeVec(vdata);
 					}
 				}
+				else
+				{
+					retcode = -4;
+				}
 			}
 			else
 			{
@@ -451,13 +461,15 @@ void cleanupviewfile(struct ViewData *vdata)
 int view_loadfile(struct ViewData *vdata)
 {
 	struct IntuiMessage *msg;
-	int a, in, fsize = 0;
+	int64 /*a,*/ in, fsize = 0;
+//	int /*a,*/ in, fsize = 0;
 	char *bufpos;
-	int chunk, done, stop = 0;
+	int64 chunk, done, stop = 0;
+//	int chunk, done, stop = 0;
 
-	vdata->view_buffer_size = ((vdata->view_file_size >> 4) + 1) << 4;
+	vdata->view_buffer_size = /*((*/vdata->view_file_size/* >> 4) + 1) << 4*/;
 
-	for(a = 0; a < 2; a++)
+/*	for(a = 0; a < 2; a++)
 	{
 		if((vdata->view_text_buffer = IExec->AllocVec(vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
 			break;
@@ -467,10 +479,15 @@ int view_loadfile(struct ViewData *vdata)
 		if(vdata->view_buffer_size <= vdata->view_file_size)
 			vdata->view_file_size = vdata->view_buffer_size;
 	}
-	if(!vdata->view_text_buffer)
-		return 0;;
-	if(!(in = IDOS->Open(vdata->view_path_name, MODE_OLDFILE)))
+	if(!vdata->view_text_buffer)*/
+	if(!(vdata->view_text_buffer = IExec->AllocVec((uint32)vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
+	{
 		return 0;
+	}
+	if(!(in = IDOS->Open(vdata->view_path_name, MODE_OLDFILE)))
+	{
+		return 0;
+	}
 
 	bufpos = vdata->view_text_buffer;
 	chunk = 64 * 1024;
@@ -486,7 +503,7 @@ int view_loadfile(struct ViewData *vdata)
 				IGadTools->GT_BeginRefresh(vdata->view_window);
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
 			}
-			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == MENUDOWN))
+			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == IECODE_RBUTTON)) //MENUDOWN))
 			{
 				stop = 1;
 			}
@@ -965,12 +982,12 @@ int view_setupdisplay(struct ViewData *vdata)
 	uint16 zoom[4] = { ~0, ~0, config->viewtext_width, config->viewtext_height };
 
 	vdata->view_colour_table[PEN_BACKGROUND] = 0;
-	vdata->view_colour_table[PEN_SHADOW] = 1; //config->gadgetbotcol;
-	vdata->view_colour_table[PEN_SHINE] = 2; //config->gadgettopcol;
+	vdata->view_colour_table[PEN_SHADOW] = config->gadgetbotcol;
+	vdata->view_colour_table[PEN_SHINE] = config->gadgettopcol;
 	vdata->view_colour_table[PEN_TEXT] = 1;
 	vdata->view_colour_table[PEN_TEXTBACKGROUND] = 0;
-	vdata->view_colour_table[VIEWPEN_STATUSTEXT] = 1; //config->statusfg;
-	vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND] = 0; //config->statusbg;
+	vdata->view_colour_table[VIEWPEN_STATUSTEXT] = config->statusfg;
+	vdata->view_colour_table[VIEWPEN_STATUSBACKGROUND] = config->statusbg;
 	vdata->view_colour_table[VIEWPEN_LAST_COLOUR] = -1;
 
 	viewwin.BlockPen = vdata->view_colour_table[PEN_SHINE];
@@ -1023,7 +1040,7 @@ int view_setupdisplay(struct ViewData *vdata)
 
 		if((test = IIntuition->LockPubScreen(NULL)))
 		{
-			if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_DisplayID, IGraphics->GetVPModeID(&test->ViewPort), SA_Depth, config->scrdepth, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Pens, -1, TAG_END)))
+			if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, /*SA_LikeWorkbench, TRUE,*/ SA_DisplayID, IGraphics->GetVPModeID(&test->ViewPort), SA_Depth, 32 /*config->scrdepth*/, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Pens, -1, SA_SharePens, TRUE, TAG_END)))
 			{
 				return -4;
 			}

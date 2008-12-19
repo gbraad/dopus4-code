@@ -31,13 +31,14 @@ the existing commercial status of Directory Opus 5.
 
 struct ViewData
 {
-//	int64 view_file_size;
-	int view_file_size;
+	int64 view_file_size;
+//	int view_file_size;
 	int view_max_line_length;
 	int view_tab_size;
 
 	STRPTR view_text_buffer;
-	int view_buffer_size;
+	int64 view_buffer_size;
+//	int view_buffer_size;
 
 	STRPTR view_file_name;
 	STRPTR view_path_name;

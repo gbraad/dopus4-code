@@ -32,13 +32,14 @@ the existing commercial status of Directory Opus 5.
 struct makedirlist
 {
 	struct makedirlist *last, *next;
-	char *path;
+	STRPTR path;
 };
 
 struct recurse
 {
 	struct recurse *last;
-	char *dir, *dest;
+	STRPTR dir;
+	STRPTR dest;
 	int data;
 	APTR data2;
 	APTR data3;
@@ -825,43 +826,3 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 	return (1);
 }
 
-/*
-int getdircontentsinfo(STRPTR path, uint64 * size, uint32 * files)
-{
-	APTR context = NULL;
-	int ret = 1;
-
-	if((context = IDOS->ObtainDirContextTags(EX_StringName, path, TAG_END)))
-	{
-		struct ExamineData *data = NULL;
-
-		while((data = IDOS->ExamineDir(context)))
-		{
-			if(EXD_IS_DIRECTORY(data))
-			{
-				STRPTR pathbuf = IExec->AllocVec(2048, MEMF_CLEAR);
-
-				if(pathbuf)
-				{
-					strncpy(pathbuf, path, 2048);
-					IDOS->AddPart(pathbuf, data->Name, 2048);
-					ret = getdircontentsinfo(pathbuf, size, files);
-					IExec->FreeVec(pathbuf);
-				}
-
-			}
-			else
-			{
-				*size += data->FileSize;
-				(*files)++;
-			}
-		}
-		IDOS->ReleaseDirContext(context);
-	}
-	else
-	{
-		ret = 0;
-	}
-
-	return ret;
-}*/

@@ -438,7 +438,7 @@ int SetUp(int tit)
 		}
 	}
 
-	setup_draw_info();
+//	setup_draw_info();
 
 	if(config->screenmode == MODE_WORKBENCHUSE || config->screenmode == MODE_PUBLICSCREEN)
 	{
@@ -1526,7 +1526,7 @@ void get_config_file(STRPTR buf, STRPTR suff)
 
 void setup_draw_info()
 {
-	int a, b;
+/*	int a, b;
 	struct DrawInfo *drinfo;
 	struct Screen *wbscreen;
 
@@ -1545,5 +1545,5 @@ void setup_draw_info()
 
 	scr_drawinfo[SHINEPEN] = config->gadgettopcol;
 	scr_drawinfo[SHADOWPEN] = config->gadgetbotcol;
-	scr_drawinfo[NUMDRIPENS] = (USHORT) ~ 0;
+	scr_drawinfo[NUMDRIPENS] = (USHORT) ~ 0;*/
 }

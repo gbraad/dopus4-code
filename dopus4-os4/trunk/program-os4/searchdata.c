@@ -156,20 +156,20 @@ int get_search_data(STRPTR buffer, int *flagptr, struct Window *window, struct T
 	search_req.rb_leftoffset = 14;
 	search_req.rb_topoffset = 8;
 
-	search_req.rb_fg = 1; //(window->UserData) ? window->UserData[SEARCH_COL_FG] : screen_pens[config->requestfg].pen;
-	search_req.rb_bg = 0; //(window->UserData) ? window->UserData[SEARCH_COL_BG] : screen_pens[config->requestbg].pen;
-	search_req.rb_shine = 2; //(window->UserData) ? window->UserData[SEARCH_COL_SHINE] : screen_pens[config->gadgettopcol].pen;
-	search_req.rb_shadow = 1; //(window->UserData) ? window->UserData[SEARCH_COL_SHADOW] : screen_pens[config->gadgetbotcol].pen;
+	search_req.rb_fg = (window->UserData) ? window->UserData[SEARCH_COL_FG] : screen_pens[config->requestfg].pen;
+	search_req.rb_bg = (window->UserData) ? window->UserData[SEARCH_COL_BG] : screen_pens[config->requestbg].pen;
+	search_req.rb_shine = (window->UserData) ? window->UserData[SEARCH_COL_SHINE] : screen_pens[config->gadgettopcol].pen;
+	search_req.rb_shadow = (window->UserData) ? window->UserData[SEARCH_COL_SHADOW] : screen_pens[config->gadgetbotcol].pen;
 
 	search_req.rb_font = font;
 	search_req.rb_screen = window->WScreen;
 	search_req.rb_extend = &extend;
 
 	extend.Font = font;
-	extend.Pens[0] = 0; //(window->UserData) ? window->UserData[SEARCH_COL_STRINGFG] : screen_pens[config->stringfgcol].pen;
-	extend.Pens[1] = 1; //(window->UserData) ? window->UserData[SEARCH_COL_STRINGBG] : screen_pens[config->stringbgcol].pen;
-	extend.ActivePens[0] = 0; //(window->UserData) ? window->UserData[SEARCH_COL_STRINGSELFG] : screen_pens[config->stringselfgcol].pen;
-	extend.ActivePens[1] = 1; //(window->UserData) ? window->UserData[SEARCH_COL_STRINGSELBG] : screen_pens[config->stringselbgcol].pen;
+	extend.Pens[0] = (window->UserData) ? window->UserData[SEARCH_COL_STRINGFG] : screen_pens[config->stringfgcol].pen;
+	extend.Pens[1] = (window->UserData) ? window->UserData[SEARCH_COL_STRINGBG] : screen_pens[config->stringbgcol].pen;
+	extend.ActivePens[0] = (window->UserData) ? window->UserData[SEARCH_COL_STRINGSELFG] : screen_pens[config->stringselfgcol].pen;
+	extend.ActivePens[1] = (window->UserData) ? window->UserData[SEARCH_COL_STRINGSELBG] : screen_pens[config->stringselbgcol].pen;
 	extend.InitialModes = 0;
 	extend.EditHook = NULL;
 	extend.WorkBuffer = NULL;

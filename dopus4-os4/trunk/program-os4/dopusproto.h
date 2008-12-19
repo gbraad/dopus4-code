@@ -40,7 +40,7 @@ void about(void);
 /* arbiter.c */
 int32 install_arbiter(void);
 void remove_arbiter(void);
-int32 arbiter_command(int, APTR, int);
+int32 arbiter_command(uint32, APTR);
 int32 arbiter_process(char *, int32, struct ExecBase *);
 
 /* archive.c */
@@ -506,8 +506,9 @@ int32 recursive_delete(STRPTR);
 
 /* reaction.c */
 int ra_simplerequest(CONST_STRPTR, CONST_STRPTR, uint32);
-int ra_progresswindow_open(STRPTR, int32, int32);
+Object *ra_progresswindow_build(STRPTR, int32, int32);
+struct Window *ra_progresswindow_open(Object *);
 int ra_progresswindow_close(void);
 int ra_progresswindow_update_one(int64, int64);
-int ra_progresswindow_update_two(int32, STRPTR); //int64, int64);
+int ra_progresswindow_update_two(int32, STRPTR);
 
