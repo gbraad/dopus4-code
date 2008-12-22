@@ -640,7 +640,8 @@ STR_FONTPLACE_WINDOW (//)
 Directory window
 ;
 STR_FONTPLACE_GENERAL (//)
-General (8 point)
+General
+;General (8 point)
 ;
 STR_FONTPLACE_ICONIFY (//)
 Iconify to buttons

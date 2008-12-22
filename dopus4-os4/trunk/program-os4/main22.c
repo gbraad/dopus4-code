@@ -331,14 +331,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_HUNT:
 		if(rexx && rexx_argcount > 0)
 		{
-			strcpy(str_hunt_name, rexx_args[rexarg]);
+			strncpy(str_hunt_name, rexx_args[rexarg], 80);
 		}
 		else if(!(whatsit(globstring[STR_ENTER_HUNT_PATTERN], 80, str_hunt_name, NULL)) || !str_hunt_name[0])
 		{
 			myabort();
 			goto endfunction;
 		}
-		IDOS->ParsePattern(str_hunt_name, str_hunt_name_parsed, 160);
+		IDOS->ParsePatternNoCase(str_hunt_name, str_hunt_name_parsed, 160);
 		IExec->CopyMem(str_hunt_name_parsed, buf2, 170);
 		candoicon = 0;
 		break;
@@ -667,7 +667,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(file->type >= ENTRY_DIRECTORY && (file->size < 0 || (specflags & FUNCFLAGS_BYTEISCHECKFIT && (file->userdata == 0 || file->userdata2 != blocksize))))
 			{
 				bb = dos_global_files;
-				if((a = recursedir(sourcename, NULL, R_GETBYTES, blocksize)) == -10)
+//				if((a = recursedir(sourcename, NULL, R_GETBYTES, blocksize)) == -10)
+				if((a = recursive_getbytes(sourcename, blocksize, 0)) == -10)
 				{
 					myabort();
 					break;
@@ -1489,7 +1490,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				okayflag = 1;
 				break;
 			}
-			if((a = recursedir(sourcename, NULL, R_HUNT, 0)) == -3)
+			if((a = recursive_hunt(sourcename)) == -3)
+//			if((a = recursedir(sourcename, NULL, R_HUNT, 0)) == -3)
 			{
 				wildselect(buf2, 2, 0, WILDSELECT_NAME);
 				findfirstsel(act, -2);
@@ -1506,7 +1508,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					count += a;
 			}
 			else
+			{
 				count = -1;
+			}
 			break;
 
 		case FUNC_READ:

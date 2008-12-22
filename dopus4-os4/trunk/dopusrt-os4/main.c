@@ -304,7 +304,7 @@ void WBRun(int argc, char **argv)
 	struct DiskObject *diskobj = NULL;
 	char namebuf[256];
 	int stacksize, i, ok = 1;
-	struct Process *ourtask;
+	struct Process *ourtask, *newproc;
 	struct MsgPort *replyport = NULL;
 	BPTR olddir = -1;
 //	struct DOpusRemember *key = NULL;
@@ -385,16 +385,24 @@ void WBRun(int argc, char **argv)
 					char *ptr = IDOS->FilePart(namebuf);
 
 					IExec->Forbid();
-					if((WBStartup->sm_Process = IDOS->CreateProc(ptr, ourtask->pr_Task. tc_Node.ln_Pri, WBStartup->sm_Segment, stacksize)))
+//					if((WBStartup->sm_Process = IDOS->CreateProc(ptr, ourtask->pr_Task. tc_Node.ln_Pri, WBStartup->sm_Segment, stacksize)))
+					if((newproc = IDOS->CreateNewProcTags(NP_Name, ptr, NP_Priority, ourtask->pr_Task.tc_Node.ln_Pri, NP_Seglist, WBStartup->sm_Segment, NP_StackSize, stacksize)))
 					{
-						if(ptr)
-							*ptr = 0;
-						((struct Process *)(WBStartup->sm_Process->mp_SigTask))->pr_HomeDir = IDOS->Lock(ptr, ACCESS_READ);
+						if((WBStartup->sm_Process = IDOS->GetProcMsgPort(newproc)))
+						{
+							if(ptr)
+								*ptr = 0;
+							((struct Process *)(WBStartup->sm_Process->mp_SigTask))->pr_HomeDir = IDOS->Lock(ptr, ACCESS_READ);
 
-						IExec->PutMsg(WBStartup->sm_Process, (struct Message *)WBStartup);
+							IExec->PutMsg(WBStartup->sm_Process, (struct Message *)WBStartup);
 
-						IExec->Permit();
-						IExec->WaitPort(replyport);
+							IExec->Permit();
+							IExec->WaitPort(replyport);
+						}
+						else
+						{
+							IExec->Permit();
+						}
 					}
 					else
 					{

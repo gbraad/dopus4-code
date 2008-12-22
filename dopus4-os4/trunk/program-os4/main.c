@@ -922,7 +922,9 @@ int SetUp(int tit)
 			screen_gadgets[SCRGAD_TINYAREXX].NextGadget = &screen_gadgets[SCRGAD_TINYHELP];
 		}
 		else
+		{
 			screen_gadgets[SCRGAD_TINYAREXX].NextGadget = &screen_gadgets[SCRGAD_MOVELEFT1];
+		}
 
 		for(y = 0; y < 2; y++)
 		{
@@ -1286,7 +1288,7 @@ void drawscreen()
 
 struct TextFont *getfont(STRPTR font, int *size, int noprop)
 {
-	struct TextFont *tf;
+	struct TextFont *tf = NULL;
 	static struct TextAttr sfont = { NULL, 0, 0, 0 };
 
 	sfont.ta_Name = (STRPTR)font;

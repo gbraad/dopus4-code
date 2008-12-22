@@ -204,12 +204,14 @@ int huntfile(char *name, char *completename, int *aa)
 			*ptr = 0;
 		}
 		else
+		{
 			buf[0] = 0;
+		}
 
 		*aa = 1;
 
 		snprintf(mesbuf, 300, globstring[STR_FOUND_A_MATCH], buf, completename);
-		if((rec = simplerequest(mesbuf, str_okaystring, globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
+		if((rec = simplerequest(mesbuf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
 		{
 			if(!status_iconified)
 			{
@@ -222,12 +224,19 @@ int huntfile(char *name, char *completename, int *aa)
 			return (-3);
 		}
 		else if(rec == 2)
+		{
 			return (0);
+		}
 		else if(rec == 0)
+		{
 			return (-1);
+		}
 	}
 	else
+	{
 		*aa = 0;
+	}
+
 	return (0);
 }
 

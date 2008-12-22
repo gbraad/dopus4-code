@@ -35,7 +35,6 @@ struct Directory
 	struct Directory *last, *next;
 	char name[FILEBUF_SIZE];
 	int type;
-//	uint32 Type;
 	int64 size;
 	int subtype;
 	int protection;
@@ -48,6 +47,28 @@ struct Directory
 	struct DateStamp date;
 	UWORD owner_id, group_id;
 	char *extension;
+};
+
+struct NewDirectory
+{
+	struct Directory *last, *next;
+	STRPTR Name;
+	uint32 Type;
+	int64 FileSize;
+	int subtype;
+	uint32 Protection;
+	STRPTR Comment;
+	STRPTR dispstr;
+	char protbuf[12];
+	char datebuf[LEN_DATSTRING + 12];
+	int selected;
+	STRPTR description;
+	int userdata;
+	int userdata2;
+	struct DateStamp Date;
+	uint32 OwnerUID;
+	uint32 GroupGID;
+	STRPTR extension;
 };
 
 #define DOPUSMSG_GETVIS         1

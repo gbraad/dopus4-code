@@ -503,6 +503,8 @@ CONST_STRPTR strstri(CONST_STRPTR, CONST_STRPTR);
 
 /* recurse.c */
 int32 recursive_delete(STRPTR);
+int32 recursive_getbytes(STRPTR, int32, int32);
+int32 recursive_hunt(STRPTR);
 
 /* reaction.c */
 int ra_simplerequest(CONST_STRPTR, CONST_STRPTR, uint32);

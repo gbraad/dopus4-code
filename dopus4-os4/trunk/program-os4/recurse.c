@@ -170,3 +170,141 @@ int32 recursive_delete(STRPTR directory)
 	return (ret);
 }
 
+int32 recursive_getbytes(STRPTR sourcename, int32 blocksize, int32 ignore)
+{
+	int32 ret = 0, blocks;
+	struct ExamineData *data;
+	APTR context;
+
+	if(ignore == 0)
+	{
+		dos_global_bytecount = 0;
+		dos_global_blocksneeded = 0;
+		dos_global_files = 0;
+	}
+
+	if((context = IDOS->ObtainDirContextTags(EX_StringName, sourcename, EX_DoCurrentDir, TRUE, TAG_END)))
+	{
+		while((data = IDOS->ExamineDir(context)))
+		{
+			if(status_haveaborted)
+			{
+				myabort();
+				ret = -10;
+				break;
+			}
+
+			if(EXD_IS_DIRECTORY(data))
+			{
+				++dos_global_blocksneeded;
+				ret = recursive_getbytes(data->Name, blocksize, 1);
+			}
+			if(EXD_IS_FILE(data))
+			{
+				dos_global_bytecount += data->FileSize;
+				dos_global_files++;
+				if(blocksize)
+				{
+					blocks = (data->FileSize + (blocksize - 1)) / blocksize;
+					dos_global_blocksneeded += blocks + (blocks / 72) + 1;
+				}
+			}
+			if(ret == -10)
+			{
+				myabort();
+				break;
+			}
+		}
+		IDOS->ReleaseDirContext(context);
+	}
+	return ret;
+}
+
+int32 huntfunc(struct Hook *hook, STRPTR matchstring, struct ExamineData *data)
+{
+	int32 ret = TRUE;
+
+	if(matchstring)
+	{
+		if(EXD_IS_FILE(data))
+		{
+			ret = IDOS->MatchPatternNoCase(matchstring, data->Name);
+		}
+	}
+
+	return ret;
+}
+
+int32 recursive_hunt(STRPTR sourcename)
+{
+	int32 ret = 0;
+	struct ExamineData *data;
+	APTR context;
+	char newsourcename[2048];
+	struct Hook *hunthook;
+
+	if((hunthook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, huntfunc, TAG_END)))
+	{
+		if((context = IDOS->ObtainDirContextTags(EX_StringName, sourcename, EX_DoCurrentDir, TRUE, EX_MatchString, str_hunt_name_parsed, EX_MatchFunc, hunthook, TAG_END)))
+		{
+			while((data = IDOS->ExamineDir(context)))
+			{
+				if(status_haveaborted)
+				{
+					myabort();
+					ret = -10;
+					break;
+				}
+
+				if(EXD_IS_DIRECTORY(data))
+				{
+					strncpy(newsourcename, sourcename, 2048);
+					IDOS->AddPart(newsourcename, data->Name, 2048);
+					ret = recursive_hunt(newsourcename);
+				}
+				if(EXD_IS_FILE(data))
+				{
+					char textfmt[300], gadfmt[100];
+					int x;
+
+					snprintf(textfmt, 300, globstring[STR_FOUND_A_MATCH], data->Name, sourcename);
+					snprintf(gadfmt, 100, "%s|%s|%s", globstring[STR_OKAY], globstring[STR_SKIP], globstring[STR_ABORT]);
+					if((x = ra_simplerequest(textfmt, gadfmt, REQIMAGE_INFO)) == 1)
+					{
+						if(!status_iconified)
+						{
+							unbusy();
+							advancebuf(data_active_window, 1);
+							strcpy(str_pathbuffer[data_active_window], sourcename);
+							startgetdir(data_active_window, 3);
+							busy();
+						}
+						ret = -3;
+					}
+					else if(x == 2)
+					{
+						ret = 0;
+					}
+					else if(x == 0)
+					{
+						ret = -10;
+					}
+				}
+
+				if(ret == -3)
+				{
+					break;
+				}
+				if(ret == -10)
+				{
+					myabort();
+					break;
+				}
+			}
+			IDOS->ReleaseDirContext(context);
+		}
+		IExec->FreeSysObject(ASOT_HOOK, hunthook);
+	}
+
+	return ret;
+}

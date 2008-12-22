@@ -45,8 +45,10 @@ int initfontlist(int num, int move, int flags)
 	else if(flags == FFLAG_NOPROP)
 		fontlistview.items = noproplist;
 	strcpy(name, config->fontbufs[num]);
-	if(ptr = strstri(name, ".font"))
+	if((ptr = strstri(name, ".font")))
+	{
 		*ptr = 0;
+	}
 	for(a = 0;; a++)
 	{
 		if(!fontlistview.items[a])
@@ -94,7 +96,7 @@ int initfontlist(int num, int move, int flags)
 					if(one != -1)
 					{
 						size = config->fontsizes[num];
-						sprintf(fontsize_buf, "%ld", size);
+						sprintf(fontsize_buf, "%d", size);
 						IDOpus->RefreshStrGad(&fontsizegadget, Window);
 						fontsizelistview.itemselected = -1;
 					}
@@ -142,7 +144,7 @@ void sortfontlist(struct AvailFonts *avail, int num, int type)
 void dofontdemo(STRPTR name, int size)
 {
 	struct TextFont *font;
-	struct Region *reg, *oldreg;
+	struct Region *reg, *oldreg = NULL;
 	struct Rectangle clip;
 	char buf[2][256];
 	int y, c, l, a;
@@ -157,7 +159,7 @@ void dofontdemo(STRPTR name, int size)
 	IGraphics->SetAPen(rp, screen_pens[1].pen);
 	busy();
 	IDOpus->UScoreText(rp, cfg_string[STR_LOADING_FONT], x_off + 329, y_off + 133, -1);
-	if(font = getfont(name, &size, 0))
+	if((font = getfont(name, &size, 0)))
 	{
 		IGraphics->SetAPen(rp, screen_pens[0].pen);
 		IGraphics->RectFill(rp, x_off + 146, y_off + 94, x_off + 613, y_off + 167);
