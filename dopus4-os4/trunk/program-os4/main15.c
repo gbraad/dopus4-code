@@ -33,7 +33,7 @@ the existing commercial status of Directory Opus 5.
 void ftype_doubleclick(char *path, char *name, int state)
 {
 	int a, b, dodef = 0;
-	int64 size;
+	int size;
 	ULONG threelongs[3];
 	char buf[256], buf2[256];
 	struct dopusfiletype *type;
@@ -271,7 +271,7 @@ int filesearch(char *name, int *found, int skipall)
 		if(skipall > -1)
 		{
 			sprintf(buf, globstring[STR_FOUND_A_MATCH_READ], name);
-			if((rec = simplerequest(buf, str_okaystring, globstring[STR_ABORT], globstring[STR_SKIP], (skipall) ? globstring[STR_SKIP_ALL] : NULL, NULL)) == 1)
+			if((rec = simplerequest(buf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], (skipall) ? globstring[STR_SKIP_ALL] : NULL, NULL)) == 1)
 			{
 				message = IDOS->FilePart(name);
 				busy();

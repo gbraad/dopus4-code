@@ -237,7 +237,7 @@ int32 huntfunc(struct Hook *hook, STRPTR matchstring, struct ExamineData *data)
 
 int32 recursive_hunt(STRPTR sourcename)
 {
-	int32 ret = 0;
+	int32 ret = 0, y;
 	struct ExamineData *data;
 	APTR context;
 	char newsourcename[2048];
@@ -260,7 +260,11 @@ int32 recursive_hunt(STRPTR sourcename)
 				{
 					strncpy(newsourcename, sourcename, 2048);
 					IDOS->AddPart(newsourcename, data->Name, 2048);
-					ret = recursive_hunt(newsourcename);
+					y = recursive_hunt(newsourcename);
+					if(y > 0)
+					{
+						ret += y;
+					}
 				}
 				if(EXD_IS_FILE(data))
 				{
@@ -283,7 +287,7 @@ int32 recursive_hunt(STRPTR sourcename)
 					}
 					else if(x == 2)
 					{
-						ret = 0;
+						ret++; // = 0;
 					}
 					else if(x == 0)
 					{

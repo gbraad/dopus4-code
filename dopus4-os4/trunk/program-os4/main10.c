@@ -188,6 +188,7 @@ void dodevicelist(int win)
 	okay();
 }
 
+/*
 int huntfile(char *name, char *completename, int *aa)
 {
 	char buf[FILEBUF_SIZE];
@@ -239,6 +240,7 @@ int huntfile(char *name, char *completename, int *aa)
 
 	return (0);
 }
+*/
 
 void checksize(int win)
 {

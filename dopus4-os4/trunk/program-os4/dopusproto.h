@@ -222,7 +222,7 @@ void initdatetime(struct DateTime *, char *, char *, int);
 void doarexx(int);
 void setcurdir(int);
 void dodevicelist(int);
-int huntfile(char *, char *, int *);
+//int huntfile(char *, char *, int *);
 void getcurdir(char *);
 void checksize(int);
 void centerwindow(struct NewWindow *);

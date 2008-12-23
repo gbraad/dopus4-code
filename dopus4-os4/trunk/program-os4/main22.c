@@ -2246,13 +2246,15 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			okayflag = 0;
 			doerror(ERROR_OBJECT_NOT_FOUND);
-			simplerequest(globstring[STR_COULD_NOT_FIND_FILE], globstring[STR_CONTINUE], NULL);
+//			simplerequest(globstring[STR_COULD_NOT_FIND_FILE], globstring[STR_CONTINUE], NULL);
+			ra_simplerequest(globstring[STR_COULD_NOT_FIND_FILE], globstring[STR_CONTINUE], REQIMAGE_INFO);
 		}
 		else if(count > 0)
 		{
 			sprintf(buf2, globstring[STR_FOUND_MATCHING_FILES], count);
 			dostatustext(buf2);
-			simplerequest(buf2, globstring[STR_CONTINUE], NULL);
+//			simplerequest(buf2, globstring[STR_CONTINUE], NULL);
+			ra_simplerequest(buf2, globstring[STR_CONTINUE], REQIMAGE_INFO);
 		}
 		break;
 
