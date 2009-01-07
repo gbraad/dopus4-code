@@ -66,6 +66,7 @@ struct ViewMessage
 	STRPTR filename;
 	STRPTR name;
 	int function;
+	int wait;
 	STRPTR initialsearch;
 	BOOL deleteonexit;
 };
@@ -170,36 +171,46 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 	if(view_message && view_message->filename && view_message->name)
 	{
 		view_message->function = function;
+		view_message->wait = wait;
 		if(dopus_curwin[data_active_window]->flags & DWF_ARCHIVE)
 			view_message->deleteonexit = TRUE;
 
-		if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
+		if(wait)
 		{
-			if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
+			if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 			{
-				deathmsg = NULL;
+				if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
+				{
+					deathmsg = NULL;
+				}
 			}
 		}
 
-		IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, NP_NotifyOnDeathMessage, deathmsg, NP_Child, TRUE, TAG_END);
+		IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END);
 
-		if(deathmsg)
+		if(wait)
 		{
-			IExec->WaitPort(deathmsg_replyport);
-			IExec->GetMsg(deathmsg_replyport);
-			ret = deathmsg->dm_ReturnCode;
-			IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
-			IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
+			if(deathmsg)
+			{
+				IExec->WaitPort(deathmsg_replyport);
+				IExec->GetMsg(deathmsg_replyport);
+				ret = deathmsg->dm_ReturnCode;
+				IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
+				IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
+			}
 		}
 	}
 
-	if(view_message->initialsearch)
+	if(wait)
 	{
-		IExec->FreeVec(view_message->initialsearch);
+		if(view_message->initialsearch)
+		{
+			IExec->FreeVec(view_message->initialsearch);
+		}
+		IExec->FreeVec(view_message->name);
+		IExec->FreeVec(view_message->filename);
+		IExec->FreeVec(view_message);
 	}
-	IExec->FreeVec(view_message->name);
-	IExec->FreeVec(view_message->filename);
-	IExec->FreeVec(view_message);
 
 	return ret;
 }
@@ -236,18 +247,13 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	if((view_port = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, portname, TAG_END)))
 	{
 		struct ExamineData *data = NULL;
-//		if(IDOpus->CheckExist(filename, &size) < 0)
+
 		if((data = IDOS->ExamineObjectTags(EX_StringName, filename, TAG_END)))
 		{
 			size = data->FileSize;
 
 			if(size > 0)
 			{
-/*				if(!(vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
-				{
-					retcode = -4;
-				}
-				if(vdata)*/
 				if((vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					strncpy(vdata->view_port_name, portname, 20);
@@ -425,6 +431,18 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	      view_end:
 		IExec->FreeSysObject(ASOT_PORT, view_port);
 	}
+
+	if(view_msg->wait == 0)
+	{
+		if(view_msg->initialsearch)
+		{
+			IExec->FreeVec(view_msg->initialsearch);
+		}
+		IExec->FreeVec(view_msg->name);
+		IExec->FreeVec(view_msg->filename);
+		IExec->FreeVec(view_msg);
+	}
+
 	if(view_msg->deleteonexit)
 		IDOS->DeleteFile(filename);
 
@@ -461,25 +479,12 @@ void cleanupviewfile(struct ViewData *vdata)
 int view_loadfile(struct ViewData *vdata)
 {
 	struct IntuiMessage *msg;
-	int64 /*a,*/ in, fsize = 0;
-//	int /*a,*/ in, fsize = 0;
+	int64 in, fsize = 0;
 	char *bufpos;
 	int64 chunk, done, stop = 0;
-//	int chunk, done, stop = 0;
 
-	vdata->view_buffer_size = /*((*/vdata->view_file_size/* >> 4) + 1) << 4*/;
+	vdata->view_buffer_size = vdata->view_file_size;
 
-/*	for(a = 0; a < 2; a++)
-	{
-		if((vdata->view_text_buffer = IExec->AllocVec(vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
-			break;
-		view_status_text(vdata, globstring[STR_NO_MEMORY_TO_DECRUNCH]);
-		if((vdata->view_buffer_size = IExec->AvailMem(MEMF_PUBLIC | MEMF_LARGEST)) < 16)
-			break;
-		if(vdata->view_buffer_size <= vdata->view_file_size)
-			vdata->view_file_size = vdata->view_buffer_size;
-	}
-	if(!vdata->view_text_buffer)*/
 	if(!(vdata->view_text_buffer = IExec->AllocVec((uint32)vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
 	{
 		return 0;
@@ -503,7 +508,7 @@ int view_loadfile(struct ViewData *vdata)
 				IGadTools->GT_BeginRefresh(vdata->view_window);
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
 			}
-			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == IECODE_RBUTTON)) //MENUDOWN))
+			else if((msg->Class == IDCMP_MOUSEBUTTONS) && (msg->Code == IECODE_RBUTTON))
 			{
 				stop = 1;
 			}
@@ -1605,7 +1610,6 @@ void view_search(struct ViewData *vdata, int ask)
 
 	if(!vdata->view_search_string[0])
 		ask = 1;
-//	IUtility->Strlcpy(temp, vdata->view_search_string, 128);
 	strncpy(temp, vdata->view_search_string, 128);
 	view_busy(vdata);
 
@@ -1624,8 +1628,6 @@ void view_search(struct ViewData *vdata, int ask)
 		return;
 	}
 
-//	if(IDOpus->LStrCmpI(temp, vdata->view_search_string))
-//	if(IUtility->Stricmp(temp, vdata->view_search_string))
 	if(stricmp(temp, vdata->view_search_string))
 		view_clearsearch(vdata);
 
