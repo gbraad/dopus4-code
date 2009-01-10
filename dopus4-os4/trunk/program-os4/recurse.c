@@ -240,7 +240,7 @@ int32 recursive_hunt(STRPTR sourcename)
 	int32 ret = 0, y;
 	struct ExamineData *data;
 	APTR context;
-	char newsourcename[2048];
+	STRPTR newsourcename;
 	struct Hook *hunthook;
 
 	if((hunthook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, huntfunc, TAG_END)))
@@ -258,40 +258,57 @@ int32 recursive_hunt(STRPTR sourcename)
 
 				if(EXD_IS_DIRECTORY(data))
 				{
-					strncpy(newsourcename, sourcename, 2048);
-					IDOS->AddPart(newsourcename, data->Name, 2048);
-					y = recursive_hunt(newsourcename);
-					if(y > 0)
+					if((newsourcename = IExec->AllocVec(strlen(sourcename) + strlen(data->Name) + 2, MEMF_ANY)))
 					{
-						ret += y;
+						strncpy(newsourcename, sourcename, strlen(sourcename) + strlen(data->Name) + 2);
+						IDOS->AddPart(newsourcename, data->Name, strlen(sourcename) + strlen(data->Name) + 2);
+						y = recursive_hunt(newsourcename);
+						if(y > 0)
+						{
+							ret += y;
+						}
+						IExec->FreeVec(newsourcename);
+					}
+					else
+					{
+						ret = -10;
 					}
 				}
 				if(EXD_IS_FILE(data))
 				{
-					char textfmt[300], gadfmt[100];
-					int x;
+					STRPTR textfmt;
+					char gadfmt[100];
+					int x, len = strlen(globstring[STR_FOUND_A_MATCH]) + strlen(sourcename) + strlen(data->Name) + 4;
 
-					snprintf(textfmt, 300, globstring[STR_FOUND_A_MATCH], data->Name, sourcename);
-					snprintf(gadfmt, 100, "%s|%s|%s", globstring[STR_OKAY], globstring[STR_SKIP], globstring[STR_ABORT]);
-					if((x = ra_simplerequest(textfmt, gadfmt, REQIMAGE_INFO)) == 1)
+					if((textfmt = IExec->AllocVec(len, MEMF_ANY)))
 					{
-						if(!status_iconified)
+						snprintf(textfmt, len, globstring[STR_FOUND_A_MATCH], data->Name, sourcename);
+						snprintf(gadfmt, 100, "%s|%s|%s", globstring[STR_OKAY], globstring[STR_SKIP], globstring[STR_ABORT]);
+						if((x = ra_simplerequest(textfmt, gadfmt, REQIMAGE_INFO)) == 1)
 						{
-							unbusy();
-							advancebuf(data_active_window, 1);
-							strcpy(str_pathbuffer[data_active_window], sourcename);
-							startgetdir(data_active_window, 3);
-							busy();
+							if(!status_iconified)
+							{
+								unbusy();
+								advancebuf(data_active_window, 1);
+								strncpy(str_pathbuffer[data_active_window], sourcename, 256);
+								startgetdir(data_active_window, 3);
+								busy();
+							}
+							ret = -3;
 						}
+						else if(x == 2)
+						{
+							ret++; // = 0;
+						}
+						else if(x == 0)
+						{
+							ret = -10;
+						}
+						IExec->FreeVec(textfmt);
+					}
+					else
+					{
 						ret = -3;
-					}
-					else if(x == 2)
-					{
-						ret++; // = 0;
-					}
-					else if(x == 0)
-					{
-						ret = -10;
 					}
 				}
 
