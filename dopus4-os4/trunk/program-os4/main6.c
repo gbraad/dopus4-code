@@ -81,20 +81,16 @@ void get_printdir_data(struct PrintDirData *pddata)
 
 void startnotify(int win)
 {
-	if(!dos_notify_req[win])
-	{
-		return;
-	}
 	IDOS->SetProcWindow((APTR)-1);
 	endnotify(win);
-	if(config->dynamicflags & UPDATE_NOTIFY && str_pathbuffer[win][0])
+	if((config->dynamicflags & UPDATE_NOTIFY) && str_pathbuffer[win][0])
 	{
 		if(dopus_curwin[win]->disktot > (2 * (1 << 20)))
 		{
-			strcpy(dos_notify_names[win], str_pathbuffer[win]);
+			strncpy(dos_notify_names[win], str_pathbuffer[win], 1024);
 			if((dos_notify_req[win] = IDOS->AllocDosObjectTags(DOS_NOTIFYREQUEST, ADO_NotifyName, dos_notify_names[win], ADO_NotifyMethod, NRF_SEND_MESSAGE, ADO_NotifyUserData, win, ADO_NotifyPort, count_port, TAG_END)))
 			{
-				if(IDOS->StartNotify(dos_notify_req[win]))
+				if(!(IDOS->StartNotify(dos_notify_req[win])))
 				{
 					dos_notify_names[win][0] = '\0';
 				}
@@ -105,6 +101,8 @@ void startnotify(int win)
 	{
 		IDOS->SetProcWindow(Window);
 	}
+
+	return;
 }
 
 void endnotify(int win)
@@ -115,6 +113,11 @@ void endnotify(int win)
 		IDOS->FreeDosObject(DOS_NOTIFYREQUEST, dos_notify_req[win]);
 		dos_notify_names[win][0] = '\0';
 	}
+/*	else
+	{
+	}*/
+
+	return;
 }
 
 void startnotifies()

@@ -141,7 +141,8 @@ int main(int argc, char **argv)
 	getconfig();
 	IUtility->Strlcpy(oldconfigname, configname, 256);
 
-	appport = IExec->CreatePort(NULL, 0);
+//	appport = IExec->CreatePort(NULL, 0);
+	appport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_DONE);
 
 	read_strings();
 	load_clips();
@@ -298,7 +299,8 @@ void quit()
 	}
 	if(appport)
 	{
-		IExec->DeletePort(appport);
+//		IExec->DeletePort(appport);
+		IExec->FreeSysObject(ASOT_PORT, appport);
 	}
 	if(tfont)
 	{
