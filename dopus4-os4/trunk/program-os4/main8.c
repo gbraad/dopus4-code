@@ -46,7 +46,8 @@ void newcli(char *spec)
 	char buf[200];
 
 	sprintf(buf, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
-	if(!(IDOS->Execute(buf, 0, nil_file_handle)))
+//	if(!(IDOS->Execute(buf, 0, nil_file_handle)))
+	if(!(IDOS->System(buf, NULL)))
 	{
 		doerror(-1);
 	}
@@ -105,7 +106,8 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	if(!(sdata = IDOS->ExamineObjectTags(EX_StringName, sourcename, TAG_END)))
  	{
 		doerror(IDOS->IoErr());
-		return (REPLACE_SKIP);
+//		return (REPLACE_SKIP);
+		return (REPLACE_OK);
 	}
 	if(!(ddata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
  	{

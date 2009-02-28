@@ -229,7 +229,7 @@ void centerwindow(struct NewWindow *);
 char *parsedatetime(char *, char *, char *, int *);
 void copy_datestamp(struct DateStamp *, struct DateStamp *);
 ULONG clone_screen(struct Screen *, struct ExtNewScreen *);
-struct MsgPort *CreateUniquePort(char *, char *, int *);
+struct MsgPort *CreateUniquePort(CONST_STRPTR, STRPTR, int *);
 
 /* main11.c */
 void iconify(int, int, int);

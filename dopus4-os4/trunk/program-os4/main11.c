@@ -789,8 +789,8 @@ void iconify(int louise, int buttons, int banknum)
 					}
 					rexx_command(config->uniconscript, NULL);
 					startnotifies();
-					startgetdir(0, 0);
-					startgetdir(1, 0);
+//					startgetdir(0, 0);
+//					startgetdir(1, 0);
 					IDOpus->LFreeRemember(&icon_key);
 					return;
 				}

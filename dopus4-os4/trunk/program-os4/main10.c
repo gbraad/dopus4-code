@@ -460,7 +460,7 @@ ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 	return ((ULONG) clone->ViewModes);
 }
 
-struct MsgPort *CreateUniquePort(STRPTR base, STRPTR buffer, int *count)
+struct MsgPort *CreateUniquePort(CONST_STRPTR base, STRPTR buffer, int *count)
 {
 	int a;
 	struct MsgPort *port;
