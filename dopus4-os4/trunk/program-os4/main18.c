@@ -560,7 +560,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							}
 							break;
 						}
-						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
+//						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
 						if(!mylock)
 						{
 							removetemparcfile(name);

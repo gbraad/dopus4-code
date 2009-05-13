@@ -406,8 +406,8 @@ void iconify(int louise, int buttons, int banknum)
 			formstring[0] = 0;
 			if(icon_type & ICON_MEMORY)
 			{
-				chipc = IExec->AvailMem(MEMF_CHIP);
-				fast = IExec->AvailMem(MEMF_ANY) - chipc;
+				chipc = 0; //IExec->AvailMem(MEMF_CHIP);
+				fast = IExec->AvailMem(MEMF_ANY); // - chipc;
 				if(!(icon_type & ICON_BYTES))
 				{
 					chipc /= 1024;
@@ -789,8 +789,8 @@ void iconify(int louise, int buttons, int banknum)
 					}
 					rexx_command(config->uniconscript, NULL);
 					startnotifies();
-//					startgetdir(0, 0);
-//					startgetdir(1, 0);
+					startgetdir(0, 0);
+					startgetdir(1, 0);
 					IDOpus->LFreeRemember(&icon_key);
 					return;
 				}
@@ -804,7 +804,6 @@ void iconify(int louise, int buttons, int banknum)
 			IExec->SendIO(&iconify_timereq.Request);
 			if(cdelay)
 			{
-//				if(!(--cdelay) && !system_version2)
 				if(!(--cdelay))
 				{
 					old = Window->Title;

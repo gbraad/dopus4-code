@@ -99,6 +99,8 @@ int32 arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 	struct ArbiterMessage *arb_msg;
 	char ret, remove = 0;
 	uint32 wait_mask;
+	Object *progwin;
+	struct Window *progwindow;
 
 	my_process_port = IDOS->GetProcMsgPort(NULL);
 
@@ -116,7 +118,15 @@ int32 arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 			case ARBITER_REMOVE:
 				remove = 1;
 				break;
+			case ARBITER_PROGRESS_OPEN:
+				progwin = ra_progresswindow_build("BAH", 52, 0);
+				progwindow = ra_progresswindow_open(progwin);
+				break;
+			case ARBITER_PROGRESS_CLOSE:
+				ra_progresswindow_close();
+				break;
 			}
+
 			if(arb_msg)
 			{
 				arb_msg->command = ret;

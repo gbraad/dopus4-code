@@ -629,7 +629,7 @@ void progresstext(int y, int val, int total, STRPTR text)
 		}
 		else
 		{
-			sprintf(buf, globstring[STR_REMAINING], val, total);
+			snprintf(buf, 80, globstring[STR_REMAINING], val, total);
 		}
 		ptr = buf;
 	}

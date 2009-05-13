@@ -333,7 +333,7 @@ uint32 ProgressFunc(struct Hook *hook, APTR *Obj, struct xadProgressInfo *xadp)
 
 	if(xadp && xadp->xpi_FileInfo)
 	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, xadp->xpi_FileInfo->xfi_FileName, 1);
+		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 1);
 	}
 
 	switch(xadp->xpi_Mode)
@@ -419,11 +419,21 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 					{
 						memset(destname, 0, 2048);
 						snprintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
-						dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, xadfi->xfi_FileName, 1);
+						dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, IDOS->FilePart(xadfi->xfi_FileName), 1);
 						snprintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
-						if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) != 0L)
+						if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) == 0L)
 						{
-//							IExec->DebugPrintF("%s\n", IxadMaster->xadGetErrorText(xad_result));
+							struct DateStamp d;
+
+							if((xad_result = IxadMaster->xadConvertDates(XAD_DATEXADDATE, &xadfi->xfi_Date, XAD_GETDATEDATESTAMP, &d, TAG_DONE)) == 0L)
+							{
+								IDOS->SetFileDate(destname, &d);
+							}
+
+							if(xadfi->xfi_Comment)
+							{
+								IDOS->SetComment(destname, xadfi->xfi_Comment);
+							}
 						}
 					}
 					xadfi = xadfi->xfi_Next;

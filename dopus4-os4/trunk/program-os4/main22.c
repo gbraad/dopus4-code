@@ -522,13 +522,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				strncpy(titlebuf, title, 32);
 				strncat(titlebuf, ": ", 32);
 				strncat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
-//				IDOpus->StrCombine(titlebuf, title, ": ", 32);
-//				IDOpus->StrConcat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
 				break;
 			default:
 				strncpy(titlebuf, title, 32);
 				strncat(titlebuf, "...", 32);
-//				IDOpus->StrCombine(titlebuf, title, "...", 32);
 			}
 		}
 		else
@@ -542,7 +539,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		}
 
 		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total : 1, titlebuf, progress_copy || ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
-//		ra_progresswindow_open(titlebuf, total, progress_copy || (swindow->dirsel && (!dos_global_files)));
+//		arbiter_command(ARBITER_PROGRESS_OPEN, NULL);
 		prog_indicator = 1;
 	}
 
@@ -568,8 +565,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			strncpy(buf1, sourcedir, 256);
 			strncat(buf1, oldiconname, 256);
 
-//			IDOpus->StrCombine(oldiconname, file->name, ".info", 256);
-//			IDOpus->StrCombine(buf1, sourcedir, oldiconname, 256);
 			if(!(IDOpus->CheckExist(buf1, NULL)))
 				oldiconname[0] = 0;
 		}
@@ -583,11 +578,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if((progtype == 1 && file->type >= ENTRY_DEVICE) || (progtype == 0 && file->type <= ENTRY_FILE) || (progtype == 2))
 				++value;
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, value, total, NULL, 0);
-//			ra_progresswindow_update_two(value, NULL);
 			if(progress_copy)
 			{
 				dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
-//				ra_progresswindow_update_two(-2, file->name);
 			}
 		}
 
@@ -597,7 +590,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	      functionloop:
 		strncpy(sourcename, sourcedir, 256);
 		strncat(sourcename, file->name, 256);
-//		IDOpus->StrCombine(sourcename, sourcedir, file->name, 256);
 		if(!special || count == 0 || (special == 2 && file->type >= 0))
 		{
 			dofilename(sourcename);
@@ -667,7 +659,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(file->type >= ENTRY_DIRECTORY && (file->size < 0 || (specflags & FUNCFLAGS_BYTEISCHECKFIT && (file->userdata == 0 || file->userdata2 != blocksize))))
 			{
 				bb = dos_global_files;
-//				if((a = recursedir(sourcename, NULL, R_GETBYTES, blocksize)) == -10)
 				if((a = recursive_getbytes(sourcename, blocksize, 0)) == -10)
 				{
 					myabort();
@@ -690,7 +681,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				strncpy(oldiconname, file->name, 256);
 				strncat(oldiconname, ".info", 256);
-//				IDOpus->StrCombine(oldiconname, file->name, ".info", 256);
 				bb = -1;
 				if((file = findfile(swindow, oldiconname, NULL)))
 				{
@@ -785,10 +775,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						{
 							char txtformat[400], gadformat[100];
 
-							sprintf(txtformat, globstring[STR_NOT_EMPTY], file->name);
-							sprintf(gadformat, "%s|%s|%s|%s", globstring[STR_DELETE], globstring[STR_ALL], globstring[STR_SKIP], globstring[STR_CANCEL]);
+							snprintf(txtformat, 400, globstring[STR_NOT_EMPTY], file->name);
+							snprintf(gadformat, 100, "%s|%s|%s|%s", globstring[STR_DELETE], globstring[STR_ALL], globstring[STR_SKIP], globstring[STR_CANCEL]);
 							if(!(a = ra_simplerequest(txtformat, gadformat, REQIMAGE_WARNING)))
-//							if(!(a = simplerequest(buf2, globstring[STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL)))
 							{
 								myabort();
 								break;
@@ -976,7 +965,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							break;
 						if((a = delfile(destname, namebuf, globstring[STR_DELETING], 1, 1)) == -2)
 						{
-//							if(!(a = recursedir(destname, NULL, R_DELETE, 0)))
 							if(!(a = recursedir(destname, sourcename, R_COPY | R_DELETE, 0)))
 								a = 1;
 							else if(a == -10)
@@ -1271,7 +1259,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(progress_copy)
 				{
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, file->name, 1);
-//					ra_progresswindow_update_one(100, 100);
 				}
 				addfile(dwindow, inact, namebuf, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 				if(!noremove)
@@ -1320,10 +1307,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				strncpy(destname, destdir, 256);
 				strncat(destname, namebuf, 256);
-//				IDOpus->StrCombine(destname, destdir, namebuf, 256);
 				strncpy(newiconname, destname, 256);
 				strncat(newiconname, ".info", 256);
-//				IDOpus->StrCombine(newiconname, destname, ".info", 256);
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
 			if(checksame(destdir, sourcename, 0) == LOCK_SAME)
@@ -1355,7 +1340,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						strncpy(newiconname, destname, 256);
 						strncat(newiconname, ".info", 256);
-//						IDOpus->StrCombine(newiconname, destname, ".info", 256);
 						goto retry_copy;
 					}
 				}
@@ -1491,7 +1475,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				break;
 			}
 			if((a = recursive_hunt(sourcename)) == -3)
-//			if((a = recursedir(sourcename, NULL, R_HUNT, 0)) == -3)
 			{
 				wildselect(buf2, 2, 0, WILDSELECT_NAME);
 				findfirstsel(act, -2);
@@ -1698,10 +1681,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			strncpy(buf2, file->name, FILEBUF_SIZE - 1);
 			strncat(buf2, ".info", FILEBUF_SIZE - 1);
-//			IDOpus->StrCombine(buf2, file->name, ".info", FILEBUF_SIZE - 1);
 			strncpy(destname, sourcename, 256);
 			strncat(destname, ".info", 256);
-//			IDOpus->StrCombine(destname, sourcename, ".info", 256);
 			if((a = IDOpus->CheckExist(sourcename, NULL)) == 0)
 			{
 				doerror((a = IDOS->IoErr()));
@@ -1898,7 +1879,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			strncpy(destname, destdir, 256);
 			strncat(destname, file->name, 256);
-//			IDOpus->StrCombine(destname, destdir, file->name, 256);
 			if(IDOpus->CheckExist(destname, NULL))
 			{
 				if(askeach)
@@ -2195,13 +2175,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						++value;
 						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
-//						ra_progresswindow_update_two(value, NULL);
 					}
 				}
 				if(progress_copy)
 				{
 					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
-//					ra_progresswindow_update_two(-2, file->name);
 				}
 				goto functionloop;
 			}
@@ -2209,7 +2187,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				strncpy(sourcename, sourcedir, 256);
 				strncat(sourcename, oldiconname, 256);
-//				IDOpus->StrCombine(sourcename, sourcedir, oldiconname, 256);
 				if(filloutdummy(sourcename, &dummyfile))
 				{
 					dummyfile.selected = 0;
@@ -2232,11 +2209,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(prog_indicator)
 	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 0);
-//		ra_progresswindow_update_two(-2, globstring[status_justabort ? STR_ABORTED : STR_COMPLETED]);
-/*		if(progress_copy)
+		if(progress_copy)
 		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 1);
-		}*/
+		}
 	}
 
 	switch (function)
@@ -2246,14 +2222,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			okayflag = 0;
 			doerror(ERROR_OBJECT_NOT_FOUND);
-//			simplerequest(globstring[STR_COULD_NOT_FIND_FILE], globstring[STR_CONTINUE], NULL);
 			ra_simplerequest(globstring[STR_COULD_NOT_FIND_FILE], globstring[STR_CONTINUE], REQIMAGE_INFO);
 		}
 		else if(count > 0)
 		{
 			sprintf(buf2, globstring[STR_FOUND_MATCHING_FILES], count);
 			dostatustext(buf2);
-//			simplerequest(buf2, globstring[STR_CONTINUE], NULL);
 			ra_simplerequest(buf2, globstring[STR_CONTINUE], REQIMAGE_INFO);
 		}
 		break;
@@ -2413,7 +2387,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	if(prog_indicator)
 	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
-//		ra_progresswindow_close();
+//		arbiter_command(ARBITER_PROGRESS_CLOSE, NULL);
 	}
 	IExec->FreeSysObject(ASOT_MEMPOOL, function_memory_pool);
 	--entry_depth;
