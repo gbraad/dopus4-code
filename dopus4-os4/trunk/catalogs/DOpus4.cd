@@ -1021,7 +1021,7 @@ Old  -                  Date : %19s
 STR_REPLACE_FILE_WITH_DIR (//)
 \"%s\" already exists! Replace?\n\n\
 New  -                  Date : %19s\n\
-Old  -  Size : %lld  Date : %19s
+Old  -  Size : %9lld  Date : %19s
 ;
 STR_OPERATION_NOT_SUPPORTED (//)
 Operation not supported
