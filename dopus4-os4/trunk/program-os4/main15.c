@@ -621,8 +621,6 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					}
 					else if(!func_external_file[0])
 					{
-						struct DOpusFileReq freq;
-
 						buf2[0] = 0;
 						if(command->flags & RCL_NOFILE)
 						{
@@ -632,10 +630,9 @@ int internal_function(int function, int rexx, char *source, char *dest)
 						}
 						else
 						{
-							if(!(getdummyfile(&dummy_entry, buf2, &freq)))
+							if(!(getdummyfile(&dummy_entry, buf2)))
 								return (0);
 							IDOpus->TackOn(buf2, NULL, 256);
-//							strncat(buf2, "/", 256);
 							spath = buf2;
 							func_single_entry = &dummy_entry;
 							strcpy(func_external_file, buf2);

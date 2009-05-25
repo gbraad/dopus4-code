@@ -177,7 +177,6 @@ int gadgetfrompos(int, int);
 int isvalidgad(struct newdopusfunction *);
 int getpal(void);
 void quickfixmenus(void);
-int getdummypath(char *, int);
 char *getfiledescription(char *, int);
 void fixhlen(int);
 char *get_our_pubscreen(void);
@@ -367,14 +366,16 @@ void doreloadfiles(struct function_data *);
 struct Directory *reload_file(int, char *);
 int openscriptfile(struct dopusfuncpar *, struct function_data *);
 int closescriptfile(struct dopusfuncpar *, int, struct function_data *);
-int getdummyfile(struct Directory *, char *, struct DOpusFileReq *);
+//int getdummyfile(struct Directory *, char *, struct DOpusFileReq *);
+int getdummyfile(struct Directory *, STRPTR);
 int filloutdummy(char *, struct Directory *);
-int dirrequester(struct DOpusFileReq *, char *, char *);
+//int dirrequester(struct DOpusFileReq *, char *, char *);
 void do_title_string(char *, char *, int, char *);
 void addreqfilename(char *, int);
 struct Directory *custgetfirst(struct function_data *);
 void custnextsel(struct Directory **);
 int check_dest_path(struct function_data *);
+int32 getdummypath(STRPTR, int);
 void build_default_string(char *, char *, char *, char *, char *);
 
 /* doerror.c */
