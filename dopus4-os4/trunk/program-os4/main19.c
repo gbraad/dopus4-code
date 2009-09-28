@@ -381,7 +381,7 @@ struct dopusfiletype *checkfiletype(char *fullname, int ftype, int funconly)
 					break;
 				}
 				if(ftype == -2)
-				{
+				{	
 					if(type->iconpath && type->recognition && (dochecktype(type, fullname, file, exadat)))
 					{
 						break;

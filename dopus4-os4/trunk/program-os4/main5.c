@@ -71,7 +71,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		return (1);
 	}
 
-	dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
+//	dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
+	arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, data->FileSize * 2, data->Name, 0);
 
 	if(!(inhandle = IDOS->Open(src, MODE_OLDFILE)))
 		goto failed;
@@ -110,8 +111,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		if(prog)
 		{
-			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
-//			ra_progresswindow_update_one(size_read + size_write, size_total);
+//			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
+			arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, size_read + size_write, size_total, data->Name, 0);
 		}
 
 		if(status_haveaborted)
@@ -152,8 +153,8 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		if(prog)
 		{
-			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
-//			ra_progresswindow_update_one(size_read + size_write, size_total);
+//			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
+			arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, size_read + size_write, size_total, data->Name, 0);
 		}
 
 		if(status_haveaborted)
@@ -336,7 +337,7 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 			{
 				if(!(config->deleteflags & DELETE_SET))
 				{
-					if(!unprotect)
+					if(unprotect == 0)
 					{
 						char textformat[400], gadformat[100], errortext[100];
 
@@ -357,6 +358,7 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 						{
 							glob_unprotect_all = 1;
 							recplus = 1;
+//							unprotect = 1;
 						}
 					}
 				}

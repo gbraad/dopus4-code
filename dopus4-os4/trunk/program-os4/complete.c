@@ -35,7 +35,6 @@ void do_path_completion(int win, USHORT qual)
 	struct complete_entry *entry, *curentry, *addpos;
 	int new = 0, a;
 
-//	IUtility->Strlcpy(path, str_pathbuffer[win], 2048);
 	strncpy(path, str_pathbuffer[win], 2048);
 	a = strlen(path);
 
@@ -45,7 +44,6 @@ void do_path_completion(int win, USHORT qual)
 	}
 	else if((ptr = IDOS->FilePart(path)))
 	{
-//		IDOpus->LStrnCpy(match, ptr, FILEBUF_SIZE - 1);
 		strncpy(match, ptr, FILEBUF_SIZE - 1);
 		match[FILEBUF_SIZE - 1] = 0;
 		*ptr = 0;
@@ -55,12 +53,10 @@ void do_path_completion(int win, USHORT qual)
 		return;
 	}
 
-//	if(IDOpus->LStrCmp(completion[win].path, path) != 0)
 	if(strcmp(completion[win].path, path) != 0)
 	{
 		new = 1;
 	}
-//	else if(IDOpus->LStrCmp(completion[win].match, match) != 0)
 	else if(strcmp(completion[win].match, match) != 0)
 	{
 		entry = completion[win].firstentry;

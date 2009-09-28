@@ -35,6 +35,7 @@ the existing commercial status of Directory Opus 5.
 #define HOTKEY_MMB     5
 #define HOTKEY_HOTKEY    10
 
+/*
 struct ProgressBar
 {
 	int barX, barY;
@@ -56,12 +57,12 @@ static struct NewWindow progresswindow =
 {
 	0, 0, 0, 0, 255, 255, IDCMP_GADGETUP | IDCMP_RAWKEY, WFLG_RMBTRAP | WFLG_ACTIVATE, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
 };
-
-static struct Window *pwindow;
-static struct RastPort *prp;
-static struct DOpusRemember *prog_key;
-static struct ProgressBar bar[2];
-static int prog_xoff, prog_yoff, prog_xextra, prog_yextra, prog_areax;
+*/
+//static struct Window *pwindow;
+//static struct RastPort *prp;
+//static struct DOpusRemember *prog_key;
+//static struct ProgressBar bar[2];
+//static int prog_xoff, prog_yoff, prog_xextra, prog_yextra, prog_areax;
 
 static struct NewBroker hotkey_broker =
 {
@@ -80,9 +81,9 @@ void hotkeytaskcode()
 	int top, sig, waitbits, commodity = 0, command, x, run = 1;
 	struct dopustaskmsg *hmsg;
 	struct MsgPort *inputport;
-	struct IntuiMessage *msg;
-	ULONG class, msgid, msgtype;
-	USHORT gadgetid = 0;
+//	struct IntuiMessage *msg;
+	uint32 /*class,*/ msgid, msgtype;
+//	USHORT gadgetid = 0;
 	struct dopushotkey *hotkey;
 	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
 	CxMsg *cxmsg;
@@ -279,7 +280,7 @@ void hotkeytaskcode()
 			break;
 		}
 
-		if(pwindow)
+/*		if(pwindow)
 		{
 			while((msg = (struct IntuiMessage *)IExec->GetMsg(pwindow->UserPort)))
 			{
@@ -292,16 +293,16 @@ void hotkeytaskcode()
 					IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
 				}
 			}
-		}
+		}*/
 
 		while((hmsg = (struct dopustaskmsg *)IExec->GetMsg(hotkeymsg_port)))
 		{
 
-#define BAR_ID (hmsg->flag)
+//#define BAR_ID (hmsg->flag)
 
 			switch (hmsg->command)
 			{
-			case PROGRESS_UPDATE:
+/*			case PROGRESS_UPDATE:
 				if(pwindow)
 				{
 					if(hmsg->value > -1)
@@ -355,7 +356,7 @@ void hotkeytaskcode()
 					pwindow = NULL;
 				}
 				IDOpus->LFreeRemember(&prog_key);
-				break;
+				break;*/
 
 			case TASK_QUIT:
 				run = 0;
@@ -406,9 +407,9 @@ void hotkeytaskcode()
 			IExec->ReplyMsg((struct Message *)cxmsg);
 	}
 
-	if(pwindow)
-		IIntuition->CloseWindow(pwindow);
-	IDOpus->LFreeRemember(&prog_key);
+//	if(pwindow)
+//		IIntuition->CloseWindow(pwindow);
+//	IDOpus->LFreeRemember(&prog_key);
 	IExec->DeletePort(inputport);
 	IExec->DeletePort(hotkeymsg_port);
 	IExec->Wait(0);
@@ -502,6 +503,7 @@ void set_hotkey(CxObj *filter, USHORT code, USHORT qual)
 	}
 }
 
+/*
 void openprogresswindow(STRPTR title, int value, int total, int flag)
 {
 	struct TextFont *font;
@@ -683,6 +685,7 @@ void progressbar(struct ProgressBar *bar)
 		bar->last_w = w;
 	}
 }
+*/
 
 const char *Kstr = "K  ";
 

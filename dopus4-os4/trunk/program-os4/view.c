@@ -2054,7 +2054,8 @@ void view_fix_scroll_gadget(struct ViewData *vdata)
 	}
 	else
 	{
-		IDOpus->SetBusyPointer(vdata->view_window);
+//		IDOpus->SetBusyPointer(vdata->view_window);
+		IIntuition->SetWindowPointer(vdata->view_window, WA_BusyPointer, TRUE, TAG_END);
 		if(a > vdata->view_last_line)
 			a = vdata->view_last_line;
 		if(vdata->view_text_offset < a)
@@ -2125,7 +2126,8 @@ void view_fix_scroll_gadget(struct ViewData *vdata)
 		}
 		vdata->view_text_offset = a;
 		view_displayall(vdata);
-		IIntuition->ClearPointer(vdata->view_window);
+//		IIntuition->ClearPointer(vdata->view_window);
+		IIntuition->SetWindowPointer(vdata->view_window, WA_BusyPointer, FALSE, TAG_END);
 	}
 }
 

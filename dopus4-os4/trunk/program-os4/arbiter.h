@@ -32,7 +32,12 @@ struct ArbiterMessage
 {
 	struct Message msg;
 	uint32 command;
+	int32 current;
+	int32 total;
+	int64 file_current;
+	int64 file_total;
 	APTR data;
+	char copy_file_indicator;
 };
 
 enum
@@ -40,6 +45,8 @@ enum
 	ARBITER_REMOVE,
 
 	ARBITER_PROGRESS_OPEN,
-	ARBITER_PROGRESS_CLOSE
+	ARBITER_PROGRESS_CLOSE,
+	ARBITER_PROGRESS_INCREASE,
+	ARBITER_PROGRESS_UPDATE
 };
 

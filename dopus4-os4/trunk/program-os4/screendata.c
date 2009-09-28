@@ -89,15 +89,16 @@ struct ExtNewWindow main_win =
 	mainwindow_tags
 };
 
+/*
 struct NewWindow disk_win =
-{	/* DiskInfo window */
-	0, 0, 0, 0, 255, 255,
+{*/	/* DiskInfo window */
+/*	0, 0, 0, 0, 255, 255,
 	IDCMP_RAWKEY | IDCMP_DISKINSERTED | IDCMP_DISKREMOVED | IDCMP_GADGETUP | IDCMP_VANILLAKEY, WFLG_BORDERLESS | WFLG_RMBTRAP | WFLG_ACTIVATE,
 	NULL, NULL, NULL, NULL, NULL,
 	0, 0, 0, 0,
 	CUSTOMSCREEN
 };
-
+*/
 struct AppWindow *dopus_appwindow = NULL; /* AppWindow */
 
 

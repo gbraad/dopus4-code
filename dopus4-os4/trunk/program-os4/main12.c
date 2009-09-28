@@ -32,8 +32,9 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-#define ITEM_NUM 11
+//#define ITEM_NUM 11
 
+/*
 static short diskinfo_heads[] =
 {
 	STR_DISKINFO_DEVICE,
@@ -48,7 +49,46 @@ static short diskinfo_heads[] =
 	STR_DISKINFO_DATE,
 	STR_DISKINFO_FILESYSTEM
 };
+*/
 
+void dodiskinfo(STRPTR path)
+{
+	BPTR lock;
+	char buffer[256];
+	struct Screen *pscreen;
+
+	if(MainScreen)
+	{
+		pscreen = MainScreen;
+	}
+	else
+	{
+		pscreen = IIntuition->LockPubScreen(NULL);
+	}
+
+
+	if(pscreen && (lock = IDOS->Lock(path, ACCESS_READ)))
+	{
+		if((IDOS->DevNameFromLock(lock, buffer, 256, DN_DEVICEONLY)))
+		{
+			IDOS->UnLock(lock);
+			if((lock = IDOS->Lock(buffer, ACCESS_READ)))
+			{
+				IWorkbench->WBInfo(lock, NULL, pscreen);
+				IDOS->UnLock(lock);
+			}
+		}
+	}
+
+	if(!MainScreen)
+	{
+		IIntuition->UnlockPubScreen(NULL, pscreen);
+	}
+
+	return;
+}
+
+/*
 void dodiskinfo(char *path)
 {
 	struct InfoData *infodata = IDOS->AllocDosObject(DOS_INFODATA, NULL);
@@ -361,6 +401,7 @@ void dodiskinfo(char *path)
 		goto getnewdisk;
 	IDOS->FreeDosObject(DOS_INFODATA, infodata);
 }
+*/
 
 void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 {

@@ -50,6 +50,7 @@ enum
 {
 	OBJ_WINDOW,
 	OBJ_MAINGROUP,
+	OBJ_GROUP,
 	OBJ_FUELGAUGE_ONE,
 	OBJ_FUELGAUGE_TWO,
 	OBJ_ABORT,
@@ -61,8 +62,8 @@ Object *Objects[OBJ_NUM];
 #define OBJ(x) Objects[x]
 #define GAD(x) (struct Gadget *)Objects[x]
 
-struct Window *progresswindow;
-BOOL ignoreinc;
+struct Window *progwindow;
+int32 fuelargs[] = { 0, 0 };
 
 void abortfunction(Object *obj, struct IntuiMessage *imsg)
 {
@@ -73,9 +74,10 @@ void abortfunction(Object *obj, struct IntuiMessage *imsg)
 }
 
 
-Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, int32 ignore)
+Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, char copy_file_indicator)
 {
-	ignoreinc = 0;
+	fuelargs[0] = 0;
+	fuelargs[1] = totalfiles;
 
 	OBJ(OBJ_WINDOW) = WindowObject,
 		WA_DragBar, TRUE,
@@ -85,45 +87,60 @@ Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, int32 ignore)
 		WA_SizeGadget, FALSE,
 		WA_DepthGadget, FALSE,
 		WA_PubScreen, MainScreen,
-		WA_InnerWidth, 400,
+		WA_InnerWidth, Window->Width / 2,
 		WA_Activate, TRUE,
-		WINDOW_Position, WPOS_TOPLEFT, //CENTERSCREEN,
-		WINDOW_ParentGroup, OBJ(OBJ_MAINGROUP) = VLayoutObject,
-			LAYOUT_SpaceOuter, TRUE,
-			LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_ONE) = FuelGaugeObject,
-				FUELGAUGE_Min, 0,
-				FUELGAUGE_Max, 100,
-				FUELGAUGE_Level, 0,
-				FUELGAUGE_Ticks, TRUE,
-				FUELGAUGE_ShortTicks, TRUE,
-			End,
-			LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_TWO) = FuelGaugeObject,
-				FUELGAUGE_Min, 0,
-				FUELGAUGE_Max, totalfiles,
-				FUELGAUGE_Level, 1,
-				FUELGAUGE_Ticks, TRUE,
-				FUELGAUGE_ShortTicks, TRUE,
-				FUELGAUGE_Percent, FALSE,
-			End,
-			LAYOUT_AddChild, HLayoutObject,
-				LAYOUT_AddChild, SpaceObject,
+		WINDOW_Position, /*WPOS_TOPLEFT,*/ WPOS_CENTERSCREEN,
+		WINDOW_ParentGroup, OBJ(OBJ_MAINGROUP) = HLayoutObject,
+			LAYOUT_AddChild, SpaceObject, End,
+			CHILD_WeightedWidth, 0,
+			LAYOUT_AddChild, OBJ(OBJ_GROUP) = VLayoutObject,
+//			LAYOUT_SpaceOuter, TRUE,
+//			LAYOUT_SpaceInner, TRUE,
+				LAYOUT_AddChild, SpaceObject, End,
+				LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_ONE) = FuelGaugeObject,
+					FUELGAUGE_Min, 0,
+					FUELGAUGE_Max, 100,
+					FUELGAUGE_Level, 0,
+					FUELGAUGE_Ticks, FALSE,
+					FUELGAUGE_ShortTicks, FALSE,
+					FUELGAUGE_Percent, FALSE,
+					FUELGAUGE_Justification, FGJ_CENTER,
 				End,
-				LAYOUT_AddChild, OBJ(OBJ_ABORT) = ButtonObject,
-					GA_ID, OBJ_ABORT,
-					GA_RelVerify, TRUE,
-					GA_Text, globstring[STR_ABORT],
+				LAYOUT_AddChild, SpaceObject, End,
+				LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_TWO) = FuelGaugeObject,
+					GA_Text, "%ld / %ld",
+					FUELGAUGE_Min, 0,
+					FUELGAUGE_Max, totalfiles,
+					FUELGAUGE_Level, 1,
+					FUELGAUGE_Ticks, FALSE,
+					FUELGAUGE_ShortTicks, FALSE,
+					FUELGAUGE_Percent, FALSE,
+					FUELGAUGE_Justification, FGJ_CENTER,
+					FUELGAUGE_VarArgs, &fuelargs,
 				End,
-				CHILD_WeightedWidth, 0,
-				LAYOUT_AddChild, SpaceObject,
+				LAYOUT_AddChild, SpaceObject, End,
+				LAYOUT_AddChild, HLayoutObject,
+					LAYOUT_AddChild, SpaceObject, End,
+					LAYOUT_AddChild, OBJ(OBJ_ABORT) = ButtonObject,
+						GA_ID, OBJ_ABORT,
+						GA_RelVerify, TRUE,
+						GA_Text, globstring[STR_ABORT],
+					End,
+					CHILD_WeightedWidth, 0,
+					LAYOUT_AddChild, SpaceObject,
+					End,
 				End,
+				LAYOUT_AddChild, SpaceObject, End,
 			End,
+			CHILD_WeightedWidth, 100,
+			LAYOUT_AddChild, SpaceObject, End,
+			CHILD_WeightedWidth, 0,
 		End,
 	End;
 
-	if(ignore)
+	if(!(copy_file_indicator))
 	{
-		IIntuition->SetAttrs(OBJ(OBJ_MAINGROUP), LAYOUT_RemoveChild, OBJ(OBJ_FUELGAUGE_ONE), TAG_DONE);
-		ignoreinc = 1;
+		IIntuition->SetAttrs(OBJ(OBJ_GROUP), LAYOUT_RemoveChild, OBJ(OBJ_FUELGAUGE_ONE), TAG_DONE);
 	}
 
 	return OBJ(OBJ_WINDOW);
@@ -131,8 +148,6 @@ Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, int32 ignore)
 
 struct Window *ra_progresswindow_open(Object *obj)
 {
-	struct Window *progwindow = NULL;
-
 	if(obj)
 	{
 		progwindow = RA_OpenWindow(obj);
@@ -149,19 +164,20 @@ int ra_progresswindow_close()
 	return 0;
 }
 
-int ra_progresswindow_update_one(int64 readwrite, int64 total)
+int ra_progresswindow_update_one(int64 readwrite, int64 total, STRPTR curname)
 {
-	if(ignoreinc == 0)
+	if((config->dynamicflags & UPDATE_PROGRESSIND_COPY))
 	{
-		IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_ONE), progresswindow, NULL, (readwrite > -2) ? FUELGAUGE_Level : TAG_IGNORE, (int32)((readwrite * 100) / total), TAG_END);
+		IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_ONE), progwindow, NULL, GA_Text, curname, FUELGAUGE_Level, (int32)((readwrite * 100) / total), TAG_END);
 	}
 
 	return 0;
 }
 
-int ra_progresswindow_update_two(int32 value, STRPTR name)
+int ra_progresswindow_update_two(int32 value)
 {
-	IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_TWO), progresswindow, NULL, (value > -2) ? FUELGAUGE_Level : TAG_IGNORE, value , TAG_END);
+	fuelargs[0] += value;
+	IIntuition->RefreshSetGadgetAttrs(GAD(OBJ_FUELGAUGE_TWO), progwindow, NULL, FUELGAUGE_Level, fuelargs[0], FUELGAUGE_VarArgs, &fuelargs, TAG_END);
 
 	return 0;
 }

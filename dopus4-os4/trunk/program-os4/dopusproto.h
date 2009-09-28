@@ -40,7 +40,7 @@ void about(void);
 /* arbiter.c */
 int32 install_arbiter(void);
 void remove_arbiter(void);
-int32 arbiter_command(uint32, APTR);
+int32 arbiter_command(uint32, uint32, uint32, int64, int64, APTR, char);
 int32 arbiter_process(char *, int32, struct ExecBase *);
 
 /* archive.c */
@@ -256,7 +256,7 @@ void strtostamp(char *, char *, struct DateStamp *);
 void doassign(int);
 int checkdest(int);
 int checksame(char *, char *, int);
-int expand_path(char *, char *);
+int32 expand_path(CONST_STRPTR, STRPTR);
 
 /* main15.c */
 void ftype_doubleclick(char *, char *, int);
@@ -509,9 +509,9 @@ int32 recursive_hunt(STRPTR);
 
 /* reaction.c */
 int ra_simplerequest(CONST_STRPTR, CONST_STRPTR, uint32);
-Object *ra_progresswindow_build(STRPTR, int32, int32);
+Object *ra_progresswindow_build(STRPTR, int32, char);
 struct Window *ra_progresswindow_open(Object *);
 int ra_progresswindow_close(void);
-int ra_progresswindow_update_one(int64, int64);
-int ra_progresswindow_update_two(int32, STRPTR);
+int ra_progresswindow_update_one(int64, int64, STRPTR);
+int ra_progresswindow_update_two(int32);
 

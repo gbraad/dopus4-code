@@ -56,7 +56,7 @@ extern struct ExtNewScreen main_scr; /* Main screen */
 
 extern struct ExtNewWindow main_win;	/* Main window */
 
-extern struct NewWindow disk_win;	/* DiskInfo window */
+//extern struct NewWindow disk_win;	/* DiskInfo window */
 
 extern struct NewWindow icon_win;	/* Iconified window */
 

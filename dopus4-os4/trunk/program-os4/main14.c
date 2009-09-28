@@ -151,13 +151,6 @@ int checksame(char *src, char *dst, int type)
 	BPTR lk1, lk2;
 	int ret;
 
-/*	if(!(lk1 = IDOS->Lock(src, ACCESS_READ)))
-		return (LOCK_DIFFERENT);
-	if(!(lk2 = IDOS->Lock(dst, ACCESS_READ)))
-	{
-		IDOS->UnLock(lk1);
-		return (LOCK_DIFFERENT);
-	}*/
 	lk1 = IDOS->Lock(src, ACCESS_READ);
 	lk2 = IDOS->Lock(dst, ACCESS_READ);
 	if(!(lk1) || !(lk2))
@@ -179,7 +172,7 @@ int checksame(char *src, char *dst, int type)
 	return (ret);
 }
 
-int expand_path(char *path, char *buffer)
+int32 expand_path(CONST_STRPTR path, STRPTR buffer)
 {
 	BPTR lock;
 	APTR save;

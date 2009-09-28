@@ -196,18 +196,23 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		askeach = 1;
 		if(config->deleteflags & DELETE_ASK && !globflag)
 		{
+			char gadgetstring[100];
+
+			snprintf(gadgetstring, 100, "%s|%s", globstring[STR_DELETE], globstring[STR_CANCEL]);
+
+
 			/* Ask for confirmation before commencing delete */
 			displaydirgiven(act, file, 0);
-			if(!(a = simplerequest(globstring[STR_REALLY_DELETE], globstring[STR_DELETE], str_cancelstring, globstring[STR_ALL], NULL)))
+			if(!(a = ra_simplerequest(globstring[STR_REALLY_DELETE], gadgetstring, REQIMAGE_WARNING)))
 			{
 				endfollow(act);
 				myabort();
 				goto endfunction;
 			}
-			if(a == 2)
+/*			if(a == 2)
 			{
 				askeach = 0;
-			}
+			}*/
 		}
 		glob_unprotect_all = 0;
 		break;
@@ -538,8 +543,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			total = 1;
 		}
 
-		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total : 1, titlebuf, progress_copy || ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
-//		arbiter_command(ARBITER_PROGRESS_OPEN, NULL);
+//		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total /*value*/ : 1, titlebuf, progress_copy || ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
+		arbiter_command(ARBITER_PROGRESS_OPEN, ((total > 1) ? value : 1), ((total > 1) ? total : 1), 0, 0, titlebuf, progress_copy);
 		prog_indicator = 1;
 	}
 
@@ -577,10 +582,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			if((progtype == 1 && file->type >= ENTRY_DEVICE) || (progtype == 0 && file->type <= ENTRY_FILE) || (progtype == 2))
 				++value;
-			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, value, total, NULL, 0);
+//			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, value, total, NULL, 0);
+			arbiter_command(ARBITER_PROGRESS_INCREASE, 1, 0, 0, 0, NULL, 0);
 			if(progress_copy)
 			{
-				dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
+//				dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
+				arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 0, file->name, 0);
 			}
 		}
 
@@ -1258,7 +1265,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(progress_copy)
 				{
-					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, file->name, 1);
+//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, file->name, 1);
 				}
 				addfile(dwindow, inact, namebuf, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 				if(!noremove)
@@ -2174,12 +2181,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					if(progtype == 0 || progtype == 2)
 					{
 						++value;
-						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
+//						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
 					}
 				}
 				if(progress_copy)
 				{
-					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
+//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
 				}
 				goto functionloop;
 			}
@@ -2206,14 +2213,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		namebuf[0] = 0;
 	}
 
-	if(prog_indicator)
+/*	if(prog_indicator)
 	{
 		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 0);
 		if(progress_copy)
 		{
 			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 1);
 		}
-	}
+	}*/
 
 	switch (function)
 	{
@@ -2386,8 +2393,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
       endfunction:
 	if(prog_indicator)
 	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
-//		arbiter_command(ARBITER_PROGRESS_CLOSE, NULL);
+//		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
+		arbiter_command(ARBITER_PROGRESS_CLOSE, 0, 0, 0, 0, NULL, 0);
 	}
 	IExec->FreeSysObject(ASOT_MEMPOOL, function_memory_pool);
 	--entry_depth;

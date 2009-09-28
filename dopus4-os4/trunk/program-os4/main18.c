@@ -366,7 +366,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				if(dowhat & R_COPY)
 				{
 
-					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
+//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 
 					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 					adir = dir;
@@ -494,7 +494,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					strcpy(dname, ddir);
 					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 
-					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
+//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 					if(!mylock)
 					{
 						char tempname[FILEBUF_SIZE];

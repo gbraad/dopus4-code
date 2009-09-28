@@ -34,6 +34,7 @@ struct MsgPort *arbiter_reply_port;
 struct MsgPort *arbiter_msg_port;
 struct Process *arbiter_proc;
 struct DeathMessage *arbiter_dmsg;
+struct ProgressData *progdata;
 
 int32 install_arbiter()
 {
@@ -60,7 +61,7 @@ void remove_arbiter()
 {
 	if(arbiter_msg_port)
 	{
-		arbiter_command(ARBITER_REMOVE, NULL);
+		arbiter_command(ARBITER_REMOVE, 0, 0, 0, 0, NULL, 0);
 		IExec->WaitPort(arbiter_reply_port);
 		IExec->GetMsg(arbiter_reply_port);
 	}
@@ -73,64 +74,106 @@ void remove_arbiter()
 	return;
 }
 
-int32 arbiter_command(uint32 command, APTR data)
+int32 arbiter_command(uint32 command, uint32 current, uint32 total, int64 file_current, int64 file_total, APTR data, char copy_file_indicator)
 {
-	int ret;
+	int32 ret = 0;
 	struct ArbiterMessage *arbiter_msg;
 
-	arbiter_msg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct ArbiterMessage), ASOMSG_ReplyPort, arbiter_reply_port, TAG_END);
-	arbiter_msg->command = command;
-	arbiter_msg->data = data;
+	if((arbiter_msg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct ArbiterMessage), ASOMSG_ReplyPort, arbiter_reply_port, TAG_END)))
+	{
+		arbiter_msg->command = command;
+		arbiter_msg->current = current;
+		arbiter_msg->total = total;
+		arbiter_msg->file_current = file_current;
+		arbiter_msg->file_total = file_total;
+		arbiter_msg->data = data;
+		arbiter_msg->copy_file_indicator = copy_file_indicator;
 
-	IExec->PutMsg(arbiter_msg_port, (struct Message *)arbiter_msg);
-	IExec->WaitPort(arbiter_reply_port);
-	IExec->GetMsg(arbiter_reply_port);
+		IExec->Forbid();
+		IExec->PutMsg(arbiter_msg_port, (struct Message *)arbiter_msg);
+		IExec->Permit();
+		IExec->WaitPort(arbiter_reply_port);
+		IExec->GetMsg(arbiter_reply_port);
 
-	ret = arbiter_msg->command;
+		ret = arbiter_msg->command;
 
-	IExec->FreeSysObject(ASOT_MESSAGE, arbiter_msg);
+		IExec->FreeSysObject(ASOT_MESSAGE, arbiter_msg);
+	}
 
 	return ret;
 }
+
+uint32 window_mask;
 
 int32 arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 {
 	struct MsgPort *my_process_port;
 	struct ArbiterMessage *arb_msg;
-	char ret, remove = 0;
+	char remove = 0;
 	uint32 wait_mask;
-	Object *progwin;
+	Object *progwin = NULL;
 	struct Window *progwindow;
 
 	my_process_port = IDOS->GetProcMsgPort(NULL);
 
+	window_mask = 0;
 	wait_mask = 1 << my_process_port->mp_SigBit;
 
 	while(remove == 0)
 	{
 		IExec->Wait(wait_mask);
 
-		while ((arb_msg = (struct ArbiterMessage *)IExec->GetMsg(my_process_port)))
+		if(wait_mask & (1 << my_process_port->mp_SigBit))
 		{
-			ret = 0;
-			switch (arb_msg->command)
+			while ((arb_msg = (struct ArbiterMessage *)IExec->GetMsg(my_process_port)))
 			{
-			case ARBITER_REMOVE:
-				remove = 1;
-				break;
-			case ARBITER_PROGRESS_OPEN:
-				progwin = ra_progresswindow_build("BAH", 52, 0);
-				progwindow = ra_progresswindow_open(progwin);
-				break;
-			case ARBITER_PROGRESS_CLOSE:
-				ra_progresswindow_close();
-				break;
-			}
+				switch (arb_msg->command)
+				{
+				case ARBITER_REMOVE:
+					remove = 1;
+					break;
+				case ARBITER_PROGRESS_OPEN:
+					progwin = ra_progresswindow_build(arb_msg->data, arb_msg->total, arb_msg->copy_file_indicator);
+					progwindow = ra_progresswindow_open(progwin);
+					if(progwindow)
+					{
+						IIntuition->GetAttr(WINDOW_SigMask, progwin, &window_mask);
+						wait_mask |= window_mask;
+					}
+					break;
+				case ARBITER_PROGRESS_INCREASE:
+					ra_progresswindow_update_two(arb_msg->current);
+					break;
+				case ARBITER_PROGRESS_UPDATE:
+					ra_progresswindow_update_one(arb_msg->file_current, arb_msg->file_total, arb_msg->data);
+					break;
+				case ARBITER_PROGRESS_CLOSE:
+					ra_progresswindow_close();
+					wait_mask &= ~window_mask;
+					break;
+				}
 
-			if(arb_msg)
+				if(arb_msg)
+				{
+					arb_msg->command = 0;
+					IExec->ReplyMsg((struct Message *)arb_msg);
+				}
+			}
+		}
+		if(wait_mask & window_mask)
+		{
+			uint16 code;
+			uint32 result;
+
+			while((result = RA_HandleInput(progwin, &code)) != WMHI_LASTMSG)
 			{
-				arb_msg->command = ret;
-				IExec->ReplyMsg((struct Message *)arb_msg);
+				switch (result & WMHI_CLASSMASK)
+				{
+				case WMHI_GADGETUP:
+					status_haveaborted = status_rexxabort = 1;
+					IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
+					break;
+				}
 			}
 		}
 	}
