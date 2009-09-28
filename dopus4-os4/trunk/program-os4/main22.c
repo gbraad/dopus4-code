@@ -493,6 +493,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		dos_global_files = 0;
 		IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		break;
+	case FUNC_VERSION:
+		candoicon = 0;
+		break;
 	}
 
 	if(!(config->dynamicflags & UPDATE_PROGRESSIND_COPY))
@@ -715,6 +718,44 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			file = NULL;
 			okayflag = 1;
+			break;
+
+		case FUNC_VERSION:
+			if(file->type <= ENTRY_FILE)
+			{
+				BPTR fil;
+				CONST_STRPTR versionstring = "$VER: ";
+				int64 filelength, st = 0, i = 0;
+				char filcomm[1024] = { 0, };
+
+				if((fil = IDOS->FOpen(sourcename, MODE_OLDFILE, 0)))
+				{
+					filelength = IDOS->GetFileSize(fil);
+
+					for(st = 0; st < filelength; st++)
+					{
+						if ((IDOS->FGetC (fil)) == versionstring[i])
+						{
+							if ((++i) == 5)
+							{
+								IDOS->ChangeFilePosition(fil, 1, OFFSET_CURRENT);
+								IDOS->FGets (fil, filcomm, 1024);
+								break;
+							}
+						}
+						else
+						{
+							i = 0;
+						}
+					}
+					IDOS->FClose (fil);
+				}
+				if(i == 5)
+				{
+					okayflag = 1;
+					ra_simplerequest(filcomm, globstring[STR_OKAY], REQIMAGE_INFO);
+				}
+			}
 			break;
 
 		case FUNC_RUN:
@@ -2325,6 +2366,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			okayflag = 0;
 			IDOS->FreeDosObject(DOS_INFODATA, infodata);
 		}
+		break;
+
+	case FUNC_VERSION:
 		break;
 	}
 

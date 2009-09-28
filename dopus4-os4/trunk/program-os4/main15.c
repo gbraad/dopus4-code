@@ -429,8 +429,6 @@ int internal_function(int function, int rexx, char *source, char *dest)
 			case FUNC_ABOUT:
 				about();
 				break;
-			case FUNC_VERSION:
-				break;
 			case FUNC_CONFIGURE:
 				doconfig();
 				break;
@@ -767,7 +765,10 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					dofilefunction(function, FUNCFLAGS_FILES, spath, NULL, actwin, -1, rexx);
 					break;
 				case FUNC_ICONINFO:
-					dofilefunction(FUNC_ICONINFO, 0, spath, NULL, actwin, -1, rexx);
+					dofilefunction(FUNC_ICONINFO, FUNCFLAGS_FILES, spath, NULL, actwin, -1, rexx);
+					break;
+				case FUNC_VERSION:
+					dofilefunction(FUNC_VERSION, FUNCFLAGS_FILES, spath, NULL, actwin, -1, rexx);
 					break;
 				default:
 					func_global_function = function;

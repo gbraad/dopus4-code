@@ -51,7 +51,7 @@ struct Directory
 
 struct NewDirectory
 {
-	struct Directory *last, *next;
+	struct Node node;
 	STRPTR Name;
 	uint32 Type;
 	int64 FileSize;

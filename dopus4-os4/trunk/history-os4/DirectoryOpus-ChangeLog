@@ -146,3 +146,9 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-05-25 - DirectoryOpus 4.18.25
 * Removed more instances of IDOpus->FileRequester()
 
+2009-09-26 - DirectoryOpus 4.18.26
+* New ReAction progress indicator. Still early in development.
+
+2009-09-29 - DirectoryOpus 4.18.27
+* 'Version' command readded. Displays version string from files.
+
