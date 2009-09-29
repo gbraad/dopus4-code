@@ -36,6 +36,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/icon.h>
 #include <proto/intuition.h>
 #include <proto/utility.h>
+#include <proto/wb.h>
 
 #include <graphics/gfxbase.h>
 #include <devices/input.h>
@@ -298,6 +299,14 @@ BPTR CloneCommandDir(const char *taskname)
 	return(newpath);
 }
 
+void WBRun(int argc, char *argv[])
+{
+	IWorkbench->OpenWorkbenchObject(argv[0], TAG_END);
+
+	return;
+}
+
+/*
 void WBRun(int argc, char **argv)
 {
 	struct WBStartup *WBStartup = NULL;
@@ -432,6 +441,7 @@ void WBRun(int argc, char **argv)
 //	IDOpus->LFreeRemember(&key);
 	IExec->FreeSysObject(ASOT_MEMPOOL, key);
 }
+*/
 
 int setarg(struct WBArg *WBArg, char *name, BPTR curdir)
 {
