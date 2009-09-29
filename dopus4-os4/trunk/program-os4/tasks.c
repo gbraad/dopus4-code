@@ -691,10 +691,10 @@ const char *Kstr = "K  ";
 
 void clocktask()
 {
-	uint32 chipc, fast, wmes, h, m, s, cx, sig, cy, ct, chipnum, fastnum, a, active = 1, usage;
+	uint32 /*chipc, fast,*/ wmes, h, m, s, cx, sig, cy, ct, /*chipnum, fastnum, a,*/ active = 1; //, usage;
 	int len;
 	uint16 clock_width, clock_height, scr_height;
-	char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
+	char buf[160], date[20], time[20], formstring[160], /*memstring[160],*/ ampm;
 	struct MsgPort *clock_time_port;
 	struct TimeRequest ctimereq;
 	struct DateTime datetime = { { 0, } };
@@ -723,14 +723,14 @@ void clocktask()
 	ctimereq.Time.Microseconds = 2;
 	IExec->SendIO(&ctimereq.Request);
 
-	chipnum = getmaxmem(MEMF_CHIP);
+/*	chipnum = getmaxmem(MEMF_CHIP);
 	fastnum = getmaxmem(MEMF_FAST);
-	a = getmaxmem(MEMF_ANY);
+	a = getmaxmem(MEMF_ANY);*/
 
 	m = (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0;
 	s = (config->scrclktype & SCRCLOCK_BYTES) ? 1 : 0;
 
-	if(config->scrclktype & SCRCLOCK_C_AND_F)
+/*	if(config->scrclktype & SCRCLOCK_C_AND_F)
 	{
 		sprintf(memstring, "%lc:%%-%ldld%s", globstring[STR_CLOCK_CHIP][0], chipnum + m, Kstr + s);
 		if(fastnum > 1)
@@ -747,10 +747,10 @@ void clocktask()
 			sprintf(memstring + strlen(memstring), "%s%%-%ldld%s", globstring[STR_CLOCK_FAST], fastnum + m, Kstr + s);
 			sprintf(memstring + strlen(memstring), "%s%%-%ldld%s", globstring[STR_CLOCK_TOTAL], a + m, Kstr + s);
 		}
-	}
+	}*/
 
-	if(!(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME)))
-		snprintf(formstring, 160, NEW_VSTRING); //"Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
+	if(!(config->scrclktype & (/*SCRCLOCK_MEMORY | SCRCLOCK_CPU |*/ SCRCLOCK_DATE | SCRCLOCK_TIME)))
+		snprintf(formstring, 160, "%s (%s)", NEW_VERS, DATE); //"Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
 
 	sig = 1 << clock_time_port->mp_SigBit | 1 << clockmsg_port->mp_SigBit;
 
@@ -790,7 +790,7 @@ void clocktask()
 					if(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME))
 					{
 						formstring[0] = 0;
-						if(config->scrclktype & SCRCLOCK_MEMORY)
+/*						if(config->scrclktype & SCRCLOCK_MEMORY)
 						{
 							chipc = IExec->AvailMem(MEMF_CHIP);
 							fast = IExec->AvailMem(MEMF_FAST);
@@ -808,7 +808,7 @@ void clocktask()
 
 							sprintf(buf, "CPU:%3ld%%  ", usage);
 							strcat(formstring, buf);
-						}
+						}*/
 						if(config->scrclktype & (SCRCLOCK_DATE | SCRCLOCK_TIME))
 						{
 							IDOS->DateStamp(&(datetime.dat_Stamp));

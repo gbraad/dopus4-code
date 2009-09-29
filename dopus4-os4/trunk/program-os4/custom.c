@@ -48,7 +48,7 @@ void defaultpar(struct dopusfuncpar *par)
 	par->delay = 2;
 	par->key = par->qual = par->type = 0;
 	par->pri = config->priority;
-	par->stack = 8192;
+	par->stack = 65536; //8192;
 }
 
 void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *pars)
@@ -1563,7 +1563,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 		if(!tnil)
 			tnil = IDOS->Open("NIL:", MODE_NEWFILE);
 
-		IDOS->SystemTags(buf2, SYS_Input, IDOS->Open("NIL:", MODE_OLDFILE), SYS_Output, tnil, SYS_Error, 0, SYS_Asynch, flags & FLAG_ASYNC, TAG_END);
+		IDOS->SystemTags(buf2, SYS_Input, IDOS->Open("NIL:", MODE_OLDFILE), SYS_Output, tnil, SYS_Asynch, flags & FLAG_ASYNC, TAG_END);
 
 		if(flags & FLAG_OUTWIND && !wb2f && MainScreen)
 		{

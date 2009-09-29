@@ -752,8 +752,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				if(i == 5)
 				{
+					char gadgetstring[100];
+
+					snprintf(gadgetstring, 100, "%s|%s", globstring[STR_OKAY], globstring[STR_CANCEL]);
 					okayflag = 1;
-					ra_simplerequest(filcomm, globstring[STR_OKAY], REQIMAGE_INFO);
+					if((a = ra_simplerequest(filcomm, gadgetstring, REQIMAGE_INFO)) == 0)
+					{
+						breakout = 2;
+					}
 				}
 			}
 			break;

@@ -952,7 +952,9 @@ int dorun(STRPTR name, int state, int workbench)
 			return (-1);
 		}
 		if(rec == 2)
+		{
 			return (-2);
+		}
 	}
 	else
 	{

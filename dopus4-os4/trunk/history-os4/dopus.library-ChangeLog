@@ -43,4 +43,4 @@ of the strings have changed and would crash with an old catalog.
 old IDOS->Lock()/IDOS->Examine() pair.
 
 2008-01-07 - dopus.library 22.40
-Switched dopus.library over to use newlib instead of clib2 as well.
+* Switched dopus.library over to use newlib instead of clib2 as well.
