@@ -152,3 +152,9 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-09-29 - DirectoryOpus 4.18.27
 * 'Version' command readded. Displays version string from files.
 
+2009-09-30 - DirectoryOpus 4.18.28
+* Removed memory display in the clock bar, doesn't make sense in OS4.1.
+
+2009-10-01 - DirectoryOpus 4.18.29
+* Mouse wheel now changes gadget bank when used over that area.
+
