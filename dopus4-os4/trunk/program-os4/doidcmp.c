@@ -889,19 +889,72 @@ void doidcmp()
 					struct IntuiWheelData *iwd = IMsg->IAddress;
 					if(code & IMSGCODE_INTUIWHEELDATA)
 					{
-						if(iwd->WheelY < 0)
+						if(x >= scrdata_gadget_xpos && y >= scrdata_gadget_ypos && y < scrdata_gadget_ypos + (scr_gadget_rows * scrdata_gadget_height) + 1 && dopus_curgadbank) // gadget bank area
 						{
-							win = data_active_window;
-							verticalscroll(win, -1);
-							verticalscroll(win, -1);
-							verticalscroll(win, -1);
+							if(iwd->WheelY < 0)
+							{
+								if((data_gadgetrow_offset -= scr_gadget_rows) < 0)
+								{
+									data_gadgetrow_offset = 6 - scr_gadget_rows;
+									bank1 = dopus_curgadbank;
+									bank = dopus_firstgadbank;
+									while(bank && bank->next && bank->next != dopus_curgadbank)
+										bank = bank->next;
+									if(!bank)
+										dopus_curgadbank = dopus_firstgadbank;
+									else
+										dopus_curgadbank = bank;
+									if(bank1 != dopus_curgadbank || scr_gadget_rows < 6)
+										drawgadgets(0, 0);
+								}
+								else
+								{
+									drawgadgets(0, 0);
+								}
+								fixgadgetprop();
+							}
+							else if(iwd->WheelY > 0)
+							{
+								if((data_gadgetrow_offset += scr_gadget_rows) >= 6)
+								{
+									data_gadgetrow_offset = 0;
+									bank = dopus_curgadbank;
+									if(dopus_curgadbank && dopus_curgadbank->next)
+									{
+										dopus_curgadbank = dopus_curgadbank->next;
+									}
+									else
+									{
+										dopus_curgadbank = dopus_firstgadbank;
+									}
+									if(bank != dopus_curgadbank || scr_gadget_rows < 6)
+									{
+										drawgadgets(0, 0);
+									}
+								}
+								else
+								{
+									drawgadgets(0, 0);
+								}
+								fixgadgetprop();
+							}
 						}
-						else if(iwd->WheelY > 0)
+						else
 						{
-							win = data_active_window;
-							verticalscroll(win, 1);
-							verticalscroll(win, 1);
-							verticalscroll(win, 1);
+							if(iwd->WheelY < 0)
+							{
+								win = data_active_window;
+								verticalscroll(win, -1);
+								verticalscroll(win, -1);
+								verticalscroll(win, -1);
+							}
+							else if(iwd->WheelY > 0)
+							{
+								win = data_active_window;
+								verticalscroll(win, 1);
+								verticalscroll(win, 1);
+								verticalscroll(win, 1);
+							}
 						}
 					}
 					break;

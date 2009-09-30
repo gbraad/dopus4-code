@@ -209,10 +209,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				myabort();
 				goto endfunction;
 			}
-/*			if(a == 2)
-			{
-				askeach = 0;
-			}*/
 		}
 		glob_unprotect_all = 0;
 		break;
@@ -546,7 +542,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			total = 1;
 		}
 
-//		dotaskmsg(hotkeymsg_port, PROGRESS_OPEN, (total > 1) ? value : 1, (total > 1) ? total /*value*/ : 1, titlebuf, progress_copy || ((swindow->dirsel && (!dos_global_files)) ? 0x80 : 0x00));
 		arbiter_command(ARBITER_PROGRESS_OPEN, ((total > 1) ? value : 1), ((total > 1) ? total : 1), 0, 0, titlebuf, progress_copy);
 		prog_indicator = 1;
 	}
@@ -585,11 +580,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		{
 			if((progtype == 1 && file->type >= ENTRY_DEVICE) || (progtype == 0 && file->type <= ENTRY_FILE) || (progtype == 2))
 				++value;
-//			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, value, total, NULL, 0);
 			arbiter_command(ARBITER_PROGRESS_INCREASE, 1, 0, 0, 0, NULL, 0);
 			if(progress_copy)
 			{
-//				dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
 				arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 0, file->name, 0);
 			}
 		}
@@ -919,7 +912,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				c = strchr(buf, ':');
 				if(c)
 					*c = 0;
-				a = IDOS->AssignLock(buf, 0)/*NULL)*/ ? 1 : 0;
+				a = IDOS->AssignLock(buf, 0) ? 1 : 0;
 			}
 			else if((a = delfile(sourcename, file->name, globstring[STR_DELETING], glob_unprotect_all, 1)) == -1)
 			{
@@ -1310,10 +1303,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				if(progress_copy)
-				{
-//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, file->name, 1);
-				}
 				addfile(dwindow, inact, namebuf, file->size, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 				if(!noremove)
 				{
@@ -2017,7 +2006,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				else
 				{
-					seedate(&(file->date), buf2, 0);	// buf2[0]=0;
+					seedate(&(file->date), buf2, 0);
 					if(!(a = whatsit(globstring[STR_ENTER_DATE_AND_TIME], 20, buf2, globstring[STR_ALL])))
 					{
 						myabort();
@@ -2228,12 +2217,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					if(progtype == 0 || progtype == 2)
 					{
 						++value;
-//						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
 					}
-				}
-				if(progress_copy)
-				{
-//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, file->name, 1);
 				}
 				goto functionloop;
 			}
@@ -2259,15 +2243,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			file = nextfile;
 		namebuf[0] = 0;
 	}
-
-/*	if(prog_indicator)
-	{
-		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 0);
-		if(progress_copy)
-		{
-			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -1, status_justabort, NULL, 1);
-		}
-	}*/
 
 	switch (function)
 	{
@@ -2443,7 +2418,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
       endfunction:
 	if(prog_indicator)
 	{
-//		dotaskmsg(hotkeymsg_port, PROGRESS_CLOSE, 0, 0, NULL, 0);
 		arbiter_command(ARBITER_PROGRESS_CLOSE, 0, 0, 0, 0, NULL, 0);
 	}
 	IExec->FreeSysObject(ASOT_MEMPOOL, function_memory_pool);

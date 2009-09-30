@@ -35,45 +35,20 @@ the existing commercial status of Directory Opus 5.
 #define HOTKEY_MMB     5
 #define HOTKEY_HOTKEY    10
 
-/*
-struct ProgressBar
-{
-	int barX, barY;
-	int descY;
-	int curr, max;
-	int last_w;
-	BOOL incignore;
-	BOOL hide;
-};
-
-void progressbar(struct ProgressBar *bar);
-
-struct Gadget abortopgad =
-{
-	NULL, 0, 0, 104, 0, GFLG_GADGHCOMP, GACT_RELVERIFY, GTYP_BOOLGADGET, NULL, NULL, NULL, 0, NULL, 0, NULL
-};
-
-static struct NewWindow progresswindow =
-{
-	0, 0, 0, 0, 255, 255, IDCMP_GADGETUP | IDCMP_RAWKEY, WFLG_RMBTRAP | WFLG_ACTIVATE, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
-};
-*/
-//static struct Window *pwindow;
-//static struct RastPort *prp;
-//static struct DOpusRemember *prog_key;
-//static struct ProgressBar bar[2];
-//static int prog_xoff, prog_yoff, prog_xextra, prog_yextra, prog_areax;
-
-static struct NewBroker hotkey_broker =
+struct NewBroker hotkey_broker =
 {
 	NB_VERSION,
 	NULL,
 	"Directory Opus © Jonathan Potter",
 	"The most amazing program ever written",
-	0, COF_SHOW_HIDE, 100, NULL, 0
+	0,
+	COF_SHOW_HIDE,
+	100,
+	NULL,
+	0
 };
 
-static IX hotkey_ix = { IX_VERSION };
+IX hotkey_ix = { IX_VERSION };
 
 void hotkeytaskcode()
 {
@@ -81,9 +56,7 @@ void hotkeytaskcode()
 	int top, sig, waitbits, commodity = 0, command, x, run = 1;
 	struct dopustaskmsg *hmsg;
 	struct MsgPort *inputport;
-//	struct IntuiMessage *msg;
-	uint32 /*class,*/ msgid, msgtype;
-//	USHORT gadgetid = 0;
+	uint32 msgid, msgtype;
 	struct dopushotkey *hotkey;
 	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
 	CxMsg *cxmsg;
@@ -280,83 +253,10 @@ void hotkeytaskcode()
 			break;
 		}
 
-/*		if(pwindow)
-		{
-			while((msg = (struct IntuiMessage *)IExec->GetMsg(pwindow->UserPort)))
-			{
-				if((class = msg->Class) == IDCMP_GADGETUP)
-					gadgetid = ((struct Gadget *)msg->IAddress)->GadgetID;
-				IExec->ReplyMsg((struct Message *)msg);
-				if(class == IDCMP_GADGETUP && gadgetid == 0)
-				{
-					status_haveaborted = status_rexxabort = 1;
-					IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
-				}
-			}
-		}*/
-
 		while((hmsg = (struct dopustaskmsg *)IExec->GetMsg(hotkeymsg_port)))
 		{
-
-//#define BAR_ID (hmsg->flag)
-
 			switch (hmsg->command)
 			{
-/*			case PROGRESS_UPDATE:
-				if(pwindow)
-				{
-					if(hmsg->value > -1)
-					{
-						bar[BAR_ID].curr = hmsg->value;
-						bar[BAR_ID].max = hmsg->total;
-
-						progressbar(&bar[BAR_ID]);
-					}
-					if(bar[BAR_ID].hide)
-						break;
-					if(BAR_ID == 0 || hmsg->data)
-						progresstext(bar[BAR_ID].descY, hmsg->value, hmsg->total, hmsg->data);
-				}
-				break;
-
-			case PROGRESS_INCREASE:
-				if(pwindow)
-				{
-					if(bar[BAR_ID].incignore)
-						break;
-
-					bar[BAR_ID].curr += hmsg->value;
-					if(bar[BAR_ID].curr > bar[BAR_ID].max)
-						bar[BAR_ID].curr = bar[BAR_ID].max;
-
-					progressbar(&bar[BAR_ID]);
-					if(bar[BAR_ID].hide)
-						break;
-					progresstext(bar[BAR_ID].descY, bar[BAR_ID].curr, bar[BAR_ID].max, NULL);
-				}
-				break;
-
-			case PROGRESS_OPEN:
-				if(!pwindow)
-				{
-					openprogresswindow(hmsg->data, hmsg->value, hmsg->total, BAR_ID);
-					if(pwindow)
-					{
-						IDOpus->SetBusyPointer(pwindow);
-						waitbits |= 1 << pwindow->UserPort->mp_SigBit;
-					}
-				}
-				break;
-
-			case PROGRESS_CLOSE:
-				if(pwindow)
-				{
-					waitbits &= ~(1 << pwindow->UserPort->mp_SigBit);
-					IIntuition->CloseWindow(pwindow);
-					pwindow = NULL;
-				}
-				IDOpus->LFreeRemember(&prog_key);
-				break;*/
 
 			case TASK_QUIT:
 				run = 0;
@@ -407,9 +307,6 @@ void hotkeytaskcode()
 			IExec->ReplyMsg((struct Message *)cxmsg);
 	}
 
-//	if(pwindow)
-//		IIntuition->CloseWindow(pwindow);
-//	IDOpus->LFreeRemember(&prog_key);
 	IExec->DeletePort(inputport);
 	IExec->DeletePort(hotkeymsg_port);
 	IExec->Wait(0);
@@ -503,198 +400,14 @@ void set_hotkey(CxObj *filter, USHORT code, USHORT qual)
 	}
 }
 
-/*
-void openprogresswindow(STRPTR title, int value, int total, int flag)
-{
-	struct TextFont *font;
-	char *gadtxt[] = { globstring[STR_ABORT], NULL };
-	int a, incignore = 0;
-
-	if(flag & 0x80)
-	{
-		incignore = 1;
-		flag &= ~0x80;
-	}
-
-	if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
-	{
-		prog_xoff = Window->WScreen->WBorLeft + 2;
-		prog_yoff = Window->WScreen->WBorTop + Window->WScreen->Font->ta_YSize + 2;
-		prog_xextra = prog_xoff + Window->WScreen->WBorRight - 2;
-	}
-	else
-	{
-		prog_xoff = 2;
-		prog_yoff = 1;
-		prog_xextra = 0;
-	}
-
-	progresswindow.Width = 384 + (scr_font[FONT_REQUEST]->tf_XSize * 8) + prog_xextra;
-
-	if(progresswindow.Width > Window->WScreen->Width)
-	{
-		font = scr_font[FONT_GENERAL];
-		progresswindow.Width = 432;
-		if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
-			progresswindow.Width += prog_xextra;
-	}
-	else
-		font = scr_font[FONT_REQUEST];
-
-	progresswindow.Height = (font->tf_YSize * 5) + 22;
-	if(flag)
-	{
-		progresswindow.Height += (font->tf_YSize * 2) + 8;
-		prog_yextra = (font->tf_YSize * 2) + 8;
-	}
-	else
-		prog_yextra = 0;
-
-	if(config->generalscreenflags & SCR_GENERAL_REQDRAG)
-	{
-		progresswindow.Height += prog_yoff + Window->WScreen->WBorBottom - 1;
-		progresswindow.Flags |= WFLG_DRAGBAR | WFLG_DEPTHGADGET;
-		progresswindow.Title = title;
-	}
-	else
-	{
-		progresswindow.Flags |= WFLG_BORDERLESS;
-		progresswindow.Title = NULL;
-	}
-
-	centerwindow(&progresswindow);
-	if(!(pwindow = IIntuition->OpenWindow(&progresswindow)))
-		return;
-	prp = pwindow->RPort;
-	setupwindreq(pwindow);
-	IGraphics->SetFont(prp, font);
-
-	IDOpus->Do3DBox(prp, 26 + prog_xoff, 6 + prog_yoff, pwindow->Width - prog_xextra - 56, (font->tf_YSize * 4) + prog_yextra, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
-	IGraphics->SetAPen(prp, screen_pens[config->requestfg].pen);
-
-	abortopgad.LeftEdge = (pwindow->Width - abortopgad.Width) / 2;
-	abortopgad.Height = font->tf_YSize + 4;
-	abortopgad.TopEdge = pwindow->Height - pwindow->BorderBottom - 9 - font->tf_YSize;
-	IDOpus->AddGadgetBorders(&prog_key, &abortopgad, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
-	IDOpus->AddGadgets(pwindow, &abortopgad, gadtxt, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
-
-	IGraphics->SetRPAttrs(prp, RPTAG_APen, screen_pens[0].pen, RPTAG_DrMd, JAM2, TAG_DONE);
-	IGraphics->RectFill(prp, 26 + prog_xoff, 6 + prog_yoff, (prog_areax = prog_xoff + pwindow->Width - prog_xextra - 31), prog_yoff + (font->tf_YSize * 4) + prog_yextra + 5);
-
-	for(a = 0; a < 2; a++)
-	{
-		bar[a].last_w = 0;
-		bar[a].curr = value;
-		bar[a].max = total;
-		bar[a].incignore = incignore;
-		bar[a].hide = (a == 0) ? 0 : !flag;
-		bar[a].barX = (((pwindow->Width - 356) / 2) + 28) - font->tf_XSize;
-		bar[a].barY = font->tf_YSize + 3 + prog_yoff;
-		if(a == 0)
-			bar[a].barY += prog_yextra + 3;
-
-		if(!bar[a].hide)
-		{
-			IDOpus->Do3DBox(prp, bar[a].barX, bar[a].barY, 300, font->tf_YSize, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
-
-			bar[a].descY = bar[a].barY + font->tf_YSize + (font->tf_YSize / 2) + font->tf_Baseline;
-
-			IGraphics->SetRPAttrs(prp, RPTAG_APen, screen_pens[1].pen, RPTAG_BPen, screen_pens[0].pen, TAG_DONE);
-			IGraphics->Move(prp, bar[a].barX - (IGraphics->TextLength(prp, "0% ", 3)) - 4, bar[a].barY + font->tf_Baseline);
-			IGraphics->Text(prp, "0%", 2);
-			IGraphics->Move(prp, bar[a].barX + 302 + font->tf_XSize, bar[a].barY + font->tf_Baseline);
-			IGraphics->Text(prp, "100%", 4);
-
-			if(a == 0)
-			{
-				progresstext(bar[a].descY, value, total, NULL);
-			}
-			progressbar(&bar[a]);
-		}
-	}
-}
-
-void progresstext(int y, int val, int total, STRPTR text)
-{
-	char buf[80], *ptr;
-	int x, y1, len;
-
-	if(val == -1)
-	{
-		ptr = globstring[total ? STR_ABORTED : STR_COMPLETED];
-	}
-	else
-	{
-		if(text)
-		{
-			strncpy(buf, text, (pwindow->Width - prog_xextra - 56) / prp->Font->tf_XSize);
-		}
-		else
-		{
-			snprintf(buf, 80, globstring[STR_REMAINING], val, total);
-		}
-		ptr = buf;
-	}
-	x = 26 + ((pwindow->Width - prog_xextra - 56 - IGraphics->TextLength(prp, ptr, (len = strlen(ptr)))) / 2) + prog_xoff;
-	y1 = y - prp->Font->tf_Baseline;
-
-	if(x > prog_xoff + 26)
-	{
-		IGraphics->SetAPen(prp, screen_pens[0].pen);
-		IGraphics->RectFill(prp, prog_xoff + 26, y1, x - 1, y1 + prp->Font->tf_YSize);
-	}
-
-	IGraphics->SetAPen(prp, screen_pens[1].pen);
-	IGraphics->Move(prp, x, y);
-	IGraphics->Text(prp, ptr, len);
-
-	if(prp->cp_x <= prog_areax)
-	{
-		IGraphics->SetAPen(prp, screen_pens[0].pen);
-		IGraphics->RectFill(prp, prp->cp_x, y1, prog_areax - 1, y1 + prp->Font->tf_YSize);
-	}
-}
-
-void progressbar(struct ProgressBar *bar)
-{
-	int w;
-	BOOL draw;
-
-	if(bar->hide)
-		return;
-	if(bar->curr > 0)
-	{
-		float f = (float)(bar->curr) / (float)(bar->max);
-
-		if((w = (int)(300 * f)) > 300)
-			w = 300;
-		else if(w < 1)
-			w = 1;
-		draw = (w != bar->last_w);
-		IGraphics->SetAPen(prp, screen_pens[3].pen);
-	}
-	else
-	{
-		draw = TRUE;
-		w = 300;
-		IGraphics->SetAPen(prp, screen_pens[0].pen);
-	}
-	if(draw)
-	{
-		IGraphics->RectFill(prp, bar->barX, bar->barY, bar->barX + w - 1, bar->barY + prp->Font->tf_YSize - 1);
-		bar->last_w = w;
-	}
-}
-*/
-
 const char *Kstr = "K  ";
 
 void clocktask()
 {
-	uint32 /*chipc, fast,*/ wmes, h, m, s, cx, sig, cy, ct, /*chipnum, fastnum, a,*/ active = 1; //, usage;
+	uint32 wmes, h, m, s, cx, sig, cy, ct, active = 1;
 	int len;
 	uint16 clock_width, clock_height, scr_height;
-	char buf[160], date[20], time[20], formstring[160], /*memstring[160],*/ ampm;
+	char buf[160], date[20], time[20], formstring[160], ampm;
 	struct MsgPort *clock_time_port;
 	struct TimeRequest ctimereq;
 	struct DateTime datetime = { { 0, } };
@@ -723,34 +436,11 @@ void clocktask()
 	ctimereq.Time.Microseconds = 2;
 	IExec->SendIO(&ctimereq.Request);
 
-/*	chipnum = getmaxmem(MEMF_CHIP);
-	fastnum = getmaxmem(MEMF_FAST);
-	a = getmaxmem(MEMF_ANY);*/
+//	m = (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0;
+//	s = (config->scrclktype & SCRCLOCK_BYTES) ? 1 : 0;
 
-	m = (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0;
-	s = (config->scrclktype & SCRCLOCK_BYTES) ? 1 : 0;
-
-/*	if(config->scrclktype & SCRCLOCK_C_AND_F)
-	{
-		sprintf(memstring, "%lc:%%-%ldld%s", globstring[STR_CLOCK_CHIP][0], chipnum + m, Kstr + s);
-		if(fastnum > 1)
-		{
-			sprintf(memstring + strlen(memstring), "%lc:%%-%ldld%s", globstring[STR_CLOCK_FAST][0], fastnum + m, Kstr + s);
-			sprintf(memstring + strlen(memstring), "%lc:%%-%ldld%s", globstring[STR_CLOCK_TOTAL][0], a + m, Kstr + s);
-		}
-	}
-	else
-	{
-		sprintf(memstring, "%s%%-%ldld%s", globstring[STR_CLOCK_CHIP], chipnum + m, Kstr + s);
-		if(fastnum > 1)
-		{
-			sprintf(memstring + strlen(memstring), "%s%%-%ldld%s", globstring[STR_CLOCK_FAST], fastnum + m, Kstr + s);
-			sprintf(memstring + strlen(memstring), "%s%%-%ldld%s", globstring[STR_CLOCK_TOTAL], a + m, Kstr + s);
-		}
-	}*/
-
-	if(!(config->scrclktype & (/*SCRCLOCK_MEMORY | SCRCLOCK_CPU |*/ SCRCLOCK_DATE | SCRCLOCK_TIME)))
-		snprintf(formstring, 160, "%s (%s)", NEW_VERS, DATE); //"Directory Opus  Version %s  Compiled %s  %s", str_version_string, comp_time, comp_date);
+	if(!(config->scrclktype & (SCRCLOCK_DATE | SCRCLOCK_TIME)))
+		snprintf(formstring, 160, "%s (%s)", NEW_VERS, DATE);
 
 	sig = 1 << clock_time_port->mp_SigBit | 1 << clockmsg_port->mp_SigBit;
 
@@ -790,25 +480,6 @@ void clocktask()
 					if(config->scrclktype & (SCRCLOCK_MEMORY | SCRCLOCK_CPU | SCRCLOCK_DATE | SCRCLOCK_TIME))
 					{
 						formstring[0] = 0;
-/*						if(config->scrclktype & SCRCLOCK_MEMORY)
-						{
-							chipc = IExec->AvailMem(MEMF_CHIP);
-							fast = IExec->AvailMem(MEMF_FAST);
-							if(!(config->scrclktype & SCRCLOCK_BYTES))
-							{
-								chipc /= 1024;
-								fast /= 1024;
-							}
-							sprintf(buf, memstring, chipc, fast, chipc + fast);
-							strcat(formstring, buf);
-						}
-						if(config->scrclktype & SCRCLOCK_CPU)
-						{
-							usage = getusage();
-
-							sprintf(buf, "CPU:%3ld%%  ", usage);
-							strcat(formstring, buf);
-						}*/
 						if(config->scrclktype & (SCRCLOCK_DATE | SCRCLOCK_TIME))
 						{
 							IDOS->DateStamp(&(datetime.dat_Stamp));

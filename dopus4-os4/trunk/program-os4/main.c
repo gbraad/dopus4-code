@@ -32,11 +32,6 @@ the existing commercial status of Directory Opus 5.
 
 static const char* stackcookie USED = "$STACK: 524288";
 
-/* BEGIN clib stuff */
-//BOOL __check_abort_enabled = FALSE;
-//void __check_abort(void) { return; }
-/* END clib stuff */
-
 static BOOL staybehindWB;
 
 int main(int argc, char **argv)

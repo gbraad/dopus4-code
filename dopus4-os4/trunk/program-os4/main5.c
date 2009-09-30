@@ -71,7 +71,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		return (1);
 	}
 
-//	dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
 	arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, data->FileSize * 2, data->Name, 0);
 
 	if(!(inhandle = IDOS->Open(src, MODE_OLDFILE)))
@@ -111,7 +110,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		if(prog)
 		{
-//			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
 			arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, size_read + size_write, size_total, data->Name, 0);
 		}
 
@@ -153,7 +151,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
 		if(prog)
 		{
-//			dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, size_read + size_write, size_total, NULL, 1);
 			arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, size_read + size_write, size_total, data->Name, 0);
 		}
 

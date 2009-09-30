@@ -59,7 +59,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	struct FileInfoBlock *const enfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	BPTR mylock;
 	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL, *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
-	int suc = 0, to_do, ret = 0, a, err, adata = 0, depth = 0, b, rtry, data = fdata, *pstuff; //, blocks;
+	int suc = 0, to_do, ret = 0, a, err, adata = 0, depth = 0, b, rtry, data = fdata, *pstuff;
 	struct recpath *crec = NULL, *trec = NULL;
 	struct RecursiveDirectory *cur_recurse = NULL, *addparent_recurse = NULL, *new_rec = NULL, *pos_rec = NULL, *cur_parent = NULL, *cur_lastparent = NULL;
 	APTR data2 = NULL, adata2 = NULL, data3 = NULL, adata3 = NULL;
@@ -365,9 +365,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				strcpy(dname, dest);
 				if(dowhat & R_COPY)
 				{
-
-//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
-
 					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 					adir = dir;
 					adest = dest;
@@ -412,7 +409,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						adir = NULL;
 					}
 				}
-				else if(dowhat & (/*R_HUNT |*/ R_SEARCH | R_COMMENT | R_PROTECT | R_DATESTAMP | /*R_GETBYTES |*/ R_STARDIR))
+				else if(dowhat & (R_SEARCH | R_COMMENT | R_PROTECT | R_DATESTAMP | R_STARDIR))
 				{
 					adir = dir;
 					adest = dest;
@@ -466,11 +463,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			a = 0;
 			dos_global_bytecount += enfinfo->fib_Size;
 			dos_global_files++;
-/*			if(dowhat & R_GETBYTES && data)
-			{
-				blocks = (enfinfo->fib_Size + (data - 1)) / data;
-				dos_global_blocksneeded += blocks + (blocks / 72) + 1;
-			}*/
 
 			if(dowhat & R_GETNAMES)
 				goto skipgetnam;
@@ -494,7 +486,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					strcpy(dname, ddir);
 					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 
-//					dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, -2, 0, enfinfo->fib_FileName, 1);
 					if(!mylock)
 					{
 						char tempname[FILEBUF_SIZE];
@@ -560,7 +551,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							}
 							break;
 						}
-//						dotaskmsg(hotkeymsg_port, PROGRESS_INCREASE, 1, 0, NULL, 0);
 						if(!mylock)
 						{
 							removetemparcfile(name);
@@ -657,22 +647,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						break;
 					}
 				}
-/*				else if(dowhat & R_HUNT)
-				{
-					suc = huntfile(enfinfo->fib_FileName, name, &a);
-					ret += a;
-					if(suc)
-					{
-						if(suc == -1)
-						{
-							myabort();
-							ret = -10;
-						}
-						else
-							ret = suc;
-						break;
-					}
-				}*/
 				else if(dowhat & R_SEARCH)
 				{
 					if(!mylock)

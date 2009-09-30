@@ -333,7 +333,6 @@ uint32 ProgressFunc(struct Hook *hook, APTR *Obj, struct xadProgressInfo *xadp)
 
 	if(xadp && xadp->xpi_FileInfo && (config->dynamicflags & UPDATE_PROGRESSIND_COPY))
 	{
-//		dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 1);
 		arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 0);
 	}
 
@@ -422,7 +421,6 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 						snprintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
 						if((config->dynamicflags & UPDATE_PROGRESSIND_COPY))
 						{
-//							dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 0, IDOS->FilePart(xadfi->xfi_FileName), 1);
 							arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 100, IDOS->FilePart(xadfi->xfi_FileName), 0);
 						}
 						snprintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
