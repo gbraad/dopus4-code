@@ -34,12 +34,28 @@ int ra_simplerequest(CONST_STRPTR format, CONST_STRPTR gadgets, uint32 type)
 {
 	Object *requester;
 	uint32 result = 0;
+	struct Screen *reqscreen;
 
-	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_Image, type,REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
+	if(MainScreen)
+	{
+		reqscreen = MainScreen;
+	}
+	else
+	{
+		reqscreen = IIntuition->LockPubScreen(NULL);
+	}
+
+	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_Image, type, REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
 	if(requester)
 	{
-		result = OpenRequester(requester, Window);
+//		result = OpenRequester(requester, Window);
+		result = IIntuition->IDoMethod(requester, RM_OPENREQ, NULL, Window, reqscreen, TAG_DONE);
 		IIntuition->DisposeObject(requester);
+	}
+
+	if(!MainScreen)
+	{
+		IIntuition->UnlockPubScreen(NULL, reqscreen);
 	}
 
 	return result;

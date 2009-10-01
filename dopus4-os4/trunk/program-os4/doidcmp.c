@@ -939,6 +939,10 @@ void doidcmp()
 								fixgadgetprop();
 							}
 						}
+						else if(y >= scrdata_diskname_ypos && y < scrdata_diskname_ypos + scrdata_diskname_height) // disknamebar
+						{
+							IExec->DebugPrintF("Hello!\n");
+						}
 						else
 						{
 							if(iwd->WheelY < 0)
