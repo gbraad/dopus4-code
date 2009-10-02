@@ -36,26 +36,13 @@ int ra_simplerequest(CONST_STRPTR format, CONST_STRPTR gadgets, uint32 type)
 	uint32 result = 0;
 	struct Screen *reqscreen;
 
-	if(MainScreen)
-	{
-		reqscreen = MainScreen;
-	}
-	else
-	{
-		reqscreen = IIntuition->LockPubScreen(NULL);
-	}
+	IExec->SetSignal(0L,SIGBREAKF_CTRL_C);
 
 	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_Image, type, REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
 	if(requester)
 	{
-//		result = OpenRequester(requester, Window);
-		result = IIntuition->IDoMethod(requester, RM_OPENREQ, NULL, Window, reqscreen, TAG_DONE);
+		result = OpenRequester(requester, Window);
 		IIntuition->DisposeObject(requester);
-	}
-
-	if(!MainScreen)
-	{
-		IIntuition->UnlockPubScreen(NULL, reqscreen);
 	}
 
 	return result;
