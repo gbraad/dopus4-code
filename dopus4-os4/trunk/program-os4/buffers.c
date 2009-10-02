@@ -579,14 +579,15 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 	IExec->PutMsg(port, (struct Message *)msg);
 
 	IExec->Permit();
-	IExec->SetSignal(0, INPUTSIG_ABORT);
+	IExec->SetSignal(0, SIGBREAKF_CTRL_C);
 
 	for(;;)
 	{
 		/* If abort sequence hit, break out immediately. The message is now lost to us, we can never free it */
-		if((IExec->Wait(1 << general_port->mp_SigBit | INPUTSIG_ABORT)) & INPUTSIG_ABORT)
+		if((IExec->Wait(1 << general_port->mp_SigBit | SIGBREAKF_CTRL_C)) & SIGBREAKF_CTRL_C)
 		{
 			status_haveaborted = status_justabort = 0;
+			IExec->SetSignal(0, SIGBREAKF_CTRL_C);
 			break;
 		}
 

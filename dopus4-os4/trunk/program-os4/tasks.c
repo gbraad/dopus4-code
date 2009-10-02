@@ -184,7 +184,7 @@ void hotkeytaskcode()
 			if(((struct IntuitionBase *)(IIntuition->Data.LibBase))->ActiveWindow == Window)
 			{
 				status_haveaborted = status_rexxabort = 1;
-				IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
+				IExec->Signal((struct Task *)main_proc, SIGBREAKF_CTRL_C);
 			}
 			break;
 

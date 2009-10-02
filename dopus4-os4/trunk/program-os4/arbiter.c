@@ -171,7 +171,7 @@ int32 arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 				{
 				case WMHI_GADGETUP:
 					status_haveaborted = status_rexxabort = 1;
-					IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
+					IExec->Signal((struct Task *)main_proc, SIGBREAKF_CTRL_C);
 					break;
 				}
 			}

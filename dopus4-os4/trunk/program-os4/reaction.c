@@ -34,9 +34,8 @@ int ra_simplerequest(CONST_STRPTR format, CONST_STRPTR gadgets, uint32 type)
 {
 	Object *requester;
 	uint32 result = 0;
-	struct Screen *reqscreen;
 
-	IExec->SetSignal(0L,SIGBREAKF_CTRL_C);
+//	IExec->SetSignal(0L,SIGBREAKF_CTRL_C);
 
 	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_Image, type, REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
 	if(requester)
@@ -68,15 +67,6 @@ Object *Objects[OBJ_NUM];
 struct Window *progwindow;
 int32 fuelargs[] = { 0, 0 };
 
-void abortfunction(Object *obj, struct IntuiMessage *imsg)
-{
-	status_haveaborted = status_rexxabort = 1;
-	IExec->Signal((struct Task *)main_proc, INPUTSIG_ABORT);
-
-	return;
-}
-
-
 Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, char copy_file_indicator)
 {
 	fuelargs[0] = 0;
@@ -92,13 +82,11 @@ Object *ra_progresswindow_build(STRPTR title, int32 totalfiles, char copy_file_i
 		WA_PubScreen, MainScreen,
 		WA_InnerWidth, Window->Width / 2,
 		WA_Activate, TRUE,
-		WINDOW_Position, /*WPOS_TOPLEFT,*/ WPOS_CENTERSCREEN,
+		WINDOW_Position, WPOS_CENTERSCREEN,
 		WINDOW_ParentGroup, OBJ(OBJ_MAINGROUP) = HLayoutObject,
 			LAYOUT_AddChild, SpaceObject, End,
 			CHILD_WeightedWidth, 0,
 			LAYOUT_AddChild, OBJ(OBJ_GROUP) = VLayoutObject,
-//			LAYOUT_SpaceOuter, TRUE,
-//			LAYOUT_SpaceInner, TRUE,
 				LAYOUT_AddChild, SpaceObject, End,
 				LAYOUT_AddChild, OBJ(OBJ_FUELGAUGE_ONE) = FuelGaugeObject,
 					FUELGAUGE_Min, 0,
