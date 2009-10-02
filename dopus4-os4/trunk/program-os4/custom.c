@@ -1580,7 +1580,6 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 				if((bit = IExec->Wait(1 << msgport->mp_SigBit | rexx_signalbit | SIGBREAKF_CTRL_C)) & SIGBREAKF_CTRL_C)
 				{
 					status_justabort = status_haveaborted = 0;
-					IExec->SetSignal(0, SIGBREAKF_CTRL_C);
 					break;
 				}
 				if(bit & rexx_signalbit)

@@ -35,8 +35,6 @@ int ra_simplerequest(CONST_STRPTR format, CONST_STRPTR gadgets, uint32 type)
 	Object *requester;
 	uint32 result = 0;
 
-//	IExec->SetSignal(0L,SIGBREAKF_CTRL_C);
-
 	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_Image, type, REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
 	if(requester)
 	{

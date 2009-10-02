@@ -587,7 +587,6 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 		if((IExec->Wait(1 << general_port->mp_SigBit | SIGBREAKF_CTRL_C)) & SIGBREAKF_CTRL_C)
 		{
 			status_haveaborted = status_justabort = 0;
-			IExec->SetSignal(0, SIGBREAKF_CTRL_C);
 			break;
 		}
 

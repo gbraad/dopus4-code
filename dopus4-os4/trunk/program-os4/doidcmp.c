@@ -43,7 +43,7 @@ void doidcmp()
 
 	for(;;)
 	{
-		waitbits = 1 << Window->UserPort->mp_SigBit | 1 << count_port->mp_SigBit | rexx_signalbit | INPUTSIG_HOTKEY;
+		waitbits = 1 << Window->UserPort->mp_SigBit | 1 << count_port->mp_SigBit | rexx_signalbit | INPUTSIG_HOTKEY | SIGBREAKF_CTRL_C;
 		if(WorkbenchBase && IWorkbench && dopus_appwindow)
 			waitbits |= 1 << appmsg_port->mp_SigBit;
 		if(ApplicationBase && IApplication && (config->icontype & ICON_APPICON) && docky)
@@ -74,6 +74,11 @@ void doidcmp()
 			status_flags |= STATUS_FROMHOTKEY;
 			dofunctionstring(hotkey->func.function, hotkey->name, NULL, &par);
 			status_flags &= ~STATUS_FROMHOTKEY;
+			continue;
+		}
+		if(wmes & SIGBREAKF_CTRL_C)
+		{
+			IExec->SetSignal(0, SIGBREAKF_CTRL_C);
 			continue;
 		}
 		if(wmes & rexx_signalbit)
