@@ -114,6 +114,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 enum
 {
 	VIEW_SEARCH,
+	VIEW_PRINT,
 	VIEW_QUIT,
 
 	VIEW_NUM_GADGETS
@@ -257,7 +258,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 {
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
-	char arg[7][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
+	char arg[3][2] = {{0,0},{0,0},{0,0}};
 
 	if(config->viewbits & VIEWBITS_INWINDOW)
 	{
@@ -301,10 +302,6 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 	arg[0][0] = globstring[STR_VIEW_BUTTONS][0];
 	arg[1][0] = globstring[STR_VIEW_BUTTONS][1];
 	arg[2][0] = globstring[STR_VIEW_BUTTONS][2];
-	arg[3][0] = globstring[STR_VIEW_BUTTONS][3];
-	arg[4][0] = globstring[STR_VIEW_BUTTONS][4];
-	arg[5][0] = globstring[STR_VIEW_BUTTONS][5];
-	arg[6][0] = globstring[STR_VIEW_BUTTONS][6];
 
 	return (WindowObject,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_Title : TAG_IGNORE, title,
@@ -321,10 +318,6 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? TAG_IGNORE : WA_Borderless, TRUE,
 		WINDOW_AppPort, viewmsgport,
 		WINDOW_IconifyGadget, TRUE,
-//		WINDOW_GadgetUserData, WGUD_HOOK,
-//		WINDOW_NewMenu, MainMenu,
-//		WINDOW_MenuUserData, WGUD_HOOK,
-//		WINDOW_AppMsgHook, &AppMsgHook,
 		WINDOW_ParentGroup, VLayoutObject,
 			LAYOUT_SpaceInner, TRUE,
 			LAYOUT_SpaceOuter, TRUE,
@@ -348,38 +341,20 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 				LAYOUT_AddChild, SpaceObject, 
 				End,
 				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_SEARCH,
 					GA_Text, arg[0],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_PRINT,
 					GA_Text, arg[1],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
-					GA_Text, arg[2],
-					GA_RelVerify, TRUE,
-				End,
-				CHILD_WeightedWidth, 0,
-				LAYOUT_AddChild, ButtonObject,
-					GA_Text, arg[3],
-					GA_RelVerify, TRUE,
-				End,
-				CHILD_WeightedWidth, 0,
-				LAYOUT_AddChild, ButtonObject,
-					GA_Text, arg[4],
-					GA_RelVerify, TRUE,
-				End,
-				CHILD_WeightedWidth, 0,
-				LAYOUT_AddChild, ButtonObject,
-					GA_Text, arg[5],
-					GA_RelVerify, TRUE,
-				End,
-				CHILD_WeightedWidth, 0,
-				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_QUIT,
-					GA_Text, arg[6],
+					GA_Text, arg[2],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
