@@ -28,7 +28,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#include "view.h"
+//#include "view.h"
 
 struct MsgPort *arbiter_reply_port;
 struct MsgPort *arbiter_msg_port;
@@ -167,11 +167,14 @@ int32 arbiter_process(char *argstr, int32 arglen, struct ExecBase *sysbase2)
 
 			while((result = RA_HandleInput(progwin, &code)) != WMHI_LASTMSG)
 			{
-				switch (result & WMHI_CLASSMASK)
+				switch(result & WMHI_CLASSMASK)
 				{
 				case WMHI_GADGETUP:
-					status_haveaborted = status_rexxabort = 1;
-					IExec->Signal((struct Task *)main_proc, SIGBREAKF_CTRL_C);
+					if((result & WMHI_GADGETMASK) == 5)
+					{
+						status_haveaborted = status_rexxabort = 1;
+						IExec->Signal((struct Task *)main_proc, SIGBREAKF_CTRL_C);
+					}
 					break;
 				}
 			}

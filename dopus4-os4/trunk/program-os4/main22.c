@@ -1549,7 +1549,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				break;
 			}
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
-			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, /*str_arcorgname[0] ?*/ 1 /*: 0*/, (entry_depth > 1));
+			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, str_arcorgname[0] ? 1 : 0, (entry_depth > 1));
 			if(a != -2)
 			{
 				if(a != -3)

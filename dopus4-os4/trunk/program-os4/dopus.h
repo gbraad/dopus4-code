@@ -45,6 +45,7 @@ the existing commercial status of Directory Opus 5.
 #include <dos/exall.h>
 #include <intuition/intuitionbase.h>
 #include <intuition/imageclass.h>
+#include <intuition/icclass.h>
 #include <intuition/sghooks.h>
 #include <graphics/gfxbase.h>
 #include <graphics/gfxmacros.h>

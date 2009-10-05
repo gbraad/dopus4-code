@@ -29,6 +29,18 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+struct ViewNode
+{
+	struct Node vnode;
+	STRPTR filename;
+	STRPTR name;
+	int function;
+	int wait;
+	STRPTR initialsearch;
+	BOOL deleteonexit;
+	STRPTR processname;
+};
+
 struct ViewData
 {
 	int64 view_file_size;
