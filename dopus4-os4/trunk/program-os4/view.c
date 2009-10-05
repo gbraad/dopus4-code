@@ -332,7 +332,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 				LAYOUT_AddChild, ViewTE = TextEditorObject,
 					GA_ReadOnly, TRUE,
 					GA_TEXTEDITOR_ReadOnly, TRUE,
-					GA_TEXTEDITOR_ExportWrap, 0,
+					GA_TEXTEDITOR_FixedFont, TRUE,
 					ICA_MAP, text2prop,
 					ICA_TARGET, (struct Gadget *)ViewScroller,
 				End,
