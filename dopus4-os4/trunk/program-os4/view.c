@@ -46,8 +46,26 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 	struct Process *viewproc = NULL;
 	struct MsgPort *deathmsg_replyport;
 	struct DeathMessage *deathmsg = NULL;
-//	struct List *viewlist;
 	struct ViewNode *viewnode;
+
+	if(!noftype)
+	{
+		switch(function)
+		{
+		case FUNC_HEXREAD:
+			if(checkfiletypefunc(filename, FTFUNC_HEXREAD))
+				return 1;
+			break;
+		case FUNC_ANSIREAD:
+			if(checkfiletypefunc(filename, FTFUNC_ANSIREAD))
+				return 1;
+			break;
+		default:
+			if(checkfiletypefunc(filename, FTFUNC_READ))
+				return 1;
+			break;
+		}
+	}
 
 	IUtility->SNPrintf(processname, 15, "dopus_view.%ld", system_dopus_runcount);
 
@@ -92,6 +110,14 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 }
 
 /* The View File Process, with it's variables */
+
+enum
+{
+	VIEW_SEARCH,
+	VIEW_QUIT,
+
+	VIEW_NUM_GADGETS
+};
 
 STRPTR ViewBuf = NULL;
 Object *ViewWin, *ViewTE, *ViewScroller;
@@ -145,6 +171,9 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 				case WMHI_GADGETUP:
 					switch(result & WMHI_GADGETMASK)
 					{
+					case VIEW_QUIT:
+						running = FALSE;
+						break;
 					}
 					break;
 				case WMHI_RAWKEY:
@@ -228,6 +257,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 {
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
+	char arg[7][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 
 	if(config->viewbits & VIEWBITS_INWINDOW)
 	{
@@ -268,6 +298,14 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 		Height = ViewScreen->Height - Top;
 	}
 
+	arg[0][0] = globstring[STR_VIEW_BUTTONS][0];
+	arg[1][0] = globstring[STR_VIEW_BUTTONS][1];
+	arg[2][0] = globstring[STR_VIEW_BUTTONS][2];
+	arg[3][0] = globstring[STR_VIEW_BUTTONS][3];
+	arg[4][0] = globstring[STR_VIEW_BUTTONS][4];
+	arg[5][0] = globstring[STR_VIEW_BUTTONS][5];
+	arg[6][0] = globstring[STR_VIEW_BUTTONS][6];
+
 	return (WindowObject,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_Title : TAG_IGNORE, title,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_DragBar : TAG_IGNORE, TRUE,
@@ -287,23 +325,66 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 //		WINDOW_NewMenu, MainMenu,
 //		WINDOW_MenuUserData, WGUD_HOOK,
 //		WINDOW_AppMsgHook, &AppMsgHook,
-		WINDOW_ParentGroup, HLayoutObject,
+		WINDOW_ParentGroup, VLayoutObject,
 			LAYOUT_SpaceInner, TRUE,
 			LAYOUT_SpaceOuter, TRUE,
-			LAYOUT_AddChild, ViewTE = TextEditorObject,
-				GA_ReadOnly, TRUE,
-				GA_TEXTEDITOR_ReadOnly, TRUE,
-				GA_TEXTEDITOR_ExportWrap, 0,
-				ICA_MAP, text2prop,
-				ICA_TARGET, (struct Gadget *)ViewScroller,
+			LAYOUT_AddChild, HLayoutObject,
+				LAYOUT_AddChild, ViewTE = TextEditorObject,
+					GA_ReadOnly, TRUE,
+					GA_TEXTEDITOR_ReadOnly, TRUE,
+					GA_TEXTEDITOR_ExportWrap, 0,
+					ICA_MAP, text2prop,
+					ICA_TARGET, (struct Gadget *)ViewScroller,
+				End,
+				LAYOUT_AddChild, ViewScroller = ScrollerObject,
+					SCROLLER_Orientation, SORIENT_VERT,
+					SCROLLER_Arrows, TRUE,
+					ICA_MAP, prop2text,
+					ICA_TARGET, (struct Gadget *)ViewTE,
+				End,
 			End,
-
-			LAYOUT_AddChild, ViewScroller = ScrollerObject,
-				SCROLLER_Orientation, SORIENT_VERT,
-				SCROLLER_Arrows, TRUE,
-				ICA_MAP, prop2text,
-				ICA_TARGET, (struct Gadget *)ViewTE,
+			LAYOUT_AddChild, HLayoutObject,
+				LAYOUT_EvenSize, TRUE,
+				LAYOUT_AddChild, SpaceObject, 
+				End,
+				LAYOUT_AddChild, ButtonObject,
+					GA_Text, arg[0],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_Text, arg[1],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_Text, arg[2],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_Text, arg[3],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_Text, arg[4],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_Text, arg[5],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_QUIT,
+					GA_Text, arg[6],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
 			End,
+			CHILD_WeightedHeight, 0,
 		End,
 	End);
 }
