@@ -121,7 +121,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	if((ViewWindow = RA_OpenWindow(ViewWin)))
 	{
-		uint32 sigmask = 0, siggot = 0, result = 0;
+		uint32 sigmask = 0, siggot = 0, result = 0, query1 = 0, query2 = 0, query3 = 0;
 		uint16 code = 0;
 
 		DisplayFile(ViewWindow, viewnode->filename);
@@ -150,6 +150,29 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 				case WMHI_RAWKEY:
 					switch(code)
 					{
+					case RAWKEY_CRSRUP:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 - 1) > query1) ? 0 : (query2 - 1), TAG_END);
+						break;
+					case RAWKEY_CRSRDOWN:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 + 1) > query1) ? 0 : (query2 + 1), TAG_END);
+						break;
+					case RAWKEY_HOME:
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, 0, TAG_END);
+						break;
+					case RAWKEY_END:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_Entries, &query1, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1, TAG_END);
+						break;
+					case RAWKEY_PAGEUP:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, GA_TEXTEDITOR_Prop_Entries, &query3, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query1 - query2) > query3) ? 0 : (query1 - query2), TAG_END);
+						break;
+					case RAWKEY_PAGEDOWN:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1 + query2, TAG_END);
+						break;
 					case RAWKEY_ESC:
 						running = FALSE;
 						break;
