@@ -158,3 +158,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-10-01 - DirectoryOpus 4.18.29
 * Mouse wheel now changes gadget bank when used over that area.
 
+2009-10-05 - DirectoryOpus 4.18.30
+* TextViewer has been rewritten using Reaction. Needs updating.
+
