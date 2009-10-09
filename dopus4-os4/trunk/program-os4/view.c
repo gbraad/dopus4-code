@@ -299,6 +299,11 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 		Height = ViewScreen->Height - Top;
 	}
 
+	if(!ViewScreen && MainScreen)
+	{
+		ViewScreen = MainScreen;
+	}
+
 	arg[0][0] = globstring[STR_VIEW_BUTTONS][0];
 	arg[1][0] = globstring[STR_VIEW_BUTTONS][1];
 	arg[2][0] = globstring[STR_VIEW_BUTTONS][2];
