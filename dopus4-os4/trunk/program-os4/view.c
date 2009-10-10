@@ -113,6 +113,10 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 
 enum
 {
+	VIEW_UP,
+	VIEW_DOWN,
+	VIEW_TOP,
+	VIEW_BOTTOM,
 	VIEW_SEARCH,
 	VIEW_PRINT,
 	VIEW_QUIT,
@@ -172,6 +176,21 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 				case WMHI_GADGETUP:
 					switch(result & WMHI_GADGETMASK)
 					{
+					case VIEW_UP:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 - 1) > query1) ? 0 : (query2 - 1), TAG_END);
+						break;
+					case VIEW_DOWN:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 + 1) > query1) ? 0 : (query2 + 1), TAG_END);
+						break;
+					case VIEW_TOP:
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, 0, TAG_END);
+						break;
+					case VIEW_BOTTOM:
+						IIntuition->GetAttrs(ViewTE, GA_TEXTEDITOR_Prop_Entries, &query1, TAG_END);
+						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)ViewTE, ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1, TAG_END);
+						break;
 					case VIEW_QUIT:
 						running = FALSE;
 						break;
@@ -258,7 +277,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 {
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
-	char arg[3][2] = {{0,0},{0,0},{0,0}};
+	char arg[7][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 
 	if(config->viewbits & VIEWBITS_INWINDOW)
 	{
@@ -307,6 +326,10 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 	arg[0][0] = globstring[STR_VIEW_BUTTONS][0];
 	arg[1][0] = globstring[STR_VIEW_BUTTONS][1];
 	arg[2][0] = globstring[STR_VIEW_BUTTONS][2];
+	arg[3][0] = globstring[STR_VIEW_BUTTONS][3];
+	arg[4][0] = globstring[STR_VIEW_BUTTONS][4];
+	arg[5][0] = globstring[STR_VIEW_BUTTONS][5];
+	arg[6][0] = globstring[STR_VIEW_BUTTONS][6];
 
 	return (WindowObject,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_Title : TAG_IGNORE, title,
@@ -346,20 +369,44 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 				LAYOUT_AddChild, SpaceObject, 
 				End,
 				LAYOUT_AddChild, ButtonObject,
-					GA_ID, VIEW_SEARCH,
+					GA_ID, VIEW_UP,
 					GA_Text, arg[0],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
-					GA_ID, VIEW_PRINT,
+					GA_ID, VIEW_DOWN,
 					GA_Text, arg[1],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
-					GA_ID, VIEW_QUIT,
+					GA_ID, VIEW_TOP,
 					GA_Text, arg[2],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_BOTTOM,
+					GA_Text, arg[3],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_SEARCH,
+					GA_Text, arg[4],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_PRINT,
+					GA_Text, arg[5],
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_QUIT,
+					GA_Text, arg[6],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,

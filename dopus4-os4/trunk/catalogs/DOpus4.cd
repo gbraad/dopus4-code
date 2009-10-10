@@ -795,7 +795,7 @@ BRSA?EFCIQ
 ; The tiny buttons used in the built-in text viewer
 ;
 STR_VIEW_BUTTONS (//)
-SPQ
+UDTBSPQ
 ;
 ;
 ;
