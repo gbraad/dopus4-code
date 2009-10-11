@@ -749,13 +749,15 @@ Print _Title
 ; Searching a string in a file
 ;
 STR_SEARCH_NO_CASE (//)
-Treat upper and lower case as the same
+Case insensitive
+; Treat upper and lower case as the same
 ;
 STR_SEARCH_WILD (//)
 Recognise ? as a wildcard character
 ;
 STR_SEARCH_ONLYWORD (//)
-Only match on whole, unbroken words
+Whole words
+; Only match on whole, unbroken words
 ;
 ;
 STR_ENTER_FILTER (//)

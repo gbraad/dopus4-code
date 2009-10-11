@@ -161,3 +161,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-10-05 - DirectoryOpus 4.18.30
 * TextViewer has been rewritten using Reaction. Needs updating.
 
+2009-10-11 - DirectoryOpus 4.18.31
+* Search implemented in the new text viewer.
+
