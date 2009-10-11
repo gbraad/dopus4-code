@@ -39,6 +39,13 @@ void DisplayFile(struct Window *, STRPTR);
 struct ViewNode *allocviewnode(STRPTR, STRPTR, STRPTR, int, STRPTR, int);
 void cleanupviewnode(struct ViewNode *);
 
+void view_pageup(void);
+void view_pagedown(void);
+void view_lineup(void);
+void view_linedown(void);
+void view_home(void);
+void view_end(void);
+
 int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
 	int32 ret = 0;
@@ -117,7 +124,6 @@ enum
 
 	VIEW_SEARCHSTRING,
 	VIEW_UPPERLOWER,
-	VIEW_WILDCARD,
 	VIEW_WHOLEWORDS,
 
 	VIEW_TEXTEDITOR,
@@ -136,6 +142,7 @@ enum
 
 Object *OBJ[VIEW_NUM_GADGETS];
 STRPTR ViewBuf = NULL;
+struct Window *ViewWindow = NULL;
 struct Screen *ViewScreen = NULL;
 
 struct TagItem text2prop[] = {{GA_TEXTEDITOR_Prop_First, SCROLLER_Top}, {GA_TEXTEDITOR_Prop_Visible, SCROLLER_Visible},{GA_TEXTEDITOR_Prop_Entries, SCROLLER_Total},{TAG_DONE}};
@@ -143,7 +150,6 @@ struct TagItem prop2text[] = {{SCROLLER_Top, GA_TEXTEDITOR_Prop_First}, {TAG_DON
 
 int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 {
-	struct Window *ViewWindow = NULL;
 	struct MsgPort *ViewMsgPort = NULL;
 	BOOL running = TRUE;
 	struct ViewNode *viewnode;
@@ -154,15 +160,15 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	OBJ[VIEW_WINDOW] = makeviewwindow(ViewMsgPort, viewnode->name);
 
-	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, TAG_END);
-	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
-	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, TAG_END);
-	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
-
 	if((ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
 	{
-		uint32 sigmask = 0, siggot = 0, result = 0, query1 = 0, query2 = 0, query3 = 0;
+		uint32 sigmask = 0, siggot = 0, result = 0;
 		uint16 code = 0;
+
+		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, TAG_END);
+		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
+		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, TAG_END);
+		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
 
 		DisplayFile(ViewWindow, viewnode->filename);
 
@@ -186,19 +192,16 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 					switch(result & WMHI_GADGETMASK)
 					{
 					case VIEW_UP:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, GA_TEXTEDITOR_Prop_Entries, &query3, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query1 - query2) > query3) ? 0 : (query1 - query2), TAG_END);
+						view_pageup();
 						break;
 					case VIEW_DOWN:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1 + query2, TAG_END);
+						view_pagedown();
 						break;
 					case VIEW_TOP:
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, 0, TAG_END);
+						view_home();
 						break;
 					case VIEW_BOTTOM:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1, TAG_END);
+						view_end();
 						break;
 					case VIEW_QUIT:
 						running = FALSE;
@@ -209,27 +212,22 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 					switch(code)
 					{
 					case RAWKEY_CRSRUP:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 - 1) > query1) ? 0 : (query2 - 1), TAG_END);
+						view_lineup();
 						break;
 					case RAWKEY_CRSRDOWN:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 + 1) > query1) ? 0 : (query2 + 1), TAG_END);
+						view_linedown();
 						break;
 					case RAWKEY_HOME:
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, 0, TAG_END);
+						view_home();
 						break;
 					case RAWKEY_END:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1, TAG_END);
+						view_end();
 						break;
 					case RAWKEY_PAGEUP:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, GA_TEXTEDITOR_Prop_Entries, &query3, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query1 - query2) > query3) ? 0 : (query1 - query2), TAG_END);
+						view_pageup();
 						break;
 					case RAWKEY_PAGEDOWN:
-						IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, TAG_END);
-						IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1 + query2, TAG_END);
+						view_pagedown();
 						break;
 					case RAWKEY_ESC:
 						running = FALSE;
@@ -272,7 +270,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		ViewBuf = NULL;
 	}
 
-	if(ViewScreen)
+	if(ViewScreen && (ViewScreen != MainScreen))
 	{
 		IIntuition->CloseScreen(ViewScreen);
 		ViewScreen = NULL;
@@ -286,7 +284,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 {
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
-	char arg[7][2] = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
+	char arg[7][3] = {{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 
 	if(config->viewbits & VIEWBITS_INWINDOW)
 	{
@@ -332,13 +330,20 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 		ViewScreen = MainScreen;
 	}
 
-	arg[0][0] = globstring[STR_VIEW_BUTTONS][0];
-	arg[1][0] = globstring[STR_VIEW_BUTTONS][1];
-	arg[2][0] = globstring[STR_VIEW_BUTTONS][2];
-	arg[3][0] = globstring[STR_VIEW_BUTTONS][3];
-	arg[4][0] = globstring[STR_VIEW_BUTTONS][4];
-	arg[5][0] = globstring[STR_VIEW_BUTTONS][5];
-	arg[6][0] = globstring[STR_VIEW_BUTTONS][6];
+	arg[0][0] = '_';
+	arg[0][1] = globstring[STR_VIEW_BUTTONS][0];
+	arg[1][0] = '_';
+	arg[1][1] = globstring[STR_VIEW_BUTTONS][1];
+	arg[2][0] = '_';
+	arg[2][1] = globstring[STR_VIEW_BUTTONS][2];
+	arg[3][0] = '_';
+	arg[3][1] = globstring[STR_VIEW_BUTTONS][3];
+	arg[4][0] = '_';
+	arg[4][1] = globstring[STR_VIEW_BUTTONS][4];
+	arg[5][0] = '_';
+	arg[5][1] = globstring[STR_VIEW_BUTTONS][5];
+	arg[6][0] = '_';
+	arg[6][1] = globstring[STR_VIEW_BUTTONS][6];
 
 	return (WindowObject,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_Title : TAG_IGNORE, title,
@@ -347,7 +352,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_SizeGadget : TAG_IGNORE, TRUE,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_DepthGadget : TAG_IGNORE, TRUE,
 		WA_Activate, TRUE,
-		WA_CustomScreen, ViewScreen,
+		(config->viewbits & VIEWBITS_INWINDOW) ? TAG_IGNORE : WA_CustomScreen, ViewScreen,
 		WA_Left, Left,
 		WA_Top, Top,
 		WA_Width, Width,
@@ -357,27 +362,25 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WINDOW_IconifyGadget : TAG_IGNORE, TRUE,
 		WINDOW_ParentGroup, VLayoutObject,
 			LAYOUT_AddChild, HLayoutObject,
+				LAYOUT_BevelStyle, BVS_GROUP,
+				LAYOUT_Label, globstring[STR_ENTER_SEARCH_STRING],
+				LAYOUT_AddChild, OBJ[VIEW_SEARCHSTRING] = StringObject,
+					STRINGA_MinVisible, 20,
+					STRINGA_MarkActive, TRUE,
+				End,
+				LAYOUT_AddChild, OBJ[VIEW_UPPERLOWER] = CheckBoxObject,
+					GA_Text, globstring[STR_SEARCH_NO_CASE],
+					GA_Selected, (search_flags & SEARCH_NOCASE) ? TRUE : FALSE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, OBJ[VIEW_WHOLEWORDS] = CheckBoxObject,
+					GA_Text, globstring[STR_SEARCH_ONLYWORD],
+					GA_Selected, (search_flags & SEARCH_ONLYWORDS) ? TRUE : FALSE,
+				End,
+				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, SpaceObject,
 				End,
 				CHILD_WeightedWidth, 100,
-				LAYOUT_AddChild, VLayoutObject,
-					LAYOUT_BevelStyle, BVS_GROUP,
-					LAYOUT_Label, globstring[STR_ENTER_SEARCH_STRING],
-					LAYOUT_AddChild, OBJ[VIEW_SEARCHSTRING] = StringObject,
-						STRINGA_MinVisible, 20,
-						STRINGA_MarkActive, TRUE,
-					End,
-					LAYOUT_AddChild, CheckBoxObject,
-						GA_Text, globstring[STR_SEARCH_NO_CASE],
-					End,
-					LAYOUT_AddChild, CheckBoxObject,
-						GA_Text, globstring[STR_SEARCH_WILD],
-					End,
-					LAYOUT_AddChild, CheckBoxObject,
-						GA_Text, globstring[STR_SEARCH_ONLYWORD],
-					End,
-				End,
-				CHILD_WeightedHeight, 0,
 			End,
 			CHILD_WeightedHeight, 0,
 			LAYOUT_AddChild, HLayoutObject,
@@ -385,14 +388,14 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 					GA_ReadOnly, TRUE,
 					GA_TEXTEDITOR_ReadOnly, TRUE,
 					GA_TEXTEDITOR_FixedFont, TRUE,
-					ICA_MAP, text2prop,
-					ICA_TARGET, (struct Gadget *)OBJ[VIEW_SCROLLER],
+//					ICA_MAP, text2prop,
+//					ICA_TARGET, (struct Gadget *)OBJ[VIEW_SCROLLER],
 				End,
 				LAYOUT_AddChild, OBJ[VIEW_SCROLLER] = ScrollerObject,
 					SCROLLER_Orientation, SORIENT_VERT,
 					SCROLLER_Arrows, TRUE,
-					ICA_MAP, prop2text,
-					ICA_TARGET, (struct Gadget *)OBJ[VIEW_TEXTEDITOR],
+//					ICA_MAP, prop2text,
+//					ICA_TARGET, (struct Gadget *)OBJ[VIEW_TEXTEDITOR],
 				End,
 			End,
 			LAYOUT_AddChild, HLayoutObject,
@@ -401,42 +404,50 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 				End,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_UP,
+					GA_ActivateKey, arg[0],
 					GA_Text, arg[0],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_DOWN,
+					GA_ActivateKey, arg[1],
 					GA_Text, arg[1],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_TOP,
+					GA_ActivateKey, arg[2],
 					GA_Text, arg[2],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_BOTTOM,
+					GA_ActivateKey, arg[3],
 					GA_Text, arg[3],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_SEARCH,
+					GA_ActivateKey, arg[4],
 					GA_Text, arg[4],
 					GA_RelVerify, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_PRINT,
+					GA_ActivateKey, arg[5],
 					GA_Text, arg[5],
 					GA_RelVerify, TRUE,
+					GA_Disabled, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_QUIT,
+					GA_ActivateKey, arg[6],
 					GA_Text, arg[6],
 					GA_RelVerify, TRUE,
 				End,
@@ -466,7 +477,7 @@ void DisplayFile(struct Window *window, STRPTR file)
 			{
 				while(bytesread < data->FileSize)
 				{
-					bytesread = bytesread + IDOS->Read(filehandle, ViewBuf, 64 * 1024);
+					bytesread = bytesread + IDOS->Read(filehandle, ViewBuf + bytesread, 64 * 1024);
 				}
 
 				if(bytesread == data->FileSize)
@@ -541,6 +552,54 @@ void cleanupviewnode(struct ViewNode *viewnode)
 	{
 		IExec->FreeSysObject(ASOT_NODE, viewnode);
 	}
+
+	return;
+}
+
+uint32 query1, query2, query3;
+void view_pageup(void)
+{
+	IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, GA_TEXTEDITOR_Prop_Entries, &query3, TAG_END);
+	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query1 - query2) > query3) ? 0 : (query1 - query2), TAG_END);
+
+	return;
+}
+
+void view_pagedown(void)
+{
+	IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_First, &query1, GA_TEXTEDITOR_Prop_Visible, &query2, TAG_END);
+	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1 + query2, TAG_END);
+
+	return;
+}
+
+void view_lineup(void)
+{
+	IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
+	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 - 1) > query1) ? 0 : (query2 - 1), TAG_END);
+
+	return;
+}
+
+void view_linedown(void)
+{
+	IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, GA_TEXTEDITOR_Prop_First, &query2, TAG_END);
+	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, ((query2 + 1) > query1) ? 0 : (query2 + 1), TAG_END);
+
+	return;
+}
+
+void view_home(void)
+{
+	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, 0, TAG_END);
+
+	return;
+}
+
+void view_end(void)
+{
+	IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, TAG_END);
+	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1, TAG_END);
 
 	return;
 }
