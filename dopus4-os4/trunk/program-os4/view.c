@@ -156,7 +156,7 @@ struct TagItem prop2text[] = {{SCROLLER_Top, GA_TEXTEDITOR_Prop_First}, {TAG_DON
 
 int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 {
-	struct MsgPort *ViewMsgPort = NULL;
+//	struct MsgPort *ViewMsgPort = NULL;
 	BOOL running = TRUE;
 	struct ViewNode *viewnode;
 
@@ -164,9 +164,9 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 //	ViewMsgPort = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END);
 
-	OBJ[VIEW_WINDOW] = makeviewwindow(ViewMsgPort, viewnode->name, viewnode->filename);
+	OBJ[VIEW_WINDOW] = makeviewwindow(NULL /*ViewMsgPort*/, viewnode->name, viewnode->filename);
 
-	if((ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
+	if(OBJ[VIEW_WINDOW] && (ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
 	{
 		uint32 sigmask = 0, siggot = 0, result = 0;
 		uint16 code = 0;
@@ -640,8 +640,20 @@ void view_end(void)
 
 void view_search(STRPTR sstr)
 {
-	uint32 pointer, result;
+	uint32 pointer, flags = GF_TEXTEDITOR_Search_FromTop, result;
 	STRPTR p;
+
+	IIntuition->GetAttrs(OBJ[VIEW_UPPERLOWER], GA_Selected, &pointer, TAG_END);
+	if(pointer == FALSE)
+	{
+		flags |= GF_TEXTEDITOR_Search_CaseSensitive;
+	}
+	IIntuition->GetAttrs(OBJ[VIEW_WHOLEWORDS], GA_Selected, &pointer, TAG_END);
+	if(pointer == TRUE)
+	{
+		flags |= GF_TEXTEDITOR_Search_Word;
+	}
+
 	if(sstr == NULL)
 	{
 		IIntuition->GetAttrs(OBJ[VIEW_SEARCHSTRING], STRINGA_TextVal, &pointer, TAG_END);
@@ -652,33 +664,70 @@ void view_search(STRPTR sstr)
 		p = sstr;
 	}
 
-	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, GF_TEXTEDITOR_Search_FromTop, TAG_END);
+	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, flags, TAG_END);
+
+	if(result == 0)
+	{
+		ra_simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
+	}
 
 	return;
 }
 
 void view_search_prev(void)
 {
-	uint32 pointer, result;
+	uint32 pointer, result, flags = GF_TEXTEDITOR_Search_Backwards;
 	STRPTR p;
+
+	IIntuition->GetAttrs(OBJ[VIEW_UPPERLOWER], GA_Selected, &pointer, TAG_END);
+	if(pointer == FALSE)
+	{
+		flags |= GF_TEXTEDITOR_Search_CaseSensitive;
+	}
+	IIntuition->GetAttrs(OBJ[VIEW_WHOLEWORDS], GA_Selected, &pointer, TAG_END);
+	if(pointer == TRUE)
+	{
+		flags |= GF_TEXTEDITOR_Search_Word;
+	}
 
 	IIntuition->GetAttrs(OBJ[VIEW_SEARCHSTRING], STRINGA_TextVal, &pointer, TAG_END);
 	p = (STRPTR)pointer;
 
-	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, GF_TEXTEDITOR_Search_Backwards, TAG_END);
+	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, flags, TAG_END);
+
+	if(result == 0)
+	{
+		ra_simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
+	}
 
 	return;
 }
 
 void view_search_next(void)
 {
-	uint32 pointer, result;
+	uint32 pointer, result, flags = GF_TEXTEDITOR_Search_Next;
 	STRPTR p;
+
+	IIntuition->GetAttrs(OBJ[VIEW_UPPERLOWER], GA_Selected, &pointer, TAG_END);
+	if(pointer == FALSE)
+	{
+		flags |= GF_TEXTEDITOR_Search_CaseSensitive;
+	}
+	IIntuition->GetAttrs(OBJ[VIEW_WHOLEWORDS], GA_Selected, &pointer, TAG_END);
+	if(pointer == TRUE)
+	{
+		flags |= GF_TEXTEDITOR_Search_Word;
+	}
 
 	IIntuition->GetAttrs(OBJ[VIEW_SEARCHSTRING], STRINGA_TextVal, &pointer, TAG_END);
 	p = (STRPTR)pointer;
 
-	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, GF_TEXTEDITOR_Search_Next, TAG_END);
+	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, flags, TAG_END);
+
+	if(result == 0)
+	{
+		ra_simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
+	}
 
 	return;
 }
