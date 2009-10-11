@@ -34,7 +34,7 @@ the existing commercial status of Directory Opus 5.
 #include <gadgets/texteditor.h>
 
 int32 view_file_process(char *, int32, struct ExecBase *);
-Object *makeviewwindow(struct MsgPort *, STRPTR);
+Object *makeviewwindow(struct MsgPort *, STRPTR, STRPTR);
 void DisplayFile(struct Window *, STRPTR);
 struct ViewNode *allocviewnode(STRPTR, STRPTR, STRPTR, int, STRPTR, int);
 void cleanupviewnode(struct ViewNode *);
@@ -158,7 +158,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	ViewMsgPort = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END);
 
-	OBJ[VIEW_WINDOW] = makeviewwindow(ViewMsgPort, viewnode->name);
+	OBJ[VIEW_WINDOW] = makeviewwindow(ViewMsgPort, viewnode->name, viewnode->filename);
 
 	if((ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
 	{
@@ -281,7 +281,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	return 0;
 }
 
-Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
+Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltitle)
 {
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
 	char arg[7][3] = {{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
@@ -388,19 +388,18 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title)
 					GA_ReadOnly, TRUE,
 					GA_TEXTEDITOR_ReadOnly, TRUE,
 					GA_TEXTEDITOR_FixedFont, TRUE,
-//					ICA_MAP, text2prop,
-//					ICA_TARGET, (struct Gadget *)OBJ[VIEW_SCROLLER],
 				End,
 				LAYOUT_AddChild, OBJ[VIEW_SCROLLER] = ScrollerObject,
 					SCROLLER_Orientation, SORIENT_VERT,
 					SCROLLER_Arrows, TRUE,
-//					ICA_MAP, prop2text,
-//					ICA_TARGET, (struct Gadget *)OBJ[VIEW_TEXTEDITOR],
 				End,
 			End,
 			LAYOUT_AddChild, HLayoutObject,
 				LAYOUT_EvenSize, TRUE,
-				LAYOUT_AddChild, SpaceObject, 
+				LAYOUT_AddImage, LabelObject,
+					LABEL_Text, fulltitle,
+				End,
+				LAYOUT_AddChild, SpaceObject,
 				End,
 				LAYOUT_AddChild, ButtonObject,
 					GA_ID, VIEW_UP,
