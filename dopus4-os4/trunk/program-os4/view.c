@@ -351,6 +351,11 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	{
 		ViewScreen = MainScreen;
 	}
+	else
+	{
+		ViewScreen = IIntuition->LockPubScreen(NULL);
+		IIntuition->UnlockPubScreen(NULL, ViewScreen);
+	}
 
 	arg[0][0] = '_';
 	arg[0][1] = globstring[STR_VIEW_BUTTONS][0];
@@ -374,7 +379,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_SizeGadget : TAG_IGNORE, TRUE,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_DepthGadget : TAG_IGNORE, TRUE,
 		WA_Activate, TRUE,
-		(config->viewbits & VIEWBITS_INWINDOW) ? TAG_IGNORE : WA_CustomScreen, ViewScreen,
+		WA_CustomScreen, ViewScreen,
 		WA_Left, Left,
 		WA_Top, Top,
 		WA_Width, Width,
