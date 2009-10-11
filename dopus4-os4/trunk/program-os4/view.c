@@ -46,6 +46,10 @@ void view_linedown(void);
 void view_home(void);
 void view_end(void);
 
+void view_search(STRPTR);
+void view_search_prev(void);
+void view_search_next(void);
+
 int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
 	int32 ret = 0;
@@ -113,7 +117,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 		}
 	}
 
-	return 0;
+	return 1;
 }
 
 /* The View File Process, with it's variables */
@@ -123,6 +127,8 @@ enum
 	VIEW_WINDOW,
 
 	VIEW_SEARCHSTRING,
+	VIEW_PREV,
+	VIEW_NEXT,
 	VIEW_UPPERLOWER,
 	VIEW_WHOLEWORDS,
 
@@ -156,7 +162,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	viewnode = (struct ViewNode *)IDOS->GetEntryData();
 
-	ViewMsgPort = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END);
+//	ViewMsgPort = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END);
 
 	OBJ[VIEW_WINDOW] = makeviewwindow(ViewMsgPort, viewnode->name, viewnode->filename);
 
@@ -191,6 +197,15 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 				case WMHI_GADGETUP:
 					switch(result & WMHI_GADGETMASK)
 					{
+					case VIEW_SEARCHSTRING:
+						view_search(viewnode->initialsearch);
+						break;
+					case VIEW_PREV:
+						view_search_prev();
+						break;
+					case VIEW_NEXT:
+						view_search_next();
+						break;
 					case VIEW_UP:
 						view_pageup();
 						break;
@@ -202,6 +217,9 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 						break;
 					case VIEW_BOTTOM:
 						view_end();
+						break;
+					case VIEW_SEARCH:
+						view_search(viewnode->initialsearch);
 						break;
 					case VIEW_QUIT:
 						running = FALSE;
@@ -259,10 +277,14 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 				}
 			}
 		}
+		RA_CloseWindow(OBJ[VIEW_WINDOW]);
 		IIntuition->DisposeObject(OBJ[VIEW_WINDOW]);
 	}
 
-	IExec->FreeSysObject(ASOT_PORT, ViewMsgPort);
+/*	if(ViewMsgPort)
+	{
+		IExec->FreeSysObject(ASOT_PORT, ViewMsgPort);
+	}*/
 
 	if(ViewBuf)
 	{
@@ -358,16 +380,32 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 		WA_Width, Width,
 		WA_Height, Height,
 		(config->viewbits & VIEWBITS_TEXTBORDERS) ? TAG_IGNORE : WA_Borderless, TRUE,
-		WINDOW_AppPort, viewmsgport,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WINDOW_IconifyGadget : TAG_IGNORE, TRUE,
+//		WINDOW_AppPort, viewmsgport,
+//		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WINDOW_IconifyGadget : TAG_IGNORE, TRUE,
 		WINDOW_ParentGroup, VLayoutObject,
 			LAYOUT_AddChild, HLayoutObject,
 				LAYOUT_BevelStyle, BVS_GROUP,
 				LAYOUT_Label, globstring[STR_ENTER_SEARCH_STRING],
 				LAYOUT_AddChild, OBJ[VIEW_SEARCHSTRING] = StringObject,
+					GA_ID, VIEW_SEARCHSTRING,
+					GA_RelVerify, TRUE,
 					STRINGA_MinVisible, 20,
 					STRINGA_MarkActive, TRUE,
 				End,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_PREV,
+					GA_ActivateKey, "P",
+					GA_Text, "<<",
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
+				LAYOUT_AddChild, ButtonObject,
+					GA_ID, VIEW_NEXT,
+					GA_ActivateKey, "N",
+					GA_Text, ">>",
+					GA_RelVerify, TRUE,
+				End,
+				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, OBJ[VIEW_UPPERLOWER] = CheckBoxObject,
 					GA_Text, globstring[STR_SEARCH_NO_CASE],
 					GA_Selected, (search_flags & SEARCH_NOCASE) ? TRUE : FALSE,
@@ -380,7 +418,6 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, SpaceObject,
 				End,
-				CHILD_WeightedWidth, 100,
 			End,
 			CHILD_WeightedHeight, 0,
 			LAYOUT_AddChild, HLayoutObject,
@@ -431,6 +468,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 					GA_ActivateKey, arg[4],
 					GA_Text, arg[4],
 					GA_RelVerify, TRUE,
+					GA_Disabled, TRUE,
 				End,
 				CHILD_WeightedWidth, 0,
 				LAYOUT_AddChild, ButtonObject,
@@ -596,6 +634,51 @@ void view_end(void)
 {
 	IIntuition->GetAttrs(OBJ[VIEW_TEXTEDITOR], GA_TEXTEDITOR_Prop_Entries, &query1, TAG_END);
 	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Prop_First, query1, TAG_END);
+
+	return;
+}
+
+void view_search(STRPTR sstr)
+{
+	uint32 pointer, result;
+	STRPTR p;
+	if(sstr == NULL)
+	{
+		IIntuition->GetAttrs(OBJ[VIEW_SEARCHSTRING], STRINGA_TextVal, &pointer, TAG_END);
+		p = (STRPTR)pointer;
+	}
+	else
+	{
+		p = sstr;
+	}
+
+	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, GF_TEXTEDITOR_Search_FromTop, TAG_END);
+
+	return;
+}
+
+void view_search_prev(void)
+{
+	uint32 pointer, result;
+	STRPTR p;
+
+	IIntuition->GetAttrs(OBJ[VIEW_SEARCHSTRING], STRINGA_TextVal, &pointer, TAG_END);
+	p = (STRPTR)pointer;
+
+	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, GF_TEXTEDITOR_Search_Backwards, TAG_END);
+
+	return;
+}
+
+void view_search_next(void)
+{
+	uint32 pointer, result;
+	STRPTR p;
+
+	IIntuition->GetAttrs(OBJ[VIEW_SEARCHSTRING], STRINGA_TextVal, &pointer, TAG_END);
+	p = (STRPTR)pointer;
+
+	result = IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GM_TEXTEDITOR_Search, NULL, p, GF_TEXTEDITOR_Search_Next, TAG_END);
 
 	return;
 }
