@@ -167,3 +167,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-10-12 - DirectoryOpus 4.18.32
 * Fixed abort in recursive hunt function.
 
+2009-10-12 - DirectoryOpus 4.18.33
+* Rewrote picture viewer into a simple Reaction window.
+

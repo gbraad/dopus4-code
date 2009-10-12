@@ -28,6 +28,58 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
+#include <proto/virtual.h>
+#include <gadgets/virtual.h>
+
+int LoadPic(STRPTR name)
+{
+	Object *objwin = NULL;
+	struct Window *dtwindow = NULL;
+	struct Screen *dtscreen = NULL;
+
+	if(MainScreen)
+	{
+		dtscreen = MainScreen;
+	}
+	else
+	{
+		dtscreen = IIntuition->LockPubScreen(NULL);
+	}
+
+
+	objwin = WindowObject,
+		WA_ScreenTitle, name,
+		WA_Borderless, TRUE,
+		WA_Activate, TRUE,
+		WA_Flags, WFLG_RMBTRAP,
+		WA_IDCMP, IDCMP_MOUSEBUTTONS,
+		WA_PubScreen, dtscreen,
+		WA_Left, 0,
+		WA_Top, dtscreen->BarHeight + 1,
+		WA_Width, dtscreen->Width,
+		WA_Height, dtscreen->Height - (dtscreen->BarHeight + 1),
+		WINDOW_ParentGroup, VLayoutObject,
+			LAYOUT_AddChild, VirtualObject,
+				VIRTUALA_Contents, VLayoutObject,
+					LAYOUT_AddImage, BitMapObject,
+						BITMAP_SourceFile, name,
+						BITMAP_Screen, dtscreen,
+					End,
+				End,
+			End,
+		End,
+	End;
+
+	if((dtwindow = RA_OpenWindow(objwin)))
+	{
+		WaitForMouseClick(dtwindow);
+	}
+
+	IIntuition->DisposeObject(objwin);
+
+	return 1;
+}
+
 
 /*
 long min(long a, long b)
@@ -36,6 +88,7 @@ long min(long a, long b)
 }
 */
 
+/*
 int LoadPic(char *name)
 {
 	int retcode = 1;
@@ -91,6 +144,7 @@ int LoadPic(char *name)
 
 	return (retcode);
 }
+*/
 
 int WaitForMouseClick(struct Window *wind)
 {
