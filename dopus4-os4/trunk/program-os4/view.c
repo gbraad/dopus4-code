@@ -153,18 +153,15 @@ STRPTR ViewBuf = NULL;
 struct Window *ViewWindow = NULL;
 struct Screen *ViewScreen = NULL;
 
-struct TagItem text2prop[] = {{GA_TEXTEDITOR_Prop_First, SCROLLER_Top}, {GA_TEXTEDITOR_Prop_Visible, SCROLLER_Visible},{GA_TEXTEDITOR_Prop_Entries, SCROLLER_Total},{TAG_DONE}};
-struct TagItem prop2text[] = {{SCROLLER_Top, GA_TEXTEDITOR_Prop_First}, {TAG_DONE}};
+struct TagItem text2prop[] = {{GA_TEXTEDITOR_Prop_First, SCROLLER_Top},{GA_TEXTEDITOR_Prop_Visible, SCROLLER_Visible},{GA_TEXTEDITOR_Prop_Entries, SCROLLER_Total},{TAG_DONE}};
+struct TagItem prop2text[] = {{SCROLLER_Top, GA_TEXTEDITOR_Prop_First},{TAG_DONE}};
 
 int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 {
-//	struct MsgPort *ViewMsgPort = NULL;
 	BOOL running = TRUE;
 	struct ViewNode *viewnode;
 
 	viewnode = (struct ViewNode *)IDOS->GetEntryData();
-
-//	ViewMsgPort = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END);
 
 	OBJ[VIEW_WINDOW] = makeviewwindow(NULL /*ViewMsgPort*/, viewnode->name, viewnode->filename);
 
@@ -195,6 +192,12 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 				{
 				case WMHI_CLOSEWINDOW:
 					running = FALSE;
+					break;
+				case WMHI_MOUSEBUTTONS:
+					if(code == MENUDOWN)
+					{
+						running = FALSE;
+					}
 					break;
 				case WMHI_GADGETUP:
 					switch(result & WMHI_GADGETMASK)
@@ -282,11 +285,6 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		RA_CloseWindow(OBJ[VIEW_WINDOW]);
 		IIntuition->DisposeObject(OBJ[VIEW_WINDOW]);
 	}
-
-/*	if(ViewMsgPort)
-	{
-		IExec->FreeSysObject(ASOT_PORT, ViewMsgPort);
-	}*/
 
 	if(ViewBuf)
 	{
@@ -388,8 +386,6 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 		WA_Width, Width,
 		WA_Height, Height,
 		inWindow ? TAG_IGNORE : WA_Borderless, TRUE,
-//		WINDOW_AppPort, viewmsgport,
-		inWindow ? WINDOW_IconifyGadget : TAG_IGNORE, TRUE,
 		WINDOW_ParentGroup, VLayoutObject,
 			LAYOUT_AddChild, HLayoutObject,
 				LAYOUT_BevelStyle, BVS_GROUP,
@@ -500,7 +496,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	End);
 }
 
-void DisplayFile(struct Window *window, STRPTR file)
+void DisplayFile(struct Window *textwin, STRPTR file)
 {
 	int64 bytesread = 0;
 	BPTR filehandle;
@@ -524,7 +520,7 @@ void DisplayFile(struct Window *window, STRPTR file)
 
 				if(bytesread == data->FileSize)
 				{
-					IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], window, NULL, GA_TEXTEDITOR_Contents, ViewBuf, TAG_DONE);
+					IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GA_TEXTEDITOR_Contents, ViewBuf, TAG_DONE);
 				}
 			}
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
