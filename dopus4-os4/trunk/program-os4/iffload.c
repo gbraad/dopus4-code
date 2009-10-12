@@ -78,6 +78,11 @@ int LoadPic(STRPTR name)
 
 	IIntuition->DisposeObject(objwin);
 
+	if(returncode == 0)
+	{
+		returncode = 1;
+	}
+
 	return returncode;
 }
 
