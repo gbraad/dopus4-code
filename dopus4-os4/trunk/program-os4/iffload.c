@@ -36,6 +36,7 @@ int LoadPic(STRPTR name)
 	Object *objwin = NULL;
 	struct Window *dtwindow = NULL;
 	struct Screen *dtscreen = NULL;
+	int returncode = 0;
 
 	if(MainScreen)
 	{
@@ -72,12 +73,12 @@ int LoadPic(STRPTR name)
 
 	if((dtwindow = RA_OpenWindow(objwin)))
 	{
-		WaitForMouseClick(dtwindow);
+		returncode = WaitForMouseClick(dtwindow);
 	}
 
 	IIntuition->DisposeObject(objwin);
 
-	return 1;
+	return returncode;
 }
 
 
