@@ -267,6 +267,10 @@ int32 recursive_hunt(STRPTR sourcename)
 						{
 							ret += y;
 						}
+						else if(y == -10)
+						{
+							ret = -10;
+						}
 						IExec->FreeVec(newsourcename);
 					}
 					else
@@ -318,6 +322,7 @@ int32 recursive_hunt(STRPTR sourcename)
 				}
 				if(ret == -10)
 				{
+					status_haveaborted = 1;
 					myabort();
 					break;
 				}

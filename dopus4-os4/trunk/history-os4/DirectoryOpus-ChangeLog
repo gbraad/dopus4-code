@@ -164,3 +164,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-10-11 - DirectoryOpus 4.18.31
 * Search implemented in the new text viewer.
 
+2009-10-12 - DirectoryOpus 4.18.32
+* Fixed abort in recursive hunt function.
+

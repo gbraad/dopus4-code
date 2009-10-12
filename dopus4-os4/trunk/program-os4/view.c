@@ -50,6 +50,8 @@ void view_search(STRPTR);
 void view_search_prev(void);
 void view_search_next(void);
 
+void view_request(CONST_STRPTR, CONST_STRPTR, uint32);
+
 int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
 	int32 ret = 0;
@@ -307,8 +309,9 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 {
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
 	char arg[7][3] = {{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
+	BOOL inWindow = config->viewbits & VIEWBITS_INWINDOW;
 
-	if(config->viewbits & VIEWBITS_INWINDOW)
+	if(inWindow)
 	{
 		if(config->viewtext_topleftx < 0)
 			Left = 0;
@@ -351,7 +354,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	{
 		ViewScreen = MainScreen;
 	}
-	else
+	else if(!ViewScreen)
 	{
 		ViewScreen = IIntuition->LockPubScreen(NULL);
 		IIntuition->UnlockPubScreen(NULL, ViewScreen);
@@ -373,20 +376,20 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	arg[6][1] = globstring[STR_VIEW_BUTTONS][6];
 
 	return (WindowObject,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_Title : TAG_IGNORE, title,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_DragBar : TAG_IGNORE, TRUE,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_CloseGadget : TAG_IGNORE, TRUE,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_SizeGadget : TAG_IGNORE, TRUE,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WA_DepthGadget : TAG_IGNORE, TRUE,
+		inWindow ? WA_Title : TAG_IGNORE, title,
+		inWindow ? WA_DragBar : TAG_IGNORE, TRUE,
+		inWindow ? WA_CloseGadget : TAG_IGNORE, TRUE,
+		inWindow ? WA_SizeGadget : TAG_IGNORE, TRUE,
+		inWindow ? WA_DepthGadget : TAG_IGNORE, TRUE,
 		WA_Activate, TRUE,
 		WA_CustomScreen, ViewScreen,
 		WA_Left, Left,
 		WA_Top, Top,
 		WA_Width, Width,
 		WA_Height, Height,
-		(config->viewbits & VIEWBITS_TEXTBORDERS) ? TAG_IGNORE : WA_Borderless, TRUE,
+		inWindow ? TAG_IGNORE : WA_Borderless, TRUE,
 //		WINDOW_AppPort, viewmsgport,
-//		(config->viewbits & VIEWBITS_TEXTBORDERS) ? WINDOW_IconifyGadget : TAG_IGNORE, TRUE,
+		inWindow ? WINDOW_IconifyGadget : TAG_IGNORE, TRUE,
 		WINDOW_ParentGroup, VLayoutObject,
 			LAYOUT_AddChild, HLayoutObject,
 				LAYOUT_BevelStyle, BVS_GROUP,
@@ -673,7 +676,7 @@ void view_search(STRPTR sstr)
 
 	if(result == 0)
 	{
-		ra_simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
+		view_request(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
 	}
 
 	return;
@@ -702,7 +705,7 @@ void view_search_prev(void)
 
 	if(result == 0)
 	{
-		ra_simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
+		view_request(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
 	}
 
 	return;
@@ -731,8 +734,24 @@ void view_search_next(void)
 
 	if(result == 0)
 	{
-		ra_simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
+		view_request(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], REQIMAGE_INFO);
 	}
 
 	return;
 }
+
+void view_request(CONST_STRPTR format, CONST_STRPTR gadgets, uint32 type)
+{
+	Object *requester;
+
+	requester = RequesterObject, REQ_Type, REQTYPE_INFO, REQ_Image, type, REQ_TitleText, globstring[STR_DIRECTORY_OPUS_REQUEST], REQ_BodyText, format, REQ_GadgetText, gadgets, End;
+	if(requester)
+	{
+		OpenRequester(requester, ViewWindow);
+		IIntuition->DisposeObject(requester);
+	}
+
+	return;
+}
+
+
