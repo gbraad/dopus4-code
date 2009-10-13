@@ -33,10 +33,12 @@ the existing commercial status of Directory Opus 5.
 
 int LoadPic(STRPTR name)
 {
-	Object *objwin = NULL;
+	Object *objwin = NULL, *dtfile = NULL, *vobj = NULL;
 	struct Window *dtwindow = NULL;
 	struct Screen *dtscreen = NULL;
 	int returncode = 0;
+	struct BitMapHeader *bmhd = NULL;
+	struct BitMap *bm = NULL;
 
 	if(MainScreen)
 	{
@@ -47,36 +49,57 @@ int LoadPic(STRPTR name)
 		dtscreen = IIntuition->LockPubScreen(NULL);
 	}
 
+	if((dtfile = IDataTypes->NewDTObject(name, DTA_GroupID, GID_PICTURE, PDTA_Remap, TRUE, PDTA_Screen, dtscreen, PDTA_DestMode, PMODE_V43, TAG_END)))
+	{
+		IDataTypes->DoDTMethod(dtfile, NULL, NULL, DTM_PROCLAYOUT, NULL, TRUE);
+		IDataTypes->GetDTAttrs(dtfile, PDTA_BitMapHeader, &bmhd, PDTA_DestBitMap, &bm, TAG_DONE);
 
-	objwin = WindowObject,
-		WA_ScreenTitle, name,
-		WA_Borderless, TRUE,
-		WA_Activate, TRUE,
-		WA_Flags, WFLG_RMBTRAP,
-		WA_IDCMP, IDCMP_MOUSEBUTTONS,
-		WA_PubScreen, dtscreen,
-		WA_Left, 0,
-		WA_Top, dtscreen->BarHeight + 1,
-		WA_Width, dtscreen->Width,
-		WA_Height, dtscreen->Height - (dtscreen->BarHeight + 1),
-		WINDOW_ParentGroup, VLayoutObject,
-			LAYOUT_AddChild, VirtualObject,
-				VIRTUALA_Contents, VLayoutObject,
-					LAYOUT_AddImage, BitMapObject,
-						BITMAP_SourceFile, name,
-						BITMAP_Screen, dtscreen,
+		objwin = WindowObject,
+			WA_ScreenTitle, name,
+			WA_Borderless, TRUE,
+			WA_Activate, TRUE,
+			WA_Flags, WFLG_RMBTRAP,
+			WA_IDCMP, IDCMP_MOUSEBUTTONS,
+			WA_PubScreen, dtscreen,
+			WA_Left, 0,
+			WA_Top, dtscreen->BarHeight + 1,
+			WA_Width, dtscreen->Width,
+			WA_Height, dtscreen->Height - (dtscreen->BarHeight + 1),
+			WINDOW_ParentGroup, VLayoutObject,
+				LAYOUT_AddChild, VirtualObject,
+					VIRTUALA_Contents, vobj = VLayoutObject,
+						LAYOUT_AddImage, BitMapObject,
+							BITMAP_BitMap, bm,
+							BITMAP_Width, bmhd->bmh_Width,
+							BITMAP_Height, bmhd->bmh_Height,
+							BITMAP_Precision, PRECISION_EXACT,
+							BITMAP_Screen, dtscreen,
+						End,
 					End,
 				End,
 			End,
-		End,
-	End;
-
-	if((dtwindow = RA_OpenWindow(objwin)))
-	{
-		returncode = WaitForMouseClick(dtwindow);
+		End;
 	}
 
-	IIntuition->DisposeObject(objwin);
+	if(objwin && (dtwindow = RA_OpenWindow(objwin)))
+	{
+		returncode = WaitForMouseClick(dtwindow);
+
+		IIntuition->DisposeObject(objwin);
+		objwin = NULL;
+	}
+
+	if(dtfile)
+	{
+		IDataTypes->DisposeDTObject(dtfile);
+		dtfile = NULL;
+	}
+
+	if(dtscreen && dtscreen != MainScreen)
+	{
+		IIntuition->UnlockPubScreen(NULL, dtscreen);
+		dtscreen = NULL;
+	}
 
 	if(returncode == 0)
 	{

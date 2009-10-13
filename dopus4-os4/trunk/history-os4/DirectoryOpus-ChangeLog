@@ -170,3 +170,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-10-12 - DirectoryOpus 4.18.33
 * Rewrote picture viewer into a simple Reaction window.
 
+2009-10-14 - DirectoryOpus 4.18.34
+* Fixed the new picture viewer to actually work as it should.
+
