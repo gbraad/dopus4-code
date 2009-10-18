@@ -295,8 +295,8 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	if(ViewScreen && (ViewScreen != MainScreen))
 	{
 		IIntuition->CloseScreen(ViewScreen);
-		ViewScreen = NULL;
 	}
+	ViewScreen = NULL;
 
 	cleanupviewnode(viewnode);
 
@@ -337,7 +337,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	}
 	else
 	{
-		if(!(ViewScreen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_LikeWorkbench, TRUE)))
+		if(!(ViewScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_LikeWorkbench, TRUE)))
 		{
 			ViewScreen = NULL;
 		}
@@ -380,7 +380,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 		inWindow ? WA_SizeGadget : TAG_IGNORE, TRUE,
 		inWindow ? WA_DepthGadget : TAG_IGNORE, TRUE,
 		WA_Activate, TRUE,
-		WA_CustomScreen, ViewScreen,
+		WA_PubScreen, ViewScreen,
 		WA_Left, Left,
 		WA_Top, Top,
 		WA_Width, Width,
