@@ -173,3 +173,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-10-14 - DirectoryOpus 4.18.34
 * Fixed the new picture viewer to actually work as it should.
 
+2009-10-20 - DirectoryOpus 4.18.35
+* Implemented hex view in the text viewer.
+

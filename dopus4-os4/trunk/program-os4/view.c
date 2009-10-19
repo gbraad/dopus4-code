@@ -35,7 +35,8 @@ the existing commercial status of Directory Opus 5.
 
 int32 view_file_process(char *, int32, struct ExecBase *);
 Object *makeviewwindow(struct MsgPort *, STRPTR, STRPTR);
-void DisplayFile(struct Window *, STRPTR);
+void view_displayfile(struct Window *, STRPTR);
+void view_displayfilehex(struct Window *, STRPTR);
 struct ViewNode *allocviewnode(STRPTR, STRPTR, STRPTR, int, STRPTR, int);
 void cleanupviewnode(struct ViewNode *);
 
@@ -168,7 +169,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	viewnode = (struct ViewNode *)IDOS->GetEntryData();
 
 	OBJ[VIEW_WINDOW] = makeviewwindow(NULL /*ViewMsgPort*/, viewnode->name, viewnode->filename);
-
+	
 	if(OBJ[VIEW_WINDOW] && (ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
 	{
 		uint32 sigmask = 0, siggot = 0, result = 0;
@@ -179,7 +180,14 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, TAG_END);
 		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
 
-		DisplayFile(ViewWindow, viewnode->filename);
+		if(viewnode->function == FUNC_HEXREAD)
+		{
+			view_displayfilehex(ViewWindow, viewnode->filename);
+		}
+		else
+		{
+			view_displayfile(ViewWindow, viewnode->filename);
+		}
 
 		IIntuition->GetAttr(WINDOW_SigMask, OBJ[VIEW_WINDOW], &sigmask);
 		while(running)
@@ -495,7 +503,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	End);
 }
 
-void DisplayFile(struct Window *textwin, STRPTR file)
+void view_displayfile(struct Window *textwin, STRPTR file)
 {
 	int64 bytesread = 0;
 	BPTR filehandle;
@@ -511,7 +519,46 @@ void DisplayFile(struct Window *textwin, STRPTR file)
 				IUtility->SetMem(testbuffer, 0, 2048);
 				bytesread = bytesread + IDOS->Read(filehandle, testbuffer, 2047);
 				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
-				IUtility->SetMem(testbuffer, 0, 2048);
+			}
+			view_home();
+
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		}
+		IDOS->Close(filehandle);
+	}
+}
+
+void view_displayfilehex(struct Window *textwin, STRPTR file)
+{
+	int64 bytesread = 0;
+	BPTR filehandle;
+	struct ExamineData *data;
+	char hexbuf[20], textbuffer[300];
+	int i;
+	uint32 x = 0;
+
+	if((filehandle = IDOS->Open(file, MODE_OLDFILE)))
+	{
+		if((data = IDOS->ExamineObjectTags(EX_FileHandleInput, filehandle, TAG_END)))
+		{
+			while(bytesread < data->FileSize)
+			{
+				IUtility->SetMem(hexbuf, 0, 20);
+				IUtility->SetMem(textbuffer, 0, 300);
+				bytesread = bytesread + IDOS->Read(filehandle, hexbuf, 16);
+
+				for(i = 0; i < 16; i++)
+				{
+					if(!isprint(hexbuf[i]))
+					{
+						hexbuf[i] = '.';
+					}
+				}
+
+				IUtility->SNPrintf(textbuffer, 300, "%08lx: %08lx %08lx %08lx %08lx %s\n", x, ((long *)hexbuf)[0], ((long *)hexbuf)[1], ((long *)hexbuf)[2], ((long *)hexbuf)[3], hexbuf);
+
+				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+				x += 16;
 			}
 			view_home();
 
