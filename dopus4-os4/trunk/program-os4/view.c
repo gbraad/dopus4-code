@@ -308,6 +308,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 	int16 Left = 128, Top = 128, Width = 1024, Height = 768;
 	char arg[7][3] = {{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
 	BOOL inWindow = config->viewbits & VIEWBITS_INWINDOW;
+	struct TextAttr vfont = { config->fontbufs[FONT_TEXT], config->fontsizes[FONT_TEXT], 0, 0 };
 
 	if(inWindow)
 	{
@@ -343,7 +344,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 		}
 
 		Left = 0;
-		Top = ViewScreen->BarHeight + 1; // + 2;
+		Top = ViewScreen->BarHeight + 1;
 		Width = ViewScreen->Width;
 		Height = ViewScreen->Height - Top;
 	}
@@ -428,7 +429,7 @@ Object *makeviewwindow(struct MsgPort *viewmsgport, STRPTR title, STRPTR fulltit
 				LAYOUT_AddChild, OBJ[VIEW_TEXTEDITOR] = TextEditorObject,
 					GA_ReadOnly, TRUE,
 					GA_TEXTEDITOR_ReadOnly, TRUE,
-					GA_TEXTEDITOR_FixedFont, TRUE,
+					GA_TEXTEDITOR_TextAttr, &vfont,
 				End,
 				LAYOUT_AddChild, OBJ[VIEW_SCROLLER] = ScrollerObject,
 					SCROLLER_Orientation, SORIENT_VERT,
