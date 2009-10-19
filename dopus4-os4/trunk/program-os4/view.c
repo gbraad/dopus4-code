@@ -54,7 +54,7 @@ void view_request(CONST_STRPTR, CONST_STRPTR, uint32);
 
 int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
-	int32 ret = 0;
+	int32 ret = 1;
 	char processname[15];
 	struct Process *viewproc = NULL;
 	struct MsgPort *deathmsg_replyport;
@@ -86,40 +86,45 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 	viewproc = (struct Process *)IExec->FindTask(processname);
 	IExec->Permit();
 
-	viewnode = allocviewnode(processname, filename, name, function, initialsearch, wait);
-
-	if(viewproc)
+	if((viewnode = allocviewnode(processname, filename, name, function, initialsearch, wait)))
 	{
-		return 0;
-	}
-	else
-	{
-		if(wait)
+		if(viewproc)
 		{
-			if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
+			return 0;
+		}
+		else
+		{
+			if(wait)
 			{
-				if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
+				if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 				{
-					deathmsg = NULL;
+					if((deathmsg = IExec->AllocSysObjectTags(ASOT_MESSAGE, ASOMSG_Size, sizeof(struct DeathMessage), ASOMSG_ReplyPort, deathmsg_replyport, TAG_END)) == NULL)
+					{
+						deathmsg = NULL;
+					}
+					}
+			}
+			viewproc = IDOS->CreateNewProcTags(NP_Name, processname, NP_Entry, &view_file_process, NP_EntryData, viewnode, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END);
+
+			if(wait)
+			{
+				if(deathmsg)
+				{
+					IExec->WaitPort(deathmsg_replyport);
+					IExec->GetMsg(deathmsg_replyport);
+					ret = deathmsg->dm_ReturnCode;
+					IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
+					IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
 				}
 			}
 		}
-		viewproc = IDOS->CreateNewProcTags(NP_Name, processname, NP_Entry, &view_file_process, NP_EntryData, viewnode, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END);
-
-		if(wait)
-		{
-			if(deathmsg)
-			{
-				IExec->WaitPort(deathmsg_replyport);
-				IExec->GetMsg(deathmsg_replyport);
-				ret = deathmsg->dm_ReturnCode;
-				IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
-				IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
-			}
-		}
+	}
+	else
+	{
+		ret = 0;
 	}
 
-	return 1;
+	return ret;
 }
 
 /* The View File Process, with it's variables */
@@ -149,7 +154,6 @@ enum
 };
 
 Object *OBJ[VIEW_NUM_GADGETS];
-STRPTR ViewBuf = NULL;
 struct Window *ViewWindow = NULL;
 struct Screen *ViewScreen = NULL;
 
@@ -284,12 +288,6 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		}
 		RA_CloseWindow(OBJ[VIEW_WINDOW]);
 		IIntuition->DisposeObject(OBJ[VIEW_WINDOW]);
-	}
-
-	if(ViewBuf)
-	{
-		IExec->FreeVec(ViewBuf);
-		ViewBuf = NULL;
 	}
 
 	if(ViewScreen && (ViewScreen != MainScreen))
@@ -502,28 +500,21 @@ void DisplayFile(struct Window *textwin, STRPTR file)
 	int64 bytesread = 0;
 	BPTR filehandle;
 	struct ExamineData *data;
-
-	if(ViewBuf != NULL)
-	{
-		IExec->FreeVec(ViewBuf);
-	}
+	char testbuffer[2048];
 
 	if((filehandle = IDOS->Open(file, MODE_OLDFILE)))
 	{
 		if((data = IDOS->ExamineObjectTags(EX_FileHandleInput, filehandle, TAG_END)))
 		{
-			if((ViewBuf = IExec->AllocVecTags(data->FileSize + 1, AVT_Type, MEMF_PRIVATE, AVT_ClearWithValue, 0, TAG_END)))
+			while(bytesread < data->FileSize)
 			{
-				while(bytesread < data->FileSize)
-				{
-					bytesread = bytesread + IDOS->Read(filehandle, ViewBuf + bytesread, 64 * 1024);
-				}
-
-				if(bytesread == data->FileSize)
-				{
-					IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GA_TEXTEDITOR_Contents, ViewBuf, TAG_DONE);
-				}
+				IUtility->SetMem(testbuffer, 0, 2048);
+				bytesread = bytesread + IDOS->Read(filehandle, testbuffer, 2047);
+				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+				IUtility->SetMem(testbuffer, 0, 2048);
 			}
+			view_home();
+
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
 		IDOS->Close(filehandle);
