@@ -96,7 +96,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 		}
 		else
 		{
-			if(wait)
+			if(1) //wait)
 			{
 				if((deathmsg_replyport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_END)))
 				{
@@ -108,7 +108,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 			}
 			viewproc = IDOS->CreateNewProcTags(NP_Name, processname, NP_Entry, &view_file_process, NP_EntryData, viewnode, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END);
 
-			if(wait)
+			if(1) //wait)
 			{
 				if(deathmsg)
 				{
