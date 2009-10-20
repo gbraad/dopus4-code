@@ -168,14 +168,28 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	viewnode = (struct ViewNode *)IDOS->GetEntryData();
 
-	OBJ[VIEW_WINDOW] = makeviewwindow(NULL /*ViewMsgPort*/, viewnode->name, viewnode->filename);
+	OBJ[VIEW_WINDOW] = makeviewwindow(NULL, viewnode->name, viewnode->filename);
 	
+	IIntuition->SetAttrs(OBJ[VIEW_TEXTEDITOR], ICA_MAP, text2prop, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
+//	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
+	IIntuition->SetAttrs(OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
+//	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
+
+	if(viewnode->function == FUNC_HEXREAD)
+	{
+		view_displayfilehex(ViewWindow, viewnode->filename);
+	}
+	else
+	{
+		view_displayfile(ViewWindow, viewnode->filename);
+	}
+
 	if(OBJ[VIEW_WINDOW] && (ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
 	{
 		uint32 sigmask = 0, siggot = 0, result = 0;
 		uint16 code = 0;
 
-		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, TAG_END);
+/*		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, TAG_END);
 		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
 		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, TAG_END);
 		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
@@ -187,7 +201,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		else
 		{
 			view_displayfile(ViewWindow, viewnode->filename);
-		}
+		}*/
 
 		IIntuition->GetAttr(WINDOW_SigMask, OBJ[VIEW_WINDOW], &sigmask);
 		while(running)
@@ -296,6 +310,9 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		}
 		RA_CloseWindow(OBJ[VIEW_WINDOW]);
 		IIntuition->DisposeObject(OBJ[VIEW_WINDOW]);
+		OBJ[VIEW_WINDOW] = NULL;
+		OBJ[VIEW_TEXTEDITOR] = NULL;
+		OBJ[VIEW_SCROLLER] = NULL;
 	}
 
 	if(ViewScreen && (ViewScreen != MainScreen))
@@ -518,9 +535,10 @@ void view_displayfile(struct Window *textwin, STRPTR file)
 			{
 				IUtility->SetMem(testbuffer, 0, 2048);
 				bytesread = bytesread + IDOS->Read(filehandle, testbuffer, 2047);
-				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+				IIntuition->IDoMethod(OBJ[VIEW_TEXTEDITOR], GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+//				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
 			}
-			view_home();
+//			view_home();
 
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
@@ -557,10 +575,11 @@ void view_displayfilehex(struct Window *textwin, STRPTR file)
 
 				IUtility->SNPrintf(textbuffer, 300, "%08lx: %08lx %08lx %08lx %08lx %s\n", x, ((long *)hexbuf)[0], ((long *)hexbuf)[1], ((long *)hexbuf)[2], ((long *)hexbuf)[3], hexbuf);
 
-				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+				IIntuition->IDoMethod(OBJ[VIEW_TEXTEDITOR], GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+//				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
 				x += 16;
 			}
-			view_home();
+//			view_home();
 
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
