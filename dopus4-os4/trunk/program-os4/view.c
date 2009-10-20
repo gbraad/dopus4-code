@@ -58,7 +58,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 	int32 ret = 1;
 	char processname[15];
 	struct Process *viewproc = NULL;
-	struct MsgPort *deathmsg_replyport;
+	struct MsgPort *viewproc_msgport = NULL, *deathmsg_replyport;
 	struct DeathMessage *deathmsg = NULL;
 	struct ViewNode *viewnode;
 
@@ -91,6 +91,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 	{
 		if(viewproc)
 		{
+			viewproc_msgport = IDOS->GetProcMsgPort(viewproc);
 			return 0;
 		}
 		else
@@ -165,7 +166,9 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 {
 	BOOL running = TRUE;
 	struct ViewNode *viewnode;
+	struct MsgPort *view_proc_port = NULL;
 
+	view_proc_port = IDOS->GetProcMsgPort(NULL);
 	viewnode = (struct ViewNode *)IDOS->GetEntryData();
 
 	OBJ[VIEW_WINDOW] = makeviewwindow(NULL, viewnode->name, viewnode->filename);
@@ -189,10 +192,10 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		uint32 sigmask = 0, siggot = 0, result = 0;
 		uint16 code = 0;
 
-/*		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, TAG_END);
-		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
-		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, TAG_END);
-		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
+/*		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
+//		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
+		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
+//		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
 
 		if(viewnode->function == FUNC_HEXREAD)
 		{
