@@ -65,79 +65,82 @@ int32 recursive_delete(STRPTR directory)
 				{
 				}
 
-				if(IDOS->DeleteFile(nodename))
+				if(!str_filter_parsed[0] || IDOS->MatchPatternNoCase(str_filter_parsed, dat->Name))
 				{
-					if(EXD_IS_FILE(dat))
+					if(IDOS->DeleteFile(nodename))
 					{
-						dos_global_deletedbytes += dat->FileSize;
-					}
-					rd_continue = 0;
-				}
-				else
-				{
-					if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
-					{
-					}
-					else if(errorcode == ERROR_DELETE_PROTECTED)
-					{
-						if((config->deleteflags & DELETE_SET) || (glob_unprotect_all == 1))
+						if(EXD_IS_FILE(dat))
 						{
-							IDOS->SetProtection(dat->Name, 0);
-							IDOS->DeleteFile(dat->Name);
-							if(EXD_IS_FILE(dat))
-							{
-								dos_global_deletedbytes += dat->FileSize;
-							}
-							rd_continue = 0;
+							dos_global_deletedbytes += dat->FileSize;
 						}
-						else
-						{
-							doerror(ERROR_DELETE_PROTECTED);
-							geterrorstring(buf2, ERROR_DELETE_PROTECTED);
-							snprintf(buf, 300, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
-							strncat(buf, globstring[STR_SELECT_UNPROTECT], 300);
-							snprintf(buf2, 100, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
-							if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1) // Unprotect
-							{
-								rd_continue = 1;
-								IDOS->SetProtection(dat->Name, 0);
-							}
-							else if(a == 2) // Unprotect All
-							{
-								rd_continue = 1;
-								IDOS->SetProtection(dat->Name, 0);
-								glob_unprotect_all = 1;
-							}
-							else if(a == 3) // Skip
-							{
-								rd_continue = 0;
-							}
-							else if(a == 0) // Cancel
-							{
-								rd_continue = 0;
-								rd_abort = 1;
-							}
-						}
+						rd_continue = 0;
 					}
 					else
 					{
-						doerror((a = IDOS->IoErr()));
-						if((a = checkerror(globstring[STR_DELETING], dat->Name, a)) == 3)
+						if((errorcode = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
 						{
-							rd_continue = 0;
 						}
-						else if(a == 2)
+						else if(errorcode == ERROR_DELETE_PROTECTED)
 						{
-							rd_continue = 0;
+							if((config->deleteflags & DELETE_SET) || (glob_unprotect_all == 1))
+							{
+								IDOS->SetProtection(dat->Name, 0);
+								IDOS->DeleteFile(dat->Name);
+								if(EXD_IS_FILE(dat))
+								{
+									dos_global_deletedbytes += dat->FileSize;
+								}
+								rd_continue = 0;
+							}
+							else
+							{
+								doerror(ERROR_DELETE_PROTECTED);
+								geterrorstring(buf2, ERROR_DELETE_PROTECTED);
+								snprintf(buf, 300, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
+								strncat(buf, globstring[STR_SELECT_UNPROTECT], 300);
+								snprintf(buf2, 100, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
+								if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1) // Unprotect
+								{
+									rd_continue = 1;
+									IDOS->SetProtection(dat->Name, 0);
+								}
+								else if(a == 2) // Unprotect All
+								{
+									rd_continue = 1;
+									IDOS->SetProtection(dat->Name, 0);
+									glob_unprotect_all = 1;
+								}
+								else if(a == 3) // Skip
+								{
+									rd_continue = 0;
+								}
+								else if(a == 0) // Cancel
+								{
+									rd_continue = 0;
+									rd_abort = 1;
+								}
+							}
 						}
-						else if(a == 1)
+						else
 						{
-							rd_continue = 1;
-						}
-						else if(a == 0)
-						{
-							rd_abort = 1;
-							rd_continue = 0;
+							doerror((a = IDOS->IoErr()));
+							if((a = checkerror(globstring[STR_DELETING], dat->Name, a)) == 3)
+							{
+								rd_continue = 0;
+							}
+							else if(a == 2)
+							{
+								rd_continue = 0;
+							}
+							else if(a == 1)
+							{
+								rd_continue = 1;
+							}
+							else if(a == 0)
+							{
+								rd_abort = 1;
+								rd_continue = 0;
+							}
 						}
 					}
 				}

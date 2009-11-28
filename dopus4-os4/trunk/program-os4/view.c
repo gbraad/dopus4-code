@@ -106,7 +106,7 @@ int32 viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch,
 					}
 					}
 			}
-			viewproc = IDOS->CreateNewProcTags(NP_Name, processname, NP_Entry, &view_file_process, NP_EntryData, viewnode, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END);
+			viewproc = IDOS->CreateNewProcTags(NP_Name, processname, NP_Entry, &view_file_process, NP_EntryData, viewnode, NP_StackSize, 65356, /*wait ? */NP_NotifyOnDeathMessage/* : TAG_IGNORE*/, deathmsg, NP_Child, TRUE, TAG_END);
 
 			if(1) //wait)
 			{
@@ -173,29 +173,13 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 	OBJ[VIEW_WINDOW] = makeviewwindow(NULL, viewnode->name, viewnode->filename);
 	
-	IIntuition->SetAttrs(OBJ[VIEW_TEXTEDITOR], ICA_MAP, text2prop, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
-//	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
-	IIntuition->SetAttrs(OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
-//	IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
-
-	if(viewnode->function == FUNC_HEXREAD)
-	{
-		view_displayfilehex(ViewWindow, viewnode->filename);
-	}
-	else
-	{
-		view_displayfile(ViewWindow, viewnode->filename);
-	}
-
 	if(OBJ[VIEW_WINDOW] && (ViewWindow = RA_OpenWindow(OBJ[VIEW_WINDOW])))
 	{
 		uint32 sigmask = 0, siggot = 0, result = 0;
 		uint16 code = 0;
 
-/*		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
-//		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
+		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, ICA_MAP, text2prop, ICA_TARGET, OBJ[VIEW_SCROLLER], TAG_END);
 		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_MAP, prop2text, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
-//		IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_SCROLLER], ViewWindow, NULL, ICA_TARGET, OBJ[VIEW_TEXTEDITOR], TAG_END);
 
 		if(viewnode->function == FUNC_HEXREAD)
 		{
@@ -204,7 +188,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		else
 		{
 			view_displayfile(ViewWindow, viewnode->filename);
-		}*/
+		}
 
 		IIntuition->GetAttr(WINDOW_SigMask, OBJ[VIEW_WINDOW], &sigmask);
 		while(running)
@@ -534,14 +518,18 @@ void view_displayfile(struct Window *textwin, STRPTR file)
 	{
 		if((data = IDOS->ExamineObjectTags(EX_FileHandleInput, filehandle, TAG_END)))
 		{
+			IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Quiet, TRUE, TAG_END);
+
 			while(bytesread < data->FileSize)
 			{
 				IUtility->SetMem(testbuffer, 0, 2048);
 				bytesread = bytesread + IDOS->Read(filehandle, testbuffer, 2047);
-				IIntuition->IDoMethod(OBJ[VIEW_TEXTEDITOR], GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
-//				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, testbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
 			}
-//			view_home();
+
+			IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Quiet, FALSE, TAG_END);
+
+			view_home();
 
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
@@ -562,6 +550,8 @@ void view_displayfilehex(struct Window *textwin, STRPTR file)
 	{
 		if((data = IDOS->ExamineObjectTags(EX_FileHandleInput, filehandle, TAG_END)))
 		{
+			IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Quiet, TRUE, TAG_END);
+
 			while(bytesread < data->FileSize)
 			{
 				IUtility->SetMem(hexbuf, 0, 20);
@@ -578,11 +568,13 @@ void view_displayfilehex(struct Window *textwin, STRPTR file)
 
 				IUtility->SNPrintf(textbuffer, 300, "%08lx: %08lx %08lx %08lx %08lx %s\n", x, ((long *)hexbuf)[0], ((long *)hexbuf)[1], ((long *)hexbuf)[2], ((long *)hexbuf)[3], hexbuf);
 
-				IIntuition->IDoMethod(OBJ[VIEW_TEXTEDITOR], GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
-//				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
+				IIntuition->DoGadgetMethod((struct Gadget *)OBJ[VIEW_TEXTEDITOR], textwin, NULL, GM_TEXTEDITOR_InsertText, NULL, textbuffer, GV_TEXTEDITOR_InsertText_Bottom, TAG_END);
 				x += 16;
 			}
-//			view_home();
+
+			IIntuition->RefreshSetGadgetAttrs((struct Gadget *)OBJ[VIEW_TEXTEDITOR], ViewWindow, NULL, GA_TEXTEDITOR_Quiet, FALSE, TAG_END);
+
+			view_home();
 
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
