@@ -179,3 +179,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2009-11-28 - DirectoryOpus 4.18.36
 * Fixed serious filter bug in the recursive delete function.
 
+2010-01-03 - DirectoryOpus 4.18.37
+* Reverted back to the old text-viewer. Reaction is just to slow :(
+
