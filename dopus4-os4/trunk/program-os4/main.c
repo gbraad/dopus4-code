@@ -32,7 +32,7 @@ the existing commercial status of Directory Opus 5.
 
 static const char* stackcookie USED = "$STACK: 524288";
 
-static BOOL staybehindWB;
+static BOOL staybehindWB = FALSE;
 
 int main(int argc, char **argv)
 {
@@ -565,11 +565,11 @@ int SetUp(int tit)
 			{
 				if(config->screenmode == MODE_WORKBENCHCLONE)
 				{
-					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, TAG_DONE);
+					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, SA_Behind, staybehindWB, TAG_DONE);
 				}
 				else
 				{
-					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_DisplayID, config->screenmode, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, TAG_DONE);
+					MainScreen = IIntuition->OpenScreenTags(NULL, SA_Type, PUBLICSCREEN, SA_PubName, str_arexx_portname, SA_DisplayID, config->screenmode, SA_Depth, config->scrdepth, SA_LikeWorkbench, TRUE, SA_Behind, staybehindWB, TAG_DONE);
 				}
 
 				if(!(MainScreen))
