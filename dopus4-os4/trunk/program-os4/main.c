@@ -360,9 +360,9 @@ int main(int argc, char **argv)
 		{
 			if(config->autodirs[a][0])
 			{
-				strcpy(str_pathbuffer[a], (char *)config->autodirs[a]);
+				strncpy(str_pathbuffer[a], (char *)config->autodirs[a], 108);
 				checkdir(str_pathbuffer[a], (sup) ? &path_strgadget[a] : NULL);
-				strcpy(dopus_curwin[a]->directory, str_pathbuffer[a]);
+				strncpy(dopus_curwin[a]->directory, str_pathbuffer[a], 108);
 				getdir(dopus_curwin[a], a, 0);
 			}
 		}

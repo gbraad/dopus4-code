@@ -324,9 +324,10 @@ int getroot(char *name, struct DateStamp *ds)
 	if(ds)
 		IExec->CopyMem((char *)&dl->dl_VolumeDate, (char *)ds, sizeof(struct DateStamp));
 	IDOS->Info(lock1, info);
+	a = info->id_DiskState;
 	IDOS->UnLock(lock1);
 	IDOS->FreeDosObject(DOS_INFODATA, info);
-	return (info->id_DiskState);
+	return a; //(info->id_DiskState);
 }
 
 BPTR getrootlock(BPTR lock1)

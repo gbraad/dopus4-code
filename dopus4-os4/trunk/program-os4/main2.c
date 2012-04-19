@@ -62,7 +62,7 @@ void freedir(struct DirectoryWindow *dir, int win)
 		}
 		dir->firstentry = dir->firstfile = dir->firstdir = NULL;
 
-		dir->offset = dir->total = dir->filesel = dir->dirsel = dir->dirtot = dir->filetot = dir->hoffset = dir->bytessel = dir->bytestot = dir->custhandler[0] = dir->realdevice[0] = dir->volumename[0] = 0;
+		dir->offset = dir->total = dir->filesel = dir->dirsel = dir->dirtot = dir->filetot = dir->hoffset = dir->bytessel = dir->bytestot = dir->custhandler[0] = dir->realdevice[0] = dir->volumename[0] = '\0';
 
 		dir->oldoff = dir->oldhoff = -1;
 
@@ -130,8 +130,8 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	strncpy(buf, str_pathbuffer[win], 256);
 	if(getroot(buf, NULL))
 	{
-		strcpy(dir->volumename, buf);
-		strcat(buf, ":");
+		strncpy(dir->volumename, buf, 32);
+		strncat(buf, ":", 256);
 		if((deviceport = (struct MsgPort *)IDOS->DeviceProc(buf)))
 		{
 			get_device_task(mylock, dir->realdevice, deviceport);

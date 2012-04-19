@@ -64,7 +64,7 @@ the existing commercial status of Directory Opus 5.
 /* File requester definition structure */
 
 //#define DIRBUF_SIZE  256
-#define FILEBUF_SIZE 108	// 32
+#define FILEBUF_SIZE 256	// 32
 
 struct DOpusFileReq
 {

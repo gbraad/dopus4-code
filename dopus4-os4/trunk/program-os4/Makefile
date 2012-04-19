@@ -12,8 +12,8 @@ remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 reaction.o strstri.o
 
-CFLAGS = -ggdb -Wall -O3 -Wwrite-strings -I../include-os4
-LDFLAGS = -lauto -lraauto -lm
+CFLAGS = -gstabs -Wall -O3 -Wwrite-strings -I../include-os4
+LDFLAGS = -gstabs -lauto -lraauto -lm
 FLEXCAT = flexcat
 
 ifdef REVISE
