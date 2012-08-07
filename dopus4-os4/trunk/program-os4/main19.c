@@ -684,9 +684,10 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 	char *findbuf, matchbuf[256];
 	int matchsize, a, len, size;
 	int64 oldpos;
+	uint32 value;
 
 	len = strlen(find);
-	if(find[0] == '$')
+	if((find[0] == '$') && (find[1] != '$'))
 	{
 		for(a = 1, matchsize = 0; a < len; a += 2, matchsize++)
 		{
@@ -696,14 +697,20 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 			}
 			else
 			{
-				IDOS->HexToLong(&find[a], (uint32 *)&matchbuf[matchsize]);
+				char hexbuf[] = "\0\0\0\0";
+				strncpy(hexbuf, &find[a], 2);
+				IDOS->HexToLong(&hexbuf[0], &value);
+				matchbuf[matchsize] = (char)value;
 			}
 		}
 		flags &= ~(SEARCH_NOCASE | SEARCH_ONLYWORDS);
 	}
 	else
 	{
-		for(a = 0, matchsize = 0; a < len; a++)
+		int first = 0;
+		if((find[0] == '$') && (find[1] == '$'))
+			first =1;
+		for(a = first, matchsize = 0; a < len; a++)
 		{
 			if(find[a] == '\\')
 			{
