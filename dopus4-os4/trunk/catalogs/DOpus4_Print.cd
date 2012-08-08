@@ -45,6 +45,18 @@ Density
 STR_EJECT (//)
 Eject final page
 ;
+STR_IGNORE (//)
+Ignore bottom margin
+;
+STR_ADD_CR (//)
+Add carriage return to formfeeds
+;
+STR_EJECT_FIRST (//)
+Eject page before printing
+;
+STR_INIT_PRINTER (//)
+Initialize Printer
+;
 STR_CONFIGURATION (//)
 configuration...
 ;
