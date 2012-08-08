@@ -42,6 +42,10 @@ enum
 	PRINT_PITCH,
 	PRINT_QUALITY,
 	PRINT_EJECTPAGE,
+	PRINT_IGNORE,
+	PRINT_ADDCR,
+	PRINT_EJECTFIRST,
+	PRINT_INITPRINTER,
 
 	PRINT_HEADERFOOTER,
 	HEADFOOT_TITLE,
@@ -195,15 +199,62 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_TextPos, TEXTPOS_LEFT},
 	{RO_HighRecess, TRUE},
 	{TAG_END, 0}
-}, print_ejectpage_gadget[] =
+}, print_ejectpage_gadget[] = //eject final page
 {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_CHECK},
 	{RO_GadgetID, PRINT_EJECTPAGE},
-	{RO_Top, 4},
-	{RO_TopFine, 24},
-	{RO_Left, 20},
+	{RO_Top, 5},
+	{RO_TopFine, 32},
 	{RO_TextNum, STR_EJECT},
+	{RO_TextPos, TEXTPOS_RIGHT},
+	{RO_BoolOn, TRUE},
+	{RO_ChkCenter, TRUE},
+	{TAG_END, 0}
+}, print_ignore_gadget[] = //ignore bottom margin
+{
+	{RO_Type, OBJECT_GADGET},
+	{RO_GadgetType, GADGET_CHECK},
+	{RO_GadgetID, PRINT_IGNORE},
+	{RO_Top, 6},
+	{RO_TopFine, 32},
+	{RO_TextNum, STR_IGNORE},
+	{RO_TextPos, TEXTPOS_RIGHT},
+	{RO_BoolOn, FALSE},
+	{RO_ChkCenter, TRUE},
+	{TAG_END, 0}
+}, print_addcr_gadget[] = //add carriage return to formfeed
+{
+	{RO_Type, OBJECT_GADGET},
+	{RO_GadgetType, GADGET_CHECK},
+	{RO_GadgetID, PRINT_ADDCR},
+	{RO_Top, 7},
+	{RO_TopFine, 32},
+	{RO_TextNum, STR_ADD_CR},
+	{RO_TextPos, TEXTPOS_RIGHT},
+	{RO_BoolOn, TRUE},
+	{RO_ChkCenter, TRUE},
+	{TAG_END, 0}
+}, print_ejectfirst_gadget[] = //eject blank page before printing
+{
+	{RO_Type, OBJECT_GADGET},
+	{RO_GadgetType, GADGET_CHECK},
+	{RO_GadgetID, PRINT_EJECTFIRST},
+	{RO_Top, 8},
+	{RO_TopFine, 32},
+	{RO_TextNum, STR_EJECT_FIRST},
+	{RO_TextPos, TEXTPOS_RIGHT},
+	{RO_BoolOn, TRUE},
+	{RO_ChkCenter, TRUE},
+	{TAG_END, 0}
+}, print_init_gadget[] = //initialize printer before printing
+{
+	{RO_Type, OBJECT_GADGET},
+	{RO_GadgetType, GADGET_CHECK},
+	{RO_GadgetID, PRINT_INITPRINTER},
+	{RO_Top, 9},
+	{RO_TopFine, 32},
+	{RO_TextNum, STR_INIT_PRINTER},
 	{RO_TextPos, TEXTPOS_RIGHT},
 	{RO_BoolOn, TRUE},
 	{RO_ChkCenter, TRUE},
@@ -213,8 +264,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_CYCLE},
 	{RO_GadgetID, PRINT_HEADERFOOTER},
-	{RO_Top, 5},
-	{RO_TopFine, 30},
+	{RO_Top, 10},
+	{RO_TopFine, 36},
 	{RO_Width, 8},
 	{RO_WidthFine, 24},
 	{RO_Height, 1},
@@ -228,8 +279,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_CHECK},
 	{RO_GadgetID, HEADFOOT_TITLE},
-	{RO_Top, 6},
-	{RO_TopFine, 41},
+	{RO_Top, 11},
+	{RO_TopFine, 47},
 	{RO_LeftFine, 20},
 	{RO_TextNum, STR_TITLE},
 	{RO_TextPos, TEXTPOS_RIGHT},
@@ -240,8 +291,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_CHECK},
 	{RO_GadgetID, HEADFOOT_DATE},
-	{RO_Top, 7},
-	{RO_TopFine, 46},
+	{RO_Top, 12},
+	{RO_TopFine, 52},
 	{RO_LeftFine, 20},
 	{RO_TextNum, STR_DATE},
 	{RO_TextPos, TEXTPOS_RIGHT},
@@ -252,8 +303,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_CHECK},
 	{RO_GadgetID, HEADFOOT_PAGENUMBER},
-	{RO_Top, 8},
-	{RO_TopFine, 51},
+	{RO_Top, 13},
+	{RO_TopFine, 57},
 	{RO_LeftFine, 20},
 	{RO_TextNum, STR_PAGE_NUMBER},
 	{RO_TextPos, TEXTPOS_RIGHT},
@@ -266,8 +317,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_GadgetID, HEADFOOT_TITLESTRING},
 	{RO_Left, 8},
 	{RO_LeftFine, 49},
-	{RO_Top, 6},
-	{RO_TopFine, 41},
+	{RO_Top, 11},
+	{RO_TopFine, 47},
 	{RO_Width, 32},
 	{RO_WidthFine, -33},
 	{RO_Height, 1},
@@ -280,8 +331,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_GadgetID, HEADFOOT_TEXTSTYLE},
 	{RO_Left, 31},
 	{RO_LeftFine, -4},
-	{RO_Top, 8},
-	{RO_TopFine, 50},
+	{RO_Top, 13},
+	{RO_TopFine, 56},
 	{RO_Width, 9},
 	{RO_WidthFine, 24},
 	{RO_Height, 1},
@@ -295,8 +346,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_RADIO},
 	{RO_GadgetID, OUTPUT_PRINTER},
-	{RO_Top, 10},
-	{RO_TopFine, 61},
+	{RO_Top, 15},
+	{RO_TopFine, 67},
 	{RO_LeftFine, 22},
 	{RO_TextNum, STR_PRINTER},
 	{RO_TextPos, TEXTPOS_RIGHT},
@@ -307,8 +358,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_RADIO},
 	{RO_GadgetID, OUTPUT_FILE},
-	{RO_Top, 11},
-	{RO_TopFine, 65},
+	{RO_Top, 16},
+	{RO_TopFine, 71},
 	{RO_LeftFine, 22},
 	{RO_TextNum, STR_TOFILE},
 	{RO_TextPos, TEXTPOS_RIGHT},
@@ -321,8 +372,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_GadgetID, OUTPUT_FILEREQUESTER},
 	{RO_Left, 8},
 	{RO_LeftFine, 45},
-	{RO_Top, 11},
-	{RO_TopFine, 62},
+	{RO_Top, 16},
+	{RO_TopFine, 68},
 	{RO_WidthFine, 24},
 	{RO_Height, 1},
 	{RO_HeightFine, 4},
@@ -335,8 +386,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_GadgetID, OUTPUT_FILESTRING},
 	{RO_Left, 8},
 	{RO_LeftFine, 75},
-	{RO_Top, 11},
-	{RO_TopFine, 64},
+	{RO_Top, 16},
+	{RO_TopFine, 70},
 	{RO_Width, 32},
 	{RO_WidthFine, -59},
 	{RO_Height, 1},
@@ -347,8 +398,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Type, OBJECT_GADGET},
 	{RO_GadgetType, GADGET_BOOLEAN},
 	{RO_GadgetID, PRINT_PRINT},
-	{RO_Top, 12},
-	{RO_TopFine, 70},
+	{RO_Top, 17},
+	{RO_TopFine, 76},
 	{RO_Width, 12},
 	{RO_Height, 1},
 	{RO_HeightFine, 4},
@@ -363,8 +414,8 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_GadgetID, PRINT_EXIT},
 	{RO_Left, 28},
 	{RO_LeftFine, 20},
-	{RO_Top, 12},
-	{RO_TopFine, 70},
+	{RO_Top, 17},
+	{RO_TopFine, 76},
 	{RO_Width, 12},
 	{RO_Height, 1},
 	{RO_HeightFine, 4},
@@ -375,14 +426,14 @@ struct TagItem print_filerequester_gadget[] = {
 }, print_output_text[] =
 {
 	{RO_Type, OBJECT_TEXT},
-	{RO_Top, 9},
-	{RO_TopFine, 57},
+	{RO_Top, 14},
+	{RO_TopFine, 63},
 	{RO_LeftFine, -1},
 	{RO_TextNum, STR_OUTPUT_TO},
 	{TAG_END, 0}
 }, *print_gadgets[] =
 {
-	print_filerequester_gadget, print_file_gadget, print_topmargin_gadget, print_bottommargin_gadget, print_leftmargin_gadget, print_rightmargin_gadget, print_tabsize_gadget, print_pitch_gadget, print_quality_gadget, print_ejectpage_gadget, print_headerfooter_gadget, headfoot_title_gadget, headfoot_date_gadget, headfoot_pagenumber_gadget, headfoot_titlestring_gadget, headfoot_textstyle_gadget, output_printer_gadget, output_file_gadget, output_filerequester_gadget, output_filestring_gadget, print_print_gadget, print_exit_gadget, NULL
+	print_filerequester_gadget, print_file_gadget, print_topmargin_gadget, print_bottommargin_gadget, print_leftmargin_gadget, print_rightmargin_gadget, print_tabsize_gadget, print_pitch_gadget, print_quality_gadget, print_ejectpage_gadget, print_ignore_gadget, print_addcr_gadget, print_ejectfirst_gadget, print_init_gadget, print_headerfooter_gadget, headfoot_title_gadget, headfoot_date_gadget, headfoot_pagenumber_gadget, headfoot_titlestring_gadget, headfoot_textstyle_gadget, output_printer_gadget, output_file_gadget, output_filerequester_gadget, output_filestring_gadget, print_print_gadget, print_exit_gadget, NULL
 };
 
 char *text_pitch[3], *text_styles[6], *text_quality[2], *header_footer_text[2];
@@ -397,16 +448,16 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 	struct RequesterBase printreq;
 	struct IntuiMessage *msg;
 	struct Window *window;
-	struct Gadget **gadgets, *refgad;
+	struct Gadget **gadgets, *refgad = NULL;
 	struct AppWindow *appwindow = NULL;
 	struct MsgPort *appport = NULL;
 	struct AppMessage *appmsg;
 	ULONG class;
-	USHORT code, gadgetid, qual;
+	USHORT code, gadgetid = 0, qual;
 	APTR iaddress;
 	struct StringExtend stringex;
 	PrintData *printdata;
-	int a, headerfooter = 0, waitbits;
+	int a, headerfooter = 0, waitbits, result;
 	struct Requester busyreq;
 	char *print_file_buffer, *print_topmargin_buffer, *print_bottommargin_buffer, *print_leftmargin_buffer, *print_rightmargin_buffer, *print_tabsize_buffer, *output_filestring_buffer;
 
@@ -434,7 +485,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 		printreq.rb_flags |= RBF_STRINGS;
 		printreq.rb_title = NULL;
 		printreq.rb_widthfine = 45;
-		printreq.rb_heightfine = 86;
+		printreq.rb_heightfine = 172;
 		printreq.rb_leftoffset = 13;
 		printreq.rb_topoffset = 9;
 	}
@@ -443,7 +494,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 		printreq.rb_flags |= RBF_BORDERS | RBF_CLOSEGAD | RBF_STRINGS;
 		printreq.rb_title = string_table[STR_PRINTWIN];
 		printreq.rb_widthfine = 41;
-		printreq.rb_heightfine = 83;
+		printreq.rb_heightfine = 172;
 		printreq.rb_leftoffset = 11;
 		printreq.rb_topoffset = 7;
 	}
@@ -471,7 +522,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 
 	for(a = 0; a < 2; a++)
 	{
-		if(window = IDOpus->OpenDORequester(&printreq))
+		if((window = IDOpus->OpenDORequester(&printreq)))
 			break;
 		IDOpus->CloseRequester(&printreq);
 
@@ -505,10 +556,11 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 	print_tabsize_buffer = ((struct StringInfo *)gadgets[PRINT_TABSIZE]->SpecialInfo)->Buffer;
 	output_filestring_buffer = ((struct StringInfo *)gadgets[OUTPUT_FILESTRING]->SpecialInfo)->Buffer;
 
+	/* result unused - eliminates compiler warnings */
 	if(portname)
 	{
 		argslist->file_data = print_file_buffer;
-		dopus_message(DOPUSMSG_GETNEXTFILE, (APTR) argslist, portname);
+		result = dopus_message(DOPUSMSG_GETNEXTFILE, (APTR) argslist, portname);
 	}
 	else if(argc > 0)
 		strcpy(print_file_buffer, argv[0]);
@@ -517,13 +569,13 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 
 	if(printdata->top_margin < 1)
 		printdata->top_margin = 1;
-	sprintf(print_topmargin_buffer, "%ld", printdata->top_margin);
-	sprintf(print_bottommargin_buffer, "%ld", printdata->bottom_margin);
+	sprintf(print_topmargin_buffer, "%d", printdata->top_margin);
+	sprintf(print_bottommargin_buffer, "%d", printdata->bottom_margin);
 	if(printdata->left_margin < 1)
 		printdata->left_margin = 1;
-	sprintf(print_leftmargin_buffer, "%ld", printdata->left_margin);
-	sprintf(print_rightmargin_buffer, "%ld", printdata->right_margin);
-	sprintf(print_tabsize_buffer, "%ld", printdata->tab_size);
+	sprintf(print_leftmargin_buffer, "%d", printdata->left_margin);
+	sprintf(print_rightmargin_buffer, "%d", printdata->right_margin);
+	sprintf(print_tabsize_buffer, "%d", printdata->tab_size);
 
 	strcpy(output_filestring_buffer, printdata->output_file);
 
@@ -534,6 +586,26 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 		gadgets[PRINT_EJECTPAGE]->Flags |= GFLG_SELECTED;
 	else
 		gadgets[PRINT_EJECTPAGE]->Flags &= ~GFLG_SELECTED;
+
+	if(printdata->print_flags & PRINTFLAG_IGNORE)
+		gadgets[PRINT_IGNORE]->Flags |= GFLG_SELECTED;
+	else
+		gadgets[PRINT_IGNORE]->Flags &= ~GFLG_SELECTED;
+
+	if(printdata->print_flags & PRINTFLAG_ADDCR)
+		gadgets[PRINT_ADDCR]->Flags |= GFLG_SELECTED;
+	else
+		gadgets[PRINT_ADDCR]->Flags &= ~GFLG_SELECTED;
+
+	if(printdata->print_flags & PRINTFLAG_EJECTFIRST)
+		gadgets[PRINT_EJECTFIRST]->Flags |= GFLG_SELECTED;
+	else
+		gadgets[PRINT_EJECTFIRST]->Flags &= ~GFLG_SELECTED;
+
+	if(printdata->print_flags & PRINTFLAG_INIT)
+		gadgets[PRINT_INITPRINTER]->Flags |= GFLG_SELECTED;
+	else
+		gadgets[PRINT_INITPRINTER]->Flags &= ~GFLG_SELECTED;
 
 	if(printdata->print_flags & PRINTFLAG_FILE)
 	{
@@ -561,7 +633,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 	{
 		if(appwindow)
 		{
-			while(appmsg = (struct AppMessage *)IExec->GetMsg(appport))
+			while((appmsg = (struct AppMessage *)IExec->GetMsg(appport)))
 			{
 				if(appmsg->am_Type == AMTYPE_APPWINDOW)
 				{
@@ -729,6 +801,35 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 					else
 						printdata->print_flags &= ~PRINTFLAG_EJECT;
 					break;
+
+				case PRINT_IGNORE:
+					if(gadgets[PRINT_IGNORE]->Flags & GFLG_SELECTED)
+						printdata->print_flags |= PRINTFLAG_IGNORE;
+					else
+						printdata->print_flags &= ~PRINTFLAG_IGNORE;
+					break;
+
+				case PRINT_ADDCR:
+					if(gadgets[PRINT_ADDCR]->Flags & GFLG_SELECTED)
+						printdata->print_flags |= PRINTFLAG_ADDCR;
+					else
+						printdata->print_flags &= ~PRINTFLAG_ADDCR;
+					break;
+
+				case PRINT_EJECTFIRST:
+					if(gadgets[PRINT_EJECTFIRST]->Flags & GFLG_SELECTED)
+						printdata->print_flags |= PRINTFLAG_EJECTFIRST;
+					else
+						printdata->print_flags &= ~PRINTFLAG_EJECTFIRST;
+					break;
+
+				case PRINT_INITPRINTER:
+					if(gadgets[PRINT_INITPRINTER]->Flags & GFLG_SELECTED)
+						printdata->print_flags |= PRINTFLAG_INIT;
+					else
+						printdata->print_flags &= ~PRINTFLAG_INIT;
+					break;
+
 				      startprint:
 				case PRINT_PRINT:
 					read_headerfooter_gadgets(gadgets, window, printdata, headerfooter);
@@ -750,10 +851,11 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 						if(!(printfile(&printreq, print_file_buffer, printdata, &busyreq)))
 							break;
 
+						/* result unused - eliminates compiler warnings */
 						if(portname)
 						{
-							dopus_message(DOPUSMSG_UNSELECTFILE, (APTR) argslist, portname);
-							dopus_message(DOPUSMSG_GETNEXTFILE, (APTR) argslist, portname);
+							result = dopus_message(DOPUSMSG_UNSELECTFILE, (APTR) argslist, portname);
+							result = dopus_message(DOPUSMSG_GETNEXTFILE, (APTR) argslist, portname);
 						}
 						else
 						{

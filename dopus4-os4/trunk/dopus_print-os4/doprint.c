@@ -27,6 +27,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
 #include "print.h"
 
 struct PrintHandle
@@ -55,9 +56,10 @@ int do_header_footer(struct PrintHandle *, PrintData *, int);
 int do_printstyle(struct PrintHandle *, int, int);
 int print_str(struct PrintHandle *, char *, int);
 int printer_command(struct RequesterBase *, struct PrintHandle *, char *);
-int check_print_abort(struct RequesterBase *);
+// int check_print_abort(struct RequesterBase *); moved to print.h
 void show_progress(struct PrintHandle *);
 void print_status(struct PrintHandle *handle, char *text, int y);
+void print_terminate(char *device);
 
 char *esc_styles[] =
 {
@@ -68,15 +70,21 @@ char *esc_styles[] =
 	"\x1b[4\"z",		/* STYLE_DOUBLESTRIKE */
 	"\x1b[6\"z"		/* STYLE_SHADOW       */
 };
-printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, struct Requester *requester)
+
+static BOOL addcr2ff = FALSE;
+static BOOL ignoreff = FALSE;
+
+int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, struct Requester *requester)
 {
 	int fileh = 0, a, lastspace = -1, margin, filesize, ret = 0;
 	int buffersize, size, pos = 0, bufpos = 0;
-	char *buffer = NULL, *linebuffer, *marginbuf;
+	char *buffer = NULL, *linebuffer, *marginbuf = NULL;
 	struct PrintHandle *handle;
 	struct DOpusRemember *memkey = NULL;
 	struct DateTime *datetime;
-	struct TextFont *font;
+	struct TextFont *font = NULL;
+	char output_device[DEVNAME_SIZE + 8] = {'\0'};
+	char envbuf[4] = {'\0'};
 
 	for(;;)
 	{
@@ -191,8 +199,12 @@ printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, s
 		else
 			prefs->PrintQuality = LETTER;
 
-		if(!(printer_command(reqbase, handle, "\033#1")))
-			goto ENDPRINT;
+		if (prefs->PrinterPort == PARALLEL_PRINTER)
+			strcpy(output_device,prefs->PrtDevName);
+
+		if(printdata->print_flags & PRINTFLAG_INIT)
+			if(!(printer_command(reqbase, handle, "\033#1")))
+				goto ENDPRINT;
 	}
 
 	if(handle->req_rp)
@@ -226,6 +238,26 @@ printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, s
 	datetime->dat_Format = FORMAT_DOS;
 	datetime->dat_StrDate = handle->datebuf;
 	IDOpus->StampToStr(datetime);
+
+	/* Set "add CR to formfeed" variable for print_str() function */
+	if (printdata->print_flags & PRINTFLAG_ADDCR)
+		addcr2ff = TRUE;
+	else
+		addcr2ff = FALSE;
+
+	/* Eject blank page if set in prefs */
+	if (printdata->print_flags & PRINTFLAG_EJECTFIRST)
+	{
+		ignoreff = FALSE;
+		if (!(print_str(handle, "\f", 1)))
+			goto ENDPRINT;
+	}
+
+	/* Set "ignore bottom margin" variable for print_str() function */
+	if (printdata->print_flags & PRINTFLAG_IGNORE)
+		ignoreff = TRUE;
+	else
+		ignoreff = FALSE;
 
 	for(;;)
 	{
@@ -330,10 +362,10 @@ printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, s
 
 							/* Only store newline character in buffer if we are not
 							   on the last line of the page */
-
 							if(handle->current_line < handle->paper_height - 1 || handle->fileoutput)
 								linebuffer[pos++] = '\n';
 
+							/* Print the line */
 							if(marginbuf && !(print_str(handle, marginbuf, margin)))
 								goto ENDPRINT;
 							if(!(print_str(handle, linebuffer, pos)))
@@ -410,6 +442,7 @@ printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, s
 				if(!(do_header_footer(handle, printdata, FOOTER)))
 					goto ENDPRINT;
 				handle->current_line = 0;
+				/* Print the formfeed */
 				if(!(print_str(handle, "\f", 1)))
 					goto ENDPRINT;
 			}
@@ -435,10 +468,18 @@ printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, s
 	if(handle->req_rp)
 		IIntuition->EndRequest(requester, reqbase->rb_window);
 	IDOpus->LFreeRemember(&memkey);
+
+	if ((ret == 1) && (output_device[0] != '\0')
+	    && (IDOS->GetVar("DopusHPend",envbuf,sizeof(envbuf),0) > 0))
+	{
+		strcat(output_device, ".device");
+		print_terminate(output_device);
+	}
+
 	return (ret);
 }
 
-do_header_footer(struct PrintHandle *handle, PrintData *printdata, int type)
+int do_header_footer(struct PrintHandle *handle, PrintData *printdata, int type)
 {
 	int a, b;
 	int leftoffset;
@@ -481,7 +522,7 @@ do_header_footer(struct PrintHandle *handle, PrintData *printdata, int type)
 		{
 			char pagebuf[20];
 
-			sprintf(pagebuf, "%s %ld", string_table[STR_PAGE], handle->current_page);
+			sprintf(pagebuf, "%s %d", string_table[STR_PAGE], handle->current_page);
 
 			a = leftoffset + (handle->paper_width - strlen(pagebuf) - 1);
 			IExec->CopyMem(pagebuf, &handle->buffer[a], strlen(pagebuf));
@@ -510,7 +551,7 @@ do_header_footer(struct PrintHandle *handle, PrintData *printdata, int type)
 	return (1);
 }
 
-do_printstyle(struct PrintHandle *handle, int style, int turnon)
+int do_printstyle(struct PrintHandle *handle, int style, int turnon)
 {
 	int a = 1;
 
@@ -532,9 +573,16 @@ do_printstyle(struct PrintHandle *handle, int style, int turnon)
 	return (a);
 }
 
-print_str(struct PrintHandle *handle, char *string, int stlen)
+/*
+	Added CR (carriage return) after formfeeds if flag set
+	Added ignore bottom margin - skip formfeeds if flag set
+*/
+int print_str(struct PrintHandle *handle, char *string, int stlen)
 {
 	int len, success, seek;
+	char formfeed[] = "\f\r";
+	char linefeed[] = "\n";
+	char *pstring = NULL;
 
 	if((len = stlen) == -1)
 	{
@@ -545,22 +593,37 @@ print_str(struct PrintHandle *handle, char *string, int stlen)
 	if(len < 1)
 		return (1);
 
+	pstring = string;
+
+	/* Check flag variables for adding CR & skipping LF */
+	if ((len == 1) && (string[0] == formfeed[0]))
+	{
+		if (ignoreff) // Ignore bottom margin - skip formfeeds
+			pstring = linefeed;
+		else if (addcr2ff) // Add carriage return to formfeeds
+		{
+			pstring = formfeed;
+			len = 2;
+		}
+	}
+
 	for(;;)
 	{
 		seek = 0;
 		if(handle->filehandle)
 		{
-			success = ((seek = IDOS->Write(handle->filehandle, string, len)) == len);
+			success = ((seek = IDOS->Write(handle->filehandle, pstring, len)) == len);
 		}
 		else if(handle->ioreq)
 		{
 			handle->ioreq->io_Length = len;
-			handle->ioreq->io_Data = (APTR) string;
+			handle->ioreq->io_Data = (APTR) pstring;
 			handle->ioreq->io_Command = CMD_WRITE;
 			success = (!(IExec->DoIO((struct IORequest *)handle->ioreq)));
 		}
 		else
 			return (0);
+
 		if(success)
 			return (1);
 		if(!(check_error(handle->reqbase, string_table[STR_PRINT_ERROR], 0)))
@@ -570,7 +633,7 @@ print_str(struct PrintHandle *handle, char *string, int stlen)
 	}
 }
 
-printer_command(struct RequesterBase *reqbase, struct PrintHandle *handle, char *command)
+int printer_command(struct RequesterBase *reqbase, struct PrintHandle *handle, char *command)
 {
 	handle->ioreq->io_Length = -1;
 	handle->ioreq->io_Data = (APTR) command;
@@ -586,12 +649,12 @@ printer_command(struct RequesterBase *reqbase, struct PrintHandle *handle, char 
 	return (1);
 }
 
-check_print_abort(struct RequesterBase *reqbase)
+int check_print_abort(struct RequesterBase *reqbase)
 {
 	struct IntuiMessage *msg;
 	int abort = 0;
 
-	while(msg = (struct IntuiMessage *)IExec->GetMsg(reqbase->rb_window->UserPort))
+	while((msg = (struct IntuiMessage *)IExec->GetMsg(reqbase->rb_window->UserPort)))
 	{
 		if(msg->Class == IDCMP_VANILLAKEY && msg->Code == 0x1b)
 		{
@@ -613,7 +676,7 @@ void show_progress(struct PrintHandle *handle)
 	else
 		percent = ((float)((float)handle->total_pos / (float)handle->filesize)) * 100;
 
-	sprintf(buf, "%3ld%% %s ", (int)percent, string_table[STR_COMPLETE]);
+	sprintf(buf, "%3ld%% %s ", (long int)percent, string_table[STR_COMPLETE]);
 	print_status(handle, buf, handle->progress_y);
 }
 
@@ -639,4 +702,29 @@ void print_status(struct PrintHandle *handle, char *text, int y)
 		IGraphics->RectFill(handle->req_rp, handle->req_rp->cp_x, y, handle->req_width - 3, y + font->tf_YSize);
 	}
 	IGraphics->SetAPen(handle->req_rp, reqbase->rb_fg);
+}
+
+void print_terminate(char *device)
+{
+	struct MsgPort *msgport = NULL;
+	struct IOExtPar *ioreq = NULL;
+
+	if (!(msgport = IExec->AllocSysObject(ASOT_PORT,NULL))) return;
+	ioreq = IExec->AllocSysObjectTags(ASOT_IOREQUEST,ASOIOR_Size,sizeof(struct IOExtPar),ASOIOR_ReplyPort,msgport,TAG_DONE);
+
+	if (ioreq)
+	{
+		if (!(IExec->OpenDevice(device, 0, (struct IORequest *)ioreq, 0)))
+			{
+			ioreq->IOPar.io_Length = 9;
+			ioreq->IOPar.io_Data = (APTR) "\033%-12345X";
+			ioreq->IOPar.io_Command = CMD_WRITE;
+			IExec->DoIO((struct IORequest *)ioreq);
+			IExec->CloseDevice((struct IORequest *)ioreq);
+			}
+	}
+
+	IExec->FreeSysObject(ASOT_IOREQUEST,ioreq);
+	IExec->FreeSysObject(ASOT_PORT, msgport);
+	return;
 }

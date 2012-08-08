@@ -55,33 +55,37 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/dopusmessage.h>
 #include "printstrings.h"
 
-#define PRINTFLAG_EJECT    1
-#define PRINTFLAG_FILE     2
+#define PRINTFLAG_EJECT      1
+#define PRINTFLAG_FILE       2
+#define PRINTFLAG_IGNORE     4
+#define PRINTFLAG_ADDCR      8
+#define PRINTFLAG_EJECTFIRST 16
+#define PRINTFLAG_INIT       32
 
-#define HEADFOOTFLAG_TITLE 1
-#define HEADFOOTFLAG_DATE  2
-#define HEADFOOTFLAG_PAGE  4
+#define HEADFOOTFLAG_TITLE   1
+#define HEADFOOTFLAG_DATE    2
+#define HEADFOOTFLAG_PAGE    4
 
-#define PITCH_PICA         0
-#define PITCH_ELITE        1
-#define PITCH_FINE         2
+#define PITCH_PICA           0
+#define PITCH_ELITE          1
+#define PITCH_FINE           2
 
-#define PITCH_COUNT        3
+#define PITCH_COUNT          3
 
-#define STYLE_NORMAL       0
-#define STYLE_BOLD         1
-#define STYLE_ITALICS      2
-#define STYLE_UNDERLINED   3
-#define STYLE_DOUBLESTRIKE 4
-#define STYLE_SHADOW       5
+#define STYLE_NORMAL         0
+#define STYLE_BOLD           1
+#define STYLE_ITALICS        2
+#define STYLE_UNDERLINED     3
+#define STYLE_DOUBLESTRIKE   4
+#define STYLE_SHADOW         5
 
-#define STYLE_COUNT        6
+#define STYLE_COUNT          6
 
-#define QUALITY_DRAFT      0
-#define QUALITY_NLQ        1
+#define QUALITY_DRAFT        0
+#define QUALITY_NLQ          1
 
-#define HEADER             0
-#define FOOTER             1
+#define HEADER               0
+#define FOOTER               1
 
 typedef struct HeadFootData
 {
@@ -110,3 +114,21 @@ typedef struct MyPrinterData
 extern struct DefaultString default_strings[];
 
 #define STRING_VERSION 1
+
+/* print.c */
+void activate_next_gadget(struct Gadget *gadget, struct Window *window);
+void get_print_env(PrintData *printdata);
+void set_print_env(PrintData *printdata);
+int dopus_message(int cmd, APTR data, char *portname);
+struct Gadget *addreqgadgets(struct RequesterBase *reqbase, struct TagItem **gadgets, struct Gadget **gadgetlist);
+int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save);
+int check_error(struct RequesterBase *reqbase, char *str, int abort);
+void fill_out_req(struct RequesterBase *req, struct VisInfo *vis);
+/* printdir.c */
+void do_printdir(struct VisInfo *vis, char *portname, int wind);
+/* printreq.c */
+void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslist, int argc, char **argv);
+/* doprint.c */
+int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, struct Requester *requester);
+int check_print_abort(struct RequesterBase *);
+

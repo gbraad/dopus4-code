@@ -422,12 +422,12 @@ void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, ch
 	int out = 0, abort = 0, a;
 
 	pddata.win = wind;
-	if(!(dopus_message(DOPUSMSG_GETPRINTDIR, (APTR)&pddata, portname)))
+	if(!(a = dopus_message(DOPUSMSG_GETPRINTDIR, (APTR)&pddata, portname)))
 		return;
 
 	while(!out)
 	{
-		if(out = IDOS->Open(output, MODE_NEWFILE))
+		if((out = IDOS->Open(output, MODE_NEWFILE)))
 			break;
 		if(!(check_error(reqbase, string_table[STR_UNABLE_TO_OPEN_OUTPUT], 0)))
 			return;
@@ -552,7 +552,7 @@ void save_printdir_env(int flags, int printer, char *filename)
 {
 	int file;
 
-	if(file = IDOS->Open("env:DOpus_printdir.prefs", MODE_NEWFILE))
+	if((file = IDOS->Open("env:DOpus_printdir.prefs", MODE_NEWFILE)))
 	{
 		IDOS->Write(file, (char *)&flags, sizeof(int));
 		IDOS->Write(file, (char *)&printer, sizeof(int));
@@ -565,7 +565,7 @@ void read_printdir_env(int *flags, int *printer, char *filename)
 {
 	int file;
 
-	if(file = IDOS->Open("env:DOpus_printdir.prefs", MODE_OLDFILE))
+	if((file = IDOS->Open("env:DOpus_printdir.prefs", MODE_OLDFILE)))
 	{
 		IDOS->Read(file, (char *)flags, sizeof(int));
 		IDOS->Read(file, (char *)printer, sizeof(int));

@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 	struct VisInfo vis;
 	char **dummy_args, *port = NULL, *stringname;
 	struct DOpusArgsList *arglist = NULL;
-	BPTR oldcurdir, *dirlocks;
+	BPTR oldcurdir = 0, *dirlocks;
 	int arg, printdir = 0, pdwind = -1;
 	struct StringData *stringdata;
 	struct DOpusRemember *memkey = NULL;
@@ -157,7 +157,7 @@ void get_vis_info(struct VisInfo *vis, char *portname)
 	if(dopus_message(DOPUSMSG_GETVIS, (APTR) vis, portname))
 		return;
 
-	if(pub = IIntuition->LockPubScreen(NULL))
+	if ((pub = IIntuition->LockPubScreen(NULL)))
 	{
 		drinfo = IIntuition->GetScreenDrawInfo(pub);
 		vis->vi_shine = drinfo->dri_Pens[SHINEPEN];
@@ -169,7 +169,7 @@ void get_vis_info(struct VisInfo *vis, char *portname)
 	}
 }
 
-dopus_message(int cmd, APTR data, char *portname)
+int dopus_message(int cmd, APTR data, char *portname)
 {
 	struct MsgPort *port, *replyport;
 	struct DOpusMessage msg;
@@ -224,7 +224,7 @@ void fill_out_req(struct RequesterBase *req, struct VisInfo *vis)
 struct Gadget *addreqgadgets(struct RequesterBase *reqbase, struct TagItem **gadgets, struct Gadget **gadgetlist)
 {
 	int gad;
-	struct Gadget *gadget = NULL, *newgadget, *firstgadget;
+	struct Gadget *gadget = NULL, *newgadget, *firstgadget = NULL;
 
 	for(gad = 0;; gad++)
 	{
@@ -342,7 +342,7 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 
 int error_rets[2] = { 1, 0 };
 
-check_error(struct RequesterBase *reqbase, char *str, int abort)
+int check_error(struct RequesterBase *reqbase, char *str, int abort)
 {
 	struct DOpusSimpleRequest *req;
 	char *error_gads[3];
