@@ -1,0 +1,26 @@
+Dopus_Print - ChangeLog:
+------------------------
+
+Aug 8, 2012 - Dopus_Print 4.18.1
+* The following new options were added to the Dopus Print GUI:
+
+  *Ignore bottom margin
+   Ignore bottom margin setting in Dopus Print settings and let
+   the printer control the pagelength (bottom margin).
+
+  *Add carriage return to formfeeds
+   Add a carriage return to formfeeds for printers that don't
+   automatically perform a carriage return when starting a new
+   page.
+
+  *Eject page before printing
+   Eject a blank first page for printers (or drivers) that print
+   a top line higher on the first page than on subsequent pages.
+
+  *Initialize Printer
+   Dopus Print previously initialized the printer by default. Since
+   the latest OS4 printer prefs have an initialization option, the
+   Dopus Print printer initialization is changed to an option so
+   that multiple printer initializations can be avoided.
+
+* Added locale strings for new options in Dopus_Print GUI.
