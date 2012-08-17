@@ -1,0 +1,2882 @@
+## version $VER: DOpus4_Config.catalog 3.0 (15.08.2012)
+## language german
+## codeset 0
+;
+## chunk AUTH Christoph Gutjahr
+;#basename Dopus4_Config
+;#language english
+;#version 3
+;
+; DOpus4_Config.cd - ConfigOpus catalog description file
+;
+; $VER: DOpus4_Config.cd 3.0 (15.08.2012)
+;
+;
+;*** Messages on quit
+;
+STR_REALLY_DISCARD_CONFIG
+Möchten Sie die aktuelle Konfiguration\nwirklich verwerfen?
+; Do you really want to discard the\ncurrent configuration settings?
+;
+STR_EXIT_WITHOUT_SAVING
+Die Konfiguration wurde geändert.\nWenn Sie fortfahren, gehen die Änderungen verloren!
+; Do you really want to exit without\nsaving the current configuration settings?
+;
+;
+;*** Window titles
+;
+STR_CONFIGURATION_MAIN_SCREEN
+Konfigurations-Hauptsektion
+; Configuration main screen
+;
+STR_OPERATION_SCREEN
+Sektion Funktion
+; Operation configuration screen
+;
+STR_MENU_SCREEN
+Sektion Menüs
+; Menu configuration screen
+;
+STR_DRIVE_SCREEN
+Sektion Laufwerke
+; Drive button configuration screen
+;
+STR_FILETYPE_SCREEN
+Sektion Dateitypen
+; Filetype configuration screen
+;
+STR_SCREEN_SCREEN
+Sektion Bildschirm
+; Screen configuration screen
+;
+STR_SYSTEM_SCREEN
+Sektion System
+; System configuration screen
+;
+STR_HOTKEYS_SCREEN
+Sektion Hotkeys
+; Global hotkeys configuration screen
+;
+STR_MAIN_MENU
+Hauptsektion
+; Main Menu
+;
+;
+;*** Configuration/Buttons (1/3)
+;
+STR_LEFT_MOUSE_BUTTON
+Linke Maustaste
+; Left mouse button
+;
+STR_RIGHT_MOUSE_BUTTON
+  Rechte Maustaste
+; Right mouse button
+;
+;
+;*** General usage buttons (1/2)
+;
+STR_OKAY
+Weiter
+; Okay
+;
+STR_CANCEL
+Abbrechen
+; Cancel
+;
+;
+;*** Operation/List format (1/5)
+;
+STR_AVAILABLE_DISPLAY_ITEMS
+Verfügbare Dateiattribute...
+; Available display items...
+;
+STR_SELECTED_DISPLAY_ITEMS
+Angezeigte Dateiattribute...
+; Selected display items...
+;
+STR_DISPLAYED_LENGTHS
+Angezeigte Länge...
+; Displayed lengths...
+;
+STR_CHECK_INDICATES_SORT
+(  zeigt Sortierattribut an)
+; (  Check indicates sort item)
+;
+STR_ENTRY_SEPARATION
+Reihenfolge...
+; Entry separation...
+;
+;
+;*** System/Hotkey (1/2)
+;
+STR_UNICONIFY_HOTKEY
+Directory Opus-Tastenkürzel
+; Uniconify/activate hotkey
+;
+;
+;*** System/Icons (1/3)
+;
+STR_PROJECTS_DEFAULT_TOOL
+Standardprogramm...
+; Project's Default Tool...
+;
+;
+;*** General purpose file/directory requester titles
+;
+STR_SELECT_DESIRED_FILE
+Wähle eine Datei aus!
+; Select the desired file
+;
+STR_SELECT_DESIRED_DIRECTORY
+Wähle ein Verzeichnis aus!
+; Select the desired directory
+;
+STR_SELECT_DESIRED_FONT
+Wähle eine Schrift aus!
+; Select the desired font and size
+;
+;
+;*** Hotkey edit screen
+;
+STR_HOTKEY_USCORE
+Tasten_kürzel
+; _Hotkey
+;
+;
+;*** Configuration/Buttons - messages
+;
+STR_NEW_GADGET_BANKS_APPENDED
+Neue Knopfbänke wurden angehängt.
+; New button banks appended to existing ones.
+;
+STR_DEFAULT_GADGET_BANKS_APPENDED
+Standard Knopfbänke wurden angehängt.
+; Default button banks appended to existing ones.
+;
+STR_NO_GADGET_BANKS_CONFIGURED
+Es sind keine Knopfbänke definiert!
+; There are no button banks configured!
+;
+STR_GADGET_DELETED
+Knopf-Definition gelöscht.
+; Button deleted.
+;
+STR_SELECT_GADGET_TO_COPY
+Wähle den Zielknopf für die Kopie aus!
+; Select the button position to copy the original button to.
+;
+STR_SELECT_GADGET_TO_SWAP
+Wähle den zweiten Knopf für die Vertauschung!
+; Select the button to swap with the first button.
+;
+STR_SELECT_A_GADGET_TO_COPY
+Wähle einen Knopf der kopiert werden soll!
+; Select a button to copy.
+;
+STR_SELECT_FIRST_GADGET_TO_SWAP
+Wähle den ersten Knopf für die Vertauschung!
+; Select the first button to swap.
+;
+STR_GADGET_EDIT_SCREEN
+Knopf-Funktionseditor
+; Button edit screen
+;
+STR_ENTER_BANK_TO_COPY
+Gib die Bank an, auf die kopiert werden soll!\nExistiert diese nicht, so wird eine neue Bank erzeugt.
+; Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
+;
+STR_BANK_ALREADY_EXISTS
+Die angegebene Bank existiert bereits!\nSoll sie wirklich überschrieben werden?
+; Selected bank already exists! Do you really\nwant to overwrite this bank?
+;
+STR_GADGET_BANK_COPIED
+Knopf-Bank wurde kopiert.
+; Button bank copied.
+;
+STR_ENTER_BANK_TO_SWAP
+Gib die Nummer der Bank an, die mit der\naktuellen Bank vertauscht werden soll.
+; Enter bank number to swap this bank with.
+;
+STR_BANK_DOES_NOT_EXIST
+Die angegebene Bank existiert nicht!
+; Selected button bank does not exist.
+;
+STR_BANKS_SWAPPED
+Knopf-Bänke wurden vertauscht.
+; Button banks swapped.
+;
+STR_ONLY_BANK_CONFIGURED
+Dies ist die einzige Knopf-Bank.\nMöchten Sie diese Bank wirklich löschen?
+; This is the only button bank configured!\nDo you really want to delete this button bank?
+;
+STR_REALLY_DELETE_BANK
+Möchten Sie diese Knopf-Bank wirklich löschen?
+; Do you really want to delete this button bank?
+;
+STR_BANK_DELETED
+Die Knopf-Bank wurde gelöscht.
+; Button bank deleted.
+;
+STR_SELECT_GADGET_TO_DELETE
+Bitte einen Knopf angeben, der gelöscht werden soll.
+; Select a button to delete.
+;
+STR_GADGET_BANK_NUMBER
+Knopf-Bank Nummer
+; Button bank number
+;
+STR_GADGET_SCREEN_NO_BANKS
+Sektion Knöpfe - Keine Knopfbänke definiert
+; Button configuration screen - no banks configured
+;
+STR_NO_MEMORY_FOR_NEW_BANK
+Kein RAM für neue Bank verfügbar!
+; Unable to allocate memory for new bank!
+;
+STR_NEW_BANK_CREATED
+Neue Bank wurde erzeugt.
+; New button bank created.
+;
+;
+;*** Menu configuration screen (1/3)
+;
+STR_NEW_MENUS_LOADED
+Neue Menüs wurden geladen.
+; New menus loaded.
+;
+STR_DEFAULT_MENUS_LOADED
+Standard-Menüs wurden geladen.
+; Default menus loaded.
+;
+STR_ENTER_MENU_TITLE
+Bitte Menütitel eingeben!
+; Enter menu title.
+;
+STR_MENU_ITEM_DELETED
+Der Menüeintrag wurde gelöscht.
+; Menu item deleted.
+;
+STR_MENU_ITEM_INSERTED
+Neuer Menüeintrag wurde eingefügt.
+; Menu item inserted.
+;
+STR_REALLY_DELETE_THIS_MENU
+Soll dieses Menü wirklich gelöscht werden?
+; Do you really want to delete this menu?
+;
+STR_MENU_DELETED
+Das Menü wurde gelöscht.
+; Menu deleted.
+;
+STR_MENU_SORTED
+Das Menü wurde sortiert.
+; Menu sorted.
+;
+STR_SELECT_MENU_TO_COPY
+Wähle ein Zielmenü für die Kopie!
+; Select an item in the menu to copy the original menu to.
+;
+STR_SELECT_MENU_TO_SWAP
+Wähle ein zweites Menü für die Vertauschung!
+; Select an item in the menu to swap with the first.
+;
+STR_SELECT_ITEM_TO_COPY
+Wähle einen Menüeintrag als Ziel für die Kopie!
+; Select item position to copy the original menu item to.
+;
+STR_SELECT_ITEM_TO_SWAP
+Wähle einen zweiten Menüeintrag für die Vertauschung!
+; Select menu item to swap with the first item.
+;
+STR_MENU_ITEM_EDIT_SCREEN
+Menüeintrag-Funktionseditor
+; Menu item edit screen
+;
+STR_SELECT_ITEM_IN_MENU_TO_COPY
+Wähle ein Menü das kopiert werden soll!
+; Select an item in the menu to copy.
+;
+STR_SELECT_ITEM_IN_MENU_TO_SWAP
+Wähle das erste Menü für die Vertauschung!
+; Select an item in the first menu to swap.
+;
+STR_SELECT_ITEM_IN_MENU_TO_DELETE
+Wähle ein Menü, das gelöscht werden soll!
+; Select an item in the menu to delete.
+;
+STR_SELECT_ITEM_IN_MENU_TO_SORT
+Wähle ein Menü, das sortiert werden soll!
+; Select an item in the menu to sort.
+;
+STR_SELECT_ITEM_TO_INSERT_BEFORE
+Wähle den Eintrag VOR dem der neue Eintrag stehen soll.
+; Select the menu item to insert the new item BEFORE.
+;
+STR_SELECT_MENU_ITEM_TO_COPY
+Wähle den Menüeintrag der kopiert werden soll!
+; Select a menu item to copy.
+;
+STR_SELECT_MENU_ITEM_TO_SWAP
+Wähle den ersten Menüeintrag für die Vertauschung!
+; Select the first menu item to swap.
+;
+STR_SELECT_MENU_ITEM_TO_DELETE
+Wähle den Menüeintrag, der gelöscht werden soll!
+; Select a menu item to delete.
+;
+;
+;*** The well known 'Edit' menu
+;
+STR_EDIT
+Edit
+; Edit
+;
+;
+;*** (Drive) Button & Menu configuration screen (1/2)
+;
+STR_SHORTCUT_KEY
+Tasten_kürzel
+; Shortcut _key
+;
+;
+;*** Another common string
+;
+STR_HOTKEY
+DOpus-Hotkey
+; Hotkey
+;
+;
+;*** File requester titles for edit screens
+;
+STR_ARGUMENT_CONTROL_SEQUENCES
+Verfügbare Argumentfunktionen...
+; List of available functions...
+;
+STR_AVAILABLE_COMMANDS
+Interne Befehle...
+; List of available commands...
+;
+;
+;*** (Drive) Button edit screens
+;
+STR_FOREGROUND
+Vordergrund
+; Foreground
+;
+STR_BACKGROUND
+Hintergrund
+; Background
+;
+STR_DROP_A_TOOL_HERE
+Piktogramm hier ablegen!
+; Drop a tool here!
+;
+STR_NEW_DRIVE_BANKS_LOADED
+Neue Laufwerksbänke wurden geladen.
+; New drive banks loaded.
+;
+STR_DEFAULT_DRIVE_BANKS_RESET
+Laufwerksbänke wurden auf Standardwerte gesetzt.
+; Default drive banks reset.
+;
+STR_DRIVE_GADGET_DELETED
+Der Laufwerksknopf wurde gelöscht.
+; Drive button deleted.
+;
+STR_SELECT_DRIVE_TO_COPY_TO
+Bitte Ziel für die Kopie des Knopfes anwählen!
+; Select the drive position to copy the original drive button to.
+;
+STR_SELECT_DRIVE_TO_SWAP_WITH_FIRST
+Wähle den zweiten Knopf für die Vertauschung!
+; Select the drive button to swap with the first button.
+;
+STR_SELECT_DRIVE_BANK_TO_COPY_TO
+Bitte Ziel für die Kopie der Bank angeben.
+; Select a drive button in the bank to copy the original bank to.
+;
+STR_SELECT_DRIVE_BANK_TO_SWAP_WITH_FIRST
+Wähle die zweite Bank für die Vertauschung!
+; Select a drive button in the bank to swap with the first bank.
+;
+STR_REALLY_DELETE_DRIVE_BANK
+Soll die Bank wirklich gelöscht werden?
+; Do you really want to delete this drive bank?
+;
+STR_PATH
+_Pfad
+; _Path
+;
+STR_SYSTEM_DEVICES_LISTED
+Liste der Systemlaufwerke wurde eingelesen.
+; System devices listed.
+;
+STR_SELECT_DRIVE_BANK_TO_COPY
+Wähle eine Bank aus, die kopiert werden soll.
+; Select a drive button in the bank to copy.
+;
+STR_SELECT_DRIVE_BANK_TO_SWAP
+Wähle die erste Bank für die Vertauschung!
+; Select a drive button in the first bank to swap.
+;
+STR_SELECT_DRIVE_BANK_TO_DELETE
+Wähle eine Bank, die gelöscht werden soll.
+; Select a drive button in the bank to delete.
+;
+STR_SELECT_DRIVE_BANK_TO_SORT
+Wähle eine Bank, die sortiert werden soll.
+; Select a drive button in the bank to sort.
+;
+STR_SELECT_DRIVE_GADGET_TO_COPY
+Wähle einen Knopf der kopiert werden soll!
+; Select a drive button to copy.
+;
+STR_SELECT_DRIVE_GADGET_TO_SWAP
+Wähle den ersten Knopf für die Vertauschung!
+; Select the first drive button to swap.
+;
+STR_SELECT_DRIVE_GADGET_TO_DELETE
+Wähle einen Knopf der gelöscht werden soll!
+; Select a drive button to delete.
+;
+;
+;*** Filetype configuration screen - messages
+;
+STR_NEW_FILETYPES_MERGED
+Neue Dateitypen wurden angehängt.
+; New filetypes merged with existing ones.
+;
+STR_DEFAULT_FILETYPES_MERGED
+Standard-Dateitypen wurden angehängt.
+; Default filetypes merged with existing ones.
+;
+;
+;*** File classes (1/2)
+;
+STR_REALLY_DELETE_THIS_CLASS
+Soll diese Klasse wirklich gelöscht werden?
+; Do you really want to delete this class?
+;
+STR_FILE_CLASS_DELETED
+Die Dateiklasse wurde gelöscht.
+; File class deleted.
+;
+STR_SELECT_CLASS_FILE_TO_LOAD
+Dateiklassen laden
+; Select the class file to load
+;
+STR_ENTER_NAME_TO_SAVE_CLASSES
+Dateiklassen speichern
+; Enter a name to save the file classes
+;
+STR_SELECT_CLASSES_TO_IMPORT
+Welche Dateiklassen importieren?
+; Select file classes to import
+;
+STR_ERASE_ALL_CLASSES
+Sollen wirklich alle Dateiklassen gelöscht werden?
+; Do you really wish to erase all file classes?
+;
+STR_EXIT_WITHOUT_SAVING_CLASSES
+Wollen Sie diese Sektion wirklich verlassen,\nohne die geänderten Dateiklassen zu speichern?
+; Do you really wish to exit this section without\nsaving changes made to the file classes?
+;
+STR_REDEFINE_EXISTING_CLASS_ACTION
+Für diese Klasse existiert bereits ein Dateityp.\nWollen Sie trotzdem fortfahren?
+; That file class already has an action defined\nfor it. Do you wish to continue?
+;
+STR_DEFAULT_ACTION_CAN_NOT_BE_MOVED
+Der Dateityp DEFAULT muß am Ende stehen.
+; The default action can not be moved.
+;
+STR_CLASS_ACTIONS_SWAPPED
+Die Einträge wurden vertauscht.
+; Class actions swapped.
+;
+STR_SELECT_ACTION_TO_SWAP
+Wähle den ersten Eintrag für die Vertauschung!
+; Select the first action to swap.
+;
+STR_SELECT_ACTION_TO_SWAP_WITH_FIRST
+Wähle nun den zweiten Eintrag für die Vertauschung!
+; Select the second action to swap with the first.
+;
+STR_SELECT_ACTION_TO_DELETE
+Wähle einen Eintrag der gelöscht werden soll!
+; Select an action to delete.
+;
+STR_REALLY_DELETE_THIS_ACTION
+Soll dieser Dateityp wirklich gelöscht werden?
+; Do you really want to delete this action?
+;
+STR_ACTION_DELETED
+Der Dateityp wurde gelöscht.
+; Action deleted.
+;
+STR_FILETYPE_CLASS
+Klasse des Dateityps
+; Filetype class
+;
+STR_EDIT_CLASS
+Klasse ändern
+; Edit class
+;
+STR_FILE_CLASS_EDIT_SCREEN
+Dateiklassen Editor
+; File class edit screen
+; 
+STR_OPEN_FAILED
+Laden fehlgeschlagen - Fehler %ld\nNochmal versuchen?
+; Open failed - DOS error code %ld\nTry again?
+;
+STR_SAVE_FAILED
+Speichern fehlgeschlagen - Fehler %ld\nNochmal versuchen?
+; Save failed - DOS error code %ld\nTry again?
+;
+STR_LIST_OF_FILETYPE_COMMANDS
+Identifikations-Funktionen...
+; List of file identification commands...
+;
+STR_POSITION
+Position
+; Position
+;
+STR_OFFSET
+Abstand
+; Offset
+;
+;
+;
+STR_FILE_NOT_FOUND
+Datei nicht gefunden!
+; File not found!
+;
+;
+;*** Screen/Colors (1/3)
+;
+STR_EXAMPLE
+Beispiel
+; Example
+;
+;
+;*** Screen/Screen mode (1/7)
+;
+STR_DISPLAY_MODE_DESCRIPTION
+Moduseigenschaften...
+; Display mode description...
+;
+;
+;*** Screen/Fonts (1/3)
+;
+STR_DISPLAY_ITEM
+Bildschirm-Element...
+; Display item...
+;
+STR_FONT
+Schriftart...
+; Font...
+;
+STR_FONT_SIZE
+Größe...
+; Size...
+;
+;
+;*** Screen/Arrows (1/2)
+;
+STR_MODIFY_SIZE
+Größe ändern...
+; Adjust size...
+;
+;
+;*** System/Hotkey (2/2)
+;
+STR_USE_MMB
+Mittlere Maustaste abfragen.
+; Use middle mouse button
+;
+;
+;*** Screen/Screen mode (2/7)
+;
+STR_MINIMUM_SIZE
+Minimale Größe
+; Minimum size
+;
+STR_MAXIMUM_SIZE
+Maximale Größe
+; Maximum size
+;
+STR_DEFAULT_SIZE
+Normale Größe
+; Default size
+;
+STR_MAXIMUM_COLORS
+Max Anz. Farben
+; Maximum colors
+;
+;
+;*** Misc. messages
+;
+STR_LOADING_FONT
+Moment bitte...
+; Loading font...
+;
+STR_FONT_COULD_NOT_BE_LOADED
+Schrift nicht verfügbar!
+; Font could not be loaded!
+;
+STR_ENTER_CONFIGURATION_FILENAME
+Konfiguration speichern
+; Enter configuration filename
+;
+STR_SELECT_CONFIGURATION_TO_LOAD
+Konfigurationsdatei laden
+; Select configuration file to load
+;
+STR_FILE_NOT_VALID_CONFIGURATION
+Diese Datei ist keine DirOpus 4 Konfiguration!\nNochmal versuchen?
+; File is not a valid configuration file!\nTry again?
+;
+STR_SELECT_MENUS_TO_IMPORT
+Welche Menüs importieren?
+; Select menus to import
+;
+STR_SELECT_FILETYPES_TO_IMPORT
+Welche Dateitypen importieren?
+; Select filetypes to import
+;
+STR_SELECT_HOTKEYS_TO_IMPORT
+Welche Kurzbefehle importieren?
+; Select hotkeys to import
+;
+STR_SELECT_FUNCTION_TO_PASTE
+Welche Funktion einfügen..
+; Select function to paste
+;
+;
+;*** Configuration/Hotkeys (1/3)
+;
+STR_NEW_HOTKEYS_MERGED
+Neue Kurzbefehle wurden angehängt.
+; New hotkeys merged with existing ones.
+;
+STR_DEFAULT_HOTKEYS_MERGED
+Standard Kurzbefehle wurden angehängt.
+; Default hotkeys merged with existing ones.
+;
+STR_SELECT_HOTKEY_TO_DELETE
+Wähle einen Eintrag, der gelöscht werden soll.
+; Select hotkey to delete.
+;
+STR_SELECT_HOTKEY_TO_DUPLICATE
+Wähle einen Eintrag, der kopiert werden soll.
+; Select hotkey to duplicate.
+;
+STR_REALLY_DELETE_HOTKEY
+Soll dieser Kurzbefehl wirklich gelöscht werden?
+; Do you really want to delete this hotkey?
+;
+STR_HOTKEY_DELETED
+Der Eintrag wurde gelöscht.
+; Hotkey deleted.
+;
+STR_HOTKEY_EDIT_SCREEN
+Hotkey-Funktionseditor
+; Hotkey edit screen
+;
+;
+; Configuration/Buttons (2/3)
+;
+STR_NEW_BANK
+Neue Bank
+; New bank
+;
+STR_INSERT_BANK
+Bank einfüg.
+; Insert bank
+;
+STR_NEXT_BANK
+Nächste Bank
+; Next bank
+;
+STR_LAST_BANK
+Vorige Bank
+; Prev bank
+;
+;
+;
+STR_CLEAR
+Löschen
+; Clear
+;
+STR_CLEAR_LAST
+Letztes
+; Clear last
+;
+;
+;*** Menus (1/5)
+;
+STR_MENU_DEFAULT
+Standardwerte
+; Default
+;
+STR_MENU_OPEN
+Import...
+; Open...
+;
+STR_MENU_SAVE
+Speichern
+; Save
+;
+STR_MENU_SAVE_AS
+Speichern als...
+; Save As...
+;
+STR_MENU_CUT
+Ausschneiden
+; Cut
+;
+STR_MENU_COPY
+Kopieren
+; Copy
+;
+STR_MENU_PASTE
+Einfügen...
+; Paste...
+;
+STR_MENU_ERASE
+Löschen
+; Erase
+;
+STR_MENU_NEW
+Neue Klasse...
+; New...
+;
+STR_MENU_EDIT
+Klasse ändern...
+; Edit...
+;
+STR_MENU_DELETE
+Klasse löschen...
+; Delete...
+;
+STR_GADGETROWS_NONE
+   Keine Knöpfe
+; No buttons
+;
+STR_GADGETROWS_ONE
+   Eine Reihe
+; One row
+;
+STR_GADGETROWS_TWO
+   Zwei Reihen
+; Two rows
+;
+STR_GADGETROWS_THREE
+   Drei Reihen
+; Three rows
+;
+STR_GADGETROWS_SIX
+   Sechs Reihen
+; Six rows
+;
+STR_MENUNAME_CONFIGURE
+Konfiguration
+; Configure
+;
+STR_MENUNAME_GADGETROWS
+Knopfreihen
+; Button rows
+;
+STR_MENUNAME_CLASSES
+Klassen
+; Classes
+;
+;
+;*** Misc. messages for classes management
+;
+STR_FILECLASS_DEFINE
+Wähle die Klasse des Dateityps...
+; Define an action for class...
+;
+STR_FILECLASS_EDIT
+Welche Klasse ändern...
+; Select class to edit...
+;
+STR_FILECLASS_DELETE
+Welche Klasse löschen...
+; Select class to delete...
+;
+;
+;*** Screen/Fonts (2/3)
+;
+STR_FONTPLACE_CLOCK
+Fußzeile (Uhr/RAM)
+; Clock/Memory
+;
+STR_FONTPLACE_GADGETS
+Knöpfe
+; Custom buttons
+;
+STR_FONTPLACE_MENUS
+Menüs
+; Custom menus
+;
+STR_FONTPLACE_DISKNAMES
+Disknamen
+; Disk names
+;
+STR_FONTPLACE_WINDOW
+Verzeichnisfenster
+; Directory window
+;
+STR_FONTPLACE_GENERAL
+Allgemein (8 pt)
+; General
+;General (8 point)
+;
+STR_FONTPLACE_ICONIFY
+Wenn Knopfleiste
+; Iconify to buttons
+;
+STR_FONTPLACE_PATHS
+Pfadfelder
+; Path names
+;
+STR_FONTPLACE_REQUESTERS
+Dialogfenster
+; Requesters
+;
+STR_FONTPLACE_STATUS
+Titelzeile
+; Status bar
+;
+STR_FONTPLACE_TEXTVIEWER
+Textanzeiger
+; Text viewer
+;
+;
+;*** Screen/Palette (1/4)
+;
+STR_PALETTE_PRESETS
+Vorgaben...
+; Presets...
+;
+;
+;*** System/Icons (2/3)
+;
+STR_ICONLIST_TITLE
+Standard-Piktogramme...
+; AddIcon's icons...
+;
+;
+;*** Operation/List format (2/5)
+;
+; Note these should be no longer than 20 characters!
+;
+STR_FORMAT_NAME
+Dateiname
+; File name
+;
+STR_FORMAT_SIZE
+Größe
+; File size
+;
+STR_FORMAT_BITS
+Schutzbits
+; Protection bits
+;
+STR_FORMAT_DATE
+Datumsstempel
+; Creation date
+;
+STR_FORMAT_COMMENT
+Kommentar
+; File comment
+;
+STR_FORMAT_TYPE
+Dateityp
+; File type
+;
+;
+;*** System/Icons (3/3)
+;
+; Do NOT remove the three blanks in front!
+;
+STR_ICONS_DRAWER
+   Schublade
+;    Drawer icon
+;
+STR_ICONS_TOOL
+   Programm
+;    Default Tool icon
+;
+STR_ICONS_PROJECT
+   Projekt
+;    Default Project icon
+;
+;
+;*** Main screen gadgets
+;
+STR_MAINMENU_GADGETS
+Knöpfe
+; Buttons
+;
+STR_MAINMENU_DRIVES
+Laufwerke
+; Drives
+;
+STR_MAINMENU_FILETYPES
+Dateitypen
+; Filetypes
+;
+STR_MAINMENU_HOTKEYS
+Hotkeys
+; Hotkeys
+;
+STR_MAINMENU_MENUS
+Menüs
+; Menus
+;
+STR_MAINMENU_OPERATION
+Funktion
+; Operation
+;
+STR_MAINMENU_SCREEN
+Bildschirm
+; Screen
+;
+STR_MAINMENU_SYSTEM
+System
+; System
+;
+;
+;*** The "All" gadget used when importing stuff
+;
+STR_ALL
+Alle
+; All
+;
+;
+;*** Operation configuration screen
+;
+STR_OPERATION_DATEFORMAT
+Datumsformat
+; Date format
+;
+STR_OPERATION_DELETE
+Löschen
+; Delete
+;
+STR_OPERATION_ERRORCHECK
+Dialogfenster
+; Error check
+;
+STR_OPERATION_GENERAL
+Handhabung
+; General
+;
+STR_OPERATION_ICONS
+Piktogramme
+; Icons
+;
+STR_OPERATION_LISTFORMAT
+List-Format
+; List format
+;
+STR_OPERATION_UPDATE
+Refresh
+; Update
+;
+;
+;*** System configuration screen
+;
+STR_SYSTEM_AMIGADOS
+AmigaDOS
+; AmigaDOS
+;
+STR_SYSTEM_CLOCKS
+Uhren
+; Clocks
+;
+STR_SYSTEM_DIRECTORIES
+Verzeichnisse
+; Directories
+;
+STR_SYSTEM_ICONS
+Piktogramme
+; Icons
+;
+STR_SYSTEM_MODULES
+Module
+; Modules
+;
+STR_SYSTEM_SHOWPATTERN
+Muster
+; Show pattern
+;
+STR_SYSTEM_STARTUP
+Startwerte
+; Startup
+;
+STR_SYSTEM_VIEWPLAY
+Bilder,Sounds
+; View & Play
+;
+;
+;*** Configuration/Buttons (3/3)
+;
+STR_GADGET_COPYBANK
+Kopiere Bank
+; Copy bank
+;
+STR_GADGET_SWAPBANK
+Tausche Bank
+; Swap bank
+;
+STR_GADGET_DELETEBANK
+Lösche Bank
+; Delete bank
+;
+STR_GADGET_COPYGADGET
+Kopieren
+; Copy button
+;
+STR_GADGET_SWAPGADGET
+Vertauschen
+; Swap button
+;
+STR_GADGET_DELETEGADGET
+Löschen
+; Del. button
+;
+;
+;*** Filetype classes - flags
+;
+; These should be no longer than 24 characters!
+;
+STR_FLAG_AUTOICONIFY
+Automatisch verbergen
+; Auto iconify
+;
+STR_FLAG_CDDESTINATION
+CD Ziel
+; CD destination
+;
+STR_FLAG_CDSOURCE
+CD Quelle
+; CD source
+;
+STR_FLAG_DOPUSTOFRONT
+Directory Opus nach vorn
+; Directory Opus to front
+;
+STR_FLAG_DOALLFILES
+Mit allen Dateien
+; Do all files
+;
+STR_FLAG_INCLUDEDOPUS
+Mit DOpus-Startup
+; Include DOpus-Startup
+;
+STR_FLAG_INCLUDESHELL
+Mit Shell-Startup
+; Include Shell-Startup
+;
+STR_FLAG_NOQUOTE
+Keine Anführungszeichen
+; No filename quote
+;
+STR_FLAG_OUTPUTFILE
+Ausgabe in eine Datei
+; Output to file
+;
+STR_FLAG_OUTPUTWINDOW
+Ausgabe in ein Fenster
+; Output window
+;
+STR_FLAG_RECURSIVE
+Rekursiv in Verzeichnisse
+; Recursive directories
+;
+STR_FLAG_RELOAD
+Änderungen scannen
+; Reload each file
+;
+STR_FLAG_RESCANDEST
+Ziel neu einlesen
+; Rescan destination
+;
+STR_FLAG_RESCANSOURCE
+Quelle neu einlesen
+; Rescan source
+;
+STR_FLAG_RUNASYNC
+Asynchron starten
+; Run asynchronously
+;
+STR_FLAG_WORKBENCHTOFRONT
+Workbench nach vorn
+; Workbench to front
+;
+;
+;*** Common gadgets & textfields in edit screens
+;
+STR_EDIT_NAME
+_Name
+; _Name
+;
+STR_EDIT_SAMPLE
+Aufnehmen
+; Sample
+;
+STR_EDIT_NEWENTRY
+Neue Zeile
+; New entry
+;
+STR_EDIT_DUPLICATE
+Kopieren
+; Duplicate
+;
+STR_EDIT_SWAP
+Tauschen
+; Swap
+;
+STR_EDIT_STACKSIZE
+Stackgröße
+; _Stack size
+;
+STR_EDIT_PRIORITY
+_Priorität
+; _Priority
+;
+STR_EDIT_CLOSEDELAY
+Pause
+; _Close delay
+;
+STR_EDIT_ACTION
+Titelzeile
+; _Event description
+;
+;
+;*** File classes (2/2)
+;
+STR_EDITCLASS_FILECLASS
+Klasse
+; _File class
+;
+STR_EDITCLASS_CLASSID
+_ID-Code
+; Class _ID
+;
+STR_EDITCLASS_FILEVIEWER
+ Hex-_Viewer
+; File _viewer
+;
+;
+;*** Menu configuration screen (2/3)
+;
+STR_MENU_COPYMENU
+Kopiere Menü
+; Copy menu
+;
+STR_MENU_SWAPMENU
+Tausche Menü
+; Swap menu
+;
+STR_MENU_DELETEMENU
+Lösche Menü
+; Delete menu
+;
+STR_MENU_SORTMENU
+Sortieren
+; Sort menu
+;
+STR_MENU_INSERTITEM
+Einfügen
+; Insert item
+;
+STR_MENU_COPYITEM
+Kopieren
+; Copy item
+;
+STR_MENU_SWAPITEM
+Vertauschen
+; Swap item
+;
+STR_MENU_DELETEITEM
+Löschen
+; Delete item
+;
+;
+;*** Drive button configuration screen
+;
+STR_DRIVES_GETDRIVES
+Alle Geräte
+; Get drives
+;
+STR_DRIVES_SORTBANK
+Sortieren
+; Sort bank
+;
+STR_DRIVES_COPYDRIVE
+Kopieren
+; Copy drive
+;
+STR_DRIVES_SWAPDRIVE
+Vertauschen
+; Swap drive
+;
+STR_DRIVES_DELETEDRIVE
+Löschen
+; Delete drive
+;
+;
+;*** Configuration/Hotkeys (2/3)
+;
+STR_HOTKEYS_NEWHOTKEY
+Neu
+; New hotkey
+;
+;
+;*** Screen configuration screen (1/3)
+;
+STR_SCREEN_COLORS
+Farben
+; Colors
+;
+STR_SCREEN_FONTS
+Schriftart
+; Fonts
+;
+STR_SCREEN_PALETTE
+Palette
+; Palette
+;
+STR_SCREEN_SCREENMODE
+Modus
+; Screen mode
+;
+;
+;*** Screen/Palette (2/4)
+;
+STR_PALETTE_RED
+_Rot
+; _Red
+;
+STR_PALETTE_GREEN
+_Grün
+; _Green
+;
+STR_PALETTE_BLUE
+_Blau
+; _Blue
+;
+;
+;*** Screen/Colors (2/3)
+;
+STR_COLOR_STATUS
+Titelzeile
+; Status bar
+;
+STR_COLOR_SELDISK
+Angewählte Disk
+; Selected disk name
+;
+STR_COLOR_UNSELDISK
+Nicht angewählte Disk
+; Unselected disk name
+;
+STR_COLOR_SELDIR
+Angewähltes Verzeichnis
+; Selected directory
+;
+STR_COLOR_UNSELDIR
+Verzeichnis
+; Unselected directory
+;
+STR_COLOR_SELFILE
+Angewählte Datei
+; Selected file
+;
+STR_COLOR_UNSELFILE
+Datei
+; Unselected file
+;
+STR_COLOR_SLIDERS
+Rollbalken
+; Sliders
+;
+STR_COLOR_ARROWS
+Pfeile
+; Arrows
+;
+STR_COLOR_TINY
+Kleine Knöpfe
+; Tiny buttons
+;
+STR_COLOR_CLOCK
+Fußzeile
+; Clock/memory bar
+;
+STR_COLOR_REQUESTER
+Dialogfenster
+; Requester text
+;
+STR_COLOR_BOXES
+3D Boxen
+; 3D boxes
+;
+STR_COLOR_PATHNAME
+Pfadname
+; Path name
+;
+STR_COLOR_SELPATHNAME
+Angewählter Pfadname
+; Selected path name
+;
+;
+;*** Screen/Screen mode (3/7)
+;
+STR_SCREENMODE_WIDTH
+Breite
+; _Width
+;
+STR_SCREENMODE_HEIGHT
+Höhe
+; _Height
+;
+STR_SCREENMODE_COLORS
+Farben
+; _Colors
+;
+STR_SCREENMODE_DEFAULT
+Standardwert
+; Use default
+;
+STR_SCREENMODE_HALFHEIGHT
+halbhoher Bildschirm
+; Half-height screen
+;
+;
+;*** Operation/List format (3/5)
+;
+STR_LISTFORMAT_TITLE
+           List-Format im
+; Format of the list in the
+;
+STR_LISTFORMAT_RESET
+Standard
+; Reset
+;
+STR_LISTFORMAT_NAME
+Dateiname
+; 
+;
+STR_LISTFORMAT_COMMENT
+Dateikommentar
+; 
+;
+STR_LISTFORMAT_REVERSE
+umgekehrt sortieren
+; Reverse sorting
+;
+;
+;*** Screen/Arrows (2/2)
+;
+STR_ARROWS_INSIDE
+Pfeile auf der Innenseite
+; Arrows on the inside
+;
+STR_ARROWS_OUTSIDE
+Pfeile auf der Außenseite
+; Arrows on the outside
+;
+STR_ARROWS_EACH
+Pfeile auf beiden Seiten
+; One arrow at each end of the button
+;
+STR_ARROWTYPE_UPDOWN
+Hoch/runter rollen
+; Scroll up/down
+;
+STR_ARROWTYPE_LEFTRIGHT
+Links/rechts rollen
+; Scroll left/right
+;
+STR_ARROWTYPE_PREVNEXT
+Nächster/voriger Puffer
+; Buffer previous/next
+;
+;
+;
+;
+STR_NEW
+Neu
+; New
+;
+;
+;*** Common string
+;
+STR_MISC_FLAGS
+Sonstige Optionen...
+; Misc. flags...
+;
+;
+;*** Operation/Copy (1/2)
+;
+STR_OP_COPY_WHENCOPYING
+Beim Kopieren von Dateien und Verzeichnissen...
+; When copying files and directories...
+;
+STR_OP_COPY_CHECKDEST
+Platzbedarf auf dem Ziellaufwerk prüfen.
+; Check destination's free space before starting
+;
+STR_OP_COPY_SETARCHIVE
+Archivbit bei Quelldateien setzen.
+; Set archive bit of source after finishing
+;
+STR_OP_COPY_ALSOCOPY
+Von der Quelle Übernehmen...
+; Also copy source's...
+;
+STR_OP_COPY_DATESTAMP
+Datumsstempel
+; datestamp
+;
+STR_OP_COPY_BITS
+Schutzbits
+; protection bits
+;
+STR_OP_COPY_COMMENT
+Kommentar
+; comment
+;
+STR_OP_COPY_IFFILEEXISTS
+Wenn eine Datei bereits existiert...
+; What to do when a file already exists...
+;
+STR_OP_COPY_ALWAYSREPLACE
+Datei immer ersetzen.
+; Always replace files
+;
+STR_OP_COPY_NEVERREPLACE
+Datei nicht ersetzen.
+; Never replace files
+;
+STR_OP_COPY_ONLYOLDER
+Nur ältere Dateien ersetzen.
+; Replace only older files
+;
+STR_OP_COPY_ASKBEFORE
+Dialogfenster anzeigen.
+; Ask before replacing
+;
+;
+;*** Operation/Date format
+;
+STR_OP_DATE_DATEFORMAT
+Datumsformat...
+; Date format...
+;
+STR_OP_DATE_DDMMMYY
+TT-MMM-JJ   (23-Jan-93)
+; DD-MMM-YY   (22-Sep-92)
+;
+STR_OP_DATE_YYMMDD
+JJ-MM-TT    (93-01-23)
+; YY-MM-DD    (92-09-22)
+;
+STR_OP_DATE_MMDDYY
+MM-TT-JJ    (01-23-93)
+; MM-DD-YY    (09-22-92)
+;
+STR_OP_DATE_DDMMYY
+TT-MM-JJ    (23-01-93)
+; DD-MM-YY    (22-09-92)
+;
+STR_OP_DATE_NAMESUB
+Namen einsetzen (Heute, Gestern, etc.)
+; Name substitution (Today, Tomorrow, etc)
+;
+STR_OP_DATE_12HOUR
+12 Stunden Anzeige
+; 12 hour clock
+;
+;
+;*** Operation/Delete
+;
+STR_OP_DEL_ASKBEFORE
+Dialogfenster beim Löschen...
+; Ask before...
+;
+STR_OP_DEL_COMMENCING
+zu Anfang.
+; Commencing delete
+;
+STR_OP_DEL_DELETEFILES
+beim Löschen von Dateien.
+; Deleting files
+;
+STR_OP_DEL_DELETEDIRS
+beim Löschen nichtleerer Verzeichnisse.
+; Deleting non-empty directories
+;
+STR_OP_DEL_IGNOREPROT
+Schutzbit gegen Löschen ignorieren.
+; Ignore the delete protection bit
+;
+;
+;*** Operation/Error check
+;
+STR_OP_ERROR_ENABLE
+Anzeigen von...
+; Enable...
+;
+STR_OP_ERROR_DOSREQ
+AmigaDOS-Dialogfenstern.
+; DOS requesters
+;
+STR_OP_ERROR_OPUSREQ
+DirOpus Fehler-Dialogfenstern.
+; Opus error requesters
+;
+;
+;*** Operation/General (1/4)
+;
+STR_OP_GENERAL_DRAG
+Ziehen statt Click-M-Click.
+; Click-M-Click drag
+;
+STR_OP_GENERAL_DISPLAYINFO
+Dateiattribute anzeigen.
+; Display info
+;
+STR_OP_GENERAL_DOUBLECLICK
+Datei Doppelklicks.
+; File double-click
+;
+STR_OP_GENERAL_SLIDERACTIVE
+Aktivieren durch Rollbalken.
+; Window slider activate
+;
+;
+;*** Operation/Icons
+;
+STR_OP_ICON_CREATEWITHDIR
+Piktogramme für Verzeichnisse erzeugen.
+; Create icon with directories
+;
+STR_OP_ICON_DOUNTOICONS
+Alle Operationen auch auf Piktogramme.
+; Perform all actions on icons as well
+;
+STR_OP_ICON_SELECTAUTO
+Piktogramme automatisch anwählen.
+; Select icons automatically
+;
+;
+;*** Operation/Update (1/3)
+;
+STR_OP_UPDATE_WHENPROCESSING
+Beim Bearbeiten von Dateien...
+; When processing files...
+;
+STR_OP_UPDATE_PROGRESSIND
+Prozentanzeige einschalten.
+; Operation progress indicator
+;
+STR_OP_UPDATE_LEFTJUSTIFY
+Dateinamen in der Titelzeile linksjustieren.
+; Left-justify filename in status bar
+;
+STR_OP_UPDATE_SCROLLTOFOLLOW
+Verzeichnisfenster mitrollen.
+; Scroll directory window to follow operations
+;
+STR_OP_UPDATE_UPDATEFREE
+freien Diskspeicher refreshen.
+; Update free disk space
+;
+STR_OP_UPDATE_STARTNOTIFY
+Verzeichnis-Refresh mit StartNotify().
+; Directory refresh using StartNotify()
+;
+STR_OP_UPDATE_REDRAWMORE
+Mehr als eine Viertelseite neuzeichnen.
+; Redraw more than a quarter of a page
+;
+STR_OP_UPDATE_QUIETGETDIR
+Rollbalken beim Scannen refreshen
+; Update listview slider while scanning
+;
+;
+;*** System/AmigaDOS
+;
+STR_SYS_AMIGADOS_TITLE
+Starten von AmigaDOS Programmen...
+; Running AmigaDOS applications...
+;
+STR_SYS_AMIGADOS_SHELL
+Shell-Befehl
+; Shell
+;
+STR_SYS_AMIGADOS_CONSOLE
+Fenster
+; Console
+;
+STR_SYS_AMIGADOS_STARTUP
+Start-Skript
+; Startup script
+;
+STR_SYS_AMIGADOS_PRIORITY
+Opus-Priorität
+; Priority
+;
+;
+;*** System/Clocks (1/2)
+;
+STR_SYS_CLOCK_TITLE
+DirOpus Fußzeile...
+; Clock/memory bar...
+;
+STR_SYS_CLOCK_MEMORY
+Speicher-Monitor
+; Memory monitor
+;
+STR_SYS_CLOCK_CPUMONITOR
+CPU-Monitor
+; CPU monitor
+;
+STR_SYS_CLOCK_DATE
+Datum
+; Date
+;
+STR_SYS_CLOCK_TIME
+Uhrzeit
+; Time
+;
+STR_SYS_CLOCK_WHENICONIFIED
+Im ikonifizierten Zustand...
+; When iconified...
+;
+STR_SYS_CLOCK_WINDOW
+Fenster
+; Window
+;
+STR_SYS_CLOCK_NOWINDOW
+Kein Fenster
+; No window
+;
+STR_SYS_CLOCK_APPICON
+AppIcon
+; An AppIcon
+;
+STR_SYS_CLOCK_SHOWFREEAS
+Speicher anzeigen als...
+; Show free space as...
+;
+STR_SYS_CLOCK_BYTES
+freie Bytes
+; Bytes free
+;
+STR_SYS_CLOCK_KILOBYTES
+frei Kilo/Megabytes
+; Kilo/Megabytes free
+;
+STR_SYS_CLOCK_TEXTFORMAT
+Anzeigeformat...
+; Text format...
+;
+STR_SYS_CLOCK_CHIPANDFAST
+CHIP: und FAST:
+; CHIP: and FAST:
+;
+STR_SYS_CLOCK_CANDF
+C: und F:
+; C: and F:
+;
+;
+;*** System/Directories (1/2)
+;
+STR_SYS_DIR_CACHES
+Puffer für die Verzeichnisfenster...
+; Directory caches...
+;
+STR_SYS_DIR_NUMBUFFERS
+Puffer pro Seite
+; Buffers per window
+;
+STR_SYS_DIR_ALWAYSEMPTY
+Immer einen leeren Puffer nehmen.
+; Always move to an empty buffer
+;
+STR_SYS_DIR_REREADINCOMPLETE
+Geänderte Puffer neu einlesen.
+; Re-read changed buffers
+;
+STR_SYS_DIR_SEARCHBUFFERS
+Puffer benutzen bei...
+; Search buffers on...
+;
+STR_SYS_DIR_SEARCHPARENT
+Sprüngen ins Mutter-/Hauptverzeichnis.
+; Parent/Root operation
+;
+STR_SYS_DIR_DIRREAD
+Sprüngen mit Doppelklick/Click-M-Click.
+; Double-click/Click-m-click directory read
+;
+STR_SYS_DIR_AUTODISKCHANGE
+Auto-Diskwechsler
+; Auto diskchange
+;
+STR_SYS_DIR_AUTODISKLOAD
+Auto-Disklader
+; Auto disk load
+;
+STR_SYS_DIR_EXPANDPATHS
+Pfade ausschreiben
+; Expand pathnames
+;
+STR_SYS_DIR_USEEXALL
+ExAll() benutzen
+; Use ExAll()
+;
+;
+;*** Filetype class edit screen (1/2)
+;
+STR_FILEVIEW_HEX
+Hex
+; Hex
+;
+;
+;*** System/Directories (2/2)
+;
+STR_SYS_DIR_BLOCKSFREE
+freie Blöcke
+; Blocks free
+;
+STR_SYS_DIR_PERCENTAGE
+Prozent frei
+; Percentage of space free
+;
+;
+;*** Screen/Palette (3/4)
+;
+STR_PALETTE_RESET
+Zurücksetzen
+; Reset
+;
+STR_PALETTE_DOPUS_DEFAULT
+Directory Opus-Standard
+; Directory Opus default
+;
+STR_PALETTE_WB_DEFAULT
+Workbench-Standard
+; Workbench default
+;
+STR_PALETTE_WB_CURRENT
+Workbench aktuelle Werte
+; Workbench current
+;
+;
+;*** The main "Okay" button
+;
+STR_OKAY_TO_QUIT
+Weiter
+; Okay
+;
+;
+;*** Screen configuration screen (2/3)
+;
+STR_SCREEN_GENERAL
+Aussehen
+; General
+;
+;
+;*** Filetype classes editing again - type of event
+;
+STR_FTYPE_ACTION
+Aktion
+; Action
+;
+STR_FTYPE_COMMAND
+Befehl
+; Command
+;
+;
+;*** Filetype class edit screen (2/2)
+;
+STR_FILEVIEW_DEC
+Dezimal
+; Decimal
+;
+;
+;*** Menus (2/5)
+;
+STR_EDIT_MENU
+Operation
+; Edit
+;
+;
+;*** System/Show pattern
+;
+STR_SYS_SHOWPATTERN_TITLE
+Muster für die Verzeichnisfenster...
+; Directory list pattern...
+;
+STR_SYS_SHOWPATTERN_HIDDENBIT
+Dateien mit H-Flag verstecken.
+; Hide files with hidden bit set
+;
+STR_SYS_SHOWPATTERN_SHOW
+Anzeigen
+; Show
+;
+STR_SYS_SHOWPATTERN_HIDE
+Verstecken
+; Hide
+;
+;
+;*** System/Startup (1/2)
+;
+STR_SYS_STARTUP_TITLE
+Verzeichnisse die beim Starten eingelesen werden...
+; Directories to read on startup...
+;
+STR_SYS_STARTUP_LEFT
+Links
+; Left
+;
+STR_SYS_STARTUP_RIGHT
+Rechts
+; Right
+;
+STR_SYS_STARTUP_AREXX
+ARexx-Skripte die ausgeführt werden nach dem...
+; ARexx scripts to execute on...
+;
+STR_SYS_STARTUP_STARTUP
+Starten
+; Startup
+;
+STR_SYS_STARTUP_UNICONIFY
+Aufklappen
+; Uniconify
+;
+;
+;*** System/View & Play (1/3)
+;
+STR_SYS_VIEWPLAY_TITLE
+Anzeigen von Bildern/Animationen (ILBM/ANIM)...
+; Picture/animation viewer (IFF ILBM/ANIM)...
+;
+STR_SYS_VIEWPLAY_BLACK
+Bildschirm schwarz zwischen Bildern.
+; Black background between pictures
+;
+STR_SYS_VIEWPLAY_PAUSED
+Animationen nicht sofort starten.
+; Start animation paused
+;
+STR_SYS_VIEWPLAY_8BITCOL
+24-Bit Farbwerte
+; 8-bits per gun color
+;
+STR_SYS_VIEWPLAY_SHOWDELAY
+Bildpause
+; Show delay
+;
+STR_SYS_VIEWPLAY_FADEDELAY
+Einblenddauer
+; Fade delay
+;
+STR_SYS_VIEWPLAY_SOUNDPLAYER
+Abspielen von Sounds (8SVX)...
+; Sound player (IFF 8SVX)...
+;
+STR_SYS_VIEWPLAY_FILTER
+Audiofilter ausschalten.
+; Turn audio filter off for play
+;
+STR_SYS_VIEWPLAY_LOOP
+Bei Doppelklick endlos spielen.
+; Loop on double-click
+;
+STR_SYS_VIEWPLAY_TEXTVIEW
+Anzeigen von Texten...
+; Text viewer...
+;
+STR_SYS_VIEWPLAY_BORDERS
+mit Rollbalken
+; Text viewer borders
+;
+STR_SYS_VIEWPLAY_TABSIZE
+Tabweite
+; Tab size
+;
+;
+;
+;
+;
+;*** Screen/General (1/4)
+;
+STR_SCREEN_GENERAL_TINYGADS
+Kleine Knöpfe unten rechts
+; Bottom-right tiny buttons
+;
+STR_SCREEN_GENERAL_GADGETSLIDERS
+Rollbalken für Knopfbänke
+; Button banks sliders
+;
+STR_SCREEN_GENERAL_INDICATERMB
+Eselsohren für Knöpfe mit RMB Funktion
+; Indicate button has RMB function
+;
+STR_SCREEN_GENERAL_NEWLOOKSLIDERS
+OS2.0-Rollbalken
+; New-look sliders
+;
+;
+;*** Common titles for edit lists
+;
+STR_EDITLIST_TITLE1
+Optionen...
+; Flags...
+;
+STR_EDITLIST_TITLE2
+Ereignisse...
+; Events...
+;
+;
+;*** Filetype configuration screen
+;
+STR_FILETYPEACTIONLIST_TITLE
+Bekannte Dateitypen...
+; Defined filetype actions...
+;
+;
+;*** Configuration/Hotkeys (3/3)
+;
+STR_HOTKEYSLIST_TITLE
+Globale Tastatur-Kurzbefehle...
+; Global hotkeys defined...
+;
+;
+;*** Screen/Screen mode (4/7)
+;
+STR_SCREENMODELIST_TITLE
+Anzeigemodus...
+; Display mode...
+;
+;
+;*** Operation/List format (4/5)
+;
+STR_LEFT_WINDOW
+linken Fenster
+; Left window
+;
+STR_RIGHT_WINDOW
+rechten Fenster
+; Right window
+;
+STR_SEP_MIX_FILES
+Dateien/Verz. mischen
+; Mix files/directories
+;
+STR_SEP_DIRS_FIRST
+Verzeichnisse zuerst
+; Directories first
+;
+STR_SEP_FILES_FIRST
+Dateien zuerst
+; Files first
+;
+;
+;*** List - ARexx commands (1/4)
+;
+; Note: these should be *exactly* 41 characters long!
+;
+STR_FUNCTIONLIST_ABOUT
+About         -    Zeigt Programminfos an
+; About         -      Display program info
+;
+STR_FUNCTIONLIST_ADDICON
+AddIcon       -       Erzeugt Piktogramme
+; AddIcon       -      Add icons to entries
+;
+STR_FUNCTIONLIST_ALARM
+Alarm         -    Gibt einen Warnton aus
+; Alarm         -            Sound an alarm
+;
+STR_FUNCTIONLIST_ALL
+All           -    Alle Einträge anwählen
+; All           -        Select all entries
+;
+STR_FUNCTIONLIST_ANSIREAD
+AnsiRead      -        ANSI-Text anzeigen
+; AnsiRead      -          ANSI text viewer
+;
+STR_FUNCTIONLIST_AREXX
+ARexx         - Starte einen ARexx-Befehl
+; ARexx         -      Run an ARexx command
+;
+STR_FUNCTIONLIST_ASSIGN
+Assign        -       Erzeugt Zuweisungen
+; Assign        -    Assign logical devices
+;
+STR_FUNCTIONLIST_BEEP
+Beep          -       Gibt einen Piep aus
+; Beep          -              Sound a beep
+;
+STR_FUNCTIONLIST_BUFFERLIST
+BufferList    -         Listet die Puffer
+; BufferList    - List buffered directories
+;
+STR_FUNCTIONLIST_BUTTONICONIFY
+ButtonIconify -  Verbergen zu Knopfleiste
+; ButtonIconify -   Iconify to button strip
+;
+STR_FUNCTIONLIST_CD
+CD            -  Wechselt aktuelles Verz.
+; CD            -  Change current directory
+;
+STR_FUNCTIONLIST_CHECKFIT
+CheckFit      -     Überprüft Platzbedarf
+; CheckFit      - Check if entries will fit
+;
+STR_FUNCTIONLIST_CLEARBUFFERS
+ClearBuffers  -        Löscht alle Puffer
+; ClearBuffers  -       Clear buffered dirs
+;
+STR_FUNCTIONLIST_CLEARSIZES
+ClearSizes    -  Löscht Platzbedarfswerte
+; ClearSizes    -    Remove dir byte counts
+;
+STR_FUNCTIONLIST_CLEARWIN
+ClearWin      - Löscht das aktive Fenster
+; ClearWin      -  Clear the current window
+;
+STR_FUNCTIONLIST_CLONE
+Clone         -     Klont angew. Einträge
+; Clone         -    Clone selected entries
+;
+STR_FUNCTIONLIST_COMMENT
+Comment       -      Kommentiert Einträge
+; Comment       - Give filenotes to entries
+;
+STR_FUNCTIONLIST_CONFIGURE
+Configure     -   Startet das Konfig-Prg.
+; Configure     -      Launch config editor
+;
+STR_FUNCTIONLIST_CONTST
+ContST        -    Setzt Musik-Modul fort
+; ContST        -  Restart paused ST module
+;
+STR_FUNCTIONLIST_COPY
+Copy          -   Kopiert angew. Einträge
+; Copy          -     Copy selected entries
+;
+STR_FUNCTIONLIST_COPYAS
+CopyAs        -   Kopiert mit neuen Namen
+; CopyAs        -       Copy with new names
+;
+STR_FUNCTIONLIST_COPYWINDOW
+CopyWindow    -  Kopiert das akt. Fenster
+; CopyWindow    -  Copy one window to other
+;
+;
+STR_FUNCTIONLIST_DATESTAMP
+DateStamp     -      Datumsstempel ändern
+; DateStamp     -    Modify file datestamps
+;
+STR_FUNCTIONLIST_DEFAULTS
+Defaults      -      Standardwerte setzen
+; Defaults      - Set default configuration
+;
+STR_FUNCTIONLIST_DELETE
+Delete        -    Löscht angew. Einträge
+; Delete        -   Delete selected entries
+;
+STR_FUNCTIONLIST_DIRTREE
+DirTree       -   Erzeugt Verzeichnisbaum
+; DirTree       -     Create directory tree
+;
+STR_FUNCTIONLIST_DISKCOPY
+Diskcopy      -         Kopiert Disketten
+; Diskcopy      -         Copy floppy disks
+;
+STR_FUNCTIONLIST_DISKCOPYBG
+DiskCopyBG    -   Kopiert Disks asynchron
+; DiskcopyBG    -    Diskcopy in background
+;
+STR_FUNCTIONLIST_DISKINFO
+DiskInfo      -      Zeigt Infos zur Disk
+; DiskInfo      -    Display info on a disk
+;
+STR_FUNCTIONLIST_DISPLAYDIR
+DisplayDir    -   Liest Verz.-Fenster ein
+; DisplayDir    -  Update directory display
+;
+STR_FUNCTIONLIST_DOPUSTOBACK
+DopusToBack   - DirOpus-Bildschirm hinten
+; DopusToBack   -   Move screen to the back
+;
+STR_FUNCTIONLIST_DOPUSTOFRONT
+DOpusToFront  -   DirOpus-Bildschirm vorn
+; DopusToFront  -  Move screen to the front
+;
+STR_FUNCTIONLIST_ENCRYPT
+Encrypt       -    Verschlüsselt Einträge
+; Encrypt       -    Encrypt selected files
+;
+STR_FUNCTIONLIST_ENDFUNCTION
+FinishSection -  Wartet auf ext. Prgramme
+; FinishSection -     Finish above commands
+;
+STR_FUNCTIONLIST_ERRORHELP
+ErrorHelp     - Hilfe für AmigaDOS-Fehler
+; ErrorHelp     -      Help with DOS errors
+;
+STR_FUNCTIONLIST_EXECUTE
+Execute       -  Startet eine Skriptdatei
+; Execute       -       Execute batch files
+;
+STR_FUNCTIONLIST_EXTRACT
+Extract       -  Archiv entpacken
+; Extract       -           Extract archive
+;
+STR_FUNCTIONLIST_FORMAT
+Format        -          Formatiert Disks
+; Format        -       Format floppy disks
+;
+STR_FUNCTIONLIST_FORMATBG
+FormatBG      -      Formatiert asynchron
+; FormatBG      -      Format in background
+;
+STR_FUNCTIONLIST_GETDEVICES
+GetDevices    -        Zeigt Laufwerke an
+; GetDevices    -       Display device list
+;
+STR_FUNCTIONLIST_GETSIZES
+GetSizes      -     Ermittelt Platzbedarf
+; GetSizes      - Calculate total dir sizes
+;
+STR_FUNCTIONLIST_HELP
+Help          -         Hilfsmodus an/aus
+; Help          -  Turn help mode on or off
+;
+STR_FUNCTIONLIST_HEXREAD
+HexRead       -      Zeigt Hex-Dateien an
+; HexRead       -   Hexadecimal text viewer
+;
+STR_FUNCTIONLIST_HUNT
+Hunt          -          Sucht eine Datei
+; Hunt          -      Search for filenames
+;
+STR_FUNCTIONLIST_ICONIFY
+Iconify       -         DirOpus verbergen
+; Iconify       -           Iconify program
+;
+STR_FUNCTIONLIST_ICONINFO
+IconInfo      - Gibt Piktogramm-Infos aus
+; IconInfo      - Give information on icons
+;
+STR_FUNCTIONLIST_INSTALL
+Install       - Macht Disketten bootfähig
+; Install       -       Make disks bootable
+;
+STR_FUNCTIONLIST_INSTALLBG
+InstallBG     -            dito asynchron
+; InstallBG     -     Install in background
+;
+STR_FUNCTIONLIST_LASTSAVED
+LastSaved     -  Liest alte Konfiguration
+; LastSaved     -    Read last-saved config
+;
+STR_FUNCTIONLIST_LOADCONFIG
+LoadConfig    -      dito mit Dateiangabe
+; LoadConfig    -     Load nominated config
+;
+STR_FUNCTIONLIST_LOADSTRINGS
+LoadStrings   -      Lädt eine .str Datei
+; LoadStrings   -    Load a new string file
+;
+STR_FUNCTIONLIST_LOOPPLAY
+LoopPlay      -      Spielt Sounds endlos
+; LoopPlay      -     Loop-play sound files
+;
+STR_FUNCTIONLIST_LOOPPLAY8SVX
+LoopPlay8svx  -        Spielt 8svx endlos
+; LoopPlay8svx  -     Loop-play sound files
+;
+STR_FUNCTIONLIST_MAKEDIR
+Makedir       - Erzeugt neues Verzeichnis
+; Makedir       -    Create a new directory
+;
+STR_FUNCTIONLIST_MODIFY
+Modify        -      Ändert Konfiguration
+; Modify        -      Change configuration
+;
+STR_FUNCTIONLIST_MOVE
+Move          -  Verschiebt angew. Eintr.
+; Move          -     Move selected entries
+;
+STR_FUNCTIONLIST_MOVEAS
+MoveAs        -      dito mit neuen Namen
+; MoveAs        -       Move with new names
+;
+STR_FUNCTIONLIST_NEWCLI
+NewCLI        -    Öffnet ein CLI-Fenster
+; NewCLI        -     Open a new CLI window
+;
+STR_FUNCTIONLIST_NONE
+None          -   Keine Einträge anwählen
+; None          -      Deselect all entries
+;
+STR_FUNCTIONLIST_OTHERWINDOW
+OtherWindow   - Aktiviert anderes Fenster
+; OtherWindow   -     Activate other window
+;
+STR_FUNCTIONLIST_PARENT
+Parent        -   Springt ins Mutterverz.
+; Parent        -     Read parent directory
+;
+STR_FUNCTIONLIST_PLAY
+Play          -    Spielt eine Sounddatei
+; Play          - Play selected sound files
+;
+STR_FUNCTIONLIST_PLAY8SVX
+Play8svx      -        Spielt 8svx Sounds
+; Play8svx      - Play selected sound files
+;
+STR_FUNCTIONLIST_PLAYST
+PlayST        -    Spielt ein Musik-Modul
+; PlayST        -      Play ST modules only
+;
+STR_FUNCTIONLIST_PRINT
+Print         -    Druckt angew. Einträge
+; Print         -      Print selected files
+;
+STR_FUNCTIONLIST_PRINTDIR
+PrintDir      - Druckt Verzeichniskatalog
+; PrintDir      - Print displayed directory
+;
+STR_FUNCTIONLIST_PROTECT
+Protect       -   Setzt Datei-Schutzflags
+; Protect       -    Modify protection bits
+;
+STR_FUNCTIONLIST_QUIT
+Quit          -           DirOpus beenden
+; Quit          -       Quit Directory Opus
+;
+STR_FUNCTIONLIST_READ
+Read          -       ASCII-Text anzeigen
+; Read          -         Plain text viewer
+;
+STR_FUNCTIONLIST_REDRAW
+Redraw        -      Bildschirm refreshen
+; Redraw        -        Redraw main screen
+;
+STR_FUNCTIONLIST_RELABEL
+Relabel       -      Disketten umbenennen
+; Relabel       -         Change disk names
+;
+STR_FUNCTIONLIST_REMEMBER
+Remember      - akt. Konfiguration merken
+; Remember      -     Remember config state
+;
+STR_FUNCTIONLIST_RENAME
+Rename        -       Einträge umbenennen
+; Rename        -   Rename selected entries
+;
+STR_FUNCTIONLIST_RESCAN
+Rescan        -     Lädt akt. Verzeichnis
+; Rescan        -  Reload current directory
+;
+STR_FUNCTIONLIST_RESELECT
+Reselect      -  Wählt Einträge wieder an
+; Reselect      -          Reselect entries
+;
+STR_FUNCTIONLIST_RESTORE
+Restore       - Restauriert Konfiguration
+; Restore       -   Restore remembered cfg.
+;
+STR_FUNCTIONLIST_ROOT
+Root          -    Springt zum Hauptverz.
+; Root          -       Read root directory
+;
+STR_FUNCTIONLIST_RUN
+Run           -      Startet ein Programm
+; Run           -             Run a program
+;
+STR_FUNCTIONLIST_SAVECONFIG
+SaveConfig    -   Speichert Konfiguration
+; SaveConfig    -       Save current config
+;
+STR_FUNCTIONLIST_SCANDIR
+ScanDir       -    Lädt angegebenes Verz.
+; ScanDir       -  Load nominated directory
+;
+STR_FUNCTIONLIST_SEARCH
+Search        -   Sucht eine Zeichenkette
+; Search        - Search files for a string
+;
+STR_FUNCTIONLIST_SELECT
+Select        -     Selektiert mit Jokern
+; Select        -   Wildcard-select entries
+;
+STR_FUNCTIONLIST_SHOW
+Show          -         Zeigt Grafiken an
+; Show          -    Display graphic images
+;
+STR_FUNCTIONLIST_SMARTREAD
+SmartRead     - Anzeigen von allen Texten
+; SmartRead     -   Auto Hex or Text viewer
+;
+STR_FUNCTIONLIST_STOPST
+StopST        -    Stoppt ein Musik-Modul
+; StopST        -    Stop ST module playing
+;
+STR_FUNCTIONLIST_SWAPWINDOW
+SwapWindow    -     Tauscht Verz.-Fenster
+; SwapWindow    -  Swap contents of windows
+;
+STR_FUNCTIONLIST_TOGGLE
+Toggle        -    Invertiert Selektionen
+; Toggle        -     Toggle all selections
+;
+STR_FUNCTIONLIST_UNICONIFY
+UnIconify     -     Bildschirm aufklappen
+; UnIconify     -        Un-iconify program
+;
+STR_FUNCTIONLIST_USER_FTYPE1
+User1         -  Dateityp Operation User1
+; User1         -  Custom filetype action 1
+;
+STR_FUNCTIONLIST_USER_FTYPE2
+User2         -  Dateityp Operation User2
+; User2         -  Custom filetype action 2
+;
+STR_FUNCTIONLIST_USER_FTYPE3
+User3         -  Dateityp Operation User3
+; User3         -  Custom filetype action 3
+;
+STR_FUNCTIONLIST_USER_FTYPE4
+User4         -  Dateityp Operation User4
+; User4         -  Custom filetype action 4
+;
+STR_FUNCTIONLIST_VERIFY
+Verify        -     Ja/Nein Dialogfenster
+; Verify        -           Verify function
+;
+STR_FUNCTIONLIST_VERSION
+Version       -  Versionsnummern anzeigen
+; Version       -   Display version numbers
+;
+;
+;*** List - requester placeholders (1/2)
+;
+; NOTE: These should be *exactly* 41 characters long!
+;
+STR_COMMANDSEQ_DESTINATION
+{d}  -                    Zielverzeichnis
+; {d}  -         Destination directory name
+;
+STR_COMMANDSEQ_FIRSTFILE
+{f}  -   Erster angew. Eintrag (mit Pfad)
+; {f}  -   First selected entry (with path)
+;
+STR_COMMANDSEQ_ALLFILES
+{F}  -    Alle angew. Einträge (mit Pfad)
+; {F}  -  All selected entries (with paths)
+;
+STR_COMMANDSEQ_FIRSTFILEUNSEL
+{fu} -    wie {f} bleibt jedoch angewählt
+; {fu} -   First entry (path ; no unselect)
+;
+STR_COMMANDSEQ_ALLFILESUNSEL
+{Fu} -    Wie {F} bleibt jedoch angewählt
+; {Fu} -   All entries (path ; no unselect)
+;
+STR_COMMANDSEQ_FIRSTFILENOPATH
+{o}  -   Erster angew. Eintrag (nur Name)
+; {o}  -   First selected entry (name only)
+;
+STR_COMMANDSEQ_ALLFILESNOPATH
+{O}  -   Alle angew. Einträge (nur Namen)
+; {O}  -  All selected entries (names only)
+;
+STR_COMMANDSEQ_FIRSTFILENOPATHUNSEL
+{ou} -    wie {o} bleibt jedoch angewählt
+; {ou} -   First entry (name ; no unselect)
+;
+STR_COMMANDSEQ_ALLFILESNOPATHUNSEL
+{Ou} -    Wie {O} bleibt jedoch angewählt
+; {Ou} -   All entries (name ; no unselect)
+;
+STR_COMMANDSEQ_PORTNAME
+{p}  -   Name des ARexx Ports/Bildschirms
+; {Q}  -       Query the value of something
+;
+STR_COMMANDSEQ_DIRREQ
+{Rd} -          Verzeichnisauswahlfenster
+; {Rd} -                Directory requester
+;
+STR_COMMANDSEQ_FILEREQ
+{Rf} -                Dateiauswahlfenster
+; {Rf} -                     File requester
+;
+STR_COMMANDSEQ_MULTIFILEREQ
+{RF} -  wie {Rf} aber für mehrere Dateien
+; {RF} -        Multi-select file requester
+;
+STR_COMMANDSEQ_FONTREQ
+{Ro} -              Schriftauswahlfenster
+; {Ro} -                     Font requester
+;
+STR_COMMANDSEQ_ARGUMENTS
+{Rs} -              Texteingabe-Dialogbox
+; {Rs} -                   String requester
+;
+STR_COMMANDSEQ_SOURCE
+{s}  -       Name des Quellverzeichnisses
+; {s}  -              Source directory name
+;
+;
+;*** List - file identification commands (1/2)
+;
+; These should be no longer than 41 characters
+;
+STR_CLASSOPS_AND
+And          - Start einer neuen Gruppe
+; And          - start of another group
+;
+STR_CLASSOPS_MATCH
+Match        - Text oder $Hexcode
+; Match        - text or $hex
+;
+STR_CLASSOPS_MATCHBITS
+MatchBits    - HSPARWED mit + oder -
+; MatchBits    - HSPARWED with + and -
+;
+STR_CLASSOPS_MATCHCOMMENT
+MatchComment - Kommentartext
+; MatchComment - text
+;
+STR_CLASSOPS_MATCHDATE
+MatchDate    - Datum oder Bereich
+; MatchDate    - date string or range
+;
+STR_CLASSOPS_MATCHNAME
+MatchName    - Dateiname
+; MatchName    - filename
+;
+STR_CLASSOPS_MATCHSIZE
+MatchSize    - Dateigröße >,< oder =
+; MatchSize    - value with >, < and =
+;
+STR_CLASSOPS_MOVE
+Move         - Abstand von akt. Position
+; Move         - byte offset from here
+;
+STR_CLASSOPS_MOVETO
+MoveTo       - Absolute Position
+; MoveTo       - absolute location
+;
+STR_CLASSOPS_OR
+Or           - Start einer neuen Gruppe
+; Or           - start of another group
+;
+STR_CLASSOPS_SEARCHFOR
+SearchFor    - Text oder $Hexcode
+; SearchFor    - text or $hex
+;
+;
+;
+; 
+STR_BY
+x
+; by
+;
+;
+;*** Hotkey configuration screen - messages
+;
+STR_SELECT_HOTKEY_TO_SWAP
+Wähle ersten Eintrag für die Vertauschung!
+; Select hotkey to swap.
+;
+STR_SELECT_SECOND_HOTKEY_TO_SWAP
+Wähle nun den zweiten Eintrag für die Vertauschung!
+; Select second hotkey to swap with first.
+;
+;
+;*** System/Modules
+;
+STR_MODULE_LIST_TITLE
+Externe Programm-Module...
+; External support modules...
+;
+;
+STR_MODULE_LIST_CHECK_STRING
+(  zeigt an, daß das Modul immer geladen wird)
+; (  Check indicates a module to be pre-loaded)
+;
+;
+;
+;*** System/Clocks (2/2)
+;
+STR_SYS_CLOCK_KILOBYTES_FREE
+freie Kilobytes
+; Kilobytes free
+;
+;
+;*** System/Startup (2/2)
+;
+STR_SYS_STARTUP_CONFIG
+Konfig.
+; Cfg return
+;
+;
+;*** Menus (3/5)
+;
+STR_MENU_DUPLICATE
+Klasse kopieren...
+; Duplicate...
+;
+;
+;
+;
+STR_FILECLASS_DUPLICATE
+Welche Klasse duplizieren...
+; Select class to duplicate...
+;
+;
+;*** Menus (4/5)
+;
+STR_MENU_CLEARCLIPS
+Puffer löschen
+; Clear clips
+;
+;
+;*** Another common message
+;
+STR_REALLY_CLEAR_CLIPS
+Sollen wirklich alle kopierten Funktionen gelöscht werden?
+; Really clear all clipped functions?
+;
+;
+;*** Screen/General (2/4)
+;
+STR_SCREEN_GENERAL_DRAGREQUESTERS
+Verschiebbare Dialogfenster
+; Draggable requesters
+;
+;
+;
+STR_FORMAT_OWNER
+Besitzer
+; Owner
+;
+STR_FORMAT_GROUP
+Gruppe
+; Group
+;
+;
+;*** Screen/Palette (4/4)
+;
+; These should match the presets used by ScreenMode Prefs.
+;
+STR_PALETTE_TINT
+Gedeckt
+; Tint
+;
+STR_PALETTE_PHARAOH
+Pharao
+; Pharaoh
+;
+STR_PALETTE_SUNSET
+Sonnenuntergang
+; Sunset
+;
+STR_PALETTE_OCEAN
+Ozean
+; Ocean
+;
+STR_PALETTE_STEEL
+Stahl
+; Steel
+;
+STR_PALETTE_CHOCOLATE
+Schokolade
+; Chocolate
+;
+STR_PALETTE_PEWTER
+Zinn
+; Pewter
+;
+STR_PALETTE_WINE
+Wein
+; Wine
+;
+STR_PALETTE_A2024
+A2024
+; A2024
+;
+;
+;*** Filetype classes editing again
+;
+STR_FTYPE_CLICKMCLICK
+Click-M-Click
+; Click-m-click
+;
+STR_FTYPE_DOUBLECLICK
+LMB Doppelklick
+; LMB Double-click
+;
+STR_FTYPE_MMBCLICK
+MMB Doppelklick
+; MMB Double-click
+;
+STR_FUNCTION_COMMAND
+Befehl
+; Command
+;
+STR_FUNCTION_AMIGADOS
+AmigaDOS
+; AmigaDOS
+;
+STR_FUNCTION_WORKBENCH
+Workbench
+; Workbench
+;
+STR_FUNCTION_BATCH
+Skriptdatei
+; Batch
+;
+STR_FUNCTION_AREXX
+ARexx
+; ARexx
+;
+;
+;
+;*** Screen/Screen mode (5/7)
+;
+STR_MODE_WORKBENCH_CLONE
+Workbench:Klonen
+; Workbench:Clone
+;
+STR_MODE_WORKBENCH_USE
+Workbench:Benutzen
+; Workbench:Use
+;
+;
+;*** Screen/Colors (3/3)
+;
+STR_COLOURS_TINY_GADS
+PRSA?DFKIQ
+; BRSA?EFCIQ
+;
+;
+;
+STR_FORMAT_GROUPBITS
+Netzwerk Schutzbits
+; Net protection bits
+;
+;
+;*** Menus (5/5)
+;
+STR_MENUNAME_NEATSTUFF
+Hilfsmittel
+; Tools
+;
+STR_NEAT_PAINT_MODE
+Einfärben
+; Paint mode
+;
+;
+;*** (Drive) Button & Menu configuration screen (2/2)
+;
+STR_PAINT_SELECT_COLOURS
+Bitte Farben auswählen
+; Select paint colors
+;
+STR_PAINT_STATE
+ (Einfärbemodus aktiv)
+;   (Paint mode active)
+;
+;
+;
+;*** Screen/General (3/4)
+;
+STR_SCREEN_GENERAL_TITLEBARSTATUS
+Statustext in Titlezeile anzeigen
+; Display status text in title bar
+;
+;
+;*** Operation/Update (2/3)
+;
+STR_OP_UPDATE_PROGRESSIND_COPY
+Prozentanzeige für jedes File (Copy)
+; Current file progress indicator (Copy)
+;
+;
+;*** Screen/Screen mode (6/7)
+;
+STR_SCREEN_MODE_USE
+Benutzen
+; Use
+;
+;
+;*** Screen/General (4/4)
+;
+STR_SCREEN_GENERAL_WINDOWBORDERS
+OS2.0-Rahmen, wenn auf eigenem Bildschirm
+; Custom screen window borders
+;
+;
+;*** Screen/Screen mode (7/7)
+;
+STR_SCREEN_MODE_CLONE
+Klonen
+; Clone
+;
+;
+;*** Screen configuration screen (3/3)
+;
+STR_SCREEN_SLIDERS
+Rollbalken
+; Sliders
+;
+;
+;*** Operation/Update (3/3)
+;
+STR_OP_UPDATE_PROGRESS
+Fortschrittsanzeige...
+; Progress indicator...
+;
+;
+;*** Screen/Fonts (3/3)
+;
+STR_FONTPLACE_SCREEN
+Bildschirmzeichensatz
+; Screen font
+;
+;
+;*** List - ARexx commands (2/4)
+;
+STR_FUNCTIONLIST_SETVAR
+SetVar        -   Interne Variable setzen
+; SetVar        -  Set an internal variable
+;
+;
+;*** List - requester placeholders (2/2)
+;
+STR_COMMANDSEQ_VARIABLE
+{v} -          vorher definierte Variable
+; {v}  -               Pre-defined variable
+;
+;
+;*** System/View & Play (2/3)
+;
+STR_SYS_VIEWPLAY_BESTMODEID
+Besten Anzeige-Modus wählen
+; Pick best screen-mode
+;
+;
+;*** List - ARexx commands (3/4)
+;
+STR_FUNCTIONLIST_NOTIFY
+Notify        -     Informationsrequester
+; Notify        -    Notification requester
+;
+STR_FUNCTIONLIST_PARENTLIST
+ParentList    -     überg. Verz. anzeigen
+; ParentList    -   List parent directories
+;
+;
+;*** Operation/List format (5/5)
+;
+STR_SIZE_KMGMODE
+Größe als K/M/G
+; Show size in K/M/G
+;
+;
+;*** System/View & Play (3/3)
+;
+STR_SYS_VIEWPLAY_INWINDOW
+Anzeige im Fenster
+; View in window
+;
+STR_SYS_TOP_Y
+Oben Y
+; Top Y
+;
+STR_SYS_LEFT_X
+Links X
+; Left X
+;
+STR_SYS_WIDTH
+Breite
+; Width
+;
+STR_SYS_HEIGHT
+Höhe
+; Height
+;
+;
+;*** List - file identification commands (2/2)
+;
+STR_CLASSOPS_MATCHI
+MatchI       - Text (ohne Groß/Klein)
+; MatchI       - text (case-insensitive)
+;
+;
+;*** Menu configuration screen (3/3)
+;
+STR_MENU_MAX_REACHED
+Achtung: Menü(s) aufgrund von Platzmangel nicht importiert!
+; Warning! Some menus were not imported due to lack of free space.
+;
+;
+;*** Operation/General (2/4)
+;
+STR_OP_GENERAL_FMPARENTMODE
+Parentfunktion wie bei FileMaster
+; FileMaster-like Parent
+;
+;
+;*** Operation/Copy (2/2)
+;
+STR_OP_COPY_COPYARCHIVE
+Archiv-Bit ebenfalls kopieren
+; Copy archive bit too
+;
+;
+;*** Operation/General (3/4)
+;
+STR_OP_GENERAL_FORCEQUIT
+Quit-Requester unterdrücken
+; Don't ask before quit
+;
+;
+;*** General usage buttons (2/2)
+;
+STR_USE
+Benutzen
+; Use
+;
+;
+;*** List - ARexx commands (4/4)
+;
+STR_FUNCTIONLIST_MAKELINK
+MakeLink      -  Hard-/Softlink erstellen
+; MakeLink      -  Create soft or hard link
+;
+;
+;*** Operation/General (4/4)
+;
+STR_OP_GENERAL_MMBSELECTS
+Einzelklick mit MMB wählt Lister
+; Single MMB click selects lister

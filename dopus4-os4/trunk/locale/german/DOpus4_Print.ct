@@ -1,0 +1,261 @@
+## version $VER: DOpus4_Print.catalog 3.0 (15.08.2012)
+## language german
+## codeset 0
+;
+## chunk AUTH Christoph Gutjahr
+;#basename Dopus4_Print
+;#language english
+;#version 3
+;
+; DOpus4_Print.cd - Directory Opus 4 Print module catalog description file
+;
+; $VER: DOpus4_Print.cd 3.0 (15.08.2012)
+;
+;
+STR_SELECT_FILE
+Datei auswählen
+; Select file
+;
+STR_ABORT
+_Abbrechen
+; Abort
+;
+STR_CONTINUE
+_Weiter
+; Continue
+;
+STR_OKAY
+_Weiter
+; Okay
+;
+STR_CANCEL
+_Abbrechen
+; Cancel
+;
+STR_FILE
+Datei
+; File
+;
+STR_TOP_MARGIN
+Oberer Rand
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Unterer Rand
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Linker Rand
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Rechter Rand
+; Right Margin
+;
+STR_TAB_SIZE
+Tabweite
+; Tab size
+;
+STR_PRINT_PITCH
+Druckdichte
+; Print pitch
+;
+STR_QUALITY
+Qualität
+; Density
+;
+STR_EJECT
+Seite auswerfen
+; Eject final page
+;
+STR_IGNORE
+Am unteren Rand zu ignorieren
+; Ignore bottom margin
+;
+STR_ADD_CR
+Wagenrücklauf zu formfeeds hinzufügen
+; Add carriage return to formfeeds
+;
+STR_EJECT_FIRST
+Werfen Seite vor dem drucken aus
+; Eject page before printing
+;
+STR_INIT_PRINTER
+Drucker initialisieren
+; Initialize Printer
+;
+STR_CONFIGURATION
+Informationen...
+; configuration...
+;
+STR_TITLE
+Titel
+; Title
+;
+STR_DATE
+Datum
+; Date
+;
+STR_PAGE_NUMBER
+Seitennummer
+; Page no.
+;
+STR_TEXT_STYLE
+Schriftart
+; Text style
+;
+STR_PRINTER
+Drucker
+; Printer
+;
+STR_PRINT
+Drucken
+; Print
+;
+STR_EXIT
+Ende
+; Exit
+;
+STR_OUTPUT_TO
+Ausgabe an...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Elite
+; Elite
+;
+STR_FINE
+Fine
+; Fine
+;
+STR_NORMAL
+Eng
+; Normal
+;
+STR_BOLD
+Fett
+; Bold
+;
+STR_ITALICS
+Kursiv
+; Italics
+;
+STR_UNDERLINED
+Unterstr
+; UnLined
+;
+STR_DOUBLESTRIKE
+Doppelt
+; DbStrik
+;
+STR_SHADOW
+Schatten
+; Shadow
+;
+STR_DRAFT
+Entwurf
+; Draft
+;
+STR_LETTER
+Brief
+; Letter
+;
+STR_HEADER
+Kopf
+; Header
+;
+STR_FOOTER
+Fuß
+; Footer
+;
+STR_SIZE
+Größe
+; Size
+;
+STR_PROTECTION
+Schutzbits
+; Protection
+;
+STR_COMMENT
+Kommentar
+; Comment
+;
+STR_FILETYPE
+Dateityp
+; File type
+;
+STR_PRINT_DOT
+Drucke...
+; Print...
+;
+STR_PRINTDIR
+Verzeichnisdruck
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+Kann Datei nicht öffnen. Nochmal versuchen?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+Kann Ausgabedatei nicht öffnen. Nochmal?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+Kann Drucker nicht ansprechen. Nochmal?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+Fehler beim Verzeichnisdruck. Nochmal?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+Falsches Passwort eingegeben. Nochmal?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+Fehler beim Drucken. Nochmal?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+Druck wirklich abbrechen?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Erzeuge Datei
+; Creating file
+;
+STR_OPENING_PRINTER
+Reserviere Drucker
+; Opening printer
+;
+STR_LOADING_FILE
+Lade Datei...
+; Loading file...
+;
+STR_PRINTING_FILE
+Drucke Datei...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+Abbrechen mit ESC
+; Press ESC to abort
+;
+STR_PAGE
+Seite
+; Page
+;
+STR_COMPLETE
+fertig
+; complete
+;
+STR_TOFILE
+Datei
+; File
+;
+STR_PRINTWIN
+Drucken
+; Print
