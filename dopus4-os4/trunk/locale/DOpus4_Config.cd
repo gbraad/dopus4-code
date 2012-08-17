@@ -1,6 +1,10 @@
+#basename Dopus4_Config
+#language english
+#version 3
+;
 ; DOpus4_Config.cd - ConfigOpus catalog description file
 ;
-; $VER: DOpus4_Config.cd 2.0 (02.11.2006)
+; $VER: DOpus4_Config.cd 3.0 (15.08.2012)
 ;
 ;
 ;*** Messages on quit

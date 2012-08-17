@@ -1,6 +1,10 @@
+#basename Dopus4_Print
+#language english
+#version 3
+;
 ; DOpus4_Print.cd - Directory Opus 4 Print module catalog description file
 ;
-; $VER: DOpus4_Print.cd 2.0 (02.11.2006)
+; $VER: DOpus4_Print.cd 3.0 (15.08.2012)
 ;
 ;
 STR_SELECT_FILE (//)
@@ -169,7 +173,7 @@ STR_OPENING_PRINTER (//)
 Opening printer
 ;
 STR_LOADING_FILE (//)
-Loading file..
+Loading file...
 ;
 STR_PRINTING_FILE (//)
 Printing file...

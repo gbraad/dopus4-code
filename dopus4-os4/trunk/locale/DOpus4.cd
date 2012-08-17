@@ -1,6 +1,10 @@
+#basename DOpus4
+#language english
+#version 3
+;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 2.0 (02.11.2006)
+; $VER: DOpus4.cd 3.0 (15.08.2012)
 ;
 ;
 ; General
@@ -288,7 +292,7 @@ STR_ENTER_COMMENT (//)
 Enter comment
 ;
 STR_CANNOT_CLOSE_SCREEN (//)
-I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD (//)
 Enter password
@@ -724,7 +728,7 @@ Bits
 STR_STARTING_PRINT_MODULE (//)
 Starting print module...
 ;
-STR_ABOUT (//950)
+STR_ABOUT (//1150)
 %s\n\
 Based on GPL release version 4.12\n\
 Modified by Jacek Rzeuski\n\
