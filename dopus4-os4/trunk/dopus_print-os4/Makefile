@@ -22,11 +22,11 @@ DOpus_Print : printstrings.h strings.c $(OBJS)
 
 data.o: data.c DOpus_Print_rev.h
 
-printstrings.h: ../catalogs/DOpus4_Print.cd printstrings_h.sd
-	$(FLEXCAT) ../catalogs/DOpus4_Print.cd printstrings.h=printstrings_h.sd
+printstrings.h: ../locale/DOpus4_Print.cd printstrings_h.sd
+	$(FLEXCAT) ../locale/DOpus4_Print.cd printstrings.h=printstrings_h.sd
 
-strings.c: ../catalogs/DOpus4_Print.cd printstrings.h strings_c.sd
-	$(FLEXCAT) ../catalogs/DOpus4_Print.cd strings.c=strings_c.sd
+strings.c: ../locale/DOpus4_Print.cd printstrings.h strings_c.sd
+	$(FLEXCAT) ../locale/DOpus4_Print.cd strings.c=strings_c.sd
 
 revision:
 	revbump DOpus_Print $(REVISE)
