@@ -1,0 +1,261 @@
+## version $VER: DOpus4_Print.catalog 3.0 (15.08.2012)
+## language italian
+## codeset 0
+;
+## chunk AUTH Massimo Mascia e Francesco Mancuso
+;#basename Dopus4_Print
+;#language english
+;#version 3
+;
+; DOpus4_Print.cd - Directory Opus 4 Print module catalog description file
+;
+; $VER: DOpus4_Print.cd 3.0 (15.08.2012)
+;
+;
+STR_SELECT_FILE
+Scegli file
+; Select file
+;
+STR_ABORT
+_Interrompi
+; Abort
+;
+STR_CONTINUE
+_Continua
+; Continue
+;
+STR_OKAY
+_Okay
+; Okay
+;
+STR_CANCEL
+_Cancella
+; Cancel
+;
+STR_FILE
+File
+; File
+;
+STR_TOP_MARGIN
+Margine sup.
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Margine inf.
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Margine sin.
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Margine des.
+; Right Margin
+;
+STR_TAB_SIZE
+Dim. tab.
+; Tab size
+;
+STR_PRINT_PITCH
+Corpo stampa
+; Print pitch
+;
+STR_QUALITY
+Densità
+; Density
+;
+STR_EJECT
+Espelli ultima pag.
+; Eject final page
+;
+STR_IGNORE
+Ignorare il margine inferiore
+; Ignore bottom margin
+;
+STR_ADD_CR
+Aggiungere il ritorno di formfeeds
+; Add carriage return to formfeeds
+;
+STR_EJECT_FIRST
+Espulsione di pagina prima della stampa
+; Eject page before printing
+;
+STR_INIT_PRINTER
+Inizializzazione della stampante
+; Initialize Printer
+;
+STR_CONFIGURATION
+configurazione...
+; configuration...
+;
+STR_TITLE
+Titolo
+; Title
+;
+STR_DATE
+Data
+; Date
+;
+STR_PAGE_NUMBER
+N° pagina
+; Page no.
+;
+STR_TEXT_STYLE
+Stile testo
+; Text style
+;
+STR_PRINTER
+Stampante
+; Printer
+;
+STR_PRINT
+Stampa
+; Print
+;
+STR_EXIT
+Esci
+; Exit
+;
+STR_OUTPUT_TO
+Output...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Elite
+; Elite
+;
+STR_FINE
+Fine
+; Fine
+;
+STR_NORMAL
+Normale
+; Normal
+;
+STR_BOLD
+Grassetto
+; Bold
+;
+STR_ITALICS
+Corsivo
+; Italics
+;
+STR_UNDERLINED
+Sottolin.
+; UnLined
+;
+STR_DOUBLESTRIKE
+Doppio
+; DbStrik
+;
+STR_SHADOW
+Ombregg.
+; Shadow
+;
+STR_DRAFT
+Bozza
+; Draft
+;
+STR_LETTER
+Lettera
+; Letter
+;
+STR_HEADER
+Testata
+; Header
+;
+STR_FOOTER
+Piè pag.
+; Footer
+;
+STR_SIZE
+Dimens.
+; Size
+;
+STR_PROTECTION
+Protezione
+; Protection
+;
+STR_COMMENT
+Commento
+; Comment
+;
+STR_FILETYPE
+Formato file
+; File type
+;
+STR_PRINT_DOT
+Stampa...
+; Print...
+;
+STR_PRINTDIR
+StampaDir
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+Non riesco ad aprire il file. Riprovo?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+Non posso aprire il file in uscita. Riprovo?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+La stampante non risponde. Riprovo?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+Errore stampa directory. Riprovo?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+La password non è corretta. Riprovo?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+Errore di stampa! Riprovo?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+Vuoi davvero annullare la stampa?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Creo il file
+; Creating file
+;
+STR_OPENING_PRINTER
+Attivo stampante
+; Opening printer
+;
+STR_LOADING_FILE
+Carico il file...
+; Loading file...
+;
+STR_PRINTING_FILE
+Stampo il file...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+[ESC] per annullare
+; Press ESC to abort
+;
+STR_PAGE
+Pagina
+; Page
+;
+STR_COMPLETE
+completo
+; complete
+;
+STR_TOFILE
+File
+; File
+;
+STR_PRINTWIN
+Stampa
+; Print
