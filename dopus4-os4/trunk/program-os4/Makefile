@@ -32,11 +32,11 @@ DirectoryOpus: $(OBJS)
 about.o: about.c DirectoryOpus_rev.h
 tasks.o: tasks.c DirectoryOpus_rev.h
 
-strings.c: ../catalogs/DOpus4.cd dopusstrings.h strings_c.sd
-	$(FLEXCAT) ../catalogs/DOpus4.cd strings.c=strings_c.sd
+strings.c: ../locale/DOpus4.cd dopusstrings.h strings_c.sd
+	$(FLEXCAT) ../locale/DOpus4.cd strings.c=strings_c.sd
 
-dopusstrings.h: ../catalogs/DOpus4.cd dopusstrings_h.sd
-	$(FLEXCAT) ../catalogs/DOpus4.cd dopusstrings.h=dopusstrings_h.sd
+dopusstrings.h: ../locale/DOpus4.cd dopusstrings_h.sd
+	$(FLEXCAT) ../locale/DOpus4.cd dopusstrings.h=dopusstrings_h.sd
 
 # revision targets
 .PHONY: revision
