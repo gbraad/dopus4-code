@@ -30,11 +30,11 @@ ConfigOpus: configstrings.h strings.c $(OBJS)
 
 data.o: data.c ConfigOpus_rev.h
 
-configstrings.h: ../catalogs/DOpus4_Config.cd configstrings_h.sd
-	$(FLEXCAT) ../catalogs/DOpus4_Config.cd configstrings.h=configstrings_h.sd
+configstrings.h: ../locale/DOpus4_Config.cd configstrings_h.sd
+	$(FLEXCAT) ../locale/DOpus4_Config.cd configstrings.h=configstrings_h.sd
 
-strings.c: ../catalogs/DOpus4_Config.cd configstrings.h strings_c.sd
-	$(FLEXCAT) ../catalogs/DOpus4_Config.cd strings.c=strings_c.sd
+strings.c: ../locale/DOpus4_Config.cd configstrings.h strings_c.sd
+	$(FLEXCAT) ../locale/DOpus4_Config.cd strings.c=strings_c.sd
 
 .PHONY: revision
 revision:
