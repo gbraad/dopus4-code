@@ -1,0 +1,1479 @@
+## version $VER: DOpus4.catalog 3.0 (15.08.2012)
+## language spanish
+## codeset 0
+;
+;#basename DOpus4
+;#language english
+;#version 3
+;
+; DOpus4.cd - Directory Opus 4 catalog description file
+;
+; $VER: DOpus4.cd 3.0 (15.08.2012)
+;
+;
+; General
+;
+STR_DIRS_FILES_BYTES_COUNT
+Dirs.: %03ld/%03ld  Ficheros: %03ld/%03ld  Bytes: %7s/%7s
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
+;
+STR_DOPUS_ALREADY_RUNNING
+Directory Opus ya está en funcionamiento.\n¿Desea lanzar otra copia?
+; Directory Opus is already resident in memory.\nDo you want to run another copy?
+;
+STR_UNABLE_TO_OPEN_WINDOW
+No se puede abrir la pantalla o ventana.
+; Unable to open screen/window!
+;
+STR_WELCOME_TO_DOPUS
+¡Bienvenido a Directory Opus!
+; Welcome to Directory Opus!
+;
+STR_WELCOME_BACK_TO_DOPUS
+¡Bienvenido de nuevo a Directory Opus!
+; Welcome back to Directory Opus!
+;
+STR_INTERROGATING_FILE
+Examinando fichero...
+; Interrogating file...
+;
+STR_READING_DIRECTORY
+Leyendo directorio...
+; Reading directory...
+;
+STR_ENTER_ARGUMENTS_FOR
+Introduzca argumentos para \"%s\"
+; Enter arguments for \"%s\"
+;
+STR_ENTER_DIRECTORY_NAME
+Introduzca nombre del directorio
+; Enter directory name
+;
+STR_FILE_ALREADY_EXISTS
+¡El fichero o directorio ya existe!
+; File or directory already exists!
+;
+STR_DIRECTORY_CREATED
+Directorio creado.
+; Directory created.
+;
+STR_PRINTING_DIRECTORY
+Imprimiendo directorio...
+; Printing directory...
+;
+STR_DIRECTORY
+Directorio 
+; Directory 
+;
+STR_DEVICE_LIST
+Lista de unidades\n\n
+; Device list\n\n
+;
+STR_NO_CHIP_FOR_ICON
+Memoria gráfica insuficiente para mostrar el icono.
+; Cannot load icon
+;
+STR_FILE_NOT_ILBM
+No es un fichero ILBM.
+; File is not ILBM
+;
+STR_ERROR_IN_IFF
+Error en estructura IFF.
+; Error in IFF structure
+;
+STR_NO_CHIP_FOR_PICTURE
+Memoria gráfica insuficiente para mostrar la imagen.
+; Not enough chip memory to display picture
+;
+STR_CANT_ALLOCATE_AUDIO
+No se pueden reservar los canales de audio.
+; Can't allocate audio channels
+;
+STR_NOT_ST_MOD
+El fichero es un módulo de música no soportado.
+; File is not a supported music module
+;
+STR_FILE_EXISTS_REPLACE
+¡El fichero \"%s\"\n\
+ya existe! ¿Desea sustituirlo?
+; \"%s\" already exists! Replace?
+;
+STR_SELECT_UNPROTECT
+\nElija 'Desproteger' para activar el bit Borrable.
+; \nSelect Unprotect to set the deletion bit.
+;
+STR_ENTER_TIME
+Introduzca la hora en formato HH:MM:SS
+; Enter time in the form HH:MM:SS
+;
+STR_AREXX_NOT_RUNNING
+¡No se ha podido encontrar el servidor ARexx!
+; ARexx server not found!
+;
+STR_ENTER_AREXX_COMMAND
+Introduzca comando ARexx
+; Enter ARexx command
+;
+STR_ENTER_NEW_CD
+Introduzca el nuevo directorio actual
+; Enter new current directory
+;
+STR_SCANNING_DEVICE_LIST
+Explorando lista de unidades...
+; Scanning device list...
+;
+STR_FOUND_A_MATCH
+Encontrado \"%s\" en\n\
+\"%s\"\n\n¿Ir a este directorio?
+; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+;
+STR_BUFFERS_CLEARED
+Limpiados los buffers no mostrados.
+; Buffers not currently displayed have been cleared.
+;
+STR_UNREADABLE_DISK
+Disco ilegible.
+; Unreadable disk
+;
+STR_NOT_A_DOS_DISK
+El disco no es de tipo DOS.
+; Not a DOS disk
+;
+STR_KICKSTART_DISK
+Disco Kickstart
+; Kickstart disk
+;
+STR_VALIDATING
+Validando
+; Validating
+;
+STR_WRITE_PROTECTED
+Sólo lectura
+; Write protected
+;
+STR_READ_WRITE
+Lectura/Escritura
+; Read/Write
+;
+STR_DEVICE_NOT_MOUNTED
+Unidad o volumen no montado.
+; Device or volume not mounted
+;
+STR_NO_DISK_IN_DRIVE
+No hay disco en la unidad.
+; No disk in drive
+;
+STR_DOS_ERROR_CODE
+Error DOS: %ld
+; DOS error code %ld
+;
+STR_ENTER_NEW_DISK_NAME
+Introduzca nuevo nombre del disco
+; Enter new disk name
+;
+STR_ENTER_ASSIGN_NAME
+Introduzca directorio a reasignar
+; Enter directory to re-assign device
+;
+STR_CANT_CANCEL_ASSIGN
+No se puede cancelar la asignación.
+; Can't cancel assign.
+;
+STR_ENTER_DEVICE_NAME
+Introduzca asignación para este directorio
+; Enter device name for this directory
+;
+STR_ASSIGN_FAILED
+Asignación fallida.
+; Assign failed
+;
+STR_NO_DESTINATION_SELECTED
+No ha elegido un directorio DESTINO.
+; No destination directory selected!
+;
+STR_CANT_COPY_DIR_TO_ITSELF
+No puede copiar un directorio a sí mismo.
+; You can't copy a directory into itself!
+;
+STR_SHOWING_FONT
+Mostrando tipo de letra elegido...
+; Showing selected font...
+;
+STR_RUNNING_FILE
+Ejecutando fichero...
+; Running selected file...
+;
+STR_PLAYING_FILE
+Reproduciendo fichero...
+; Playing selected file...
+;
+STR_SHOWING_FILE
+Mostrando fichero...
+; Showing selected file...
+;
+STR_PLAYING_ST_MOD
+Reproduciendo módulo...
+; Playing music module...
+;
+STR_READING_SELECTED_FILE
+Leyendo fichero...
+; Reading selected file...
+;
+STR_FOUND_A_MATCH_READ
+Encontrada concidencia en el fichero\n\
+\"%s\"\n\n¿Desea ver el fichero?
+; Found a match in the file\n\"%s\"\nShall I read the file?
+;
+STR_CONFIG_CHANGED_QUIT
+Ha modificado la configuración.\n\n¿De verdad desea salir?
+; You have modified the configuration.\nDo you really want to quit?
+;
+STR_SAVING_CONFIG
+Guardando configuración...
+; Saving configuration...
+;
+STR_READING_CONFIG
+Leyendo configuración...
+; Reading configuration...
+;
+STR_CONFIG_CHANGED_LASTSAVED
+Ha modificado la configuración.\n\n¿De verdad desea cargar la config. anterior?
+; You have modified the configuration.\nReally load the last-saved settings?
+;
+STR_CONFIG_CHANGED_DEFAULTS
+Ha modificado la configuración.\n\n¿Guardarla antes de recuperar los valores por omisión?
+; You have modified the configuration.\nSave before restoring defaults?
+;
+STR_HELP_NOT_AVAILABLE
+No hay ayuda disponible para esta función.
+; Help not available for that function!
+;
+STR_SCANNING_TREE
+Explorando árbol de directorios...
+; Scanning directory tree...
+;
+STR_ENTER_A_STRING
+Introduzca una cadena
+; Enter a string
+;
+STR_PLEASE_CHOOSE
+Por favor, elija.
+; Please choose
+;
+STR_COMMENTING
+añadiendo comentario
+; commenting
+;
+STR_PROTECTING
+protegiendo
+; protecting
+;
+STR_DATESTAMPING
+poniendo fecha
+; datestamping
+;
+STR_DELETING
+borrando
+; deleting
+;
+STR_COPYING
+copiando
+; copying
+;
+STR_CREATING
+creando
+; creating
+;
+STR_CANT_OVERCOPY_FILES
+No puede copiar los ficheros a sí mismos.
+; You can't copy these files over themselves!
+;
+STR_INTERROGATING_FILES
+Examinando ficheros...
+; Interrogating files...
+;
+STR_NOT_IDENTIFIED
+No se ha podido identificar \"%s\".
+; %s could not be identified.
+;
+STR_LOADING_CONFIG
+Cargando programa de configuración...
+; Loading configuration program...
+;
+STR_WAITING_FOR_PORT
+Esperando al puerto de ConfigOpus...
+; Waiting for configuration port...
+;
+STR_CONFIG_NOT_FOUND
+No se ha podido encontrar o cargar\nel programa de configuración.
+; Configuration program not found/could not be loaded.
+;
+STR_ALIEN_WINDOWS
+Existen ventanas abiertas en la pantalla de Directory Opus.\n\nPulse Cancelar y ciérrelas usted, o pulse Cerrar y\nDirectory Opus las cerrará por usted (¡PELIGROSO!).
+; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+;
+STR_REALLY_DELETE
+¿De verdad desea borrar los objetos seleccionados?
+; Do you really wish to delete selected entries?
+;
+STR_WISH_TO_DELETE
+¿De verdad desea borrar \"%s\"?
+; Do you really wish to delete \"%s\"?
+;
+STR_NOT_EMPTY
+¡\"%s\" no está vacío!\n\n¿De verdad desea borrarlo?
+; \"%s\" is not empty! Delete?
+;
+STR_ENTER_NEW_NAME
+Introduzca nuevo nombre
+; Enter new name
+;
+STR_RENAMING
+renombrando
+; renaming
+;
+STR_ENTER_NEW_NAME_MOVE
+Introduzca un nuevo nombre para el fichero movido
+; Enter new name for moved file
+;
+STR_MOVING
+moviendo
+; moving
+;
+STR_ENTER_NEW_NAME_CLONE
+Introduzca un nuevo nombre para el fichero duplicado
+; Enter name for cloned entry
+;
+STR_CLONING
+duplicando
+; cloning
+;
+STR_SIZE_IS_NOT_KNOWN
+Se desconoce el tamaño del directorio seleccionado.\n\n\
+¿Desea hacer un recuento de su espacio en bytes?
+; Size is not known for the selected directory.\nPerform a byte count on this directory?
+;
+STR_FILE_MAY_NOT_FIT
+Posiblemente el fichero elegido no cabrá en el destino.\n\n\
+¿De verdad desea copiarlo?
+; Selected file will probably not fit in destination.\nContinue with the copy?
+;
+STR_SIZES_NOT_KNOWN
+Se desconoce el tamaño de alguno de los directorios seleccionados.\n\n\
+¿Desea hacer un recuento de su espacio en bytes?
+; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
+;
+STR_ENTRIES_MAY_NOT_FIT
+Posiblemente los objetos seleccionados no cabrán en el destino.\n\n\
+¿De verdad desea copiarlos?
+; Selected entries will probably not fit in destination.\nContinue with the copy?
+;
+STR_ENTER_NEW_NAME_COPY
+Introduzca un nuevo nombre para el fichero copiado
+; Enter new name for copied file
+;
+STR_ENTER_HUNT_PATTERN
+Introduzca patrón de búsqueda
+; Enter file pattern to hunt
+;
+STR_COULD_NOT_FIND_FILE
+No se ha encontrado ninguna coincidencia.
+; Sorry! File could not be found!
+;
+STR_FOUND_MATCHING_FILES
+Se han encontrado %ld coincidencias.
+; Found %ld matching files.
+;
+STR_ADDING_ICON
+añadiendo icono a
+; adding an icon to
+;
+STR_SELECT_COMMENT
+Comentario
+; Comment
+;
+STR_ENTER_COMMENT
+Introduzca comentario
+; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+No puede cerrarse la pantalla debido a la presencia\n\
+de ventanas extrañas. Directory Opus esperará\n\
+tranquilamente a que sean cerradas.
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
+;
+STR_ENTER_PASSWORD
+Introduzca contraseña
+; Enter password
+;
+STR_ENTER_DATE_AND_TIME
+Introduzca fecha y hora (o nada para usar los valores actuales)
+; Enter date and time (blank for current)
+;
+STR_ENTER_SEARCH_STRING
+Introduzca cadena a buscar
+; Enter search string
+;
+STR_RENAME_REQ
+Cambiar el no_mbre
+; Rena_me
+;
+STR_STRING_NOT_FOUND
+No se ha encontrado la cadena.
+; Sorry! String could not be found!
+;
+STR_MATCHED_FILES
+Se han encontrado coincidencias con %ld ficheros.
+; Matched in %ld files.
+;
+STR_NO_SOURCE_SELECTED
+No ha elegido un directorio ORIGEN.
+; No source directory selected!
+;
+STR_TEMPORARY_OUTPUT_FILE
+Fichero de salida temporal
+; Temporary output file
+;
+STR_ENTER_ARGUMENTS
+Introduzca argumentos
+; Enter arguments
+;
+STR_SELECT_FUNCTION
+Seleccione función de la que desea ayuda o pulse <Help> para cancelar.
+; Select function you need help with, or Help again to cancel.
+;
+STR_CONFIG_CHANGED_LOAD
+Ha modificado la configuración.\n\n¿De verdad desea cargar una nueva?
+; You have modified the configuration.\nReally load a new configuration file?
+;
+STR_ABORTED
+Interrumpido.
+; Aborted.
+;
+STR_ENTER_DOS_ERROR_CODE
+Introduzca código de error DOS
+; Enter DOS error code
+;
+STR_NO_HELP_FOR_ERROR
+No hay ayuda disponible para este código de error.
+; Help not available for that error code!
+;
+;
+; This becomes something like "An error ocurred deleting "object"
+;                              DOS error code 214 - Disk is write-protected"
+;
+STR_ERROR_OCCURED
+Se ha producido un error %s \"%s\"\n\n%s
+; An error occured %s \"%s\"\n%s
+;
+;
+; Rename window
+;
+STR_RENAME
+Renombrar
+; Rename
+;
+STR_AS
+Como
+; As
+;
+;
+STR_ENTER_SELECT_PATTERN
+Introduzca patrón de selección
+; Enter select pattern
+;
+STR_FILE_ENCRYPTED
+\nEl fichero está encriptado.\n\n
+; \nFile is encrypted!\n\n
+;
+STR_READING_FILE
+Leyendo fichero...
+; Reading file...
+;
+STR_NO_MEMORY_TO_DECRUNCH
+Memoria insuficiente para cargar/descomprimir el fichero completo.
+; Not enough memory to load/decrunch complete file!
+;
+STR_BAD_PASSWORD
+La contraseña introducida no es correcta.
+; Incorrect password given!
+;
+STR_COUNTING_LINES
+Contando líneas...
+; Counting lines...
+;
+;
+; Built-in text viewer requesters
+;
+STR_JUMP_TO_LINE
+Saltar a la línea?
+; Jump to which line?
+;
+STR_JUMP_TO_PERCENTAGE
+Saltar al porcentaje?
+; Jump to what percentage?
+;
+;
+; Printer related errors
+;
+STR_CANT_OPEN_PRINTER
+No se puede inicializar la impresora.
+; Can't open printer!
+;
+STR_ERROR_PRINTING_FILE
+Error al imprimir el fichero: %ld\n
+; Error printing file! IoErr = %ld\n
+;
+STR_READY_PRINTER
+Prepare la impresora y pulse Aceptar para continuar.
+; Ready printer, and choose OKAY to continue
+;
+;
+;
+STR_CANT_FIND_ICON
+No se puede encontrar o cargar un icono para este fichero.
+; Unable to find or load an icon for that file.
+;
+STR_ENCRYPTING
+encriptando
+; encrypting
+;
+STR_NEW_DISK_INSERTED
+Se ha insertado un disco en DF%ld:\n\n\
+¿De verdad desea leer este disco?
+; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
+;
+STR_REPLACE_ALL
+Reemplazar todo
+; Replace _all
+;
+STR_ENTER_DATE_1
+Introduzca fecha en el formato DD-MMM-AA
+; Enter date in the form DD-MMM-YY
+;
+STR_ENTER_DATE_2
+Introduzca fecha en el formato AA-MM-DD
+; Enter date in the form YY-MM-DD
+;
+STR_ENTER_DATE_3
+Introduzca fecha en el formato MM-DD-AA
+; Enter date in the form MM-DD-YY
+;
+STR_ENTER_DATE_4
+Introduzca fecha en el formato DD-MM-AA
+; Enter date in the form DD-MM-YY
+;
+STR_CONTINUE_WITH_SEARCH
+¿Desea continuar con la búsqueda?
+; Do you wish to continue with the search?
+;
+STR_REALLY_QUIT
+¿De verdad desea salir de Directory Opus?
+; Do you really want to quit Directory Opus?
+;
+STR_REALLY_PROCEED
+¿De verdad desea continuar con esta operación?
+; Do you really wish to proceed with this operation?
+;
+STR_SCREEN_MODE_UNAVAILABLE
+Tipo de pantalla no disponible.
+; Screen mode not available.
+;
+STR_ERROR_INITIALISING_PRINTER
+Error al inicializar la impresora.\nCompruebe el cable y las conexiones.
+; Error initialising printer.\nCheck cable and connections.
+;
+STR_REALLY_ABORT_PRINT
+¿De verdad desea interrumpir la impresión?
+; Really abort the print?
+;
+STR_SELECT_SOURCE_DIR
+Elija directorio ORIGEN
+; Select the source directory
+;
+STR_SELECT_DESTINATION_DIR
+Elija directorio DESTINO
+; Select the destination directory
+;
+STR_SELECT_A_FILE
+Elija un fichero
+; Select a file
+;
+STR_SELECT_A_DIRECTORY
+Elija un directorio
+; Select a directory
+;
+STR_LEFT_WINDOW
+Ventana izquierda
+; Left window
+;
+STR_RIGHT_WINDOW
+Ventana derecha
+; Right window
+;
+STR_DEVICE_LIST_TITLE
+<Lista de unidades>
+; <Device list>
+;
+STR_DIR_NOT_AVAILABLE_TITLE
+<Directorio no disponible>
+; <Directory not available>
+;
+STR_BUFFER_LIST_TITLE
+<Lista del buffer>
+; <Buffer list>
+;
+STR_UNPROTECT
+Desproteger
+; Unprotect
+;
+;
+; Action gadgets in requesters
+;
+; Please do NOT put shortcuts where there isn't any!
+;
+STR_RUN
+_Ejecutar
+; _Run
+;
+STR_TRY_AGAIN
+_Reintentar
+; _Try Again
+;
+STR_RETRY
+Reintentar
+; Retry
+;
+STR_ABORT
+_Interrumpir
+; A_bort
+;
+STR_REPLACE
+_Sustituir
+; _Replace
+;
+STR_SKIP
+Sa_ltar
+; _Skip
+;
+STR_ALL
+T_odos
+; _All
+;
+STR_REMOVE
+Eliminar
+; Remove
+;
+STR_QUIT
+_Salir
+; _Quit
+;
+STR_SAVE_QUIT
+_Guardar y Salir
+; _Save & quit
+;
+STR_LOAD
+Cargar
+; Load
+;
+STR_SAVE
+Guardar
+; Save
+;
+STR_DEFAULTS
+Por omisión
+; Defaults
+;
+STR_CLOSE
+Cerrar
+; Close
+;
+STR_DELETE
+Borrar
+; _Delete
+;
+STR_LEAVE
+Saltar
+; Leave
+;
+STR_YES
+Sí
+; Yes
+;
+STR_NO
+No
+; No
+;
+STR_ICONIFY
+_Iconificar
+; _Iconify
+;
+STR_CONTINUE
+C_ontinuar
+; C_ontinue
+;
+STR_OKAY
+_Aceptar
+; _Okay
+;
+STR_CANCEL
+_Cancelar
+; _Cancel
+;
+;
+;
+STR_OKAY_TITLE
+OK
+; OK
+;
+STR_DESCRIPTION
+Descripción
+; Description
+;
+STR_PRINT_CONTROL
+Opciones de impresión
+; Print control
+;
+STR_FILE
+Fichero
+; File
+;
+STR_IMAGE_SIZE
+Tamaño de Imagen
+; Image size
+;
+STR_PAGE_SIZE
+Tamaño de Página
+; Page size
+;
+STR_SCREEN_SIZE
+Tamaño de Pantalla
+; Screen size
+;
+STR_DEPTH
+Bits de color
+; Depth
+;
+STR_COLOURS
+Colores
+; Colors
+;
+STR_SCREEN_MODES
+Tipos de pantalla
+; Screen modes
+;
+STR_ASPECT
+_Orientación:
+; _Aspect:
+;
+STR_IMAGE
+_Imagen:
+; _Image:
+;
+STR_SHADE
+_Sombreado:
+; _Shade:
+;
+STR_PLACEMENT
+_Posición:
+; _Placement:
+;
+STR_FORMFEED
+_Salto de página
+; _Form feed
+;
+STR_PRINT
+Imprimir
+; Print
+;
+STR_ABORT_PRINT
+Interrumpir impresión
+; Abort print
+;
+STR_PORTRAIT
+Retrato
+; Portrait
+;
+STR_LANDSCAPE
+Apaisada
+; Landscape
+;
+STR_POSITIVE
+Positivo
+; Positive
+;
+STR_NEGATIVE
+Negativo
+; Negative
+;
+STR_BLACK_WHITE
+Blanco y negro
+; Black&White
+;
+STR_GRAY_SCALE
+Escala de grises
+; Gray scale
+;
+STR_COLOUR
+Color
+; Color
+;
+STR_CENTER
+Centrado
+; Center
+;
+STR_FULL_LEFT
+Borde izq.
+; Full left
+;
+STR_FONT
+Tipo de letra
+; Font
+;
+STR_FONT_SIZE
+Tamaño de letra
+; Font size
+;
+STR_NUM_CHARS
+Caracteres
+; Characters
+;
+STR_FONT_STYLE
+Estilo
+; Font style
+;
+STR_FONT_FLAGS
+Opciones
+; Font flags
+;
+STR_ICON
+Icono
+; Icon
+;
+STR_ICON_TYPE
+Tipo de icono
+; Icon type
+;
+STR_ICON_ALTERNATE
+Imagen alt.
+; Alt. image
+;
+STR_ICON_DEFAULTTOOL
+Herramienta por omisión
+; Default tool
+;
+STR_NUM_FRAMES
+Fotogramas
+; Frame
+;
+STR_PLAYING_ANIM
+Reproduciendo animación...
+; Playing selected animation...
+;
+STR_OLD_NEW_FILE_REPLACE
+El fichero \"%s\" ya existe. ¿Desea sustituirlo?\n\n\
+NUEVO: %9lld bytes  Fecha: %19s\n\
+ANTIGUO: %9lld bytes  Fecha: %19s
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %9lld  Date : %19s\n\
+; Old  -  Size : %9lld  Date : %19s
+;
+STR_REMAINING
+%ld de %ld
+; %ld of %ld items
+;
+STR_CUSTOM_LIST
+Lista personalizada
+; Custom list
+;
+STR_ENTRIES_IN_TREE
+%ld objetos en el directorio
+; %ld entries in tree
+;
+STR_DIRS_IN_BUFFERS
+%ld dirs. en buffers.
+; %ld directories in buffers
+;
+STR_USER_ENTRIES
+%ld objetos definidos por el usuario
+; %ld user-defined entries
+;
+STR_COMPLETED
+Completado
+; Completed
+;
+STR_UNICONIFY
+Desiconificar
+; Uniconify
+;
+STR_CUSTPORT_NOT_FOUND
+No se ha podido encontrar el puerto de manejador\n\
+\"%s\" definido por el usuario.
+; User-specified custom handler port\n\"%s\"\ncould not be found!
+;
+STR_CHECKFIT_STRING
+Necesarios: %11qd bytes   Libres: %11qd bytes   Cabe el %.1f%%
+; Bytes needed : %11lld   Bytes free : %11lld   Fit : %.1f%%
+;
+STR_DIR_TREE
+<Árbol del directorio>
+; <Directory tree>
+;
+STR_BUILDING_TREE
+Generando estructura del directorio...
+; Generating tree structure...
+;
+STR_UNPROTECT_ALL
+Desproteger todos
+; Unprotect all
+;
+STR_READING_CHANGED_DIRECTORY
+Dir. en buffer cambiado - releyendo
+; Buffered directory changed - re-reading
+;
+STR_CREATING_DIRECTORY
+creando directorio
+; creating directory
+;
+STR_STARTING_DISK_MODULE
+Lanzando módulo de disco...
+; Starting disk module...
+;
+STR_UNABLE_TO_LOAD_MODULE
+No se puede cargar el módulo externo.
+; Unable to load external module
+;
+;
+; Selecting by pattern
+;
+STR_SELECT_ALL_ENTRIES
+Todo
+; All entries
+;
+STR_SELECT_ONLY_FILES
+Ficheros
+; Only files
+;
+STR_SELECT_ONLY_DIRS
+Directorios
+; Only dirs
+;
+STR_SELECT_NAME
+Nombre
+; Name
+;
+STR_SELECT_DATE
+Fecha
+; Date
+;
+STR_SELECT_BITS
+Bits
+; Bits
+;
+;
+STR_STARTING_PRINT_MODULE
+Lanzando módulo de impresión...
+; Starting print module...
+;
+STR_ABOUT
+%s\n\
+Basado en la versión 4.12 publicada bajo GPL\n\
+y modificado por Jacek Rzeuski\n\n\
+Copyright 1993-2006 Jonathan Potter\n\n\
+Amiga OS4 versión codificada y mantenido por Joachim Birging\n\n\
+DirectoryOpus: %d.%d.%d\n\
+dopus.library: %ld.%ld\n\
+Compiled with: %s\n\
+Compilation date: %s\n\
+Compilation time: %s\n\n\
+Este programa es software de libre distribución; puede\n\
+redistribuirlo y/o modificarlo bajo las condiciones recogidas\n\
+en la Licencia Pública General de GNU tal como la publica la\n\
+Free Software Foundation, ya sea en su segunda versión o\n\
+cualquier versión posterior.\n\n\
+Este programa se distribuye con la esperanza de que sea útil,\n\
+pero SIN NINGUNA GARANTÍA, incluyendo la garantía implícita de\n\
+COMERCIABILIDAD o APROPIABILIDAD PARA NINGÚN PROPÓSITO EN\n\
+PARTICULAR. Véase la Licencia Pública General de GNU para más\n\
+información.\n\n\
+Todo usuario de Directory Opus 4 (incluyendo las versiones\n\
+distribuidas bajo la GPL) tienen derecho a una actualización\n\
+a la versión más reciente de Directory Opus a un precio\n\
+reducido. Por favor, visite http://www.gpsoft.com.au para más\n\
+información.
+; %s\n\
+; Based on GPL release version 4.12\n\
+; Modified by Jacek Rzeuski\n\
+; Copyright 1993-2006 Jonathan Potter\n\n\
+; Amiga OS4 version coded and maintained by Joachim Birging\n\n\
+; DirectoryOpus: %d.%d.%d\n\
+; dopus.library: %ld.%ld\n\
+; Compiled with: %s\n\
+; Compilation date: %s\n\
+; Compilation time: %s\n\n\
+; This program is released under the terms of the GNU GPL\n\
+; either version 2 of the License, or (at your option) any later version.\n\
+; See the the file README for details.\n\n\
+; All users of Directory Opus 4 distributed under the GPL may be entitled\n\
+; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
+; Please see http://www.gpsoft.com.au for more information.
+;
+STR_PRINTTITLE
+Incluir _título
+; Print _Title
+;
+;
+; Searching a string in a file
+;
+STR_SEARCH_NO_CASE
+No distinguir entre mays. y minúsculas
+; Case insensitive
+; Treat upper and lower case as the same
+;
+STR_SEARCH_WILD
+Tratar ? como carácter comodín
+; Recognise ? as a wildcard character
+;
+STR_SEARCH_ONLYWORD
+Sólo palabras completas
+; Whole words
+; Only match on whole, unbroken words
+;
+;
+STR_ENTER_FILTER
+Introduzca filtro para fichero
+; Enter file filter
+;
+STR_SELECT_PROTECTION_BITS
+Elija banderas de protección
+; Select new protection bits
+;
+STR_DIRECTORY_OPUS_REQUEST
+Petición de Directory Opus
+; Directory Opus Request
+;
+STR_CLOCK_CHIP
+CHIP:
+; CHIP:
+;
+STR_CLOCK_FAST
+FAST:
+; FAST:
+;
+STR_CLOCK_TOTAL
+TOTAL:
+; TOTAL:
+;
+STR_CLOCK_MEM
+MEM:
+; MEM:
+;
+;
+; Used to describe the keyboard shortcut for some function
+;
+STR_KEY
+Tecla:
+; Key :
+;
+;
+; The tiny buttons at the bottom-right corner of the main window
+;
+STR_TINY_BUTTONS
+BRSA?EFCIQ
+; BRSA?EFCIQ
+;
+;
+; The tiny buttons used in the built-in text viewer
+;
+STR_VIEW_BUTTONS
+UDTBSPQ
+; UDTBSPQ
+;
+;
+;
+; Diskinfo
+;
+STR_DISKINFO_DEVICE
+Unidad
+; Device
+;
+STR_DISKINFO_NAME
+Nombre
+; Name
+;
+STR_DISKINFO_SIZE
+Tamaño
+; Size
+;
+STR_DISKINFO_USED
+Usado
+; Used
+;
+STR_DISKINFO_FREE
+Libre
+; Free
+;
+STR_DISKINFO_PERCENT
+Porcentaje
+; Percent
+;
+STR_DISKINFO_DENSITY
+Tam. Bloque
+; Density
+;
+STR_DISKINFO_ERRORS
+Errores
+; Errors
+;
+STR_DISKINFO_STATUS
+Estado
+; Status
+;
+STR_DISKINFO_DATE
+Fecha
+; Date
+;
+STR_DISKINFO_BYTES
+bytes
+; bytes
+;
+STR_DISKINFO_BLOCKS
+bloques
+; blocks
+;
+STR_DISKINFO_FULL
+lleno
+; full
+;
+STR_DISKINFO_SFREE
+libre
+; free
+;
+STR_DISKINFO_BYTESPERBLOCK
+bytes/bloque
+; bytes/block
+;
+;
+STR_TEXT_VIEWER_TITLE
+Visor de texto de DOpus
+; Directory Opus Text Viewer
+;
+;
+; Protect window (1/2)
+;
+; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
+;       change them, but use something like this instead:
+;
+;       (_H) - <your translation for "Hidden">
+;       (_S) - <your translation for "Script">
+;       (_P) - <your translation for "Pure">
+;       ...
+;
+STR_PROTECT_ALL_BITS
+Todos
+; All bits
+;
+STR_PROTECT_NONE
+Ninguno
+; None
+;
+STR_PROTECT_TOGGLE
+Intercam.
+; Toggle
+;
+STR_PROTECT_REVERT
+Restaurar
+; Revert
+;
+STR_PROTECT_OLD
+  Antes:
+; Old :
+;
+STR_PROTECT_NEW
+  Ahora:
+; New :
+;
+STR_PROTECT_MASK
+Máscara:
+; Mask:
+;
+STR_PROTECT_HIDDEN
+(_H) Oculto
+; _Hidden
+;
+STR_PROTECT_SCRIPT
+(_S) Script
+; _Script
+;
+STR_PROTECT_PURE
+(_P) Puro
+; _Pure
+;
+STR_PROTECT_ARCHIVE
+(_A) Archivado
+; _Archive
+;
+STR_PROTECT_READ
+(_R) Legible
+; _Read
+;
+STR_PROTECT_WRITE
+(_W) Escribible
+; _Write
+;
+STR_PROTECT_EXECUTED
+(_E) Ejecutable
+; _Execute
+;
+STR_PROTECT_DELETED
+(_D) Borrable
+; _Delete
+;
+;
+;
+STR_FILE_REQUEST
+Petición de fichero
+; File request
+;
+STR_OF
+de
+; of
+;
+STR_FRAME
+Fotograma
+; Frame
+;
+STR_DISK_OP_TITLE
+Directory Opus - Operaciones de disco
+; Directory Opus Disk Operations
+;
+STR_BUTTON_STRIP
+Directory Opus - Barra de botones
+; Directory Opus Button Strip
+;
+STR_NO_FIT
+ [N]
+;  N
+;
+STR_YES_FIT
+ [S]
+;  Y
+;
+STR_FTYPE_DEFAULT
+Por omisión
+; Default
+;
+STR_FTYPE_UNKNOWN
+Desconocido
+; Unknown file type
+;
+STR_MULTI_DRAG
+Arrastrando - %ld ficheros
+; Multi-drag - %ld files selected
+;
+STR_PRESS_MOUSE_BUTTON
+Pulse botón izq. del ratón para continuar...
+; Press left mouse button to continue...
+;
+STR_NETWORK_NO_OWNER
+Sin Dueño
+; No owner
+;
+STR_NETWORK_NO_GROUP
+Sin Grupo
+; No group
+;
+STR_ERROR_ERROR_HELP
+Error en ayu_da
+; Error help
+;
+STR_SKIP_ALL
+Saltar _todo
+; S_kip all
+;
+STR_PARENT_MULTI
+Dirs. anteriores y asignaciones múltiples...
+; Parents and Multi-Assigns...
+;
+STR_DISKINFO_FILESYSTEM
+Sistema de ficheros
+; F.System
+;
+STR_ANIM_TYPE
+Tipo de animación
+; Anim type
+;
+STR_GFX_NATIVE
+Nativo
+; Native
+;
+STR_OPENING_ARCHIVE
+Abriendo archivo...
+; Opening archive...
+;
+;
+;
+; Pop-up menu (1/2)
+;
+STR_LISTER_MENU
+Opciones de listado
+; Lister options
+;
+STR_FILE_NAME
+Nombre
+; Name
+;
+STR_FILE_SIZE
+Tamaño
+; Size
+;
+STR_PROTECTION_BITS
+Banderas de protección
+; Protection
+;
+STR_CREATION_DATE
+Fecha
+; Date
+;
+STR_FILE_COMMENT
+Comentario
+; Comment
+;
+STR_FILE_TYPE
+Tipo
+; File type
+;
+STR_OWNER
+Dueño
+; Owner
+;
+STR_GROUP
+Grupo
+; Group
+;
+STR_NET_PROTECTION_BITS
+Atributos de red
+; Net protection bits
+;
+STR_REVERSE_ORDER
+Orden inverso
+; Reverse order
+;
+STR_SIZE_AS_KMG
+Tamaños en K/M/G
+; Sizes in K/M/G format
+;
+;
+;
+STR_BRING_TO_FRONT
+_Mostrar DOpus
+; _Bring to front
+;
+STR_REPLACE_DIR_WITH_FILE
+\"%s\" ya existe. ¿Desea sustituirlo?\n\n\
+NUEVO: %9lld bytes  Fecha: %19s\n\
+ANTIGUO:         bytes  Fecha: %19s
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %9lld  Date : %19s\n\
+; Old  -                  Date : %19s
+;
+STR_REPLACE_FILE_WITH_DIR
+El fichero \"%s\" ya existe. ¿Desea sustituirlo?\n\n\
+NUEVO:         bytes  Fecha: %19s\n\
+ANTIGUO: %9lld bytes  Fecha: %19s
+; \"%s\" already exists! Replace?\n\n\
+; New  -                  Date : %19s\n\
+; Old  -  Size : %9lld  Date : %19s
+;
+STR_OPERATION_NOT_SUPPORTED
+Operación no soportada.
+; Operation not supported
+;
+STR_QUERY_REMOVE_ASSIGN
+¿De verdad desea eliminar la asignación \"%s\"?
+; Do you really wish to remove \"%s\" assign?
+;
+; Pop-up menu (2/2)
+;
+STR_DIRSFIRST
+Mostrar directorios primero
+; Show dirs first
+;
+STR_FILESFIRST
+Mostrar ficheros primero
+; Show files first
+;
+STR_MIXDIRSFILES
+Mezclar directorios y ficheros
+; Mix files and dirs
+;
+STR_SORTALPHA
+Orden alfanumérico
+; Plain alphanumeric
+;
+STR_SORTDEC
+Reconocer decimales
+; Recognize decimals
+;
+STR_SORTHEX
+Reconocer hexadecimales
+; Recognize hexadecimals
+;
+STR_SORTBY
+Ordenar por
+; Sort by
+;
+STR_NAMESORT_MENU
+Nombres de fichero
+; Name sorting
+;
+STR_FILE_EXTENSION
+Extensión
+; Extension
+;
+;
+; Protect window (2/2)
+;
+STR_PROTECT_OKAY
+Acep_tar
+; _Okay
+;
+STR_PROTECT_ALL
+T_odos
+; A_ll
+;
+;
+; Experimental (enter "Makelink" in the ARexx window to see these)
+;
+STR_ENTER_MAKELINK_PARAMS
+Introduzca parámetros para enlace
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Blando
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Duro
+; Hard
+;
+STR_MAKELINK_TYPE
+Tipo
+; Type
+;
+STR_MAKELINK_NAME
+Origen
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Destino
+; Link destination
+;
+STR_PROTECT_CANCEL
+_Cancelar
+; _Cancel
+;
+STR_EXTRACT_ARCHIVE
+Archivo de extracción...
+; Extracting archive...
+;
