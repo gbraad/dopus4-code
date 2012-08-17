@@ -1,0 +1,260 @@
+## version $VER: DOpus4_Print.catalog 3.0 (15.08.2012)
+## language polish
+## codeset 0
+;
+;#basename Dopus4_Print
+;#language english
+;#version 3
+;
+; DOpus4_Print.cd - Directory Opus 4 Print module catalog description file
+;
+; $VER: DOpus4_Print.cd 3.0 (15.08.2012)
+;
+;
+STR_SELECT_FILE
+Wybierz plik
+; Select file
+;
+STR_ABORT
+Przerwij
+; Abort
+;
+STR_CONTINUE
+Kontynuuj
+; Continue
+;
+STR_OKAY
+OK
+; Okay
+;
+STR_CANCEL
+Poniechaj
+; Cancel
+;
+STR_FILE
+Pliku
+; File
+;
+STR_TOP_MARGIN
+Margines górny
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Margines dolny
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Margines lewy
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Margines prawy
+; Right Margin
+;
+STR_TAB_SIZE
+Tabulator
+; Tab size
+;
+STR_PRINT_PITCH
+Gëstoôê
+; Print pitch
+;
+STR_QUALITY
+Jakoôê
+; Density
+;
+STR_EJECT
+Wysuï stronë
+; Eject final page
+;
+STR_IGNORE
+Ignoruj margines dolny
+; Ignore bottom margin
+;
+STR_ADD_CR
+Doda? powrotu karetki do wysuwu strony
+; Add carriage return to formfeeds
+;
+STR_EJECT_FIRST
+Wysuni?cie strony przed drukowaniem
+; Eject page before printing
+;
+STR_INIT_PRINTER
+Zainicjowa? drukarki
+; Initialize Printer
+;
+STR_CONFIGURATION
+- ustawienia...
+; configuration...
+;
+STR_TITLE
+Tytuî
+; Title
+;
+STR_DATE
+Data
+; Date
+;
+STR_PAGE_NUMBER
+Nr strony
+; Page no.
+;
+STR_TEXT_STYLE
+Styl tekstu
+; Text style
+;
+STR_PRINTER
+Drukarki
+; Printer
+;
+STR_PRINT
+Drukuj
+; Print
+;
+STR_EXIT
+Wyjôcie
+; Exit
+;
+STR_OUTPUT_TO
+Drukuj do...
+; Output to...
+;
+STR_PICA
+10 cpi
+; Pica
+;
+STR_ELITE
+12 cpi
+; Elite
+;
+STR_FINE
+15-17 cpi
+; Fine
+;
+STR_NORMAL
+Normalny
+; Normal
+;
+STR_BOLD
+Pogrubiony
+; Bold
+;
+STR_ITALICS
+Kursywa
+; Italics
+;
+STR_UNDERLINED
+Podkreôlony
+; UnLined
+;
+STR_DOUBLESTRIKE
+Przekreôlony
+; DbStrik
+;
+STR_SHADOW
+Z cieniem
+; Shadow
+;
+STR_DRAFT
+Zwykîa
+; Draft
+;
+STR_LETTER
+Listowa
+; Letter
+;
+STR_HEADER
+Nagîówek
+; Header
+;
+STR_FOOTER
+Stopka
+; Footer
+;
+STR_SIZE
+Rozmiar
+; Size
+;
+STR_PROTECTION
+Bity protekcji
+; Protection
+;
+STR_COMMENT
+Kometarz
+; Comment
+;
+STR_FILETYPE
+Typ pliku
+; File type
+;
+STR_PRINT_DOT
+Drukuj...
+; Print...
+;
+STR_PRINTDIR
+Drukowanie katalogu
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+Nie moûna otworzyê pliku. Spróbowaê ponownie?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+Nie moûna otworzyê pliku wyjôciowego. Spróbowaê ponownie?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+Nie moûna otworzyê drukarki. Spróbowaê ponownie?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+Bîâd drukowania katalogu. Spróbowaê ponownie?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+Podano zîe hasîo. Spróbowaê ponownie?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+Bîâd drukowania! Spróbowaê ponownie?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+Przerwaê operacjë drukowania?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Tworzë plik
+; Creating file
+;
+STR_OPENING_PRINTER
+Otwieram drukarkë
+; Opening printer
+;
+STR_LOADING_FILE
+Wczytujë plik...
+; Loading file...
+;
+STR_PRINTING_FILE
+Drukujë plik...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+Aby przerwaê naciônij ESC
+; Press ESC to abort
+;
+STR_PAGE
+Strona
+; Page
+;
+STR_COMPLETE
+wykonano
+; complete
+;
+STR_TOFILE
+Pliku
+; File
+;
+STR_PRINTWIN
+Drukowanie
+; Print
