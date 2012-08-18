@@ -38,7 +38,7 @@ endif
 endif
 
 
-all : config dopusrt print library program
+all : config dopusrt print library program catalogs
 
 .PHONY : config
 config:
@@ -60,8 +60,12 @@ library:
 program:
 	$(MAKE) -C program-os4
 
+'PHONY : catalogs
+catalogs:
+	$(MAKE) -C locale
 
-cleanall: clean-config clean-rt clean-print clean-lib clean-prog
+
+cleanall: clean-config clean-rt clean-print clean-lib clean-prog clean-cats
 
 .PHONY : clean-config
 clean-config:
@@ -82,6 +86,11 @@ clean-lib:
 .PHONY : clean-prog
 clean-prog:
 	$(MAKE) -C program-os4 clean
+
+.PHONY : clean-cats
+clean-cats:
+	$(MAKE) -C locale clean
+
 
 # Dummy target to quietly dispose of revision
 # commands if one is entered as a goal for "make"
