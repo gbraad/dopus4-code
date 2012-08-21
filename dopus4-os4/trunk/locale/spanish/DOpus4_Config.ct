@@ -2870,7 +2870,7 @@ Usar
 ;*** List - ARexx commands (4/4)
 ;
 STR_FUNCTIONLIST_MAKELINK
-Hacer enlace
+Hacer enlace  - Crea enlace blando o duro
 ; MakeLink      -  Create soft or hard link
 ;
 ;

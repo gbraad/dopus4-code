@@ -64,7 +64,7 @@ Calidad
 ; Density
 ;
 STR_EJECT
-Expulsar página
+Expulsar la página final
 ; Eject final page
 ;
 STR_IGNORE
@@ -196,15 +196,15 @@ Imprimir directorio
 ; Printdir
 ;
 STR_UNABLE_TO_OPEN_FILE
-No se ha podido abrir el fichero.\n\n¿Reintentarlo?
+Imposible abrir el fichero.\n\n¿Reintentarlo?
 ; Unable to open file. Try again?
 ;
 STR_UNABLE_TO_OPEN_OUTPUT
-No se ha podido abrir el fichero de salida.\n\n¿Reintentarlo?
+Imposible abrir el fichero de salida.\n\n¿Reintentarlo?
 ; Unable to open output file. Try again?
 ;
 STR_UNABLE_TO_OPEN_PRINTER
-No se ha podido inicializar la impresora.\n\n¿Reintentarlo?
+Imposible abrir la impresora.\n\n¿Reintentarlo?
 ; Unable to open printer. Try again?
 ;
 STR_ERROR_PRINTING_DIR
@@ -212,15 +212,15 @@ No se ha podido imprimir el directorio.\n\n¿Reintentarlo?
 ; Error printing directory. Try again?
 ;
 STR_INCORRECT_PASSWORD
-La contraseña introducida no es correcta.\n\n¿Reintentarlo?
+Contraseña incorrecta.\n\n¿Reintentarlo?
 ; Incorrect password entered. Try again?
 ;
 STR_PRINT_ERROR
-¡Error al imprimir!\n\n¿Reintentarlo?
+¡Error de impresión!\n\n¿Reintentarlo?
 ; Print error! Try again?
 ;
 STR_REALLY_ABORT
-¿De verdad desea interrumpir la impresión?
+¿Desea realmente abortar la impresión?
 ; Really abort print operation?
 ;
 STR_CREATING_FILE
@@ -228,7 +228,7 @@ Creando fichero
 ; Creating file
 ;
 STR_OPENING_PRINTER
-Inicializando impresora
+Abriendo la impresora
 ; Opening printer
 ;
 STR_LOADING_FILE
@@ -248,7 +248,7 @@ Página
 ; Page
 ;
 STR_COMPLETE
-hecho
+completo
 ; complete
 ;
 STR_TOFILE
