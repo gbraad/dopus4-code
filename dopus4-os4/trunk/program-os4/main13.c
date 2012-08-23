@@ -304,7 +304,7 @@ int getroot(char *name, struct DateStamp *ds)
 	struct InfoData *info = IDOS->AllocDosObject(DOS_INFODATA, NULL);
 	BPTR lock1;
 	struct FileLock *lock2;
-	char *p;
+//	char *p;
 	struct DeviceList *dl;
 	int a;
 
@@ -317,10 +317,12 @@ int getroot(char *name, struct DateStamp *ds)
 	for(a = 0; a < FILEBUF_SIZE; a++)
 		name[a] = 0;
 	dl = (struct DeviceList *)BADDR(lock2->fl_Volume);
-	p = (char *)BADDR(dl->dl_Name);
-	if(p)
+	if (dl->dl_Name)
+		a = IDOS->CopyStringBSTRToC(dl->dl_Name, name, FILEBUF_SIZE);
+//	p = (char *)BADDR(dl->dl_Name);
+//	if(p)
 //		IDOpus->LStrnCpy(name, p + 1, *p);
-		strncpy(name, p + 1, *p);
+//		strncpy(name, p + 1, *p);
 	if(ds)
 		IExec->CopyMem((char *)&dl->dl_VolumeDate, (char *)ds, sizeof(struct DateStamp));
 	IDOS->Info(lock1, info);
