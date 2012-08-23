@@ -60,7 +60,7 @@ struct TagItem rename_oldname_gadget[] =
 	{ RO_TextNum, STR_RENAME },
 	{ RO_TextPos, TEXTPOS_ABOVE },
 	{ RO_StringBuf, (ULONG) oldname_buffer },
-	{ RO_StringLen, FILEBUF_SIZE + 1 },
+	{ RO_StringLen, FILEBUF_SIZE - 1 },
 	{ RO_StringUndo, (ULONG) str_undobuffer },
 	{ TAG_END, 0 }
 }, rename_newname_gadget[] =
@@ -76,7 +76,7 @@ struct TagItem rename_oldname_gadget[] =
 	{ RO_TextNum, STR_AS },
 	{ RO_TextPos, TEXTPOS_ABOVE },
 	{ RO_StringBuf, (ULONG) newname_buffer },
-	{ RO_StringLen, FILEBUF_SIZE + 1 },
+	{ RO_StringLen, FILEBUF_SIZE - 1 },
 	{ RO_StringUndo, (ULONG) str_undobuffer },
 	{ TAG_END, 0 }
 }, rename_okay_gadget[] =
