@@ -7,7 +7,7 @@ MKDIR = mkdir -p
 DELETE = rm -r -f
 RENAME = mv
 
-CATDIR = catalogs/
+CATDIR = ../catalogs/
 CATNAMES = DOpus4 DOpus4_Config DOpus4_Print
 CATALOGS = german \
 italian \
