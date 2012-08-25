@@ -38,6 +38,13 @@ endif
 endif
 
 
+MKDIR = mkdir -p
+CPYDIR = cp -r
+CPY = cp -p
+DELETE = rm -r -f
+
+#
+
 all : config dopusrt print library program catalogs
 
 .PHONY : config
@@ -64,8 +71,10 @@ program:
 catalogs:
 	$(MAKE) -C locale
 
+#
 
-cleanall: clean-config clean-rt clean-print clean-lib clean-prog clean-cats
+cleanall: clean-config clean-rt clean-print clean-lib \
+          clean-prog clean-cats clean-release
 
 .PHONY : clean-config
 clean-config:
@@ -91,6 +100,36 @@ clean-prog:
 clean-cats:
 	$(MAKE) -C locale clean
 
+.PHONY : clean-release
+clean-release:
+	${DELETE} release
+
+#
+
+.PHONY : release
+release: all
+	@echo ">>> Creating release directory and copying files."
+	@echo ">>> WARNING: Amiga protection bits may not be correct."
+	@${DELETE} release
+	@${MKDIR} release/C
+	@${MKDIR} release/Docs
+	@${MKDIR} release/History
+	@${MKDIR} release/Libs
+	@${MKDIR} release/Modules
+	@${MKDIR} release/S
+	@${CPYDIR} catalogs release/catalogs
+	@${CPY} program-os4/DirectoryOpus release
+	@${CPY} program-os4/DirectoryOpus.debug release
+	@${CPY} COPYING release
+	@${CPY} dopusrt-os4/DOpusRT release/C
+	@${CPY} docs/english/DirectoryOpus.guide release/Docs
+	@${CPY} history-os4/*-ChangeLog release/History
+	@${CPY} library-os4/dopus.library release/Libs
+	@${CPY} dopus_print-os4/DOpus_Print release/Modules
+	@${CPY} config-os4/ConfigOpus release/Modules
+	@${CPY} S/*Opus.* release/S
+
+#
 
 # Dummy target to quietly dispose of revision
 # commands if one is entered as a goal for "make"
