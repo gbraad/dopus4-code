@@ -224,7 +224,7 @@ struct DiskObject projecticon_icon =
 	WB_DISKVERSION,
 	{ NULL, 0, 0, 54, 23, GFLG_GADGIMAGE | GADGBACKFILL, GACT_RELVERIFY, GTYP_BOOLGADGET, (APTR) & projecticon_image, NULL, NULL, 0, NULL, 0, NULL },
 	WBPROJECT,
-	NULL, // "",
+	(char *)"",
 	NULL,
 	NO_ICON_POSITION,
 	NO_ICON_POSITION,
