@@ -30,7 +30,7 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_DATA
 #define DOPUS_DATA
 
-extern char *_procname;		/* Task name */
+// extern char *_procname;		/* Task name */
 
 /* Library bases */
 
@@ -256,7 +256,7 @@ extern char dos_notify_names[2][1024];	/* Notify requests name buffers */
 extern struct recpath *rec_firstpath;	/* Directory path list pointer */
 extern struct DOpusRemember *rec_pathkey;	/* Memory key for dir list */
 
-extern char *icon_type_names[];	/* Names of different icon types */
+//extern char *icon_type_names[];	/* Names of different icon types */
 
 extern struct DOpusRemember *recurse_dir_key;	/* Memory key for RecursiveDirectory's */
 extern struct RecursiveDirectory *first_recurse;	/* First recursive directory pointer */

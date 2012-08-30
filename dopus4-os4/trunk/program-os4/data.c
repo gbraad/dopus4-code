@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-char *__procname = "dopus_task";		/* Task name */
+// char *__procname = "dopus_task";		/* Task name */
 
 /* Library bases */
 
@@ -249,9 +249,9 @@ char dos_notify_names[2][1024] /*={{0},{0}}*/ ;		/* Notify requests name buffers
 
 struct recpath *rec_firstpath /*=NULL*/ ;	/* Directory path list pointer */
 struct DOpusRemember *rec_pathkey /*=NULL*/ ;	/* Memory key for dir list */
-
+/*
 char *icon_type_names[] =
-{						/* Names of different icon types */
+{	// Names of different icon types
 	"Disk",
 	"Drawer",
 	"Tool",
@@ -261,7 +261,7 @@ char *icon_type_names[] =
 	"Kick",
 	"AppIcon"
 };
-
+*/
 struct DOpusRemember *recurse_dir_key /*=NULL*/ ;	/* Memory key for RecursiveDirectory's */
 struct RecursiveDirectory *first_recurse /*=NULL*/ ;	/* First recursive directory pointer */
 int recurse_max_depth /*=0*/ ;				/* Maximum depth reached */
