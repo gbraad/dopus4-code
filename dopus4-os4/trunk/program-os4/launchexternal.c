@@ -359,7 +359,8 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 	}
 	else
 	{
-		sprintf(arglistbuf, "!%d", arglist);
+//		sprintf(arglistbuf, "!%d", arglist);
+		sprintf(arglistbuf, "!%lu", (uint32)arglist);
 	}
 
 	args[2] = arglistbuf;
