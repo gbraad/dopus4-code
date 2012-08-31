@@ -169,7 +169,7 @@ void doidcmp()
 									makeactive(b, 0);
 									IDOS->NameFromLock(apmsg->am_ArgList[a].wa_Lock, func_external_file, 256);
 									IDOS->AddPart(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
-									dofunctionstring((char *)"*copy", NULL, NULL, NULL);
+									dofunctionstring("*copy", NULL, NULL, NULL);
 									makeactive(c, 0);
 								}
 							}
@@ -562,7 +562,7 @@ void doidcmp()
 				case SCRGAD_TINYFILTER:
 					if(status_flags & STATUS_HELP)
 					{
-						dohelp(NULL, (char *)"*Filter", 0, 0, NULL);
+						dohelp(NULL, "*Filter", 0, 0, NULL);
 						screen_gadgets[SCRGAD_TINYFILTER].Flags ^= GFLG_SELECTED;
 						dolittlegads(&screen_gadgets[SCRGAD_TINYFILTER], &globstring[STR_TINY_BUTTONS][6], 1);
 					}
