@@ -85,7 +85,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	int64 size;
 	BPTR mylock;
 	char buf[256], commentbuf[80];
-	struct MsgPort *deviceport;
+//	struct MsgPort *deviceport;
 	APTR context = NULL;
 	struct ExamineData *data;
 
@@ -131,11 +131,13 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 	if(getroot(buf, NULL))
 	{
 		strncpy(dir->volumename, buf, 32);
-		strncat(buf, ":", 256);
-		if((deviceport = (struct MsgPort *)IDOS->DeviceProc(buf)))
-		{
-			get_device_task(mylock, dir->realdevice, deviceport);
-		}
+//		strncat(buf, ":", 256);
+//		if((deviceport = (struct MsgPort *)IDOS->DeviceProc(buf)))
+//		{
+//			get_device_task(mylock, dir->realdevice, deviceport);
+//		}
+		if (IDOS->DevNameFromLock(mylock, buf, 32, DN_DEVICEONLY));
+			strncpy(dir->realdevice, buf, 32);
 	}
 
 	if(config->dirflags & DIRFLAGS_EXPANDPATHS)
