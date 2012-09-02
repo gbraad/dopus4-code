@@ -171,7 +171,7 @@ int iconwrite(int type, STRPTR name)
 		return (0);
 
 	strcpy(namebuf, name);
-	if((ptr = strstri(namebuf, ".info")))
+	if((ptr = (char *)strstri(namebuf, ".info")))
 		*ptr = 0;
 
 	if(type == ICONTYPE_DRAWER)
@@ -245,7 +245,7 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 	char buf[256], *ptr;
 
 	strcpy(buf, srce);
-	if((ptr = strstri(buf, ".info")))
+	if((ptr = (char *)strstri(buf, ".info")))
 		*ptr = 0;
 
 	if((diskobj = IIcon->GetDiskObject(buf)))
