@@ -239,7 +239,7 @@ void cleanupiconify(void);
 
 /* main12.c */
 void dodiskinfo(char *);
-void get_device_task(BPTR, char *, struct MsgPort *);
+// void get_device_task(BPTR, char *, struct MsgPort *); !eliminated
 void getsizestring(char *, uint64);
 
 /* main13.c */

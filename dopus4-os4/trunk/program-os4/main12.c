@@ -69,6 +69,8 @@ void dodiskinfo(STRPTR path)
 	return;
 }
 
+/*  The only call to this function was replaced by IDOS->DevNameFromLock()
+	in getdir() function of main2.c. This function is no longer needed.
 void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 {
 	struct DosList *dl;
@@ -98,6 +100,7 @@ void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 
 	IDOS->UnLockDosList(LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ);
 }
+*/
 
 void getsizestring(char *buf, uint64 a)
 {
