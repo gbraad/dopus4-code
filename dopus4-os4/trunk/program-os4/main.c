@@ -192,7 +192,7 @@ int main(int argc, char **argv)
 	main_proc->pr_COS = nil_file_handle;
 	main_proc->pr_ConsoleTask = (APTR)((struct FileHandle *)BADDR(nil_file_handle))->fh_Type;
 
-	if((s = (char *)strstri(IDOS->FilePart(str_config_basename), ".CFG")))
+	if((s = (STRPTR)strstri(IDOS->FilePart(str_config_basename), ".CFG")))
 	{
 		*s = 0;
 	}
