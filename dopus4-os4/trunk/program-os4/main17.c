@@ -253,7 +253,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			dostatustext(globstring[STR_READING_CONFIG]);
 			shutthingsdown(0);
 			strcpy(str_config_basename, rexx_args[0]);
-			if((ptr = strstri(IDOS->FilePart(str_config_basename), ".CFG")))
+			if((ptr = (STRPTR)strstri(IDOS->FilePart(str_config_basename), ".CFG")))
 				*ptr = 0;
 			read_configuration(0);
 			SetUp(0);
@@ -661,7 +661,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				d = scrdata_statustext_pos;
 			break;
 		case RXSTATUS_CONFIGURATION_ADDRESS:
-			sprintf(buf, "%ld", config);
+			sprintf(buf, "%lu", (uint32)config);
 			buf1 = buf;
 			break;
 		case RXSTATUS_FIRST_NODE:
@@ -681,11 +681,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			else
 			{
 				if(c == 0)
-					sprintf(buf, "%ld", dopus_firsttype);
+					sprintf(buf, "%lu", (uint32)dopus_firsttype);
 				else if(c == 1)
-					sprintf(buf, "%ld", dopus_firstgadbank);
+					sprintf(buf, "%lu", (uint32)dopus_firstgadbank);
 				else if(c == 2)
-					sprintf(buf, "%ld", dopus_firsthotkey);
+					sprintf(buf, "%lu", (uint32)dopus_firsthotkey);
 				buf1 = buf;
 			}
 			break;
@@ -695,7 +695,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				bank = bank->next;
 			if(bank != dopus_curgadbank)
 				a = -1;
-			sprintf(buf, "%ld", a);
+			sprintf(buf, "%ld", (int32)a);
 			buf1 = buf;
 			break;
 		}
@@ -1410,15 +1410,15 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			break;
 
 		case MOD_ICONIFYFLAGS:
-			modify(&config->icontype);
+			modify((uint8 *)&config->icontype);
 			break;
 
 		case MOD_SCREENCLOCKFLAGS:
-			modify(&config->scrclktype);
+			modify((uint8 *)&config->scrclktype);
 			break;
 
 		case MOD_SHOWFREEFLAGS:
-			modify(&config->showfree);
+			modify((uint8 *)&config->showfree);
 			break;
 
 		case MOD_FONT:
@@ -1451,7 +1451,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			break;
 
 		case MOD_DATEFORMAT:
-			modify(&config->dateformat);
+			modify((uint8 *)&config->dateformat);
 			break;
 
 		case MOD_GADGETROWS:
