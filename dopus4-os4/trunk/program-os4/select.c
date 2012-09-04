@@ -462,42 +462,55 @@ int dopus_select(int win, int o)
 				{
 					if(temp->subtype == ST_SOFTLINK)
 					{
-						struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);
-						struct DevProc *dp;
-						BPTR ld, lf;
-						char linkbuf[512], buf[256];
+						BPTR linklock = 0;
+						char linkbuf[512] = {0};
 
 						strcpy(linkbuf, dir);
-						do
+						IDOS->AddPart(linkbuf, temp->name, 512);
+						if ((linklock = IDOS->Lock(linkbuf, ACCESS_READ)))
 						{
-							ld = IDOS->Lock(linkbuf, ACCESS_READ);
-							if((dp = IDOS->GetDeviceProc(linkbuf, NULL)))
-							{
-								if(IDOS->ReadLink(dp->dvp_Port, ld, temp->name, buf, 256))
-								{
-									IDOS->AddPart(linkbuf, buf, 512);
-									if((lf = IDOS->Lock(linkbuf, ACCESS_READ)))
-									{
-										IDOS->NameFromLock(lf, linkbuf, 512);
-										if(IDOS->Examine(lf, fib))
-										{
-											if(fib->fib_DirEntryType == ST_SOFTLINK)
-												*IDOS->PathPart(linkbuf) = 0;
-										}
-										IDOS->UnLock(lf);
-									}
-									else
-									{
-										fib->fib_DirEntryType = ST_USERDIR;
-									}
-								}
-								IDOS->FreeDeviceProc(dp);
-								IDOS->UnLock(ld);
-							}
+							IDOS->NameFromLock(linklock, linkbuf, 512);
+							IDOS->UnLock(linklock);
 						}
-						while(fib->fib_DirEntryType == ST_SOFTLINK);
 						strcpy(str_pathbuffer[win], linkbuf);
-						IDOS->FreeDosObject(DOS_FIB, fib);
+
+//						struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);
+//						struct DevProc *dp;
+//						BPTR ld, lf;
+//						char linkbuf[512], buf[256];
+
+//						strcpy(linkbuf, dir);
+//						do
+//						{
+//							ld = IDOS->Lock(linkbuf, ACCESS_READ);
+//							if((dp = IDOS->GetDeviceProc(linkbuf, NULL)))
+//							{
+//								if(IDOS->ReadLink(dp->dvp_Port, ld, temp->name, buf, 256))
+//								{
+//									IDOS->AddPart(linkbuf, buf, 512);
+//									if((lf = IDOS->Lock(linkbuf, ACCESS_READ)))
+//									{
+//										IDOS->NameFromLock(lf, linkbuf, 512);
+//										if(IDOS->Examine(lf, fib))
+//										{
+//											if(fib->fib_DirEntryType == ST_SOFTLINK)
+//												*IDOS->PathPart(linkbuf) = 0;
+//										}
+//										IDOS->UnLock(lf);
+//									}
+//									else
+//									{
+//										fib->fib_DirEntryType = ST_USERDIR;
+//									}
+//								}
+//								IDOS->FreeDeviceProc(dp);
+//								IDOS->UnLock(ld);
+//							}
+//						}
+//						while(fib->fib_DirEntryType == ST_SOFTLINK);
+//						strcpy(str_pathbuffer[win], linkbuf);
+//						IDOS->FreeDosObject(DOS_FIB, fib);
+
 					}
 					else
 					{
