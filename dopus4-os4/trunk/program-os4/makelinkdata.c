@@ -193,7 +193,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 
 	strcpy(makelink_namebuf, namebuf);
 	strcpy(makelink_destbuf, destbuf);
-	makelink_type = type ? 1 : 0;
+	makelink_type = *type ? 1 : 0;
 
 	fix_requester(&makelink_req, globstring[STR_ENTER_MAKELINK_PARAMS]);
 
@@ -323,11 +323,12 @@ int makelink(int rexx)
 		{
 			if((lock = IDOS->Lock(path, ACCESS_READ)))
 			{
-				if(IDOS->MakeLink(name, lock, TRUE))
+				if(IDOS->MakeLink(name, lock, LINK_HARD))
 				{
 					dostatustext(str_okaystring);
 					return 1;
 				}
+				IDOS->UnLock(lock);
 			}
 			doerror(-1);
 			return 0;
@@ -336,11 +337,12 @@ int makelink(int rexx)
 		{
 			if((lock = IDOS->Lock(path, ACCESS_READ)))
 			{
-				if(IDOS->MakeLink(name, lock, FALSE))
+				if(IDOS->MakeLink(name, (int32)&path, LINK_SOFT))
 				{
 					dostatustext(str_okaystring);
 					return 1;
 				}
+				IDOS->UnLock(lock);
 			}
 			doerror(-1);
 			return 0;
