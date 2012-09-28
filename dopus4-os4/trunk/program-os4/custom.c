@@ -35,11 +35,11 @@ the existing commercial status of Directory Opus 5.
 int returntype(struct ExamineData *data)
 {
 	if(EXD_IS_FILE(data))
-		return ST_FILE;
-	if(EXD_IS_SOFTLINK(data))
-		return ST_SOFTLINK;
+		return ENTRY_FILE;
+	if(EXD_IS_DIRECTORY(data))
+		return ENTRY_DIRECTORY;
 
-	return ST_USERDIR;
+	return CUSTOMENTRY_USER;
 }
 
 void defaultpar(struct dopusfuncpar *par)
@@ -1322,7 +1322,7 @@ struct Directory *reload_file(int win, char *name)
 		{
 			removefile(cust, dopus_curwin[win], win, FALSE);
 		}
-		ret = (struct Directory *)addfile(dopus_curwin[win], win, data->Name, data->FileSize, returntype(data), &(data->Date), data->Comment, data->Protection, 0, FALSE, NULL, NULL, data->OwnerUID, data->OwnerGID);
+		ret = (struct Directory *)addfile(dopus_curwin[win], win, data->Name, data->FileSize, returntype(data), &(data->Date), data->Comment, data->Protection, returntype(data), FALSE, NULL, NULL, data->OwnerUID, data->OwnerGID);
 		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 	}
 	else
