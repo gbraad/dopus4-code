@@ -460,7 +460,7 @@ int dopus_select(int win, int o)
 					strcpy(str_pathbuffer[win], temp->name);
 				else
 				{
-					if(temp->subtype == ST_SOFTLINK)
+					if(temp->subtype == ENTRY_LINK)
 					{
 						BPTR linklock = 0;
 						char linkbuf[512] = {0};
