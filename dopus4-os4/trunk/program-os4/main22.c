@@ -30,14 +30,14 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include "view.h"
 
-int return_type(struct ExamineData *data)
+int return_type(struct ExamineData *data, int type)
 {
 	if(EXD_IS_FILE(data))
-		return ST_FILE;
-	if(EXD_IS_SOFTLINK(data))
-		return ST_SOFTLINK;
+		return ENTRY_FILE;
+	if(EXD_IS_DIRECTORY(data))
+		return ENTRY_DIRECTORY;
 
-	return ST_USERDIR;
+	return type;
 }
 
 int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int act, int inact, int rexx)
@@ -1190,7 +1190,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					if(file->type >= ENTRY_DIRECTORY)
 					{
-						a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
+//						a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
+						if (file->subtype == ENTRY_LINK)
+							a = recursedir(sourcename, destname, R_COPY, 0);
+						else
+							a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
 						if(a == 0)
 						{
 							if(!func_external_file[0])
@@ -1219,7 +1223,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 									if((tempfile = findfile(dwindow, namebuf, NULL)))
 										removefile(tempfile, dwindow, inact, 0);
 								}
-								addfile(dwindow, inact, namebuf, dos_global_copiedbytes, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
+
+								if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
+								{
+									addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata,file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+									IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
+								}
+								else
+									addfile(dwindow, inact, namebuf, dos_global_copiedbytes, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 							}
 							if(a == -10)
 								myabort();
@@ -1229,7 +1240,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						}
 						if(!(tempfile = findfile(dwindow, namebuf, NULL)))
 						{
-							addfile(dwindow, inact, namebuf, exist ? -1 : dos_global_copiedbytes, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
+							if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
+							{
+								addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata,file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+								IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
+							}
+							else
+								addfile(dwindow, inact, namebuf, exist ? -1 : dos_global_copiedbytes, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 						}
 						else
 						{
@@ -1269,7 +1286,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						}
 						else if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
 						{
-							addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata), &exdata->Date, exdata->Comment, exdata->Protection, file->subtype, 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+							addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata,file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
 							IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
 							if((a = delfile(sourcename, file->name, globstring[STR_DELETING], 1, 1)) == -2)
 							{
@@ -1457,7 +1474,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						if(exist && (tempfile = findfile(dwindow, namebuf, NULL)))
 							removefile(tempfile, dwindow, inact, 0);
-						addfile(dwindow, inact, namebuf, byte, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
+
+						if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
+						{
+							addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata,file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+							IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
+						}
+						else
+							addfile(dwindow, inact, namebuf, byte, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
 					}
 					if(a == -10)
 						myabort();
@@ -1496,7 +1520,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(EXD_IS_FILE(exdata))
 					byte = exdata->FileSize;
-				addfile(dwindow, inact, exdata->Name, byte, return_type(exdata), &exdata->Date, exdata->Comment, exdata->Protection, file->subtype, 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+				addfile(dwindow, inact, exdata->Name, byte, return_type(exdata, file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
 				if(config->copyflags & COPY_ARC && !(file->protection & FIBF_ARCHIVE))
 				{
 					if(IDOS->SetProtection(sourcename, file->protection | FIBF_ARCHIVE))
