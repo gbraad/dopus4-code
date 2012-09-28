@@ -299,9 +299,10 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 int makelink(int rexx)
 {
 	char name[256], path[2048];
-	int mode;
+	int mode, result;
+	BPTR newlock = 0, oldlock = 0;
 
-	name[0] = path[0] = mode = 0;
+	name[0] = path[0] = mode = result = 0;
 
 	if(rexx)
 	{
@@ -310,9 +311,17 @@ int makelink(int rexx)
 		if(atoi(rexx_args[2]))
 			mode = 1;
 	}
-	else if(!(getmakelinkdata(name, path, &mode)))
+	else
 	{
-		return 0;
+		if ((newlock = IDOS->Lock(str_pathbuffer[data_active_window], ACCESS_READ)))
+			oldlock = IDOS->CurrentDir(newlock);
+ 		if(!(getmakelinkdata(name, path, &mode)))
+		{
+			if (oldlock)
+				newlock = IDOS->CurrentDir(oldlock);
+			IDOS->UnLock(newlock);
+			return 0;
+		}
 	}
 
 	if(name[0] && path[0])
@@ -326,12 +335,12 @@ int makelink(int rexx)
 				if(IDOS->MakeLink(name, lock, LINK_HARD))
 				{
 					dostatustext(str_okaystring);
-					return 1;
+					result = 1;
 				}
 				IDOS->UnLock(lock);
 			}
 			doerror(-1);
-			return 0;
+			result = 0;
 		}
 		else
 		{
@@ -340,14 +349,19 @@ int makelink(int rexx)
 				if(IDOS->MakeLink(name, (int32)&path, LINK_SOFT))
 				{
 					dostatustext(str_okaystring);
-					return 1;
+					result = 1;
 				}
 				IDOS->UnLock(lock);
 			}
 			doerror(-1);
-			return 0;
+			result = 0;
 		}
 	}
+	if (oldlock)
+		newlock = IDOS->CurrentDir(oldlock);
+	IDOS->UnLock(newlock);
+	if (result) return 1;
+
 	doerror(ERROR_REQUIRED_ARG_MISSING);
 	return 0;
 }
