@@ -42,6 +42,7 @@ int main(int argc, char **argv)
 	char **toolarray, *s, *startdir = NULL;
 	char buf[1024];
 
+	signal(SIGINT, SIG_IGN); // disable C library break handling.
 	/* Get pointer to our Process structure and set our WindowPtr for errors to -1 (no errors appear). */
 	main_proc = (struct Process *)IExec->FindTask(NULL);
 //	IDOS->SetProcWindow((APTR)-1L);
