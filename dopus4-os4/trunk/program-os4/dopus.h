@@ -140,6 +140,7 @@ the existing commercial status of Directory Opus 5.
 #define ENTRY_FILE              -1
 #define ENTRY_DEVICE             0
 #define ENTRY_DIRECTORY          1
+#define ENTRY_LINK               4
 #define ENTRY_CUSTOM           999
 #define CUSTOMENTRY_DIRTREE      1
 #define CUSTOMENTRY_BUFFERLIST   2
