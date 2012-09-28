@@ -209,7 +209,7 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 				struct ExamineData *linkdata = NULL;
 	
 				type = ENTRY_FILE;
-				subtype = ST_SOFTLINK;
+				subtype = ENTRY_LINK;
 				memset(commentbuf, 0, 80);
 				snprintf(commentbuf, 80, ">%s", data->Link);
 
@@ -231,12 +231,12 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 					IDOS->FreeDosObject(DOS_EXAMINEDATA, linkdata);
 				}
 			}
-			if(EXD_IS_DIRECTORY(data))
+			else if(EXD_IS_DIRECTORY(data))
 			{
 				type = ENTRY_DIRECTORY;
 				subtype = ENTRY_DIRECTORY;
 			}
-			if(EXD_IS_FILE(data))
+			else if(EXD_IS_FILE(data))
 			{
 				type = ENTRY_FILE;
 				subtype = ENTRY_FILE;
