@@ -156,16 +156,16 @@ int readarchive(struct DirectoryWindow *dir, int win)
 				{
 					if(*c == '/')
 					{
-						type = ST_USERDIR;
+						type = ENTRY_DIRECTORY;
 					}
 					else
 					{
-						type = ST_FILE;
+						type = ENTRY_FILE;
 					}
 
 					if((xfi->xfi_Flags & XADFIF_DIRECTORY) == XADFIF_DIRECTORY)
 					{
-						type = ST_USERDIR;
+						type = ENTRY_DIRECTORY;
 					}
 
 					IxadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) & ds, TAG_END);
