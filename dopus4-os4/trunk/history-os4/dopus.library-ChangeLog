@@ -44,3 +44,11 @@ old IDOS->Lock()/IDOS->Examine() pair.
 
 2008-01-07 - dopus.library 22.40
 * Switched dopus.library over to use newlib instead of clib2 as well.
+
+2012-08-17 - dopus.library 22.41 (ReadStringFile.c)
+*Changed catalog version requirement to >=v3 so Dopus won't load old
+ catalogs and crash.
+
+2012-08-25 -  dopus.library 22.41 (dopus.library_rev.h)
+Updated library revision because of changes to catalog version requirement.
+

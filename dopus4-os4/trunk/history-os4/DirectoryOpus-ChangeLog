@@ -191,3 +191,98 @@ IDOS->ExamineDir(). Should be a lot faster.
 2012-08-12 - DirectoryOpus 4.18.38
 * Replace outdated amigaguide documentation with more up-to-date version.
 
+2012-08-17 - DirectoryOpus 4.18.38
+* Renamed repository catalogs directory as locale to avoid confusion when
+  creating translation catalogs. Updated makefiles accordingly.
+* Updated catalog description (.cd) files.
+* Added locale makefile to automate locale catalog maintenance & compiling.
+* Added catalog build to main makefile.
+
+2012-08-23 - DirectoryOpus 4.18.38 (renamedata.c)
+* Adjusted gadget buffer lengths to eliminate crash that occurs since the
+  definition of FILEBUF_SIZE was changed to 256.
+
+2012-08-23 - DirectoryOpus 4.18.38 (main13.c)
+* Switched getroot() volume name copy to use IDOS->CopyStringBSTRToC().
+
+2012-08-25 - DirectoryOpus 4.18.38 (COPYING)
+* Added license notice.
+
+2012-08-25 - DirectoryOpus 4.18.38 (locale/makefile)
+* Changed destination for catalog directory.
+
+2012-08-25 - DirectoryOpus 4.18.38 (main Makefile)
+* Added release target for easier program releases.
+
+2012-08-30 - DirectoryOpus 4.18.38 (data.c & dopusdata.h)
+* Commented out unused variables to eliminate unnecessary compiler warnings.
+
+2012-08-30 - DirectoryOpus 4.18.38 - (icondata.c)
+* Added qualifier to quotes ("") in project icon DiskObject structure.
+
+2012-08-30 - DirectoryOpus 4.18.38 (launchexternal.c)
+* Corrected sprintf() conversion identifiers in dopus_print().
+
+2012-09-01 - DirectoryOpus 4.18.38 (dopusproto.h & main12.c)
+* The get_device_task() function was commented out because it's only
+  use was replaced with IDOS->DevNameFromLock() in  main2.c
+
+2012-09-01 - DirectoryOpus 4.18.38 (main2.c)
+* Replaced code that uses get_device_task() to get a device name
+  with an IDOS->DevNameFromLock() function call.
+* Changed obsolete file type identifiers with ENTRY_FILE & ENTRY_DIRECTORY.
+
+2012-09-01 - DirectoryOpus 4.18.38 (main.c main1.c main4.c)
+* Added (char *) qualifier to strstri() function calls.
+
+2012-09-04 - DirectoryOpus 4.18.38 (main17.c)
+* Added qualifiers to address arguments passed to modify() function.
+* Added qualifier to string comparison that uses strstri() function.
+
+2012-09-28 - DirectoryOpus 4.18.38 (dopus.h)
+* Added ENTRY_LINK definition so that obsolete ST_SOFTLINK can be eliminated.
+
+2012-09-28 - DirectoryOpus 4.18.38 (select.c)
+* Replaced soft-link resolution code that uses deprecated functions
+  Examine() and Readlink(). OS4 DOS automatically resolves soft links.
+* Changed obsolete ST_SOFTLINK to ENTRY_LINK.
+
+2012-09-28 - DirectoryOpus 4.18.38 (makelinkdata.c)
+* Fixed makelink() function. Soft link creation was broken for OS4.
+* Added missing IDOS->UnLock() in makelink() function.
+* Corrected invalid conditional expression in getmakelinkdata()
+  function that was setting incorrect mode (changed type to *type).
+* Added relative soft link creation.
+
+2012-09-28 - DirectoryOpus 4.18.38 (archive.c custom.c main4.c main22.c)
+* Changed obsolete filetype identifiers and numbers with ENTRY_FILE
+  and ENTRY_DIRECTORY identifiers.
+
+2012-09-28 - DirectoryOpus 4.18.38 (main.c)
+* Disabled C library break handling (fixes some abort crashes).
+* Changed string qualifier.
+
+2012-09-28 - DirectoryOpus 4.18.38 (main18.c)
+* Added DevNameFromLock() function call to eliminate errors when copying
+  relative directory soft links.
+
+2012-09-28 - DirectoryOpus 4.18.38 (main22.c)
+* Changed addition of files to destination lister so that copied
+  "linked" files are displayed as normal files.
+* Added code to prevent a directory link "move" from deleting the files in
+  in the linked directory. Since Dopus currently copys linked files instead
+  of reproducing links, a destination directory with the same name as the
+  the directory link was created and files copied from the linkded directory
+  were deleted in the linked directory. The directory link was deleted after
+  the copy but the linked directory became an empty directory. That's probably
+  not what the user would expect so moving a directory link removes the link
+  after copying but leaves the linked directory intact.
+
+
+2012-09-28 - DirectoryOpus 4.18.38
+
+2012-09-28 - DirectoryOpus 4.18.38
+
+2012-09-28 - DirectoryOpus 4.18.38
+
+ 
