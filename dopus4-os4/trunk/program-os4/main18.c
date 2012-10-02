@@ -125,13 +125,15 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	ddir = dname + 2048;
 
 	if(fdir) //temp fix for relative link copy failure
-		if (mylock)
+	{
+		if ((mylock) && (dowhat == R_COPY))
 		{
 			if (!(IDOS->DevNameFromLock(mylock, dir, 2048, DN_FULLPATH)))
 				strncpy(dir, fdir, 2048);
 		}
 		else
 			strncpy(dir, fdir, 2048);
+	}
 
 	if(fdest)
 		strncpy(dest, fdest, 2048);
