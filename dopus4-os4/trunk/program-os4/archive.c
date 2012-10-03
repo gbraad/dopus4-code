@@ -437,6 +437,8 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 							{
 								IDOS->SetComment(destname, xadfi->xfi_Comment);
 							}
+
+							IDOS->SetProtection(destname, xadfi->xfi_Protection);
 						}
 					}
 					xadfi = xadfi->xfi_Next;
