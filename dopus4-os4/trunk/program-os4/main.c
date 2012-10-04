@@ -721,7 +721,7 @@ int SetUp(int tit)
 	/* Disk name bars */
 	scrdata_diskname_ypos = scrdata_status_height + 1 + scrdata_yoffset;
 
-	/* Fuck knows */
+	/* Who knows */
 	scrdata_scr_height = scrdata_height;
 	scrdata_gadget_height = scr_font[FONT_GADGETS]->tf_YSize + 2;
 
@@ -958,7 +958,9 @@ int SetUp(int tit)
 				main_win.LeftEdge = 0;
 			if(main_win.TopEdge < 0)
 				main_win.TopEdge = 0;
-			main_win.Flags |= WFLG_ACTIVATE | WFLG_RMBTRAP | WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET;
+			if ((config->screenmode == MODE_WORKBENCHUSE) || (staybehindWB == FALSE))
+				main_win.Flags |= WFLG_ACTIVATE;
+			main_win.Flags |= WFLG_RMBTRAP | WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET;
 			main_win.Title = str_arexx_portname;
 		}
 		else
