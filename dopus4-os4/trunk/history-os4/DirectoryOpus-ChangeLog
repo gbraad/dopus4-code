@@ -284,3 +284,5 @@ IDOS->ExamineDir(). Should be a lot faster.
 2112-10-03 - DirectoryOpus 4.18.38 (main.c)
 * Main window changed to NOT open active and take the focus if
   DirectoryOpus is opened behind Workbench.
+* Added missing "break" in CLI argument parsing.
+
