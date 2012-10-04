@@ -137,6 +137,7 @@ int main(int argc, char **argv)
 					break;
 				case 'B':
 					staybehindWB = TRUE;
+					break;
 				case 'd':
 					docky = TRUE;
 				}
