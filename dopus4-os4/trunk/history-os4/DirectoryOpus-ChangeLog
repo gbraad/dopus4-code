@@ -281,3 +281,6 @@ IDOS->ExamineDir(). Should be a lot faster.
 2012-10-02 - DirectoryOpus 4.18.38 (archive.c)
 * Added setting of protection bits when extracting an archive.
 
+2112-10-03 - DirectoryOpus 4.18.38 (main.c)
+* Main window changed to NOT open active and take the focus if
+  DirectoryOpus is opened behind Workbench.
