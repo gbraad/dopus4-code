@@ -312,11 +312,11 @@ int makelink(int rexx)
 			mode = 1;
 	}
 	else
-	{
+	{   // Change current directory so relative soft links work.
 		if ((newlock = IDOS->Lock(str_pathbuffer[data_active_window], ACCESS_READ)))
 			oldlock = IDOS->CurrentDir(newlock);
  		if(!(getmakelinkdata(name, path, &mode)))
-		{
+		{ // Restore current directory & return failure
 			if (oldlock)
 				newlock = IDOS->CurrentDir(oldlock);
 			IDOS->UnLock(newlock);
@@ -357,11 +357,16 @@ int makelink(int rexx)
 			result = 0;
 		}
 	}
+	else
+	{
+		doerror(ERROR_REQUIRED_ARG_MISSING);
+		result = 0;
+	}
+
 	if (oldlock)
 		newlock = IDOS->CurrentDir(oldlock);
 	IDOS->UnLock(newlock);
-	if (result) return 1;
 
-	doerror(ERROR_REQUIRED_ARG_MISSING);
+	if (result) return 1;
 	return 0;
 }
