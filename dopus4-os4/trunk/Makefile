@@ -139,5 +139,6 @@ release: all
 ver: sub
 rev: sub
 touch: sub
-sub: 
-	-@echo -n
+sub:
+	-@sh -c "echo -n"
+
