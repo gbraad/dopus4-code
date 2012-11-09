@@ -98,15 +98,15 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			rexx_arg_value[0] = 1;
 			for(a = 0; a < rexx_argcount; a++)
 			{
-				if((strcmp(rexx_args[a], "onlyfiles")) == 0)
+				if((IUtility->Stricmp(rexx_args[a], "onlyfiles")) == 0)
 					rexx_arg_value[0] = 2;
-				else if((strcmp(rexx_args[a], "onlydirs")) == 0)
+				else if((IUtility->Stricmp(rexx_args[a], "onlydirs")) == 0)
 					rexx_arg_value[0] = 3;
-				else if((strcmp(rexx_args[a], "name")) == 0)
+				else if((IUtility->Stricmp(rexx_args[a], "name")) == 0)
 					rexx_arg_value[1] = 0;
-				else if((strcmp(rexx_args[a], "date")) == 0)
+				else if((IUtility->Stricmp(rexx_args[a], "date")) == 0)
 					rexx_arg_value[1] = 1;
-				else if((strcmp(rexx_args[a], "protection")) == 0)
+				else if((IUtility->Stricmp(rexx_args[a], "protection")) == 0)
 					rexx_arg_value[1] = 2;
 			}
 			return (0);
@@ -116,11 +116,11 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				search_flags = SEARCH_NOCASE;
 				for(a = 2; a < rexx_argcount; a++)
 				{
-					if((strcmp(rexx_args[a], "ucnlc")) == 0)
+					if((IUtility->Stricmp(rexx_args[a], "ucnlc")) == 0)
 						search_flags &= ~SEARCH_NOCASE;
-					else if((strcmp(rexx_args[a], "wild")) == 0)
+					else if((IUtility->Stricmp(rexx_args[a], "wild")) == 0)
 						search_flags |= SEARCH_WILDCARD;
-					else if((strcmp(rexx_args[a], "byword")) == 0)
+					else if((IUtility->Stricmp(rexx_args[a], "byword")) == 0)
 						search_flags |= SEARCH_ONLYWORDS;
 				}
 			}
@@ -189,7 +189,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		else
 			break;
 
-		if(!(simplerequest(command, (function == FUNC_VERIFY) ? str_okaystring : globstring[STR_CONTINUE], (function == FUNC_VERIFY) ? str_cancelstring : NULL, NULL)))
+		if(!(simplerequest(TDRIMAGE_QUESTION, command, (function == FUNC_VERIFY) ? str_okaystring : globstring[STR_CONTINUE], (function == FUNC_VERIFY) ? str_cancelstring : NULL, NULL)))
 		{
 			status_flags |= STATUS_VERIFYFAIL;
 			myabort();
@@ -274,7 +274,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			command = globstring[STR_PLEASE_CHOOSE];
 		else
 			++command;
-		rexx_return(msg, (simplerequest(command, str_okaystring, str_cancelstring, NULL)));
+		rexx_return(msg, (simplerequest(TDRIMAGE_QUESTION, command, str_okaystring, str_cancelstring, NULL)));
 		if(!status_iconified)
 			unbusy();
 		return (1);
@@ -406,7 +406,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 			--a;
 			entry = entry->next;
 		}
-		rexx_set_return(msg, 0, ptr ? ptr : "");
+		rexx_set_return(msg, 0, ptr ? ptr : (char *)"");
 		return (1);
 		break;
 
@@ -433,14 +433,14 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		statval = atoi(rexx_args[0]);
 		d = 0;
 		buf1 = buf3 = NULL;
-		if((strcmp(rexx_args[1], "set")) == 0)
+		if((IUtility->Stricmp(rexx_args[1], "set")) == 0)
 		{
 			f = 1;
 			c = 0;
 			val = atoi(rexx_args[2]);
 			buf3 = rexx_args[2];
 		}
-		else if((strcmp(rexx_args[2], "set")) == 0)
+		else if((IUtility->Stricmp(rexx_args[2], "set")) == 0)
 		{
 			c = atoi(rexx_args[1]);
 			f = 1;
@@ -795,9 +795,9 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 	case FUNC_BUSY:
 		if(rexx_argcount < 1 || status_iconified)
 			break;
-		if((strncmp(rexx_args[0], "on", 2)) == 0)
+		if((IUtility->Strnicmp(rexx_args[0], "on", 2)) == 0)
 			busy();
-		else if((strncmp(rexx_args[0], "off", 3)) == 0)
+		else if((IUtility->Strnicmp(rexx_args[0], "off", 3)) == 0)
 			unbusy();
 		break;
 
@@ -1071,7 +1071,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 				val = -1;
 				break;
 			}
-			if(strcmp(modifynames[val], rexx_args[0]) == 0)
+			if(IUtility->Stricmp(modifynames[val], rexx_args[0]) == 0)
 				break;
 		}
 		b = atoi(rexx_args[1]);
@@ -1774,8 +1774,7 @@ int checkkeyword(char **keywords, int num, int rem)
 	{
 		if(!keywords[a] || !keywords[a][0])
 			return (0);
-		if(strcmp(rexx_args[num], keywords[a]) == 0)
-//		if(IUtility->Stricmp(rexx_args[num], keywords[a]) == 0)
+		if(IUtility->Stricmp(rexx_args[num], keywords[a]) == 0)
 		{
 			rexx_arg_value[a] = 1;
 			if(rem)
