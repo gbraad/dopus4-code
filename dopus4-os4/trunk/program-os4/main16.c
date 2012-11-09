@@ -433,7 +433,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 				msg = buf;
 			}
 		}
-		simplerequest(msg, globstring[STR_CONTINUE], NULL);
+		simplerequest(0,msg, globstring[STR_CONTINUE], NULL);
 		if(buf)
 			IExec->FreeMem(buf, s);
 	}

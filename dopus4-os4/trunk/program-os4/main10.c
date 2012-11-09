@@ -82,7 +82,7 @@ void doarexx(int rexx)
 	}
 	if(!(IExec->FindPort("REXX")))
 	{
-		simplerequest(globstring[STR_AREXX_NOT_RUNNING], str_okaystring, NULL);
+		simplerequest(TDRIMAGE_WARNING, globstring[STR_AREXX_NOT_RUNNING], str_okaystring, NULL);
 		return;
 	}
 	strcpy(str_arexx_command, buf);
