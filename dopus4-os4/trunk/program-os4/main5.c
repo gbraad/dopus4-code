@@ -71,6 +71,13 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		return (1);
 	}
 
+	if (data->Protection & EXDF_READ)
+	{
+		IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
+		*err = ERROR_READ_PROTECTED;
+		return (0);
+	}
+
 	arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, data->FileSize * 2, data->Name, 0);
 
 	if(!(inhandle = IDOS->Open(src, MODE_OLDFILE)))
@@ -292,10 +299,11 @@ struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 
 	if(dir)
 	{
-		if(str_arcorgname[0]) /* required for double-click */
-		{
-			name = str_arcorgname;
-		}
+//		Moved to dofindfile() in main 15.c
+//		if(str_arcorgname[0]) /* required for double-click */
+//		{
+//			name = str_arcorgname;
+//		}
 
 		find = dir->firstentry;
 		if(count)
