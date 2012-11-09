@@ -293,7 +293,7 @@ void doidcmp()
 			case IDCMP_CLOSEWINDOW:
 				busy();
 				if(!(config->generalflags & GENERAL_FORCEQUIT))
-					a = simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_ICONIFY], NULL);
+					a = simplerequest(TDRIMAGE_QUESTION, globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_ICONIFY], NULL);
 				else
 					a = 1;
 

@@ -190,7 +190,7 @@ void geterrorhelp(int st)
 
 int checkerror(char *action, char *name, int err)
 {
-	char buf[300], buf2[200];
+	char buf[300], buf2[300];
 	int a, skip = 1, erhelp = 1;
 
 	if(err < 0)
@@ -202,12 +202,11 @@ int checkerror(char *action, char *name, int err)
 		return ((skip) ? 2 : 3);
 
 	geterrorstring(buf2, err);
-	sprintf(buf, globstring[STR_ERROR_OCCURED], action, name, buf2);
 
+	sprintf(buf, globstring[STR_ERROR_OCCURED], action, name, buf2);
 	for(;;)
 	{
-		a = simplerequest(buf, globstring[STR_TRY_AGAIN], globstring[STR_CANCEL], (skip) ? globstring[STR_SKIP] : NULL, (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, NULL);
-
+		a = simplerequest(TDRIMAGE_WARNING, buf, globstring[STR_TRY_AGAIN], globstring[STR_CANCEL], (skip) ? globstring[STR_SKIP] : NULL, (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, NULL);
 		if((skip && a == 3) || (!skip && a == 2))
 		{
 			char helpbuf[20];
