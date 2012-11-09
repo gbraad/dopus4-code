@@ -30,6 +30,17 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/xadmaster.h>
 
+struct Directory *dofindfile(struct DirectoryWindow *dir, STRPTR name, int *count)
+{
+	STRPTR fname = name;
+
+	if(str_arcorgname[0]) /* required for double-click */
+	{
+		fname = str_arcorgname;
+	}
+	return findfile(dir, fname, count);
+}
+
 void ftype_doubleclick(char *path, char *name, int state)
 {
 	int a, b, dodef = 0;
@@ -56,7 +67,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		return;
 	}
 	dostatustext(globstring[STR_INTERROGATING_FILES]);
-	file = findfile(dopus_curwin[data_active_window], name, NULL);
+	file = dofindfile(dopus_curwin[data_active_window], name, NULL);
 	busy();
 	if((type = checkfiletype(buf, FTFUNC_DOUBLECLICK, 0)))
 	{
@@ -271,7 +282,7 @@ int filesearch(char *name, int *found, int skipall)
 		if(skipall > -1)
 		{
 			sprintf(buf, globstring[STR_FOUND_A_MATCH_READ], name);
-			if((rec = simplerequest(buf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], (skipall) ? globstring[STR_SKIP_ALL] : NULL, NULL)) == 1)
+			if((rec = simplerequest(TDRIMAGE_INFO, buf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], (skipall) ? globstring[STR_SKIP_ALL] : NULL, NULL)) == 1)
 			{
 				message = IDOS->FilePart(name);
 				busy();
@@ -433,7 +444,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				doconfig();
 				break;
 			case FUNC_QUIT:
-				if(!(config->generalflags & GENERAL_FORCEQUIT) && (rexx_argcount < 1 || (strcmp(rexx_args[0], "force")) != 0) && !(simplerequest(globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
+				if(!(config->generalflags & GENERAL_FORCEQUIT) && (rexx_argcount < 1 || (strcmp(rexx_args[0], "force")) != 0) && !(simplerequest(TDRIMAGE_QUESTION, globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, NULL)))
 				{
 					break;
 				}
@@ -442,7 +453,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 				{
 					break;
 				}
-				if(config_changed && !(a = simplerequest(globstring[STR_CONFIG_CHANGED_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_SAVE_QUIT], NULL)))
+				if(config_changed && !(a = simplerequest(TDRIMAGE_QUESTION, globstring[STR_CONFIG_CHANGED_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_SAVE_QUIT], NULL)))
 				{
 					break;
 				}
@@ -798,7 +809,7 @@ void do_parent_root(int win)
 
 int checklastsaved()
 {
-	if(config_changed && !(simplerequest(globstring[STR_CONFIG_CHANGED_LASTSAVED], globstring[STR_LOAD], str_cancelstring, NULL)))
+	if(config_changed && !(simplerequest(TDRIMAGE_QUESTION, globstring[STR_CONFIG_CHANGED_LASTSAVED], globstring[STR_LOAD], str_cancelstring, NULL)))
 		return (0);
 	return (1);
 }
@@ -807,12 +818,12 @@ int checkdefaults()
 {
 	if(!config_changed)
 		return (2);
-	return ((simplerequest(globstring[STR_CONFIG_CHANGED_DEFAULTS], globstring[STR_SAVE], str_cancelstring, globstring[STR_DEFAULTS], NULL)));
+	return ((simplerequest(TDRIMAGE_QUESTION, globstring[STR_CONFIG_CHANGED_DEFAULTS], globstring[STR_SAVE], str_cancelstring, globstring[STR_DEFAULTS], NULL)));
 }
 
 int checknewconfig()
 {
-	if(config_changed && !(simplerequest(globstring[STR_CONFIG_CHANGED_LOAD], globstring[STR_LOAD], str_cancelstring, NULL)))
+	if(config_changed && !(simplerequest(TDRIMAGE_QUESTION, globstring[STR_CONFIG_CHANGED_LOAD], globstring[STR_LOAD], str_cancelstring, NULL)))
 		return (0);
 	return (1);
 }
