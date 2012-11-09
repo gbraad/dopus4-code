@@ -256,6 +256,10 @@ void strtostamp(char *, char *, struct DateStamp *);
 void doassign(int);
 int checkdest(int);
 int checksame(char *, char *, int);
+//Checks for existance in primary assignment of multi-assign directories
+int checkexist(char *, int *);
+//Returns object in primary assignment of multi-assign directories
+struct ExamineData *examineobject(char *);
 int32 expand_path(CONST_STRPTR, STRPTR);
 
 /* main15.c */
@@ -303,7 +307,7 @@ void doreselect(struct DirWindowPars *, int);
 void shutthingsdown(int);
 void setupwindreq(struct Window *);
 void hilite_req_gadget(struct Window *, USHORT);
-int simplerequest(char *, ...);
+int simplerequest(uint32, char *, ...);
 int whatsit(char *, int, const char *, char *);
 struct dopusfiletype *checkfiletype(char *, int, int);
 int checkfiletypefunc(char *, int);
