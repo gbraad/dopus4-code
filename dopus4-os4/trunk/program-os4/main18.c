@@ -58,8 +58,10 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	struct FileInfoBlock *const myfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	struct FileInfoBlock *const enfinfo = IDOS->AllocDosObject(DOS_FIB, NULL);
 	BPTR mylock;
-	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL, *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
-	int suc = 0, to_do, ret = 0, a, err, adata = 0, depth = 0, b, rtry, data = fdata, *pstuff;
+	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL;
+	char *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
+	int suc = 0, to_do, ret = 0, a, err, adata = 0, depth = 0, b, rtry;
+	int data = fdata, *pstuff;
 	struct recpath *crec = NULL, *trec = NULL;
 	struct RecursiveDirectory *cur_recurse = NULL, *addparent_recurse = NULL, *new_rec = NULL, *pos_rec = NULL, *cur_parent = NULL, *cur_lastparent = NULL;
 	APTR data2 = NULL, adata2 = NULL, data3 = NULL, adata3 = NULL;
@@ -126,7 +128,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 	if(fdir) //temp fix for relative link copy failure
 	{
-		if ((mylock) && (dowhat == R_COPY))
+		if ((mylock) && (dowhat & R_COPY))
 		{
 			if (!(IDOS->DevNameFromLock(mylock, dir, 2048, DN_FULLPATH)))
 				strncpy(dir, fdir, 2048);
@@ -473,6 +475,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			a = 0;
 			dos_global_bytecount += enfinfo->fib_Size;
 			dos_global_files++;
+			BOOL copied = FALSE;
 
 			if(dowhat & R_GETNAMES)
 				goto skipgetnam;
@@ -493,6 +496,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			{
 				if(dowhat & R_COPY)
 				{
+					int skipall = 0;
 					strcpy(dname, ddir);
 					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 
@@ -505,9 +509,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							continue;
 						IDOS->AddPart(name, tempname, 2048);
 					}
-					a = 0;
 					if(askeach)
 					{
+						a = 0;
 						if((a = checkexistreplace(name, dname, &enfinfo->fib_Date, 1, 0)) == REPLACE_ABORT)
 						{
 							myabort();
@@ -521,10 +525,10 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						else if(a == REPLACE_SKIPALL)
 						{
 							askeach = 0;
-							autoskip = 1;
+							skipall = 1;
 						}
 					}
-					if(!autoskip && (a != REPLACE_SKIP))
+					if(!skipall && (a != REPLACE_SKIP))
 					{
 						a = 0;
 						for(;;)
@@ -546,6 +550,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							}
 							else
 							{
+								copied = TRUE;
 								if(dowhat == R_COPY)
 								{
 									if(config->copyflags & COPY_ARC && !(enfinfo->fib_Protection & FIBF_ARCHIVE))
@@ -583,8 +588,9 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				}
 				if(dowhat & R_DELETE)
 				{
-					if(!((dowhat & R_COPY) && (a == 2)))
+					if(!((dowhat & R_COPY) && (copied == FALSE)))
 					{
+						copied = FALSE;
 						if((a = delfile(name, enfinfo->fib_FileName, globstring[STR_DELETING], glob_unprotect_all, 1)) == -1)
 						{
 							myabort();
@@ -675,7 +681,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					busy();
 					if(suc == 2)
 					{
-						if(!simplerequest(globstring[STR_CONTINUE_WITH_SEARCH], globstring[STR_CONTINUE], str_cancelstring, NULL))
+						if(!simplerequest(TDRIMAGE_QUESTION, globstring[STR_CONTINUE_WITH_SEARCH], globstring[STR_CONTINUE], str_cancelstring, NULL))
 						{
 							okay();
 							ret = -2;
@@ -764,7 +770,8 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 	int exist, a, err;
 	BPTR mylock;
 
-	exist = IDOpus->CheckExist(dirname, NULL);
+//	exist = IDOpus->CheckExist(dirname, NULL);
+	exist = checkexist(dirname, NULL);
 	if(exist <= 0)
 	{
 	      loop:
