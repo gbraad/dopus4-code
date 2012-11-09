@@ -64,6 +64,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	static int entry_depth;
 	char progress_copy = 0, prog_indicator = 0;
 	BOOL arcfile;
+	BOOL dirdone = TRUE;
 
 	if(act > -1)
 		swindow = dopus_curwin[act];
@@ -316,9 +317,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					tempfile = tempfile->next;
 				}
-				if(!a || simplerequest(globstring[STR_SIZES_NOT_KNOWN], globstring[STR_YES], globstring[STR_NO], NULL))
+				if(!a || simplerequest(0,globstring[STR_SIZES_NOT_KNOWN], globstring[STR_YES], globstring[STR_NO], NULL))
 				{
-					if(status_justabort || (!(dofilefunction(FUNC_BYTE, FUNCFLAGS_BYTEISCHECKFIT, sourcedir, destdir, act, inact, 0)) && !(simplerequest(globstring[STR_ENTRIES_MAY_NOT_FIT], globstring[STR_CONTINUE], globstring[STR_CANCEL], NULL))))
+					if(status_justabort || (!(dofilefunction(FUNC_BYTE, FUNCFLAGS_BYTEISCHECKFIT, sourcedir, destdir, act, inact, 0)) && !(simplerequest(0,globstring[STR_ENTRIES_MAY_NOT_FIT], globstring[STR_CONTINUE], globstring[STR_CANCEL], NULL))))
 					{
 						myabort();
 						goto endfunction;
@@ -512,7 +513,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(commandlist[x].function == function && !(commandlist[x].flags & RCL_SYNONYM))
 			{
-				title = commandlist[x].name;
+				title = (char *)commandlist[x].name;
 				break;
 			}
 		}
@@ -890,7 +891,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(config->deleteflags & DELETE_FILES && askeach && !lastfile)
 			{
 				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);
-				a = simplerequest(buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
+				a = simplerequest(0,buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
 				if(a == 3)
 				{
 					okayflag = 1;
@@ -953,7 +954,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else if(!sourcewild)
 			{
-				a = getwildrename("*", drename, file->name, namebuf);
+				a = getwildrename((char *)"*", drename, file->name, namebuf);
 			}
 			else if(sourcewild)
 			{
@@ -1116,12 +1117,18 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				strncpy(newiconname, destname, 256);
 				strncat(newiconname, ".info", 256);
 			}
+			if(swindow && (swindow->flags & DWF_ARCHIVE))
+			{
+				doerror(ERROR_OBJECT_WRONG_TYPE);
+				simplerequest(TDRIMAGE_WARNING, globstring[STR_OPERATION_NOT_SUPPORTED], globstring[STR_CONTINUE], NULL);
+				break;
+			}
 			if(((checksame(destdir, sourcename, 0) == LOCK_SAME)) || (checksame(destname, sourcename, 0) == LOCK_SAME))
 			{
 				break;
 			}
-		      retry_move:
-			if((exist = IDOpus->CheckExist(destname, NULL)))
+			retry_move:
+			if((exist = checkexist(destname, NULL))) //((exist = IDOpus->CheckExist(destname, NULL)))
 			{
 				if(askeach)
 				{
@@ -1373,8 +1380,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			arcfile = getsourcefromarc(swindow, sourcename, file->name);
 			if(checksame(destdir, sourcename, 0) == LOCK_SAME)
 				break;
-		      retry_copy:
-			if((exist = IDOpus->CheckExist(destname, NULL)))
+			retry_copy:
+			if((exist = checkexist(destname, NULL))) //IDOpus->CheckExist(destname, NULL)))
 			{
 				if(askeach)
 				{
@@ -1441,7 +1448,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				if(config->copyflags & COPY_DATE)
 				{
-					IDOS->SetFileDate(destname, &file->date);
+					if (a == -10)
+					{
+						APTR wsave = IDOS->SetProcWindow((APTR)-1L);
+						IDOS->SetFileDate(destname, &file->date);
+						IDOS->SetProcWindow(wsave);
+					}
+					else
+						IDOS->SetFileDate(destname, &file->date);
 				}
 
 				if(!a && !func_external_file[0])
@@ -1839,6 +1853,22 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			FOREVER
 			{
+				if(file->type >= ENTRY_DIRECTORY)
+				{
+					dirdone = TRUE;
+					char buff[400];
+					snprintf(buff, 400, globstring[STR_DIR_MESSAGE], globstring[STR_DIR_COMMENT], file->name);
+					if (simplerequest(TDRIMAGE_QUESTION, buff, globstring[STR_DIR_DIR], globstring[STR_DIR_ALL], NULL) == 0)
+					{
+						if((a = recursedir(sourcename, buf2, R_COMMENT, 0)) > 0 && status_justabort)
+						{
+							status_justabort = okayflag = 0;
+							dirdone = FALSE;
+						}
+						else if(!a && !func_external_file[0])
+							setdirsize(file, dos_global_bytecount, act);
+					}
+				}
 				if(IDOS->SetComment(sourcename, buf2))
 					break;
 				doerror((a = IDOS->IoErr()));
@@ -1855,14 +1885,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(status_justabort || !file)
 				break;
-			okayflag = 1;
-			if(file->type >= ENTRY_DIRECTORY)
-			{
-				if((a = recursedir(sourcename, buf2, R_COMMENT, 0)) > 0 && status_justabort)
-					status_justabort = okayflag = 0;
-				else if(!a && !func_external_file[0])
-					setdirsize(file, dos_global_bytecount, act);
-			}
+			if (!((file->type >= ENTRY_DIRECTORY) && dirdone == FALSE))
+				okayflag = 1;
 			if(!noremove && file->comment != dos_copy_comment)
 			{
 				if(act > -1 && config->sortmethod[act] == DISPLAY_COMMENT)
@@ -1905,6 +1929,22 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			temp = getnewprot(file->protection, data, mask);
 			FOREVER
 			{
+				if(file->type >= ENTRY_DIRECTORY)
+				{
+					dirdone = TRUE;
+					char buff[400];
+					snprintf(buff, 400, globstring[STR_DIR_MESSAGE], globstring[STR_DIR_PROTECT], file->name);
+					if (simplerequest(TDRIMAGE_QUESTION, buff, globstring[STR_DIR_DIR], globstring[STR_DIR_ALL], NULL) == 0)
+					{
+						protstuff[0] = data;
+						protstuff[1] = mask;
+						if((a = recursedir(sourcename, NULL, R_PROTECT, (int)protstuff)) && status_justabort)
+							dirdone = FALSE;
+						if(!a && !func_external_file[0])
+							setdirsize(file, dos_global_bytecount, act);
+					}
+				}
+
 				if(IDOS->SetProtection(sourcename, temp))
 					break;
 				doerror((a = IDOS->IoErr()));
@@ -1923,18 +1963,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				break;
 			file->protection = temp;
 			getprot(temp, file->protbuf);
-			if(file->type >= ENTRY_DIRECTORY)
-			{
-				protstuff[0] = data;
-				protstuff[1] = mask;
-				if((a = recursedir(sourcename, NULL, R_PROTECT, (int)protstuff)) && status_justabort)
-					break;
-				if(!a && !func_external_file[0])
-					setdirsize(file, dos_global_bytecount, act);
-			}
 			if(!file->selected)
 				refreshwindow(act, 0);
-			okayflag = 1;
+			if (!((file->type >= ENTRY_DIRECTORY) && dirdone == FALSE))
+				okayflag = 1;
 			break;
 
 		case FUNC_ENCRYPT:
@@ -1946,7 +1978,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			strncpy(destname, destdir, 256);
 			strncat(destname, file->name, 256);
-			if(IDOpus->CheckExist(destname, NULL))
+			arcfile = getsourcefromarc(swindow, sourcename, file->name);
+			if(checkexist(destname, 0)) //IDOpus->CheckExist(destname, NULL))
 			{
 				if(askeach)
 				{
@@ -1977,7 +2010,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					break;
 				}
 			}
-			if(!IDOpus->CheckExist(destname, NULL))
+			if(!checkexist(destname, 0)) //!IDOpus->CheckExist(destname, NULL))
 			{
 				FOREVER
 				{
@@ -2053,6 +2086,22 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			FOREVER
 			{
+				if(file->type >= ENTRY_DIRECTORY)
+				{
+					dirdone = TRUE;
+					char buff[400];
+					snprintf(buff, 400, globstring[STR_DIR_MESSAGE], globstring[STR_DIR_DATESTAMP], file->name);
+					if (simplerequest(TDRIMAGE_QUESTION, buff, globstring[STR_DIR_DIR], globstring[STR_DIR_ALL], NULL) == 0)
+					{
+						if(!(recursedir(sourcename, NULL, R_DATESTAMP, (int)&datetime.dat_Stamp)))
+						{
+							if(!func_external_file[0])
+								setdirsize(file, dos_global_bytecount, act);
+						}
+						else
+							dirdone = FALSE;
+					}
+				}
 				if((a = setdate(sourcename, &datetime.dat_Stamp)) == 1)
 				{
 					if(!noremove)
@@ -2092,17 +2141,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(status_justabort || !file)
 				break;
-			if(file->type >= ENTRY_DIRECTORY)
-			{
-				if(!(recursedir(sourcename, NULL, R_DATESTAMP, (int)&datetime.dat_Stamp)))
-				{
-					okayflag = 1;
-					if(!func_external_file[0])
-						setdirsize(file, dos_global_bytecount, act);
-				}
-			}
-			else
-				okayflag = 1;
+			if (!((file->type >= ENTRY_DIRECTORY) && dirdone == FALSE))
+			okayflag = 1;
 			break;
 
 		case FUNC_SEARCH:
@@ -2153,7 +2193,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 									nextfile = NULL;
 							}
 						}
-						if(nextfile && !simplerequest(globstring[STR_CONTINUE_WITH_SEARCH], globstring[STR_CONTINUE], str_cancelstring, NULL))
+						if(nextfile && !simplerequest(0,globstring[STR_CONTINUE_WITH_SEARCH], globstring[STR_CONTINUE], str_cancelstring, NULL))
 							nextfile = NULL;
 					}
 					if(a == -1)
@@ -2303,11 +2343,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		if(count > -1)
 		{
 			if(count == 0)
-				simplerequest(globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], NULL);
+				simplerequest(TDRIMAGE_INFO, globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], NULL);
 			else
 			{
 				sprintf(buf2, globstring[STR_MATCHED_FILES], count);
-				simplerequest(buf2, globstring[STR_CONTINUE], NULL);
+				simplerequest(TDRIMAGE_INFO, buf2, globstring[STR_CONTINUE], NULL);
 			}
 			okayflag = 1;
 		}
