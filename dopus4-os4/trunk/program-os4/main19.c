@@ -169,22 +169,12 @@ void hilite_req_gadget(struct Window *win, USHORT gadid)
 	}
 }
 
-int simplerequest(STRPTR txt, ...)
+int simplerequest(uint32 image, STRPTR txt, ...)
 {
 	char *gads[11], *cancelgad = NULL, *gad, gadgets[1024] = { 0, };
-	struct TagItem tags[2] = { { ESA_Underscore, '_' }, { TAG_DONE } };
 	int a, i, r = 1, rets[10], gnum = 0, rnum = 0;
 	va_list ap;
-	struct EasyStruct es =
-	{
-		sizeof(struct EasyStruct),
-		ESF_SCREEN | ESF_TAGGED | ESF_EVENSIZE,
-		globstring[STR_DIRECTORY_OPUS_REQUEST],
-		txt,
-		globstring[STR_OKAY],
-		MainScreen,
-		tags
-	};
+	struct EasyStruct easy = {sizeof (struct EasyStruct), ESF_EVENSIZE, NULL, NULL, NULL};
 
 	va_start(ap, txt);
 	for(a = 0; a < 10; a++)
@@ -240,9 +230,15 @@ int simplerequest(STRPTR txt, ...)
 			}
 		}
 	}
-	es.es_GadgetFormat = gadgets;
 
-	return (IIntuition->EasyRequest(NULL, &es, NULL, TAG_DONE));
+	return (IDOS->TimedDosRequesterTags(TDR_Timeout, 0,
+	                               TDR_EasyStruct, &easy,
+	                               TDR_TitleString, globstring[STR_DIRECTORY_OPUS_REQUEST],
+	                               TDR_ImageType, image, //TDRIMAGE number
+	                               TDR_GadgetString, gadgets,
+		                           TDR_FormatString, "%s",
+	                               TDR_Arg1, txt,
+	                               TAG_DONE));
 }
 
 int whatsit(char *txt, int max, const char *buffer, char *skiptxt)
