@@ -317,9 +317,9 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					tempfile = tempfile->next;
 				}
-				if(!a || simplerequest(0,globstring[STR_SIZES_NOT_KNOWN], globstring[STR_YES], globstring[STR_NO], NULL))
+				if(!a || simplerequest(TDRIMAGE_QUESTION, globstring[STR_SIZES_NOT_KNOWN], globstring[STR_YES], globstring[STR_NO], NULL))
 				{
-					if(status_justabort || (!(dofilefunction(FUNC_BYTE, FUNCFLAGS_BYTEISCHECKFIT, sourcedir, destdir, act, inact, 0)) && !(simplerequest(0,globstring[STR_ENTRIES_MAY_NOT_FIT], globstring[STR_CONTINUE], globstring[STR_CANCEL], NULL))))
+					if(status_justabort || (!(dofilefunction(FUNC_BYTE, FUNCFLAGS_BYTEISCHECKFIT, sourcedir, destdir, act, inact, 0)) && !(simplerequest(TDRIMAGE_WARNING, globstring[STR_ENTRIES_MAY_NOT_FIT], globstring[STR_CONTINUE], globstring[STR_CANCEL], NULL))))
 					{
 						myabort();
 						goto endfunction;
@@ -891,7 +891,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(config->deleteflags & DELETE_FILES && askeach && !lastfile)
 			{
 				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);
-				a = simplerequest(0,buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
+				a = simplerequest(TDRIMAGE_QUESTION, buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
 				if(a == 3)
 				{
 					okayflag = 1;
@@ -2193,7 +2193,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 									nextfile = NULL;
 							}
 						}
-						if(nextfile && !simplerequest(0,globstring[STR_CONTINUE_WITH_SEARCH], globstring[STR_CONTINUE], str_cancelstring, NULL))
+						if(nextfile && !simplerequest(TDRIMAGE_QUESTION, globstring[STR_CONTINUE_WITH_SEARCH], globstring[STR_CONTINUE], str_cancelstring, NULL))
 							nextfile = NULL;
 					}
 					if(a == -1)

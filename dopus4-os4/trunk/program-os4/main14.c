@@ -140,7 +140,7 @@ int checkdest(int w)
 	if(!status_iconified && w > -1 && str_pathbuffer[w][0] == 0)
 	{
 		dostatustext(globstring[STR_NO_DESTINATION_SELECTED]);
-		simplerequest(globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], NULL);
+		simplerequest(TDRIMAGE_INFO, globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], NULL);
 		return (0);
 	}
 	return (1);
@@ -165,7 +165,7 @@ int checksame(char *src, char *dst, int type)
 	{
 		int a = (type ? STR_CANT_OVERCOPY_FILES : STR_CANT_COPY_DIR_TO_ITSELF);
 		dostatustext(globstring[a]);
-		simplerequest(globstring[a], globstring[STR_CONTINUE], NULL);
+		simplerequest(TDRIMAGE_WARNING, globstring[a], globstring[STR_CONTINUE], NULL);
 	}
 	IDOS->UnLock(lk1);
 	IDOS->UnLock(lk2);

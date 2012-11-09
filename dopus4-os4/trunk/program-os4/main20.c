@@ -199,7 +199,7 @@ int checkwindowquit()
 	if((IIntuition->PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
 	{
 		busy();
-		if(!(simplerequest(globstring[STR_ALIEN_WINDOWS], globstring[STR_CLOSE], str_cancelstring, NULL)))
+		if(!(simplerequest(TDRIMAGE_WARNING, globstring[STR_ALIEN_WINDOWS], globstring[STR_CLOSE], str_cancelstring, NULL)))
 		{
 			unbusy();
 			IIntuition->PubScreenStatus(MainScreen, 0);
@@ -287,7 +287,7 @@ void closedisplay()
 		{
 			if(!IIntuition->CloseScreen(MainScreen))
 			{
-				simplerequest(globstring[STR_CANNOT_CLOSE_SCREEN], str_okaystring, NULL);
+				simplerequest(TDRIMAGE_WARNING, globstring[STR_CANNOT_CLOSE_SCREEN], str_okaystring, NULL);
 				while(!(IIntuition->CloseScreen(MainScreen)))
 				{
 					IDOS->Delay(50);
