@@ -94,7 +94,7 @@ int getprotval(STRPTR buf)
 int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int rename)
 {
 	struct ExamineData *sdata, *ddata;
-	char buf[400], datebuf1[40], datebuf2[40], gadgetbuf[100];
+	char buf[500], datebuf1[40], datebuf2[40], gadgetbuf[100];
 	int a;
 	struct DateStamp ds;
 
@@ -106,10 +106,11 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	if(!(sdata = IDOS->ExamineObjectTags(EX_StringName, sourcename, TAG_END)))
  	{
 		doerror(IDOS->IoErr());
-//		return (REPLACE_SKIP);
-		return (REPLACE_OK);
+		return (REPLACE_SKIP);
+//		return (REPLACE_OK);
 	}
-	if(!(ddata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
+//	if(!(ddata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
+	if(!(ddata = examineobject(destname)))
  	{
 		if(IDOS->IoErr() == ERROR_OBJECT_NOT_FOUND)
 		{
@@ -161,9 +162,12 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			if(EXD_IS_DIRECTORY(ddata) && EXD_IS_DIRECTORY(sdata))
 			{
 				/* Both entries are directories */
-				IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
-				IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
-				return (REPLACE_OK);
+				uint32 size = IUtility->Strlcpy(buf, globstring[STR_DIRECTORY], 100);
+				buf[size] = ' ';
+				snprintf(&buf[size +1], 400, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
+//				IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
+//				IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
+//				return (REPLACE_OK);
 			}
 			else if(EXD_IS_DIRECTORY(ddata))
 			{
@@ -202,7 +206,8 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 				break;
 			}
 		}
-		while(IDOpus->CheckExist(destname, NULL));
+//		while(IDOpus->CheckExist(destname, NULL));
+		while(checkexist(destname, NULL));
 		IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
 		IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
 		return (a);
