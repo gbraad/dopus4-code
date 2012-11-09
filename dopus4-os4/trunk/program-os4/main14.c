@@ -172,6 +172,54 @@ int checksame(char *src, char *dst, int type)
 	return (ret);
 }
 
+BOOL getreal(char *name, STRPTR realname, int size)
+{ //Returns complete path of file in primary assignment of multi-assigns
+	APTR wsave;
+	STRPTR file = NULL;
+	struct DevProc *devproc = NULL;
+
+	if (!name) return FALSE;
+	wsave = IDOS->SetProcWindow((APTR)-1L);
+	if ((devproc = IDOS->GetDeviceProc(name, devproc)))
+	{
+		if (devproc->dvp_Flags & DVPF_ASSIGN)
+		{
+			if (IDOS->DevNameFromLock(devproc->dvp_Lock, realname, size, DN_FULLPATH))
+//			if (IDOS->NameFromLock(devproc->dvp_Lock, realname, size))
+			{
+				file = strchr(name,':'); file++;
+				IDOS->AddPart(realname, file, size);
+				IDOS->FreeDeviceProc(devproc);
+				IDOS->SetProcWindow(wsave);
+				return TRUE;
+			}
+		}
+		IDOS->FreeDeviceProc(devproc);
+	}
+	IDOS->SetProcWindow(wsave);
+	return FALSE;
+}
+
+int checkexist(char *name, int *size)
+{ //Checks existence in primary assignment of multi-assign directories
+	static char buffer[FILEBUF_SIZE] = {0};
+
+	if (!name) return 0;
+	if (getreal(name, buffer, FILEBUF_SIZE))
+		return IDOpus->CheckExist(buffer, size);
+	return IDOpus->CheckExist(name, size);
+}
+
+struct ExamineData *examineobject(char *name)
+{ //Returns object in primary assignment of multi-assign directories
+	char buffer[FILEBUF_SIZE] = {0};
+
+	if (!name) {IDOS->SetIoErr(ERROR_REQUIRED_ARG_MISSING); return NULL;}
+	if (getreal(name, buffer, FILEBUF_SIZE))
+		return IDOS->ExamineObjectTags(EX_StringName, buffer, TAG_END);
+	return IDOS->ExamineObjectTags(EX_StringName, name, TAG_END);
+}
+
 int32 expand_path(CONST_STRPTR path, STRPTR buffer)
 {
 	BPTR lock;
