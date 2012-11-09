@@ -1100,3 +1100,24 @@ _Cancel
 STR_EXTRACT_ARCHIVE (//)
 Extracting archive...
 ;
+; Directory Protect, Comment, DateStamp options
+;
+STR_DIR_COMMENT (//)
+Comment
+;
+STR_DIR_PROTECT (//)
+Protect
+;
+STR_DIR_DATESTAMP (//)
+DateStamp
+;
+STR_DIR_ALL (//)
+Directory & _Contents
+;
+STR_DIR_DIR (//)
+_Directory Only
+;
+STR_DIR_MESSAGE (//)
+%s directory \"%s\" only\n\n\
+OR directory and all contents?
+;
