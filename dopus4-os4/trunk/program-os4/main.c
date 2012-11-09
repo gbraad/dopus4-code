@@ -274,7 +274,7 @@ int main(int argc, char **argv)
 	if(checkrunning && (IExec->FindTask("dopus_hotkeez")))
 	{
 		status_iconified = 1;
-		switch (simplerequest(globstring[STR_DOPUS_ALREADY_RUNNING], globstring[STR_RUN], str_cancelstring, globstring[STR_BRING_TO_FRONT], NULL))
+		switch (simplerequest(TDRIMAGE_INFO, globstring[STR_DOPUS_ALREADY_RUNNING], globstring[STR_RUN], str_cancelstring, globstring[STR_BRING_TO_FRONT], NULL))
 		{
 		case 2:
 			{
@@ -493,7 +493,7 @@ int SetUp(int tit)
 	if(count == 5)
 	{
 		status_iconified = 1;
-		simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
+		simplerequest(TDRIMAGE_INFO, globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
 		status_iconified = 0;
 		quit();
 	}
@@ -577,7 +577,7 @@ int SetUp(int tit)
 				if(!(MainScreen))
 				{
 					status_iconified = 1;
-					simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
+					simplerequest(TDRIMAGE_INFO, globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
 					status_iconified = 0;
 					if(config->screenmode == HIRES_KEY && config->scrw == 640 && config->scrh == 200 + (scrdata_is_pal * 56) && config->screenflags == 0 && config->scrdepth == 2)
 						quit();
@@ -980,7 +980,7 @@ int SetUp(int tit)
 				{
 					IIntuition->ScreenToFront(MainScreen);
 				}
-				simplerequest(globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
+				simplerequest(TDRIMAGE_INFO, globstring[STR_UNABLE_TO_OPEN_WINDOW], globstring[STR_CONTINUE], NULL);
 				if(config->screenmode == HIRES_KEY && config->scr_winw == 640 && config->scr_winh == 200 + (scrdata_is_pal * 56) && config->scrdepth == 2 && config->screenflags == 0)
 					quit();
 				config->screenmode = HIRES_KEY;

@@ -433,7 +433,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 				msg = buf;
 			}
 		}
-		simplerequest(0,msg, globstring[STR_CONTINUE], NULL);
+		simplerequest(TDRIMAGE_INFO, msg, globstring[STR_CONTINUE], NULL);
 		if(buf)
 			IExec->FreeMem(buf, s);
 	}
@@ -454,7 +454,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 			IAmigaGuide->CloseAmigaGuide(agc);
 		}
 		else
-			simplerequest(defmsg ? defmsg : globstring[STR_HELP_NOT_AVAILABLE], globstring[STR_CONTINUE], NULL);
+			simplerequest(TDRIMAGE_INFO, defmsg ? defmsg : globstring[STR_HELP_NOT_AVAILABLE], globstring[STR_CONTINUE], NULL);
 	}
 	unbusy();
 	return;

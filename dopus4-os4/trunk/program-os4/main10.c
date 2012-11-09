@@ -212,7 +212,7 @@ int huntfile(char *name, char *completename, int *aa)
 		*aa = 1;
 
 		snprintf(mesbuf, 300, globstring[STR_FOUND_A_MATCH], buf, completename);
-		if((rec = simplerequest(mesbuf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
+		if((rec = simplerequest(TDRIMAGE_QUESTION, mesbuf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
 		{
 			if(!status_iconified)
 			{

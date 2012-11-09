@@ -726,7 +726,7 @@ void iconify(int louise, int buttons, int banknum)
 						goto deiconify;
 					break;
 				case IDCMP_CLOSEWINDOW:
-					if(!(a = simplerequest(0, globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_UNICONIFY], NULL)))
+					if(!(a = simplerequest(TDRIMAGE_QUESTION, globstring[STR_REALLY_QUIT], globstring[STR_QUIT], str_cancelstring, globstring[STR_UNICONIFY], NULL)))
 						break;
 					if(a == 2)
 						goto endiconify;

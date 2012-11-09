@@ -565,7 +565,7 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 
 		/* Port was not out there; put up an error requester */
 		sprintf(message, globstring[STR_CUSTPORT_NOT_FOUND], dir->custhandler);
-		simplerequest(message, str_okaystring, NULL);
+		simplerequest(TDRIMAGE_ERROR, message, str_okaystring, NULL);
 
 		/* Clear message and return */
 		IRexxSys->ClearRexxMsg(msg, 4);

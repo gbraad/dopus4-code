@@ -1349,7 +1349,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	if(par->which & FLAG_CDSOURCE && !funcdata->source_path[0])
 	{
-		if(!(simplerequest(globstring[STR_NO_SOURCE_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
+		if(!(simplerequest(TDRIMAGE_QUESTION, globstring[STR_NO_SOURCE_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
 		{
 			myabort();
 			return (0);
@@ -1357,7 +1357,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	}
 	else if(par->which & FLAG_CDDEST && !funcdata->dest_path[0])
 	{
-		if(!(simplerequest(globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
+		if(!(simplerequest(TDRIMAGE_QUESTION, globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], str_cancelstring, NULL)))
 		{
 			myabort();
 			return (0);
@@ -1826,7 +1826,7 @@ int check_dest_path(struct function_data *funcdata)
 	if(!funcdata->dest_path[0])
 	{
 		dostatustext(globstring[STR_NO_DESTINATION_SELECTED]);
-		simplerequest(globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], NULL);
+		simplerequest(TDRIMAGE_ERROR, globstring[STR_NO_DESTINATION_SELECTED], globstring[STR_CONTINUE], NULL);
 		return (0);
 	}
 	return (1);
