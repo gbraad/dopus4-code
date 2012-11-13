@@ -263,6 +263,7 @@ extern struct RecursiveDirectory *first_recurse;	/* First recursive directory po
 extern int recurse_max_depth;	/* Maximum depth reached */
 
 extern struct path_complete completion[2];	/* Path-name completion data */
+extern char *copybuffer; /* Global file copy buffer for CopyFile() in main5.c */
 
 /* DateTime stuff */
 

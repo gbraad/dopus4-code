@@ -267,6 +267,7 @@ struct RecursiveDirectory *first_recurse /*=NULL*/ ;	/* First recursive director
 int recurse_max_depth /*=0*/ ;				/* Maximum depth reached */
 
 struct path_complete completion[2] /*={{0},{0}}*/ ;	/* Path-name completion data */
+char *copybuffer; /* Global file copy buffer for CopyFile() in main5.c */
 
 struct StringData stringdata;
 
