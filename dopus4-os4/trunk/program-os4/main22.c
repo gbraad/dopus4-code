@@ -1413,6 +1413,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(autoskip)
 					break;
 			}
+/* Causes lost destination files if copyfile() fails.
 			if(exist < 0)
 			{
 				if((a = delfile(destname, file->name, globstring[STR_COPYING], 1, 1)) == -1)
@@ -1434,6 +1435,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					exist = 0;
 				}
 			}
+*/
 			if(file->type >= ENTRY_DIRECTORY)
 			{
 				a = recursedir(sourcename, destname, R_COPY, 0);
