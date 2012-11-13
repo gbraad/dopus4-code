@@ -34,10 +34,26 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	struct ExamineData *data = NULL;
 	char *buffer = NULL;
 	int ret = 0;
-	int64 length, readsize, size_read, size_write, size_total, size, buffer_size;
+	int64 length, readsize, size_read, size_write, size_total, size;
 	int prog = (config->dynamicflags & UPDATE_PROGRESSIND_COPY);
 	BPTR out, inhandle = 0, outhandle = 0;
 	struct DateStamp ds, *dsp;
+	static int64 buffer_size = 512 * 16384;
+
+	if (!copybuffer) // Global copy buffer - deallocated in Quit() function.
+	{
+		while(buffer_size > 512)
+		{
+			if((copybuffer = IExec->AllocVec(buffer_size + 512, MEMF_ANY)))
+				break;
+			buffer_size /= 2;
+		}
+		if (!copybuffer)
+		{
+			*err = ERROR_NO_FREE_STORE;
+			return (0);
+		}
+	}
 
 	if(password)
 	{
@@ -87,23 +103,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 		goto failed;
 
 	size = data->FileSize;
-	buffer_size = 64 * 1024;
-	if(buffer_size > (10 * 1024 * 1024))
-	{
-		buffer_size = 10 * 1024 * 1024;
-	}
-
-	while(buffer_size > 0)
-	{
-		if((buffer = IExec->AllocVec(buffer_size, MEMF_ANY)))
-			break;
-		buffer_size /= 2;
-	}
-	if(!buffer)
-	{
-		goto failed;
-	}
-
+	buffer = copybuffer;
 	size_read = size_write = 0;
 	size_total = size * 2;
 
@@ -171,9 +171,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	IDOS->Close(inhandle);
 	IDOS->Close(outhandle);
 
-
-	IExec->FreeVec(buffer);
-
 	if(config->copyflags & COPY_DATE)
 	{
 		IDOS->SetFileDate(dst, &(data->Date));
@@ -207,10 +204,6 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 
       failed:
 	*err = IDOS->IoErr();
-	if(buffer)
-	{
-		IExec->FreeVec(buffer);
-	}
 	if(inhandle)
 	{
 		IDOS->Close(inhandle);
