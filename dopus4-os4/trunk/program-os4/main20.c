@@ -85,6 +85,8 @@ void quit()
 		IExec->FreeSysObject(ASOT_MEMPOOL, filetype_memory_pool);
 	if(menu_memory_pool)
 		IExec->FreeSysObject(ASOT_MEMPOOL, menu_memory_pool);
+	/*  Memory allocated by CopyFile() in main5.c */
+	if (copybuffer) IExec->FreeVec(copybuffer);
 
 	IDOpus->LFreeRemember(&border_key);
 	IDOpus->FreeStringFile(&stringdata);
