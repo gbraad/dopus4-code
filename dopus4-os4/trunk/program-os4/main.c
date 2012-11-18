@@ -423,6 +423,7 @@ int SetUp(int tit)
 
 	main_win.Flags = WFLG_NW_EXTENDED | WFLG_NEWLOOKMENUS;
 	mainwindow_tags[0].ti_Tag = TAG_SKIP;
+	mainwindow_tags[0].ti_Data = 0L;
 
 	if(config->screenmode == MODE_PUBLICSCREEN && (pubscr = IIntuition->LockPubScreen(config->pubscreen_name)))
 	{
