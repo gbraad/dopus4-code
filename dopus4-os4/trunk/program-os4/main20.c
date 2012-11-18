@@ -197,27 +197,35 @@ int checkwindowquit()
 	{
 		return (1);
 	}
-
-	if((IIntuition->PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
+	for(;;)
 	{
-		busy();
-		if(!(simplerequest(TDRIMAGE_WARNING, globstring[STR_ALIEN_WINDOWS], globstring[STR_CLOSE], str_cancelstring, NULL)))
+		if((IIntuition->PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
 		{
-			unbusy();
-			IIntuition->PubScreenStatus(MainScreen, 0);
-			return (0);
-		}
-		for(wind = MainScreen->FirstWindow; wind;)
-		{
-			temp = wind->NextWindow;
-			if(wind != Window)
+			busy();
+			if(!(simplerequest(TDRIMAGE_WARNING, globstring[STR_ALIEN_WINDOWS], globstring[STR_RETRY], str_cancelstring, NULL)))
 			{
-				IIntuition->CloseWindow(wind);
+				unbusy();
+				IIntuition->PubScreenStatus(MainScreen, 0);
+				return (0);
 			}
-			wind = temp;
 		}
-		unbusy();
+		else
+		{
+			break;
+		}
 	}
+
+	for(wind = MainScreen->FirstWindow; wind;)
+	{
+		temp = wind->NextWindow;
+		if(wind != Window)
+		{
+			IIntuition->CloseWindow(wind);
+		}
+		wind = temp;
+	}
+
+	unbusy();
 	return (1);
 }
 
