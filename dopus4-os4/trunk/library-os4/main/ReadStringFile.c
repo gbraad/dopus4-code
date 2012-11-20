@@ -89,7 +89,7 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 		{
 			if((stringdata->catalog = ILocale->OpenCatalogA(NULL, filename, NULL)))
 			{
-				if(stringdata->catalog->cat_Version >= 3)
+				if(stringdata->catalog->cat_Version >= 4)
 				{
 					for(a = 0; a < stringdata->string_count; a++)
 					{
