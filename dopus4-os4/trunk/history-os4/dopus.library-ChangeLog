@@ -49,6 +49,12 @@ old IDOS->Lock()/IDOS->Examine() pair.
 *Changed catalog version requirement to >=v3 so Dopus won't load old
  catalogs and crash.
 
-2012-08-25 -  dopus.library 22.41 (dopus.library_rev.h)
+2012-08-25 - dopus.library 22.41 (dopus.library_rev.h)
+Updated library revision because of changes to catalog version requirement.
+
+Nov 18, 2012 - dopus.library 22.42 (ReadStringFile.c)
+Bumped catalog version requirement so Dopus won't load old catalogs.
+
+Nov 18, 2012 - dopus.library 22.42 (dopus.library_rev.h)
 Updated library revision because of changes to catalog version requirement.
 
