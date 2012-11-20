@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 3.0 (15.08.2012)
+## version $VER: DOpus4.catalog 4.0 (21.11.2012)
 ## language spanish
 ## codeset 0
 ;
@@ -8,7 +8,7 @@
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 3.0 (15.08.2012)
+; $VER: DOpus4.cd 4.0 (21.11.2012)
 ;
 ;
 ; General
@@ -49,17 +49,9 @@ STR_ENTER_DIRECTORY_NAME
 Introduzca nombre del directorio
 ; Enter directory name
 ;
-STR_FILE_ALREADY_EXISTS
-¡El fichero o directorio ya existe!
-; File or directory already exists!
-;
 STR_DIRECTORY_CREATED
 Directorio creado.
 ; Directory created.
-;
-STR_PRINTING_DIRECTORY
-Imprimiendo directorio...
-; Printing directory...
 ;
 STR_DIRECTORY
 Directorio 
@@ -73,25 +65,13 @@ STR_NO_CHIP_FOR_ICON
 Memoria gráfica insuficiente para mostrar el icono.
 ; Cannot load icon
 ;
-STR_FILE_NOT_ILBM
-No es un fichero ILBM.
-; File is not ILBM
-;
 STR_ERROR_IN_IFF
 Error en estructura IFF.
 ; Error in IFF structure
 ;
-STR_NO_CHIP_FOR_PICTURE
-Memoria gráfica insuficiente para mostrar la imagen.
-; Not enough chip memory to display picture
-;
 STR_CANT_ALLOCATE_AUDIO
 No se pueden reservar los canales de audio.
 ; Can't allocate audio channels
-;
-STR_NOT_ST_MOD
-El fichero es un módulo de música no soportado.
-; File is not a supported music module
 ;
 STR_FILE_EXISTS_REPLACE
 ¡El fichero \"%s\"\n\
@@ -101,10 +81,6 @@ ya existe! ¿Desea sustituirlo?
 STR_SELECT_UNPROTECT
 \nElija 'Desproteger' para activar el bit Borrable.
 ; \nSelect Unprotect to set the deletion bit.
-;
-STR_ENTER_TIME
-Introduzca la hora en formato HH:MM:SS
-; Enter time in the form HH:MM:SS
 ;
 STR_AREXX_NOT_RUNNING
 ¡No se ha podido encontrar el servidor ARexx!
@@ -130,38 +106,6 @@ Encontrado \"%s\" en\n\
 STR_BUFFERS_CLEARED
 Limpiados los buffers no mostrados.
 ; Buffers not currently displayed have been cleared.
-;
-STR_UNREADABLE_DISK
-Disco ilegible.
-; Unreadable disk
-;
-STR_NOT_A_DOS_DISK
-El disco no es de tipo DOS.
-; Not a DOS disk
-;
-STR_KICKSTART_DISK
-Disco Kickstart
-; Kickstart disk
-;
-STR_VALIDATING
-Validando
-; Validating
-;
-STR_WRITE_PROTECTED
-Sólo lectura
-; Write protected
-;
-STR_READ_WRITE
-Lectura/Escritura
-; Read/Write
-;
-STR_DEVICE_NOT_MOUNTED
-Unidad o volumen no montado.
-; Device or volume not mounted
-;
-STR_NO_DISK_IN_DRIVE
-No hay disco en la unidad.
-; No disk in drive
 ;
 STR_DOS_ERROR_CODE
 Error DOS: %ld
@@ -210,10 +154,6 @@ Reproduciendo fichero...
 STR_SHOWING_FILE
 Mostrando fichero...
 ; Showing selected file...
-;
-STR_PLAYING_ST_MOD
-Reproduciendo módulo...
-; Playing music module...
 ;
 STR_READING_SELECTED_FILE
 Leyendo fichero...
@@ -344,20 +284,6 @@ STR_ENTER_NEW_NAME_CLONE
 Introduzca un nuevo nombre para el fichero duplicado
 ; Enter name for cloned entry
 ;
-STR_CLONING
-duplicando
-; cloning
-;
-STR_SIZE_IS_NOT_KNOWN
-Se desconoce el tamaño del directorio seleccionado.\n\n\
-¿Desea hacer un recuento de su espacio en bytes?
-; Size is not known for the selected directory.\nPerform a byte count on this directory?
-;
-STR_FILE_MAY_NOT_FIT
-Posiblemente el fichero elegido no cabrá en el destino.\n\n\
-¿De verdad desea copiarlo?
-; Selected file will probably not fit in destination.\nContinue with the copy?
-;
 STR_SIZES_NOT_KNOWN
 Se desconoce el tamaño de alguno de los directorios seleccionados.\n\n\
 ¿Desea hacer un recuento de su espacio en bytes?
@@ -367,10 +293,6 @@ STR_ENTRIES_MAY_NOT_FIT
 Posiblemente los objetos seleccionados no cabrán en el destino.\n\n\
 ¿De verdad desea copiarlos?
 ; Selected entries will probably not fit in destination.\nContinue with the copy?
-;
-STR_ENTER_NEW_NAME_COPY
-Introduzca un nuevo nombre para el fichero copiado
-; Enter new name for copied file
 ;
 STR_ENTER_HUNT_PATTERN
 Introduzca patrón de búsqueda
@@ -477,31 +399,17 @@ STR_AS
 Como
 ; As
 ;
-;
 STR_ENTER_SELECT_PATTERN
 Introduzca patrón de selección
 ; Enter select pattern
-;
-STR_FILE_ENCRYPTED
-\nEl fichero está encriptado.\n\n
-; \nFile is encrypted!\n\n
 ;
 STR_READING_FILE
 Leyendo fichero...
 ; Reading file...
 ;
-STR_NO_MEMORY_TO_DECRUNCH
-Memoria insuficiente para cargar/descomprimir el fichero completo.
-; Not enough memory to load/decrunch complete file!
-;
-STR_BAD_PASSWORD
-La contraseña introducida no es correcta.
-; Incorrect password given!
-;
 STR_COUNTING_LINES
 Contando líneas...
 ; Counting lines...
-;
 ;
 ; Built-in text viewer requesters
 ;
@@ -512,7 +420,6 @@ Saltar a la línea?
 STR_JUMP_TO_PERCENTAGE
 Saltar al porcentaje?
 ; Jump to what percentage?
-;
 ;
 ; Printer related errors
 ;
@@ -528,8 +435,6 @@ STR_READY_PRINTER
 Prepare la impresora y pulse Aceptar para continuar.
 ; Ready printer, and choose OKAY to continue
 ;
-;
-;
 STR_CANT_FIND_ICON
 No se puede encontrar o cargar un icono para este fichero.
 ; Unable to find or load an icon for that file.
@@ -538,30 +443,9 @@ STR_ENCRYPTING
 encriptando
 ; encrypting
 ;
-STR_NEW_DISK_INSERTED
-Se ha insertado un disco en DF%ld:\n\n\
-¿De verdad desea leer este disco?
-; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
-;
 STR_REPLACE_ALL
 Reemplazar todo
 ; Replace _all
-;
-STR_ENTER_DATE_1
-Introduzca fecha en el formato DD-MMM-AA
-; Enter date in the form DD-MMM-YY
-;
-STR_ENTER_DATE_2
-Introduzca fecha en el formato AA-MM-DD
-; Enter date in the form YY-MM-DD
-;
-STR_ENTER_DATE_3
-Introduzca fecha en el formato MM-DD-AA
-; Enter date in the form MM-DD-YY
-;
-STR_ENTER_DATE_4
-Introduzca fecha en el formato DD-MM-AA
-; Enter date in the form DD-MM-YY
 ;
 STR_CONTINUE_WITH_SEARCH
 ¿Desea continuar con la búsqueda?
@@ -574,18 +458,6 @@ STR_REALLY_QUIT
 STR_REALLY_PROCEED
 ¿De verdad desea continuar con esta operación?
 ; Do you really wish to proceed with this operation?
-;
-STR_SCREEN_MODE_UNAVAILABLE
-Tipo de pantalla no disponible.
-; Screen mode not available.
-;
-STR_ERROR_INITIALISING_PRINTER
-Error al inicializar la impresora.\nCompruebe el cable y las conexiones.
-; Error initialising printer.\nCheck cable and connections.
-;
-STR_REALLY_ABORT_PRINT
-¿De verdad desea interrumpir la impresión?
-; Really abort the print?
 ;
 STR_SELECT_SOURCE_DIR
 Elija directorio ORIGEN
@@ -603,14 +475,6 @@ STR_SELECT_A_DIRECTORY
 Elija un directorio
 ; Select a directory
 ;
-STR_LEFT_WINDOW
-Ventana izquierda
-; Left window
-;
-STR_RIGHT_WINDOW
-Ventana derecha
-; Right window
-;
 STR_DEVICE_LIST_TITLE
 <Lista de unidades>
 ; <Device list>
@@ -626,7 +490,6 @@ STR_BUFFER_LIST_TITLE
 STR_UNPROTECT
 Desproteger
 ; Unprotect
-;
 ;
 ; Action gadgets in requesters
 ;
@@ -651,6 +514,12 @@ _Interrumpir
 STR_REPLACE
 _Sustituir
 ; _Replace
+;
+STR_MERGE
+_Combinar
+; _Merge
+;
+; ***NEW***
 ;
 STR_SKIP
 Sa_ltar
@@ -684,17 +553,9 @@ STR_DEFAULTS
 Por omisión
 ; Defaults
 ;
-STR_CLOSE
-Cerrar
-; Close
-;
 STR_DELETE
 Borrar
 ; _Delete
-;
-STR_LEAVE
-Saltar
-; Leave
 ;
 STR_YES
 Sí
@@ -726,149 +587,13 @@ STR_OKAY_TITLE
 OK
 ; OK
 ;
-STR_DESCRIPTION
-Descripción
-; Description
-;
-STR_PRINT_CONTROL
-Opciones de impresión
-; Print control
-;
 STR_FILE
 Fichero
 ; File
 ;
-STR_IMAGE_SIZE
-Tamaño de Imagen
-; Image size
-;
-STR_PAGE_SIZE
-Tamaño de Página
-; Page size
-;
-STR_SCREEN_SIZE
-Tamaño de Pantalla
-; Screen size
-;
-STR_DEPTH
-Bits de color
-; Depth
-;
-STR_COLOURS
-Colores
-; Colors
-;
-STR_SCREEN_MODES
-Tipos de pantalla
-; Screen modes
-;
-STR_ASPECT
-_Orientación:
-; _Aspect:
-;
-STR_IMAGE
-_Imagen:
-; _Image:
-;
-STR_SHADE
-_Sombreado:
-; _Shade:
-;
-STR_PLACEMENT
-_Posición:
-; _Placement:
-;
-STR_FORMFEED
-_Salto de página
-; _Form feed
-;
-STR_PRINT
-Imprimir
-; Print
-;
-STR_ABORT_PRINT
-Interrumpir impresión
-; Abort print
-;
-STR_PORTRAIT
-Retrato
-; Portrait
-;
-STR_LANDSCAPE
-Apaisada
-; Landscape
-;
-STR_POSITIVE
-Positivo
-; Positive
-;
-STR_NEGATIVE
-Negativo
-; Negative
-;
-STR_BLACK_WHITE
-Blanco y negro
-; Black&White
-;
-STR_GRAY_SCALE
-Escala de grises
-; Gray scale
-;
-STR_COLOUR
-Color
-; Color
-;
-STR_CENTER
-Centrado
-; Center
-;
-STR_FULL_LEFT
-Borde izq.
-; Full left
-;
-STR_FONT
-Tipo de letra
-; Font
-;
-STR_FONT_SIZE
-Tamaño de letra
-; Font size
-;
-STR_NUM_CHARS
-Caracteres
-; Characters
-;
-STR_FONT_STYLE
-Estilo
-; Font style
-;
-STR_FONT_FLAGS
-Opciones
-; Font flags
-;
 STR_ICON
 Icono
 ; Icon
-;
-STR_ICON_TYPE
-Tipo de icono
-; Icon type
-;
-STR_ICON_ALTERNATE
-Imagen alt.
-; Alt. image
-;
-STR_ICON_DEFAULTTOOL
-Herramienta por omisión
-; Default tool
-;
-STR_NUM_FRAMES
-Fotogramas
-; Frame
-;
-STR_PLAYING_ANIM
-Reproduciendo animación...
-; Playing selected animation...
 ;
 STR_OLD_NEW_FILE_REPLACE
 El fichero \"%s\" ya existe. ¿Desea sustituirlo?\n\n\
@@ -877,10 +602,6 @@ ANTIGUO: %9lld bytes  Fecha: %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %9lld  Date : %19s\n\
 ; Old  -  Size : %9lld  Date : %19s
-;
-STR_REMAINING
-%ld de %ld
-; %ld of %ld items
 ;
 STR_CUSTOM_LIST
 Lista personalizada
@@ -897,10 +618,6 @@ STR_DIRS_IN_BUFFERS
 STR_USER_ENTRIES
 %ld objetos definidos por el usuario
 ; %ld user-defined entries
-;
-STR_COMPLETED
-Completado
-; Completed
 ;
 STR_UNICONIFY
 Desiconificar
@@ -935,16 +652,11 @@ STR_CREATING_DIRECTORY
 creando directorio
 ; creating directory
 ;
-STR_STARTING_DISK_MODULE
-Lanzando módulo de disco...
-; Starting disk module...
-;
 STR_UNABLE_TO_LOAD_MODULE
 No se puede cargar el módulo externo.
 ; Unable to load external module
 ;
-;
-; Selecting by pattern
+; Selecting by pattern (Accessed by position after first)
 ;
 STR_SELECT_ALL_ENTRIES
 Todo
@@ -1018,11 +730,6 @@ información.
 ; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
 ; Please see http://www.gpsoft.com.au for more information.
 ;
-STR_PRINTTITLE
-Incluir _título
-; Print _Title
-;
-;
 ; Searching a string in a file
 ;
 STR_SEARCH_NO_CASE
@@ -1089,77 +796,12 @@ STR_VIEW_BUTTONS
 UDTBSPQ
 ; UDTBSPQ
 ;
-;
-;
-; Diskinfo
-;
-STR_DISKINFO_DEVICE
-Unidad
-; Device
-;
-STR_DISKINFO_NAME
-Nombre
-; Name
-;
-STR_DISKINFO_SIZE
-Tamaño
-; Size
-;
-STR_DISKINFO_USED
-Usado
-; Used
-;
-STR_DISKINFO_FREE
-Libre
-; Free
-;
-STR_DISKINFO_PERCENT
-Porcentaje
-; Percent
-;
-STR_DISKINFO_DENSITY
-Tam. Bloque
-; Density
-;
-STR_DISKINFO_ERRORS
-Errores
-; Errors
-;
-STR_DISKINFO_STATUS
-Estado
-; Status
-;
-STR_DISKINFO_DATE
-Fecha
-; Date
-;
-STR_DISKINFO_BYTES
-bytes
-; bytes
-;
-STR_DISKINFO_BLOCKS
-bloques
-; blocks
-;
-STR_DISKINFO_FULL
-lleno
-; full
-;
-STR_DISKINFO_SFREE
-libre
-; free
-;
-STR_DISKINFO_BYTESPERBLOCK
-bytes/bloque
-; bytes/block
-;
-;
 STR_TEXT_VIEWER_TITLE
 Visor de texto de DOpus
 ; Directory Opus Text Viewer
 ;
 ;
-; Protect window (1/2)
+; Protect window (1/2) (Bit names accessed by position after first)
 ;
 ; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
 ;       change them, but use something like this instead:
@@ -1229,23 +871,9 @@ STR_PROTECT_DELETED
 (_D) Borrable
 ; _Delete
 ;
-;
-;
 STR_FILE_REQUEST
 Petición de fichero
 ; File request
-;
-STR_OF
-de
-; of
-;
-STR_FRAME
-Fotograma
-; Frame
-;
-STR_DISK_OP_TITLE
-Directory Opus - Operaciones de disco
-; Directory Opus Disk Operations
 ;
 STR_BUTTON_STRIP
 Directory Opus - Barra de botones
@@ -1275,14 +903,6 @@ STR_PRESS_MOUSE_BUTTON
 Pulse botón izq. del ratón para continuar...
 ; Press left mouse button to continue...
 ;
-STR_NETWORK_NO_OWNER
-Sin Dueño
-; No owner
-;
-STR_NETWORK_NO_GROUP
-Sin Grupo
-; No group
-;
 STR_ERROR_ERROR_HELP
 Error en ayu_da
 ; Error help
@@ -1295,23 +915,9 @@ STR_PARENT_MULTI
 Dirs. anteriores y asignaciones múltiples...
 ; Parents and Multi-Assigns...
 ;
-STR_DISKINFO_FILESYSTEM
-Sistema de ficheros
-; F.System
-;
-STR_ANIM_TYPE
-Tipo de animación
-; Anim type
-;
-STR_GFX_NATIVE
-Nativo
-; Native
-;
 STR_OPENING_ARCHIVE
 Abriendo archivo...
 ; Opening archive...
-;
-;
 ;
 ; Pop-up menu (1/2)
 ;
@@ -1476,4 +1082,32 @@ _Cancelar
 STR_EXTRACT_ARCHIVE
 Archivo de extracción...
 ; Extracting archive...
+;
+; Directory Protect, Comment, DateStamp options
+;
+STR_DIR_COMMENT
+Comentario
+; Comment
+;
+STR_DIR_PROTECT
+Proteger
+; Protect
+;
+STR_DIR_DATESTAMP
+Fecha sello
+; DateStamp
+;
+STR_DIR_ALL
+Directorio y _Contenido
+; Directory & _Contents
+;
+STR_DIR_DIR
+_Directorio Sólo
+; _Directory Only
+;
+STR_DIR_MESSAGE
+%s el directorio \"%s\" sólo\n\n\
+O directorio y todo el contenido?
+; %s directory \"%s\" only\n\n\
+; OR directory and all contents?
 ;

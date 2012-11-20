@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 3.0 (15.08.2012)
+## version $VER: DOpus4.catalog 4.0 (21.11.2012)
 ## language german
 ## codeset 0
 ;
@@ -9,7 +9,7 @@
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
-; $VER: DOpus4.cd 3.0 (15.08.2012)
+; $VER: DOpus4.cd 4.0 (21.11.2012)
 ;
 ;
 ; General
@@ -50,17 +50,9 @@ STR_ENTER_DIRECTORY_NAME
 Verzeichnisname eingeben
 ; Enter directory name
 ;
-STR_FILE_ALREADY_EXISTS
-Datei oder Verzeichnis existiert bereits!
-; File or directory already exists!
-;
 STR_DIRECTORY_CREATED
 Verzeichnis wurde erzeugt.
 ; Directory created.
-;
-STR_PRINTING_DIRECTORY
-Drucke Verzeichnis...
-; Printing directory...
 ;
 STR_DIRECTORY
 Verzeichnis 
@@ -74,25 +66,13 @@ STR_NO_CHIP_FOR_ICON
 Nicht genug CHIP-RAM zum Anzeigen des Piktogramms.
 ; Cannot load icon
 ;
-STR_FILE_NOT_ILBM
-Keine ILBM-Datei!
-; File is not ILBM
-;
 STR_ERROR_IN_IFF
 Fehler in der IFF-Struktur.
 ; Error in IFF structure
 ;
-STR_NO_CHIP_FOR_PICTURE
-Nicht genug CHIP-RAM zum Anzeigen des Bildes.
-; Not enough chip memory to display picture
-;
 STR_CANT_ALLOCATE_AUDIO
 Kann die Tonkanäle nicht öffnen.
 ; Can't allocate audio channels
-;
-STR_NOT_ST_MOD
-Datei besitzt kein unterstütztes Modul-Format.
-; File is not a supported music module
 ;
 STR_FILE_EXISTS_REPLACE
 Datei \"%s\" existiert bereits! Ersetzen?
@@ -101,10 +81,6 @@ Datei \"%s\" existiert bereits! Ersetzen?
 STR_SELECT_UNPROTECT
 \nLösch-Bit setzen mit Knopf Entsichern.
 ; \nSelect Unprotect to set the deletion bit.
-;
-STR_ENTER_TIME
-Zeit im Format HH:MM:SS eingeben.
-; Enter time in the form HH:MM:SS
 ;
 STR_AREXX_NOT_RUNNING
 Kann ARexx-Server nicht finden!
@@ -129,38 +105,6 @@ Habe die Datei \"%s\" gefunden.\nVerzeichnis \"%s\"\nDorthin springen?
 STR_BUFFERS_CLEARED
 Nicht angezeigte Verzeichnis-Puffer wurden gelöscht.
 ; Buffers not currently displayed have been cleared.
-;
-STR_UNREADABLE_DISK
-Disk unlesbar
-; Unreadable disk
-;
-STR_NOT_A_DOS_DISK
-Keine AmigaDOS-Diskette
-; Not a DOS disk
-;
-STR_KICKSTART_DISK
-Kickstart Diskette
-; Kickstart disk
-;
-STR_VALIDATING
-Validiere
-; Validating
-;
-STR_WRITE_PROTECTED
-Schreibgeschützt
-; Write protected
-;
-STR_READ_WRITE
-Lesen/Schreiben
-; Read/Write
-;
-STR_DEVICE_NOT_MOUNTED
-Laufwerk oder Disk nicht angemeldet
-; Device or volume not mounted
-;
-STR_NO_DISK_IN_DRIVE
-Keine Diskette im Laufwerk
-; No disk in drive
 ;
 STR_DOS_ERROR_CODE
 AmigaDOS-Fehler %ld
@@ -209,10 +153,6 @@ Spiele Ton-Datei ab...
 STR_SHOWING_FILE
 Zeige Bild-Datei an...
 ; Showing selected file...
-;
-STR_PLAYING_ST_MOD
-Spiele Module-Datei ab...
-; Playing music module...
 ;
 STR_READING_SELECTED_FILE
 Zeige Text-Datei an...
@@ -342,18 +282,6 @@ STR_ENTER_NEW_NAME_CLONE
 Name für geklonte Kopie eingeben
 ; Enter name for cloned entry
 ;
-STR_CLONING
-Erzeuge Kopie
-; cloning
-;
-STR_SIZE_IS_NOT_KNOWN
-Größe des angewählten Verzeichnisses unbekannt.\nGröße ermitteln?
-; Size is not known for the selected directory.\nPerform a byte count on this directory?
-;
-STR_FILE_MAY_NOT_FIT
-Vermutlich nicht genug Platz auf dem Ziellaufwerk.\nAngewählte Datei trotzdem kopieren?
-; Selected file will probably not fit in destination.\nContinue with the copy?
-;
 STR_SIZES_NOT_KNOWN
 Größe der angewählten Verzeichnisse unbekannt.\nGröße ermitteln?
 ; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
@@ -361,10 +289,6 @@ Größe der angewählten Verzeichnisse unbekannt.\nGröße ermitteln?
 STR_ENTRIES_MAY_NOT_FIT
 Vermutlich zu wenig Platz auf dem Ziellaufwerk.\nAngewählte Einträge trotzdem kopieren?
 ; Selected entries will probably not fit in destination.\nContinue with the copy?
-;
-STR_ENTER_NEW_NAME_COPY
-Neuen Namen für kopierte Datei eingeben
-; Enter new name for copied file
 ;
 STR_ENTER_HUNT_PATTERN
 Muster für gesuchten Dateinamen eingeben
@@ -469,31 +393,17 @@ STR_AS
 ist
 ; As
 ;
-;
 STR_ENTER_SELECT_PATTERN
 Selektions-Muster eingeben
 ; Enter select pattern
-;
-STR_FILE_ENCRYPTED
-\nDatei ist verschlüsselt!\n\n
-; \nFile is encrypted!\n\n
 ;
 STR_READING_FILE
 Lese Datei...
 ; Reading file...
 ;
-STR_NO_MEMORY_TO_DECRUNCH
-Nicht genug Speicher um die komplette Datei zu lesen/entpacken!
-; Not enough memory to load/decrunch complete file!
-;
-STR_BAD_PASSWORD
-Falsches Passwort eingegeben!
-; Incorrect password given!
-;
 STR_COUNTING_LINES
 Zähle Zeilen...
 ; Counting lines...
-;
 ;
 ; Built-in text viewer requesters
 ;
@@ -504,7 +414,6 @@ In welche Zeile springen:
 STR_JUMP_TO_PERCENTAGE
 Bis zu welchem Prozentsatz springen?
 ; Jump to what percentage?
-;
 ;
 ; Printer related errors
 ;
@@ -520,8 +429,6 @@ STR_READY_PRINTER
 Bitte Drucker bereitmachen und WEITER anklicken.
 ; Ready printer, and choose OKAY to continue
 ;
-;
-;
 STR_CANT_FIND_ICON
 Kann das Piktogramm für diesen Dateityp nicht finden/laden.
 ; Unable to find or load an icon for that file.
@@ -530,29 +437,9 @@ STR_ENCRYPTING
 Kodiere
 ; encrypting
 ;
-STR_NEW_DISK_INSERTED
-Neue Diskette im Laufwerk DF%ld:\nHauptverzeichnis einlesen?
-; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
-;
 STR_REPLACE_ALL
 A_lle ersetzen
 ; Replace _all
-;
-STR_ENTER_DATE_1
-Datum im Format TT-MMM-JJ eingeben
-; Enter date in the form DD-MMM-YY
-;
-STR_ENTER_DATE_2
-Datum im Format JJ-MM-TT eingeben
-; Enter date in the form YY-MM-DD
-;
-STR_ENTER_DATE_3
-Datum im Format MM-TT-JJ eingeben
-; Enter date in the form MM-DD-YY
-;
-STR_ENTER_DATE_4
-Datum im Format TT-MM-JJ eingeben
-; Enter date in the form DD-MM-YY
 ;
 STR_CONTINUE_WITH_SEARCH
 Suche fortsetzen?
@@ -565,18 +452,6 @@ DirectoryOpus wirklich verlassen?
 STR_REALLY_PROCEED
 Soll diese Operation wirklich ausgeführt werden?
 ; Do you really wish to proceed with this operation?
-;
-STR_SCREEN_MODE_UNAVAILABLE
-Bildschirmmodus nicht verfügbar.
-; Screen mode not available.
-;
-STR_ERROR_INITIALISING_PRINTER
-Druckerfehler:\nBitte Drucker und Kabel überprüfen.
-; Error initialising printer.\nCheck cable and connections.
-;
-STR_REALLY_ABORT_PRINT
-Druck wirklich abbrechen?
-; Really abort the print?
 ;
 STR_SELECT_SOURCE_DIR
 Bitte Quellverzeichnis auswählen
@@ -594,14 +469,6 @@ STR_SELECT_A_DIRECTORY
 Bitte Verzeichnis auswählen
 ; Select a directory
 ;
-STR_LEFT_WINDOW
-_Linkes Fenster
-; Left window
-;
-STR_RIGHT_WINDOW
-_Rechtes Fenster
-; Right window
-;
 STR_DEVICE_LIST_TITLE
 <Laufwerke>
 ; <Device list>
@@ -617,7 +484,6 @@ STR_BUFFER_LIST_TITLE
 STR_UNPROTECT
 _Entsichern
 ; Unprotect
-;
 ;
 ; Action gadgets in requesters
 ;
@@ -642,6 +508,10 @@ _Abbrechen
 STR_REPLACE
 _Ersetzen
 ; _Replace
+;
+STR_MERGE
+_Verschmelzen
+; _Merge
 ;
 STR_SKIP
 _überspr.
@@ -675,17 +545,9 @@ STR_DEFAULTS
 _Standardwerte
 ; Defaults
 ;
-STR_CLOSE
-_Schliessen
-; Close
-;
 STR_DELETE
 L_öschen
 ; _Delete
-;
-STR_LEAVE
-_Überspr.
-; Leave
 ;
 STR_YES
 _Ja
@@ -717,149 +579,13 @@ STR_OKAY_TITLE
 - Bereit -
 ; OK
 ;
-STR_DESCRIPTION
-Beschreibung
-; Description
-;
-STR_PRINT_CONTROL
-Drucker-Kontrolle
-; Print control
-;
 STR_FILE
 Datei
 ; File
 ;
-STR_IMAGE_SIZE
-Bild
-; Image size
-;
-STR_PAGE_SIZE
-Seite
-; Page size
-;
-STR_SCREEN_SIZE
-Bildschirm
-; Screen size
-;
-STR_DEPTH
-Tiefe
-; Depth
-;
-STR_COLOURS
-Farben
-; Colors
-;
-STR_SCREEN_MODES
-Modus
-; Screen modes
-;
-STR_ASPECT
-Bild_lage:
-; _Aspect:
-;
-STR_IMAGE
-B_ild:
-; _Image:
-;
-STR_SHADE
-_Farbe:
-; _Shade:
-;
-STR_PLACEMENT
-_Position:
-; _Placement:
-;
-STR_FORMFEED
-A_uswerfen
-; _Form feed
-;
-STR_PRINT
-_Drucken
-; Print
-;
-STR_ABORT_PRINT
-Druck abbrechen
-; Abort print
-;
-STR_PORTRAIT
-Horizontal
-; Portrait
-;
-STR_LANDSCAPE
-Vertikal
-; Landscape
-;
-STR_POSITIVE
-Positiv
-; Positive
-;
-STR_NEGATIVE
-Negativ
-; Negative
-;
-STR_BLACK_WHITE
-Schwarz/Weiß
-; Black&White
-;
-STR_GRAY_SCALE
-Graustufen
-; Gray scale
-;
-STR_COLOUR
-Farbe
-; Color
-;
-STR_CENTER
-Zentrieren
-; Center
-;
-STR_FULL_LEFT
-Linksbündig
-; Full left
-;
-STR_FONT
-Schriftart
-; Font
-;
-STR_FONT_SIZE
-Größe
-; Font size
-;
-STR_NUM_CHARS
-Zeichen
-; Characters
-;
-STR_FONT_STYLE
-Schriftart
-; Font style
-;
-STR_FONT_FLAGS
-Flags
-; Font flags
-;
 STR_ICON
 Piktogramm
 ; Icon
-;
-STR_ICON_TYPE
-Piktogrammtyp
-; Icon type
-;
-STR_ICON_ALTERNATE
-Alt. Bild
-; Alt. image
-;
-STR_ICON_DEFAULTTOOL
-Standardprogramm
-; Default tool
-;
-STR_NUM_FRAMES
-Rahmen
-; Frame
-;
-STR_PLAYING_ANIM
-Zeige Animation an...
-; Playing selected animation...
 ;
 STR_OLD_NEW_FILE_REPLACE
 Datei \"%s\" existiert bereits! Ersetzen?\n\n\
@@ -868,10 +594,6 @@ Alt  -  Größe: %9lld  Datum: %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %9lld  Date : %19s\n\
 ; Old  -  Size : %9lld  Date : %19s
-;
-STR_REMAINING
-%ld von %ld Einträgen
-; %ld of %ld items
 ;
 STR_CUSTOM_LIST
 Benutzerliste
@@ -888,10 +610,6 @@ STR_DIRS_IN_BUFFERS
 STR_USER_ENTRIES
 %ld Benutzer-Einträge
 ; %ld user-defined entries
-;
-STR_COMPLETED
-Abgeschlossen!
-; Completed
 ;
 STR_UNICONIFY
 _Vollbild
@@ -925,16 +643,11 @@ STR_CREATING_DIRECTORY
 Erzeuge Verzeichnis
 ; creating directory
 ;
-STR_STARTING_DISK_MODULE
-Starte Disk-Modul...
-; Starting disk module...
-;
 STR_UNABLE_TO_LOAD_MODULE
 Externes Modul konnte nicht geladen werden
 ; Unable to load external module
 ;
-;
-; Selecting by pattern
+; Selecting by pattern (Accessed by position after first)
 ;
 STR_SELECT_ALL_ENTRIES
 Alle Einträge
@@ -1000,11 +713,6 @@ http://www.gpsoft.com.au
 ; All users of Directory Opus 4 distributed under the GPL may be entitled\n\
 ; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
 ; Please see http://www.gpsoft.com.au for more information.
-;
-STR_PRINTTITLE
-_Titel drucken
-; Print _Title
-;
 ;
 ; Searching a string in a file
 ;
@@ -1072,77 +780,12 @@ STR_VIEW_BUTTONS
 HROUSDQ
 ; UDTBSPQ
 ;
-;
-;
-; Diskinfo
-;
-STR_DISKINFO_DEVICE
-Laufwerk
-; Device
-;
-STR_DISKINFO_NAME
-Name
-; Name
-;
-STR_DISKINFO_SIZE
-Kapazität
-; Size
-;
-STR_DISKINFO_USED
-Belegt
-; Used
-;
-STR_DISKINFO_FREE
-Frei
-; Free
-;
-STR_DISKINFO_PERCENT
-Prozentual
-; Percent
-;
-STR_DISKINFO_DENSITY
-Blockgröße
-; Density
-;
-STR_DISKINFO_ERRORS
-Fehler
-; Errors
-;
-STR_DISKINFO_STATUS
-Status
-; Status
-;
-STR_DISKINFO_DATE
-Datum
-; Date
-;
-STR_DISKINFO_BYTES
-Bytes
-; bytes
-;
-STR_DISKINFO_BLOCKS
-Blocks
-; blocks
-;
-STR_DISKINFO_FULL
-belegt
-; full
-;
-STR_DISKINFO_SFREE
-frei
-; free
-;
-STR_DISKINFO_BYTESPERBLOCK
-Bytes/Block
-; bytes/block
-;
-;
 STR_TEXT_VIEWER_TITLE
 DirectoryOpus-Textanzeiger
 ; Directory Opus Text Viewer
 ;
 ;
-; Protect window (1/2)
+; Protect window (1/2) (Bit names accessed by position after first)
 ;
 ; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
 ;       change them, but use something like this instead:
@@ -1212,23 +855,9 @@ STR_PROTECT_DELETED
 _D-Löschbar
 ; _Delete
 ;
-;
-;
 STR_FILE_REQUEST
 Bitte auswählen
 ; File request
-;
-STR_OF
-von
-; of
-;
-STR_FRAME
-Bild
-; Frame
-;
-STR_DISK_OP_TITLE
-DirectoryOpus-Diskoperationen
-; Directory Opus Disk Operations
 ;
 STR_BUTTON_STRIP
 DirectoryOpus-Knopfleiste
@@ -1258,14 +887,6 @@ STR_PRESS_MOUSE_BUTTON
 Linker Mausknopf um fortzufahren...
 ; Press left mouse button to continue...
 ;
-STR_NETWORK_NO_OWNER
-Kein Eigentümer
-; No owner
-;
-STR_NETWORK_NO_GROUP
-Keine Gruppe
-; No group
-;
 STR_ERROR_ERROR_HELP
 _Fehlerhilfe
 ; Error help
@@ -1278,23 +899,9 @@ STR_PARENT_MULTI
 Überg. Verzeichnisse & multiple Zuweisungen...
 ; Parents and Multi-Assigns...
 ;
-STR_DISKINFO_FILESYSTEM
-Filesystem
-; F.System
-;
-STR_ANIM_TYPE
-Animationstyp
-; Anim type
-;
-STR_GFX_NATIVE
-Original
-; Native
-;
 STR_OPENING_ARCHIVE
 Öffne Archiv...
 ; Opening archive...
-;
-;
 ;
 ; Pop-up menu (1/2)
 ;
@@ -1459,4 +1066,32 @@ A_bbrechen
 STR_EXTRACT_ARCHIVE
 Entpacke Archiv...
 ; Extracting archive...
+;
+; Directory Protect, Comment, DateStamp options
+;
+STR_DIR_COMMENT
+Kommentar
+; Comment
+;
+STR_DIR_PROTECT
+Schützen
+; Protect
+;
+STR_DIR_DATESTAMP
+Datumsstempel
+; DateStamp
+;
+STR_DIR_ALL
+Verzeichnis und _Inhalt
+; Directory & _Contents
+;
+STR_DIR_DIR
+Nur _Verzeichnis
+; _Directory Only
+;
+STR_DIR_MESSAGE
+%s Nur verzeichnis \"%s\" \n\n\
+ODER verzeichnis und inhalt?
+; %s directory \"%s\" only\n\n\
+; OR directory and all contents?
 ;

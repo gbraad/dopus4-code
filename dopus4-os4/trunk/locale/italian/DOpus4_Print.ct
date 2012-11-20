@@ -1,4 +1,4 @@
-## version $VER: DOpus4_Print.catalog 3.0 (15.08.2012)
+## version $VER: DOpus4_Print.catalog 4.0 (21.11.2012)
 ## language italian
 ## codeset 0
 ;
@@ -9,7 +9,7 @@
 ;
 ; DOpus4_Print.cd - Directory Opus 4 Print module catalog description file
 ;
-; $VER: DOpus4_Print.cd 3.0 (15.08.2012)
+; $VER: DOpus4_Print.cd 4.0 (21.11.2012)
 ;
 ;
 STR_SELECT_FILE
