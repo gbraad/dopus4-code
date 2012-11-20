@@ -1,4 +1,4 @@
-## version $VER: Dopus4_Config.catalog 3.0 (15.08.2012)
+## version $VER: Dopus4_Config.catalog 4.0 (21.11.2012)
 ## language polish
 ## codeset 0
 ;
@@ -8,7 +8,7 @@
 ;
 ; DOpus4_Config.cd - ConfigOpus catalog description file
 ;
-; $VER: DOpus4_Config.cd 3.0 (15.08.2012)
+; $VER: DOpus4_Config.cd 4.0 (21.11.2012)
 ;
 ;
 ;*** Messages on quit
