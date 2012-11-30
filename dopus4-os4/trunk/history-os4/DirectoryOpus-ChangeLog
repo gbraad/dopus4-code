@@ -281,8 +281,181 @@ IDOS->ExamineDir(). Should be a lot faster.
 2012-10-02 - DirectoryOpus 4.18.38 (archive.c)
 * Added setting of protection bits when extracting an archive.
 
-2112-10-03 - DirectoryOpus 4.18.38 (main.c)
+2012-10-03 - DirectoryOpus 4.18.38 (main.c)
 * Main window changed to NOT open active and take the focus if
   DirectoryOpus is opened behind Workbench.
 * Added missing "break" in CLI argument parsing.
 
+2012-10-06 - DirectoryOpus 4.18.38 (All _rev.h files)
+* Updated versions & dates.
+* Released binary of repository revision 427
+
+****************************************************************
+
+Oct 19, 2012 - Makefile
+* Fixed dummy target error message suppression in main makefile.
+
+Oct 19, 2012 - makelinkdata.c
+* Fixed error reporting. Was reporting same error for all failures.
+
+Oct 19, 2012 - dopusproto.h
+* Added prototype for new checkexist() function in main14.c
+* Added prototype for new examineobject() function in main14.c
+* Added image flag to simplerequest() prototype.
+
+Nov 01, 2012 - main19.c
+* Switched requester type in simplerequest() function to the DOS
+  function TimedDosRequester() with image purpose indicator.
+
+Nov 01, 2012 - doerror.c
+* Added display image identifier to simplerequest() function call
+  in checkerror() function.
+
+Nov 01, 2012 - doidcmp.c
+* Added display image identifier to simplerequest() function call
+  for "Quit" requester.
+
+Nov 01, 2012 - main10.c
+* Added display image identifier to simplerequest() function call
+  for "Rexx not running" warning requester.
+
+Nov 01, 2012 - main11.c
+* Added display image identifier to simplerequest() function call
+  for "Quit" requester.
+
+Nov 01, 2012 - main16.c
+* Added display image identifier to simplerequest() function call
+  for "Help not available" requester.
+
+Oct 21, 2012 - main15.c
+* Added dofindfile() function that does name substitution for archives
+  before calling findfile() and removed that substitution from main5.c
+  because it caused problems with MOVEAS and COPYAS from an archive.
+* Added display image identifier to simplerequest() function calls
+  for all requesters.
+
+Oct 21, 2012 - main18.c
+* Replaced IDOpus->CheckExist() function call in copymakedir() function
+  to new checkexist() function call. This fixes problems when copying
+  directories to multi-assign directories. Along with with changes to
+  main8.c and main22.c this fixes tracker bug #15 for directory
+  copies to multi-assign directories.
+-- Fixes tracker bug #15
+* Added a check for successful file copy before file deletion.
+* Added display image identifier to simplerequest() function call
+  for "Continue search" requester.
+
+Oct 19, 2012 - main14.c
+* Added checkexist() function to check file existance in multi-assign
+  directories before calling "CheckExist" Dopus4 library function.
+* Added examineobject() function that finds the correct path of a
+  file in the primary assignment of multi-assign directories before
+  calling IDOS->ExamineObjectTags() to return examine-data.
+
+Nov 13, 2012 - main22.c
+* Added a source window archive check to the MOVE command to eliminate
+  an error that caused the file to be silently copied afterward.
+-- Fixes tracker bug #17
+* Changed several IDOpus->CheckExist() function calls to new checkexist()
+  function (added to main14.c) to check file existance in multi-assign
+  directories. Eliminates false file-existance-check results.
+-- Fixes tracker bug #15
+* Fixed error when encrypting a file from an archive by adding archive
+  check at line 2003.
+* Added display image identifier to simplerequest() function calls
+  for all requesters.
+* Fixed directory datestamp, protection & comment by adding a requester
+  to choose between applying the change to the directory and all it's
+  contents or just the directory itself. Previously, all files in the
+  directory were changed which may not be what a user would expect.
+-- Fixes tracker bug #9
+* Eliminated extra DOS requester when attempting to copy a directory to
+  a copy-protected device.
+* Removed file deletion in FUNC_COPY that caused destination file loss
+  if source file was read protected. Along with changes to CopyFile()
+  function in main5.c this fixes tracker bug #7.
+
+Nov 12, 2012 - data.c dopusdata.h
+* Added global variable for copy buffer.
+
+Nov 12, 2012 - main20.c
+* Added copy buffer deallocation to Quit() function.
+
+Nov 12, 2012 - main5.c
+* Moved name substitution in findfile() to dofindfile() in main15.c
+  because it caused MOVEAS & COPYAS from an archive to remove the
+  wrong file from the destination lister.
+-- Fixes tracker bug #13
+* Added a "read-protected" check in CopyFile() function to avoid
+  unexpected destination file deletion.
+* Fixes tracker bug #7 (In conjunction with changes to main22.c)
+* Switched to a global buffer variable so that the same buffer can be used
+  for all copy and move operations instead of allocating a buffer for each
+  file copy. Buffer memory is deallocated in Quit() function (main20.c).
+* Increased buffer size to speed up large file copying.
+
+Oct 21, 2012 - main8.c
+* Added requester for copying a directory when the directory already
+  exists.
+* Changed destination IDOS->ExamineObjectTags() function call in the
+  checkexistreplace() function to new examineobject() function call to
+  prevent errors when copying to a multi-assign directory.
+* Replaced IDOpus->CheckExist() function call in checkexistreplace()
+  function to new checkexist() function call to  prevent errors when
+  copying to  a multi-assign directory.
+
+Nov 9, 2012 - buffers.c custom.c main.c main10.c main11.c main14.c
+              main16.c main16.c main20.c main22.c
+* Added display image identifier to simplerequest() function calls.
+
+Nov 9, 2012 - main17.c
+* Updated simplerequest() function calls with image identifiers.
+* Fixed several command failures that resulted from a previous
+  change of case-insensitive string comparisons to case-sensitive
+  string comparisons.
+--Fixes tracker bug #10
+
+Nov 18, 2012 - main.c
+* Fixed crash when Dopus4 was deiconified to a closed public screen.
+  Dopus4 will now open on Workbench when deiconified if the screen it
+  was iconified from has been closed.
+--Fixes tracker bug #12
+
+Nov 18, 2012 - main20.c
+* Changed checkwindowquit() function to retry guest window check
+  instead of closing guest windows and leaving them in a permanent
+  wait state.
+
+Nov 18, 2012 - locale/ all files
+* Added new string definitions to DOpus.cd for new requester in main22.c.
+* Updated DOpus.ct catalog translation files with new strings.
+* Removed unused string definitions from catalog description and
+  translation files.
+* Bumped catalog version and date in all locale files.
+
+Nov 18, 2012 - library-os4/main/ReadStringFile.c
+* Bumped catalog version requirement so Dopus won't load old catalogs.
+
+Nov 18, 2012 - dopus.library 22.42 (dopus.library_rev.h)
+* Updated library revision because of changes to catalog version requirement.
+
+Nov 29, 2012 - program-os4/dopusflags.h
+* Added REPLACE_MERGE flag for the "merge" option in the Copy requester
+  that opens when a destination directory exists.
+
+Nov 29, 2012 - program-os4/main8.c
+* Changed "file exists" requester by adding a "Merge" option for copying
+  a directory to an existing directory. The "Replace" option in the
+  requester will now actually replace the destination direcory because
+  of new code added to main22.c.
+* Changed the checkexistreplace() "rename" argument to "type" in order to
+  distinguish between a Copy and a Move.
+
+Nov 29, 2012 - program-os4/main22.c
+* Replaced obsolete FIBF_ARCHIVE and FIBF_SCRIPT flags with new flags.
+* Added actual "replace" functionality to COPY and MOVE functions when
+  a destination directory already exists. Directories were previously
+  merged when "Replace" was selected in a requester.
+* Fixed RENAME function to show new filename in a lister when a name
+  already exists and the name is changed for the file that is being
+  renamed.
