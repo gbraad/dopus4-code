@@ -153,5 +153,6 @@ enum
 #define REPLACE_RENAME 3
 #define REPLACE_SKIP 4
 #define REPLACE_SKIPALL 5
+#define REPLACE_MERGE 6
 
 #endif
