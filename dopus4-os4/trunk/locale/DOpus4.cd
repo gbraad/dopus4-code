@@ -247,7 +247,7 @@ STR_ENTER_SEARCH_STRING (//)
 Enter search string
 ;
 STR_RENAME_REQ (//)
-Rena_me
+Re_name
 ;
 STR_STRING_NOT_FOUND (//)
 Sorry! String could not be found!
