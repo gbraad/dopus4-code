@@ -91,7 +91,7 @@ int getprotval(STRPTR buf)
 	return (prot);
 }
 
-int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int rename)
+int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int type)
 {
 	struct ExamineData *sdata, *ddata;
 	char buf[500], datebuf1[40], datebuf2[40], gadgetbuf[100];
@@ -149,6 +149,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 	}
 	else if(config->existflags & REPLACE_ASK)
 	{
+		BOOL dirtodir = FALSE;
 		doerror(ERROR_OBJECT_EXISTS);
 		if(sourcename == destname || !ddata)
 		{
@@ -164,6 +165,7 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 				/* Both entries are directories */
 				uint32 size = IUtility->Strlcpy(buf, globstring[STR_DIRECTORY], 100);
 				buf[size] = ' ';
+				dirtodir = TRUE;
 				snprintf(&buf[size +1], 400, globstring[STR_FILE_EXISTS_REPLACE], IDOS->FilePart(destname));
 //				IDOS->FreeDosObject(DOS_EXAMINEDATA, sdata);
 //				IDOS->FreeDosObject(DOS_EXAMINEDATA, ddata);
@@ -187,7 +189,10 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		}
 		do
 		{
-			snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
+			if ((dirtodir) && (type == FUNC_COPY))
+				snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_MERGE], globstring[STR_ABORT]);
+			else
+				snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
 			a = ra_simplerequest(buf, gadgetbuf, REQIMAGE_WARNING);
 			if(a == REPLACE_RENAME)
 			{
