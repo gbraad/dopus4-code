@@ -49,7 +49,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	int okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
 	int globflag, noremove, doicons = 0, value = 0, progtype = 0, blocksize = 0, retval = 0;
 	int32 total = -1;
-	int64 byte, bb;
+	int64 byte = 0, bb;
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
 	char *sourcename, *destname, *oldiconname, *newiconname;
 	char *buf, *buf1, *buf2, *namebuf, *srename, *drename, *database;
@@ -549,6 +549,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 	while(file)
 	{
+		byte = 0;
 		if(status_haveaborted)
 		{
 			myabort();
@@ -768,7 +769,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					else if(a && a != -2)
 						okayflag = 1;
 				}
-				else if(file->protection & FIBF_SCRIPT)
+				else if(file->protection & EXDF_SCRIPT)
 				{
 					struct dopusfuncpar par;
 
@@ -963,6 +964,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			firstset = 0;
 			if(a)
 			{
+			      retry_rename:
 				if(lastfile)
 				{
 					strncpy(destname, sourcedir, 256);
@@ -976,7 +978,6 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					strncpy(newiconname, namebuf, 256);
 					strncat(newiconname, ".info", 256);
 				}
-			      retry_rename:
 				if(!(IDOS->Rename(sourcename, destname)))
 				{
 					if((a = IDOS->IoErr()) == ERROR_OBJECT_EXISTS)
@@ -985,7 +986,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						{
 							if(!lastfile)
 							{
-								if((a = checkexistreplace(sourcename, destname, &file->date, destwild, 1)) == REPLACE_ABORT)
+								if((a = checkexistreplace(sourcename, destname, &file->date, destwild, FUNC_RENAME)) == REPLACE_ABORT)
 								{
 									myabort();
 									break;
@@ -1006,7 +1007,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 									autoskip = 1;
 								}
 								else if(a == REPLACE_RENAME)
+								{
+									IUtility->Strlcpy(namebuf, IDOS->FilePart(destname), 256);
 									goto retry_rename;
+								}
 							}
 						}
 						if(autoskip)
@@ -1163,6 +1167,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					break;
 				}
+/* Causes lost destination files if copyfile() fails.
 				if((a = delfile(destname, namebuf, globstring[STR_MOVING], 1, 1)) == -1)
 				{
 					myabort();
@@ -1177,7 +1182,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					removefile(tempfile, dwindow, inact, 0);
 				}
-			}
+*/			}
 			if(!(IDOS->Rename(sourcename, destname)))
 			{
 				if((exist < 0 || file->type <= ENTRY_FILE) && (a = IDOS->IoErr()) != ERROR_RENAME_ACROSS_DEVICES)
@@ -1197,13 +1202,70 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					if(file->type >= ENTRY_DIRECTORY)
 					{
-//						a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
-						if (file->subtype == ENTRY_LINK)
-							a = recursedir(sourcename, destname, R_COPY, 0);
+						STRPTR tempname = NULL;
+						if (exist)
+						{
+							retry_move_temp:
+							err = 0;
+							tempname = IUtility->ASPrintf("%s.%04lx", destname, IUtility->GetUniqueID());
+							if (tempname == 0)
+								err = ERROR_NO_FREE_STORE;
+							else if(!(IDOS->Rename(destname, tempname)))
+								err = ERROR_WOULD_BLOCK;
+							if (err)
+							{
+								if (tempname) IExec->FreeVec(tempname);
+								doerror(err);
+								if((a = checkerror(globstring[STR_COPYING], file->name, err)) == 3)
+								{
+									myabort();
+									break;
+								}
+								if(a == 1)
+									goto retry_move_temp;
+								break;
+							}
+
+							if (file->subtype == ENTRY_LINK)
+								a = recursedir(sourcename, destname, R_COPY, 0);
+							else
+								a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
+
+							int globrotectstate = glob_unprotect_all;
+							glob_unprotect_all = 1;
+			 				if (!a)
+							{
+								byte = dos_global_copiedbytes;
+								recursive_delete(tempname);
+								IDOS->DeleteFile(tempname);
+							}
+							else
+							{
+								recursive_delete(destname);
+								IDOS->DeleteFile(destname);
+								if(!(IDOS->Rename(tempname, destname)))
+									doerror(-1);
+								byte = -1;
+							}
+							glob_unprotect_all = globrotectstate;
+							if (tempname) IExec->FreeVec(tempname);
+							exist = 0;
+						}
 						else
-							a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
+						{
+							if (file->subtype == ENTRY_LINK)
+								a = recursedir(sourcename, destname, R_COPY, 0);
+							else
+								a = recursedir(sourcename, destname, R_COPY | R_DELETE, 0);
+							byte = dos_global_copiedbytes;
+						}
+
 						if(a == 0)
 						{
+							if(config->copyflags & COPY_DATE)
+							{
+								IDOS->SetFileDate(destname, &file->date);
+							}
 							if(!func_external_file[0])
 							{
 								setdirsize(file, dos_global_bytecount - dos_global_deletedbytes, act);
@@ -1245,19 +1307,22 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 								status_justabort = 0;
 							break;
 						}
-						if(!(tempfile = findfile(dwindow, namebuf, NULL)))
+						if((tempfile = findfile(dwindow, namebuf, NULL)))
 						{
+							removefile(tempfile, dwindow, inact, 0);
+						}
+						{
+							struct Directory *new = NULL;
 							if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
 							{
-								addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata,file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
+								new = addfile(dwindow, inact, exdata->Name, exdata->FileSize, return_type(exdata,file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
 								IDOS->FreeDosObject(DOS_EXAMINEDATA, exdata);
 							}
 							else
-								addfile(dwindow, inact, namebuf, exist ? -1 : dos_global_copiedbytes, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
-						}
-						else
-						{
-							setdirsize(tempfile, exist ? -1 : dos_global_copiedbytes, act);
+							{
+								new = addfile(dwindow, inact, namebuf, exist ? -1 : dos_global_copiedbytes, file->type, &file->date, file->comment, file->protection, file->subtype, 1, NULL, NULL, file->owner_id, file->group_id);
+							}
+							setdirsize(new, byte, act);
 							refreshwindow(inact, 0);
 						}
 						if((a = delfile(sourcename, file->name, globstring[STR_DELETING], 1, 1)) == -1)
@@ -1385,7 +1450,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), FUNC_COPY)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1438,26 +1503,66 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 */
 			if(file->type >= ENTRY_DIRECTORY)
 			{
-				a = recursedir(sourcename, destname, R_COPY, 0);
-				if(exist)
+				STRPTR tempname = NULL;
+				if ((exist) && (a != REPLACE_MERGE))
 				{
-					byte = -1;
+					retry_temp:
+					err = 0;
+					tempname = IUtility->ASPrintf("%s.%04lx", destname, IUtility->GetUniqueID());
+					if (tempname == 0)
+						err = ERROR_NO_FREE_STORE;
+					else if(!(IDOS->Rename(destname, tempname)))
+						err = ERROR_WOULD_BLOCK;
+					if (err)
+					{
+						if (tempname) IExec->FreeVec(tempname);
+						doerror(err);
+						if((a = checkerror(globstring[STR_COPYING], file->name, err)) == 3)
+						{
+							myabort();
+							break;
+						}
+						if(a == 1)
+							goto retry_temp;
+						break;
+					}
+					a = recursedir(sourcename, destname, R_COPY, 0);
+					int globrotectstate = glob_unprotect_all;
+					glob_unprotect_all = 1;
+	 				if (!a)
+					{
+						byte = dos_global_copiedbytes;
+						recursive_delete(tempname);
+						IDOS->DeleteFile(tempname);
+					}
+					else
+					{
+						recursive_delete(destname);
+						IDOS->DeleteFile(destname);
+						if(!(IDOS->Rename(tempname, destname)))
+							doerror(-1);
+						byte = -1;
+					}
+					glob_unprotect_all = globrotectstate;
+					if (tempname) IExec->FreeVec(tempname);
 					exist = 0;
 				}
 				else
 				{
+					a = recursedir(sourcename, destname, R_COPY, 0);
+					if(exist)
+					{
+						byte = -1;
+						exist = 0;
+					}
+					else
+					{
 					byte = dos_global_copiedbytes;
+					}
 				}
 				if(config->copyflags & COPY_DATE)
 				{
-					if (a == -10)
-					{
-						APTR wsave = IDOS->SetProcWindow((APTR)-1L);
-						IDOS->SetFileDate(destname, &file->date);
-						IDOS->SetProcWindow(wsave);
-					}
-					else
-						IDOS->SetFileDate(destname, &file->date);
+					IDOS->SetFileDate(destname, &file->date);
 				}
 
 				if(!a && !func_external_file[0])
@@ -1537,11 +1642,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(EXD_IS_FILE(exdata))
 					byte = exdata->FileSize;
 				addfile(dwindow, inact, exdata->Name, byte, return_type(exdata, file->type), &exdata->Date, exdata->Comment, exdata->Protection, return_type(exdata, file->subtype), 1, NULL, NULL, exdata->OwnerUID, exdata->OwnerGID);
-				if(config->copyflags & COPY_ARC && !(file->protection & FIBF_ARCHIVE))
+				if(config->copyflags & COPY_ARC && !(file->protection & EXDF_ARCHIVE))
 				{
-					if(IDOS->SetProtection(sourcename, file->protection | FIBF_ARCHIVE))
+					if(IDOS->SetProtection(sourcename, file->protection | EXDF_ARCHIVE))
 					{
-						file->protection |= FIBF_ARCHIVE;
+						file->protection |= EXDF_ARCHIVE;
 						getprot(file->protection, file->protbuf);
 					}
 				}
