@@ -189,9 +189,9 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		}
 		do
 		{
-			if ((dirtodir) && (type == FUNC_COPY))
-				snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_MERGE], globstring[STR_ABORT]);
-			else
+//			if ((dirtodir) && (type == FUNC_COPY))
+//				snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_MERGE], globstring[STR_ABORT]);
+//			else
 				snprintf(gadgetbuf, 100, "%s|%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[allabort ? STR_REPLACE_ALL : STR_TRY_AGAIN], globstring[STR_RENAME_REQ], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_ABORT]);
 			a = ra_simplerequest(buf, gadgetbuf, REQIMAGE_WARNING);
 			if(a == REPLACE_RENAME)
