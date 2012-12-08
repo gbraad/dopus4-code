@@ -61,7 +61,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 	char *name = NULL, *dir = NULL, *dest = NULL, *dname = NULL, *ddir = NULL;
 	char *adir = NULL, *adest = NULL, *ndir = NULL, *ndest = NULL;
 	int suc = 0, to_do, ret = 0, a, err, adata = 0, depth = 0, b, rtry;
-	int data = fdata, *pstuff;
+	int skipall = 0, askall = askeach, data = fdata, *pstuff;
 	struct recpath *crec = NULL, *trec = NULL;
 	struct RecursiveDirectory *cur_recurse = NULL, *addparent_recurse = NULL, *new_rec = NULL, *pos_rec = NULL, *cur_parent = NULL, *cur_lastparent = NULL;
 	APTR data2 = NULL, adata2 = NULL, data3 = NULL, adata3 = NULL;
@@ -496,7 +496,6 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			{
 				if(dowhat & R_COPY)
 				{
-					int skipall = 0;
 					strcpy(dname, ddir);
 					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
 
@@ -509,7 +508,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							continue;
 						IDOS->AddPart(name, tempname, 2048);
 					}
-					if(askeach)
+					if(askall)
 					{
 						a = 0;
 						if((a = checkexistreplace(name, dname, &enfinfo->fib_Date, 1, 0)) == REPLACE_ABORT)
@@ -520,11 +519,11 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						}
 						if(a == REPLACE_ALL)
 						{
-							askeach = 0;
+							askall = 0;
 						}
 						else if(a == REPLACE_SKIPALL)
 						{
-							askeach = 0;
+							askall = 0;
 							skipall = 1;
 						}
 					}
