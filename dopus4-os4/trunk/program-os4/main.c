@@ -140,6 +140,9 @@ int main(int argc, char **argv)
 					break;
 				case 'd':
 					docky = TRUE;
+					break;
+				case 'r':
+					replacedirs = TRUE;
 				}
 			}
 			else
@@ -167,6 +170,8 @@ int main(int argc, char **argv)
 				staybehindWB = TRUE;
 			if(IIcon->FindToolType(toolarray,"DOCKY"))
 				docky = TRUE;
+			if(IIcon->FindToolType(toolarray,"REPLACEDIRS"))
+				replacedirs = TRUE;
 		}
 		if(WBmsg->sm_NumArgs > 1)
 		{
