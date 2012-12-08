@@ -40,6 +40,36 @@ int return_type(struct ExamineData *data, int type)
 	return type;
 }
 
+int checkrecurse(STRPTR source, STRPTR dest)
+{
+	BPTR srclock = 0, destlock = 0;
+	char srcpath[FILEBUF_SIZE] = {0}, destpath[FILEBUF_SIZE] = {0};
+	int err;
+
+	if ((srclock = IDOS->Lock(source, SHARED_LOCK)))
+	{
+		if ((destlock = IDOS->Lock(dest, SHARED_LOCK)))
+		{
+			if (IDOS->DevNameFromLock(srclock, srcpath, FILEBUF_SIZE, DN_FULLPATH))
+			{
+				IDOS->UnLock(srclock);
+				if (IDOS->DevNameFromLock(destlock, destpath, FILEBUF_SIZE, DN_FULLPATH))
+				{
+					IDOS->UnLock(destlock);
+					if (strncmp(srcpath, destpath, strlen(srcpath)) == 0)
+						return -1;
+					else
+						return 0;
+				}
+			}
+		}
+	}
+	err = IDOS->IoErr();
+	if (srclock) IDOS->UnLock(srclock);
+	if (destlock) IDOS->UnLock(destlock);
+	return err;
+}
+
 int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int act, int inact, int rexx)
 {
 	struct InfoData *infodata = NULL;
@@ -1185,7 +1215,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 */			}
 			if(!(IDOS->Rename(sourcename, destname)))
 			{
-				if((exist < 0 || file->type <= ENTRY_FILE) && (a = IDOS->IoErr()) != ERROR_RENAME_ACROSS_DEVICES)
+//				if((exist < 0 || file->type <= ENTRY_FILE) && (a = IDOS->IoErr()) != ERROR_RENAME_ACROSS_DEVICES)
+				if ((a = IDOS->IoErr()) != ERROR_RENAME_ACROSS_DEVICES)
 				{
 					doerror(a);
 					if((a = checkerror(globstring[STR_MOVING], file->name, a)) == 3)
@@ -1203,7 +1234,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					if(file->type >= ENTRY_DIRECTORY)
 					{
 						STRPTR tempname = NULL;
-						if (exist)
+						if ((exist) && replacedirs)
 						{
 							retry_move_temp:
 							err = 0;
@@ -1450,7 +1481,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), FUNC_COPY)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1504,7 +1535,23 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(file->type >= ENTRY_DIRECTORY)
 			{
 				STRPTR tempname = NULL;
-				if ((exist) && (a != REPLACE_MERGE))
+				retry_check:
+				if ((err = checkrecurse(sourcename, destdir)))
+				{
+					int aa = 0;
+					if (err == -1)
+						err = ERROR_OBJECT_IN_USE;
+					doerror(err);
+					if((aa = checkerror(globstring[STR_COPYING], file->name, err)) == 3)
+					{
+						myabort();
+						break;
+					}
+					if(aa == 1)
+						goto retry_check;
+					break;
+				}
+				if ((exist) && replacedirs)
 				{
 					retry_temp:
 					err = 0;
