@@ -87,6 +87,9 @@ int main(int argc, char **argv)
 	struct Interrupt *interrupt;
 	struct IOStdReq *inputreq;
 
+	/* Check for args and exit if none */
+	if (argc < 2) return 5;
+
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
 	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 0)))
 	{
@@ -137,14 +140,14 @@ int main(int argc, char **argv)
 					IDOS->Write(out, "\x1b\x63", 2);
 				}
 			}
-			if(cli && !cli->cli_CommandDir)
+			if(cli && !cli->cli_PathList)
 			{
 				BPTR path = 0L;
 
 				for(a = 0; a < 7; a++)
 					if((path = CloneCommandDir(pathlists[a])))
 						break;
-				cli->cli_CommandDir = path;
+				cli->cli_PathList = path;
 			}
 			break;
 		case 'w':
@@ -279,7 +282,7 @@ BPTR CloneCommandDir(const char *taskname)
 	{
 		if((teachcli = (struct CommandLineInterface *)BADDR(teacher->pr_CLI)))
 		{
-			for(wext = BADDR(teachcli->cli_CommandDir); wext; wext = BADDR(wext->nextPath))
+			for(wext = BADDR(teachcli->cli_PathList); wext; wext = BADDR(wext->nextPath))
 			{
 				if(!(mext = IExec->AllocVec(sizeof(struct PathList), MEMF_PUBLIC)))
 					break;
