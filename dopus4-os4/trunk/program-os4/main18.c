@@ -398,7 +398,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				{
 					rtry = 1;
 				      delloop:
-					if(!IDOS->DeleteFile(name))
+					if(!IDOS->Delete(name))
 					{
 						if(config->deleteflags & 8 && rtry == 1 && IDOS->IoErr() == 222)
 						{
@@ -725,7 +725,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 		while(last)
 		{
-			IDOS->DeleteFile(last->path);
+			IDOS->Delete(last->path);
 			last = last->last;
 		}
 	}

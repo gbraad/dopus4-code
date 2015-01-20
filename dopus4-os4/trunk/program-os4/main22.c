@@ -1268,12 +1268,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							{
 								byte = dos_global_copiedbytes;
 								recursive_delete(tempname);
-								IDOS->DeleteFile(tempname);
+								IDOS->Delete(tempname);
 							}
 							else
 							{
 								recursive_delete(destname);
-								IDOS->DeleteFile(destname);
+								IDOS->Delete(destname);
 								if(!(IDOS->Rename(tempname, destname)))
 									doerror(-1);
 								byte = -1;
@@ -1580,12 +1580,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						byte = dos_global_copiedbytes;
 						recursive_delete(tempname);
-						IDOS->DeleteFile(tempname);
+						IDOS->Delete(tempname);
 					}
 					else
 					{
 						recursive_delete(destname);
-						IDOS->DeleteFile(destname);
+						IDOS->Delete(destname);
 						if(!(IDOS->Rename(tempname, destname)))
 							doerror(-1);
 						byte = -1;
