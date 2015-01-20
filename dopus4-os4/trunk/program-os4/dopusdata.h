@@ -51,8 +51,8 @@ extern struct Library *PopupMenuBase;
 extern struct PopupMenuIFace *IPopupMenu;
 extern struct Library *RexxSysBase;
 extern struct RexxSysIFace *IRexxSys;
-extern struct Library *xadMasterBase;
-extern struct xadMasterIFace *IxadMaster;
+extern struct Library *XadMasterBase;
+extern struct XadMasterIFace *IXadMaster;
 
 /* Intuition objects */
 

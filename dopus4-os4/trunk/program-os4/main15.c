@@ -26,7 +26,7 @@ The release of Directory Opus 4 under the GPL in NO WAY affects
 the existing commercial status of Directory Opus 5.
 
 */
-
+#define XAD_OBSOLETE
 #include "dopus.h"
 #include <proto/xadmaster.h>
 
@@ -116,7 +116,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		file->selected = old;
 	}
 
-	if(IxadMaster)
+	if(IXadMaster)
 	{
 		BPTR fh;
 		int len;
@@ -125,11 +125,12 @@ void ftype_doubleclick(char *path, char *name, int state)
 
 		if((fh = IDOS->Open(buf, MODE_OLDFILE)))
 		{
-			len = ((struct xadMasterBase *)(IxadMaster->Data.LibBase))->xmb_RecogSize;
+//			len = ((struct XadMasterBase *)(IXadMaster->Data.LibBase))->xmb_RecogSize;
+			len = ((struct xadMasterBase *)XadMasterBase)->xmb_RecogSize;
 			mem = IExec->AllocMem(len, MEMF_ANY);
 			IDOS->Read(fh, mem, len);
 			IDOS->Close(fh);
-			cl = IxadMaster->xadRecogFile(len, mem, NULL);
+			cl = IXadMaster->xadRecogFile(len, mem, NULL);
 			IExec->FreeMem(mem, len);
 			if(cl)
 			{

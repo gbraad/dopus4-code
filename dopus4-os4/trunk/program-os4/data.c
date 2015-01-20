@@ -50,8 +50,8 @@ struct Library *PopupMenuBase = NULL;
 struct PopupMenuIFace *IPopupMenu = NULL;
 struct Library *RexxSysBase = NULL;
 struct RexxSysIFace *IRexxSys = NULL;
-struct Library *xadMasterBase = NULL;
-struct xadMasterIFace *IxadMaster = NULL;
+struct Library *XadMasterBase = NULL;
+struct XadMasterIFace *IXadMaster = NULL;
 
 
 /* Intuition objects */

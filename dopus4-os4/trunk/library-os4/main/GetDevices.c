@@ -72,7 +72,7 @@ int _DOpus_GetDevices(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	dl = IDOS->LockDosList(LDF_DEVICES | LDF_READ);
 	while((dl = IDOS->NextDosEntry(dl, LDF_DEVICES)))
 	{
-		if(dl->dol_Type == DLT_DEVICE && dl->dol_Task)
+		if(dl->dol_Type == DLT_DEVICE && dl->dol_Port)
 		{
 			IDOS->CopyStringBSTRToC(dl->dol_Name, pathname, 256);
 			Self->LStrCat(pathname, ":");

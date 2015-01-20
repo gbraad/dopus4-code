@@ -43,6 +43,7 @@ the existing commercial status of Directory Opus 5.
 #include <dos/dosextens.h>
 #include <dos/dostags.h>
 #include <dos/exall.h>
+#include <dos/obsolete.h>
 #include <intuition/intuitionbase.h>
 #include <intuition/imageclass.h>
 #include <intuition/icclass.h>

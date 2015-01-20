@@ -67,7 +67,7 @@ int32 recursive_delete(STRPTR directory)
 
 				if(!str_filter_parsed[0] || IDOS->MatchPatternNoCase(str_filter_parsed, dat->Name))
 				{
-					if(IDOS->DeleteFile(nodename))
+					if(IDOS->Delete(nodename))
 					{
 						if(EXD_IS_FILE(dat))
 						{
@@ -85,7 +85,7 @@ int32 recursive_delete(STRPTR directory)
 							if((config->deleteflags & DELETE_SET) || (glob_unprotect_all == 1))
 							{
 								IDOS->SetProtection(dat->Name, 0);
-								IDOS->DeleteFile(dat->Name);
+								IDOS->Delete(dat->Name);
 								if(EXD_IS_FILE(dat))
 								{
 									dos_global_deletedbytes += dat->FileSize;

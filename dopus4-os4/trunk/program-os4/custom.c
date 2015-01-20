@@ -1386,7 +1386,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 			{
 				if(IUtility->Strnicmp(data->Name, "dopustemp", 9) == 0)
 				{
-					IDOS->DeleteFile(data->Name);
+					IDOS->Delete(data->Name);
 				}
 			}
 		}
@@ -1631,7 +1631,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 	if(funcdata->output_file)
 		IDOS->Close(funcdata->output_file);
 	if((funcdata->output_file || okayflag) && funcdata->scriptname[0] && (!par || !(flags & FLAG_ASYNC)))
-		IDOS->DeleteFile(funcdata->scriptname);
+		IDOS->Delete(funcdata->scriptname);
 	funcdata->output_file = funcdata->scriptname[0] = 0;
 	funcdata->rereaddest = funcdata->rereadsource = 0;
 
@@ -1639,7 +1639,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 	if(otemp)
 	{
 		viewfile(funcdata->tempfile, globstring[STR_TEMPORARY_OUTPUT_FILE], FUNC_SMARTREAD, NULL, /*NULL,*/ 1, 0);
-		IDOS->DeleteFile(funcdata->tempfile);
+		IDOS->Delete(funcdata->tempfile);
 	}
 	IDOpus->LFreeRemember(&rec_pathkey);
 	IDOpus->LFreeRemember(&funcdata->reload_memkey);
