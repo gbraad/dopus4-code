@@ -211,7 +211,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	if(outhandle)
 	{
 		IDOS->Close(outhandle);
-		IDOS->DeleteFile(dst);
+		IDOS->Delete(dst);
 	}
 
 	if(data)
@@ -319,7 +319,7 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 	int suc, a, err, try = 0, recplus = 0;
 
       loop:
-	if((suc = IDOS->DeleteFile(name)) == 0)
+	if((suc = IDOS->Delete(name)) == 0)
 	{
 		if((err = IDOS->IoErr()) == ERROR_OBJECT_NOT_FOUND)
 		{

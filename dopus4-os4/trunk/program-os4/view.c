@@ -444,7 +444,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	}
 
 	if(view_msg->deleteonexit)
-		IDOS->DeleteFile(filename);
+		IDOS->Delete(filename);
 
 	return retcode;
 }
