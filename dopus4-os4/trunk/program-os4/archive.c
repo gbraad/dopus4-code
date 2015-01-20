@@ -68,18 +68,18 @@ int readarchive(struct DirectoryWindow *dir, int win)
 		if((dir->arcname = IExec->AllocVec(strlen(arcname) + 1, MEMF_ANY)))
 		{
 			strcpy(dir->arcname, arcname);
-			if((dir->xai = IxadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
+			if((dir->xai = IXadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
 			{
 				struct TagItem ti[2] = { { XAD_INFILENAME, (Tag)arcname} , { TAG_END, 0 } };
 
-				if(!(IxadMaster->xadGetInfoA(dir->xai, ti)))
+				if(!(IXadMaster->xadGetInfoA(dir->xai, ti)))
 				{
 					if(dir->xai->xai_DiskInfo)
 					{
 						struct xadArchiveInfo *xai2;
 						int err;
 
-						if((xai2 = IxadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
+						if((xai2 = IXadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
 						{
 							struct TagItem ti2[2];
 
@@ -88,25 +88,25 @@ int readarchive(struct DirectoryWindow *dir, int win)
 							ti2[1].ti_Tag = TAG_MORE;
 							ti2[1].ti_Data = (ULONG) ti;
 
-							if(!(err = IxadMaster->xadGetDiskInfo(xai2, XAD_NOEMPTYERROR, 1, XAD_INDISKARCHIVE, (ULONG) ti2, TAG_DONE)))
+							if(!(err = IXadMaster->xadGetDiskInfo(xai2, XAD_NOEMPTYERROR, 1, XAD_INDISKARCHIVE, (ULONG) ti2, TAG_DONE)))
 							{
 								if(xai2->xai_FileInfo)
 								{
-									IxadMaster->xadFreeInfo(dir->xai);
-									IxadMaster->xadFreeObjectA(dir->xai, NULL);
+									IXadMaster->xadFreeInfo(dir->xai);
+									IXadMaster->xadFreeObjectA(dir->xai, NULL);
 									dir->xai = xai2;
 								}
 								else
-									IxadMaster->xadFreeInfo(xai2);
+									IXadMaster->xadFreeInfo(xai2);
 							}
-							IxadMaster->xadFreeObjectA(xai2, NULL);
+							IXadMaster->xadFreeObjectA(xai2, NULL);
 						}
 					}
 					dir->flags |= DWF_ARCHIVE;
 				}
 				else
 				{
-					IxadMaster->xadFreeObjectA(dir->xai, NULL);
+					IXadMaster->xadFreeObjectA(dir->xai, NULL);
 					dir->xai = NULL;
 					IExec->FreeVec(dir->arcname);
 					dir->arcname = NULL;
@@ -168,7 +168,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 						type = ENTRY_DIRECTORY;
 					}
 
-					IxadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) & ds, TAG_END);
+					IXadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) & ds, TAG_END);
 
 					addfile(dir, win, buf, (type > 0) ? -1LL : xfi->xfi_Size, type, &ds, xfi->xfi_Comment, xfi->xfi_Protection, 0, FALSE, NULL, NULL, xfi->xfi_OwnerUID, xfi->xfi_OwnerGID);
 				}
@@ -185,11 +185,11 @@ void freearchive(struct DirectoryWindow *dir)
 {
 	if(dir->xai)
 	{
-		IxadMaster->xadFreeInfo(dir->xai);
+		IXadMaster->xadFreeInfo(dir->xai);
 		if(dir->arcname)
 			IExec->FreeVec(dir->arcname);
 		dir->arcname = NULL;
-		IxadMaster->xadFreeObject(dir->xai, TAG_END);
+		IXadMaster->xadFreeObject(dir->xai, TAG_END);
 		dir->xai = NULL;
 		dir->arcpassword[0] = 0;
 	}
@@ -265,15 +265,15 @@ BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *na
 			{
 				while (err != XADERR_OK)
 				{
-					err = IxadMaster->xadFileUnArc(dir->xai, XAD_ENTRYNUMBER, xfi->xfi_EntryNumber, XAD_OUTFILENAME, (ULONG) arcname, dir->arcpassword[0] ? XAD_PASSWORD : TAG_IGNORE, dir->arcpassword, TAG_END);
+					err = IXadMaster->xadFileUnArc(dir->xai, XAD_ENTRYNUMBER, xfi->xfi_EntryNumber, XAD_OUTFILENAME, (ULONG) arcname, dir->arcpassword[0] ? XAD_PASSWORD : TAG_IGNORE, dir->arcpassword, TAG_END);
 					switch (err)
 					{
 					case XADERR_OK:
 						{
 							struct DateStamp ds;
 
-							IxadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) &ds, TAG_END);
-							IDOS->SetFileDate(arcname, &ds);
+							IXadMaster->xadConvertDates(XAD_DATEXADDATE, (Tag) & xfi->xfi_Date, XAD_GETDATEDATESTAMP, (Tag) &ds, TAG_END);
+							IDOS->SetDate(arcname, &ds);
 							IDOS->SetProtection(arcname, xfi->xfi_Protection);
 							if(xfi->xfi_Comment)
 							{
@@ -301,7 +301,7 @@ void removetemparcfile(const char *name)
 {
 	if(str_arcorgname[0])
 	{
-		IDOS->DeleteFile(name);
+		IDOS->Delete(name);
 		str_arcorgname[0] = 0;
 	}
 }
@@ -400,9 +400,9 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 
 	if((ProgressHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, ProgressFunc, TAG_END)))
 	{
-		if((xadai = IxadMaster->xadAllocObject(XADOBJ_ARCHIVEINFO, TAG_END)))
+		if((xadai = IXadMaster->xadAllocObject(XADOBJ_ARCHIVEINFO, TAG_END)))
 		{
-			if((xad_result = IxadMaster->xadGetInfo(xadai, XAD_INFILENAME, (uint32)sourcename, TAG_END )) == 0L)
+			if((xad_result = IXadMaster->xadGetInfo(xadai, XAD_INFILENAME, (uint32)sourcename, TAG_END )) == 0L)
 			{
 				xadfi = xadai->xai_FileInfo;
 
@@ -410,8 +410,8 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 				{
 					if(status_haveaborted)
 					{
-						IxadMaster->xadFreeInfo(xadai);
-						IxadMaster->xadFreeObject(xadai, TAG_END);
+						IXadMaster->xadFreeInfo(xadai);
+						IXadMaster->xadFreeObject(xadai, TAG_END);
 						IExec->FreeSysObject(ASOT_HOOK, ProgressHook);
 						return 0;
 					}
@@ -424,13 +424,13 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 							arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 100, IDOS->FilePart(xadfi->xfi_FileName), 0);
 						}
 						snprintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
-						if((xad_result = IxadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) == 0L)
+						if((xad_result = IXadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) == 0L)
 						{
 							struct DateStamp d;
 
-							if((xad_result = IxadMaster->xadConvertDates(XAD_DATEXADDATE, &xadfi->xfi_Date, XAD_GETDATEDATESTAMP, &d, TAG_DONE)) == 0L)
+							if((xad_result = IXadMaster->xadConvertDates(XAD_DATEXADDATE, &xadfi->xfi_Date, XAD_GETDATEDATESTAMP, &d, TAG_DONE)) == 0L)
 							{
-								IDOS->SetFileDate(destname, &d);
+								IDOS->SetDate(destname, &d);
 							}
 
 							if(xadfi->xfi_Comment)
@@ -444,9 +444,9 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 					xadfi = xadfi->xfi_Next;
 				}
 				retval = 1;
-				IxadMaster->xadFreeInfo(xadai);
+				IXadMaster->xadFreeInfo(xadai);
 			}
-			IxadMaster->xadFreeObject(xadai, TAG_END);
+			IXadMaster->xadFreeObject(xadai, TAG_END);
 		}
 		IExec->FreeSysObject(ASOT_HOOK, ProgressHook);
 	}

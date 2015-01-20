@@ -256,7 +256,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 						{
 							IDOpus->LFreeRemember(&clipkey);
 							firstclip = NULL;
-							IDOS->DeleteFile("t:configopus.clip");
+							IDOS->Delete("t:configopus.clip");
 						}
 						break;
 					}

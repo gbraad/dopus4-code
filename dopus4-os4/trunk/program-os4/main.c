@@ -81,10 +81,10 @@ int main(int argc, char **argv)
 	IPopupMenu = (struct PopupMenuIFace *)IExec->GetInterface(PopupMenuBase, "main", 1, NULL);
 	RexxSysBase = IExec->OpenLibrary("rexxsyslib.library", 0L);
 	IRexxSys = (struct RexxSysIFace *)IExec->GetInterface(RexxSysBase, "main", 1, NULL);
-	xadMasterBase = IExec->OpenLibrary("xadmaster.library", 0L);
-	IxadMaster = (struct xadMasterIFace *)IExec->GetInterface(xadMasterBase, "main", 1, NULL);
+	XadMasterBase = IExec->OpenLibrary("xadmaster.library", 0L);
+	IXadMaster = (struct XadMasterIFace *)IExec->GetInterface(XadMasterBase, "main", 1, NULL);
 
-	if(!IAmigaGuide || !IApplication || !ICommodities || !IGadTools || !ILayers || !IPopupMenu || !IRexxSys || !IxadMaster)
+	if(!IAmigaGuide || !IApplication || !ICommodities || !IGadTools || !ILayers || !IPopupMenu || !IRexxSys || !IXadMaster)
 	{
 		IDOS->Printf("Can't open required libraries and interfaces!\n");
 		quit();
@@ -192,12 +192,12 @@ int main(int argc, char **argv)
 
 	old_pr_cis = main_proc->pr_CIS;
 	old_pr_cos = main_proc->pr_COS;
-	old_pr_consoletask = main_proc->pr_ConsoleTask;
+	old_pr_consoletask = main_proc->pr_ConsolePort;
 
 	nil_file_handle = IDOS->Open("NIL:", MODE_NEWFILE);
 	main_proc->pr_CIS = nil_file_handle;
 	main_proc->pr_COS = nil_file_handle;
-	main_proc->pr_ConsoleTask = (APTR)((struct FileHandle *)BADDR(nil_file_handle))->fh_Type;
+	main_proc->pr_ConsolePort = (APTR)((struct FileHandle *)BADDR(nil_file_handle))->fh_MsgPort;
 
 	if((s = (STRPTR)strstri(IDOS->FilePart(str_config_basename), ".CFG")))
 	{

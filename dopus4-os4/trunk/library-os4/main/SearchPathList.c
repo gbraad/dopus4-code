@@ -92,7 +92,7 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 		{
 			if((cli = (struct CommandLineInterface *)BADDR(proc->pr_CLI)))
 			{
-				for (wext = (struct PathList *)BADDR(cli->cli_CommandDir); wext; wext = (struct PathList *)BADDR(wext->nextPath))
+				for (wext = (struct PathList *)BADDR(cli->cli_PathList); wext; wext = (struct PathList *)BADDR(wext->nextPath))
 				{
 					if ((lock1 = IDOS->DupLock(wext->pathLock)))
 					{

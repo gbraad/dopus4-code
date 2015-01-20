@@ -124,8 +124,8 @@ void quit()
 	IExec->DropInterface((struct Interface *)IDOpus);
 	IExec->CloseLibrary(DOpusBase);
 
-	IExec->DropInterface((struct Interface *)IxadMaster);
-	IExec->CloseLibrary(xadMasterBase);
+	IExec->DropInterface((struct Interface *)IXadMaster);
+	IExec->CloseLibrary(XadMasterBase);
 	IExec->DropInterface((struct Interface *)IRexxSys);
 	IExec->CloseLibrary(RexxSysBase);
 	IExec->DropInterface((struct Interface *)ICommodities);

@@ -54,7 +54,7 @@ struct dopus_func_start
 	struct DOpusStartup startup;	/* Process Startup message       */
 	char status;		/* Status byte                   */
 	BPTR olddir;		/* Old current directory         */
-	struct Segment *resseg;	/* Resident Segment pointer      */
+	struct DosResidentSeg *resseg;	/* Resident Segment pointer      */
 };
 
 #define SEG_PRINT 0
