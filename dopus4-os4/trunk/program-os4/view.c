@@ -61,6 +61,8 @@ void view_clearsearch(struct ViewData *);
 int view_simplerequest(struct ViewData *, char *, ...);
 int view_whatsit(struct ViewData *, char *, int, char *);
 
+#define PN_SIZE 20  /* Size of portname[] */
+
 struct ViewMessage
 {
 	STRPTR filename;
@@ -149,10 +151,27 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 
 	if((view_message = IExec->AllocVec(sizeof(struct ViewMessage), MEMF_SHARED | MEMF_CLEAR)))
 	{
-		view_message->filename = IExec->AllocVec(strlen(filename) + 1, MEMF_SHARED | MEMF_CLEAR);
-		strcpy(view_message->filename, filename);
-		view_message->name = IExec->AllocVec(strlen(name) + 1, MEMF_SHARED | MEMF_CLEAR);
-		strcpy(view_message->name, name);
+		if ((view_message->filename = IExec->AllocVec(strlen(filename) + 1, MEMF_SHARED | MEMF_CLEAR)))
+		{
+			strcpy(view_message->filename, filename);
+		}
+		else
+		{
+			IExec->FreeVec(view_message);
+			return ret;
+		}
+
+		if ((view_message->name = IExec->AllocVec(strlen(name) + 1, MEMF_SHARED | MEMF_CLEAR)))
+		{
+			strcpy(view_message->name, name);
+		}
+		else
+		{
+			IExec->FreeVec(view_message->filename);
+			IExec->FreeVec(view_message);
+			return ret;
+		}
+
 		if(initialsearch)
 		{
 			view_message->initialsearch = IExec->AllocVec(strlen(initialsearch) + 1, MEMF_SHARED | MEMF_CLEAR);
@@ -227,7 +246,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	struct ViewMessage *view_msg;
 	STRPTR filename, name, initialsearch;
 	int function;
-	char portname[20], titlebuf[300];
+	char portname[PN_SIZE], titlebuf[300];
 
 	view_msg = (struct ViewMessage *)IDOS->GetEntryData();
 	filename = view_msg->filename;
@@ -238,7 +257,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	IExec->Forbid();
 	for(a = 0;; a++)
 	{
-		snprintf(portname, 20, "DOPUS_VIEW%d", a);
+		snprintf(portname, PN_SIZE, "DOPUS_VIEW%d", a);
 		if(!(IExec->FindPort(portname)))
 			break;
 	}
@@ -251,12 +270,13 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		if((data = IDOS->ExamineObjectTags(EX_StringName, filename, TAG_END)))
 		{
 			size = data->FileSize;
+			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 
 			if(size > 0)
 			{
 				if((vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
-					strncpy(vdata->view_port_name, portname, 20);
+					strlcpy(vdata->view_port_name, portname, PN_SIZE);
 					vdata->view_port = view_port;
 					vdata->view_file_size = size;
 					vdata->view_file_name = name;
@@ -269,7 +289,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 					if((retcode = view_setupdisplay(vdata)))
 						goto view_end;
 
-					snprintf(titlebuf, 300, "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
+					snprintf(titlebuf, sizeof(titlebuf), "%s - \"%s\"", globstring[STR_FILE], vdata->view_path_name);
 					if(config->viewbits & VIEWBITS_INWINDOW)
 						IIntuition->SetWindowTitles(vdata->view_window, titlebuf, "Directory Opus Reader");
 					else
@@ -432,6 +452,9 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		IExec->FreeSysObject(ASOT_PORT, view_port);
 	}
 
+	if(view_msg->deleteonexit)
+		IDOS->Delete(filename);
+
 	if(view_msg->wait == 0)
 	{
 		if(view_msg->initialsearch)
@@ -442,9 +465,6 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		IExec->FreeVec(view_msg->filename);
 		IExec->FreeVec(view_msg);
 	}
-
-	if(view_msg->deleteonexit)
-		IDOS->Delete(filename);
 
 	return retcode;
 }
@@ -491,6 +511,7 @@ int view_loadfile(struct ViewData *vdata)
 	}
 	if(!(in = IDOS->Open(vdata->view_path_name, MODE_OLDFILE)))
 	{
+		IExec->FreeVec(vdata->view_text_buffer);
 		return 0;
 	}
 
