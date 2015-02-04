@@ -29,6 +29,8 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#define PN_SIZE 20  /* Size of portname[] */
+
 struct ViewNode
 {
 	struct Node vnode;
@@ -104,7 +106,7 @@ struct ViewData
 	struct PropInfo view_prop_info;
 	struct Image view_prop_image;
 
-	char view_port_name[20];
+	char view_port_name[PN_SIZE];
 	struct MsgPort *view_port;
 
 	int16 view_colour_table[8];

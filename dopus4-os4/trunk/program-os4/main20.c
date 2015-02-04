@@ -191,7 +191,12 @@ void freedynamiccfg()
 
 int checkwindowquit()
 {
-	struct Window *wind, *temp;
+//	struct Window *wind, *temp;
+	char portname[PN_SIZE] = {'\0'};
+	extern ULONG view_runcount;
+	int a = 0;
+	int runcount = view_runcount;
+	int count = 0;
 
 	if(!MainScreen)
 	{
@@ -215,15 +220,38 @@ int checkwindowquit()
 		}
 	}
 
+	if (runcount > 0)
+	{
+		for(a = 0; a < 15; a++)
+		{
+		    struct MsgPort *port = NULL;
+
+			snprintf(portname, sizeof(portname), "%s_VIEW%d", str_arexx_portname, a);
+			IExec->Forbid();
+			port = IExec->FindPort(portname);
+			IExec->Permit();
+			if (port)
+			{
+				IExec->Signal(port->mp_SigTask , SIGBREAKF_CTRL_C);
+				count++;
+			}
+			if (count >= runcount) break;
+		}
+	}
+
+/*
 	for(wind = MainScreen->FirstWindow; wind;)
 	{
+printf("In closewindow loop\n");
 		temp = wind->NextWindow;
 		if(wind != Window)
 		{
 			IIntuition->CloseWindow(wind);
+printf("Closed a window\n");
 		}
 		wind = temp;
 	}
+*/
 
 	unbusy();
 	return (1);
