@@ -174,7 +174,7 @@ int simplerequest(uint32 image, STRPTR txt, ...)
 	char *gads[11], *cancelgad = NULL, *gad, gadgets[1024] = { 0, };
 	int a, i, r = 1, rets[10], gnum = 0, rnum = 0;
 	va_list ap;
-	struct EasyStruct easy = {sizeof (struct EasyStruct), ESF_EVENSIZE, NULL, NULL, NULL};
+	struct EasyStruct easy = {sizeof (struct EasyStruct), (ESF_EVENSIZE | ESF_SCREEN), NULL, NULL, NULL, MainScreen, NULL};
 
 	va_start(ap, txt);
 	for(a = 0; a < 10; a++)

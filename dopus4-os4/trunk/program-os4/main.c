@@ -396,6 +396,7 @@ int main(int argc, char **argv)
 	{
 		unbusy();
 	}
+	staybehindWB = FALSE;
 
 	doidcmp();
 
@@ -567,7 +568,6 @@ int SetUp(int tit)
 		else
 		{
 			main_win.Type = CUSTOMSCREEN;
-
 
 			if(!MainScreen)
 			{

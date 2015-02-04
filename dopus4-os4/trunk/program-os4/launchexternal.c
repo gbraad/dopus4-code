@@ -139,6 +139,7 @@ void doconfig()
 	struct ConfigStuff cstuff;
 	struct dopus_func_start config_func;
 	char *func_args[2], *old_name;
+	struct Config config_backup = {0};
 
 	sprintf(replyname, "%s%d", config_replyport_basename, system_dopus_runcount);
 	if(!(conport = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, replyname, ASOPORT_Pri, 20, ASOPORT_Public, TRUE, TAG_DONE)))
@@ -221,6 +222,7 @@ void doconfig()
 				confignotdone = 0;
 				break;
 			case CONFIG_GET_CONFIG:
+				IExec->CopyMem(config, &config_backup, sizeof(struct Config));
 				cfg.config = config;
 				cfg.firsttype = dopus_firsttype;
 				cfg.typekey = filetype_key;
@@ -233,6 +235,12 @@ void doconfig()
 				break;
 			case CONFIG_HERES_CONFIG:
 				rcfg = (struct configconfig *)replymsg->data;
+				if (rcfg->changed)
+					if (!checkwindowquit())
+					{
+						IExec->CopyMem(&config_backup, config, sizeof(struct Config));
+						break;
+					}
 				dopus_firsttype = rcfg->firsttype;
 				dopus_firstgadbank = rcfg->firstbank;
 				dopus_firsthotkey = rcfg->firsthotkey;
@@ -263,6 +271,7 @@ void doconfig()
 
 	dopus_curgadbank = dopus_firstgadbank;
 	data_gadgetrow_offset = data_drive_offset = 0;
+
 	if(config_changed)
 	{
 		if(config_changed == 2)

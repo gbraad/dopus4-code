@@ -61,8 +61,6 @@ void view_clearsearch(struct ViewData *);
 int view_simplerequest(struct ViewData *, char *, ...);
 int view_whatsit(struct ViewData *, char *, int, char *);
 
-#define PN_SIZE 20  /* Size of portname[] */
-
 struct ViewMessage
 {
 	STRPTR filename;
@@ -120,7 +118,7 @@ static struct NewWindow viewwin =
 
 static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
 
-ULONG view_runcount;
+ULONG view_runcount = 0;
 
 int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, int wait, int noftype)
 {
@@ -205,17 +203,18 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 			}
 		}
 
-		IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END);
-
-		if(wait)
+		if (IDOS->CreateNewProcTags(NP_Name, launchname, NP_Entry, &view_file_process, NP_EntryData, view_message, NP_StackSize, 65356, wait ? NP_NotifyOnDeathMessage : TAG_IGNORE, deathmsg, NP_Child, TRUE, TAG_END))
 		{
-			if(deathmsg)
+			if(wait)
 			{
-				IExec->WaitPort(deathmsg_replyport);
-				IExec->GetMsg(deathmsg_replyport);
-				ret = deathmsg->dm_ReturnCode;
-				IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
-				IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
+				if(deathmsg)
+				{
+					IExec->WaitPort(deathmsg_replyport);
+					IExec->GetMsg(deathmsg_replyport);
+					ret = deathmsg->dm_ReturnCode;
+					IExec->FreeSysObject(ASOT_MESSAGE, deathmsg);
+					IExec->FreeSysObject(ASOT_PORT, deathmsg_replyport);
+				}
 			}
 		}
 	}
@@ -248,6 +247,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	int function;
 	char portname[PN_SIZE], titlebuf[300];
 
+	signal(SIGINT, SIG_IGN);
 	view_msg = (struct ViewMessage *)IDOS->GetEntryData();
 	filename = view_msg->filename;
 	name = view_msg->name;
@@ -257,7 +257,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 	IExec->Forbid();
 	for(a = 0;; a++)
 	{
-		snprintf(portname, PN_SIZE, "DOPUS_VIEW%d", a);
+		snprintf(portname, PN_SIZE, "%s_VIEW%d", str_arexx_portname, a);
 		if(!(IExec->FindPort(portname)))
 			break;
 	}
@@ -276,6 +276,8 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 			{
 				if((vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
+					if(view_msg->wait == 0)
+						view_runcount++;
 					strlcpy(vdata->view_port_name, portname, PN_SIZE);
 					vdata->view_port = view_port;
 					vdata->view_file_size = size;
@@ -448,7 +450,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		{
 			retcode = -2;
 		}
-	      view_end:
+		view_end:
 		IExec->FreeSysObject(ASOT_PORT, view_port);
 	}
 
@@ -464,6 +466,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 		IExec->FreeVec(view_msg->name);
 		IExec->FreeVec(view_msg->filename);
 		IExec->FreeVec(view_msg);
+		view_runcount--;
 	}
 
 	return retcode;
@@ -471,7 +474,8 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 void cleanupviewfile(struct ViewData *vdata)
 {
-	if(config->viewbits & VIEWBITS_INWINDOW)
+	if((config->viewbits & VIEWBITS_INWINDOW) &&
+	   (vdata->view_screen == MainScreen))
 	{
 		if(vdata->view_window)
 		{
@@ -479,9 +483,11 @@ void cleanupviewfile(struct ViewData *vdata)
 			config->viewtext_toplefty = vdata->view_window->TopEdge;
 
 			IIntuition->CloseWindow(vdata->view_window);
+			vdata->view_window = NULL;
 		}
 	}
 	else if(vdata->view_screen)
+//	if((vdata->view_screen) && (vdata->view_screen != MainScreen))
 	{
 		IIntuition->ScreenToBack(vdata->view_screen);
 		if(vdata->view_window)
@@ -560,14 +566,13 @@ int view_idcmp(struct ViewData *vdata)
 	char buf[60];
 	int a, b, c;
 	int retcode = 1;
+	ULONG sigs = 0;
 	BOOL quit = FALSE;
 
 	for(a = 0; a < 7; a++)
 	{
 		scroll_pos[a] = (vdata->view_window->Height / 8) * (a + 1);
 	}
-
-	view_runcount++;
 
 	while(!quit)
 	{
@@ -586,7 +591,6 @@ int view_idcmp(struct ViewData *vdata)
 				IGadTools->GT_EndRefresh(vdata->view_window, TRUE);
 				break;
 			case IDCMP_CLOSEWINDOW:
-				view_runcount--;
 				retcode = -1;
 				quit = TRUE;
 				break;
@@ -982,7 +986,9 @@ int view_idcmp(struct ViewData *vdata)
 			}
 			continue;
 		}
-		IExec->Wait((1 << vdata->view_window->UserPort->mp_SigBit));
+		sigs = IExec->Wait((1 << vdata->view_window->UserPort->mp_SigBit) | SIGBREAKF_CTRL_C);
+		if (sigs & SIGBREAKF_CTRL_C)
+			quit = TRUE;
 	}
 	return retcode;
 }
@@ -1436,7 +1442,8 @@ void view_print(struct ViewData *vdata, STRPTR str, int y, int len)
 	{
 		if(len > 0)
 		{
-			if(str[len - 1] == '\n')
+//			if(str[len - 1] == '\n')
+			if((len > 1) && (str[len - 1] == '\n'))
 				--len;
 			vdata->view_console_request.io_Data = (APTR) "\f" /*"\x9b;0m\f" */ ;
 			vdata->view_console_request.io_Length = 1 /*5 */ ;
@@ -1631,7 +1638,7 @@ void view_search(struct ViewData *vdata, int ask)
 
 	if(!vdata->view_search_string[0])
 		ask = 1;
-	strncpy(temp, vdata->view_search_string, 128);
+	strlcpy(temp, vdata->view_search_string, sizeof(temp));
 	view_busy(vdata);
 
 	if(ask)
@@ -1839,7 +1846,7 @@ void view_status_text(struct ViewData *vdata, char *str)
 
 	if(config->viewbits & VIEWBITS_TEXTBORDERS)
 	{
-		strncpy(buf, str, 108);
+		strlcpy(buf, str, sizeof(buf));
 		IGadTools->GT_SetGadgetAttrs(g, vdata->view_window, NULL, GTTX_Text, buf, TAG_END);
 	}
 }
