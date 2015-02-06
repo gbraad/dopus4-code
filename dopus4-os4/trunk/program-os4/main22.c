@@ -1535,22 +1535,27 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(file->type >= ENTRY_DIRECTORY)
 			{
 				STRPTR tempname = NULL;
-				retry_check:
-				if ((err = checkrecurse(sourcename, destdir)))
+
+				if(swindow && !(swindow->flags & DWF_ARCHIVE))
 				{
-					int aa = 0;
-					if (err == -1)
-						err = ERROR_OBJECT_IN_USE;
-					doerror(err);
-					if((aa = checkerror(globstring[STR_COPYING], file->name, err)) == 3)
+					retry_check:
+					if ((err = checkrecurse(sourcename, destdir)))
 					{
-						myabort();
+						int aa = 0;
+						if (err == -1)
+							err = ERROR_OBJECT_IN_USE;
+						doerror(err);
+						if((aa = checkerror(globstring[STR_COPYING], file->name, err)) == 3)
+						{
+							myabort();
+							break;
+						}
+						if(aa == 1)
+							goto retry_check;
 						break;
 					}
-					if(aa == 1)
-						goto retry_check;
-					break;
 				}
+
 				if ((exist) && replacedirs)
 				{
 					retry_temp:

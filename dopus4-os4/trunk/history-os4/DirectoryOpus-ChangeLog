@@ -511,4 +511,11 @@ Committed revision 565.
 
 2015-02-04 - history-os4
 * Updated history files
-Committed revision 565.
+Committed revision 566.
+
+2015-02-06 - history-os4/DirectoryOpus-ChangeLog program-os4/main22.c
+
+* Fixed copying of directories from archives.
+* Updated DirectoryOpus-ChangeLog.
+Committed revision 567.
+
