@@ -125,7 +125,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 	struct ViewMessage *view_message;
 	int ret = 0;
 	char launchname[30] = "dopus_view";
-	struct MsgPort *deathmsg_replyport;
+	struct MsgPort *deathmsg_replyport = NULL;
 	struct DeathMessage *deathmsg = NULL;
 
 	if(!noftype)
@@ -1074,6 +1074,7 @@ int view_setupdisplay(struct ViewData *vdata)
 		{
 			if(!(vdata->view_screen = IIntuition->OpenScreenTags(NULL, SA_Type, CUSTOMSCREEN, /*SA_LikeWorkbench, TRUE,*/ SA_DisplayID, IGraphics->GetVPModeID(&test->ViewPort), SA_Depth, 32 /*config->scrdepth*/, SA_Title, globstring[STR_TEXT_VIEWER_TITLE], SA_Pens, -1, SA_SharePens, TRUE, TAG_END)))
 			{
+				IIntuition->UnlockPubScreen(NULL, test);
 				return -4;
 			}
 			IIntuition->UnlockPubScreen(NULL, test);

@@ -39,6 +39,12 @@ int showfont(char *name, int size, int np)
 	struct TextAttr sfattr = { (STRPTR) name, size, 0, 0 };
 	struct RastPort *font_rp;
 
+	if (!(font = IDiskfont->OpenDiskFont(&sfattr)))
+	{
+		doerror(-1);
+		return (0);
+	}
+
 	if(MainScreen)
 	{
 		fontscreen = MainScreen;
@@ -48,15 +54,23 @@ int showfont(char *name, int size, int np)
 		fontscreen = IIntuition->LockPubScreen(NULL);
 	}
 
-	font = IDiskfont->OpenDiskFont(&sfattr);
+//	font = IDiskfont->OpenDiskFont(&sfattr);
 
 	fontwindow = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, fontscreen, WA_Left, 128, WA_Top, 128, WA_Width, 1024, WA_Height, 768, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE | WFLG_RMBTRAP, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END);
-
-	if(!font || !fontwindow)
+	if(!fontwindow)
 	{
+		IGraphics->CloseFont(font);
+		if(fontscreen != MainScreen)
+			IIntuition->UnlockPubScreen(NULL, fontscreen);
 		doerror(-1);
 		return (0);
 	}
+
+//	if(!font || !fontwindow)
+//	{
+//		doerror(-1);
+//		return (0);
+//	}
 
 
 	base = font->tf_Baseline;
