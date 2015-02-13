@@ -184,7 +184,7 @@ STR_CONFIG_NOT_FOUND (//)
 Configuration program not found/could not be loaded.
 ;
 STR_ALIEN_WINDOWS (//)
-There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+There are visitor windows open on the Directory Opus screen.\nClose the all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE (//)
 Do you really wish to delete selected entries?
@@ -235,7 +235,7 @@ STR_ENTER_COMMENT (//)
 Enter comment
 ;
 STR_CANNOT_CLOSE_SCREEN (//)
-I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
+I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD (//)
 Enter password
@@ -376,7 +376,7 @@ STR_TRY_AGAIN (//)
 _Try Again
 ;
 STR_RETRY (//)
-Retry
+_Retry
 ;
 STR_ABORT (//)
 A_bort
