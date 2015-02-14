@@ -12,7 +12,8 @@ CATNAMES = DOpus4 DOpus4_Config DOpus4_Print
 CATALOGS = german \
 italian \
 polish \
-spanish
+spanish \
+czech
 
 #
 

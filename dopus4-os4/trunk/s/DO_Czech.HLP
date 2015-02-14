@@ -1,0 +1,872 @@
+**Versionstring
+$VER: DOpus4_czech.HLP 1.2 (07.08.2011) Kabara Jaroslav
+^
+**Assign
+Tato funkce Vám umo¾òuje pøiøazení logického zaøízení na
+aktuálnì zvolený adresáø. Zaøízení C: je pøíkladem logického
+zaøízení. Nejedná se o fyzický disk, ale adresáø, kterému byl
+pøiøazen název C:. Napøíklad, jednoduchý název Text: lze
+pøiøadit k jiné, mnohem del¹í a slo¾itìj¹í cestì, jako napøíklad:
+
+   DH0:Projekty/Práce/2011/Duben/PracovníVerze/Texty
+
+Od této chvíle, kdykoli napí¹ete Text: v poli adresáøe, budete
+pøesmìrování pøímo do posledního adresáøe zadaného v pøiøazené
+cestì, èím¾ se vyhnete pracnému procházení v¹emi uvedenými
+podadresáøi nacházejících se v dané cestì. Tato logická zaøízení
+pak mù¾ete samozøejmì také v jiných programech. Názvy logických
+zaøízení v¾dy konèí dvojteèkou.
+
+Funkce "Assign" umo¾òuje také odstraòování døíve nastavených
+logických zaøízení, nebo zmìnit dané zaøízení na jiný adresáø.
+Pokud to chcete provést, kliknìte pravým tlaèítkem my¹i na
+tlaèítko S, èím¾ aktivujete pøíkaz GetDevices. Zde si vyberete
+logické zaøízení (nebo zaøízení) které chcete zmìnit a kliknìte
+na pøíkaz Assign. Objeví se okno, v kterém budete moci zadat
+novou cestu k po¾adovanému adresáøi pro ka¾dé vybrané logické
+zaøízení. Pokud nezadáte nic, bude logické zaøízení odstranìno.^
+**CD
+Tato funkce umo¾òuje zmìnit adresáø, s kterým Directory Opus
+aktuálnì pracuje. Jedná se o adresáø, který se naèítá v pøípadì,
+kdy ode¹lete prázdnou øádku v textovém políèku s cestou.^
+**ErrorHelp
+Tato funkce umo¾òuje zjistit více informací ohlednì èasto se
+vyskytujících chybových hlá¹ení AmigaDOSu. Pokud vyberete tuto
+funkci, budete dotázání na èíslo dané chyby. Následnì budete
+zobrazena význam chybového hlá¹ení zadaného èísla a podrobnìj¹í
+popis dané chyby.^
+**Configure
+Tato funkce naète do pamìti konfiguraèní modul a následnì jej
+spustí, nebo pokud je ji¾ v pamìti, tak jej pouze spustí.
+Podrobnìj¹í popis mnoha funkcí konfiguraèního programu naleznete
+v dokumentaci.^
+**About
+Tato funkce zobrazí okno s informacemi o programu, které obsahuje
+èíslo aktuální verze a informace o autorských právech.^
+**Alarm
+Tato funkce vygeneruje varovný zvukový signál.^
+**Beep
+Tato funkce vygeneruje zvukový signál.^
+**SetVar
+Tato funkce nastavuje danou vnitøní promìnnou na zadanou hodnotu.^
+**Version
+Tato funkce zobrazuje okno obsahující èísla verzí softwaru,
+Workbenche, Kickstartu a dal¹í informace, které se mohou hodit
+bìhem hledání technické podpory.^
+**Iconify
+Tato funkce umo¾òuje uzavøít okno Directory Opusu, pro uvolnìní
+maximálního mno¾ství pamìti.
+
+Mù¾ete si také zvolit do jakého stavu se má program ikonifikovat:
+do okna (s nebo bez hodin a monitorování pamìti) nebo do AppIkony.^
+**ButtonIconify
+Tato funkce je velmi podobná funkci Iconify, s tím rozdílem, ¾e
+okno otevøené na plo¹e Workbenche obsahuje v¹echny tlaèítka a
+u¾ivatelské menu. Toto u¾ivateli umo¾òuje spou¹tìní programù
+nastavených v Directory Opusu i ve chvíli, kdy je program
+ikonifikován.^
+
+**Quit
+Tato funkce umo¾òuje ukonèení práce s programem. Pokud do¹lo ke
+zmìnì konfigurace, bude nejdøíve zobrazen dotaz s mo¾ností jejího
+ulo¾ení.^
+**Filter
+Tato funkce umo¾òuje nastavit filtr, který upøesòuje které soubory
+budou zobrazovány v prùbìhu práce s adresáøi..^
+**Diskcopy
+Tato funkce umo¾òuje kopírování obsahu diskety na jinou disketu.
+Vytváøí pøesnou kopii pùvodní diskety. Nekopíruje v¹ak programy
+zaji¹tìného proti kopírování, ani diskety, které nejsou ve
+formátu AmigaDOS. Funkce je zastoupena samostatným modulem
+DOpus_Disk.
+
+Kdy¾ si vyberete tuto funkci, bude otevøeno nové okno obsahující
+dva seznamy. V levém se oznaèuje zdrojová disketa a v pravém
+cílová disketa.
+
+Pokud za¹krtnete volbu "Verifikace", budou data pøi zápisu ka¾dé
+stopy na cílové disketì kontrolovány, jestli byly ulo¾eny správnì.
+Volba "Zmìnit název" zmìní název cílové diskety, èím¾ se vyhnete
+problémùm s vlastnìním identických názvù disket v systému.
+
+Tlaèítko [Kontrola] nacházející se v dolní èásti okna nekopíruje
+diskety, ale pouze kontroluje jestli je jejich obsah identický.^
+**Format
+Tato funkce umo¾òuje formátování nových disket a diskù. V¹echny
+nové diskety musí být nejdøíve zformátovány, ne¾ na nì bude mo¾né
+vùbec cokoli zapsat. Funkce je zastoupena samostatným modulem
+DOpus_Disk.
+
+Kdy¾ si vyberete tuto funkci, bude otevøeno nové okno obsahující
+seznam zaøízení a nìkolik voleb. Ze seznamu si vyberte zaøízení
+které chcete naformátovat. Budete si moci vybrat formát disku
+(FFS, rychlej¹í naèítání adresáøù atd...).
+
+Pokud za¹krtnete volbu "Verifikace", bude po dokonèení formátování
+ka¾dé stopy provedena kontrola, jestli formátování probíhá v poøádku.
+Zapnutí volby "Vlo¾it ko¹" zpùsobí vytvoøení adresáøe a ikony
+Trashcan na novì naformátovaném disku.
+
+[Rychlý formát] umo¾òuje inicializaci ji¾ naformátovaného disku.
+Jedná se o velice rychlý zpùsob vymazání obsahu disku. Nicménì,
+nefunguje s novými disketami. Pro naformátování nového disku
+musíte nejdøíve pou¾ít volbu [Formátovat].^
+**Install
+Tato funkce umo¾òuje vytvoøit startovací diskety. V¹echny startovací
+diskety mají v prvním sektoru ulo¾eny speciální informace. Bez nich
+nebude mo¾né z diskety startovat. Funkce je zastoupena samostatným
+modulem DOpus_Disk.
+
+Kdy¾ si vyberete tuto funkci, bude otevøeno nové okno obsahující
+seznam dostupných zaøízení (tato funkce lze v¹ak pou¾ít pouze pro
+diskety). Z tohoto seznamu staèí vybrat mechaniku, kterou chcete
+pou¾ít a stisknout tlaèítko Instalovat.^
+**Relabel
+Tato funkce umo¾òuje zmìnit název diskety nebo disku, jeho¾ obsah
+je aktuálnì zobrazen v aktivním oknì.^
+**PrintDir
+Tato funkce umo¾òuje vytisknout obsah aktuálnì zvoleného adresáøe.
+Lze si vybrat, které informace chcete vytisknout vèetnì velikosti
+souborù, atributù, datumù, komentáøù a typù souborù. Samozøejmostí
+je také mo¾nost ulo¾ení obsahu adresáøe do souboru.
+
+Funkce je zastoupena samostatným modulem DOpus_Print.^
+**DiskInfo
+Tato funkce zobrazuje informace ohlednì zaøízení zobrazeného
+v aktivním oknì. Naleznete zde informace ohlednì velikosti
+volného a obsazeného místa, data vytvoøení a poètu chyb na
+disku.^
+*LHA Add
+Tato funkce umo¾òuje vytvoøení a pøidávání souborù do LHA
+archivù.
+
+Pro vytvoøení archivu staèí otevøít adresáø, jeho¾ archiv chcete
+ulo¾it v neaktivním oknì, oznaète soubory a adresáøe, které
+chcete pøidat a následnì kliknìte na tuto funkci. Budete dotázáni
+o název archivu. Pokud ji¾ existuje archiv stejného názvu, pak do
+nìj budou soubory pøidány. V opaèném pøípadì bude vytvoøen nový
+archiv.^
+*ARC Add
+Tato funkce umo¾òuje vytvoøení a pøidávání souborù do ARC archivù.
+
+Pro vytvoøení archivu staèí otevøít adresáø, jeho¾ archiv chcete
+ulo¾it v neaktivním oknì, oznaète soubory a adresáøe, které chcete
+pøidat a následnì kliknìte na tuto funkci. Budete dotázáni o název
+archivu. Pokud ji¾ existuje archiv stejného názvu, pak do nìj budou
+soubory pøidány. V opaèném pøípadì bude vytvoøen nový archiv.^
+*ZOO Add
+Tato funkce umo¾òuje vytvoøení a pøidávání souborù do ZOO archivù.
+
+Pro vytvoøení archivu staèí otevøít adresáø, jeho¾ archiv chcete
+ulo¾it v neaktivním oknì, oznaète soubory a adresáøe, které chcete
+pøidat a následnì kliknìte na tuto funkci. Budete dotázáni o název
+archivu. Pokud ji¾ existuje archiv stejného názvu, pak do nìj budou
+soubory pøidány. V opaèném pøípadì bude vytvoøen nový archiv.^
+**All
+Tato funkce umo¾òuje oznaèit v¹echny soubory a adresáøe v aktivním
+oknì.^
+**Toggle
+Tato funkce umo¾òuje invertovat oznaèení v¹ech souborù a adresáøù
+v aktivním oknì (v¹echny oznaèené polo¾ky budou odznaèeny a naopak).^
+**None
+Tato funkce umo¾òuje zru¹ení oznaèení v¹ech souborù a adresáøù
+v aktivním oknì.^
+**Parent
+Tato funkce umo¾òuje pøechod do nadøazeného adresáøe v aktivním
+oknì.^
+**Root
+Tato funkce umo¾òuje pøechod do koøenového adresáøe v aktivním
+oknì.^
+**Copy
+Tato funkce umo¾òuje kopírování v¹ech oznaèených souborù a adresáøù
+z aktivního okna do neaktivního, se zachováním pùvodních názvù.^
+**CopyAs
+Tato funkce umo¾òuje kopírování v¹ech oznaèených souborù a adresáøù
+z aktivního okna do neaktivního, s mo¾ností souèasnì mìnit názvy
+ka¾dého souboru nebo adresáøe.^
+**Move
+Tato funkce umo¾òuje pøesunutí v¹ech oznaèených souborù a adresáøù
+z aktivního okna do neaktivního, se zachováním pùvodních názvù.
+Soubor nebo adresáø je nejdøíve zkopírován do cílového umístìní
+a teprve následnì odstranìn z pùvodního umístìní.^
+**MoveAs
+Tato funkce umo¾òuje pøesunutí v¹ech oznaèených souborù a adresáøù
+z aktivního okna do neaktivního, s mo¾ností souèasnì mìnit názvy
+ka¾dého souboru nebo adresáøe. Soubor nebo adresáø je nejdøíve
+zkopírován do cílového umístìní a teprve následnì odstranìn z
+pùvodního umístìní.^
+**Rename
+Tato funkce umo¾òuje zmìnit názvy v¹ech oznaèených souborù a
+adresáøù. Pøi tvorbì vzorcù lze pou¾ívat znak *. Pokud tento
+znak pou¾ívat nebudete, budete dotázáni o název ka¾dého
+souboru samostatnì.
+
+Pro pøidání pøedpony nebo pøípony (nebo obou) ke v¹em oznaèeným
+souborùm, staèí pou¾ít znak * v druhém poli. Napøíklad, pro
+pøidání pøedpony "HIRES" a pøípony .pic pro v¹echny oznaèené
+soubory, staèí zadat "HIRES*.pic".
+
+Pro zmìnu pøedpony nebo pøípony (nebo obou) u v¹ech oznaèených
+souborù, staèí pou¾ít znak * v prvním poli. Napøíklad, pokud
+chcete zmìnit pøedponu "HIRES" na "MEDRES" a pøíponu z ".pic"
+na ".iff", pak v prvním poli zadejte "HIRES*.pic" a v druhém
+"MEDRES*.iff".^
+**Clone
+Tato funkce umo¾òuje vytváøení kopií oznaèených souborù a adresáøù.
+Ty následnì umís»uje ve stejném adresáøi, ale pod jiným názvem.^
+**Delete
+Tato funkce umo¾òuje smazání oznaèených souborù a adresáøù v
+aktuálním oknì. BUÏTE OPATRNÍ!
+
+Tuto funkci lze pou¾ít také k odstraòování logických zaøízení.
+Staèí jen zobrazit seznam zaøízení (stisknìte pravé tlaèítko
+my¹i nad malým tlaèítkem S umístìném uprostøed okna programu
+DirectoryOpus), oznaèit logické zaøízení, které chcete odstranit
+a stisknout funkci "Delete".^
+**MakeDir
+Tato funkce umo¾òuje vytvoøení nového adresáøe v aktivním oknì.^
+**CheckFit
+Tato funkce umo¾òuje zkontrolovat, jestli se v¹echny vybrané soubory
+a adresáøe vejdou tam, kam je chcete zkopírovat. Tato funkce je
+podobná funkci GetSizes ov¹em s tím rozdílem, ¾e je pøesnìj¹í.
+Jedinou nevýhodou této funkce je to, ¾e pokud vámi oznaèený adresáø
+ji¾ má spoèítánu velikost a provedete zmìnu cílového adresáøe, pak
+dojde k opìtovnému propoèítání velikosti obsahu adresáøù.^
+**GetSizes
+Tato funkce funguje podobnì jako funkce "CheckFit". Umo¾òuje
+prohledání v¹ech vybraných adresáøù, vypoèítá velikost ka¾dého
+adresáøe a tu následnì zobrazí v aktivním oknì. Zobrazuje také
+písmena T nebo N oznaèující, ¾e se oznaèené adresáøe vejdou nebo
+nevejdou do cílového umístìní. Jedná se v¹ak pouze o orientaèní
+údaj. Pro získání úplné jistoty, ¾e se oznaèené soubory a adresáøe
+vejdou do cílového místa, je mnohem lep¹í pou¾ít funkci "CheckFit".^
+**ClearSizes
+Tato funkce slou¾í k odstraòování vypoèítaných velikostí pro v¹echny
+oznaèené adresáøe. Tuto funkci vyu¾ijete ve chvíli kdy víte, ¾e se
+velikost adresáøe zmìnila. Pro následné zji¹tìní nových velikostí
+pak takový adresáø staèí opìt oznaèit a pou¾ít znovu funkci
+"GetSizes" nebo "CheckFit".^
+**Hunt
+Tato funkce umo¾òuje prohledávání v¹ech oznaèených adresáøù a
+jejich podadresáøù, v kterých hledá zadaný soubor nebo skupinu
+souborù upøesnìných maskou. Pokud bude daný soubor nalezen, pak
+bude naèten adresáø, který jej obsahuje a dojde k automatickému
+oznaèení daného souboru.^
+**Search
+Tato funkce umo¾òuje prohledávání v¹ech oznaèených souborù, v
+kterých vyhledává zadaný øetìzec znakù, který mù¾e být zadán také
+jako vzorec. Pokud dojde k nalezení odpovídajícího souboru, budete
+informováni o tom v kterém souboru byl øetìzec nalezen a bude
+zobrazen dotaz, jestli chcete daný soubor otevøít. Pokud budete
+souhlasit, bude po zobrazení daného souboru v textovém prohlí¾eèi
+automaticky oznaèen vyhledávaný øetìzec. Podrobnìj¹í informace
+naleznete v dokumentaci (napø. jak vyhledávat ASCII kódy).^
+**Run
+Tato funkce umo¾òuje samostatné spu¹tìní v¹ech oznaèených souborù.
+Pøed spu¹tìním budete dotázáni na zadání dodateèných parametrù.
+Soubory jsou spou¹tìny pomocí standardních parametrù, které
+by mìly odpovídat vìt¹inì programù. Pokud se v¹ak program pomocí
+této funkce nepodaøí spustit, zkuste jej spustit pøímo z úrovnì
+Workbenche.^
+**Execute
+Tato funkce umo¾òuje spu¹tìní v¹ech oznaèených souborù (pod
+podmínkou, ¾e se jedná o skripty AmigaDOSu).
+
+Informace: Jako skripty jsou rozpoznávány pouze ty soubory, u
+kterých je nastaven atribut "S".^
+**Comment
+Tato funkce umo¾òuje zmìnit komentáøe u v¹ech oznaèených souborù
+v aktivním oknì.
+
+U ka¾dého souboru bude zobrazeno samostatné okno obsahující
+aktuální komentáø. Pokud jej chcete zmìnit, pak jej staèí pouze
+pøepsat a stisknout klávesu <Enter>. Pro zachování pùvodního
+komentáøe staèí pouze stisknout klávesu <Enter> bez zmìny obsahu
+pùvodního komentáøe.
+
+Pro pøidání stejného komentáøe ke v¹em vybraným souborùm staèí
+kliknout na tlaèítko [V¹echny] ve spodní èásti okna. Stisknutí
+tlaèítka [OK] nebo stisk klávesy <Enter> zpùsobí pøidání komentáøe
+pouze pro aktuální soubor.^
+**DateStamp
+Tato funkce umo¾òuje zmìnit datum úpravy u v¹ech oznaèených souborù
+a adresáøù v aktivním oknì.
+
+U ka¾dého souboru bude zobrazeno samostatné okno. Pokud chcete, aby
+vybraný soubor obsahovat aktuální datum a èas, pak staèí pouze
+stisknout klávesu <Enter>. V opaèném pøípadì budete muset zadat
+odpovídající datum a èas.
+
+Pro nastavení stejného data a èasu pro v¹echny vybrané polo¾ky
+staèí kliknout na tlaèítko [V¹echny] ve spodní èásti okna. Stisknutí
+tlaèítka [OK] nebo stisk klávesy <Enter> zpùsobí nastavení data a
+èasu pouze pro aktuální soubor.^
+**Protect
+Tato funkce umo¾òuje zmìnit atributy u v¹ech oznaèených souborù
+a adresáøù v aktivním oknì.
+
+U ka¾dého souboru bude zobrazeno samostatné okno s aktuálnì
+nastavenými atributy. Pøesnìji se jedná o H (skrytý), S (skript),
+P (pure), A (archivovaný), R (èitelný), W (zapisovatelný),
+E (spustitelný) a D (smazatelný).
+
+Pro pøepnutí jednotlivých atributù je staèí pøepnout pomocí
+tlaèítek, nebo klávesových zkratek. Pro nastavení v¹ech atributù
+staèí kliknout na tlaèítko [V¹e]. Pro zru¹ení v¹ech atributù
+staèí kliknout na tlaèítko [®ádné]. Pro pøehození stavu atributù,
+staèí kliknout na tlaèítko [Zamìnit]. Pro obnovení pùvodního
+nastavení atributù, staèí kliknout na tlaèítko [Zru¹it].
+
+Pomocí nastavení masky lze také nastavit, které atributy mají
+zùstat touto operací nezmìnìny. Umo¾òuje to napøíklad u souborù
+nastavit atributy RW bez zásahu do ostatních.
+
+Pro zapnutí nebo vypnutí atributu v masce atributù, staèí kliknout
+na odpovídající tlaèítko pøi souèasném podr¾ení klávesy <Shift>.
+
+Pro nastavení atributù pro v¹echny oznaèené polo¾ky staèí kliknout
+na tlaèítko [V¹echny] ve spodní èásti okna. Stisknutí tlaèítka [OK]
+nastaví dané atributy pouze pro aktuální polo¾ku.^
+**IconInfo
+Tato funkce umo¾òuje upravit parametry ikony, stejnì jako pomocí
+pøíkazu "Informace" z Workbenche. Mù¾ete tak upravovat atributy,
+velikost zásobníku, komentáø, standardní nástroj a samozøejmì
+také tooltypy.^
+**AddIcon
+Tato funkce umo¾òuje pøidání ikony pro v¹echny oznaèené soubory
+a adresáøe v aktivním oknì. Program automaticky rozpozná typ
+objektu (adresáø, projekt nebo nástroj) a pøidá odpovídající
+ikony. V konfiguraèním programu si mù¾ete také nastavit vlastní
+ikony, pokud vám standardní nevyhovují.^
+**Encrypt
+Tato funkce umo¾òuje zakódovat za¹ifrovat citlivá data pomocí
+zakódování souborù pomocí hesla. V¹echny oznaèené soubory v
+aktivním oknì budou zakódovány a zakódované soubory budou ulo¾eny
+v cílovém oknì. Pokud bude prvním znakem v hesle znak - (mínus),
+pak bude soubor naopak odkódován.^
+**Extract
+Tato funkce umo¾òuje rozbalit obsah archivu pomocí knihovny
+xadmaster.library.^
+*Arc Ext
+Tato funkce zpùsobí spu¹tìní pøíkazu "User1" nastaveného pro vybraný
+typ souboru. Je nazván "Arc Ext", jeliko¾ rozbalení archivu je
+prvním standardnì nastaveným pøíkazem pro archivované soubory.
+Prosím, seznamte se s manuálem ohlednì dùkladnìj¹ího seznámení
+s prací s typy souborù.^
+
+**Read
+Tato funkce umo¾òuje prohlí¾ení textových souborù pomocí my¹i.
+
+Pro posunování textu stlaète levé tlaèítko my¹i. Smìr a rychlost
+posunování textu lze nastavit pomocí osu Y my¹i (nahoru a dolù).
+Pro posunování celého textu lze také pou¾ívat kurzorové klávesy,
+¹ipky a ¹oupátka (pokud jsou zapnuta).
+
+Pro pøechod na zadané èíslo øádky, kliknìte na èíslo oznaèující
+celkový poèet øádkù ve stavové li¹tì prohlí¾eèe. Pro pøechod na
+urèité procento souboru staèí kliknout procentuální zobrazení
+místa.
+
+Pro pøechod na pøedchozí nebo dal¹í stránku staèí kliknout na
+tlaèítka [U] nebo [D], nebo zmáèknout odpovídající klávesu. Lze
+také stisknout klávesy <Shift> + <kurzor nahoru>/<kurzor dolù>
+nebo <Mezerník>/<Backspace>.
+
+Pro pøechod na zaèátek nebo na konec souboru staèí kliknout na
+tlaèítka [T] nebo [B], nebo zmáèknout odpovídající klávesu. Lze
+také stisknout klávesy <Control> + <kurzor nahoru>/<kurzor dolù>.
+
+Pro vyhledání øetìzce v souboru staèí kliknout na tlaèítko [S],
+nebo zmáèknout klávesu <S>. Pro pokraèování ve vyhledávání staèí
+stisknout klávesu <N>. Pro vyti¹tìní aktuální stránky staèí
+stisknout klávesu <C>. Pro vyti¹tìní celého souboru staèí stisknout
+klávesu <P>. Pro ukonèení prohlí¾eèe staèí stisknout tlaèítko [Q],
+nebo stisknout klávesy <X>, <Q> nebo <Esc>.
+
+Tato funkce také nezobrazuje ANSI znaky ani tabulátory. K tomu
+je urèena funkce "AnsiRead".^
+**AnsiRead
+Tato funkce funguje stejnì jako funkce "Read", ale s tím rozdílem,
+¾e správnì podporuje ovládací ANSI kódy (barvy a textové atributy)
+a také správnì zobrazuje tabulátory.^
+**HexRead
+Tato funkce umo¾òuje prohlí¾ení souborù v ¹estnáctkové soustavì,
+co¾ se velice hodí pøi prohlí¾ení binárních souborù. Soubor je
+zobrazen v ¹estnáctkové soustavì po 16 bitech na øádek. Práce s
+prohlí¾eèem je identická jako u prohlí¾ení ASCII souborù.^
+**Show
+Tato funkce umo¾òuje zobrazování vybraných souborù ve formátu IFF
+ILBM, animace ve formátu ANIM, ikony a písma. Pokud je zobrazovaný
+soubor ikona, pak lze její druhý stav (pokud je k dispozici)
+zobrazit stisknutím klávesy <Enter>. Pro ukonèení prohlí¾ení
+aktuálního souboru staèí kliknout levým tlaèítkem my¹i. Pokud
+obrázek obsahuje nastavenou rotaci barev, lze jí aktivovat nebo
+zastavit pomocí klávesy <Tab>.
+
+Stisknutí klávesy <P>, <Help> nebo <Mezerníku> vás pøenese na
+obrazovku nastavení tisku. Zde budete mít mo¾nost nastavení
+tiskárny a vyti¹tìní aktuálního obrázku. Zároveò dojde také k
+zobrazení dùle¾itých informací o daném obrázku.
+
+Pokud je obrázek vìt¹í ne¾ aktuální obrazovka, pak jej lze
+posunovat pomocí kurzorových kláves nebo pomocí kurzoru my¹i.
+
+Tato funkce zároveò doká¾e zobrazit i obrázky komprimované
+pomocí PowerPackeru a dal¹ích programù k archivaci dat. Podmínkou
+je v¹ak nainstalovaná knihovna xfdmaster.library v adresáøi Libs:
+(pøeètìte si dokumentaci).^
+**Play
+Tato funkce umo¾òuje pøehrávat zvukové soubory ve formátu IFF 8SVX
+a dal¹ích. Pro zastavení pøehrávání aktuálního zvuku staèí kliknout
+pravým tlaèítkem my¹i. Jestli se v adresáøi Libs: nachází knihovna
+inovamusic.library, umo¾ní tato funkce také pøehrávání hudebních
+modulù.^
+**LoopPlay
+Tato funkce umo¾òuje pøehrávat zvukové soubory ve formátu IFF 8SVX
+a dal¹ích v nekoneèné smyèce (loop). Pro pøehrání dal¹ího souboru
+staèí kliknout levým tlaèítkem my¹i.^
+*Edit
+Tato funkce umo¾òuje otevøít editor pro úpravu vybraných souborù.
+Nejedná se o integrovanou funkci, ale o tlaèítko nastavené tak,
+aby spustilo systémový editor "C:Ed". Nicménì je samozøejmì mo¾né
+jej v konfiguraèním programu zmìnit na svùj oblíbený editor.^
+*New File
+Tato funkce umo¾òuje spu¹tìní editoru jako v pøípadì funkce [Edit].
+Nicménì nedochází k naètení vybraného souboru, ale vytvoøení nového.^
+**Print
+Tato funkce umo¾òuje vyti¹tìní v¹ech vybraných souborù. Obsahuje
+mnoho mo¾ností formátování a nastavení. Procedura tisku je
+obsa¾ena v externím modulu nazvaném DOpus_Print.
+Nastavit lze horní a dolní okraj (v øádcích) a levý a pravý okraj
+(ve znacích). Tabulátor oznaèuje poèet mezer vkládaných v místì
+znaku tabulátoru. Lze si také vybrat hustotu tisku (10, 12,
+15-17 znakù na palec) a kvalitu tisku (standardní a koncept).
+
+Samostatnì lze také nastavit obsah záhlaví i zápatí, které mohou
+obsahovat: název, datum a èíslo strany. Pokud nezvolíte ¾ádnou z
+tìchto voleb, nebude záhlaví ani zápatí vytvoøeno. Pokud oznaèíte
+"Název" a zadáte nìco v poli na pravé stranì, budete tento text
+pova¾ován jako název. Pokud toto pole zùstane prázdné, bude jako
+název pou¾it název souboru.
+
+Upøenit lze také to, jestli se má soubor vytisknout na tiskárnì
+nebo do souboru. Tlaèítko [Tisk] spustí tisknutí dokumentu, naopak
+tlaèítko [Ukonèit] okno tisku uzavøe.^
+**GetDevices
+Tato funkce umo¾òuje zobrazit seznam v¹ech zaøízení a logických
+zaøízení dostupných v systému. Jejich obsah lze naèíst pomocí
+dvojkliku na název daného zaøízení. Zde lze také oznaèit zaøízení,
+na kterých chcete pou¾ít funkce "Hunt" nebo "Search". Navíc je zde
+mo¾no odstranit jedno nebo více logických zaøízení pomocí pøíkazu
+"Delete".^
+**Select
+Tato funkce umo¾òuje oznaèení souborù a adresáøù v aktivním oknì
+podle zadaného vzorce, data vytvoøení nebo nastavení atributù.
+V prùbìhu oznaèování podle názvù jsou povoleny v¹echny standardní
+náhradní (*, ~, ? atd...), stejnì tak i náhradní znaky AmigaDOSu
+(#? a ?). Pro více informací nav¹tivte dokumentaci.
+
+Oznaèování podle data umo¾òuje oznaèení èasového rozsahu ve formátu
+DD-MMM-RR > DD-MMM-RR. Nemusíte také upøesòovat dvì data aby jste
+mohli pøesnì urèit èas, od kterého se mají soubory oznaèit. Místo
+dat lze také zadávat èas ve formátu HH:MM:SS.
+
+Pro nastavení atributù jako vzorce pro výbìr souborù je nutné
+pou¾ít kódy "hsparwed". Jestli nìkterý z atributù nahradíte znakem
+- (mínus), musí být daný atribut vypnut, jinak nedojde k oznaèení
+daného souboru. Pro více informací nav¹tivte dokumentaci.^
+**Arexx
+Tato funkce umo¾òuje spustit ARexxový skript nebo provedení
+ARexxového pøíkazu pøímo z prostøedí programu. Pro více informací
+nav¹tivte dokumentaci.^
+**DirTree
+Tato funkce umo¾òuje vygenerování seznamu v¹ech podadresáøù a
+souborù v aktivním oknì ve stromové podobì. Obsah libovolného
+podadresáøe mù¾ete zobrazit pomocí dvojkliku na vybrané polo¾ce
+stromu.^
+**Reselect
+Tato funkce umo¾òuje opìtovné oznaèení v¹ech polo¾ek, které byly
+oznaèeny naposledy provedenou operací. Dané polo¾ky budou oznaèeny
+pouze v pøípadì, ¾e stále existují.^
+**Rescan
+Tato funkce umo¾òuje opìtovné naètení obsahu adresáøe otevøeného
+v aktivním oknì. Stejný výsledek získáte kliknutím na pole s cestou
+adresáøe a stisknutím klávesy <Enter> bez zmìny obsahu cesty.^
+**BufferList
+Tato funkce umo¾òuje zobrazení seznamu v¹ech adresáøù uchovávaných
+v interních zásobnících programu. Pomocí dvojkliku na vybrané
+polo¾ce se lze pøesunout pøímo na vybraný zásobník. Nemusíte tak
+pro jednotlivou zmìnu zásobníku pou¾ívat tlaèítka se ¹ipkami.^
+**ClearBuffers
+Tato funkce umo¾òuje vyèi¹tìní obsahu v¹ech zásobníkù v pamìti, s
+vyjímkou dvou, které jsou aktuálnì zobrazeny v oknech programu.
+Tím dojde k uvolnìní ve¹keré pamìti, kterou zásobníky vyu¾ívají.
+Jedná se o dobrý zpùsob na rychlé uvolnìní jistého poètu pamìti
+v situaci, kdy pou¾íváte mnoho zásobníkù a máte k dispozici ji¾
+málo pamìti.^
+**DriveGadgets
+Tlaèítka zaøízení. Stisknutí jednoho z nich zpùsobí naètení obsahu
+zadaného zaøízení nebo cesty v aktivním oknì.^
+*!103
+Nedostatek volné pamìti
+
+Mo¾ná pøíèina:
+Nemáte dostatek pamìti pro dokonèení po¾adavku.
+
+Doporuèení:
+Uzavøete v¹echna nepotøebná okna a aplikace, následnì zkuste pøíkaz
+spustit znovu. Pokud se bude problém opakovat, zkuste poèítaè
+resetovat. Pøi dostateèném mno¾ství pamìti mù¾e být dùvod této
+chyby také velká fragmentace pamìti.^
+*!104
+Tabulka procesù je plná
+
+Mo¾ná pøíèina:
+Byla dosa¾ena hranice mo¾ných procesù v systému (Amiga je omezena
+na 20 CLI úkolù).
+
+Doporuèení:
+Zkuste jich nìkolik zavøít a poté zadejte pøíkaz znovu.^
+*!114
+©patné slo¾ení pøíkazu
+
+Mo¾ná pøíèina:
+©patné slo¾ení pøíkazu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!115
+©patné èíslo
+
+Mo¾ná pøíèina:
+Program oèekává numerickou hodnotu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!116
+Nebyl zadán po¾adovaný argument
+
+Mo¾ná pøíèina:
+Nesprávné slo¾ení pøíkazu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!117
+Chybí argument po znaku "="
+
+Mo¾ná pøíèina:
+Nesprávné slo¾ení pøíkazu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!118
+Pøíli¹ mnoho argumentù
+
+Mo¾ná pøíèina:
+Nesprávné slo¾ení pøíkazu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!119
+Neoèekávané uvozovky
+
+Mo¾ná pøíèina:
+Nesprávné slo¾ení pøíkazu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!120
+Nesprávná nebo pøíli¹ dlouhá pøíkazová øádka
+
+Mo¾ná pøíèina:
+CLI argument byl zadán ¹patnì, nebo obsahuje pøíli¹ mnoho
+argumentù.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!121
+Soubor není spustitelný
+
+Mo¾ná pøíèina:
+Tento soubor není spustitelný program nebo skript. Mù¾e to být
+soubor projektu, který vy¾aduje k zobrazení jinou aplikaci.
+
+Doporuèení:
+Zadejte znovu název a ujistìte se, ¾e se jedná o spustitelný soubor.
+Pokud chcete spustit skript, musí mít daný soubor nastaven atribut
+"s" nebo se musí pou¾ít pøíkaz EXECUTE.^
+*!122
+©patná knihovna
+
+Mo¾ná pøíèina:
+Po¾adovaná knihovna byla nalezena, ale není správného typu. Toto
+bývá zpùsobeno vlastnìním staré verze knihovny nebo je po¹kozený
+soubor.
+
+Doporuèení:
+Pokuste se najít novìj¹í verzi na internetu nebo pøekopírujte
+soubor z va¹ich disket s Workbenchem.^
+*!202
+Objekt je pou¾íván
+
+Mo¾ná pøíèina:
+Soubor nebo adresáø je právì pou¾íván jinou aplikací. Není mo¾né
+aby dva programy mìnily stejný soubor ve stejnou chvíli.
+
+Doporuèení:
+Uzavøete jiné aplikace pou¾ívající daný soubor nebo adresáø a
+znovu proveïte po¾adovaný pøíkaz. Pokud se jedná o adresáø nebo
+soubor jen¾ nelze smazat, zadejte pøíkaz ASSIGN abyste zjistili,
+je-li tento adresáø pøipojen jako logické zaøízení.^
+*!203
+Objekt ji¾ existuje
+
+Mo¾ná pøíèina:
+Toto se èasto objevuje pøi pøejmenovávání souboru. V adresáøi
+existují dva soubory pod stejným názvem.
+
+Doporuèení:
+Pou¾ijte jiný název nebo sma¾te ji¾ existující soubor nebo adresáø.^
+*!204
+Adresáø nenalezen
+
+Mo¾ná pøíèina:
+Adresáø nebyl nalezen. Toto se èasto stává pokud vyjmete CD-ROM
+nebo disketu z mechaniky.
+
+Doporuèení:
+Zkontrolujte název adresáøe a zkuste daný pøíkaz provést znovu.^
+*!205
+Objekt nenalezen
+
+Mo¾ná pøíèina:
+AmigaDOS nemù¾e najít zadaný soubor nebo zaøízení. Mo¾ná je taky
+chyba pøi zadávání.
+
+Doporuèení:
+Zkontrolujte správnost názvu souboru nebo zaøízení a zkuste daný
+pøíkaz spustit znovu.^
+*!206
+Neplatný popis okna
+
+Mo¾ná pøíèina:
+Tato chyba se objevuje pøi zadání velikosti výstupního okna, okna
+Shellu, programu ED nebo IconX. Je mo¾né, ¾e jste zadali pøíli¹
+velký nebo naopak malý rozmìr okna, nebo jste vynechali nìjaký
+parametr. Tato chyba se objevuje také pøi pou¾ití pøíkazu NewShell,
+kdy zadáte název zaøízením, které není oknem.
+
+Doporuèení:
+Zadejte znovu parametry okna.^
+*!209
+Neznámý typ zadání
+
+Mo¾ná pøíèina:
+Ovladaè zaøízení je dotázán na provedení úkolu, který zaøízení
+nepodporuje. Napøíklad, konzole nemù¾e nìco smazat nebo pøejmenovat.
+Je to pouze programátorská chyba.
+
+Doporuèení:
+Zkontrolujte zadání odcházejícího na ovladaè zaøízení.^
+*!210
+©patný název objektu
+
+Mo¾ná pøíèina:
+V názvu souboru nebo zaøízení byl pou¾it neplatný znak. Název nesmí
+být del¹í ne¾ 30 znakù (pokud pou¾íváte souborový systém "FFS") a
+nesmí obsahovat ovládací znaky.
+
+Doporuèení:
+Znovu zadejte název souboru a ujistìte se, ¾e pou¾íváte pouze
+povolené znaky a nepøekraèujete maximální délku názvu.^
+*!211
+Nesprávný zámek objektu
+
+Mo¾ná pøíèina:
+Lock kód nebyl rozpoznán voláním AmigaDOSu. Je to pouze
+programátorská chyba.
+
+Doporuèení:
+Zkontrolujte, jestli vá¹ kód obsahuje pouze povolené zámky tam,
+kde AmigaDOS oèekává zámky.^
+*!212
+Objekt není po¾adovaného typu
+
+Mo¾ná pøíèina:
+Adresáø je zamìnìn za soubor, nebo naopak. Pøíkaz oèekává jednu vìc
+ale název souboru ukazuje na jiný typ objektu.
+
+Doporuèení:
+Pøeète si dokumentaci a zjistìte si správné slo¾ení pøíkazu.^
+*!213
+Disk není validován
+
+Mo¾ná pøíèina:
+Chyba obvykle zpùsobena ¹patnou disketou, ale mù¾e také být
+zpùsobena pokud je uèinìn po¾adavek na zápis na disketu døíve,
+ne¾ je validovaná. Validace diskety probìhne skoro okam¾itì
+po vlo¾ení diskety.
+
+Doporuèení:
+Zkuste pøíkaz je¹tì jednou a¾ bude disketa naètena. Pokud problém
+stále pøetrvává, stáhnìte si kopii programu DiskSalv z Aminetu a
+pokuste se disketu validovat.^
+*!214
+Disk je chránìn proti zápisu
+
+Mo¾ná pøíèina:
+Okénko ochrany proti zápisu je otevøeno (mù¾ete vidìt skrz díru),
+tak¾e na ní nelze zapsat ¾ádná data.
+
+Doporuèení:
+Vytáhnìte disketu a pøesuòte pojistku znemo¾òující zápis na disketu.^
+*!215
+Pokus o zmìnu názvu mezi zaøízeními
+
+Mo¾ná pøíèina:
+Pøejmenování mù¾e zmìnit název souboru na stejném zaøízení.
+
+Pøíkaz RENAME doká¾e zmìnit názvy souborù pouze na stejném zaøízení.
+Tento pøíkaz mù¾ete pou¾ít k pøesunutí souborù s jednoho adresáøe
+do jiného, ale nemù¾ete pøená¹et soubory mezi rùznými zaøízeními.
+
+Doporuèení:
+K pøesunutí souboru pou¾ijte pøíkaz MOVE (pouze OS3.5+) nebo COPY
+a DELETE (OS3.1 a ni¾¹í).^
+*!216
+Adresáø není prázdný
+
+Mo¾ná pøíèina:
+Tato chyba se objevuje v pøípadì, kdy se sna¾íte odstranit adresáø
+obsahující soubory nebo podadresáøe.
+
+Doporuèení:
+Pokud jste si jisti, ¾e chcete odstranit celý adresáø, pak stisknìte
+tlaèítko "V¹echny".^
+*!217
+Pøíli¹ mnoho úrovní
+
+Mo¾ná pøíèina:
+Dosáhl jste limitu 15 úrovní.
+
+Doporuèení:
+Sni¾te poèet úrovní.^
+*!218
+Zaøízení není pøipojeno
+
+Mo¾ná pøíèina:
+Název zaøízení nelze najít. Napøíklad, Amiga mù¾e hledat disketu
+nazvanou BOB1: která je ji¾ vyta¾ena z mechaniky.
+
+Doporuèení:
+Vlo¾te odpovídající disketu, zkontrolujte správnost zadání názvu
+zaøízení, pøipojte zaøízení nebo zkontrolujte svùj MountList.^
+*!219
+Chyba vyhledávání
+
+Mo¾ná pøíèina:
+AmigaDOS low level SEEK funkce selhala. Toto mù¾e být zpùsobeno
+pokusem seek mimo konec souboru. Je to pouze programátorská chyba.
+
+Doporuèení:
+Ujistìte se, ¾e vyvoláváte pøíkaz SEEK uvnitø souboru. Pøíkaz SEEK
+nelze pou¾ívat mimo soubor.^
+*!220
+Komentáø je pøíli¹ dlouhý
+
+Mo¾ná pøíèina:
+Zadaný komentáø pøekroèil maximální délku 79 znakù.
+
+Doporuèení:
+Pou¾ijte krat¹í komentáø.^
+*!221
+Disk je plný
+
+Mo¾ná pøíèina:
+Nedostatek volného místa na disketì (zaøízení) pro dokonèení
+vybrané operace.
+
+Doporuèení:
+Zkuste uvolnit trochu místa nebo pou¾ijte dal¹í disketu.^
+*!222
+Objekt je chránìn proti smazání
+
+Mo¾ná pøíèina:
+Soubor nebo adresáø nemá nastaven atribut "d" (smazatelný).
+
+Doporuèení:
+Jestli jste si jisti, ¾e tento soubor nebo adresáø chcete opravdu
+smazat, pou¾ijte pøíkaz PROTECT a nastavte atribut "d".^
+*!223
+Soubor je chránìn proti zápisu
+
+Mo¾ná pøíèina:
+Soubor nebo adresáø nemá nastaven atribut "w" (zapisovatelný).
+
+Doporuèení:
+Jestli jste si jisti, ¾e tento soubor nebo adresáø chcete nahradit,
+pak pou¾ijte pøíkaz PROTECT a nastavte atribut "w".^
+*!224
+Soubor je chránìn proti ètení
+
+Mo¾ná pøíèina:
+Soubor nebo adresáø nemá nastaven atribut "r" (èitelný).
+
+Doporuèení:
+pou¾ijte pøíkaz PROTECT a nastavte atribut "r".^
+*!225
+Disketa není ve formátu AmigaDOS
+
+Mo¾ná pøíèina:
+Disketa nelze být pøeètena systémem. Mù¾e být také ve formátu,
+který AmigaOS neumí rozpoznat, dokud nedodáte systému uzpùsobený
+DOS Driver. Nebo také mù¾e být disketa prostì jen ¹patná.
+
+Doporuèení:
+Ujistìte se, ¾e jste vlo¾ili správnou disketu. Pokud víte, ¾e
+disketa v minulosti fungovala, pou¾ijte program pro obnovu dat.
+Pokud není disketa naformátována, pak pou¾ijte pøíkaz FORMAT.^
+*!226
+V mechanice není disketa
+
+Mo¾ná pøíèina:
+Byl proveden pokus o ètení z prázdné disketové mechaniky.
+
+Doporuèení:
+Vlo¾te po¾adovanou disketu do disketové mechaniky.^
+*!232
+V adresáøi nejsou dal¹í polo¾ky
+
+Mo¾ná pøíèina:
+Adresáø neobsahuje dal¹í údaje k prozkoumání. Toto nastává jako
+výsledek volání NEXT low level funkce. Je to pouze programátorská
+chyba.
+
+Doporuèení:
+Pøeru¹te vyvolávání funkce EXNEXT.^
+*!233
+Objekt je soft link
+
+Mo¾ná pøíèina:
+Pokusili jste se pou¾ít funkce dostupných pro soubory a adresáøe
+na objektu, který je soft link.
+
+Doporuèení:
+AmigaDOS pou¾ívá balík Action_Read_Link pro rozpoznání linku a
+obnovuje provedení operace.^
+*!234
+Object je linkován
+
+Mo¾ná pøíèina:
+Pokou¹íte se smazat objekt, který je Soft nebo Hard linkem.
+
+Doporuèení:
+Odstraòte nejdøíve v¹echny zámky na souboru.^
+*!305
+Soubor není spustitelný
+
+Mo¾ná pøíèina:
+Pokou¹íte se spustit soubor, ve kterém není program ani pøíkazy.
+
+Doporuèení:
+Nespou¹tìjte ho.^

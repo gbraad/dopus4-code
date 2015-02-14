@@ -1,5 +1,5 @@
-## version $VER: DOpus4.catalog 4.0 (14.02.2015) (c) Mariusz Danilewicz <mandi@interia.pl>
-## language polish
+## version $VER: DOpus4.catalog 4.0 (14.02.2015) Kabara Jaroslav
+## language czech
 ## codeset 5
 ;
 ;#basename DOpus4
@@ -14,363 +14,363 @@
 ; General
 ;
 STR_DIRS_FILES_BYTES_COUNT
-Katalogów: %03ld/%03ld   Plików: %03ld/%03ld   Bajtów: %7s/%7s
+Adresáøù: %03ld/%03ld, souborù: %03ld/%03ld, bajtù: %7s/%7s
 ; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
 ;
 STR_DOPUS_ALREADY_RUNNING
-Directory Opus jest ju¿ uruchomiony.\nCzy uruchomiæ kolejn± kopiê?
+Directory Opus je ji¾ rezidentnì v pamìti.\nChcete jej spustit je¹tì jednou?
 ; Directory Opus is already resident in memory.\nDo you want to run another copy?
 ;
 STR_UNABLE_TO_OPEN_WINDOW
-Nie mo¿na otworzyæ ekranu/okna!
+Nelze otevøít okno nebo obrazovku!
 ; Unable to open screen/window!
 ;
 STR_WELCOME_TO_DOPUS
-Witaj w programie Directory Opus!
+Vítejte v Directory Opusu!
 ; Welcome to Directory Opus!
 ;
 STR_WELCOME_BACK_TO_DOPUS
-Witaj ponownie w programie Directory Opus!
+Vítejte zpìt v Directory Opusu!
 ; Welcome back to Directory Opus!
 ;
 STR_INTERROGATING_FILE
-Rozpoznajê typ pliku...
+Zpracovávání souboru...
 ; Interrogating file...
 ;
 STR_READING_DIRECTORY
-Czytam katalog...
+Naèítání adresáøe...
 ; Reading directory...
 ;
 STR_ENTER_ARGUMENTS_FOR
-Podaj argumenty dla \"%s\"
+Zadejte argumenty pro \"%s\"
 ; Enter arguments for \"%s\"
 ;
 STR_ENTER_DIRECTORY_NAME
-Podaj nazwê katalogu
+Zadejte název adresáøe
 ; Enter directory name
 ;
 STR_DIRECTORY_CREATED
-Katalog zosta³ utworzony.
+Adresáø byl vytvoøen.
 ; Directory created.
 ;
 STR_DIRECTORY
-Katalog 
-; Directory 
+Adresáø 
+; Directory
 ;
 STR_DEVICE_LIST
-Lista urz±dzeñ\n\n
+Seznam zaøízení\n\n
 ; Device list\n\n
 ;
 STR_NO_CHIP_FOR_ICON
-Nie mo¿na wczytaæ ikonki
+Ikonu nelze naèíst
 ; Cannot load icon
 ;
 STR_ERROR_IN_IFF
-B³±d w strukturze pliku IFF
+Chyba ve struktuøe IFF souboru
 ; Error in IFF structure
 ;
 STR_CANT_ALLOCATE_AUDIO
-Nie mo¿na zaalokowac kan³ów audio
+Nelze alokovat zvukové kanály
 ; Can't allocate audio channels
 ;
 STR_FILE_EXISTS_REPLACE
-\"%s\" ju¿ istnieje! Zast±piæ?
+Soubor \"%s\" ji¾ exituje! Chcete jej nahradit?
 ; \"%s\" already exists! Replace?
 ;
 STR_SELECT_UNPROTECT
-\nWybierz \"Odbezpiecz\" aby ustawiæ bit kasowania.
+\nOchranu proti smazání odstraníte kliknutím na Povolit smazání.
 ; \nSelect Unprotect to set the deletion bit.
 ;
 STR_AREXX_NOT_RUNNING
-Nie znaleziono serwera ARexx'a!
+Nelze nalézt ARexxový server!
 ; ARexx server not found!
 ;
 STR_ENTER_AREXX_COMMAND
-Podaj komendê ARexx'a
+Zadejte ARexxový pøíkaz
 ; Enter ARexx command
 ;
 STR_ENTER_NEW_CD
-Podaj nowy katalog
+Zadejte nový aktuální adresáø
 ; Enter new current directory
 ;
 STR_SCANNING_DEVICE_LIST
-Skanujê listê urz±dzeñ...
+Prohledávání seznamu zaøízení...
 ; Scanning device list...
 ;
 STR_FOUND_A_MATCH
-Znalaz³em plik \"%s\" w katalogu\n\"%s\"\nUdaæ siê tam?
+Byl nalezen soubor \"%s\" v adresáøi\n\"%s\"\nPøejít do daného místa?
 ; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
 ;
 STR_BUFFERS_CLEARED
-Bufory aktualnie nie wy¶wietlane zosta³y wyczyszczone.
+Aktuálnì nezobrazené zásobníky byly uvolnìny.
 ; Buffers not currently displayed have been cleared.
 ;
 STR_DOS_ERROR_CODE
-B³±d DOS-u nr: %ld
+Chyba AmigaDOSu è.%ld
 ; DOS error code %ld
 ;
 STR_ENTER_NEW_DISK_NAME
-Podaj now± nazwê
+Zadejte nový název diskety
 ; Enter new disk name
 ;
 STR_ENTER_ASSIGN_NAME
-Podaj katalog do ponownego przypisania dla urz±dzenia
+Zadejte adresáø pro logické zaøízení
 ; Enter directory to re-assign device
 ;
 STR_CANT_CANCEL_ASSIGN
-Nie mo¿na usun±æ przypisania.
+Nelze zru¹it logické zaøízení.
 ; Can't cancel assign.
 ;
 STR_ENTER_DEVICE_NAME
-Podaj nazwê urz±dzenia dla tego katalogu
+Zadejte název zaøízení pro tento adresáø
 ; Enter device name for this directory
 ;
 STR_ASSIGN_FAILED
-Próba utworzenia przypisania zakoñczona niepowodzeniem
+Nelze vytvoøit logické zaøízení
 ; Assign failed
 ;
 STR_NO_DESTINATION_SELECTED
-Nie wybrano katalogu docelowego!
+Není zvolen cílový adresáø!
 ; No destination directory selected!
 ;
 STR_CANT_COPY_DIR_TO_ITSELF
-Nie mo¿esz skopiowaæ katalogu do niego samego!
+Nelze kopírovat adresáø do sebe!
 ; You can't copy a directory into itself!
 ;
 STR_SHOWING_FONT
-Pokazujê wybrany font...
+Zobrazení zvoleného písma...
 ; Showing selected font...
 ;
 STR_RUNNING_FILE
-Uruchamiam wybrany plik...
+Spou¹tìní zvoleného souboru...
 ; Running selected file...
 ;
 STR_PLAYING_FILE
-Odgrywam wybrany plik...
+Pøehrávání zvoleného souboru...
 ; Playing selected file...
 ;
 STR_SHOWING_FILE
-Pokazujê wybrany plik...
+Zobrazování zvoleného souboru...
 ; Showing selected file...
 ;
 STR_READING_SELECTED_FILE
-Czytam wybrany plik...
+Naèítání textového souboru...
 ; Reading selected file...
 ;
 STR_FOUND_A_MATCH_READ
-Znaleziono pasuj±cy ciag w pliku\n\"%s\"\nCzy mam wy¶wietliæ ca³y plik?
+Hledaný øetìzec byl nalezen v souboru\n\"%s\"\nChcete tento soubor zobrazit?
 ; Found a match in the file\n\"%s\"\nShall I read the file?
 ;
 STR_CONFIG_CHANGED_QUIT
-Zmieni³e¶ konfiguracjê programu.\nCzy na pewno chcesz skoñczyæ pracê?
+Byly provedeny zmìny v nastavení programu.\nOpravdu chcete program ukonèit?
 ; You have modified the configuration.\nDo you really want to quit?
 ;
 STR_SAVING_CONFIG
-Zapisujê konfiguracjê...
+Ukládání nastavení...
 ; Saving configuration...
 ;
 STR_READING_CONFIG
-Odczytujê konfiguracjê...
+Naèítání nastavení...
 ; Reading configuration...
 ;
 STR_CONFIG_CHANGED_LASTSAVED
-Zmieni³e¶ konfiguracjê.\nCzy chcesz wczytaæ ostatnio zapisane ustawienia?
+Byly provedeny zmìny v nastavení programu.\nOpravdu chcete naèíst pùvodní nastavení?
 ; You have modified the configuration.\nReally load the last-saved settings?
 ;
 STR_CONFIG_CHANGED_DEFAULTS
-Zmodyfikowa³e¶ konfiguracjê.\nZapisaæ przed odtworzeniem ustawieñ domy¶lnych?
+Byly provedeny zmìny v nastavení programu.\nChcete je pøed obnovením výchozího nastavení nejprve ulo¾it?
 ; You have modified the configuration.\nSave before restoring defaults?
 ;
 STR_HELP_NOT_AVAILABLE
-Dla tej funkcji pomoc jest niedostêpna!
+Pro tuto funkci není nápovìda k dispozici!
 ; Help not available for that function!
 ;
 STR_SCANNING_TREE
-Skanujê strukturê katalogu...
+Prohledávání stromové struktury...
 ; Scanning directory tree...
 ;
 STR_ENTER_A_STRING
-Podaj ci±g
+Zadejte øetìzec
 ; Enter a string
 ;
 STR_PLEASE_CHOOSE
-Proszê wybraæ
+Zvolte prosím
 ; Please choose
 ;
 STR_COMMENTING
-komentowania
+Úprava komentáøe
 ; commenting
 ;
 STR_PROTECTING
-zabezpieczania
+Úprava pøíznakù
 ; protecting
 ;
 STR_DATESTAMPING
-zmiany daty
+Úprava data
 ; datestamping
 ;
 STR_DELETING
-kasowania
+Mazání
 ; deleting
 ;
 STR_COPYING
-kopiowania
+Kopírování
 ; copying
 ;
 STR_CREATING
-tworzenia
+Vytváøení
 ; creating
 ;
 STR_CANT_OVERCOPY_FILES
-Nie mo¿esz skopiowaæ tych plików na nie same!
+Nelze kopírovat soubor do sebe!
 ; You can't copy these files over themselves!
 ;
 STR_INTERROGATING_FILES
-Sprawdzam typ pliku...
+Zpracovávání souborù...
 ; Interrogating files...
 ;
 STR_NOT_IDENTIFIED
-%s nie mo¿e byæ zidentyfikowany.
+%s nelze identifikovat.
 ; %s could not be identified.
 ;
 STR_LOADING_CONFIG
-Wczytujê konfiguracjê programu...
+Spou¹tìní konfiguraèního programu...
 ; Loading configuration program...
 ;
 STR_WAITING_FOR_PORT
-Czekam na port programu konfiguracyjnego...
+Èekání na port konfiguraèního programu...
 ; Waiting for configuration port...
 ;
 STR_CONFIG_NOT_FOUND
-Program konfiguracyjny nie znaleziony/nie mo¿e byæ wczytany.
+Konfiguraèní program nenalezen, nebo jej nelze spustit.
 ; Configuration program not found/could not be loaded.
 ;
 STR_ALIEN_WINDOWS
-Na ekranie Directory Opusa s± otwarte inne okna.\nZamknij wszystkie okna i wybierz Ponów,\nlub wybierz Poniechaj aby powróciæ do Directory Opusa.
+Na obrazovce programu Opus jsou okna jiných programù.\nV¹echna je zavøete a kliknìte na tlaèítko Opakovat\nnebo zvolte Zru¹it pro návrat k Directory Opusu.
 ; There are visitor windows open on the Directory Opus screen.\nClose the all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE
-Czy chcesz skasowaæ wybrane elementy?
+Opravdu chcete smazat vybrané polo¾ky?
 ; Do you really wish to delete selected entries?
 ;
 STR_WISH_TO_DELETE
-Czy chcesz skasowaæ \"%s\"?
+Opravdu chcete smazat soubor \"%s\"?
 ; Do you really wish to delete \"%s\"?
 ;
 STR_NOT_EMPTY
-\"%s\" nie jest pusty! Skasowaæ?
+Adresáø \"%s\" není prázdný! Smazat?
 ; \"%s\" is not empty! Delete?
 ;
 STR_ENTER_NEW_NAME
-Podaj now± nazwê
+Zadejte nový název
 ; Enter new name
 ;
 STR_RENAMING
-zmieniania nazwy
+Pøejmenovávání
 ; renaming
 ;
 STR_ENTER_NEW_NAME_MOVE
-Podaj now± nazwê dla przenoszonego pliku
+Zadejte nový název pro pøesunovaný soubor
 ; Enter new name for moved file
 ;
 STR_MOVING
-przenoszenia
+Pøesouvání
 ; moving
 ;
 STR_ENTER_NEW_NAME_CLONE
-Podaj nazwê dla sklonowanego elementu
+Zadejte název pro identickou kopii
 ; Enter name for cloned entry
 ;
 STR_SIZES_NOT_KNOWN
-Wielko¶ci wybranych katalogów s± nieznane.\nObliczyæ wielko¶ci tych katalogów?
+Neznámá velikost nìkterého z oznaèených adresáøù.\nPøejete si jí zjistit?
 ; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
 ;
 STR_ENTRIES_MAY_NOT_FIT
-Wybrane elementy prawdopodobnie nie zmieszcz± siê\nw miejscu przeznaczenia. Kontynuowaæ kopiowanie?
+Pro oznaèené objekty není na cílovém zaøízení dostatek místa.\nChcete i pøesto pokraèovat v kopírování?
 ; Selected entries will probably not fit in destination.\nContinue with the copy?
 ;
 STR_ENTER_HUNT_PATTERN
-Podaj wzorzec pliku do szukania
+Zadejte masku pro vyhledávání souboru
 ; Enter file pattern to hunt
 ;
 STR_COULD_NOT_FIND_FILE
-Przykro mi! Nie znaloziono pliku!
+Soubor nebyl nalezen!
 ; Sorry! File could not be found!
 ;
 STR_FOUND_MATCHING_FILES
-Znaleziono %ld pasuj±cych plików.
+Maska odpovídá %ld souboru(ùm).
 ; Found %ld matching files.
 ;
 STR_ADDING_ICON
-dodawania ikonki do
+Pøidávání ikony pro
 ; adding an icon to
 ;
 STR_SELECT_COMMENT
-Komentarz
+Komentáø
 ; Comment
 ;
 STR_ENTER_COMMENT
-Podaj komentarz
+Zadejte komentáø
 ; Enter comment
 ;
 STR_CANNOT_CLOSE_SCREEN
-Nie mo¿na zamkn±æ ekranu poniewa¿\ns± na nim otwarte obce okna.\nPoczekam cichutko a¿ zostan± one zamkniête.
-; I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
+Nelze uzavøít okno obrazovky, jeliko¾\njsou na ní otevøena jiná okna.\nProsím, zavøete je v¹echny.
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD
-Podaj has³o
+Zadejte heslo
 ; Enter password
 ;
 STR_ENTER_DATE_AND_TIME
-Podaj datê i czas (puste = aktualnie)
+Zadejte datum a èas (nic = aktuální)
 ; Enter date and time (blank for current)
 ;
 STR_ENTER_SEARCH_STRING
-Podaj szukany ci±g
+Zadejte vyhledávaný øetìzec
 ; Enter search string
 ;
 STR_RENAME_REQ
-Zmieñ _nazwê
+Pøe_jmenovat
 ; Re_name
 ;
 STR_STRING_NOT_FOUND
-Przykro mi! Ci±g nie zosta³ znaleziony!
+Øetìzec nebyl nalezen!
 ; Sorry! String could not be found!
 ;
 STR_MATCHED_FILES
-Dopasowano do %ld plików.
+Øetìzec byl nalezen v %ld souborech.
 ; Matched in %ld files.
 ;
 STR_NO_SOURCE_SELECTED
-Nie zaznaczono  katalogu ¿ród³owego!
+Není vybrán zdrojový adresáø.
 ; No source directory selected!
 ;
 STR_TEMPORARY_OUTPUT_FILE
-Tymczasowy plik wyj¶ciowy
+Doèasný výstupní soubor
 ; Temporary output file
 ;
 STR_ENTER_ARGUMENTS
-Podaj argumenty
+Zadejte argumenty
 ; Enter arguments
 ;
 STR_SELECT_FUNCTION
-Wybierz funkcjê do której potrzebujesz pomocy (ponownie HELP=poniechaj).
+Vyberte si funkci, ke které chcete zobrazit nápovìdu. Ukonèíte opìtovným stisknutím klávesy Help.
 ; Select function you need help with, or Help again to cancel.
 ;
 STR_CONFIG_CHANGED_LOAD
-Zmieni³e¶ konfigurajê programu.\nCzy chcesz wczytaæ now± konfiguracjê?
+Nastavení programu bylo zmìnìno.\nOpravdu chcete naèíst novou konfiguraci?
 ; You have modified the configuration.\nReally load a new configuration file?
 ;
 STR_ABORTED
-Przerwano.
+Pøeru¹eno.
 ; Aborted.
 ;
 STR_ENTER_DOS_ERROR_CODE
-Podaj kod b³êdu DOS-u
+Zadejte èíslo AmigaDOS chyby
 ; Enter DOS error code
 ;
 STR_NO_HELP_FOR_ERROR
-Dla tego b³êdu pomoc jest niedostêpna!
+Pro tuto chybovou hlá¹ku není nápovìda k dispozici!
 ; Help not available for that error code!
 ;
 ;
@@ -378,110 +378,110 @@ Dla tego b³êdu pomoc jest niedostêpna!
 ;                              DOS error code 214 - Disk is write-protected"
 ;
 STR_ERROR_OCCURED
-Wyst±pi³ b³±d podczas %s \"%s\"\n%s
+Vyskytla se chyba %s \"%s\"\n%s
 ; An error occured %s \"%s\"\n%s
 ;
 ;
 ; Rename window
 ;
 STR_RENAME
-Zmieñ nazwê
+Pøejmenovat
 ; Rename
 ;
 STR_AS
-na
+Jako
 ; As
 ;
 STR_ENTER_SELECT_PATTERN
-Podaj wzorzec zaznaczenia
+Zadejte masku pro výbìr
 ; Enter select pattern
 ;
 STR_READING_FILE
-Czytam plik...
+Naèítání souboru...
 ; Reading file...
 ;
 STR_COUNTING_LINES
-Liczê linie...
+Poèítání øádkù...
 ; Counting lines...
 ;
 ; Built-in text viewer requesters
 ;
 STR_JUMP_TO_LINE
-Skocz do linii
+Pøejít na øádek è.?
 ; Jump to which line?
 ;
 STR_JUMP_TO_PERCENTAGE
-Skocz do % pliku
+Pøejít na které procento textu?
 ; Jump to what percentage?
 ;
 ; Printer related errors
 ;
 STR_CANT_OPEN_PRINTER
-Problem z dostêpem do drukarki!
+Nelze otevøít tiskárnu!
 ; Can't open printer!
 ;
 STR_ERROR_PRINTING_FILE
-B³±d podczas drukowania pliku! IoErr = %ld\n
+Chyba v prùbìhu tisku souboru! IoErr = %ld\n
 ; Error printing file! IoErr = %ld\n
 ;
 STR_READY_PRINTER
-Drukarka gotowa, aby kontynuowaæ wybierz \"OK\"
+Pøipravte tiskárnu a stisknìte OK pro pokraèování
 ; Ready printer, and choose OKAY to continue
 ;
 STR_CANT_FIND_ICON
-Nie mo¿na znale¼æ lub wczytaæ ikonki dla tego pliku.
+Pro tento soubor nelze nalézt nebo naèíst ikonu.
 ; Unable to find or load an icon for that file.
 ;
 STR_ENCRYPTING
-deszyfrujê
+Kódování
 ; encrypting
 ;
 STR_REPLACE_ALL
-Zas_t±p wszystko
+Nahradit _v¹e
 ; Replace _all
 ;
 STR_CONTINUE_WITH_SEARCH
-Czy chcesz kontynuowaæ szukanie?
+Pøejete si pokraèovat ve vyhledávání?
 ; Do you wish to continue with the search?
 ;
 STR_REALLY_QUIT
-Czy naprawdê chcesz skoñczyæ pracê z programem?
+Opravdu chcete ukonèit program Directory Opus?
 ; Do you really want to quit Directory Opus?
 ;
 STR_REALLY_PROCEED
-Czy chcesz kontynuowaæ tê operacjê?
+Opravdu chcete provést tuto operaci?
 ; Do you really wish to proceed with this operation?
 ;
 STR_SELECT_SOURCE_DIR
-Wybierz katalog ¼ród³owy
+Zvolte zdrojový adresáø
 ; Select the source directory
 ;
 STR_SELECT_DESTINATION_DIR
-Wybierz katalog docelowy
+Zvolte cílový adresáø
 ; Select the destination directory
 ;
 STR_SELECT_A_FILE
-Wybierz plik
+Zvolte soubor
 ; Select a file
 ;
 STR_SELECT_A_DIRECTORY
-Wybierz katalog
+Zvolte adresáø
 ; Select a directory
 ;
 STR_DEVICE_LIST_TITLE
-<Lista urz±dzeñ>
+<Seznam zaøízení>
 ; <Device list>
 ;
 STR_DIR_NOT_AVAILABLE_TITLE
-<Katalog jest niedostêpny>
+<Adresáø není k dispozici>
 ; <Directory not available>
 ;
 STR_BUFFER_LIST_TITLE
-<Lista buforów>
+<Seznam zásobníkù>
 ; <Buffer list>
 ;
 STR_UNPROTECT
-Odbezpieczony
+Povolit smazání
 ; Unprotect
 ;
 ; Action gadgets in requesters
@@ -489,79 +489,79 @@ Odbezpieczony
 ; Please do NOT put shortcuts where there isn't any!
 ;
 STR_RUN
-U_ruchom
+_Spustit
 ; _Run
 ;
 STR_TRY_AGAIN
-Po_nów próbê
+_Zkusit znovu
 ; _Try Again
 ;
 STR_RETRY
-_Powtórz
-; _Retry
+_Opakovat
+; Retry
 ;
 STR_ABORT
-P_rzerwij
+_Pøeru¹it
 ; A_bort
 ;
 STR_REPLACE
-_Zast±p
+_Nahradit
 ; _Replace
 ;
 STR_MERGE
-P_o³±cz
+_Spojit
 ; _Merge
 ;
 STR_SKIP
-Po_miñ
+Pø_ekoèit
 ; _Skip
 ;
 STR_ALL
-Wszys_tkie
+_V¹e
 ; _All
 ;
 STR_REMOVE
-Usuñ
+Odstranit
 ; Remove
 ;
 STR_QUIT
-S_koñcz
+_Ukonèit
 ; _Quit
 ;
 STR_SAVE_QUIT
-Zapi_sz i skoñcz
+_Ulo¾it a ukonèit
 ; _Save & quit
 ;
 STR_LOAD
-Wczytaj
+Naèíst
 ; Load
 ;
 STR_SAVE
-Zapisz
+Ulo¾it
 ; Save
 ;
 STR_DEFAULTS
-Domy¶lne
+Výchozí
 ; Defaults
 ;
 STR_DELETE
-S_kasuj
+_Smazat
 ; _Delete
 ;
 STR_YES
-Tak
+Ano
 ; Yes
 ;
 STR_NO
-Nie
+Ne
 ; No
 ;
 STR_ICONIFY
-_Ikonifikacja
+_Ikonifikovat
 ; _Iconify
 ;
 STR_CONTINUE
-K_ontynuuj
+_Pokraèovat
 ; C_ontinue
 ;
 STR_OKAY
@@ -569,7 +569,7 @@ _OK
 ; _Okay
 ;
 STR_CANCEL
-Ponie_chaj
+_Zru¹it
 ; _Cancel
 ;
 ;
@@ -579,93 +579,93 @@ OK
 ; OK
 ;
 STR_FILE
-Plik
+Soubor
 ; File
 ;
 STR_ICON
-Ikonka
+Ikona
 ; Icon
 ;
 STR_OLD_NEW_FILE_REPLACE
-\"%s\" ju¿ istnieje! Zast±piæ?\n\n\
-Nowy  - wielko¶æ: %9lld  data: %19s\n\
-Stary - wielko¶æ: %9lld  data: %19s
+\"%s\" ji¾ existuje! Nahradit?\n\n\
+Nový      -  Velikost : %9lld  Datum : %19s\n\
+Souèasný  -  Velikost : %9lld  Datum : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %9lld  Date : %19s\n\
 ; Old  -  Size : %9lld  Date : %19s
 ;
 STR_CUSTOM_LIST
-Lista w³asna
+U¾ivatelský seznam
 ; Custom list
 ;
 STR_ENTRIES_IN_TREE
-%ld elementów w strukturze
+%ld polo¾ek v adresáøovém stromu
 ; %ld entries in tree
 ;
 STR_DIRS_IN_BUFFERS
-%ld katalogów w buforach
+%ld adresáøù v zásobníku
 ; %ld directories in buffers
 ;
 STR_USER_ENTRIES
-%ld wpisów u¿ytkownika
+%ld u¾ivatelských polo¾ek
 ; %ld user-defined entries
 ;
 STR_UNICONIFY
-Deikonifikuj
+Zru¹it ikonifikaci
 ; Uniconify
 ;
 STR_CUSTPORT_NOT_FOUND
-Podany przez u¿ytkownika w³asny plik obs³ugi\n\"%s\"\nnie zosta³ znaleziony!
+Port u¾ivatelem zadaného handleru\n\"%s\"\nnelze naèíst!
 ; User-specified custom handler port\n\"%s\"\ncould not be found!
 ;
 STR_CHECKFIT_STRING
-Wymaganych bajtów: %11lld   Wolnych bajtów: %11lld   Zmie¶ci siê: %.1f%%
+Je zapotøebí: %11lld bajtù  Volných: %11lld bajtù  Vyhovuje na: %.1f%%
 ; Bytes needed : %11lld   Bytes free : %11lld   Fit : %.1f%%
 ;
 STR_DIR_TREE
-<Struktura katalogu>
+<Adresáøový strom>
 ; <Directory tree>
 ;
 STR_BUILDING_TREE
-Generujê strukturê katalogu...
+Vytváøení stromové struktury...
 ; Generating tree structure...
 ;
 STR_UNPROTECT_ALL
-Odbezpiecz wszystko
+Povolit pro _v¹echny
 ; Unprotect all
 ;
 STR_READING_CHANGED_DIRECTORY
-Buforowany katalog zosta³ zmieniony - odczytujê ponownie
+Zmìnìn obsah zásobníku - nové naèítání
 ; Buffered directory changed - re-reading
 ;
 STR_CREATING_DIRECTORY
-tworzê katalog
+Vytváøení adresáøe
 ; creating directory
 ;
 STR_UNABLE_TO_LOAD_MODULE
-Nie mo¿na wczytaæ zewnêtrznego modu³u
+Nelze naèíst externí modul
 ; Unable to load external module
 ;
 ; Selecting by pattern (Accessed by position after first)
 ;
 STR_SELECT_ALL_ENTRIES
-Wszystkie wpisy
+V¹e
 ; All entries
 ;
 STR_SELECT_ONLY_FILES
-Tylko plki
+Pouze soubory
 ; Only files
 ;
 STR_SELECT_ONLY_DIRS
-Tylko katalogi
+Pouze adresáøe
 ; Only dirs
 ;
 STR_SELECT_NAME
-Nazwa
+Název
 ; Name
 ;
 STR_SELECT_DATE
-Data
+Datum
 ; Date
 ;
 STR_SELECT_BITS
@@ -674,27 +674,25 @@ Bity
 ;
 ;
 STR_STARTING_PRINT_MODULE
-Uruchamiam modu³ drukarki...
+Spou¹tìní tiskového modulu...
 ; Starting print module...
 ;
 STR_ABOUT
 %s\n\
-Na podstawie wersji GPL 4.12\n\
-Zmodyfikowanej przez Jacka Rzeuskiego\n\
-Copyright 1993-2006 Jonathan Potter\n\n\
-Wersja dla AmigaOS4 przygotowana i rozwijana przez Joachima Birginga\n\n\
+Zalo¾eno na verzi 4.12 uvolnìné pod GPL.\n\
+Upravil Jacek Rzeuski.\n\
+Autorská práva 1993-2006 - Jonathan Potter\n\n\
+Verzi pro AmigaOS 4.x vytvoøil a spravuje Joachim Birging.\n\n\
 DirectoryOpus: %d.%d.%d\n\
 dopus.library: %ld.%ld\n\
-Skompilowany przy wykorzystaniu: %s\n\
-Data kompilacji: %s\n\
-Godzina kompilacji: %s\n\n\
-Program ten zosta³ wydany na licencji GNU GPL\n\
-w wersji 2, lub (je¶li wolisz) zgodnie z dowoln± pó¼niejsz±.\n\
-Bli¿sze informacje znadziesz w pliku README.\n\n\
-Wszyscy u¿ytkownicy Directory Opusa 4 rozpowszechnianego na licencji GPL\n\
-mog± byæ upowa¿nieni do uaktualnienia do najnowszej wersji programu po\n\
-obni¿onej cenie.\n\
-Wiêcej informacji znajdziesz na stronie http://www.gpsoft.com.au.
+Zkompilováno pomocí: %s\n\
+Datum kompilace: %s\n\
+Èas kompilace: %s\n\n\
+Tento program byl uvolnìn pod podmínkami GNU GPL licence verze 2\n\
+nebo novìj¹í. Pro více informací si pøeètìte soubor README.\n\n\
+V¹ichni u¾ivatelé programu Directory Opus 4 ¹íøeného pod GPL mohou\n\
+pøejít na nejnovìj¹í verzi programu Directory Opus za sní¾enou cenu.\n\
+Pro více informací nav¹tivte stránku http://www.gpsoft.com.au
 ; %s\n\
 ; Based on GPL release version 4.12\n\
 ; Modified by Jacek Rzeuski\n\
@@ -715,30 +713,30 @@ Wiêcej informacji znajdziesz na stronie http://www.gpsoft.com.au.
 ; Searching a string in a file
 ;
 STR_SEARCH_NO_CASE
-Nie rozró¿niaj wielko¶ci znaków
+Nerozli¹ovat malá a VELKÁ?
 ; Case insensitive
 ; Treat upper and lower case as the same
 ;
 STR_SEARCH_WILD
-U¿ywaj \"?\" jako znaku zastêpczego
+Pou¾ívat ? jako masku
 ; Recognise ? as a wildcard character
 ;
 STR_SEARCH_ONLYWORD
-Ca³e s³owa
+Hledat pouze celá slova
 ; Whole words
 ; Only match on whole, unbroken words
 ;
 ;
 STR_ENTER_FILTER
-Podaj filtr pliku
+Maska pro filtrování:
 ; Enter file filter
 ;
 STR_SELECT_PROTECTION_BITS
-Ustaw nowe bity protekcji
+Vyberte nové atributy
 ; Select new protection bits
 ;
 STR_DIRECTORY_OPUS_REQUEST
-Directory Opus
+Po¾adavek programu Directory Opus
 ; Directory Opus Request
 ;
 STR_CLOCK_CHIP
@@ -750,25 +748,25 @@ FAST:
 ; FAST:
 ;
 STR_CLOCK_TOTAL
-RAZEM:
+CELKEM:
 ; TOTAL:
 ;
 STR_CLOCK_MEM
-PAM:
+RAM:
 ; MEM:
 ;
 ;
 ; Used to describe the keyboard shortcut for some function
 ;
 STR_KEY
-Wywo³anie:
+Klávesa:
 ; Key :
 ;
 ;
 ; The tiny buttons at the bottom-right corner of the main window
 ;
 STR_TINY_BUTTONS
-BRSA?EFCIQ
+BRSA?EHKIU
 ; BRSA?EFCIQ
 ;
 ;
@@ -779,7 +777,7 @@ UDTBSPQ
 ; UDTBSPQ
 ;
 STR_TEXT_VIEWER_TITLE
-Directory Opus - przegl±darka tekstu
+Directory Opus - prohlí¾eè textù
 ; Directory Opus Text Viewer
 ;
 ;
@@ -794,247 +792,247 @@ Directory Opus - przegl±darka tekstu
 ;       ...
 ;
 STR_PROTECT_ALL_BITS
-Wszystkie
+V¹e
 ; All bits
 ;
 STR_PROTECT_NONE
-¯aden
+®ádné
 ; None
 ;
 STR_PROTECT_TOGGLE
-Prze³±cz
+Zamìnit
 ; Toggle
 ;
 STR_PROTECT_REVERT
-Przywróæ
+Zru¹it
 ; Revert
 ;
 STR_PROTECT_OLD
-Stare:
+Pùvodní:
 ; Old :
 ;
 STR_PROTECT_NEW
- Nowe:
+   Nové:
 ; New :
 ;
 STR_PROTECT_MASK
-Maska:
+  Maska:
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-(_H) - Ukryty
+_H-skrytý
 ; _Hidden
 ;
 STR_PROTECT_SCRIPT
-(_S) - Skrypt
+_S-skript
 ; _Script
 ;
 STR_PROTECT_PURE
-(_P) - Pure
+_P-reentrantní
 ; _Pure
 ;
 STR_PROTECT_ARCHIVE
-(_A) - Zarchiw.
+_A-archivovaný
 ; _Archive
 ;
 STR_PROTECT_READ
-(_R) - Odczytyw.
+_R-èitelný
 ; _Read
 ;
 STR_PROTECT_WRITE
-(_W) - Zapisyw.
+_W-zapisovatelný
 ; _Write
 ;
 STR_PROTECT_EXECUTED
-(_E) - Wykonyw.
+_E-spustitelný
 ; _Execute
 ;
 STR_PROTECT_DELETED
-(_D) - Kasowalny
+_D-smazatelný
 ; _Delete
 ;
 STR_FILE_REQUEST
-¯±danie pliku
+Zvolte soubor
 ; File request
 ;
 STR_BUTTON_STRIP
-Directory Opus - Pasek przycisków
+Directory Opus - tlaèítková li¹ta
 ; Directory Opus Button Strip
 ;
 STR_NO_FIT
-N
+ N
 ;  N
 ;
 STR_YES_FIT
-T
+ A
 ;  Y
 ;
 STR_FTYPE_DEFAULT
-Domy¶lny
+Standardní
 ; Default
 ;
 STR_FTYPE_UNKNOWN
-Nieznany typ pliku
+Neznámý formát souboru
 ; Unknown file type
 ;
 STR_MULTI_DRAG
-Przeci±ganie wielu plików - %ld plików zaznaczonych
+Roz¹íøená volba - oznaèeno %ld souborù
 ; Multi-drag - %ld files selected
 ;
 STR_PRESS_MOUSE_BUTTON
-Naci¶nij lewy przycisk myszki aby kontynuowaæ...
+Pokraèování po stisknutí levého tlaèítka my¹i...
 ; Press left mouse button to continue...
 ;
 STR_ERROR_ERROR_HELP
-Pomoc
+Nápovìda
 ; Error help
 ;
 STR_SKIP_ALL
-Pomiñ wszyst_ko
+Pøeskoèit _v¹e
 ; S_kip all
 ;
 STR_PARENT_MULTI
-Nadrzêdne i przypisania do wielu katalogów...
+Vy¹¹í adresáøe...
 ; Parents and Multi-Assigns...
 ;
 STR_OPENING_ARCHIVE
-Otwieram archiwum...
+Otevírání archivu...
 ; Opening archive...
 ;
 ; Pop-up menu (1/2)
 ;
 STR_LISTER_MENU
-Opcje listera
+Nastavení výpisu souborù
 ; Lister options
 ;
 STR_FILE_NAME
-Nazwy
+Název
 ; Name
 ;
 STR_FILE_SIZE
-Wielko¶ci
+Velikost
 ; Size
 ;
 STR_PROTECTION_BITS
-Bitów protekcji
+Pøíznaky
 ; Protection
 ;
 STR_CREATION_DATE
-Daty
+Datum
 ; Date
 ;
 STR_FILE_COMMENT
-Komentarzy
+Komentáø
 ; Comment
 ;
 STR_FILE_TYPE
-Typu pliku
+Formát souboru
 ; File type
 ;
 STR_OWNER
-W³a¶ciciela
+Vlastník
 ; Owner
 ;
 STR_GROUP
-Grupy
+Skupina
 ; Group
 ;
 STR_NET_PROTECTION_BITS
-Nowe bity protekcji
+Sí»ové pøíznaky
 ; Net protection bits
 ;
 STR_REVERSE_ORDER
-Porz±dek odwrotny
+Reverzní tøídìní
 ; Reverse order
 ;
 STR_SIZE_AS_KMG
-Wielko¶ci w formacie K/M/G
+Velikost ve formátu K/M/G
 ; Sizes in K/M/G format
 ;
 ;
 ;
 STR_BRING_TO_FRONT
-_Przenie¶ na wierzch
+_Pøenést do popøedí
 ; _Bring to front
 ;
 STR_REPLACE_DIR_WITH_FILE
-\"%s\" ju¿ istnieje! Zast±piæ?\n\n\
-Nowy  - wielko¶æ: %9lld  data: %19s\n\
-Stary -                      data : %19s
+\"%s\" ji¾ existuje! Nahradit?\n\n\
+Nový      -  Velikost : %9lld  Datum : %19s\n\
+Souèasný  -                    Datum : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %9lld  Date : %19s\n\
 ; Old  -                  Date : %19s
 ;
 STR_REPLACE_FILE_WITH_DIR
-\"%s\" ju¿ istnieje! Zast±piæ?\n\n\
-Nowy  -                      data: %19s\n\
-Stary - wielko¶æ: %9lld  data: %19s
+\"%s\" ji¾ existuje! Nahradit?\n\n\
+Nový      -                    Datum : %19s\n\
+Souèasný  -  Velikost : %9lld  Datum : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -                  Date : %19s\n\
 ; Old  -  Size : %9lld  Date : %19s
 ;
 STR_OPERATION_NOT_SUPPORTED
-Nieobs³ugiwana operacja
+Operace není podporována
 ; Operation not supported
 ;
 STR_QUERY_REMOVE_ASSIGN
-Czy chcesz usun±æ przypisanie \"%s\"?
+Opravdu chcete odstranit logické zaøízení \"%s\"?
 ; Do you really wish to remove \"%s\" assign?
 ;
 ; Pop-up menu (2/2)
 ;
 STR_DIRSFIRST
-Najpierw katalogi
+Zobrazit nejdøíve adresáøe
 ; Show dirs first
 ;
 STR_FILESFIRST
-Najpierw pliki
+Zobrazit nejdøíve soubory
 ; Show files first
 ;
 STR_MIXDIRSFILES
-Wymieszane
+Míchat soubory a adresáøe
 ; Mix files and dirs
 ;
 STR_SORTALPHA
-Alfanumerycznie
+Èistì alfanumericky
 ; Plain alphanumeric
 ;
 STR_SORTDEC
-Rozpoznawaj dziesiêtne
+Rozpoznávat desetinná èísla
 ; Recognize decimals
 ;
 STR_SORTHEX
-Rozpoznawaj szesnastkowe
+Rozpoznávat hexadecimálnì
 ; Recognize hexadecimals
 ;
 STR_SORTBY
-Sortuj wed³ug
+Tøídit podle
 ; Sort by
 ;
 STR_NAMESORT_MENU
-Sortowanie nazw
+Tøídìní názvù
 ; Name sorting
 ;
 STR_FILE_EXTENSION
-Rozszerzenia
+Roz¹íøení
 ; Extension
 ;
 ;
 ; Protect window (2/2)
 ;
 STR_PROTECT_OKAY
-_OK
+_Ok
 ; _Okay
 ;
 STR_PROTECT_ALL
-Wszys_tkie
+_V¹echny
 ; A_ll
 ;
 ;
 ; Experimental (enter "Makelink" in the ARexx window to see these)
 ;
 STR_ENTER_MAKELINK_PARAMS
-Podaj parametry odno¶nika
+Zadejte parametry odkazu
 ; Enter link parameters
 ;
 STR_MAKELINK_TYPE_SOFT
@@ -1046,50 +1044,50 @@ Hard
 ; Hard
 ;
 STR_MAKELINK_TYPE
-Rodzaj
+Typ
 ; Type
 ;
 STR_MAKELINK_NAME
-Nazwa odno¶nika
+Název odkazu
 ; Link name
 ;
 STR_MAKELINK_DESTINATION
-Katalog docelowy odno¶nika
+Cíl odkazu
 ; Link destination
 ;
 STR_PROTECT_CANCEL
-Ponie_chaj
+_Zru¹it
 ; _Cancel
 ;
 STR_EXTRACT_ARCHIVE
-Wypakowywanie archiwum...
+Rozbalování archivu...
 ; Extracting archive...
 ;
 ; Directory Protect, Comment, DateStamp options
 ;
 STR_DIR_COMMENT
-Komentarz
+Komentáø
 ; Comment
 ;
 STR_DIR_PROTECT
-Bity protekcji
+Ochránit
 ; Protect
 ;
 STR_DIR_DATESTAMP
-Znacznik czasowy
+Datum
 ; DateStamp
 ;
 STR_DIR_ALL
-_Katalogi i zawarto¶æ
+Adresáø a _obsah
 ; Directory & _Contents
 ;
 STR_DIR_DIR
-_Tylko katalogi
+_Pouze adresáø
 ; _Directory Only
 ;
 STR_DIR_MESSAGE
-%s tylko katalog \"%s\"\n\n\
-czy katalog razem z ca³± zawarto¶ci±?
+%s adresáø \"%s\" pouze\n\n\
+NEBO adresáø a v¹echen obsah?
 ; %s directory \"%s\" only\n\n\
 ; OR directory and all contents?
 ;

@@ -404,7 +404,7 @@ Edit class
 ;
 STR_FILE_CLASS_EDIT_SCREEN (//)
 File class edit screen
-; 
+;
 STR_OPEN_FAILED (//)
 Open failed - DOS error code %ld\nTry again?
 ;
@@ -1937,7 +1937,7 @@ SearchFor    - text or $hex
 ;
 ;
 ;
-; 
+;
 STR_BY (//)
 by
 ;
