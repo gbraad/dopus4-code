@@ -519,3 +519,26 @@ Committed revision 566.
 * Updated DirectoryOpus-ChangeLog.
 Committed revision 567.
 
+2015-02-12 - program-os4/main16.c  program-os4/view.c
+* Fixed failure to unlock public screens after function call failures.
+Committed revision 568.
+
+2015-02-13 - locale/DOpus4.cd
+* Updated "alien windows" requester text to match new previously
+  updated requester actions.
+Committed revision 569.
+
+2015-02-13 - all rev.h files
+* Updated versions (subrevisions) for next release.
+Committed revision 570.
+
+2015-02-14 - locale/  s/
+* Updated Dopus4_Config.cd and Dopus4 program translations.
+* Updated locale makefile to handle added czech translation.
+* Added Czech and Polish help files.
+Committed revision 571.
+
+2015-02-14 - history-os4/
+* Updated history files
+Committed revision 572.
+
