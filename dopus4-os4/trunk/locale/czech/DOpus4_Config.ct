@@ -1,5 +1,5 @@
-## version $VER: Dopus4_Config.catalog 4.0 (14.02.2015) (c) Mariusz Danilewicz <mandi@interia.pl>
-## language polish
+## version $VER: DOpus4_Config.catalog 4.0 (23.03.2014) Kabara Jaroslav
+## language czech
 ## codeset 5
 ;
 ;#basename Dopus4_Config
@@ -14,857 +14,857 @@
 ;*** Messages on quit
 ;
 STR_REALLY_DISCARD_CONFIG
-Czy chcesz porzuciæ\n aktualne ustawienia?
+Opravdu chcete zru¹it\naktuální nastavení?
 ; Do you really want to discard the\ncurrent configuration settings?
 ;
 STR_EXIT_WITHOUT_SAVING
-Czy chcesz wyj¶æ bez\nzapisania aktualnych ustawieñ?
+Opravdu chcete opustit program bez\nulo¾ení aktuálního nastavení?
 ; Do you really want to exit without\nsaving the current configuration settings?
 ;
 ;
 ;*** Window titles
 ;
 STR_CONFIGURATION_MAIN_SCREEN
-Konfiguracja programu
+Hlavní nastavení
 ; Configuration main screen
 ;
 STR_OPERATION_SCREEN
-Konfiguracja operacji
+Nastavení operací
 ; Operation configuration screen
 ;
 STR_MENU_SCREEN
-Konfiguracja menu
+Nastavení polo¾ek menu
 ; Menu configuration screen
 ;
 STR_DRIVE_SCREEN
-Konfiguracja przycisków urz±dzeñ
+Nastavení tlaèítek zaøízení
 ; Drive button configuration screen
 ;
 STR_FILETYPE_SCREEN
-Konfiguracja typów plików
+Nastavení typù souborù
 ; Filetype configuration screen
 ;
 STR_SCREEN_SCREEN
-Konfiguracja ekranu
+Nastavení parametrù obrazovky
 ; Screen configuration screen
 ;
 STR_SYSTEM_SCREEN
-Konfiguracja systemu
+Konfigurace systémových funkcí
 ; System configuration screen
 ;
 STR_HOTKEYS_SCREEN
-Konfiguracja wywo³añ
+Nastavení klávesových zkratek
 ; Global hotkeys configuration screen
 ;
 STR_MAIN_MENU
-Menu g³ówne
+Hlavní menu
 ; Main Menu
 ;
 ;
 ;*** Configuration/Buttons (1/3)
 ;
 STR_LEFT_MOUSE_BUTTON
-Lewy przycisk myszki
+Levé tlaèítko my¹i
 ; Left mouse button
 ;
 STR_RIGHT_MOUSE_BUTTON
-Prawy przycisk myszki
+Pravé tlaèítko my¹i
 ; Right mouse button
 ;
 ;
 ;*** General usage buttons (1/2)
 ;
 STR_OKAY
-OK
+Ok
 ; Okay
 ;
 STR_CANCEL
-Poniechaj
+Zru¹it
 ; Cancel
 ;
 ;
 ;*** Operation/List format (1/5)
 ;
 STR_AVAILABLE_DISPLAY_ITEMS
-Dostêpne elementy...
+Dostupné informace o souboru...
 ; Available display items...
 ;
 STR_SELECTED_DISPLAY_ITEMS
-Wybrane elementy...
+Zobrazované informace o souboru...
 ; Selected display items...
 ;
 STR_DISPLAYED_LENGTHS
-Wy¶wietlane d³ugo¶ci...
+Rozmìr zobrazení...
 ; Displayed lengths...
 ;
 STR_CHECK_INDICATES_SORT
-(   Oznacza sposób sortowania)
+(oznaèuje, podle èeho tøídit)
 ; (  Check indicates sort item)
 ;
 STR_ENTRY_SEPARATION
-Oddzielanie wpisów...
+Oddìlení polo¾ek...
 ; Entry separation...
 ;
 ;
 ;*** System/Hotkey (1/2)
 ;
 STR_UNICONIFY_HOTKEY
-Wywo³anie deikonifikacji/aktywacji
+Kombinace kláves pro uspání/probuzení
 ; Uniconify/activate hotkey
 ;
 ;
 ;*** System/Icons (1/3)
 ;
 STR_PROJECTS_DEFAULT_TOOL
-Domy¶lne narzêdzie projektów...
+Pøiøazený program...
 ; Project's Default Tool...
 ;
 ;
 ;*** General purpose file/directory requester titles
 ;
 STR_SELECT_DESIRED_FILE
-Wybierz ¿±dany plik
+Vyberte po¾adovaný soubor
 ; Select the desired file
 ;
 STR_SELECT_DESIRED_DIRECTORY
-Wybierz ¿±dany katalog
+Vyberte po¾adovaný adresáø
 ; Select the desired directory
 ;
 STR_SELECT_DESIRED_FONT
-Wybierz ¿±dany czcionkê i jej wielko¶æ
+Vyberte po¾adované písmo a jeho velikost
 ; Select the desired font and size
 ;
 ;
 ;*** Hotkey edit screen
 ;
 STR_HOTKEY_USCORE
-_Wywo³anie
+_Klávesová zkratka
 ; _Hotkey
 ;
 ;
 ;*** Configuration/Buttons - messages
 ;
 STR_NEW_GADGET_BANKS_APPENDED
-Nowy bank przycisków dodano do ju¿ istniej±cych.
+Ke stávajícím blokùm tlaèítek byly pøipojeny nové.
 ; New button banks appended to existing ones.
 ;
 STR_DEFAULT_GADGET_BANKS_APPENDED
-Domy¶lny bank przycisków zosta³ dodany do ju¿ istniej±cych.
+Ke stávajícím blokùm tlaèítek byly pøipojeny standardní.
 ; Default button banks appended to existing ones.
 ;
 STR_NO_GADGET_BANKS_CONFIGURED
-Nie skonfigurowano banku przycisków
+Není definován ¾ádný blok tlaèítek!
 ; There are no button banks configured!
 ;
 STR_GADGET_DELETED
-Przycisk skasowany.
+Tlaèítko odstranìno.
 ; Button deleted.
 ;
 STR_SELECT_GADGET_TO_COPY
-Wybierz pozycjê przycisku do której chcesz skopiowaæ definicjê.
+Zvolte cílové tlaèítko pro kopírování.
 ; Select the button position to copy the original button to.
 ;
 STR_SELECT_GADGET_TO_SWAP
-Wybierz drugi przycisk do zamiany.
+Zvolte si tlaèítko, se kterým se vymìní.
 ; Select the button to swap with the first button.
 ;
 STR_SELECT_A_GADGET_TO_COPY
-Wybierz przycisk którego definicjê chcesz skopiowaæ.
+Vyberte si tlaèítko, které chcete kopírovat.
 ; Select a button to copy.
 ;
 STR_SELECT_FIRST_GADGET_TO_SWAP
-Wybierz pierwszy przycisk do zamiany.
+Vyberte si tlaèítko pro výmìnu.
 ; Select the first button to swap.
 ;
 STR_GADGET_EDIT_SCREEN
-Edycja przycisków
+Nastavení definice tlaèítek
 ; Button edit screen
 ;
 STR_ENTER_BANK_TO_COPY
-Podaj numer banku do którego chcesz skopiowaæ aktualny bank.\nJe¶li podany bank nie istnieje, nowy zostanie utworzony.
+Zadejte èíslo bloku, do kterého se bude kopírovat.\nPokud je¹tì neexistuje, bude vytvoøen nový blok.
 ; Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
 ;
 STR_BANK_ALREADY_EXISTS
-Wybrany bank ju¿ istnieje!\nCzy chcesz go zast±piæ?
+Zvolený blok ji¾ existuje!\nOpravdu jej chcete pøepsat?
 ; Selected bank already exists! Do you really\nwant to overwrite this bank?
 ;
 STR_GADGET_BANK_COPIED
-Bank przycisków skopiowany.
+Blok tlaèítek byl zkopírován.
 ; Button bank copied.
 ;
 STR_ENTER_BANK_TO_SWAP
-Podaj numer banku do zamienienia z aktualnym bankiem.
+Zadejte èíslo bloku pro výmìnu s aktuálním.
 ; Enter bank number to swap this bank with.
 ;
 STR_BANK_DOES_NOT_EXIST
-Wybrany bank przycisków nie istnieje.
+Zadaný blok tlaèítek neexistuje.
 ; Selected button bank does not exist.
 ;
 STR_BANKS_SWAPPED
-Banki przycisków zamieniono.
+Bloky tlaèítek vymìnìny.
 ; Button banks swapped.
 ;
 STR_ONLY_BANK_CONFIGURED
-To jest jedyny skonfigurowany bank przycisków!\nCzy chcesz go skasowaæ?
+Tento blok tlaèítek je jediný nastavený.\nOpravdu jej chcete smazat?
 ; This is the only button bank configured!\nDo you really want to delete this button bank?
 ;
 STR_REALLY_DELETE_BANK
-Czy chcesz skasowaæ ten bank przycisków?
+Opravdu chcete smazat tento blok tlaèítek?
 ; Do you really want to delete this button bank?
 ;
 STR_BANK_DELETED
-Bank przycisków skasowany.
+Blok tlaèítek byl smazán.
 ; Button bank deleted.
 ;
 STR_SELECT_GADGET_TO_DELETE
-Wybierz przycisk do skasowania.
+Vyberte si tlaèítko, které chcete smazat.
 ; Select a button to delete.
 ;
 STR_GADGET_BANK_NUMBER
-Numer banky przycisków
+Blok tlaèítek èíslo
 ; Button bank number
 ;
 STR_GADGET_SCREEN_NO_BANKS
-Konfiguracja przycisków - brak skonfigurowanego banku
+Nastavení definice tlaèítek - ¾ádný blok
 ; Button configuration screen - no banks configured
 ;
 STR_NO_MEMORY_FOR_NEW_BANK
-Nie mo¿na przydzieliæ pamiêci dla nowego banku!
+Nedostatek pamìti pro nový blok tlaèítek!
 ; Unable to allocate memory for new bank!
 ;
 STR_NEW_BANK_CREATED
-Nowy bank przycisków utworzony.
+Nový blok tlaèítek vytvoøen.
 ; New button bank created.
 ;
 ;
 ;*** Menu configuration screen (1/3)
 ;
 STR_NEW_MENUS_LOADED
-Nowe menu wczytane.
+Nové menu úspì¹nì naèteno.
 ; New menus loaded.
 ;
 STR_DEFAULT_MENUS_LOADED
-Domy¶lne menu wczytane.
+Naèteno standardní menu.
 ; Default menus loaded.
 ;
 STR_ENTER_MENU_TITLE
-Podaj tytu³ menu.
+Zadejte název menu.
 ; Enter menu title.
 ;
 STR_MENU_ITEM_DELETED
-Element menu skasowany.
+Polo¾ka menu odstranìna.
 ; Menu item deleted.
 ;
 STR_MENU_ITEM_INSERTED
-Element menu wstawiony.
+Vlo¾ena nová polo¾ka menu.
 ; Menu item inserted.
 ;
 STR_REALLY_DELETE_THIS_MENU
-Czy chcesz skasowaæ to menu?
+Opravdu chcete smazat toto menu?
 ; Do you really want to delete this menu?
 ;
 STR_MENU_DELETED
-Menu skasowane.
+Menu bylo smazáno.
 ; Menu deleted.
 ;
 STR_MENU_SORTED
-Menu uporz±dkowane.
+Menu bylo setøídìno.
 ; Menu sorted.
 ;
 STR_SELECT_MENU_TO_COPY
-Wybierz element menu do którego chcesz skopiowaæ definicjê.
+Zvolte si cílové menu pro kopii.
 ; Select an item in the menu to copy the original menu to.
 ;
 STR_SELECT_MENU_TO_SWAP
-Wybierz element w menu do zamienienia.
+Zvolte si cílové menu pro výmìnu.
 ; Select an item in the menu to swap with the first.
 ;
 STR_SELECT_ITEM_TO_COPY
-Wybierz pozycjê elementu do którego chcesz skopiowaæ definicjê.
+Zvolte si pozici v menu, kam se bude kopírovat.
 ; Select item position to copy the original menu item to.
 ;
 STR_SELECT_ITEM_TO_SWAP
-Wubierz element menu z którym chcesz zamieniæ.
+Zvolte si polo¾ku, která se vymìní s první.
 ; Select menu item to swap with the first item.
 ;
 STR_MENU_ITEM_EDIT_SCREEN
-Edycja elementów menu
+Nastavení jednotlivých polo¾ek menu
 ; Menu item edit screen
 ;
 STR_SELECT_ITEM_IN_MENU_TO_COPY
-Wybierz element w menu do skopiowania.
+Zvolte si menu, které se bude kopírovat.
 ; Select an item in the menu to copy.
 ;
 STR_SELECT_ITEM_IN_MENU_TO_SWAP
-Wybierz drugi element menu do zamiany.
+Zvolte si polo¾ku v prvním menu, která se vymìní.
 ; Select an item in the first menu to swap.
 ;
 STR_SELECT_ITEM_IN_MENU_TO_DELETE
-Wybierz element w menu do skasowania.
+Zvolte si menu, které se sma¾e.
 ; Select an item in the menu to delete.
 ;
 STR_SELECT_ITEM_IN_MENU_TO_SORT
-Wybierz element w menu do uporz±dkowania.
+Zvolte si menu, které se setøídí.
 ; Select an item in the menu to sort.
 ;
 STR_SELECT_ITEM_TO_INSERT_BEFORE
-Wybierz PRZED którym elementem menu chcesz dodaæ nowy element.
+Zvolte si polo¾ku menu, PØED kterou se bude vkládat.
 ; Select the menu item to insert the new item BEFORE.
 ;
 STR_SELECT_MENU_ITEM_TO_COPY
-Wybierz elemeny menu do skopiowania.
+Zvolte si polo¾ku menu, která se bude kopírovat.
 ; Select a menu item to copy.
 ;
 STR_SELECT_MENU_ITEM_TO_SWAP
-Wybierz pierwszy element menu do zamiany.
+Zvolte si první polo¾ku menu pro výmìnu.
 ; Select the first menu item to swap.
 ;
 STR_SELECT_MENU_ITEM_TO_DELETE
-Wybierz element menu do skasowania.
+Zvolte si polo¾ku menu, která se sma¾e.
 ; Select a menu item to delete.
 ;
 ;
 ;*** The well known 'Edit' menu
 ;
 STR_EDIT
-Edytuj
+Editace
 ; Edit
 ;
 ;
 ;*** (Drive) Button & Menu configuration screen (1/2)
 ;
 STR_SHORTCUT_KEY
-Skrót _klaw.
+Kláv. z_kratka
 ; Shortcut _key
 ;
 ;
 ;*** Another common string
 ;
 STR_HOTKEY
-Wywo³anie
+Horké klávesy
 ; Hotkey
 ;
 ;
 ;*** File requester titles for edit screens
 ;
 STR_ARGUMENT_CONTROL_SEQUENCES
-Lista dostêpnych funkcji...
+Seznam dostupných funkcí...
 ; List of available functions...
 ;
 STR_AVAILABLE_COMMANDS
-Lista dostêpnych poleceñ...
+Seznam dostupných pøíkazù...
 ; List of available commands...
 ;
 ;
 ;*** (Drive) Button edit screens
 ;
 STR_FOREGROUND
-Pierwszy plan
+Popøedí
 ; Foreground
 ;
 STR_BACKGROUND
-T³o
+Pozadí
 ; Background
 ;
 STR_DROP_A_TOOL_HERE
-Upu¶æ tu narzêdzie!
+Zde polo¾te nástroj!
 ; Drop a tool here!
 ;
 STR_NEW_DRIVE_BANKS_LOADED
-Nowy bank przycisków napêdów zosta³ wczytany.
+Naètena nová banka zaøízení.
 ; New drive banks loaded.
 ;
 STR_DEFAULT_DRIVE_BANKS_RESET
-Przywrócono domy¶lny bank urz±dzeñ.
+Nastavení zaøízení na základní stav.
 ; Default drive banks reset.
 ;
 STR_DRIVE_GADGET_DELETED
-Przycisk urz±dzenia skasowany.
+Tlaèítko zaøízení smazáno.
 ; Drive button deleted.
 ;
 STR_SELECT_DRIVE_TO_COPY_TO
-Gdzie chcesz skopiowaæ przycisk napêdu?
+Zvolte cílové tlaèítko pro kopii.
 ; Select the drive position to copy the original drive button to.
 ;
 STR_SELECT_DRIVE_TO_SWAP_WITH_FIRST
-Z którym przyciskiem urz±dzenia chcesz zamieniæ?
+Zvolte cílové tlaèítko pro výmìnu.
 ; Select the drive button to swap with the first button.
 ;
 STR_SELECT_DRIVE_BANK_TO_COPY_TO
-Do którego banku urz±dzeñ chcesz skopiowaæ?
+Zvolte nìkteré tlaèítko v cílovém bloku pro kopii.
 ; Select a drive button in the bank to copy the original bank to.
 ;
 STR_SELECT_DRIVE_BANK_TO_SWAP_WITH_FIRST
-Z którym bankiem urz±dzeñ chcesz zamieniæ?
+Zvolte nìkteré tlaèítko v druhém bloku pro výmìnu.
 ; Select a drive button in the bank to swap with the first bank.
 ;
 STR_REALLY_DELETE_DRIVE_BANK
-Czy naprawdê chcesz skasowaæ ten bank urz±dzeñ?
+Opravdu chcete smazat tento seznam zaøízení?
 ; Do you really want to delete this drive bank?
 ;
 STR_PATH
-Scie¿ka
+_Cesta
 ; _Path
 ;
 STR_SYSTEM_DEVICES_LISTED
-Lista urz±dzeñ systemowych.
+Seznam zaøízení vytvoøen.
 ; System devices listed.
 ;
 STR_SELECT_DRIVE_BANK_TO_COPY
-Który bank urz±dzeñ chcesz skopiowaæ?
+Zvolte tlaèítko zaøízení v bance, kterou chcete kopírovat.
 ; Select a drive button in the bank to copy.
 ;
 STR_SELECT_DRIVE_BANK_TO_SWAP
-Który bank urz±dzeñ chcesz zamieniæ?
+Zvolte tlaèítko zaøízení v první bance, které chcete zamìnit.
 ; Select a drive button in the first bank to swap.
 ;
 STR_SELECT_DRIVE_BANK_TO_DELETE
-Który bank urz±dzeñ chcesz skasowaæ?
+Zvolte tlaèítko zaøízení v bance, kterou chcete smazat.
 ; Select a drive button in the bank to delete.
 ;
 STR_SELECT_DRIVE_BANK_TO_SORT
-Który bank urz±dzeñ chcesz posortowaæ?
+Zvolte tlaèítko zaøízení v bance, kterou chcete setøídit.
 ; Select a drive button in the bank to sort.
 ;
 STR_SELECT_DRIVE_GADGET_TO_COPY
-Który przycisk urz±dzenia chesz skopiowaæ?
+Zvolte tlaèítko zaøízení, které chcete kopírovat.
 ; Select a drive button to copy.
 ;
 STR_SELECT_DRIVE_GADGET_TO_SWAP
-Który przycisk urz±dzenia chesz zamieniæ?
+Zvolte první tlaèítko zaøízení, které chcete zamìnit.
 ; Select the first drive button to swap.
 ;
 STR_SELECT_DRIVE_GADGET_TO_DELETE
-Który przycisk urz±dzenia chesz skasowaæ?
+Zvolte tlaèítko zaøízení, které chcete smazat.
 ; Select a drive button to delete.
 ;
 ;
 ;*** Filetype configuration screen - messages
 ;
 STR_NEW_FILETYPES_MERGED
-Nowy typ pliku po³±czono z istniej±cym.
+K existujícím datovým typùm byl pøipojen nový.
 ; New filetypes merged with existing ones.
 ;
 STR_DEFAULT_FILETYPES_MERGED
-Standardowy typ pliku po³±czono z istniej±cym.
+Byl pøipojen dal¹í základní datový typ.
 ; Default filetypes merged with existing ones.
 ;
 ;
 ;*** File classes (1/2)
 ;
 STR_REALLY_DELETE_THIS_CLASS
-Czy chcesz skasowaæ t± klasê?
+Opravdu chcete smazat tuto tøídu objektù?
 ; Do you really want to delete this class?
 ;
 STR_FILE_CLASS_DELETED
-Klasa pliku zosta³a skasowana.
+Tøída objektù smazána.
 ; File class deleted.
 ;
 STR_SELECT_CLASS_FILE_TO_LOAD
-Wybierz klasê pliku do wczytania
+Vyberte soubor s tøídami objektù
 ; Select the class file to load
 ;
 STR_ENTER_NAME_TO_SAVE_CLASSES
-Podaj nazwê klasy do zapisu
+Zadejte název pro soubor s tøídami objektù.
 ; Enter a name to save the file classes
 ;
 STR_SELECT_CLASSES_TO_IMPORT
-Wybierz plik z klasami do zaimportowania
+Zvolte tøídy souborù, které se budou importovat.
 ; Select file classes to import
 ;
 STR_ERASE_ALL_CLASSES
-Czy chcesz usun±æ wszystkie klasy plików?
+Opravdu chcete smazat v¹echny tøídy souborù?
 ; Do you really wish to erase all file classes?
 ;
 STR_EXIT_WITHOUT_SAVING_CLASSES
-Czy chcesz wyj¶æ z tej sekcji bez\nzapisania zmian?
+Opravdu chcete opustit tento editor, bez ulo¾ení\nzmìn provedených v tøídách souborù?
 ; Do you really wish to exit this section without\nsaving changes made to the file classes?
 ;
 STR_REDEFINE_EXISTING_CLASS_ACTION
-Dla tego pliku klas ju¿ zdefiniowano akcje.\nCzy chcesz kontynuowaæ?
+Pro tuto tøídu souborù ji¾ byla vytvoøena asociace.\nChcete pokraèovat?
 ; That file class already has an action defined\nfor it. Do you wish to continue?
 ;
 STR_DEFAULT_ACTION_CAN_NOT_BE_MOVED
-Standardowe dzia³ania nie mog± zostaæ przeniesione.
+Výchozí akci nelze pøesunout.
 ; The default action can not be moved.
 ;
 STR_CLASS_ACTIONS_SWAPPED
-Dzia³ania dla klasy zamieniono.
+Akce pøehozena.
 ; Class actions swapped.
 ;
 STR_SELECT_ACTION_TO_SWAP
-Wybierz pierwsze dzia³anie do zamiany.
+Vyberte první tøídu k pøehození.
 ; Select the first action to swap.
 ;
 STR_SELECT_ACTION_TO_SWAP_WITH_FIRST
-Wybierz drugie dzia³anie do zamiany.
+Vyberte druhou akci k pøehození s první.
 ; Select the second action to swap with the first.
 ;
 STR_SELECT_ACTION_TO_DELETE
-Wybierz dzia³anie do skasowania.
+Vyberte akci k odstranìní.
 ; Select an action to delete.
 ;
 STR_REALLY_DELETE_THIS_ACTION
-Czy chcesz skasowaæ to dzia³anie?
+Opravdu chcete smazat tuto akci?
 ; Do you really want to delete this action?
 ;
 STR_ACTION_DELETED
-Dzia³anie skasowane.
+Akce smazána.
 ; Action deleted.
 ;
 STR_FILETYPE_CLASS
-Klasy plików
+Tøída souborù
 ; Filetype class
 ;
 STR_EDIT_CLASS
-Edycja klasy
+Úprava tøídy
 ; Edit class
 ;
 STR_FILE_CLASS_EDIT_SCREEN
-Edycja klas plików
+Úprava tøídy souborù
 ; File class edit screen
 ;
 STR_OPEN_FAILED
-Otwieranie nie powiod³o siê - b³±d DOSu nr. %ld\nPonowiæ próbê?
+Chyba pøi otevírání - DOS chyba %ld\nZkusit znovu?
 ; Open failed - DOS error code %ld\nTry again?
 ;
 STR_SAVE_FAILED
-Próba zapisu nie powiod³a siê - b³±d DOSu nr. %ld\nPonowiæ próbê?
+Chyba pøi ukládání - DOS chyba %ld\nZkusit znovu?
 ; Save failed - DOS error code %ld\nTry again?
 ;
 STR_LIST_OF_FILETYPE_COMMANDS
-Lista poleceñ identyfikacji plików...
+Seznam pøíkazù pro identifikaci souborù...
 ; List of file identification commands...
 ;
 STR_POSITION
-Pozycja
+Pozice
 ; Position
 ;
 STR_OFFSET
-Przesuniêcie
+Odstup
 ; Offset
 ;
 ;
 ;
 STR_FILE_NOT_FOUND
-Plik nie znaleziony!
+Soubor nenalezen!
 ; File not found!
 ;
 ;
 ;*** Screen/Colors (1/3)
 ;
 STR_EXAMPLE
-Przyk³ad
+Pøíklad
 ; Example
 ;
 ;
 ;*** Screen/Screen mode (1/7)
 ;
 STR_DISPLAY_MODE_DESCRIPTION
-Charakterystyka trybu...
+Popis grafického módu...
 ; Display mode description...
 ;
 ;
 ;*** Screen/Fonts (1/3)
 ;
 STR_DISPLAY_ITEM
-Wy¶wietlane elementy...
+Zobrazení polo¾ky...
 ; Display item...
 ;
 STR_FONT
-Czcionka...
+Písmo...
 ; Font...
 ;
 STR_FONT_SIZE
-Wielko¶æ...
+Velikost...
 ; Size...
 ;
 ;
 ;*** Screen/Arrows (1/2)
 ;
 STR_MODIFY_SIZE
-Dopasuj wielko¶æ...
+Zmìna velikosti...
 ; Adjust size...
 ;
 ;
 ;*** System/Hotkey (2/2)
 ;
 STR_USE_MMB
-U¿yj ¶rodkowego przycisku myszki
+Pou¾ít prostøední tlaèítko my¹i
 ; Use middle mouse button
 ;
 ;
 ;*** Screen/Screen mode (2/7)
 ;
 STR_MINIMUM_SIZE
-Wielko¶æ minimalna
+Minimální velikost
 ; Minimum size
 ;
 STR_MAXIMUM_SIZE
-Wielko¶æ maksymalna
+Miximální velikost
 ; Maximum size
 ;
 STR_DEFAULT_SIZE
-Wielko¶æ domy¶lna
+Normální velikost
 ; Default size
 ;
 STR_MAXIMUM_COLORS
-Maksymalnie kolorów
+Poèet barev
 ; Maximum colors
 ;
 ;
 ;*** Misc. messages
 ;
 STR_LOADING_FONT
-Wczytujê czcionkê...
+Naèítání písma...
 ; Loading font...
 ;
 STR_FONT_COULD_NOT_BE_LOADED
-Nie mo¿na wczytaæ czcionki!
+Písmo nelze naèíst!
 ; Font could not be loaded!
 ;
 STR_ENTER_CONFIGURATION_FILENAME
-Podaj nazwê pliku konfiguracyjnego
+Zadejte název konfiguraèního souboru
 ; Enter configuration filename
 ;
 STR_SELECT_CONFIGURATION_TO_LOAD
-Wybierz plik konfiguracyjny do wczytania
+Vyberte konfiguraèní soubor
 ; Select configuration file to load
 ;
 STR_FILE_NOT_VALID_CONFIGURATION
-Plik nie jest plikiem konfiguracyjnym!\nPonowiæ próbê?
+Zvolený soubor není konfiguraèní soubor!\nZkusit znovu?
 ; File is not a valid configuration file!\nTry again?
 ;
 STR_SELECT_MENUS_TO_IMPORT
-Wybierz menu do zaimportowania
+Zvolte menu, která se budou importovat
 ; Select menus to import
 ;
 STR_SELECT_FILETYPES_TO_IMPORT
-Wybierz typy plików do zaimportowania
+Zvolte datové typy, které se budou importovat
 ; Select filetypes to import
 ;
 STR_SELECT_HOTKEYS_TO_IMPORT
-Wybierz wywo³ania do zaimportowania
+Zvolte kombinace kláves, které se budou importovat
 ; Select hotkeys to import
 ;
 STR_SELECT_FUNCTION_TO_PASTE
-Wybierz funkcjê do wstawienia
+Zvolte funkce, které se pøipojí
 ; Select function to paste
 ;
 ;
 ;*** Configuration/Hotkeys (1/3)
 ;
 STR_NEW_HOTKEYS_MERGED
-Nowe wywo³anie zosta³o po³±czone z istniej±cym.
+Pøipojeny nové kombinace kláves.
 ; New hotkeys merged with existing ones.
 ;
 STR_DEFAULT_HOTKEYS_MERGED
-Standardowe wywolanie zosta³o po³±czone z istniej±cym.
+Základní kombinace kláves byly pøipojeny.
 ; Default hotkeys merged with existing ones.
 ;
 STR_SELECT_HOTKEY_TO_DELETE
-Wybierz wywo³anie do skasowania.
+Zvolte klávesovou kombinaci, která se bude mazat.
 ; Select hotkey to delete.
 ;
 STR_SELECT_HOTKEY_TO_DUPLICATE
-Wybierz wywa³anie do duplikacji.
+Zvolte klávesovou kombinaci, která se bude duplikovat.
 ; Select hotkey to duplicate.
 ;
 STR_REALLY_DELETE_HOTKEY
-Czy chcesz skasowaæ to wywo³anie?
+Opravdu chcete smazat tuto klávesovou kombinaci?
 ; Do you really want to delete this hotkey?
 ;
 STR_HOTKEY_DELETED
-Wywo³anie skasowane.
+Klávesová kombinace smazána.
 ; Hotkey deleted.
 ;
 STR_HOTKEY_EDIT_SCREEN
-Edycja wywo³añ
+Editor kombinací kláves
 ; Hotkey edit screen
 ;
 ;
 ; Configuration/Buttons (2/3)
 ;
 STR_NEW_BANK
-Nowy bank
+Nový blok
 ; New bank
 ;
 STR_INSERT_BANK
-Wstaw bank
+Vlo¾it blok
 ; Insert bank
 ;
 STR_NEXT_BANK
-Nast. bank
+Dal¹í blok
 ; Next bank
 ;
 STR_LAST_BANK
-Poprzedni bank
+Pøedchozí blok
 ; Prev bank
 ;
 ;
 ;
 STR_CLEAR
-Wyczy¶æ
+Smazat
 ; Clear
 ;
 STR_CLEAR_LAST
-Wyczy¶æ ost.
+Smazat poslední
 ; Clear last
 ;
 ;
 ;*** Menus (1/5)
 ;
 STR_MENU_DEFAULT
-Standardowa
+Základní
 ; Default
 ;
 STR_MENU_OPEN
-Otwórz...
+Otevøít...
 ; Open...
 ;
 STR_MENU_SAVE
-Zapisz
+Ulo¾it
 ; Save
 ;
 STR_MENU_SAVE_AS
-Zapisz jako...
+Ulo¾it jako...
 ; Save As...
 ;
 STR_MENU_CUT
-Wytnij
+Vystøihnout
 ; Cut
 ;
 STR_MENU_COPY
-Skopiuj
+Kopírovat
 ; Copy
 ;
 STR_MENU_PASTE
-Wstaw...
+Vlo¾it...
 ; Paste...
 ;
 STR_MENU_ERASE
-Usuñ
+Smazat
 ; Erase
 ;
 STR_MENU_NEW
-Nowy...
+Nový...
 ; New...
 ;
 STR_MENU_EDIT
-Edytuj...
+Editovat...
 ; Edit...
 ;
 STR_MENU_DELETE
-Skasuj...
+Smazat...
 ; Delete...
 ;
 STR_GADGETROWS_NONE
-Brak przycisków
+Bez tlaèítek
 ; No buttons
 ;
 STR_GADGETROWS_ONE
-Jeden wiersz
+Jedna øada
 ; One row
 ;
 STR_GADGETROWS_TWO
-Dwa wiersze
+Dvì øady
 ; Two rows
 ;
 STR_GADGETROWS_THREE
-Trzy wiersze
+Tøi øady
 ; Three rows
 ;
 STR_GADGETROWS_SIX
-Sze¶æ wierszy
+©est øad
 ; Six rows
 ;
 STR_MENUNAME_CONFIGURE
-Konfiguracja
+Konfigurace
 ; Configure
 ;
 STR_MENUNAME_GADGETROWS
-Ilo¶æ wierszy
+Øady tlaèítek
 ; Button rows
 ;
 STR_MENUNAME_CLASSES
-Klasy
+Tøídy
 ; Classes
 ;
 ;
 ;*** Misc. messages for classes management
 ;
 STR_FILECLASS_DEFINE
-Definicja dzia³añ dla klas...
+Nastavení akce pro tøídu...
 ; Define an action for class...
 ;
 STR_FILECLASS_EDIT
-Wybierz klasê do edycji...
+Zvolte si tøídu, kterou chcete editovat...
 ; Select class to edit...
 ;
 STR_FILECLASS_DELETE
-Wybierz klasê do skasowania...
+Zvolte si tøídu, kterou chcete smazat...
 ; Select class to delete...
 ;
 ;
 ;*** Screen/Fonts (2/3)
 ;
 STR_FONTPLACE_CLOCK
-Zegar/Pamiêæ
+Li¹ta (hodiny/RAM)
 ; Clock/Memory
 ;
 STR_FONTPLACE_GADGETS
-Przyciski
+Vlastní tlaèítka
 ; Custom buttons
 ;
 STR_FONTPLACE_MENUS
-Menu
+Vlastní menu
 ; Custom menus
 ;
 STR_FONTPLACE_DISKNAMES
-Nazwy dysków
+Názvy diskù
 ; Disk names
 ;
 STR_FONTPLACE_WINDOW
-Okno katalogu
+Adresáøové okno
 ; Directory window
 ;
 STR_FONTPLACE_GENERAL
-G³ówna
+V¹eobecný (8 bodù)
 ; General
 ;General (8 point)
 ;
 STR_FONTPLACE_ICONIFY
-Ikonifikowane jako przyciski
+Ikonifikovat do tlaèítek
 ; Iconify to buttons
 ;
 STR_FONTPLACE_PATHS
-Nazwy ¶cie¿ek
+Názvy cest
 ; Path names
 ;
 STR_FONTPLACE_REQUESTERS
-Komunikaty
+Hlá¹ení
 ; Requesters
 ;
 STR_FONTPLACE_STATUS
-Linia statusowa
+Stavový øádek
 ; Status bar
 ;
 STR_FONTPLACE_TEXTVIEWER
-Przegl±darka tekstu
+Prohlí¾eè textù
 ; Text viewer
 ;
 ;
 ;*** Screen/Palette (1/4)
 ;
 STR_PALETTE_PRESETS
-Przyk³ady...
+Nastavení...
 ; Presets...
 ;
 ;
 ;*** System/Icons (2/3)
 ;
 STR_ICONLIST_TITLE
-Dodaj ikonki...
+Standardní ikony...
 ; AddIcon's icons...
 ;
 ;
@@ -873,27 +873,27 @@ Dodaj ikonki...
 ; Note these should be no longer than 20 characters!
 ;
 STR_FORMAT_NAME
-Nazwa pliku
+Název souboru
 ; File name
 ;
 STR_FORMAT_SIZE
-Wielko¶æ pliku
+Velikost
 ; File size
 ;
 STR_FORMAT_BITS
-Bity protekcji
+Stavové bity
 ; Protection bits
 ;
 STR_FORMAT_DATE
-Data utworzenia
+Datum vytvoøení
 ; Creation date
 ;
 STR_FORMAT_COMMENT
-Komentarz pliku
+Komentáø
 ; File comment
 ;
 STR_FORMAT_TYPE
-Typ pliku
+Typ souboru
 ; File type
 ;
 ;
@@ -902,34 +902,34 @@ Typ pliku
 ; Do NOT remove the three blanks in front!
 ;
 STR_ICONS_DRAWER
-   Ikonka katalogu
+   Ikona adresáøe
 ;    Drawer icon
 ;
 STR_ICONS_TOOL
-   Domy¶lna ikonka narzêdzia
+   Výchozí ikona nástroje
 ;    Default Tool icon
 ;
 STR_ICONS_PROJECT
-   Domy¶lna ikonka projektu
+   Výchozí ikona projektu
 ;    Default Project icon
 ;
 ;
 ;*** Main screen gadgets
 ;
 STR_MAINMENU_GADGETS
-Przyciski
+Tlaèítka
 ; Buttons
 ;
 STR_MAINMENU_DRIVES
-Urz±dzenia
+Zaøízení
 ; Drives
 ;
 STR_MAINMENU_FILETYPES
-Typy plików
+Typy souborù
 ; Filetypes
 ;
 STR_MAINMENU_HOTKEYS
-Wywo³ania
+Horké klávesy
 ; Hotkeys
 ;
 STR_MAINMENU_MENUS
@@ -937,53 +937,53 @@ Menu
 ; Menus
 ;
 STR_MAINMENU_OPERATION
-Operacje
+Funkce
 ; Operation
 ;
 STR_MAINMENU_SCREEN
-Ekran
+Obrazovka
 ; Screen
 ;
 STR_MAINMENU_SYSTEM
-System
+Systém
 ; System
 ;
 ;
 ;*** The "All" gadget used when importing stuff
 ;
 STR_ALL
-Wszystko
+V¹e
 ; All
 ;
 ;
 ;*** Operation configuration screen
 ;
 STR_OPERATION_DATEFORMAT
-Format daty
+Formát data
 ; Date format
 ;
 STR_OPERATION_DELETE
-Skasuj
+Smazat
 ; Delete
 ;
 STR_OPERATION_ERRORCHECK
-B³êdy
+Kontrola chyb
 ; Error check
 ;
 STR_OPERATION_GENERAL
-Ogólne
+Rùzné
 ; General
 ;
 STR_OPERATION_ICONS
-Ikonki
+Ikony
 ; Icons
 ;
 STR_OPERATION_LISTFORMAT
-Format listera
+Formáty
 ; List format
 ;
 STR_OPERATION_UPDATE
-Uaktualnianie
+Aktualizace
 ; Update
 ;
 ;
@@ -994,58 +994,58 @@ AmigaDOS
 ; AmigaDOS
 ;
 STR_SYSTEM_CLOCKS
-Zegary
+Hodiny
 ; Clocks
 ;
 STR_SYSTEM_DIRECTORIES
-Katalogi
+Adresáøe
 ; Directories
 ;
 STR_SYSTEM_ICONS
-Ikonki
+Ikony
 ; Icons
 ;
 STR_SYSTEM_MODULES
-Modu³y
+Moduly
 ; Modules
 ;
 STR_SYSTEM_SHOWPATTERN
-Wzorce
+Zobr. masku
 ; Show pattern
 ;
 STR_SYSTEM_STARTUP
-Start
+Pøi spou¹tìní
 ; Startup
 ;
 STR_SYSTEM_VIEWPLAY
-Obraz i d¼wiêk
+Obrázky&zvuky
 ; View & Play
 ;
 ;
 ;*** Configuration/Buttons (3/3)
 ;
 STR_GADGET_COPYBANK
-Skopiuj bank
+Kopie bloku
 ; Copy bank
 ;
 STR_GADGET_SWAPBANK
-Zamieñ banki
+Vymìnit blok
 ; Swap bank
 ;
 STR_GADGET_DELETEBANK
-Skasuj bank
+Smazat blok
 ; Delete bank
 ;
 STR_GADGET_COPYGADGET
-Kopiuj przycisk
+Kopírovat
 ; Copy button
 ;
 STR_GADGET_SWAPGADGET
-Zamieñ przyciski
+Vymìnit
 ; Swap button
 ;
 STR_GADGET_DELETEGADGET
-Skasuj przycisk
+Smazat
 ; Del. button
 ;
 ;
@@ -1054,566 +1054,566 @@ Skasuj przycisk
 ; These should be no longer than 24 characters!
 ;
 STR_FLAG_AUTOICONIFY
-Autom. ikonifikacja
+Automatická ikonifikace
 ; Auto iconify
 ;
 STR_FLAG_CDDESTINATION
-Zmieñ kat. docelowy
+CD do cílového
 ; CD destination
 ;
 STR_FLAG_CDSOURCE
-Zmieñ kat. ¼ród³owy
+CD do zdrojového
 ; CD source
 ;
 STR_FLAG_DOPUSTOFRONT
-Directory Opus na wierzch
+Directory Opus do popøedí
 ; Directory Opus to front
 ;
 STR_FLAG_DOALLFILES
-Wszystkie pliki
+Pro v¹echny soubory
 ; Do all files
 ;
 STR_FLAG_INCLUDEDOPUS
-Stosuj±c DOpus-Startup
+Vèetnì DOpus-Startupu
 ; Include DOpus-Startup
 ;
 STR_FLAG_INCLUDESHELL
-Stosuj±c Shell-Startup
+Vèetnì Shell-Startupu
 ; Include Shell-Startup
 ;
 STR_FLAG_NOQUOTE
-Bez cudzys³owów
+Bez dotazu na název soub.
 ; No filename quote
 ;
 STR_FLAG_OUTPUTFILE
-Wyj¶cie do pliku
+Výstup do souboru
 ; Output to file
 ;
 STR_FLAG_OUTPUTWINDOW
-Okno wyj¶ciowe
+Výstupní okno
 ; Output window
 ;
 STR_FLAG_RECURSIVE
-Z podkatalogami
+Adresáøe rekurzivnì
 ; Recursive directories
 ;
 STR_FLAG_RELOAD
-Prze³aduj ka¿dy plik
+Znovu pøeèíst soubor
 ; Reload each file
 ;
 STR_FLAG_RESCANDEST
-Przeskanuj miejsce przeznaczenia
+Znovu pøeèíst cílový
 ; Rescan destination
 ;
 STR_FLAG_RESCANSOURCE
-Przeskanuj miejsce ¿ród³owe
+Znovu pøeèíst zdrojový
 ; Rescan source
 ;
 STR_FLAG_RUNASYNC
-Uruchom asynchronicznie
+Spustit na pozadí
 ; Run asynchronously
 ;
 STR_FLAG_WORKBENCHTOFRONT
-Workbench na wierzch
+Workbench do popøedí
 ; Workbench to front
 ;
 ;
 ;*** Common gadgets & textfields in edit screens
 ;
 STR_EDIT_NAME
-_Nazwa
+_Název
 ; _Name
 ;
 STR_EDIT_SAMPLE
-Przyk³ad
+Zachytit
 ; Sample
 ;
 STR_EDIT_NEWENTRY
-Nowy wpis
+Nový záznam
 ; New entry
 ;
 STR_EDIT_DUPLICATE
-Duplikat
+Duplikovat
 ; Duplicate
 ;
 STR_EDIT_SWAP
-Zamieñ
+Pøehodit
 ; Swap
 ;
 STR_EDIT_STACKSIZE
-_Wielko¶æ stosu
+Zá_sobník
 ; _Stack size
 ;
 STR_EDIT_PRIORITY
-_Priorytet
+_Priorita
 ; _Priority
 ;
 STR_EDIT_CLOSEDELAY
-_Opó¼nienie zamkniêcia
+Pau_za pøi zavøení
 ; _Close delay
 ;
 STR_EDIT_ACTION
-Opis zdarz_enia
+Popis _události
 ; _Event description
 ;
 ;
 ;*** File classes (2/2)
 ;
 STR_EDITCLASS_FILECLASS
-_Klasa pliku
+_Tøída
 ; _File class
 ;
 STR_EDITCLASS_CLASSID
-_ID klasy
+_ID tøídy
 ; Class _ID
 ;
 STR_EDITCLASS_FILEVIEWER
-Prze_gl±darka
+_Prohlí¾eè
 ; File _viewer
 ;
 ;
 ;*** Menu configuration screen (2/3)
 ;
 STR_MENU_COPYMENU
-Kopiuj menu
+Kopírovat
 ; Copy menu
 ;
 STR_MENU_SWAPMENU
-Zamieñ menu
+Vymìnit
 ; Swap menu
 ;
 STR_MENU_DELETEMENU
-Usuñ menu
+Smazat
 ; Delete menu
 ;
 STR_MENU_SORTMENU
-Sortuj menu
+Setøídit
 ; Sort menu
 ;
 STR_MENU_INSERTITEM
-Wstaw element
+Vlo¾it
 ; Insert item
 ;
 STR_MENU_COPYITEM
-Skopiuj element
+Kopírovat
 ; Copy item
 ;
 STR_MENU_SWAPITEM
-Zamieñ element
+Vymìnit
 ; Swap item
 ;
 STR_MENU_DELETEITEM
-Usuñ element
+Smazat
 ; Delete item
 ;
 ;
 ;*** Drive button configuration screen
 ;
 STR_DRIVES_GETDRIVES
-Pobierz urz±dz.
+Detekovat
 ; Get drives
 ;
 STR_DRIVES_SORTBANK
-Uporz±dkuj bank
+Setøídit
 ; Sort bank
 ;
 STR_DRIVES_COPYDRIVE
-Skopiuj urz±dz.
+Kopírovat
 ; Copy drive
 ;
 STR_DRIVES_SWAPDRIVE
-Zmieñ urz±dzenie
+Vymìnit
 ; Swap drive
 ;
 STR_DRIVES_DELETEDRIVE
-Usuñ urz±dzenie
+Smazat
 ; Delete drive
 ;
 ;
 ;*** Configuration/Hotkeys (2/3)
 ;
 STR_HOTKEYS_NEWHOTKEY
-Nowe wywo³naie
+Nová klávesa
 ; New hotkey
 ;
 ;
 ;*** Screen configuration screen (1/3)
 ;
 STR_SCREEN_COLORS
-Kolory
+Barvy
 ; Colors
 ;
 STR_SCREEN_FONTS
-Czcionki
+Písmo
 ; Fonts
 ;
 STR_SCREEN_PALETTE
-Paleta kolorów
+Paleta barev
 ; Palette
 ;
 STR_SCREEN_SCREENMODE
-Tryby wy¶wietlania
+Obrazovka
 ; Screen mode
 ;
 ;
 ;*** Screen/Palette (2/4)
 ;
 STR_PALETTE_RED
-_Czerwony
+È_ervená
 ; _Red
 ;
 STR_PALETTE_GREEN
-_Zielony
+Ze_lená
 ; _Green
 ;
 STR_PALETTE_BLUE
-_Niebieski
+_Modrá
 ; _Blue
 ;
 ;
 ;*** Screen/Colors (2/3)
 ;
 STR_COLOR_STATUS
-Linia statusowa
+Stavová li¹ta
 ; Status bar
 ;
 STR_COLOR_SELDISK
-Nazwa dysku ¼ród³owego
+Název disku - oznaèené
 ; Selected disk name
 ;
 STR_COLOR_UNSELDISK
-Nazwa dysku docelowego
+Název disku - neoznaèené
 ; Unselected disk name
 ;
 STR_COLOR_SELDIR
-Zaznaczony katalog
+Adresáø - oznaèené
 ; Selected directory
 ;
 STR_COLOR_UNSELDIR
-Odznaczony katalog
+Adresáø - neoznaèené
 ; Unselected directory
 ;
 STR_COLOR_SELFILE
-Zaznaczony plik
+Soubor - oznaèené
 ; Selected file
 ;
 STR_COLOR_UNSELFILE
-Odznaczony plik
+Soubor - neoznaèené
 ; Unselected file
 ;
 STR_COLOR_SLIDERS
-Suwaki
+Posuvníky
 ; Sliders
 ;
 STR_COLOR_ARROWS
-Strza³ki
+©ipky
 ; Arrows
 ;
 STR_COLOR_TINY
-Ma³e przyciski
+Malá tlaèítka
 ; Tiny buttons
 ;
 STR_COLOR_CLOCK
-Zegar/pamiêæ
+Li¹ta s hodinami/pamìtí
 ; Clock/memory bar
 ;
 STR_COLOR_REQUESTER
-Teksty komunikatów
+Texty hlá¹ení
 ; Requester text
 ;
 STR_COLOR_BOXES
-Ramki
+3D tlaèítka
 ; 3D boxes
 ;
 STR_COLOR_PATHNAME
-Nazwa ¶cie¿ki
+Cesta k souboru
 ; Path name
 ;
 STR_COLOR_SELPATHNAME
-Zaznaczona nazwa ¶cie¿ki
+Zvolte název cesty
 ; Selected path name
 ;
 ;
 ;*** Screen/Screen mode (3/7)
 ;
 STR_SCREENMODE_WIDTH
-Sze_roko¶æ
+_©íøka
 ; _Width
 ;
 STR_SCREENMODE_HEIGHT
-_Wysoko¶æ
+_Vý¹ka
 ; _Height
 ;
 STR_SCREENMODE_COLORS
-_Kolory
+_Barvy
 ; _Colors
 ;
 STR_SCREENMODE_DEFAULT
-U¿yj domy¶lnych
+Pou¾ít výchozí hodnoty
 ; Use default
 ;
 STR_SCREENMODE_HALFHEIGHT
-Po³owa wysoko¶ci ekranu
+Obrazovka polovièní vý¹ky
 ; Half-height screen
 ;
 ;
 ;*** Operation/List format (3/5)
 ;
 STR_LISTFORMAT_TITLE
-Format wy¶wietlania w
+Formát seznamu souborù pro
 ; Format of the list in the
 ;
 STR_LISTFORMAT_RESET
-Skasuj
+Resetovat
 ; Reset
 ;
 STR_LISTFORMAT_NAME
-
+Název
 ;
 ;
 STR_LISTFORMAT_COMMENT
-
+Poznámka
 ;
 ;
 STR_LISTFORMAT_REVERSE
-Porz±dek odwrotny
+Sestupné tøídìní
 ; Reverse sorting
 ;
 ;
 ;*** Screen/Arrows (2/2)
 ;
 STR_ARROWS_INSIDE
-Strza³ki w ¶rodku
+©ipky na vnitøní stranì
 ; Arrows on the inside
 ;
 STR_ARROWS_OUTSIDE
-Strza³ki na zewn±trz
+©ipky na vnìj¹í stranì
 ; Arrows on the outside
 ;
 STR_ARROWS_EACH
-Strza³ki po obu stronach suwaka
+©ipky na obou koncích
 ; One arrow at each end of the button
 ;
 STR_ARROWTYPE_UPDOWN
-Przewijanie góra/dó³
+Horní/dolní posuvník
 ; Scroll up/down
 ;
 STR_ARROWTYPE_LEFTRIGHT
-Przewijanie lewo/prawo
+Levý/pravý posuvník
 ; Scroll left/right
 ;
 STR_ARROWTYPE_PREVNEXT
-Bufor poprzedni/nastêpny
+Dal¹í/pøedchozí mezipamì»
 ; Buffer previous/next
 ;
 ;
 ;
 ;
 STR_NEW
-Nowy
+Nový
 ; New
 ;
 ;
 ;*** Common string
 ;
 STR_MISC_FLAGS
-Ró¿ne...
+Rùzné vlastnosti...
 ; Misc. flags...
 ;
 ;
 ;*** Operation/Copy (1/2)
 ;
 STR_OP_COPY_WHENCOPYING
-Kopiowanie plików i katalogów...
+Pøi kopírování souborù a adresáøù...
 ; When copying files and directories...
 ;
 STR_OP_COPY_CHECKDEST
-Przed rozpoczêciem sprawd¼ ilo¶æ wolnego miejsca
+Zjistit, je-li na cílovém místì dostatek místa
 ; Check destination's free space before starting
 ;
 STR_OP_COPY_SETARCHIVE
-Ustaw bit zarchiwizowany dla ¼ród³a po zakoñczeniu operacji
+Po dokonèení nastavit u zdr. souborù archivní bit
 ; Set archive bit of source after finishing
 ;
 STR_OP_COPY_ALSOCOPY
-Skopiuj tak¿e...
+Kopírovat vèetnì...
 ; Also copy source's...
 ;
 STR_OP_COPY_DATESTAMP
-datê utworzenia pliku
+pùvodního data vytvoøení
 ; datestamp
 ;
 STR_OP_COPY_BITS
-atrybuty pliku
+stavových bitù
 ; protection bits
 ;
 STR_OP_COPY_COMMENT
-komentarz
+komentáøù
 ; comment
 ;
 STR_OP_COPY_IFFILEEXISTS
-Kiedy plik ju¿ istnieje...
+Pokud cílový soubor ji¾ existuje...
 ; What to do when a file already exists...
 ;
 STR_OP_COPY_ALWAYSREPLACE
-Zawsze zastêpuj pliki
+Pøepisovat automaticky
 ; Always replace files
 ;
 STR_OP_COPY_NEVERREPLACE
-Nigdy nie zastêpuj plików
+Nepøepisovat nikdy
 ; Never replace files
 ;
 STR_OP_COPY_ONLYOLDER
-Zastêpuj tylko stare pliki
+Pøepsat pouze star¹í soubory
 ; Replace only older files
 ;
 STR_OP_COPY_ASKBEFORE
-Pytaj przed zast±pieniem
+Zeptat se pøed nahrazením
 ; Ask before replacing
 ;
 ;
 ;*** Operation/Date format
 ;
 STR_OP_DATE_DATEFORMAT
-Data w formacie...
+Formát data...
 ; Date format...
 ;
 STR_OP_DATE_DDMMMYY
-dd-mmm-rr  np.(22-Wrz-98)
+DD-MMM-RR   (22-Záø-92)
 ; DD-MMM-YY   (22-Sep-92)
 ;
 STR_OP_DATE_YYMMDD
-RR-MM-DD  np.(98-09-22)
+RR-MM-DD    (92-09-22)
 ; YY-MM-DD    (92-09-22)
 ;
 STR_OP_DATE_MMDDYY
-MM-DD-RR  np.(09-22-98)
+MM-DD-RR    (09-22-92)
 ; MM-DD-YY    (09-22-92)
 ;
 STR_OP_DATE_DDMMYY
-DD-MM-RR  np.(22-09-98)
+DD-MM-RR    (22-09-92)
 ; DD-MM-YY    (22-09-92)
 ;
 STR_OP_DATE_NAMESUB
-U¿ywaj substytów nazw (Dzi¶, Jutro, itp.)
+Dosazovat jména (Dnes, Zítra atd...)
 ; Name substitution (Today, Tomorrow, etc)
 ;
 STR_OP_DATE_12HOUR
-12 godzinny zegar
+12-ti hodinový formát
 ; 12 hour clock
 ;
 ;
 ;*** Operation/Delete
 ;
 STR_OP_DEL_ASKBEFORE
-Pytaj przed...
+Dotázat se...
 ; Ask before...
 ;
 STR_OP_DEL_COMMENCING
-Potwierdzaj kasowanie
+Pøi zahájení operace
 ; Commencing delete
 ;
 STR_OP_DEL_DELETEFILES
-Kasowaniem plików
+Pøi mazání souborù
 ; Deleting files
 ;
 STR_OP_DEL_DELETEDIRS
-Kasowaniem katalogów
+Pøi mazání obsazeného adresáøe
 ; Deleting non-empty directories
 ;
 STR_OP_DEL_IGNOREPROT
-Ignoruj bit 'kasowalny'
+Ignorovat stavový bit proti mazání
 ; Ignore the delete protection bit
 ;
 ;
 ;*** Operation/Error check
 ;
 STR_OP_ERROR_ENABLE
-W³±czone...
+Povolit...
 ; Enable...
 ;
 STR_OP_ERROR_DOSREQ
-Komunikaty DOS-u
+Hlá¹ení AmigaDOSu
 ; DOS requesters
 ;
 STR_OP_ERROR_OPUSREQ
-Komunikaty b³êdów Opusa
+Chybové hlá¹ení
 ; Opus error requesters
 ;
 ;
 ;*** Operation/General (1/4)
 ;
 STR_OP_GENERAL_DRAG
-Miêdzyklik przeci±ga
+Pøesun pøi dvojím oddìleném kliknutí
 ; Click-M-Click drag
 ;
 STR_OP_GENERAL_DISPLAYINFO
-Wy¶wietlaj informacje
+Zobrazovat informace
 ; Display info
 ;
 STR_OP_GENERAL_DOUBLECLICK
-Dwuklik na pliku
+Dvojklik na soubor
 ; File double-click
 ;
 STR_OP_GENERAL_SLIDERACTIVE
-Suwak aktywuje okno
+Aktivace okna posuvnými li¹tami
 ; Window slider activate
 ;
 ;
 ;*** Operation/Icons
 ;
 STR_OP_ICON_CREATEWITHDIR
-Twórz ikonki z katalogami
+Vytváøet ikony k adresáøùm
 ; Create icon with directories
 ;
 STR_OP_ICON_DOUNTOICONS
-Wykonuj operacje tak¿e na ikonkach
+Provádìt v¹echny operace i s ikonami
 ; Perform all actions on icons as well
 ;
 STR_OP_ICON_SELECTAUTO
-Automatycznie zaznaczaj ikonki
+Automaticky oznaèovat ikony
 ; Select icons automatically
 ;
 ;
 ;*** Operation/Update (1/3)
 ;
 STR_OP_UPDATE_WHENPROCESSING
-Podczas operacji na plikach...
+V prùbìhu práce se soubory...
 ; When processing files...
 ;
 STR_OP_UPDATE_PROGRESSIND
-Wska¼nik postêpu operacji
+Zobrazovat ukazatel prùbìhu operace
 ; Operation progress indicator
 ;
 STR_OP_UPDATE_LEFTJUSTIFY
-Równaj do lewej nazwy w linii statusowej
+Zarovnat název souboru na li¹tì doleva
 ; Left-justify filename in status bar
 ;
 STR_OP_UPDATE_SCROLLTOFOLLOW
-Przewijaj zawarto¶æ okna aby ¶ledziæ postêp operacji
+Rolovat obsah okna adresáøe
 ; Scroll directory window to follow operations
 ;
 STR_OP_UPDATE_UPDATEFREE
-Uaktualnij ilo¶æ wolnego miejsca na dysku
+Aktualizovat volné místo na disku
 ; Update free disk space
 ;
 STR_OP_UPDATE_STARTNOTIFY
-Od¶wie¿aj katalogi u¿ywaj±c funkcji StartNotify()
+Aktualizovat adresáøe funkcí StartNotify()
 ; Directory refresh using StartNotify()
 ;
 STR_OP_UPDATE_REDRAWMORE
-Od¶wie¿aj wiêcej ni¿ æwieræ strony
+Pøekreslovat víc ne¾ 1/4 stránky
 ; Redraw more than a quarter of a page
 ;
 STR_OP_UPDATE_QUIETGETDIR
-Uaktualniaj lister podczas skanowania katalogu
+Aktualizovat velikost li¹t pøi naèítání
 ; Update listview slider while scanning
 ;
 ;
 ;*** System/AmigaDOS
 ;
 STR_SYS_AMIGADOS_TITLE
-Uruchamianie aplikacji AmigaDOS...
+Spou¹tìní programù/pøíkazù AmigaDOSu...
 ; Running AmigaDOS applications...
 ;
 STR_SYS_AMIGADOS_SHELL
@@ -1621,42 +1621,42 @@ Shell
 ; Shell
 ;
 STR_SYS_AMIGADOS_CONSOLE
-Konsola
+Výstupní okno
 ; Console
 ;
 STR_SYS_AMIGADOS_STARTUP
-Skrypt startowy
+Skript po spu¹tìní
 ; Startup script
 ;
 STR_SYS_AMIGADOS_PRIORITY
-Priorytet
+Priorita
 ; Priority
 ;
 ;
 ;*** System/Clocks (1/2)
 ;
 STR_SYS_CLOCK_TITLE
-Zegar/pamiêæ w lini statusowej...
+Hodiny/pamì» na li¹tì...
 ; Clock/memory bar...
 ;
 STR_SYS_CLOCK_MEMORY
-Monitor pamiêci
+Sledování pamìti
 ; Memory monitor
 ;
 STR_SYS_CLOCK_CPUMONITOR
-Monitor procesora
+Monitor CPU
 ; CPU monitor
 ;
 STR_SYS_CLOCK_DATE
-Data
+Datum
 ; Date
 ;
 STR_SYS_CLOCK_TIME
-Czas
+Hodiny
 ; Time
 ;
 STR_SYS_CLOCK_WHENICONIFIED
-Kiedy zikonifikowany...
+Stav pøi ikonifikaci...
 ; When iconified...
 ;
 STR_SYS_CLOCK_WINDOW
@@ -1668,251 +1668,251 @@ Bez okna
 ; No window
 ;
 STR_SYS_CLOCK_APPICON
-AppIkonka
+Vytvoøit AppIconu
 ; An AppIcon
 ;
 STR_SYS_CLOCK_SHOWFREEAS
-Poka¿ ilo¶æ wolnej pamiêci jako...
+Volné místo jako...
 ; Show free space as...
 ;
 STR_SYS_CLOCK_BYTES
-Bajty wolne
+Bytù volných
 ; Bytes free
 ;
 STR_SYS_CLOCK_KILOBYTES
-Kilo/Megabajty wolne
+Kilo/Megabytù volných
 ; Kilo/Megabytes free
 ;
 STR_SYS_CLOCK_TEXTFORMAT
-Format tekstu...
+Textový formát...
 ; Text format...
 ;
 STR_SYS_CLOCK_CHIPANDFAST
-CHIP: i FAST:
+CHIP: a FAST:
 ; CHIP: and FAST:
 ;
 STR_SYS_CLOCK_CANDF
-C: i F:
+C: a F:
 ; C: and F:
 ;
 ;
 ;*** System/Directories (1/2)
 ;
 STR_SYS_DIR_CACHES
-Bufory katalogów...
+Mezipamì» pro adresáøe...
 ; Directory caches...
 ;
 STR_SYS_DIR_NUMBUFFERS
-Buforów na okno
+Blokù pro okno
 ; Buffers per window
 ;
 STR_SYS_DIR_ALWAYSEMPTY
-Zawsze przeno¶ do pustego bufora
+V¾dy pøesunout do prázdného bloku
 ; Always move to an empty buffer
 ;
 STR_SYS_DIR_REREADINCOMPLETE
-Odczytuj zmienione bufory
+Zmìnìné bloky pøeèíst znovu
 ; Re-read changed buffers
 ;
 STR_SYS_DIR_SEARCHBUFFERS
-Przeszukuj bufory...
+Prohledávat pøi...
 ; Search buffers on...
 ;
 STR_SYS_DIR_SEARCHPARENT
-przy wywo³aniu funkcji Parent/Root
+Pøesunu nahoru ve struktuøe adresáøù
 ; Parent/Root operation
 ;
 STR_SYS_DIR_DIRREAD
-przy zmianie katalogu poprzez dwuklik/miêdzyklik
+Ètení adresáøù po dvojím/dvojnásobném kliknutí
 ; Double-click/Click-m-click directory read
 ;
 STR_SYS_DIR_AUTODISKCHANGE
-Autom. zm. dysku
+Aut. výmìna disket
 ; Auto diskchange
 ;
 STR_SYS_DIR_AUTODISKLOAD
-Autom. wy¶w. zaw. dysku
+Aut. naèítání disket
 ; Auto disk load
 ;
 STR_SYS_DIR_EXPANDPATHS
-Rozszerzaj ¶cie¿ki dostêpu
+Kompletní cesta
 ; Expand pathnames
 ;
 STR_SYS_DIR_USEEXALL
-U¿ywaj funkcji ExAll()
+Pou¾ívat fun. ExAll()
 ; Use ExAll()
 ;
 ;
 ;*** Filetype class edit screen (1/2)
 ;
 STR_FILEVIEW_HEX
-Hexagonalny
+Hex
 ; Hex
 ;
 ;
 ;*** System/Directories (2/2)
 ;
 STR_SYS_DIR_BLOCKSFREE
-Wolne bloki
+Volných blokù
 ; Blocks free
 ;
 STR_SYS_DIR_PERCENTAGE
-Procent wolnego miejsca
+Procent volného místa
 ; Percentage of space free
 ;
 ;
 ;*** Screen/Palette (3/4)
 ;
 STR_PALETTE_RESET
-Przywróæ
+Resetovat
 ; Reset
 ;
 STR_PALETTE_DOPUS_DEFAULT
-Domy¶lne Directory Opusa
+Výchozí nastavení Directory Opusu
 ; Directory Opus default
 ;
 STR_PALETTE_WB_DEFAULT
-Domy¶lne Workbencha
+Výchozí nastavení Workbenche
 ; Workbench default
 ;
 STR_PALETTE_WB_CURRENT
-Aktualne Workbencha
+Aktuální nastavení Workbenche
 ; Workbench current
 ;
 ;
 ;*** The main "Okay" button
 ;
 STR_OKAY_TO_QUIT
-OK
+Ok
 ; Okay
 ;
 ;
 ;*** Screen configuration screen (2/3)
 ;
 STR_SCREEN_GENERAL
-Ogólne
+Rùzné
 ; General
 ;
 ;
 ;*** Filetype classes editing again - type of event
 ;
 STR_FTYPE_ACTION
-Dzia³anie
+Akce
 ; Action
 ;
 STR_FTYPE_COMMAND
-Komenda
+Pøíkaz
 ; Command
 ;
 ;
 ;*** Filetype class edit screen (2/2)
 ;
 STR_FILEVIEW_DEC
-Dziesiêtny
+Decimální
 ; Decimal
 ;
 ;
 ;*** Menus (2/5)
 ;
 STR_EDIT_MENU
-Edycja
+Upravit
 ; Edit
 ;
 ;
 ;*** System/Show pattern
 ;
 STR_SYS_SHOWPATTERN_TITLE
-Wzorce dla listerów...
+Maska pro výpis adresáøù...
 ; Directory list pattern...
 ;
 STR_SYS_SHOWPATTERN_HIDDENBIT
-Ukrywaj pliki z ustawionym bitem h
+Nezobrazovat soubory se stavovým bitem H.
 ; Hide files with hidden bit set
 ;
 STR_SYS_SHOWPATTERN_SHOW
-Poka¿
+Zobrazit
 ; Show
 ;
 STR_SYS_SHOWPATTERN_HIDE
-Schowaj
+Skrýt
 ; Hide
 ;
 ;
 ;*** System/Startup (1/2)
 ;
 STR_SYS_STARTUP_TITLE
-Zawarto¶æ katalogów pokazywana w oknach przy uruchomieniu programu...
+Adresáøe naèítané automaticky po startu...
 ; Directories to read on startup...
 ;
 STR_SYS_STARTUP_LEFT
-Po lewej
+Vlevo
 ; Left
 ;
 STR_SYS_STARTUP_RIGHT
-Po prawej
+Vpravo
 ; Right
 ;
 STR_SYS_STARTUP_AREXX
-Skrypty ARexx'a wykonywane gdy...
+Spustit ARexxový skript pøi...
 ; ARexx scripts to execute on...
 ;
 STR_SYS_STARTUP_STARTUP
-Start
+Spu¹tìní
 ; Startup
 ;
 STR_SYS_STARTUP_UNICONIFY
-Deikonifikacja
+Zru¹it ikonifikaci
 ; Uniconify
 ;
 ;
 ;*** System/View & Play (1/3)
 ;
 STR_SYS_VIEWPLAY_TITLE
-Wy¶wietlanie obrazka/animacji (IFF ILBM/ANIM)...
+Prohlí¾eè obrázkù/animací (ILBM/ANIM)...
 ; Picture/animation viewer (IFF ILBM/ANIM)...
 ;
 STR_SYS_VIEWPLAY_BLACK
-Czarne t³o miêdzy obrazkami
+Èerné pozadí obrazovky mezi obrázky
 ; Black background between pictures
 ;
 STR_SYS_VIEWPLAY_PAUSED
-Animacja zatrzymana przy starcie
+Animace spou¹tìt pozastavené
 ; Start animation paused
 ;
 STR_SYS_VIEWPLAY_8BITCOL
-8 bitów na ka¿d± sk³adow±
+24-bitové barvy
 ; 8-bits per gun color
 ;
 STR_SYS_VIEWPLAY_SHOWDELAY
-Opó¼niaj wy¶w.
+Pauza mezi
 ; Show delay
 ;
 STR_SYS_VIEWPLAY_FADEDELAY
-Opó¼niaj wyg.
+Doba zhá¹ení
 ; Fade delay
 ;
 STR_SYS_VIEWPLAY_SOUNDPLAYER
-Odtwarzanie d¼wiêku (IFF 8SVX)...
+Pøehrávaè zvukù (IFF 8SVX)...
 ; Sound player (IFF 8SVX)...
 ;
 STR_SYS_VIEWPLAY_FILTER
-Wy³±cz filtr audio podczas odtwarzania
+Vypnout zvukový filtr
 ; Turn audio filter off for play
 ;
 STR_SYS_VIEWPLAY_LOOP
-Zapêtlenie przy dwulkiku
+Pøi dvojkliku pøehrávat dokola
 ; Loop on double-click
 ;
 STR_SYS_VIEWPLAY_TEXTVIEW
-Wy¶wietlanie tekstu...
+Prohlí¾eè textù...
 ; Text viewer...
 ;
 STR_SYS_VIEWPLAY_BORDERS
-Ramki w przegl±darce
+Okraje prohlí¾eèe
 ; Text viewer borders
 ;
 STR_SYS_VIEWPLAY_TABSIZE
-Wielko¶æ tabulatora
+Velikost zálo¾ek
 ; Tab size
 ;
 ;
@@ -1922,74 +1922,74 @@ Wielko¶æ tabulatora
 ;*** Screen/General (1/4)
 ;
 STR_SCREEN_GENERAL_TINYGADS
-Ma³e przyciski na dole po prawej
+Malá tlaèítka vpravo dole
 ; Bottom-right tiny buttons
 ;
 STR_SCREEN_GENERAL_GADGETSLIDERS
-Gad¿et przewijania banków przycisków
+Li¹ty pro bloky tlaèítek
 ; Button banks sliders
 ;
 STR_SCREEN_GENERAL_INDICATERMB
-Zaznaczaj przyciski z funkcjami dla RMB
+Zarámovat hlavní okno
 ; Indicate button has RMB function
 ;
 STR_SCREEN_GENERAL_NEWLOOKSLIDERS
-Suwaki typu New-look
+Nový vzhled posuvníkù
 ; New-look sliders
 ;
 ;
 ;*** Common titles for edit lists
 ;
 STR_EDITLIST_TITLE1
-Opcje...
+Nastavení...
 ; Flags...
 ;
 STR_EDITLIST_TITLE2
-Zdarzenia...
+Události...
 ; Events...
 ;
 ;
 ;*** Filetype configuration screen
 ;
 STR_FILETYPEACTIONLIST_TITLE
-Definicja dzia³añ dla typów plików...
+Definované asociace...
 ; Defined filetype actions...
 ;
 ;
 ;*** Configuration/Hotkeys (3/3)
 ;
 STR_HOTKEYSLIST_TITLE
-Definiowanie wywo³añ...
+Globální klávesová zkratka...
 ; Global hotkeys defined...
 ;
 ;
 ;*** Screen/Screen mode (4/7)
 ;
 STR_SCREENMODELIST_TITLE
-Tryby wy¶wietlania...
+Zobrazovací mód...
 ; Display mode...
 ;
 ;
 ;*** Operation/List format (4/5)
 ;
 STR_LEFT_WINDOW
-lewym oknie
+Levé okno
 ; Left window
 ;
 STR_RIGHT_WINDOW
-prawym oknie
+Pravé okno
 ; Right window
 ;
 STR_SEP_MIX_FILES
-Pomieszane pliki/katalogi
+Míchat soub. a adr.
 ; Mix files/directories
 ;
 STR_SEP_DIRS_FIRST
-Katalogi najpierw
+Adresáøe napøed
 ; Directories first
 ;
 STR_SEP_FILES_FIRST
-Pliki najpierw
+Soubory napøed
 ; Files first
 ;
 ;
@@ -1998,380 +1998,380 @@ Pliki najpierw
 ; Note: these should be *exactly* 41 characters long!
 ;
 STR_FUNCTIONLIST_ABOUT
-About         -    Wy¶w. info o programie
+About         -      Informace o programu
 ; About         -      Display program info
 ;
 STR_FUNCTIONLIST_ADDICON
-AddIcon       - Dodaje ikonkê do elementu
+AddIcon       -           Vytvoøení ikony
 ; AddIcon       -      Add icons to entries
 ;
 STR_FUNCTIONLIST_ALARM
-Alarm         -    Odtwarza d¼wiêk alarmu
+Alarm         -  Varovné pípnutí/bliknutí
 ; Alarm         -            Sound an alarm
 ;
 STR_FUNCTIONLIST_ALL
-All           -  Zazn. wszystkie elementy
+All           -    Oznaèení v¹ech polo¾ek
 ; All           -        Select all entries
 ;
 STR_FUNCTIONLIST_ANSIREAD
-AnsiRead      -  Przegl±darka tekstu ANSI
+AnsiRead    - Zobrazení textu s ANSI kódy
 ; AnsiRead      -          ANSI text viewer
 ;
 STR_FUNCTIONLIST_AREXX
-ARexx         - Wykonuje polecenie ARexxa
+ARexx         -    Spustí ARexxový skript
 ; ARexx         -      Run an ARexx command
 ;
 STR_FUNCTIONLIST_ASSIGN
-Assign        -        Tworzy przypisanie
+Assign     - Vytvoøení logického zaøízení
 ; Assign        -    Assign logical devices
 ;
 STR_FUNCTIONLIST_BEEP
-Beep          - Odtwarza d¼wiêk systemowy
+Beep          -                   Pípnutí
 ; Beep          -              Sound a beep
 ;
 STR_FUNCTIONLIST_BUFFERLIST
-BufferList    -   Lista buforowanych kat.
+BufferList    -  Seznam adresáøù v pamìti
 ; BufferList    - List buffered directories
 ;
 STR_FUNCTIONLIST_BUTTONICONIFY
-ButtonIconify -  Ikonifikuje do b. przyc.
+ButtonIconify -        Uspání do tlaèítka
 ; ButtonIconify -   Iconify to button strip
 ;
 STR_FUNCTIONLIST_CD
-CD            -  Zmienia aktualny katalog
+CD            - Zmìna aktuálního adresáøe
 ; CD            -  Change current directory
 ;
 STR_FUNCTIONLIST_CHECKFIT
-CheckFit      -    Sprawdza czy dane wejd±
+CheckFit      -    Ovìøení dostatku místa
 ; CheckFit      - Check if entries will fit
 ;
 STR_FUNCTIONLIST_CLEARBUFFERS
-ClearBuffers  -   Czy¶ci bufory katalogów
+ClearBuffers  -  Sma¾e pamì» pro adresáøe
 ; ClearBuffers  -       Clear buffered dirs
 ;
 STR_FUNCTIONLIST_CLEARSIZES
-ClearSizes    -  Usuwa wielko¶ci katalogów
+ClearSizes  - Zapomene velikosti adresáøù
 ; ClearSizes    -    Remove dir byte counts
 ;
 STR_FUNCTIONLIST_CLEARWIN
-ClearWin      -      Czy¶ci aktualne okno
+ClearWin      -       Vyma¾e aktivní okno
 ; ClearWin      -  Clear the current window
 ;
 STR_FUNCTIONLIST_CLONE
-Clone         - Klonuje wybrane elementy
+Clone         -  Vytvoøí identickou kopii
 ; Clone         -    Clone selected entries
 ;
 STR_FUNCTIONLIST_COMMENT
-Comment       -         Dodaje komentarz
+Comment       -            Pøidá komentáø
 ; Comment       - Give filenotes to entries
 ;
 STR_FUNCTIONLIST_CONFIGURE
-Configure     -  Uruchamia edytor konfig.
+Configure    - Spustí konfiguraèní editor
 ; Configure     -      Launch config editor
 ;
 STR_FUNCTIONLIST_CONTST
-ContST        -   Kontynuuje odtw. modu³u
+ContST   - Znovu spustí pøehrávání modulu
 ; ContST        -  Restart paused ST module
 ;
 STR_FUNCTIONLIST_COPY
-Copy          -  Kopiuje wybrane elementy
+Copy          - Kopíruje oznaèené polo¾ky
 ; Copy          -     Copy selected entries
 ;
 STR_FUNCTIONLIST_COPYAS
-CopyAs        -  Kopiuje zmieniaj±c nazwê
+CopyAs        -   Kopíruje s novým jménem
 ; CopyAs        -       Copy with new names
 ;
 STR_FUNCTIONLIST_COPYWINDOW
-CopyWindow    -    Kopiuje zawarto¶æ okna
+CopyWindow    -    Kopíruje aktuální okno
 ; CopyWindow    -  Copy one window to other
 ;
 ;
 STR_FUNCTIONLIST_DATESTAMP
-DateStamp     -    Modyfikuje daty plików
+DateStamp     -   Nastaví datum vytvoøení
 ; DateStamp     -    Modify file datestamps
 ;
 STR_FUNCTIONLIST_DEFAULTS
-Defaults      -  Ustawia domy¶ln± konfig.
+Defaults   - Nastaví základní konfiguraci
 ; Defaults      - Set default configuration
 ;
 STR_FUNCTIONLIST_DELETE
-Delate        -   Kasuje wybrane elementy
+Delete        -     Sma¾e zvolené polo¾ky
 ; Delete        -   Delete selected entries
 ;
 STR_FUNCTIONLIST_DIRTREE
-DirTree       -    Tworzy drzewo katalogu
+DirTree      - Vytvoøí strukturu adresáøù
 ; DirTree       -     Create directory tree
 ;
 STR_FUNCTIONLIST_DISKCOPY
-Diskcopy      -             Kopiuje dyski
+Diskcopy      -          Kopíruje disketu
 ; Diskcopy      -         Copy floppy disks
 ;
 STR_FUNCTIONLIST_DISKCOPYBG
-DiskcopyBG    -      Kopiuje dyski we tle
+DiskCopyBG   - Kopíruje disketu na pozadí
 ; DiskcopyBG    -    Diskcopy in background
 ;
 STR_FUNCTIONLIST_DISKINFO
-Diskinfo      - Wy¶wietla inform. o dysku
+DiskInfo   - Zobrazí informace o zaøízení
 ; DiskInfo      -    Display info on a disk
 ;
 STR_FUNCTIONLIST_DISPLAYDIR
-DisplayDir    -     Uaktualnia wy¶w. kat.
+DisplayDir  - Aktualizuje obsah obrazovky
 ; DisplayDir    -  Update directory display
 ;
 STR_FUNCTIONLIST_DOPUSTOBACK
-DopusToBack   -    Przenosi ekran to ty³u
+DopusToBack   -  Pøesune obrazovku dozadu
 ; DopusToBack   -   Move screen to the back
 ;
 STR_FUNCTIONLIST_DOPUSTOFRONT
-DopusToFront  - Przenosi ekran na wierzch
+DOpusToFront  - Pøesune obrazovku dopøedu
 ; DopusToFront  -  Move screen to the front
 ;
 STR_FUNCTIONLIST_ENCRYPT
-Encrypt       -      Koduje wybrane pliki
+Encrypt       - Zakóduje oznaèené soubory
 ; Encrypt       -    Encrypt selected files
 ;
 STR_FUNCTIONLIST_ENDFUNCTION
-FinishSection -  Koñczy polecenia powy¿ej
+FinishSection -    Poèká na konec pøíkazu
 ; FinishSection -     Finish above commands
 ;
 STR_FUNCTIONLIST_ERRORHELP
-ErrorHelp     -     Pomoc o b³êdzie DOS-u
+ErrorHelp   - Nápovìda k chybám AmigaDOSu
 ; ErrorHelp     -      Help with DOS errors
 ;
 STR_FUNCTIONLIST_EXECUTE
-Execute       -     Wykonuje plik wsadowy
+Execute       -   Spustí pøíkazový soubor
 ; Execute       -       Execute batch files
 ;
 STR_FUNCTIONLIST_EXTRACT
-Extract       -     Wypakowuje archiwa
+Extract       -            Rozbalí archiv
 ; Extract       -           Extract archive
 ;
 STR_FUNCTIONLIST_FORMAT
-Format        -           Formatuje dyski
+Format        -       Formátování diskety
 ; Format        -       Format floppy disks
 ;
 STR_FUNCTIONLIST_FORMATBG
-FormatBG      -     Formatuje dyski w tle
+FormatBG  - Formátování diskety na pozadí
 ; FormatBG      -      Format in background
 ;
 STR_FUNCTIONLIST_GETDEVICES
-GetDevices    -  Wy¶wietla listê urz±dzeñ
+GetDevices   -    Zobrazí seznam zaøízení
 ; GetDevices    -       Display device list
 ;
 STR_FUNCTIONLIST_GETSIZES
-GetSizes      -     Oblicza wielko¶æ kat.
+GetSizes      - Vypoète velikost adresáøe
 ; GetSizes      - Calculate total dir sizes
 ;
 STR_FUNCTIONLIST_HELP
-Help          -      W³±cza/wy³±cza pomoc
+Help - Zápíná/vypíná kontextovou nápovìdu
 ; Help          -  Turn help mode on or off
 ;
 STR_FUNCTIONLIST_HEXREAD
-HexRead       -   Przegl±darka tekstu HEX
+HexRead     - Vypí¹e soubor hexadecimálnì
 ; HexRead       -   Hexadecimal text viewer
 ;
 STR_FUNCTIONLIST_HUNT
-Hunt          -               Szuka pliku
+Hunt        - Hledání souboru podle jména
 ; Hunt          -      Search for filenames
 ;
 STR_FUNCTIONLIST_ICONIFY
-Iconify       -       Ikonifikuje program
+Iconify       -  Uspí DOpus do ikony/okna
 ; Iconify       -           Iconify program
 ;
 STR_FUNCTIONLIST_ICONINFO
-IconInfo      -   Wy¶wietla info o ikonce
+IconInfo      - Zobrazí informace z ikony
 ; IconInfo      - Give information on icons
 ;
 STR_FUNCTIONLIST_INSTALL
-Install       -      Instaluje bootblocki
+Install    - Vytvoøení startovací diskety
 ; Install       -       Make disks bootable
 ;
 STR_FUNCTIONLIST_INSTALLBG
-InstallBG     -   Instaluje bootbl. w tle
+InstallBG     -           Toté¾ na pozadí
 ; InstallBG     -     Install in background
 ;
 STR_FUNCTIONLIST_LASTSAVED
-LastSaved     -  Wczyt. ost. zapis. konf.
+LastSaved - Pøeète naposledy ulo¾enou kfg
 ; LastSaved     -    Read last-saved config
 ;
 STR_FUNCTIONLIST_LOADCONFIG
-LoadConfig    -    Wczytuje wybran± konf.
+LoadConfig    - Toté¾ ze zadaného souboru
 ; LoadConfig    -     Load nominated config
 ;
 STR_FUNCTIONLIST_LOADSTRINGS
-LoadStrings   -  Wczyt. nowy ci±g z pliku
+LoadStrings   -   Pøeète soubor s øetìzci
 ; LoadStrings   -    Load a new string file
 ;
 STR_FUNCTIONLIST_LOOPPLAY
-LoopPlay      -   Odtw. zapêtlone d¼wiêki
+LoopPlay   - Pøehrávání zvuku (ve smyèce)
 ; LoopPlay      -     Loop-play sound files
 ;
 STR_FUNCTIONLIST_LOOPPLAY8SVX
-LoopPlay8svx  -   Odtw. zapêtlone d¼wiêki
+LoopPlay8svx - Pøehrávání zvuku ve smyèce
 ; LoopPlay8svx  -     Loop-play sound files
 ;
 STR_FUNCTIONLIST_MAKEDIR
-Makedir       -       Tworzy nowy katalog
+Makedir       -      Vytvoøí nový adresáø
 ; Makedir       -    Create a new directory
 ;
 STR_FUNCTIONLIST_MODIFY
-Modify        -      Zmienia konfiguracjê
+Modify        -         Zmìna konfigurace
 ; Modify        -      Change configuration
 ;
 STR_FUNCTIONLIST_MOVE
-Move          - Przenosi wybrane elementy
+Move          - Pøesun oznaèených polo¾ek
 ; Move          -     Move selected entries
 ;
 STR_FUNCTIONLIST_MOVEAS
-MoveAs        - Przenosi zmieniaj±c nazwê
+MoveAs        -      Toté¾ s novými jmény
 ; MoveAs        -       Move with new names
 ;
 STR_FUNCTIONLIST_NEWCLI
-NewCLI        -     Otwiera nowe okno CLI
+NewCLI        -         Otevøe nový Shell
 ; NewCLI        -     Open a new CLI window
 ;
 STR_FUNCTIONLIST_NONE
-None          - Odzn. wszystkie wybr. el.
+None       - Zru¹í oznaèení v¹ech souborù
 ; None          -      Deselect all entries
 ;
 STR_FUNCTIONLIST_OTHERWINDOW
-OtherWindow   -      Aktywuje drugie okno
+OtherWindow   -        Aktivuje jiné okno
 ; OtherWindow   -     Activate other window
 ;
 STR_FUNCTIONLIST_PARENT
-Parent        - Pokazuje zaw. nadrz. kat.
+Parent        -     Pøesun o adresáø vý¹e
 ; Parent        -     Read parent directory
 ;
 STR_FUNCTIONLIST_PLAY
-Play          -  Odtwarza pliki d¼wiêkowe
+Play          - Pøehrávání zvuku (jednou)
 ; Play          - Play selected sound files
 ;
 STR_FUNCTIONLIST_PLAY8SVX
-Play8svx      -  Odtwarza pliki d¼wiêkowe
+Play8svx      - Pøehrávání zvuku (jednou)
 ; Play8svx      - Play selected sound files
 ;
 STR_FUNCTIONLIST_PLAYST
-PlayST        -  Odtwarza modu³y muzyczne
+PlayST        -    Pøehraje hudební modul
 ; PlayST        -      Play ST modules only
 ;
 STR_FUNCTIONLIST_PRINT
-Print         -     Drukuje wybrane pliki
+Print         -    Vytiskne obsah souborù
 ; Print         -      Print selected files
 ;
 STR_FUNCTIONLIST_PRINTDIR
-PrintDir      -     Drukuje wy¶w. katalog
+PrintDir      -          Vytiskne adresáø
 ; PrintDir      - Print displayed directory
 ;
 STR_FUNCTIONLIST_PROTECT
-Protect       - Modyfikuje bity protekcji
+Protect       -  Nastavení stavových bitù
 ; Protect       -    Modify protection bits
 ;
 STR_FUNCTIONLIST_QUIT
-Quti          -  Koñczy pracê z programem
+Quit          -    Ukonèit Directory Opus
 ; Quit          -       Quit Directory Opus
 ;
 STR_FUNCTIONLIST_READ
-Read          -       Przegl±darka tekstu
+Read          -    Zobrazí textový soubor
 ; Read          -         Plain text viewer
 ;
 STR_FUNCTIONLIST_REDRAW
-Redraw        -           Od¶wierza ekran
+Redraw        - Pøekreslí obsah obrazovky
 ; Redraw        -        Redraw main screen
 ;
 STR_FUNCTIONLIST_RELABEL
-Relabel       -      Zmienia nazwy dysków
+Relabel       -        Pøejmenuje disketu
 ; Relabel       -         Change disk names
 ;
 STR_FUNCTIONLIST_REMEMBER
-Remember      -    Zapamiêtuje stan konf.
+Remember     - Ulo¾í aktuální konfiguraci
 ; Remember      -     Remember config state
 ;
 STR_FUNCTIONLIST_RENAME
-Rename        -   Zmienia nazwy wybr. el.
+Rename      - Pøejmenuje oznaèené polo¾ky
 ; Rename        -   Rename selected entries
 ;
 STR_FUNCTIONLIST_RESCAN
-Rescan        - Ponownie odczyt. zaw, kat
+Rescan    - Znovu pøeète aktuální adresáø
 ; Rescan        -  Reload current directory
 ;
 STR_FUNCTIONLIST_RESELECT
-Reselect      -     Ponownie zaznacza el.
+Reselect    - Znovu oznaèí polo¾ky v oknì
 ; Reselect      -          Reselect entries
 ;
 STR_FUNCTIONLIST_RESTORE
-Restore       - Przywr. zapamiêtan± konf.
+Restore       -        Obnoví konfiguraci
 ; Restore       -   Restore remembered cfg.
 ;
 STR_FUNCTIONLIST_ROOT
-Root          -    Wczytuje str. kat. g³.
+Root         - Skoèí do hlavního adresáøe
 ; Root          -       Read root directory
 ;
 STR_FUNCTIONLIST_RUN
-Run           -         Uruchamia program
+Run           -            Spustí program
 ; Run           -             Run a program
 ;
 STR_FUNCTIONLIST_SAVECONFIG
-SaveConfig    -   Zapisuje aktualn± konf.
+SaveConfig   - Ulo¾í aktuální konfiguraci
 ; SaveConfig    -       Save current config
 ;
 STR_FUNCTIONLIST_SCANDIR
-ScanDir       -   Odczytuje wskazany kat.
+ScanDir       -    Nahraje zadaný adresáø
 ; ScanDir       -  Load nominated directory
 ;
 STR_FUNCTIONLIST_SEARCH
-Search        -    Szuka ci±gów w plikach
+Search      - Hledání øetìzce v souborech
 ; Search        - Search files for a string
 ;
 STR_FUNCTIONLIST_SELECT
-Select        -         Zaznacza elementy
+Select    - Oznaèení souborù pomocí masky
 ; Select        -   Wildcard-select entries
 ;
 STR_FUNCTIONLIST_SHOW
-Show          -         Wy¶wietla obrazki
+Show          -       Zobrazování obrázkù
 ; Show          -    Display graphic images
 ;
 STR_FUNCTIONLIST_SMARTREAD
-SmartRead     -   Przegl. tekstu HEX/norm
+SmartRead     -     Zobrazení v¹ech textù
 ; SmartRead     -   Auto Hex or Text viewer
 ;
 STR_FUNCTIONLIST_STOPST
-StopST        -  Przerywa odtw. mod. muz.
+StopST        - Zastaví pøehrávání modulu
 ; StopST        -    Stop ST module playing
 ;
 STR_FUNCTIONLIST_SWAPWINDOW
-SwapWindows   -  Zamienia zawarto¶æ okien
+SwapWindow    -    Vymìní obsah obou oken
 ; SwapWindow    -  Swap contents of windows
 ;
 STR_FUNCTIONLIST_TOGGLE
-Toggle        -       Odwraca zaznaczenie
+Toggle        -  Obrátí zvolené/nezvolené
 ; Toggle        -     Toggle all selections
 ;
 STR_FUNCTIONLIST_UNICONIFY
-UnIconify     -     Deikonifikuje program
+UnIconify     -      Probudí uspaný DOpus
 ; UnIconify     -        Un-iconify program
 ;
 STR_FUNCTIONLIST_USER_FTYPE1
-User1         - Oper. def. przez u¿ytk. 1
+User1      - Asociace se tøídou souborù 1
 ; User1         -  Custom filetype action 1
 ;
 STR_FUNCTIONLIST_USER_FTYPE2
-User2         - Oper. def. przez u¿ytk. 2
+User2      - Asociace se tøídou souborù 2
 ; User2         -  Custom filetype action 2
 ;
 STR_FUNCTIONLIST_USER_FTYPE3
-User3         - Oper. def. przez u¿ytk. 3
+User3      - Asociace se tøídou souborù 3
 ; User3         -  Custom filetype action 3
 ;
 STR_FUNCTIONLIST_USER_FTYPE4
-User4         - Oper. def. przez u¿ytk. 4
+User4      - Asociace se tøídou souborù 4
 ; User4         -  Custom filetype action 4
 ;
 STR_FUNCTIONLIST_VERIFY
-Verify        -               Weryfikacja
+Verify        -            Ovìøení funkce
 ; Verify        -           Verify function
 ;
 STR_FUNCTIONLIST_VERSION
-Version       -    Wy¶wietla numer wersji
+Version       -       Zobrazí èíslo verze
 ; Version       -   Display version numbers
 ;
 ;
@@ -2380,67 +2380,67 @@ Version       -    Wy¶wietla numer wersji
 ; NOTE: These should be *exactly* 41 characters long!
 ;
 STR_COMMANDSEQ_DESTINATION
-{d}  -          Nazwa katalogu docelowego
+{d}  -                     Cílový adresáø
 ; {d}  -         Destination directory name
 ;
 STR_COMMANDSEQ_FIRSTFILE
-{f}  -    Pierwszy zazn. el. (ze ¶cie¿k±)
+{f}  -  První zvolená polo¾ka (vè. cesty)
 ; {f}  -   First selected entry (with path)
 ;
 STR_COMMANDSEQ_ALLFILES
-{F}  -   Wszyst. zazn. el. (ze ¶cie¿kami)
+{F} - V¹echny zvolené polo¾ky (vè. cesty)
 ; {F}  -  All selected entries (with paths)
 ;
 STR_COMMANDSEQ_FIRSTFILEUNSEL
-{fu} -Pierwszy el. (ze ¶cie¿k±; nieodzn.)
+{fu} -    Toto¾né s {f}, oznaèení zùstává
 ; {fu} -   First entry (path ; no unselect)
 ;
 STR_COMMANDSEQ_ALLFILESUNSEL
-{Fu} -     Wsz. el. (ze ¶cie¿k±; nieodzn)
+{Fu} -    Toto¾né s {F}, oznaèení zùstává
 ; {Fu} -   All entries (path ; no unselect)
 ;
 STR_COMMANDSEQ_FIRSTFILENOPATH
-{o}  -   Pierwszy zazn. el. (tylko nazwa)
+{o}  -  První zvolená polo¾ka (jen jméno)
 ; {o}  -   First selected entry (name only)
 ;
 STR_COMMANDSEQ_ALLFILESNOPATH
-{O}  -  Wszystkie zazn. el. (tylko nazwy)
+{O}  -    V¹echny zvolené polo¾ky (jména)
 ; {O}  -  All selected entries (names only)
 ;
 STR_COMMANDSEQ_FIRSTFILENOPATHUNSEL
-{ou} - Pierw. el. (tylko nazwa; nieodzn.)
+{ou} -    Toto¾né s {o}, oznaèení zùstává
 ; {ou} -   First entry (name ; no unselect)
 ;
 STR_COMMANDSEQ_ALLFILESNOPATHUNSEL
-{Ou} -   Wsz. el. (tylko nazwy; nieodzn.)
+{Ou} -    Toto¾né s {O}, oznaèení zùstává
 ; {Ou} -   All entries (name ; no unselect)
 ;
 STR_COMMANDSEQ_PORTNAME
-{Q}  -                          Zapytanie
+{Q}  -     Dotaz na zadání nìjaké hodnoty
 ; {Q}  -       Query the value of something
 ;
 STR_COMMANDSEQ_DIRREQ
-{Rd} -               Okno wyboru katalogu
+{Rd} -  Dialogové okno pro výbìr adresáøe
 ; {Rd} -                Directory requester
 ;
 STR_COMMANDSEQ_FILEREQ
-{Rf} -                  Okno wyboru pliku
+{Rf} -   Dialogové okno pro výbìr souboru
 ; {Rf} -                     File requester
 ;
 STR_COMMANDSEQ_MULTIFILEREQ
-{RF} -                 Okno wyboru plików
+{RF} -    Okno pro výbìr nìkolika souborù
 ; {RF} -        Multi-select file requester
 ;
 STR_COMMANDSEQ_FONTREQ
-{Ro} -               Okno wyboru czcionki
+{Ro} -     Dialogové okno pro výbìr písma
 ; {Ro} -                     Font requester
 ;
 STR_COMMANDSEQ_ARGUMENTS
-{Rs} -                  Okno wyboru ci±gu
+{Rs} -            Okno pro zadání øetìzce
 ; {Rs} -                   String requester
 ;
 STR_COMMANDSEQ_SOURCE
-{s}  -          Nazwa katalogu ¼ród³owego
+{s}  -          Jméno zdrojového adresáøe
 ; {s}  -              Source directory name
 ;
 ;
@@ -2449,77 +2449,77 @@ STR_COMMANDSEQ_SOURCE
 ; These should be no longer than 41 characters
 ;
 STR_CLASSOPS_AND
-And          - pocz±tek innej grupy
+And          - Zaèátek dal¹í podmímky
 ; And          - start of another group
 ;
 STR_CLASSOPS_MATCH
-Match        - tekst lub $hex
+Match        - text nebo $hex
 ; Match        - text or $hex
 ;
 STR_CLASSOPS_MATCHBITS
-MatchBits    - HSPARWED z + lub -
+MatchBits    - HSPARWED pomocí + a -
 ; MatchBits    - HSPARWED with + and -
 ;
 STR_CLASSOPS_MATCHCOMMENT
-MatchComment - tekst
+MatchComment - komentáø
 ; MatchComment - text
 ;
 STR_CLASSOPS_MATCHDATE
-MatchDate    - data lub przedzia³
+MatchDate    - datum nebo období
 ; MatchDate    - date string or range
 ;
 STR_CLASSOPS_MATCHNAME
-MatchName    - nazwa pliku
+MatchName    - jméno souboru
 ; MatchName    - filename
 ;
 STR_CLASSOPS_MATCHSIZE
-MatchSize    - wielko¶æ z >, < lub =
+MatchSize    - velikost pomocí >,< nebo =
 ; MatchSize    - value with >, < and =
 ;
 STR_CLASSOPS_MOVE
-Move         - przesuniêcie st±d
+Move         - relativnì k aktuální
 ; Move         - byte offset from here
 ;
 STR_CLASSOPS_MOVETO
-MoveTo       - przesuniêcie od pocz±tku
+MoveTo       - absolutní pozice
 ; MoveTo       - absolute location
 ;
 STR_CLASSOPS_OR
-Or           - pocz±tek innej grupy
+Or           - zaèátek dal¹í podmínky
 ; Or           - start of another group
 ;
 STR_CLASSOPS_SEARCHFOR
-SearchFor    - tekst lub $hex
+SearchFor    - Text nebo $Hexcode
 ; SearchFor    - text or $hex
 ;
 ;
 ;
 ;
 STR_BY
-na
+od
 ; by
 ;
 ;
 ;*** Hotkey configuration screen - messages
 ;
 STR_SELECT_HOTKEY_TO_SWAP
-Wybierz wywo³anie do zamiany.
+Zvolte první kombinaci kláves pro výmìnu.
 ; Select hotkey to swap.
 ;
 STR_SELECT_SECOND_HOTKEY_TO_SWAP
-Wybierz kolejne wywo³anie do zamiany z pierwszym.
+Zvolte druhou kombinaci kláves pro výmìnu.
 ; Select second hotkey to swap with first.
 ;
 ;
 ;*** System/Modules
 ;
 STR_MODULE_LIST_TITLE
-Obs³ugiwane zewnêtrzne modu³y...
+Externí pomocné moduly...
 ; External support modules...
 ;
 ;
 STR_MODULE_LIST_CHECK_STRING
-(   Oznacza modu³y wczytywane przy starcie)
+(Oznaèuje moduly zavádìné ji¾ pøi startu)
 ; (  Check indicates a module to be pre-loaded)
 ;
 ;
@@ -2527,59 +2527,59 @@ STR_MODULE_LIST_CHECK_STRING
 ;*** System/Clocks (2/2)
 ;
 STR_SYS_CLOCK_KILOBYTES_FREE
-Kilobajty wolne
+Kilobajtù volných
 ; Kilobytes free
 ;
 ;
 ;*** System/Startup (2/2)
 ;
 STR_SYS_STARTUP_CONFIG
-Powrót z konf.
+Po konfiguraci
 ; Cfg return
 ;
 ;
 ;*** Menus (3/5)
 ;
 STR_MENU_DUPLICATE
-Duplikat...
+Duplikovat...
 ; Duplicate...
 ;
 ;
 ;
 ;
 STR_FILECLASS_DUPLICATE
-Wybierz klasê do duplikacji...
+Zvolte tøídu pro duplikaci...
 ; Select class to duplicate...
 ;
 ;
 ;*** Menus (4/5)
 ;
 STR_MENU_CLEARCLIPS
-Wyczy¶æ przechowywane
+Smazat výøezy
 ; Clear clips
 ;
 ;
 ;*** Another common message
 ;
 STR_REALLY_CLEAR_CLIPS
-Czy na pewno usun±æ wszystkie przechowywane funkcje?
+Opravdu chcete smazat v¹echny funkce?
 ; Really clear all clipped functions?
 ;
 ;
 ;*** Screen/General (2/4)
 ;
 STR_SCREEN_GENERAL_DRAGREQUESTERS
-Przeci±ganie komunikatów
+Pøesunovatelné dialogy
 ; Draggable requesters
 ;
 ;
 ;
 STR_FORMAT_OWNER
-W³a¶ciciel
+Vlastník
 ; Owner
 ;
 STR_FORMAT_GROUP
-Grupa
+Skupina
 ; Group
 ;
 ;
@@ -2588,35 +2588,35 @@ Grupa
 ; These should match the presets used by ScreenMode Prefs.
 ;
 STR_PALETTE_TINT
-Cieniowana
+Nádech
 ; Tint
 ;
 STR_PALETTE_PHARAOH
-Faraon
+Faraón
 ; Pharaoh
 ;
 STR_PALETTE_SUNSET
-Wchód s³oñca
+Západ slunce
 ; Sunset
 ;
 STR_PALETTE_OCEAN
-Ocean
+Oceán
 ; Ocean
 ;
 STR_PALETTE_STEEL
-Stal
+Ocel
 ; Steel
 ;
 STR_PALETTE_CHOCOLATE
-Czekolada
+Èokoláda
 ; Chocolate
 ;
 STR_PALETTE_PEWTER
-Cynk
+Cín
 ; Pewter
 ;
 STR_PALETTE_WINE
-Wino
+Víno
 ; Wine
 ;
 STR_PALETTE_A2024
@@ -2627,19 +2627,19 @@ A2024
 ;*** Filetype classes editing again
 ;
 STR_FTYPE_CLICKMCLICK
-Miêdzyklik
+Klik a klik
 ; Click-m-click
 ;
 STR_FTYPE_DOUBLECLICK
-Dwuklik LMB
+Dvojklik levou my¹í
 ; LMB Double-click
 ;
 STR_FTYPE_MMBCLICK
-Dwuklik MMB
+Dvojklik prostøední my¹í
 ; MMB Double-click
 ;
 STR_FUNCTION_COMMAND
-Polecenie
+Pøíkaz
 ; Command
 ;
 STR_FUNCTION_AMIGADOS
@@ -2651,7 +2651,7 @@ Workbench
 ; Workbench
 ;
 STR_FUNCTION_BATCH
-Plik wsadowy
+Dávka
 ; Batch
 ;
 STR_FUNCTION_AREXX
@@ -2663,11 +2663,11 @@ ARexx
 ;*** Screen/Screen mode (5/7)
 ;
 STR_MODE_WORKBENCH_CLONE
-Workbench: Kopia ekranu
+Workbench:Klonovat
 ; Workbench:Clone
 ;
 STR_MODE_WORKBENCH_USE
-Workbench: U¿yj
+Workbench:Pou¾ít
 ; Workbench:Use
 ;
 ;
@@ -2680,29 +2680,29 @@ BRSA?EFCIQ
 ;
 ;
 STR_FORMAT_GROUPBITS
-Sieciowe bity protekcji
+Sí»ové stavové bity
 ; Net protection bits
 ;
 ;
 ;*** Menus (5/5)
 ;
 STR_MENUNAME_NEATSTUFF
-Narzêdzia
+Nástroje
 ; Tools
 ;
 STR_NEAT_PAINT_MODE
-Zmiana kolorów
+Kreslící mód
 ; Paint mode
 ;
 ;
 ;*** (Drive) Button & Menu configuration screen (2/2)
 ;
 STR_PAINT_SELECT_COLOURS
-Ustal nowe kolory
+Zvolte barvu ¹tìtce
 ; Select paint colors
 ;
 STR_PAINT_STATE
-(Aktywny tryb zmiany kolorów)
+  (Kreslící mód aktivován)
 ;   (Paint mode active)
 ;
 ;
@@ -2710,172 +2710,172 @@ STR_PAINT_STATE
 ;*** Screen/General (3/4)
 ;
 STR_SCREEN_GENERAL_TITLEBARSTATUS
-Wy¶wietlaj teksty statusowe na belce tytu³owej
+Zobrazit stavový text v titulní li¹tì
 ; Display status text in title bar
 ;
 ;
 ;*** Operation/Update (2/3)
 ;
 STR_OP_UPDATE_PROGRESSIND_COPY
-Wska¼nik postêpu aktualnego pliku (kopiowanie)
+Ukazatel aktuálního souboru (Kopírování)
 ; Current file progress indicator (Copy)
 ;
 ;
 ;*** Screen/Screen mode (6/7)
 ;
 STR_SCREEN_MODE_USE
-U¿yj
+Pou¾ít
 ; Use
 ;
 ;
 ;*** Screen/General (4/4)
 ;
 STR_SCREEN_GENERAL_WINDOWBORDERS
-Ramki na w³asnym ekranie
+Vlastní okraje okna obrazovky
 ; Custom screen window borders
 ;
 ;
 ;*** Screen/Screen mode (7/7)
 ;
 STR_SCREEN_MODE_CLONE
-Klon
+Klonovat
 ; Clone
 ;
 ;
 ;*** Screen configuration screen (3/3)
 ;
 STR_SCREEN_SLIDERS
-Suwaki
+Posuvníky
 ; Sliders
 ;
 ;
 ;*** Operation/Update (3/3)
 ;
 STR_OP_UPDATE_PROGRESS
-Pasek postêpu...
+Ukazatel prùbìhu...
 ; Progress indicator...
 ;
 ;
 ;*** Screen/Fonts (3/3)
 ;
 STR_FONTPLACE_SCREEN
-Czcionka ekranu
+Písmo pro obrazovku
 ; Screen font
 ;
 ;
 ;*** List - ARexx commands (2/4)
 ;
 STR_FUNCTIONLIST_SETVAR
-SetVar       - Ustawia wewnêtrzn± zmienn±
+SetVar       - Nastavení interní promìnné
 ; SetVar        -  Set an internal variable
 ;
 ;
 ;*** List - requester placeholders (2/2)
 ;
 STR_COMMANDSEQ_VARIABLE
-{v}  -            Predefiniowalna zmienna
+{v}  -         Hodnota systémové promìnné
 ; {v}  -               Pre-defined variable
 ;
 ;
 ;*** System/View & Play (2/3)
 ;
 STR_SYS_VIEWPLAY_BESTMODEID
-Wybierz najlepszy tryb
+Zvolit nejlep¹í zobrazovací mód
 ; Pick best screen-mode
 ;
 ;
 ;*** List - ARexx commands (3/4)
 ;
 STR_FUNCTIONLIST_NOTIFY
-Notify        -             Powiadomienie
+Notify        -     Otevøe dialogové okno
 ; Notify        -    Notification requester
 ;
 STR_FUNCTIONLIST_PARENTLIST
-ParentList    -    Lista nadrzêdnych kat.
+ParentList    -      Vypí¹e vy¹¹í adresáø
 ; ParentList    -   List parent directories
 ;
 ;
 ;*** Operation/List format (5/5)
 ;
 STR_SIZE_KMGMODE
-Pokazuj wielko¶ci w K/M/G
+Zobrazit velikost v K/M/G
 ; Show size in K/M/G
 ;
 ;
 ;*** System/View & Play (3/3)
 ;
 STR_SYS_VIEWPLAY_INWINDOW
-W oknie
+Zobrazit v oknì
 ; View in window
 ;
 STR_SYS_TOP_Y
-Pozycja Y
+Horní Y
 ; Top Y
 ;
 STR_SYS_LEFT_X
-Pozycja X
+Levý X
 ; Left X
 ;
 STR_SYS_WIDTH
-Szeroko¶æ
+©íøka
 ; Width
 ;
 STR_SYS_HEIGHT
-Wysoko¶æ
+Vý¹ka
 ; Height
 ;
 ;
 ;*** List - file identification commands (2/2)
 ;
 STR_CLASSOPS_MATCHI
-MatchI       - tekst (bez wielko¶ci znaków)
+MatchI  - text (rozli¹. velikosti písmen)
 ; MatchI       - text (case-insensitive)
 ;
 ;
 ;*** Menu configuration screen (3/3)
 ;
 STR_MENU_MAX_REACHED
-Uwaga! Niektóre menu nie zosta³y zaimportowane z powodu braku miejsca.
+Upozornìní! Nìkterá menu nebyla importována kvùli nedostatku místa.
 ; Warning! Some menus were not imported due to lack of free space.
 ;
 ;
 ;*** Operation/General (2/4)
 ;
 STR_OP_GENERAL_FMPARENTMODE
-Nadrzêdne jak w FileMasterze
+O adresáø vý¹e (jako u FileMasteru)
 ; FileMaster-like Parent
 ;
 ;
 ;*** Operation/Copy (2/2)
 ;
 STR_OP_COPY_COPYARCHIVE
-Kopiuj tak¿e bit A
+Kopírovat také archivní bit
 ; Copy archive bit too
 ;
 ;
 ;*** Operation/General (3/4)
 ;
 STR_OP_GENERAL_FORCEQUIT
-Nie pytaj przed zakoñczeniem pracy
+Nedotazovat se pøed ukonèením
 ; Don't ask before quit
 ;
 ;
 ;*** General usage buttons (2/2)
 ;
 STR_USE
-U¿yj
+Pou¾ít
 ; Use
 ;
 ;
 ;*** List - ARexx commands (4/4)
 ;
 STR_FUNCTIONLIST_MAKELINK
-MakeLink      - Tworzy odn. soft lub hard
+MakeLink      -  Vytvoøení soft nebo hard linkù
 ; MakeLink      -  Create soft or hard link
 ;
 ;
 ;*** Operation/General (4/4)
 ;
 STR_OP_GENERAL_MMBSELECTS
-Klikniêcie MMB wybiera lister
+Výbìr okna pomocí kliku prostøední my¹i
 ; Single MMB click selects lister

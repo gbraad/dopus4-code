@@ -1,5 +1,5 @@
-## version $VER: DOpus4_Print.catalog 4.0 (14.02.2015) (c) Mariusz Danilewicz <mandi@interia.pl>
-## language polish
+## version $VER: DOpus4_Print.catalog 4.0 (23.03.2014) Kabara Jaroslav
+## language czech
 ## codeset 5
 ;
 ;#basename Dopus4_Print
@@ -12,15 +12,15 @@
 ;
 ;
 STR_SELECT_FILE
-Wybierz plik
+Zvolte soubor
 ; Select file
 ;
 STR_ABORT
-Przerwij
+Pøeru¹it
 ; Abort
 ;
 STR_CONTINUE
-Kontynuuj
+Pokraèovat
 ; Continue
 ;
 STR_OKAY
@@ -28,233 +28,234 @@ OK
 ; Okay
 ;
 STR_CANCEL
-Poniechaj
+Zru¹it
 ; Cancel
 ;
 STR_FILE
-Pliku
+Soubor
 ; File
 ;
 STR_TOP_MARGIN
-Margines górny
+Horní okraj
 ; Top Margin
 ;
 STR_BOTTOM_MARGIN
-Margines dolny
+Spodní okraj
 ; Bottom Margin
 ;
 STR_LEFT_MARGIN
-Margines lewy
+Levý okraj
 ; Left Margin
 ;
 STR_RIGHT_MARGIN
-Margines prawy
+Pravý okraj
 ; Right Margin
 ;
 STR_TAB_SIZE
-Tabulator
+Øádkování
 ; Tab size
 ;
 STR_PRINT_PITCH
-Gêsto¶æ
+©íøka pásma
 ; Print pitch
 ;
 STR_QUALITY
-Jako¶æ
+Hustota
 ; Density
 ;
 STR_EJECT
-Wysuñ stronê
+Vysunout poslední stránku
 ; Eject final page
 ;
 STR_IGNORE
-Ignoruj dolny margines
+Ignorovat spodní okraj
 ; Ignore bottom margin
 ;
 STR_ADD_CR
-Dodaj powrót karetki do kodu wysuniêcia strony
+Add carriage return to formfeeds
 ; Add carriage return to formfeeds
 ;
 STR_EJECT_FIRST
-Wysuñ stronê prze wydrukiem
+Vysunout stránku pøed tiskem
 ; Eject page before printing
 ;
 STR_INIT_PRINTER
-Inicjalizacja drukarki
+Inicializovat tiskárnu
 ; Initialize Printer
 ;
 STR_CONFIGURATION
-- ustawienia...
+nastavení...
 ; configuration...
 ;
 STR_TITLE
-Tytu³
+Název
 ; Title
 ;
 STR_DATE
-Data
+Datum
 ; Date
 ;
 STR_PAGE_NUMBER
-Nr strony
+Èíslo stránky
 ; Page no.
 ;
 STR_TEXT_STYLE
-Styl tekstu
+Styl textu
 ; Text style
 ;
 STR_PRINTER
-Drukarki
+Tiskárna
 ; Printer
 ;
 STR_PRINT
-Drukuj
+Tisk
 ; Print
 ;
 STR_EXIT
-Wyj¶cie
+Ukonèit
 ; Exit
 ;
 STR_OUTPUT_TO
-Drukuj do...
+Výstup do...
 ; Output to...
 ;
 STR_PICA
-10 cpi
+Pica
 ; Pica
 ;
 STR_ELITE
-12 cpi
+Elite
 ; Elite
 ;
 STR_FINE
-15-17 cpi
+Fine
 ; Fine
 ;
 STR_NORMAL
-Normalny
+Normální
 ; Normal
 ;
 STR_BOLD
-Pogrubiony
+Tuènì
 ; Bold
 ;
 STR_ITALICS
-Kursywa
+Kurzíva
 ; Italics
 ;
 STR_UNDERLINED
-Podkre¶lony
+Podtr¾ené
 ; UnLined
 ;
 STR_DOUBLESTRIKE
-Przekre¶lony
+Pøe¹krtnuté
 ; DbStrik
 ;
 STR_SHADOW
-Z cieniem
+Stínované
 ; Shadow
 ;
 STR_DRAFT
-Zwyk³a
+Koncept
 ; Draft
 ;
 STR_LETTER
-Listowa
+Dopisní
 ; Letter
 ;
 STR_HEADER
-Nag³ówek
+Hlavièka
 ; Header
 ;
 STR_FOOTER
-Stopka
+Patièka
 ; Footer
 ;
 STR_SIZE
-Rozmiar
+Velikost
 ; Size
 ;
 STR_PROTECTION
-Bity protekcji
+Ochrana
 ; Protection
 ;
 STR_COMMENT
-Kometarz
+Komentáø
 ; Comment
 ;
 STR_FILETYPE
-Typ pliku
+Typ souboru
 ; File type
 ;
 STR_PRINT_DOT
-Drukuj...
+Tisk...
 ; Print...
 ;
 STR_PRINTDIR
-Drukowanie katalogu
+Tisk adresáøe
 ; Printdir
 ;
 STR_UNABLE_TO_OPEN_FILE
-Nie mo¿na otworzyæ pliku. Spróbowaæ ponownie?
+Soubor nelze otevøít. Zkusit znovu?
 ; Unable to open file. Try again?
 ;
 STR_UNABLE_TO_OPEN_OUTPUT
-Nie mo¿na otworzyæ pliku wyj¶ciowego. Spróbowaæ ponownie?
+Nelze otevøít výstupní soubor. Zkusit znovu?
 ; Unable to open output file. Try again?
 ;
 STR_UNABLE_TO_OPEN_PRINTER
-Nie mo¿na otworzyæ drukarki. Spróbowaæ ponownie?
+Nelze inicializovat tiskárnu. Zkusit znovu?
 ; Unable to open printer. Try again?
 ;
 STR_ERROR_PRINTING_DIR
-B³±d drukowania katalogu. Spróbowaæ ponownie?
+Chyba pøi tisku adresáøe. Zkusit znovu?
 ; Error printing directory. Try again?
 ;
 STR_INCORRECT_PASSWORD
-Podano z³e has³o. Spróbowaæ ponownie?
+Zadáno ¹patné heslo. Zkusit znovu?
 ; Incorrect password entered. Try again?
 ;
 STR_PRINT_ERROR
-B³±d drukowania! Spróbowaæ ponownie?
+Chyba v prùbìhu tisku. Zkusit znovu?
 ; Print error! Try again?
 ;
 STR_REALLY_ABORT
-Przerwaæ operacjê drukowania?
+Opravdu chcete pøeru¹it tisk?
 ; Really abort print operation?
 ;
 STR_CREATING_FILE
-Tworzê plik
+Vytváøení souboru
 ; Creating file
 ;
 STR_OPENING_PRINTER
-Otwieram drukarkê
+Otevírání tiskárny
 ; Opening printer
 ;
 STR_LOADING_FILE
-Wczytujê plik...
+Naèítání souboru...
 ; Loading file...
 ;
 STR_PRINTING_FILE
-Drukujê plik...
+Tisk souboru...
 ; Printing file...
 ;
 STR_PRESS_ESCAPE
-Aby przerwaæ naci¶nij ESC
+Stisknìte ESC pro pøeru¹ení
 ; Press ESC to abort
 ;
 STR_PAGE
-Strona
+Strana
 ; Page
 ;
 STR_COMPLETE
-wykonano
+dokonèeno
 ; complete
 ;
 STR_TOFILE
-Pliku
+Soubor
 ; File
 ;
 STR_PRINTWIN
-Drukowanie
+Tisk
 ; Print
+;

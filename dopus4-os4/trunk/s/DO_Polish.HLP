@@ -1,0 +1,1122 @@
+**Versionstring
+$VER: DO_polish.HLP 2.2 (10.05.2010) (c) Mariusz Danilewicz <mandi@interia.pl>
+^
+**Assign
+
+Ta funkcja pozwala Ci na przypisanie urz±dzenia logicznego
+do aktualnego katalogu. Urz±dzenie C: jest przyk³adem
+urz±dzenia logicznego; nie jest to dysk fizyczny, ale
+katalog któremu zosta³a przypisana nazwa C:. Na przyk³ad
+prosta nazwa Tekst: mo¿e zostaæ przypisana do d³ugiej i
+skomplikowanej ¶cie¿ki dostêpu, jak na przyk³ad:
+
+   DH0:Projekty/Praca/1989/Kwiecieñ/WersjeRobocze/Teksty
+
+Od teraz, za ka¿dym razem jak wpiszesz Tekst: w polu
+katalogu, zostaniesz przeniesiony bezpo¶rednio do ostatniego
+katalogu podanego w ¶cie¿ce przypisania, zamiast
+konieczno¶ci przedzierania siê przez wszystkie podkatalogi
+znajduj±ce siê po drodze. Mo¿esz tak¿e u¿ywaæ tych przypisañ
+w innych programach. Nazwy urz±dzeñ logicznych zawsze koñcz±
+siê dwukropkiem.
+
+Funkcja "Assign" pozwala Ci tak¿e na usuniêcie poprzednio
+przypisanego urz±dzenia, lub na przeniesienie przypisania na
+inny katalog. Aby to zrobiæ, naci¶nij prawy przycisk myszy
+nad gad¿etem S, aby zaktywowaæ polecenie GetDevices. Wybierz
+przypisane urz±dzenie (lub urz±dzenia) które zamierzasz
+zmieniæ i wywo³aj polecenie Assign. Pojawi siê okienko, w
+którym bêdziesz móg³ podaæ now± ¶cie¿kê dostêpu dla ka¿dego
+przypisania. Je¶li podasz pust± liniê, urz±dzenie logiczne
+zostanie usuniête.^
+
+**CD
+
+Ta funkcja pozwala Ci na zmianê katalogu, na którym
+aktualnie pracuje Directory Opus. Jest to katalog, który
+zostanie wczytany gdy naci¶niesz klawisz return w pustym
+polu katalogu.^
+
+**ErrorHelp
+
+Ta funkcja pozwala Ci dowiedzieæ siê wiêcej na temat
+najczê¶ciej spotykanych komunikatów b³êdów AmigaDOS. Gdy
+wybierzesz t± funkcjê, zostaniesz poproszony o kod b³êdu.
+Nastêpnie zostanie wy¶wietlona tre¶æ komunikatu b³êdu o
+podanym numerze oraz dok³adniejszy opis b³êdu.^
+
+**Configure
+
+Ta funkcja wczytuje program konfiguracyjny do pamiêci i
+uruchamia go, lub gdy ju¿ jest on w pamiêci, wywo³uje go.
+Dok³adniejszy opis wielu funkcji programu konfiguracyjnego
+znajdziesz w dokumentacji.^
+
+**About
+
+Ta funkcja wy¶wietla "ekran tytu³owy" programu, który
+zawiera numeru aktualnej wersji programu oraz informacje o
+prawach autorskich.^
+**Alarm
+
+Ta funkcja odtwarza d¼wiêk alarmu.^
+
+**Beep
+
+Ta funkcja odtwarza d¼wiêk systemowy.^
+
+**SetVar
+
+Ustawia okre¶lon± zmienn± wewnêtrzn± na podan± warto¶æ.^
+
+**Version
+
+Ta funkcja wy¶wietla okno zawieraj±ce numery wersji
+oprogramowania, Workbencha i Kickstartu oraz inne
+informacje, które mog± siê przydaæ podczas poszukiwania
+wsparcia technicznego.^
+
+**Iconify
+
+Ta funkcja pozwala Ci zamkn±æ ekran programu, aby zwolniæ
+mo¿liwie najwiêksz± ilo¶æ pamiêci.
+
+Mo¿esz wybraæ do jakiej postaci ma byæ ikonifikowany
+program: do okna (z lub bez zegara i monitorowania pamiêci)
+lub do AppIkonki.^
+
+**ButtonIconify
+
+Ta funkcja jest bardzo podobna do funkcji Iconify, z t±
+ró¿nic±, ¿e okienko otwarte na ekranie Workbencha zawiera
+wszystkie przyciski u¿ytkownika, oraz menu u¿ytkownika.
+Pozwala to u¿ytkownikowi na uruchamianie programów
+podpiêtych pod Directory Opusa nawet gdy program jest
+zikonifikowany.^
+
+**Quit
+
+Ta funkcja koñczy pracê z programem. Je¶li konfiguracja
+zosta³a zmieniona od czasu gdy zosta³a zapisana po raz
+ostatni, to przed opuszczeniem programu zostaniesz zapytany,
+czy chcesz j± zapisaæ.^
+
+**Filter
+
+Ta funkcja pozwala Ci na ustawienie filtru, który okre¶la
+które pliki bêd± u¿ywane podczas operacji wewn±trz
+katalogów.^
+
+**Diskcopy
+
+Ta funkcja pozwala na skopiowanie zawarto¶ci dysku na inny
+dysk. Tworzy dok³adn± kopiê oryginalnego dysku. Nie kopiuje
+oprogramowania zabezpieczonego przed kopiowaniem, ani
+dyskietek nie bêd±cych w formacie AmigaDOS. Funkcja jest
+zawarta w zewnêtrznym module DOpus_Disk.
+
+Gdy wybierzesz t± funkcjê, zostanie otwarte nowe okno
+zawieraj±ce dwie listy. Po lewej wybierasz dysk ¼ród³owy, a
+po prawej dysk docelowy.
+
+Gdy zaznaczysz opcjê "Weryfikacja", dane po zapisaniu ka¿dej
+¶cie¿ki na dysku docelowym bêd± sprawdzane, czy zosta³y
+zapisane poprawnie. Opcja "Zmieñ nazwê" zmieni nazwê dysku
+docelowego, aby zapobiec problemom z posiadaniem identycznych
+nazw dysków obecnych w systemie.
+
+Przycisk [Sprawd¼] znajduj±cy siê w dolnej czê¶ci okna
+komunikacyjnego nie kopiuje dyskietek, lecz sprawdza czy ich
+zawarto¶æ jest identyczna.^
+
+**Format
+
+Ta funkcja pozwala na formatowanie nowych dysków. Wszystkie
+nowe dyski musz± zostaæ sformatowane zanim komputer bêdzie
+móg³ na nich cokolwiek zapisaæ. Funkcja jest zawarta w
+zewnêtrznym module DOpus_Disk.
+
+Gdy wybierzesz t± funkcjê, zostanie otwarte nowe okno
+zawieraj±ce listê urz±dzeñ oraz wiele opcji. Wybierz z listy
+dysk który chcesz sformatowaæ. Bêdziesz móg³ wybraæ format
+dysku (FFS, Buforowanie katalogów, itp.).
+
+Gdy zaznaczysz opcjê "Weryfikacja", program bêdzie sprawdza³
+po sformatowaniu ka¿dej ¶cie¿ki, czy formatowanie przebiega
+prawid³owo. Zaznaczenie opcji "Za³ó¿ ¶mietnik" spowoduje
+utworzenie katalogu oraz ikonki Trashcan na nowo
+sformatowanym dysku.
+
+[Form. szybko] pozwala na zainicjalizowanie ju¿ sformatowanego
+dysku. Jest to bardzo szybki sposób na wymazanie zawarto¶ci
+dysku. Jednak nie dzia³a z nowymi dyskami, pamiêtaj:
+najpierw musisz u¿yæ opcji [Formatuj] aby sformatowaæ nowy dysk.^
+
+**Install
+
+Ta funkcja pozwala na utworzenie botowalnego dysku.
+Wszystkie botowalne dyski maj± zapisane w pierwszym sektorze
+specjalne informacje. Bez nich dysk nie bêdzie siê botowa³.
+Funkcja jest zawarta w zewnêtrznym module DOpus_Disk.
+
+Funkcja ta otwiera okno z list± zawieraj±c± listê dostêpnych
+napêdów (pamiêtaj, ¿e tej opcji mo¿esz u¿ywaæ tylko do
+dyskietek). Wybierz z listy napêd na którym chcesz u¿yæ
+opcji Install.^
+
+**Relabel
+
+Ta funkcja pozwala na zmianê nazwy dysku którego zawarto¶æ
+jest aktualnie wy¶wietlana w aktywnym oknie.^
+
+**PrintDir
+
+Ta funkcja pozwala na wydrukowanie zawarto¶ci aktualnie
+wy¶wietlanego katalogu. Mo¿esz wybraæ które dane chcesz
+wydrukowaæ w³±czaj±c w to: wielko¶ci plików, bity protekcji,
+daty, komentarze i typy plików. Mo¿esz tak¿e zapisaæ zawarto¶æ
+katalogu do pliku.
+
+Funkcja jest zawarta w zewnêtrznym module DOpus_Print.^
+
+**DiskInfo
+
+Ta funkcja wy¶wietla informacje na temat dysku w aktywnym
+oknie w³±czaj±c w to: ilo¶æ wolnego i zajêtego miejsca, data
+utworzenia oraz ilo¶æ b³êdów na dysku.^
+
+*LHA Add
+
+Ta funkcja pozwala na tworzenie oraz dodawanie plików do
+archiwów LHA.
+
+Aby dodaæ pliki do archiwum, otwórz katalog, którego
+archiwum chcesz zapisaæ w nieaktywnym oknie, zaznacz pliki i
+katalogi które chcesz dodaæ, a nastêpnie wybierz t± funkcjê.
+Zostaniesz zapytany o nazwê archiwum. Gdy archiwum o takiej
+nazwie istnieje, pliki zostan± dodane, w przeciwnym wypadku
+zostanie utworzone nowe archiwum.^
+
+*ARC Add
+
+Ta funkcja pozwala na tworzenie oraz dodawanie plików do
+archiwów ARC.
+
+Aby dodaæ pliki do archiwum, otwórz katalog, którego
+archiwum chcesz zapisaæ w nieaktywnym oknie, zaznacz pliki i
+katalogi które chcesz dodaæ, a nastêpnie wybierz t± funkcjê.
+Zostaniesz zapytany o nazwê archiwum. Gdy archiwum o takiej
+nazwie istnieje, pliki zostan± dodane, w przeciwnym wypadku
+zostanie utworzone nowe archiwum.^
+
+*ZOO Add
+
+Ta funkcja pozwala na tworzenie oraz dodawanie plików do
+archiwów ZOO.
+
+Aby dodaæ pliki do archiwum, otwórz katalog, którego
+archiwum chcesz zapisaæ w nieaktywnym oknie, zaznacz pliki i
+katalogi które chcesz dodaæ, a nastêpnie wybierz t± funkcjê.
+Zostaniesz zapytany o nazwê archiwum. Gdy archiwum o takiej
+nazwie istnieje, pliki zostan± dodane, w przeciwnym wypadku
+zostanie utworzone nowe archiwum.^
+
+**All
+
+Ta funkcja zaznacza wszystkie pliki i katalogi w aktywnym
+oknie.^
+
+**Toggle
+
+Ta funkcja odwraca zaznaczenie wszystkich plików i katalogów
+w aktywnym oknie (wszystkie zaznaczone wpisy zostan±
+odznaczone i na odwrót).^
+
+**None
+
+Ta funkcja odznacza wszystkie pliki i katalogi w aktywnym
+oknie.^
+
+**Parent
+
+Funkcja ta odczytuje zawarto¶æ nadrzêdnego katalogu w
+aktywnym oknie.^
+
+**Root
+
+Funkcja ta odczytuje zawarto¶æ g³ównego katalogu w aktywnym
+oknie.^
+
+**Copy
+
+Funkcja ta kopiuje wszystkie zaznaczone pliki i katalogi z
+okna aktywnego do nieaktywnego zachowuj±c ich nazwy.^
+
+**CopyAs
+
+Funkcja ta kopiuje wszystkie zaznaczone pliki i katalogi z
+okna aktywnego do nieaktywnego jednocze¶nie pozwalaj±c Ci na
+zmianê nazwy dla ka¿dego pliku/katalogu.^
+
+**Move
+
+Funkcja ta przenosi wszystkie zaznaczone pliki i katalogi z
+okna aktywnego do nieaktywnego zachowuj±c ich nazwy. Plik
+lub katalog zostaje najpierw skopiowany w miejsce
+przeznaczenia, a nastêpnie orygina³ zostanie skasowany.^
+
+**MoveAs
+
+Funkcja ta przenosi wszystkie zaznaczone pliki i katalogi z
+okna aktywnego do nieaktywnego umo¿liwiaj±c nadaj±c ka¿demu
+plikowi now± nazwê. Plik lub katalog zostaje najpierw
+skopiowany w miejsce przeznaczenia z now± nazw±, a nastêpnie
+orygina³ zostanie skasowany.^
+
+**Rename
+
+Funkcja ta pozwala na zmianê nazwy wszystkich zaznaczonych
+plików i katalogów. Mo¿esz u¿ywaæ znaku * przy tworzeniu
+wzorców. Je¶li nie bêdziesz u¿ywa³ znaku *, zostaniesz
+zapytany o nazwê dla ka¿dego pliku osobno.
+
+Aby dodaæ przedrostek albo przyrostek (lub oba) do
+wszystkich zaznaczonych wpisów, u¿yj znaku * w drugim polu.
+Dla przyk³adu aby dodaæ przedrostek "HIRES" i przyrostek .pic
+do wszystkich zaznaczonych plików wpisz "HIRES*.pic".
+
+Aby zmieniæ przedrostek albo przyrostek (lub oba) dla
+wszystkich zaznaczonych wpisów, u¿yj znaku * w pierwszym
+polu. Dla przyk³adu, aby zmieniæ przedrostek "HIRES" na
+"MEDRES", a przyrostek z ".pic" na ".iff", w pierwszym polu
+wpisz "HIRES*.pic", a w drugim "MEDRES*.iff".^
+
+**Clone
+
+Funkcja ta tworzy kopie zaznaczonych plików i katalogów i
+umieszcza je w tym samym katalogu, ale z inn± nazw±.^
+
+**Delete
+
+Funkcja ta kasuje wszystkie zaznaczone pliki i katalogi w
+aktualnym oknie. BÂD¬ OSTRO¯NY!
+
+Funkcja ta mo¿e byæ tak¿e u¿yta do usuwania przypisów: po
+prostu wy¶wietl listê urz±dzeñ (naci¶nij prawy przycisk
+myszki nad ma³ym przyciskiem S na ¶rodku okna programu
+DirectoryOpus), zaznacz przypis(y) które chcesz usun±æ i
+wywo³aj polecenie "Delete".^
+
+**MakeDir
+
+Funkcja ta pozwala Ci na utworzenie nowego katalogu w
+aktywnym oknie.^
+
+**CheckFit
+
+Funkcja ta sprawdza, czy wszystkie pliki i katalogi
+zaznaczone przez Ciebie zmieszcz± siê w miejscu, gdzie
+chcesz je skopiowaæ. Funkcja ta jest podobna do GetSizes, z
+t± ró¿nic±, ¿e jest dok³adniejsza. Jedyn± niedogodno¶ci± tej
+funkcji jest fakt, ¿e je¶li zaznaczony przez Ciebie katalog
+ma ju¿ obliczon± wielko¶æ, a zmienisz katalog docelowy,
+zawarto¶æ katalogów zostanie ponownie przeskanowana.^
+
+**GetSizes
+
+Funkcja ta dzia³a podobnie jak funkcja "CheckFit". Funkcja
+skanuje wszystkie zaznaczone katalogi, oblicza wielko¶æ
+ka¿dego katalogu i dodaje wielko¶ci katalogów do listy.
+Wy¶wietla tak¿e literê T lub N oznaczaj±ce, ¿e zaznaczone
+katalogi zmieszcz± siê, lub nie, w miejscu przeznaczenia.
+To jest tylko przybli¿one sprawdzenie; aby uzyskaæ
+ca³kowit± pewno¶æ, ¿e zaznaczone pliki i katalogi
+zmieszcz± siê w miejscu przeznaczenia powiniene¶ u¿yæ
+funkcji "CheckFit".^
+
+**ClearSizes
+
+Funkcja ta usuwa wielko¶ci wy¶wietlane dla wszystkich
+zaznaczonych katalogów. Mo¿esz u¿yæ tej funkcji, gdy wiesz,
+¿e wielko¶æ katalogu zosta³a zmieniona. Nastêpnie mo¿esz
+ponownie zaznaczyæ katalogi i u¿yæ funkcji "GetSizes" lub
+"CheckFit" aby otrzymaæ aktualne wielko¶ci katalogów.^
+
+**Hunt
+
+Funkcja ta pozwala Ci na przeszukiwanie wszystkich
+zaznaczonych katalogów i ich podkatalogów w poszukiwaniu
+okre¶lonego pliku, lub grupy plików okre¶lonych przez
+wzorzec. Je¶li okre¶lony plik zostanie znaleziony, katalog
+zawieraj±cy go zostanie odczytany, a pliki zostan±
+zaznaczone.^
+
+**Search
+
+Funkcja ta pozwala Ci na przeszukiwanie wszystkich
+zaznaczonych plików w poszukiwaniu okre¶lonego ci±gu znaków,
+który mo¿e zostaæ równie¿ podany jako wzorzec. Je¶li
+zostanie znaleziony pasuj±cy plik, zostaniesz powiadomiony o
+tym w którym pliku ci±g wyst±pi³ i zapytany czy chcesz
+przeczytaæ ten plik. Je¶li siê na to zgodzisz, po wczytaniu
+pliku do przegl±darki tekstu automatycznie zostanie w³±czone
+wyszukiwanie okre¶lonego ci±gu. Dok³adniejsze informacje
+znajdziesz w dokumentacji (np. jak wyszukiwaæ kodów ASCII).^
+
+**Run
+
+Funkcja ta uruchomi oddzielnie ka¿dy zaznaczony plik.
+Zostaniesz zapytany o argumenty przed ka¿dym uruchomieniem.
+Pliki s± uruchamiane przy u¿yciu standardowych parametrów,
+które powinny odpowiadaæ wiêkszo¶ci programów. Je¶li jednak
+program nie zechce siê uruchomiæ przy pomocy tej opcji,
+spróbuj uruchomiæ go z poziomu Workbencha.^
+
+**Execute
+
+Ta funkcja wykonuje wszystkie zaznaczone pliki (pod
+warunkiem, ze s± to skrypty AmigaDOS-u).
+
+Informacja: Tylko pliki z ustawionym bitem protekcji "S"
+bêd± rozpoznawane jako pliki wsadowe.^
+
+**Comment
+
+Ta funkcja pozwala Ci na zmianê komentarzy dla zaznaczonych
+w aktywnym oknie plików i katalogów.
+
+Dla ka¿dego zaznaczonego elementu zostanie wy¶wietlone
+okienko zawieraj±ce aktualny komentarz. Aby go zmieniæ, po
+prostu go przeedytuj i naci¶nij klawisz <Return>. Aby zachowaæ
+stary komentarz, po prostu naci¶nij klawisz <Return> bez
+edycji zawarto¶ci pola.
+
+Aby dodaæ taki sam komentarz do wszystkich zaznaczonych
+wpisów wybierz przycisk [Wszystkie] na dole okienka. Wybranie
+[OK] lub naci¶niêcie klawisza <Return> spowoduje dodanie
+komentarza tylko do jednego pliku.^
+
+**DateStamp
+
+Ta funkcja pozwala Ci na zmianê dat modyfikacji zaznaczonych
+w aktywnym oknie plików i katalogów.
+
+Dla ka¿dego wpisu zostanie wy¶wietlone okienko. Je¶li chcesz
+aby zaznaczony plik posiada³ aktualn± datê i godzinê, po
+prostu naci¶nij klawisz <Return>, w przeciwnym wypadku podaj
+datê i godzinê.
+
+Aby ustawiæ datê dla wszystkich zaznaczonych wpisów wybierz
+przycisk [Wszystkie] na dole okienka. Wybranie przycisku [OK]
+lub naci¶niêcie klawisza <Return> spowoduje ustawienie daty
+tylko dla aktualnego wpisu.^
+
+**Protect
+
+Ta funkcja pozwala Ci na zmianê bitów protekcji zaznaczonych
+w aktywnym oknie plików i katalogów.
+
+Dla ka¿dego wpisu zostanie wy¶wietlone okienko z aktualnie
+ustawionymi bitami protekcji. Bity protekcji to: H (zatrzymany),
+S (skrypt), P (pure), A (zarchiwizowany), R (odczytywalny),
+W (zapisywalny), E (wykonywalny) i D (kasowalny).
+
+Aby prze³±czyæ bity naciskaj na odpowiednich przyciskach,
+lub odpowiednie klawisze. Aby ustawiæ wszystkie bity
+protekcji wybierz przycisk [Wszystkie bity]. Aby odznaczyæ
+wszystkie bity, wybierz przycisk [¯aden]. Aby odwróciæ stan
+bitów, wybierz przycisk [Prze³±cz]. Aby przywróciæ oryginalne
+ustawienie bitów, wybierz przycisk [Przywróæ].
+
+Ustawienie maski pozwala tak¿e na okre¶lenie które bity maj±
+zostaæ nie zmienione przez t± operacjê. Pozwala to, na
+przyk³ad, na ustawienie bitów RW w plikach nie ruszaj±c
+pozosta³ych.
+
+Aby w³±czyæ lub wy³±czyæ bit w masce bitów, naci¶nij na
+odpowiednim przycisku lub naci¶nij odpowiedni klawisz
+trzymaj±c klawisz <Shift>.
+
+Aby ustawiæ bity protekcji dla wszystkich zaznaczonych
+wpisów wybierz przycisk [Wszystkie] na dole okienka. Wybranie
+przycisku [OK] ustawi bity tylko dla aktualnego wpisu.^
+
+**IconInfo
+
+Ta funkcja pozwala na modyfikowanie parametrów ikonek, tak
+samo jak polecenie "Informacje" z Workbencha. Mo¿esz
+modyfikowaæ bity protekcji, wielko¶æ stosu, komentarz,
+standardowe narzêdzie oraz tooltype'y^
+
+**AddIcon
+
+Funkcja ta dodaje ikonki do wszystkich zaznaczonych w
+aktywnym oknie plików i katalogów. Program automatycznie
+rozpoznaje typ obiektu (katalog, projekt lub narzêdzie) i
+dodaje odpowiednie ikonki. Mo¿esz tak¿e okre¶liæ w³asne
+ikonki w programie konfiguracyjnym, je¶li standardowe Ci nie
+odpowiadaj±.^
+
+**Encrypt
+
+Ta funkcja pozwala Ci utajniæ wa¿ne dane poprzez zakodowanie
+plików z u¿yciem has³a. Wszystkie zaznaczone pliki w
+aktywnym oknie zostan± zakodowane, a zakodowane pliki
+zostan± zapisane w oknie przeznaczenia. Je¶li pierwszym
+znakiem w ha¶le bêdzie znak - (minus), plik zostanie
+rozkodowany.^
+
+**Extract
+
+"Extract" pozwoli Ci wypakowaæ zawarto¶æ archiwum przy
+wykorzystaniu biblioteki xadmaster.library.^
+
+*Arc Ext
+
+Ten przycisk przywo³uje polecenie "User1" zdefiniowane dla
+wybranego typu pliku. Jest nazwane "Arc Ext" poniewa¿
+rozpakowanie archiwum jest pierwszym standardowo
+zdefiniowanym poleceniem dla plików zarchiwizowanych. Proszê
+zapoznaæ siê z instrukcj± w celu dok³adniejszego poznania
+obs³ugi typów plików.^
+
+**Read
+
+Funkcja ta pozwala Ci na przegl±danie plików tekstowych
+u¿ywaj±c myszki.
+
+Aby przewijaæ tekst naci¶nij lewy przycisk myszy. Kierunek i
+prêdko¶æ przewijania mo¿esz okre¶liæ poprzez po³o¿enie
+pionowe wska¼nika myszy. Mo¿esz tak¿e u¿ywaæ klawiszy
+kursora, przycisków ze strza³kami oraz suwaka (je¶li
+w³±czony) do poruszania siê po ca³ym pliku.
+
+Aby przeskoczyæ do okre¶lonej linii kliknij na numerze zaraz
+za wyrazem "Linii". Aby przeskoczyæ do okre¶lonego procentowo
+miejsca w pliku, kliknij na wy¶wietlanej w procentach
+warto¶ci.
+
+Aby przewin±æ na poprzedni± lub nastêpn± stronê kliknij na
+przycisk [U] lub [D], lub naci¶nij te klawisze. Mo¿esz tak¿e
+nacisn±æ <Shift> + <Kursor w górê>/<Kursor w dó³> lub
+<spacjê>/<Backspace>.
+
+Aby przeskoczyæ na pocz±tek lub na koniec pliku kliknij na
+przycisk [T] lub [B], lub naci¶nij te klawisze. Mo¿esz tak¿e
+u¿yæ kombinacji <Control> + <Kursor w górê>/<Kursor w dó³>.
+
+Aby znale¼æ ci±g w pliku, naci¶nij klawisz <S> lub kliknij na
+przycisku [S]. Aby kontynuowaæ przeszukiwanie naci¶nij klawisz
+<N>. Aby wydrukowaæ aktualn± stronê naci¶nij klawisz <C>. Aby
+wydrukowaæ ca³y plik naci¶nij klawisz <P>. Aby opu¶ciæ
+przegl±darkê, kliknij na przycisku [Q], lub naci¶nij klawisz
+<X>, <Q> lub <Esc>.
+
+Funkcja ta nie wy¶wietla kodów steruj±cych ANSI ani znaków
+tabulacji; musisz do tego u¿yæ funkcji "AnsiRead".^
+
+**AnsiRead
+
+Ta funkcja dzia³a identycznie jak funkcja "Read", z tym, ¿e
+obs³uguje poprawnie kody steruj±ce ANSI (kolory i atrybuty
+tekstu), a tak¿e poprawnie wy¶wietla znaki tabulacji.^
+
+**HexRead
+
+Ta funkcja pozwala na przegl±danie plików w postaci
+szesnastkowej, co jest bardzo u¿yteczne przy przegl±daniu
+plików binarnych. Plik jest wy¶wietlany w postaci
+szesnastkowej po 16 bajtów na liniê. Obs³uga odbywa siê
+identycznie jak podczas przegl±dania plików ASCII.^
+
+**Show
+
+Funkcja ta wy¶wietla zaznaczone pliki w formacie IFF ILBM,
+animacje w formacie ANIM, ikonki oraz czcionki. Je¶li
+wy¶wietlany plik jest ikonk±, alternatywny jej wygl±d mo¿esz
+zobaczyæ (je¶li istnieje) naciskaj±c klawisz <Return>. Aby
+zakoñczyæ ogl±danie aktualnego pliku, kliknij lewym
+przyciskiem myszy. Je¶li obrazek ma zdefiniowan± rotacjê
+kolorów, mo¿esz uruchomiæ/zatrzymaæ rotacjê u¿ywaj±c
+klawisza <Tab>.
+
+Naci¶niêcie klawisza <P>, <Help> lub <spacji> przeniesie Ciê
+do ekranu kontroli wydruku. Pozwoli Ci to na skonfigurowanie
+drukarki i wydrukowanie aktualnego obrazka. Wy¶wietla tak¿e
+wa¿ne informacje o aktualnym obrazku.
+
+Je¶li obrazek jest wiêkszy ni¿ ekran, mo¿esz przewijaæ go
+u¿ywaj±c klawiszy kursora, lub przesuwaj±c wska¼nik myszy.
+Funkcja ta wy¶wietla tak¿e obrazki spakowane PowerPackerem
+oraz innymi programami pakuj±cymi dane, pod warunkiem, ¿e
+posiadasz bibliotekê xfdmaster.library w katalogu Libs:
+(przeczytaj dokumentacjê).^
+
+**Play
+
+Funkcja ta s³u¿y do odtwarzania plików d¼wiêkowych w
+formacie IFF 8SVX i innych plików. Aby zatrzymaæ odtwarzanie
+d¼wiêku kliknij lewym przyciskiem myszy. Je¶li w katalogu
+Libs: posiadasz bibliotekê inovamusic.library, funkcja ta
+tak¿e pozwoli Ci na odtwarzanie modu³ów muzycznych.^
+
+**LoopPlay
+
+Funkcja ta s³u¿y do odtwarzania plików d¼wiêkowych w
+formacie IFF 8SVX i innych plików w sposób ci±g³y
+(zapêtlony); aby przej¶æ do odtwarzania nastêpnego d¼wiêku
+musisz klikn±æ lewy przycisk myszy.^
+
+*Edit
+
+Funkcja ta przywo³uje edytor do edycji zaznaczonych plików.
+To nie jest wbudowana funkcja, a jedynie przycisk
+skonfigurowany tak, aby przywo³ywa³ edytor "c:Ed". Mo¿liwe,
+¿e bêdziesz chcia³ i prawdopodobnie zmienisz to na swój
+ulubiony edytor w ustawieniach programu.^
+
+*New File
+
+Funkcja ta wywo³uje edytor tak samo jak robi to funkcja
+[Edit]. Jednak ta funkcja pozwala Ci na tworzenie nowych
+plików przy pomocy edytora i pyta Ciê o nazwê tworzonego
+pliku.^
+
+**Print
+
+Ta funkcja wydrukuje wszystkie zaznaczone pliki. Posiada
+wiele mo¿liwo¶ci formatowania oraz konfiguracji. Procedura
+drukowania zawarta jest w zewnêtrznym module o nazwie
+DOpus_Print.
+
+Mo¿esz ustawiæ marginesy górny i dolny (w liniach) oraz lewy
+i prawy (w znakach). Tabulator okre¶la ilo¶æ spacji
+wstawianych w miejsce znaku tabulacji. Mo¿esz tak¿e wybraæ
+gêsto¶æ druku (10, 12, 15-17 znaków na cal) oraz jako¶æ
+(zwyk³a i listowa).
+
+Mo¿esz tak¿e zdefiniowaæ oddzielnie zawarto¶æ nag³ówka i
+stopki do³±czaj±c: tytu³, datê, i numer strony. Je¶li nie
+zaznaczysz ¿adnej z tych opcji, nag³ówek i stopka nie
+zostan± utworzone. Je¶li zaznaczysz "Tytu³" i wpiszesz co¶ w
+pole po prawej stronie, wpisany ci±g zostanie potraktowany
+jako tytu³. Je¶li to pole zostawisz wolne, jako
+tytu³ zostanie wykorzystana nazwa pliku.
+
+Mo¿esz tak¿e okre¶liæ, czy wydruk ma nast±piæ na drukarce,
+czy ma zostaæ zapisany do pliku. Przycisk [Drukuj] rozpocznie
+operacjê, za¶ [Wyj¶cie] porzuci j±.^
+
+**GetDevices
+
+Funkcja ta wy¶wietli listê wszystkich urz±dzeñ oraz
+przypisañ obecnych w systemie. Mo¿esz odczytaæ zawarto¶æ
+dowolnego z nich poprzez dwuklik na nim. Mo¿esz tak¿e
+zaznaczyæ urz±dzenia i przypisania na których chcesz u¿yæ
+poleceñ "Hunt" lub "Search". Dodatkowo istnieje mo¿liwo¶æ
+usuniêcia jednego lub wiêkszej ilo¶ci przypisów poprzez
+wywo³anie polecenia "Delete".^
+
+**Select
+
+Ta funkcja pozwala na zaznaczanie plików i katalogów w
+aktywnym oknie na podstawie zadanego wzorca, daty utworzenia
+lub ustawienia bitów protekcji. Podczas zaznaczania po
+nazwach wszystkie standardowe znaki zastêpcze s± dozwolone
+(*, ~, ? itd.) tak samo jak znaki zastêpcze AmigaDOS #? i ?.
+Aby uzyskaæ wiêcej informacji przeczytaj dokumentacjê.
+
+Zaznaczanie z u¿yciem daty pozwala na okre¶lenie zakresu dat
+w postaci DD-MMM-RR > DD-MMM-RR. Mo¿esz tak¿e nie podawaæ
+dwóch dat aby okre¶liæ dok³adnie czas, od kiedy pliki
+maj± byæ zaznaczone, lub aby zaznaczaæ pliki do aktualnej
+daty. Mo¿esz tak¿e podawaæ czas w postaci GG:MM:SS zamiast
+dat.
+
+Aby okre¶liæ bity protekcji jako wzorzec zaznaczenia musisz
+u¿yæ kodów "hsparwed". Je¶li który¶ z bitów poprzedzisz
+znakiem "-", bit musi byæ wy³±czony aby plik zosta³
+zaznaczony. Aby uzyskaæ wiêcej informacji przeczytaj
+dokumentacjê.^
+
+**Arexx
+
+Funkcja ta pozwala na uruchomienie skryptu ARexxa lub
+wykonanie polecenia ARexxa bezpo¶rednio z poziomu programu.
+Aby uzyskaæ wiêcej informacji przeczytaj dokumentacjê. ^
+
+**DirTree
+
+Funkcja ta generuje listê wszystkich podkatalogów, w postaci
+drzewa, zawartych w katalogu wy¶wietlanym w aktywnym oknie.
+Mo¿esz odczytaæ zawarto¶æ dowolnego z podkatalogów poprzez
+dwuklik na wybranym wpisie w drzewie zamiast przeszukiwaæ
+katalogi w normalny sposób.^
+
+**Reselect
+
+Funkcja ta zaznacza ponownie wszystkie elementy, które by³y
+zaznaczone przed ostatnio wykonan± operacj±. Elementy
+zostan± zaznaczone pod warunkiem, ¿e nadal istniej±.^
+
+**Rescan
+
+Funkcja ta powoduje ponowne odczytanie zawarto¶ci katalogu
+otwartego w aktywnym oknie. Taki sam efekt uzyskasz klikaj±c
+na polu ze ¶cie¿k± dostêpu i naciskaj±c klawisz <Return> bez
+zmieniania zawarto¶ci pola ¶cie¿ki.^
+
+**BufferList
+
+Funkcja ta wy¶wietla listê wszystkich katalogów
+przechowywanych w wewnêtrznych buforach programu. Poprzez
+dwuklik na wybranej pozycji mo¿esz przenie¶æ siê
+bezpo¶rednio do okre¶lonego bufora, zamiast u¿ywaæ
+przycisków ze strza³kami do zmieniania buforów pojedynczo.^
+
+**ClearBuffers
+
+Funkcja czy¶ci zawarto¶æ wszystkich buforów w pamiêci, z
+wyj±tkiem dwóch aktualnie wy¶wietlanych w oknach. Ca³a
+u¿ywana przez nieaktywne bufory pamiêæ zostaje zwolniona;
+jest to dobry sposób na szybkie zwolnienie pewnej ilo¶ci
+pamiêci w sytuacji gdy u¿ywasz wielu buforów i zosta³o ju¿
+ma³o wolnej pamiêci.^
+
+**DriveGadgets
+
+S± to przyciski napêdów. Wybranie jednego z nich spowoduje
+odczytanie zawarto¶ci okre¶lonego urz±dzenia lub ¶cie¿ki w
+aktywnym oknie.^
+
+*!103
+
+Zbyt ma³o wolnej pamiêci
+
+Mo¿liwa przyczyna:
+Zbyt ma³o wolnej pamiêci w Twoim komputerze do wykonania
+operacji.
+
+Sugestia:
+Zamknij wszystkie niepotrzebne okna i aplikacje, nastêpnie
+spróbuj wykonaæ polecenie ponownie. Je¶li problem bêdzie
+pojawia³ siê nadal, spróbuj przeresetowaæ komputer. Mo¿liwe,
+i¿ posiadasz wystarczaj±c± ilo¶æ pamiêci, ale jest ona
+pofragmetowana. Mo¿liwe jest tak¿e, i¿ powiniene¶ zaopatrzyæ
+swój komputer w wiêksz± ilo¶æ pamiêci.^
+
+*!104
+Tabela procesów pe³na
+
+Mo¿liwa przyczyna:
+Zosta³a osi±gniêta granica mo¿liwych procesów w systemie.
+
+Sugestia:
+Zakoñcz jeden lub wiêcej procesów.^
+
+*!114
+
+Z³a sk³adnia
+
+Mo¿liwa przyczyna:
+Niew³a¶ciwa linia poleceñ.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni polecenia.^
+
+*!115
+
+Z³y numer
+
+Mo¿liwa przyczyna:
+Program oczekuje warto¶ci numerycznej.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!116
+
+Brak wymaganego argumentu
+
+Mo¿liwa przyczyna:
+Niew³a¶ciwa linia poleceñ.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!117
+
+Brak argumentu po "="
+
+Mo¿liwa przyczyna:
+Niew³a¶ciwa linia poleceñ.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!118
+Zbyt du¿o argumentów
+
+Mo¿liwa przyczyna:
+Niew³a¶ciwa linia poleceñ.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!119
+
+Niepasuj±ce cudzys³owy
+
+Mo¿liwa przyczyna:
+Niew³a¶ciwa linia poleceñ.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!120
+
+Niew³a¶ciwa lub zbyt d³uga linia argumentów
+
+Mo¿liwa przyczyna:
+Podana linia argumentów jest niepoprawna lub zawiera zbyt
+wiele argumentów.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!121
+
+Plik nie jest wykonywalny
+
+Mo¿liwa przyczyna:
+Pope³ni³e¶ b³±d wpisuj±c polecenie, lub plik nie mo¿e zostaæ
+wczytany (nie jest programem ani skryptem).
+
+Sugestia:
+Wpisz ponownie nazwê i upewnij siê, ¿e jest to plik
+wykonywalny. Pamiêta, ¿e aby uruchomiæ skrypt, plik musi
+mieæ ustawiony bit "s" lub musisz u¿yæ polecenia EXECUTE.^
+
+*!122
+
+Niew³a¶ciwa biblioteka
+
+Mo¿liwa przyczyna:
+Próbujesz u¿yæ polecenia z poprzedni± wersj± systemu
+AmigaDOS; na przyk³ad polecenia z systemu 2.0 podczas
+gdy w komputerze masz zainstalowany Kickstart 1.3.
+
+Sugestia:
+Uruchom komputer pod kontrol± aktualnego systemu.^
+
+*!202
+
+Obiekt w u¿yciu
+
+Mo¿liwa przyczyna:
+
+Okre¶lony plik lub katalog jest aktualnie u¿ywany przez inn±
+aplikacjê. Je¶li jedna aplikacja odczytuje plik, inne
+aplikacje nie mog± nic do niego zapisywaæ i na odwrót.
+
+Sugestia:
+Zatrzymaj inne aplikacje u¿ywaj±ce okre¶lonego pliku lub
+katalogu i ponownie wywo³aj polecenie.^
+
+*!203
+
+Obiekt ju¿ istnieje
+
+Mo¿liwa przyczyna:
+Podana nazwa ju¿ istnieje i nale¿y do innego pliku lub
+katalogu.
+
+Sugestia:
+U¿yj innej nazwy, lub skasuj istniej±cy plik lub katalog i
+zast±p go.^
+
+*!204
+
+Katalog nie znaleziony
+
+Mo¿liwa przyczyna:
+AmigaDOS nie mo¿e znale¼æ okre¶lonego przez Ciebie katalogu.
+Mo¿liwe, i¿ pope³ni³e¶ b³±d przy wpisywaniu.
+
+Sugestia:
+Sprawd¼ nazwê katalogu i ponownie wywo³aj polecenie.^
+
+*!205
+
+Obiekt nie znaleziony
+
+Mo¿liwa przyczyna:
+AmigaDOS nie mo¿e znale¼æ podanego pliku lub urz±dzenia.
+Mo¿liwe, i¿ pope³ni³e¶ b³±d przy wpisywaniu.
+
+Sugestia:
+Sprawd¼ nazwê pliku i urz±dzenia i ponownie wywo³aj
+polecenie.^
+
+*!206
+
+Niew³a¶ciwy opis okna
+
+Mo¿liwa przyczyna:
+Ten b³±d pojawia siê przy podawaniu wielko¶ci okna
+wyj¶ciowego, okna Shella, programu ED lub IconX. Mo¿liwe, i¿
+poda³e¶ zbyt du¿e lub zbyt ma³e wymiary okna, lub pomin±³e¶
+jaki¶ parametr. Ten b³±d pojawia siê tak¿e przy wywo³aniu
+polecenia NewShell, gdy podasz nazwê urz±dzenia nie bêd±cego
+oknem.
+
+Sugestia:
+Podaj ponownie parametry okna.^
+
+*!209
+
+Nieznany typ ¿±dania
+
+Mo¿liwa przyczyna:
+Odwo³a³e¶ siê do sterownika w celu wykonania niedozwolonej
+operacji. Na przyk³ad, podczas obs³ugi konsoli nie mo¿na
+zmieniaæ ¿adnej nazwy.
+
+Sugestia:
+Sprawd¼ wywo³anie ¿±dania przychodz±cego do sterownika
+urz±dzenia.^
+
+*!210
+
+Niew³a¶ciwa nazwa obiektu
+
+Mo¿liwa przyczyna:
+W nazwie pliku jest niedozwolony znak lub nazwa pliku jest
+za d³uga. Pamiêtaj, nazwy plików nie mog± byæ d³u¿sze ni¿ 30
+znaków (je¶li u¿ywasz wbudowanego systemu plików "FFS") i
+nie mog± zawieraæ znaków kontrolnych.
+
+Sugestia:
+Podaj ponownie nazwê pliku, upewnij siê, ¿e u¿ywasz
+dozwolonych znaków i nie przekraczasz dozwolonej d³ugo¶ci.^
+
+*!211
+
+Niew³a¶ciwa blokada obiektu
+
+Mo¿liwa przyczyna:
+U¿y³e¶ czego¶ co nie jest w³a¶ciw± blokad±.
+
+Sugestia:
+Sprawd¼ czy Twój kod zawiera tylko dozwolone blokady tam,
+gdzie AmigaDOS oczekuje blokad.^
+
+*!212
+
+Obiekt nie jest wymaganego typu
+
+Mo¿liwa przyczyna:
+Wybra³e¶ plik dla polecenia operuj±cego na katalogach,
+lub na odwrót.
+
+Sugestia:
+Przeczytaj dokumentacjê w celu poznania poprawnej sk³adni
+polecenia.^
+
+*!213
+
+Dysk nie jest zaktualizowany
+
+Mo¿liwa przyczyna:
+Je¶li dopiero co w³o¿y³e¶ dysk, mo¿liwe i¿ nadal trwa jego
+aktualizacja. Jest tak¿e mo¿liwe, i¿ dysk jest uszkodzony.
+
+Sugestia:
+Je¶li dopiero co w³o¿y³e¶ dysk, poczekaj, a¿ proces
+aktualizacji dobiegnie koñca. Mo¿e to zaj±æ poni¿ej minuty
+dla zwyk³ej dyskietki, lub oko³o kilku minut w przypadku
+dysku twardego. Je¶li dysk jest uszkodzony, nie bêdzie móg³
+byæ zaktualizowany. W takim przypadku spróbuj odzyskaæ pliki
+i skopiowaæ je na inny dysk.^
+
+*!214
+
+Dysk jest zabezpieczony przed zapisem
+
+Mo¿liwa przyczyna:
+Okienko zabezpieczaj±ce dysk przed zapisem jest otwarte.
+
+Sugestia:
+Je¶li jeste¶ pewien, ¿e chcesz zapisaæ dane na w³a¶nie t±
+dyskietkê, wyjmij j±, przesuñ kostkê zabezpieczaj±c± tak,
+aby zamknê³a okienko i w³ó¿ dysk ponownie do stacji. W innym
+przypadku u¿yj innego dysku.^
+
+*!215
+
+Próba zmiany nazwy pomiêdzy urz±dzeniami
+
+Mo¿liwa przyczyna:
+
+Polecenie RENAME zmienia tylko nazwy plików na tym samym
+urz±dzeniu. Mo¿esz u¿yæ polecenia RENAME do przenoszenia
+plików z jednego podkatalogu do innego, ale nie mo¿esz
+przenosiæ plików pomiêdzy ró¿nymi urz±dzeniami.
+
+Sugestia:
+U¿yj polecenia MOVE. Innym rozwi±zaniem mo¿e byæ u¿ycie
+polecenia COPY, aby skopiowaæ pliki w miejsce przeznaczenia,
+po czym, je¶li jest to konieczne, skasuj pliki z katalogu
+¼ród³owego.^
+
+*!216
+
+Katalog nie jest pusty
+
+Mo¿liwa przyczyna:
+Ten b³±d pojawia siê w momencie gdy chcesz skasowaæ katalog
+zawieraj±cy pliki lub podkatalogi.
+
+Sugestia:
+Je¶li jeste¶ pewien, ¿e chcesz skasowaæ ca³y katalog,
+wybierz przycisk "Wszystkie".^
+
+*!217
+
+Zbyt wiele poziomów
+
+Mo¿liwa przyczyna:
+Osi±gn±³e¶ limit 15 odsy³aczy.
+
+Sugestia:
+Zmniejsz ilo¶æ odsy³aczy.^
+
+*!218
+
+Urz±dzenie nie przy³±czone
+
+Mo¿liwa przyczyna:
+Je¶li urz±dzeniem jest dyskietka, nie jest w³o¿ona do stacji
+dysków. Je¶li jest to inny typ no¶nika, nie zosta³
+przy³±czony poleceniem MOUNT. Jest tak¿e mo¿liwe i¿
+pope³ni³e¶ b³±d podczas wpisywania nazwy urz±dzenia.
+
+Sugestia:
+W³ó¿ w³a¶ciwy dysk, sprawd¼ pisowniê nazwy urz±dzenia,
+przy³±cz urz±dzenie lub sprawd¼ swój plik MountList.^
+
+*!219
+B³±d wyszukiwania
+
+Mo¿liwa przyczyna:
+Wywo³a³e¶ polecenie SEEK z niew³a¶ciwymi parametrami.
+
+Sugestia:
+Upewnij siê, ¿e wywo³ujesz polecenie SEEK wewn±trz pliku.
+Nie mo¿esz u¿ywaæ polecenia SEEK poza plikiem.^
+
+*!220
+
+Komentarz jest zbyt d³ugi
+
+Mo¿liwa przyczyna:
+Twój komentarz przekroczy³ maksymaln± d³ugo¶æ (79 znaków).
+
+Sugestia:
+U¿yj krótszego komentarza.^
+
+*!221
+
+Dysk jest pe³ny
+
+Mo¿liwa przyczyna:
+Niewystarczaj±ca ilo¶æ wolnego miejsca na dysku do wykonania
+wybranej operacji.
+
+Sugestia:
+Usuñ niepotrzebne pliki i katalogi, lub u¿yj innego dysku.^
+
+*!222
+
+Obiekt jest zabezpieczony przed skasowaniem
+
+Mo¿liwa przyczyna:
+Bit protekcji "d" (kasowalny) dla pliku lub katalogu jest
+skasowany.
+
+Sugestia:
+Je¶li jeste¶ pewien, ¿e chcesz usun±æ plik lub katalog, u¿yj
+polecenia PROTECT i ustaw bit "d".^
+
+*!223
+
+Plik jest zabezpieczony przed zapisem
+
+Mo¿liwa przyczyna:
+Bit protekcji "w" (zapisywalny) dla pliku jest skasowany.
+
+Sugestia:
+Je¶li jeste¶ pewien, ¿e chcesz zast±piæ plik, u¿yj polecenia
+PROTECT i ustaw bit "w".^
+
+*!224
+
+Plik jest zabezpieczony przed odczytem
+
+Mo¿liwa przyczyna:
+Bit protekcji "r" (odczytywalny) dla pliku jest skasowany.
+
+Sugestia:
+U¿yj polecenia PROTECT i ustaw bit "r".^
+
+*!225
+
+Dysk nie jest w formacie AmigaDOS
+
+Mo¿liwa przyczyna:
+Dysk w napêdzie nie jest w formacie AmigaDOS, nie jest
+sformatowany lub jest uszkodzony.
+
+Sugestia:
+Upewnij siê, ¿e w³o¿y³e¶ prawid³owy dysk. Je¶li wiesz, ¿e
+dysk wcze¶niej dzia³a³, u¿yj programu do odzyskiwania
+danych, aby odzyskaæ pliki. Je¶li dysk nie jest sformatowany
+u¿yj polecenia FORMAT aby to zrobiæ.^
+
+*!226
+Brak dysku
+
+Mo¿liwa przyczyna:
+Dysk nie zosta³ umieszczony w okre¶lonej stacji.
+
+Sugestia:
+W³ó¿ w³a¶ciwy dysk do okre¶lonej stacji.^
+
+*!232
+
+Nie ma wiêcej elementów w katalogu
+
+Mo¿liwa przyczyna:
+Oznacza to, ¿e system AmigaDOS wywo³uj±c funkcjê EXNEXT nie
+znalaz³ wiêcej elementów w katalogu.
+
+Sugestia:
+Przerwij wywo³ywanie funkcji EXNEXT.^
+
+*!233
+
+Obiekt jest linkiem
+
+Mo¿liwa przyczyna:
+Próbowa³e¶ u¿yæ funkcji dostêpnych dla plików i katalogów na
+obiekcie bêd±cym linkiem.
+
+Sugestia:
+AmigaDOS u¿ywa Action_Read_Link pakietu do rozwi±zania linku
+i ponawia wykonanie operacji.^
