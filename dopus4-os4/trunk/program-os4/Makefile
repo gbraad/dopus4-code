@@ -12,7 +12,7 @@ remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 reaction.o strstri.o
 
-CFLAGS = -gstabs -Wall -O3 -Wwrite-strings -I../include-os4
+CFLAGS = -gstabs -Wall -O3 -Wwrite-strings -I../include-os4 -I../external
 LDFLAGS = -gstabs -lauto -lraauto -lm
 FLEXCAT = flexcat
 
