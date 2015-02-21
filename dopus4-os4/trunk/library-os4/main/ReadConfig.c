@@ -588,6 +588,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 	}
 
 	cstuff->curbank = cstuff->firstbank;
+	config->hiddenbit = 0; // Hiddenbit option disabled
 	return (1);
 }
 

@@ -185,7 +185,8 @@ struct ConfigGadget op_copygadgets[] =
 }, sys_showpatterngadgets[] =
 {
 	{ CTYPE_TEXT, 0, STR_SYS_SHOWPATTERN_TITLE, 169, 91},
-	{ CTYPE_GAD, 0, STR_SYS_SHOWPATTERN_HIDDENBIT, 248, 97, -1, -1, 1, 0},
+/*  Hiddenbit option disabled */
+/*	{ CTYPE_GAD, 0, STR_SYS_SHOWPATTERN_HIDDENBIT, 248, 97, -1, -1, 1, 0},*/
 	{ CTYPE_STR, 0, STR_SYS_SHOWPATTERN_SHOW, 252, 112, -1, -1, 0, 40},
 	{ CTYPE_STR, 0, STR_SYS_SHOWPATTERN_HIDE, 252, 126, -1, -1, 0, 40},
 	{ 0, 0, -1 }
