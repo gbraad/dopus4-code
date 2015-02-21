@@ -1,702 +1,673 @@
-## version $VER: DOpus4.catalog 4.0 (21.11.2012)
-## language german
-## codeset 0
-;
-## chunk AUTH Christoph Gutjahr
-;#basename DOpus4
-;#language english
-;#version 4
-;
-; DOpus4.cd - Directory Opus 4 catalog description file
-;
-; $VER: DOpus4.cd 4.0 (21.11.2012)
-;
-;
+## version $VER: DOpus4.catalog 4.0 (20.02.2015)
+## language french
+## codeset 111
 ; General
 ;
 STR_DIRS_FILES_BYTES_COUNT
-Verz.: %03ld/%03ld  Dateien: %03ld/%03ld  Bytes: %7s/%7s
+Répertoires : %03ld/%03ld    Fichiers : %03ld/%03ld    Octets : %7s/%7s
 ; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
 ;
 STR_DOPUS_ALREADY_RUNNING
-Directory Opus befindet sich bereits im RAM.\nNoch einen Opus starten?
+Directory Opus est déjà résident en mémoire.\nDésirez-vous exécuter une autre copie ?
 ; Directory Opus is already resident in memory.\nDo you want to run another copy?
 ;
 STR_UNABLE_TO_OPEN_WINDOW
-Kann Opus Bildschirm/Fenster nicht öffnen!
+Impossible d'ouvrir l'écran ou la fenêtre !
 ; Unable to open screen/window!
 ;
 STR_WELCOME_TO_DOPUS
-Willkommen zu DirectoryOpus!
+Bienvenue dans Directory Opus !
 ; Welcome to Directory Opus!
 ;
 STR_WELCOME_BACK_TO_DOPUS
-Willkommen!
+Bienvenue à nouveau dans Directory Opus !
 ; Welcome back to Directory Opus!
 ;
 STR_INTERROGATING_FILE
-Untersuche Datei...
+Analyse du fichier...
 ; Interrogating file...
 ;
 STR_READING_DIRECTORY
-Verzeichnis wird eingelesen...
+Lecture du répertoire...
 ; Reading directory...
 ;
 STR_ENTER_ARGUMENTS_FOR
-Bitte Parameter für \"%s\" eingeben.
+Entrez les arguments pour « %s »
 ; Enter arguments for \"%s\"
 ;
 STR_ENTER_DIRECTORY_NAME
-Verzeichnisname eingeben
+Entrez le nom du répertoire
 ; Enter directory name
 ;
 STR_DIRECTORY_CREATED
-Verzeichnis wurde erzeugt.
+Répertoire créé.
 ; Directory created.
 ;
 STR_DIRECTORY
-Verzeichnis 
+Répertoire 
 ; Directory 
 ;
 STR_DEVICE_LIST
-Laufwerke\n\n
+Liste des périphériques\n\n
 ; Device list\n\n
 ;
 STR_NO_CHIP_FOR_ICON
-Nicht genug CHIP-RAM zum Anzeigen des Piktogramms.
+Impossible de charger l'icône
 ; Cannot load icon
 ;
 STR_ERROR_IN_IFF
-Fehler in der IFF-Struktur.
+Erreur dans la structure IFF
 ; Error in IFF structure
 ;
 STR_CANT_ALLOCATE_AUDIO
-Kann die Tonkanäle nicht öffnen.
+Impossible d'allouer les canaux audio
 ; Can't allocate audio channels
 ;
 STR_FILE_EXISTS_REPLACE
-Datei \"%s\" existiert bereits! Ersetzen?
+Le fichier « %s » existe déjà ! Le remplacer ?
 ; \"%s\" already exists! Replace?
 ;
 STR_SELECT_UNPROTECT
-\nLösch-Bit setzen mit Knopf Entsichern.
+\nChoisissez « Déprotéger » pour mettre l'attribut de suppression
 ; \nSelect Unprotect to set the deletion bit.
 ;
 STR_AREXX_NOT_RUNNING
-Kann ARexx-Server nicht finden!
+Le serveur AREXX n'est pas présent ! Exécutez RexxMast.
 ; ARexx server not found!
 ;
 STR_ENTER_AREXX_COMMAND
-ARexx-Befehl eingeben
+Entrez une commande AREXX :
 ; Enter ARexx command
 ;
 STR_ENTER_NEW_CD
-Neues aktuelles Verzeichnis eingeben
+Entrez le nom du nouveau répertoire courant :
 ; Enter new current directory
 ;
 STR_SCANNING_DEVICE_LIST
-Durchsuche Geräte-Liste...
+Recherche des périphériques...
 ; Scanning device list...
 ;
 STR_FOUND_A_MATCH
-Habe die Datei \"%s\" gefunden.\nVerzeichnis \"%s\"\nDorthin springen?
+J'ai trouvé le fichier « %s » dans le répertoire\n« %s »\nDois-je y aller ?
 ; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
 ;
 STR_BUFFERS_CLEARED
-Nicht angezeigte Verzeichnis-Puffer wurden gelöscht.
+Les tampons non affichés ont été effacés.
 ; Buffers not currently displayed have been cleared.
 ;
 STR_DOS_ERROR_CODE
-AmigaDOS-Fehler %ld
+Erreur DOS numéro %ld
 ; DOS error code %ld
 ;
 STR_ENTER_NEW_DISK_NAME
-Neuen Disknamen eingeben
+Entrez le nouveau nom du disque :
 ; Enter new disk name
 ;
 STR_ENTER_ASSIGN_NAME
-Neues Verzeichnis für die Zuweisung eingeben
+Entrez le nom du répertoire pour réassigner le périphérique
 ; Enter directory to re-assign device
 ;
 STR_CANT_CANCEL_ASSIGN
-Kann existierende Zuweisung nicht löschen.
+Impossible de supprimer l'assignation.
 ; Can't cancel assign.
 ;
 STR_ENTER_DEVICE_NAME
-Welchen Laufwerksnamen soll das Verzeichnis tragen?
+Entrez le nom du périphérique pour ce répertoire :
 ; Enter device name for this directory
 ;
 STR_ASSIGN_FAILED
-Zuweisung fehlgeschlagen
+L'assignation a échoué
 ; Assign failed
 ;
 STR_NO_DESTINATION_SELECTED
-Kein Zielverzeichnis angewählt!
+Pas de répertoire de destination sélectionné !
 ; No destination directory selected!
 ;
 STR_CANT_COPY_DIR_TO_ITSELF
-Du kannst ein Verzeichnis nicht in sich selbst kopieren!
+Vous ne pouvez copier un répertoire dans lui-même !
 ; You can't copy a directory into itself!
 ;
 STR_SHOWING_FONT
-Zeige Schriftart an...
+Affichage de la police sélectionnée...
 ; Showing selected font...
 ;
 STR_RUNNING_FILE
-Starte Programm-Datei...
+Exécution du fichier sélectionné...
 ; Running selected file...
 ;
 STR_PLAYING_FILE
-Spiele Ton-Datei ab...
+Écoute du fichier sélectionné...
 ; Playing selected file...
 ;
 STR_SHOWING_FILE
-Zeige Bild-Datei an...
+Affichage du fichier sélectionné...
 ; Showing selected file...
 ;
 STR_READING_SELECTED_FILE
-Zeige Text-Datei an...
+Lecture du fichier sélectionné...
 ; Reading selected file...
 ;
 STR_FOUND_A_MATCH_READ
-Zeichenkette gefunden in Datei\n\"%s\"\nDatei anzeigen?
+Correspondance trouvée dans le fichier\n« %s »\nVoulez-vous lire ce fichier ?
 ; Found a match in the file\n\"%s\"\nShall I read the file?
 ;
 STR_CONFIG_CHANGED_QUIT
-Die Konfiguration wurde geändert.\nDirOpus wirklich beenden?
+Vous avez modifié la configuration.\nDésirez-vous vraiment quitter ?
 ; You have modified the configuration.\nDo you really want to quit?
 ;
 STR_SAVING_CONFIG
-Speichere Konfiguration...
+Sauvegarde du fichier de configuration...
 ; Saving configuration...
 ;
 STR_READING_CONFIG
-Lade Konfiguration...
+Lecture du fichier de configuration...
 ; Reading configuration...
 ;
 STR_CONFIG_CHANGED_LASTSAVED
-Die Konfiguration wurde geändert.\nWirklich auf zuletzt gespeicherte Werte rücksetzen?
+Vous avez modifié la configuration.\nDésirez-vous vraiment charger la dernière configuration sauvée ?
 ; You have modified the configuration.\nReally load the last-saved settings?
 ;
 STR_CONFIG_CHANGED_DEFAULTS
-Die Konfiguration wurde geändert.\nVorher abspeichern?
+Vous avez modifié la configuration.\nSauvegarder avant de revenir aux paramètres par défaut ?
 ; You have modified the configuration.\nSave before restoring defaults?
 ;
 STR_HELP_NOT_AVAILABLE
-Keine Hilfe zu dieser Funktion verfügbar!
+Aucune aide existante pour cette fonction !
 ; Help not available for that function!
 ;
 STR_SCANNING_TREE
-Lade Konfigurations-Programm...
+Analyse de l'arborescence des répertoires...
 ; Scanning directory tree...
 ;
 STR_ENTER_A_STRING
-Zeichenkette eingeben
+Entrez une chaîne :
 ; Enter a string
 ;
 STR_PLEASE_CHOOSE
-Bitte auswählen
+Merci de choisir
 ; Please choose
 ;
 STR_COMMENTING
-Schreibe Kommentar
+en commentant
 ; commenting
 ;
 STR_PROTECTING
-Setze Schutzbits
+en modifiant les attributs
 ; protecting
 ;
 STR_DATESTAMPING
-Setze Datumsstempel
+en modifiant la date
 ; datestamping
 ;
 STR_DELETING
-Lösche
+en effaçant
 ; deleting
 ;
 STR_COPYING
-Kopiere
+en copiant
 ; copying
 ;
 STR_CREATING
-Erzeuge
+en créant
 ; creating
 ;
 STR_CANT_OVERCOPY_FILES
-Du kannst Dateien nicht über sich selbst kopieren!
+Vous ne pouvez pas copier ces fichiers sur eux-mêmes !
 ; You can't copy these files over themselves!
 ;
 STR_INTERROGATING_FILES
-Untersuche Dateien...
+Analyse des fichiers...
 ; Interrogating files...
 ;
 STR_NOT_IDENTIFIED
-%s konnte nicht identifiziert werden.
+%s ne peut pas être identifié.
 ; %s could not be identified.
 ;
 STR_LOADING_CONFIG
-Lade Konfigurations-Programm...
+Chargement du programme de configuration...
 ; Loading configuration program...
 ;
 STR_WAITING_FOR_PORT
-Warte auf Konfigurations-Port...
+Attente du port de configuration...
 ; Waiting for configuration port...
 ;
 STR_CONFIG_NOT_FOUND
-Konfigurations-Programm konnte nicht gefunden/geladen werden.
+Programme de configuration non trouvé ou impossible à charger.
 ; Configuration program not found/could not be loaded.
 ;
 STR_ALIEN_WINDOWS
-Auf dem Opus-Bildschirm sind fremde Fenster geöffnet.\nWähle 'Abbrechen' und schließe Sie oder wähle Schließen\ndann schließt Opus sie (Absturz-Gefahr!)
+Il y a des fenêtres invitées ouvertes sur l'écran de Directory Opus.\nCliquez sur « Retenter » et fermez les d'abord,\nou cliquez sur « Fermer » et\nDirectory Opus les fermera pour vous (DANGER !)
 ; There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE
-Angewählte Einträge wirklich löschen?
+Désirez-vous vraiment supprimer les fichiers sélectionnés ?
 ; Do you really wish to delete selected entries?
 ;
 STR_WISH_TO_DELETE
-Datei \"%s\" wirklich löschen?
+Désirez-vous vraiment supprimer « %s » ?
 ; Do you really wish to delete \"%s\"?
 ;
 STR_NOT_EMPTY
-Verzeichnis \"%s\" ist nicht leer! Löschen?
+« %s » n'est pas vide ! Le supprimer ?
 ; \"%s\" is not empty! Delete?
 ;
 STR_ENTER_NEW_NAME
-Neuen Namen eingeben für
+Entrez le nouveau nom :
 ; Enter new name
 ;
 STR_RENAMING
-Bennene um
+en renommant
 ; renaming
 ;
 STR_ENTER_NEW_NAME_MOVE
-Name für verschobene Datei eingeben
+Entrez un nouveau nom pour le fichier déplacé :
 ; Enter new name for moved file
 ;
 STR_MOVING
-Verschiebe
+en déplaçant
 ; moving
 ;
 STR_ENTER_NEW_NAME_CLONE
-Name für geklonte Kopie eingeben
+Entrez un nouveau nom pour le fichier cloné :
 ; Enter name for cloned entry
 ;
 STR_SIZES_NOT_KNOWN
-Größe der angewählten Verzeichnisse unbekannt.\nGröße ermitteln?
+La taille de certains répertoires sélectionnés n'est pas connue.\nVoulez-vous calculer leur taille ?
 ; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
 ;
 STR_ENTRIES_MAY_NOT_FIT
-Vermutlich zu wenig Platz auf dem Ziellaufwerk.\nAngewählte Einträge trotzdem kopieren?
+Les entrées sélectionnées ne tiendront vraisemblablement pas dans la destination.\nContinuer la copie ?
 ; Selected entries will probably not fit in destination.\nContinue with the copy?
 ;
 STR_ENTER_HUNT_PATTERN
-Muster für gesuchten Dateinamen eingeben
+Entrez le motif de recherche de fichiers :
 ; Enter file pattern to hunt
 ;
 STR_COULD_NOT_FIND_FILE
-Datei leider nicht gefunden!
+Désolé ! Aucun fichier trouvé !
 ; Sorry! File could not be found!
 ;
 STR_FOUND_MATCHING_FILES
-Muster past auf %ld Dateien.
+%ld fichier(s) correspondant(s) trouvé(s).
 ; Found %ld matching files.
 ;
 STR_ADDING_ICON
-Erzeuge ein Piktogramm für
+en ajoutant une icône à
 ; adding an icon to
 ;
 STR_SELECT_COMMENT
-Kommentar
+Comment.
 ; Comment
 ;
 STR_ENTER_COMMENT
-Kommentar eingeben
+Entrez un commentaire :
 ; Enter comment
 ;
 STR_CANNOT_CLOSE_SCREEN
-Ich kann nicht den Bildschirm da geschlossen\nfremde Fenster geöffnet drauf sind.\nIch werde ruhig warten, bis sie geschlossen werden
+Impossible de fermer l'écran car\nil y a des fenêtres invitées encore ouvertes.\nJe vais attendre qu'elles soient fermées
 ; I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD
-Passwort eingeben
+Entrez un mot de passe :
 ; Enter password
 ;
 STR_ENTER_DATE_AND_TIME
-Datum und Zeit eingeben (leer für aktuelles Datum)
+Entrez la date et l'heure (laissez vide pour la date actuelle)
 ; Enter date and time (blank for current)
 ;
 STR_ENTER_SEARCH_STRING
-Suchzeichenkette eingeben
+Entrez la chaîne à rechercher :
 ; Enter search string
 ;
 STR_RENAME_REQ
-_Umbenennen
+Re_nommer
 ; Re_name
 ;
 STR_STRING_NOT_FOUND
-Zeichenkette konnte leider nicht gefunden werden!
+Désolé ! La chaîne n'a pas été trouvée !
 ; Sorry! String could not be found!
 ;
 STR_MATCHED_FILES
-Zeichenkette in %ld Dateien gefunden.
+Correspondance(s) trouvée(s) dans %ld fichiers.
 ; Matched in %ld files.
 ;
 STR_NO_SOURCE_SELECTED
-Kein Quellverzeichnis angegeben!
+Pas de répertoire source sélectionné !
 ; No source directory selected!
 ;
 STR_TEMPORARY_OUTPUT_FILE
-Temporäre Ausgabedatei
+Fichier de sortie temporaire
 ; Temporary output file
 ;
 STR_ENTER_ARGUMENTS
-Parameter eingeben
+Entrez les arguments :
 ; Enter arguments
 ;
 STR_SELECT_FUNCTION
-Funktion anwählen zu der du Hilfe benötigst.  Nochmals Hilfe zum Abbrechen.
+Cliquez pour obtenir une aide, ou « Aide » à nouveau pour annuler.
 ; Select function you need help with, or Help again to cancel.
 ;
 STR_CONFIG_CHANGED_LOAD
-Die Konfiguration wurde geändert.\nNeue Konfiguration trotzdem laden?
+Vous avez modifié la configuration.\nDésirez-vous vraiment charger un nouveau fichier de configuration ?
 ; You have modified the configuration.\nReally load a new configuration file?
 ;
 STR_ABORTED
-Abgebrochen
+Annulé.
 ; Aborted.
 ;
 STR_ENTER_DOS_ERROR_CODE
-AmigaDOS-Fehlernummer eingeben
+Entrez le code d'erreur DOS :
 ; Enter DOS error code
 ;
 STR_NO_HELP_FOR_ERROR
-Keine Hilfe zu diesem Fehlercode verfügbar!
+Aide non disponible pour ce code d'erreur !
 ; Help not available for that error code!
 ;
-;
-; This becomes something like "An error ocurred deleting "object"
-;                              DOS error code 214 - Disk is write-protected"
-;
 STR_ERROR_OCCURED
-Operation %s \"%s\" ist fehlgeschlagen.\n%s
+Une erreur s'est produite %s « %s »\n%s
 ; An error occured %s \"%s\"\n%s
 ;
-;
-; Rename window
-;
 STR_RENAME
-Der neue Name für
+Renommer
 ; Rename
 ;
 STR_AS
-ist
+en
 ; As
 ;
 STR_ENTER_SELECT_PATTERN
-Selektions-Muster eingeben
+Entrez le motif de sélection
 ; Enter select pattern
 ;
 STR_READING_FILE
-Lese Datei...
+Lecture du fichier...
 ; Reading file...
 ;
 STR_COUNTING_LINES
-Zähle Zeilen...
+Comptage des lignes...
 ; Counting lines...
 ;
 ; Built-in text viewer requesters
 ;
 STR_JUMP_TO_LINE
-In welche Zeile springen:
+Aller à quelle ligne ?
 ; Jump to which line?
 ;
 STR_JUMP_TO_PERCENTAGE
-Bis zu welchem Prozentsatz springen?
+Aller à quel pourcentage ?
 ; Jump to what percentage?
 ;
 ; Printer related errors
 ;
 STR_CANT_OPEN_PRINTER
-Drucker nicht ansprechbar!
+Impossible de se connecter à l'imprimante !
 ; Can't open printer!
 ;
 STR_ERROR_PRINTING_FILE
-EA-Fehler %ld beim Ausdruck!\n
+Erreur d'impression du fichier ! IoErr = %ld\n
 ; Error printing file! IoErr = %ld\n
 ;
 STR_READY_PRINTER
-Bitte Drucker bereitmachen und WEITER anklicken.
+Mettez l'imprimante en ligne, et choisissez « Ok » pour continuer
 ; Ready printer, and choose OKAY to continue
 ;
 STR_CANT_FIND_ICON
-Kann das Piktogramm für diesen Dateityp nicht finden/laden.
+Impossible de trouver ou de charger l'icône de ce fichier.
 ; Unable to find or load an icon for that file.
 ;
 STR_ENCRYPTING
-Kodiere
+en cryptant
 ; encrypting
 ;
 STR_REPLACE_ALL
-A_lle ersetzen
+_Tout remplacer
 ; Replace _all
 ;
 STR_CONTINUE_WITH_SEARCH
-Suche fortsetzen?
+Désirez-vous continuer la recherche ?
 ; Do you wish to continue with the search?
 ;
 STR_REALLY_QUIT
-DirectoryOpus wirklich verlassen?
+Désirez-vous vraiment quitter Directory Opus ?
 ; Do you really want to quit Directory Opus?
 ;
 STR_REALLY_PROCEED
-Soll diese Operation wirklich ausgeführt werden?
+Désirez-vous vraiment effectuer cette opération ?
 ; Do you really wish to proceed with this operation?
 ;
 STR_SELECT_SOURCE_DIR
-Bitte Quellverzeichnis auswählen
+Choisissez un répertoire source :
 ; Select the source directory
 ;
 STR_SELECT_DESTINATION_DIR
-Bitte Zielverzeichnis auswählen
+Choisissez une destination :
 ; Select the destination directory
 ;
 STR_SELECT_A_FILE
-Bitte Datei auswählen
+Choisissez un fichier :
 ; Select a file
 ;
 STR_SELECT_A_DIRECTORY
-Bitte Verzeichnis auswählen
+Choisissez un répertoire :
 ; Select a directory
 ;
 STR_DEVICE_LIST_TITLE
-<Laufwerke>
+<Liste des périphériques>
 ; <Device list>
 ;
 STR_DIR_NOT_AVAILABLE_TITLE
-<Verzeichnis nicht existent>
+<Répertoire non disponible>
 ; <Directory not available>
 ;
 STR_BUFFER_LIST_TITLE
-<Verzeichnis-Puffer>
+<Liste des tampons>
 ; <Buffer list>
 ;
 STR_UNPROTECT
-_Entsichern
+_Déprotéger
 ; Unprotect
 ;
-; Action gadgets in requesters
-;
-; Please do NOT put shortcuts where there isn't any!
-;
 STR_RUN
-_Starten
-; _Run
+_Exécuter
+; Run
 ;
 STR_TRY_AGAIN
-_Nochmal
-; _Try Again
+Ré-essayer
+; Try Again
 ;
 STR_RETRY
-_Nochmal
+_Ré-essayer
 ; _Retry
 ;
 STR_ABORT
-_Abbrechen
-; A_bort
+_Arrêter
+; Abort
 ;
 STR_REPLACE
-_Ersetzen
-; _Replace
+_Remplacer
+; Replace
 ;
 STR_MERGE
-_Verschmelzen
+_Mixer
 ; _Merge
 ;
 STR_SKIP
-_überspr.
-; _Skip
+_Ignorer
+; Skip
 ;
 STR_ALL
-A_lle
+_Tout
 ; _All
 ;
 STR_REMOVE
-_Entfernen
+_Supprimer
 ; Remove
 ;
 STR_QUIT
-_Quit
-; _Quit
+_Quitter
+; Quit
 ;
 STR_SAVE_QUIT
-_Speichern & Quit
-; _Save & quit
+_Sauver et quitter
+; Save & quit
 ;
 STR_LOAD
-_Laden
+Charger
 ; Load
 ;
 STR_SAVE
-_Speichern
+Sauver
 ; Save
 ;
 STR_DEFAULTS
-_Standardwerte
+Défaut
 ; Defaults
 ;
 STR_DELETE
-L_öschen
-; _Delete
+_Supprimer
+; Delete
 ;
 STR_YES
-_Ja
+Oui
 ; Yes
 ;
 STR_NO
-_Nein
+Non
 ; No
 ;
 STR_ICONIFY
-_Verbergen
-; _Iconify
+Icônifier
+; Iconify
 ;
 STR_CONTINUE
-_Weiter
-; C_ontinue
+_Continuer
+; Continue
 ;
 STR_OKAY
-_Weiter
-; _Okay
+_Ok
+; Okay
 ;
 STR_CANCEL
-_Abbrechen
-; _Cancel
-;
-;
+_Annuler
+; Cancel
 ;
 STR_OKAY_TITLE
-- Bereit -
+OK
 ; OK
 ;
 STR_FILE
-Datei
+Fichier
 ; File
 ;
 STR_ICON
-Piktogramm
+Icône
 ; Icon
 ;
 STR_OLD_NEW_FILE_REPLACE
-Datei \"%s\" existiert bereits! Ersetzen?\n\n\
-Neu  -  Größe: %9lld  Datum: %19s\n\
-Alt  -  Größe: %9lld  Datum: %19s
-; \"%s\" already exists! Replace?\n\n\
+Le fichier « %s » existe déjà ! Voulez-vous le remplacer ?\n\n\
+Nouveau - Taille : %9lld  Date : %19s\n\
+Ancien   - Taille : %9lld  Date : %19s
+; "\"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %9lld  Date : %19s\n\
 ; Old  -  Size : %9lld  Date : %19s
 ;
 STR_CUSTOM_LIST
-Benutzerliste
+Liste utilisateur
 ; Custom list
 ;
 STR_ENTRIES_IN_TREE
-%ld Einträge im Verzeichnisbaum
+%ld entrées dans l'arborescence
 ; %ld entries in tree
 ;
 STR_DIRS_IN_BUFFERS
-%ld Verzeichnisse gepuffert
+%ld répertoires dans les tampons
 ; %ld directories in buffers
 ;
 STR_USER_ENTRIES
-%ld Benutzer-Einträge
+%ld entrées définies par l'utilisateur
 ; %ld user-defined entries
 ;
 STR_UNICONIFY
-_Vollbild
+Désicônifier
 ; Uniconify
 ;
 STR_CUSTPORT_NOT_FOUND
-Der angegebene Handler-Port\n\"%s\"\nkonnte nicht gefunden werden!
+Le port de gestionnaire utilisateur\n« %s »\nne peut être trouvé !
 ; User-specified custom handler port\n\"%s\"\ncould not be found!
 ;
 STR_CHECKFIT_STRING
-Bytes benötigt: %11lld   Bytes frei: %11lld   Genug für %.1f%%
-; Bytes needed : %11lld   Bytes free : %11lld   Fit : %.1f%%
+Octets nécessaires : %11qd  Octets libres : %11qd  Tient : %.1f%%
+; Bytes needed : %11qd   Bytes free : %11qd   Fit : %.1f%%
 ;
 STR_DIR_TREE
-<Verzeichnisbaum>
+<Arborescence des répertoires>
 ; <Directory tree>
 ;
 STR_BUILDING_TREE
-Erzeuge Verzeichnisbaum...
+Génération de l'arborescence...
 ; Generating tree structure...
 ;
 STR_UNPROTECT_ALL
-A_lle Entsich.
+_Tout déprotéger
 ; Unprotect all
 ;
 STR_READING_CHANGED_DIRECTORY
-Verzeichnis verändert - lese Puffer neu ein
+Le répertoire mémorisé a été modifié - relecture
 ; Buffered directory changed - re-reading
 ;
 STR_CREATING_DIRECTORY
-Erzeuge Verzeichnis
+Création d'un répertoire
 ; creating directory
 ;
 STR_UNABLE_TO_LOAD_MODULE
-Externes Modul konnte nicht geladen werden
+Impossible de charger un module externe
 ; Unable to load external module
 ;
 ; Selecting by pattern (Accessed by position after first)
 ;
 STR_SELECT_ALL_ENTRIES
-Alle Einträge
+Tout
 ; All entries
 ;
 STR_SELECT_ONLY_FILES
-Dateien
+Fic. seuls
 ; Only files
 ;
 STR_SELECT_ONLY_DIRS
-Verzeichnisse
+Rép. seuls
 ; Only dirs
 ;
 STR_SELECT_NAME
-Name
+Nom
 ; Name
 ;
 STR_SELECT_DATE
-Datum
+Date
 ; Date
 ;
 STR_SELECT_BITS
-Bits
+Attr
 ; Bits
 ;
-;
 STR_STARTING_PRINT_MODULE
-Starte Druck-Modul...
+Exécution du module d'impression...
 ; Starting print module...
 ;
 STR_ABOUT
-%s\nBasierend auf GPL Release Version 4.12\n\
-Modifiziert von Jacek Rzeuski\n\
-Copyright 1993-2006 Jonathan Potter\n\n\
-AmigaOS 4-Version von Joachim Birging\n\n\
-DirectoryOpus: %d.%d.%d\n\
-dopus.library: %ld.%ld\n\
-Compiled with: %s\n\
-Compilation date: %s\n\
-Compilation time: %s\n\n\
-Dieses Programm ist freie Software; Es darf gemäß den Bestimmungen\n\
-der GNU General Public License Version 2 (oder einer beliebigen\n\
-späteren Version) vertrieben oder geändert werden. Weitere Details\n\
-sind der Datei README zu entnehmen.\n\n\
-Alle Benutzer von Directory Opus 4 (inklusive der Versionen, die\n\
-unter der GPL vertrieben werden) sind berechtigt, zu reduzierten\n\
-Preisen ein Upgrade auf die neueste Version von Directory Opus 5\n\
-zu erwerben:\n\n\
-http://www.gpsoft.com.au
+%s\n\
+Basé sur la version 4.12 distribuée en GPL\n\
+Modifié par Jacek Rzeuski\n\
+Tous droits protégés par 1993-2006 Jonathan Potter\n\n\
+Traduction par ATO France :\nPhilippe Bovier\nPhilippe Ferrucci\nHervé Dupont\n\n\
+DirectoryOpus : %d.%d.%d\n\
+dopus.library : %ld.%ld\n\
+Compilé avec : %s\n\
+Compilé le : %s à %s\n\n\
+Ce programme est distribué en accord avec la licence GNU GPL version 2 ou (à votre convenance) une version plus récente.\n\
+Consultez le fichier README pour plus de détails.\n\n\
+Tous les utilisateurs de Directory Opus 4 distribué sous licence GPL\n\
+peuvent bénéficier d'une réduction de prix sur la dernière version de Directory Opus.\n\
+Consultez http://www.gpsoft.com.au pour plus d'informations.
 ; %s\n\
 ; Based on GPL release version 4.12\n\
 ; Modified by Jacek Rzeuski\n\
@@ -714,33 +685,28 @@ http://www.gpsoft.com.au
 ; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
 ; Please see http://www.gpsoft.com.au for more information.
 ;
-; Searching a string in a file
-;
 STR_SEARCH_NO_CASE
-Keine _Groß- und Kleinschreibung
+Ne pas différencier maju/minuscules
 ; Case insensitive
-; Treat upper and lower case as the same
 ;
 STR_SEARCH_WILD
-_Fragezeichen als Joker zulassen
+Considérer « ? » comme caractère joker
 ; Recognise ? as a wildcard character
 ;
 STR_SEARCH_ONLYWORD
-Nur ganze (ungebrochene) _Worte finden
-; Whole words
+Mots entiers seulement
 ; Only match on whole, unbroken words
 ;
-;
 STR_ENTER_FILTER
-Muster für Filter:
+Entrez le filtre de fichiers :
 ; Enter file filter
 ;
 STR_SELECT_PROTECTION_BITS
-Neue Schutzbits anwählen
+Choisissez les nouveaux attributs
 ; Select new protection bits
 ;
 STR_DIRECTORY_OPUS_REQUEST
-DirectoryOpus Anfrage
+Requête de Directory Opus
 ; Directory Opus Request
 ;
 STR_CLOCK_CHIP
@@ -752,38 +718,32 @@ FAST:
 ; FAST:
 ;
 STR_CLOCK_TOTAL
-GESAMT:
+TOTAL:
 ; TOTAL:
 ;
 STR_CLOCK_MEM
-RAM:
+MEM:
 ; MEM:
 ;
-;
-; Used to describe the keyboard shortcut for some function
-;
 STR_KEY
-Kurzbefehl:
+Raccourci : 
 ; Key :
-;
 ;
 ; The tiny buttons at the bottom-right corner of the main window
 ;
 STR_TINY_BUTTONS
-PRSA?DFKIQ
+BRSA?EFCIQ
 ; BRSA?EFCIQ
-;
 ;
 ; The tiny buttons used in the built-in text viewer
 ;
 STR_VIEW_BUTTONS
-HROUSDQ
+UDTBSPQ
 ; UDTBSPQ
 ;
 STR_TEXT_VIEWER_TITLE
-DirectoryOpus-Textanzeiger
+Visualiseur de texte Directory Opus
 ; Directory Opus Text Viewer
-;
 ;
 ; Protect window (1/2) (Bit names accessed by position after first)
 ;
@@ -796,31 +756,31 @@ DirectoryOpus-Textanzeiger
 ;       ...
 ;
 STR_PROTECT_ALL_BITS
-Alle Bits
+Tous
 ; All bits
 ;
 STR_PROTECT_NONE
-Keine
+Aucun
 ; None
 ;
 STR_PROTECT_TOGGLE
-Invert.
+Inverser
 ; Toggle
 ;
 STR_PROTECT_REVERT
-Zurück
+Rétablir
 ; Revert
 ;
 STR_PROTECT_OLD
-  Alt:
+Ancien  :
 ; Old :
 ;
 STR_PROTECT_NEW
-  Neu:
+Nouveau :
 ; New :
 ;
 STR_PROTECT_MASK
-Maske:
+Masque  :
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
@@ -828,39 +788,39 @@ _Hold
 ; _Hold
 ;
 STR_PROTECT_SCRIPT
-_S-Skript
+(S) _Script
 ; _Script
 ;
 STR_PROTECT_PURE
-_P-Residentfähig
+(P) _Pure
 ; _Pure
 ;
 STR_PROTECT_ARCHIVE
-_A-Archiviert
+(A) Ar_chive
 ; _Archive
 ;
 STR_PROTECT_READ
-_R-Lesbar
+(R) Lectu_re
 ; _Read
 ;
 STR_PROTECT_WRITE
-_W-Schreibbar
+(W) _Écriture
 ; _Write
 ;
 STR_PROTECT_EXECUTED
-_E-Ausführbar
+(E) E_xécutable
 ; _Execute
 ;
 STR_PROTECT_DELETED
-_D-Löschbar
+(D) S_uppression
 ; _Delete
 ;
 STR_FILE_REQUEST
-Bitte auswählen
+Requête de fichier
 ; File request
 ;
 STR_BUTTON_STRIP
-DirectoryOpus-Knopfleiste
+Bandeau de boutons de DirOpus
 ; Directory Opus Button Strip
 ;
 STR_NO_FIT
@@ -868,230 +828,227 @@ STR_NO_FIT
 ;  N
 ;
 STR_YES_FIT
- J
+ O
 ;  Y
 ;
 STR_FTYPE_DEFAULT
-Standard
+Défaut
 ; Default
 ;
 STR_FTYPE_UNKNOWN
-Unbekannter Dateityp
+Type du fichier inconnu
 ; Unknown file type
 ;
 STR_MULTI_DRAG
-Click-M-Click mit  %ld  Dateien
+Multi-sélection de %ld fichiers
 ; Multi-drag - %ld files selected
 ;
 STR_PRESS_MOUSE_BUTTON
-Linker Mausknopf um fortzufahren...
+Appuyez sur le bouton gauche de la souris pour continuer...
 ; Press left mouse button to continue...
 ;
 STR_ERROR_ERROR_HELP
-_Fehlerhilfe
+Aide sur erreur
 ; Error help
 ;
 STR_SKIP_ALL
-alle ü_berspr.
-; S_kip all
+_Tout ignorer
+; Skip all
 ;
 STR_PARENT_MULTI
-Überg. Verzeichnisse & multiple Zuweisungen...
+Parents et multi-assignations...
 ; Parents and Multi-Assigns...
 ;
 STR_OPENING_ARCHIVE
-Öffne Archiv...
+Ouverture de l'archive...
 ; Opening archive...
 ;
 ; Pop-up menu (1/2)
 ;
 STR_LISTER_MENU
-Lister-Optionen
+Options d'affichage
 ; Lister options
 ;
 STR_FILE_NAME
-Dateiname
-; Name
+Nom de fichier
+; File name
 ;
 STR_FILE_SIZE
-Dateigröße
-; Size
+Taille de fichier
+; File size
 ;
 STR_PROTECTION_BITS
-Schutzbits
-; Protection
+Attributs
+; Protection bits
 ;
 STR_CREATION_DATE
-Datum
-; Date
+Date de création
+; Creation date
 ;
 STR_FILE_COMMENT
-Kommentar
-; Comment
+Commentaire
+; File comment
 ;
 STR_FILE_TYPE
-Dateityp
+Type de fichier
 ; File type
 ;
 STR_OWNER
-Eigentümer
+Propriétaire
 ; Owner
 ;
 STR_GROUP
-Gruppe
+Groupe
 ; Group
 ;
 STR_NET_PROTECTION_BITS
-Netzwerk Schutzbits
+Attributs réseau
 ; Net protection bits
 ;
 STR_REVERSE_ORDER
-Umgekehrt
+Ordre inverse
 ; Reverse order
 ;
 STR_SIZE_AS_KMG
-Größe als K/M/G
+Tailles en Ko/Mo/Go
 ; Sizes in K/M/G format
 ;
-;
-;
 STR_BRING_TO_FRONT
-nach _vorn
-; _Bring to front
+_Placer devant
+; Bring to front
 ;
 STR_REPLACE_DIR_WITH_FILE
-\"%s\" existiert bereits! Ersetzen?\n\n\
-Neu  -  Größe: %9lld  Datum: %19s\n\
-Alt  -                  Datum: %19s
+« %s » existe déjà ! Remplacer ?\n\n\
+Nouveau -  Taille : %9lld  Date : %19s\n\
+Ancien  -                    Date : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -  Size : %9lld  Date : %19s\n\
 ; Old  -                  Date : %19s
 ;
 STR_REPLACE_FILE_WITH_DIR
-\"%s\" existiert bereits! Ersetzen?\n\n\
-Neu  -                  Datum: %19s\n\
-Alt  -  Größe: %9lld  Datum: %19s
+« %s » existe déjà ! Remplacer ?\n\n\
+Nouveau -                    Date : %19s\n\
+Ancien  -  Taille : %9lld  Date : %19s
 ; \"%s\" already exists! Replace?\n\n\
 ; New  -                  Date : %19s\n\
 ; Old  -  Size : %9lld  Date : %19s
 ;
 STR_OPERATION_NOT_SUPPORTED
-Operation wird nicht unterstützt
+Action non disponible
 ; Operation not supported
 ;
 STR_QUERY_REMOVE_ASSIGN
-Die Zuweisung \"%s\" wirklich entfernen?
+Désirez-vous vraiment supprimer l'assignation « %s » ?
 ; Do you really wish to remove \"%s\" assign?
 ;
-; Pop-up menu (2/2)
-;
 STR_DIRSFIRST
-Verzeichnisse zuerst
+Dossiers en premier
 ; Show dirs first
 ;
 STR_FILESFIRST
-Dateien zuerst
+Fichiers en premier
 ; Show files first
 ;
 STR_MIXDIRSFILES
-Dateien/Verz. mischen
+Mélanger dossiers et fichiers
 ; Mix files and dirs
 ;
 STR_SORTALPHA
-Alphanumerisch
+Alphanumérique
 ; Plain alphanumeric
 ;
 STR_SORTDEC
-Dezimal
+Reconnaître décimales
 ; Recognize decimals
 ;
 STR_SORTHEX
-Hexadezimal
+Reconnaître héxadécimales
 ; Recognize hexadecimals
 ;
 STR_SORTBY
-Sortieren nach
+Trier par
 ; Sort by
 ;
 STR_NAMESORT_MENU
-Namenssortierung
-; Name sorting
+Tri des noms
+; Filename sorting
 ;
 STR_FILE_EXTENSION
-Erweiterung
+Extension
 ; Extension
 ;
 ;
 ; Protect window (2/2)
 ;
 STR_PROTECT_OKAY
-We_iter
+_Ok
 ; _Okay
 ;
 STR_PROTECT_ALL
-A_lle
+_Tout
 ; A_ll
 ;
 ;
 ; Experimental (enter "Makelink" in the ARexx window to see these)
 ;
 STR_ENTER_MAKELINK_PARAMS
-Link-Parameter eingeben
+Entrez les paramètres du lien
 ; Enter link parameters
 ;
 STR_MAKELINK_TYPE_SOFT
-Soft
+Souple
 ; Soft
 ;
 STR_MAKELINK_TYPE_HARD
-Hard
+Dur
 ; Hard
 ;
 STR_MAKELINK_TYPE
-Typ
+Type
 ; Type
 ;
 STR_MAKELINK_NAME
-Name
+Nom du lien
 ; Link name
 ;
 STR_MAKELINK_DESTINATION
-Ziel
+Destination du lien
 ; Link destination
 ;
 STR_PROTECT_CANCEL
-A_bbrechen
+_Annuler
 ; _Cancel
 ;
 STR_EXTRACT_ARCHIVE
-Entpacke Archiv...
+Extraction...
 ; Extracting archive...
 ;
 ; Directory Protect, Comment, DateStamp options
 ;
 STR_DIR_COMMENT
-Kommentar
+Comment.
 ; Comment
 ;
 STR_DIR_PROTECT
-Schützen
+Protéger
 ; Protect
 ;
+;
 STR_DIR_DATESTAMP
-Datumsstempel
+Date
 ; DateStamp
 ;
 STR_DIR_ALL
-Verzeichnis und _Inhalt
+Répertoire et _contenu
 ; Directory & _Contents
 ;
 STR_DIR_DIR
-Nur _Verzeichnis
+_Répertoire seulement
 ; _Directory Only
 ;
 STR_DIR_MESSAGE
-%s Nur verzeichnis \"%s\" \n\n\
-ODER verzeichnis und inhalt?
+%s répertoire \"%s\" seulement\n\n\
+OU répertoire et tout le contenu ?
 ; %s directory \"%s\" only\n\n\
 ; OR directory and all contents?
 ;

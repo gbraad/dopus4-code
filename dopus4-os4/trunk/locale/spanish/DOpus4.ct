@@ -4,7 +4,7 @@
 ;
 ;#basename DOpus4
 ;#language english
-;#version 3
+;#version 4
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
@@ -250,7 +250,7 @@ No se ha podido encontrar o cargar\nel programa de configuración.
 ;
 STR_ALIEN_WINDOWS
 Existen ventanas abiertas en la pantalla de Directory Opus.\n\nPulse Cancelar y ciérrelas usted, o pulse Cerrar y\nDirectory Opus las cerrará por usted (¡PELIGROSO!).
-; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+; There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE
 ¿De verdad desea borrar los objetos seleccionados?
@@ -322,7 +322,7 @@ STR_CANNOT_CLOSE_SCREEN
 No puede cerrarse la pantalla debido a la presencia\n\
 de ventanas extrañas. Directory Opus esperará\n\
 tranquilamente a que sean cerradas.
-; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
+; I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD
 Introduzca contraseña
@@ -505,7 +505,7 @@ _Reintentar
 ;
 STR_RETRY
 Reintentar
-; Retry
+; _Retry
 ;
 STR_ABORT
 _Interrumpir
@@ -518,8 +518,6 @@ _Sustituir
 STR_MERGE
 _Combinar
 ; _Merge
-;
-; ***NEW***
 ;
 STR_SKIP
 Sa_ltar
@@ -840,8 +838,8 @@ Máscara:
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-(_H) Oculto
-; _Hidden
+_Hold
+; _Hold
 ;
 STR_PROTECT_SCRIPT
 (_S) Script

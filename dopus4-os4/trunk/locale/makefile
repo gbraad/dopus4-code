@@ -13,7 +13,8 @@ CATALOGS = german \
 italian \
 polish \
 spanish \
-czech
+czech \
+french
 
 #
 

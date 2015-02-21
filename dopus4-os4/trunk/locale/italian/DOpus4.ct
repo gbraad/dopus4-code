@@ -5,7 +5,7 @@
 ## chunk AUTH Massimo Mascia, Francesco Mancuso & Stefano Guidetti
 ;#basename DOpus4
 ;#language english
-;#version 3
+;#version 4
 ;
 ; DOpus4.cd - Directory Opus 4 catalog description file
 ;
@@ -248,7 +248,7 @@ Non riesco a caricare o non trovo il programma di configurazione.
 ;
 STR_ALIEN_WINDOWS
 Sullo schermo di Directory Opus ci sono finestre estranee.\nScegli "Annulla" per chiuderle tu stesso, o scegli "Chiudi"\ne Directory Opus le chiuderà al posto tuo (SCONSIGLIATO!)
-; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+; There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE
 Vuoi veramente cancellare le voci selezionate?
@@ -316,7 +316,7 @@ Scrivi un commento
 ;
 STR_CANNOT_CLOSE_SCREEN
 Perché non riesco a chiudere la schermata\nci sono alieni finestre aperte su di esso.\nAspetterò tranquillamente fino a quando essi sono chiusi
-; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
+; I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD
 Inserisci la password
@@ -499,7 +499,7 @@ _Prova ancora
 ;
 STR_RETRY
 Riprova
-; Retry
+; _Retry
 ;
 STR_ABORT
 _Interrompi
@@ -829,8 +829,8 @@ Maschera:
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-Nascosto (_H)
-; _Hidden
+_Hold
+; _Hold
 ;
 STR_PROTECT_SCRIPT
 File script (_S)
