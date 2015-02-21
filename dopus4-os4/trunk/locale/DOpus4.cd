@@ -184,7 +184,7 @@ STR_CONFIG_NOT_FOUND (//)
 Configuration program not found/could not be loaded.
 ;
 STR_ALIEN_WINDOWS (//)
-There are visitor windows open on the Directory Opus screen.\nClose the all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
+There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE (//)
 Do you really wish to delete selected entries?
@@ -618,7 +618,7 @@ STR_PROTECT_MASK (//)
 Mask:
 ;
 STR_PROTECT_HIDDEN (//)
-_Hidden
+_Hold
 ;
 STR_PROTECT_SCRIPT (//)
 _Script

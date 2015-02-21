@@ -247,7 +247,7 @@ Program konfiguracyjny nie znaleziony/nie mo¿e byæ wczytany.
 ;
 STR_ALIEN_WINDOWS
 Na ekranie Directory Opusa s± otwarte inne okna.\nZamknij wszystkie okna i wybierz Ponów,\nlub wybierz Poniechaj aby powróciæ do Directory Opusa.
-; There are visitor windows open on the Directory Opus screen.\nClose the all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
+; There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE
 Czy chcesz skasowaæ wybrane elementy?
@@ -822,8 +822,8 @@ Maska:
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-(_H) - Ukryty
-; _Hidden
+_Hold
+; _Hold
 ;
 STR_PROTECT_SCRIPT
 (_S) - Skrypt

@@ -55,7 +55,7 @@ Adresáø byl vytvoøen.
 ;
 STR_DIRECTORY
 Adresáø 
-; Directory
+; Directory 
 ;
 STR_DEVICE_LIST
 Seznam zaøízení\n\n
@@ -247,7 +247,7 @@ Konfiguraèní program nenalezen, nebo jej nelze spustit.
 ;
 STR_ALIEN_WINDOWS
 Na obrazovce programu Opus jsou okna jiných programù.\nV¹echna je zavøete a kliknìte na tlaèítko Opakovat\nnebo zvolte Zru¹it pro návrat k Directory Opusu.
-; There are visitor windows open on the Directory Opus screen.\nClose the all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
+; There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
 ;
 STR_REALLY_DELETE
 Opravdu chcete smazat vybrané polo¾ky?
@@ -315,7 +315,7 @@ Zadejte komentáø
 ;
 STR_CANNOT_CLOSE_SCREEN
 Nelze uzavøít okno obrazovky, jeliko¾\njsou na ní otevøena jiná okna.\nProsím, zavøete je v¹echny.
-; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they are closed
+; I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
 ;
 STR_ENTER_PASSWORD
 Zadejte heslo
@@ -498,7 +498,7 @@ _Zkusit znovu
 ;
 STR_RETRY
 _Opakovat
-; Retry
+; _Retry
 ;
 STR_ABORT
 _Pøeru¹it
@@ -821,7 +821,7 @@ STR_PROTECT_MASK
 ;
 STR_PROTECT_HIDDEN
 _H-skrytý
-; _Hidden
+; _Hold
 ;
 STR_PROTECT_SCRIPT
 _S-skript
