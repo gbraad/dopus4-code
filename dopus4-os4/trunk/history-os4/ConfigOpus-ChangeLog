@@ -14,3 +14,6 @@ button.
 2007-01-11 - ConfigOpus 4.18.1
 * Small fix to System->Icons part. Doesn't give a DSI anymore, and shows
 the '*' part for the three default icons, if icons are chosen by the user.
+
+2015-02-22 - ConfigOpus 4.18.2
+* Disabled hidden protection bit option. H bit is actually hold bit.

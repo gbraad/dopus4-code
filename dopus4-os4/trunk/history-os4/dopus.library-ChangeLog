@@ -46,15 +46,22 @@ old IDOS->Lock()/IDOS->Examine() pair.
 * Switched dopus.library over to use newlib instead of clib2 as well.
 
 2012-08-17 - dopus.library 22.41 (ReadStringFile.c)
-*Changed catalog version requirement to >=v3 so Dopus won't load old
- catalogs and crash.
+* Changed catalog version requirement to >=v3 so Dopus won't load old
+  catalogs and crash.
 
 2012-08-25 - dopus.library 22.41 (dopus.library_rev.h)
-Updated library revision because of changes to catalog version requirement.
+* Updated library revision because of changes to catalog version requirement.
 
-Nov 18, 2012 - dopus.library 22.42 (ReadStringFile.c)
-Bumped catalog version requirement so Dopus won't load old catalogs.
+2012-11-18 - dopus.library 22.42 (ReadStringFile.c)
+* Bumped catalog version requirement so Dopus won't load old catalogs.
 
-Nov 18, 2012 - dopus.library 22.42 (dopus.library_rev.h)
-Updated library revision because of changes to catalog version requirement.
+2012-11-18 - dopus.library 22.42 (dopus.library_rev.h)
+* Updated library revision because of changes to catalog version requirement.
 
+2015-02-22 - dopus.library 22.42.1 dopus.library_rev.h main/ReadConfig.c
+* Updated catalog revision.
+* Added zeroing of H protection bit setting in the library function
+  that loads the config file. Prevents hidden files if user loads old
+  config file with newer Dopus4 that has no way to set that option.
+
+ 
