@@ -1,0 +1,250 @@
+## version $VER: DOpus4_Print.catalog 4.0 (22.02.2015)
+## language french
+## codeset 111
+STR_SELECT_FILE
+Sélectionnez un fichier
+; Select file
+;
+STR_ABORT
+Annuler
+; Abort
+;
+STR_CONTINUE
+Continuer
+; Continue
+;
+STR_OKAY
+Ok
+; Okay
+;
+STR_CANCEL
+Annuler
+; Cancel
+;
+STR_FILE
+Fich.
+; File
+;
+STR_TOP_MARGIN
+Marge haute
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Marge basse
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Marge gauche
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Marge droite
+; Right Margin
+;
+STR_TAB_SIZE
+Tabulations
+; Tab size
+;
+STR_PRINT_PITCH
+Pas
+; Print pitch
+;
+STR_QUALITY
+Qualité
+; Quality
+;
+STR_EJECT
+Éjecter page finale
+; Eject final page
+;
+STR_IGNORE
+Ignorer la marge du bas
+; Ignore bottom margin
+;
+STR_ADD_CR
+Ajouter des CR aux FF
+; Add carriage return to formfeeds
+;
+STR_EJECT_FIRST
+Éjecter une page avant d'imprimer
+; Eject page before printing
+;
+STR_INIT_PRINTER
+Initialiser l'imprimante
+; Initialize Printer
+;
+STR_CONFIGURATION
+configuration...
+; configuration...
+;
+STR_TITLE
+Titre
+; Title
+;
+STR_DATE
+Date
+; Date
+;
+STR_PAGE_NUMBER
+N° page
+; Page no.
+;
+STR_TEXT_STYLE
+Style du texte
+; Text style
+;
+STR_PRINTER
+Imprimante
+; Printer
+;
+STR_PRINT
+Imprimer
+; Print
+;
+STR_EXIT
+Quitter
+; Exit
+;
+STR_OUTPUT_TO
+Imprimer vers...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Elite
+; Elite
+;
+STR_FINE
+Fin
+; Fine
+;
+STR_NORMAL
+Normal
+; Normal
+;
+STR_BOLD
+Gras
+; Bold
+;
+STR_ITALICS
+Italique
+; Italics
+;
+STR_UNDERLINED
+Souligné
+; UnLined
+;
+STR_DOUBLESTRIKE
+Barré 2x
+; DbStrik
+;
+STR_SHADOW
+Ombré
+; Shadow
+;
+STR_DRAFT
+Basse
+; Draft
+;
+STR_LETTER
+Haute
+; Letter
+;
+STR_HEADER
+En-tête
+; Header
+;
+STR_FOOTER
+Pied
+; Footer
+;
+STR_SIZE
+Taille
+; Size
+;
+STR_PROTECTION
+Protection
+; Protection
+;
+STR_COMMENT
+Commentaire
+; Comment
+;
+STR_FILETYPE
+Type de fichier
+; File type
+;
+STR_PRINT_DOT
+Imprimer...
+; Print...
+;
+STR_PRINTDIR
+Imprimer dossier
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+Impossible d'ouvrir le fichier. Nouvel essai ?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+Impossible d'ouvrir fichier de sortie. Nouvel essai ?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+Impossible d'atteindre l'imprimante. Nouvel essai ?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+Erreur lors de l'impression du dossier. Nouvel essai ?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+Mauvais mot de passe. Nouvel essai ?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+Erreur d'impression ! Nouvel essai ?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+Voulez-vous vraiment annuler l'impression ?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Création du fichier
+; Creating file
+;
+STR_OPENING_PRINTER
+Connexion imprimante
+; Opening printer
+;
+STR_LOADING_FILE
+Chargement fichier...
+; Loading file...
+;
+STR_PRINTING_FILE
+Impression...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+ESC pour annuler
+; Press ESC to abort
+;
+STR_PAGE
+Page
+; Page
+;
+STR_COMPLETE
+effectués
+; complete
+;
+STR_TOFILE
+Fichier
+; File
+;
+STR_PRINTWIN
+Imprimer
+; Print
