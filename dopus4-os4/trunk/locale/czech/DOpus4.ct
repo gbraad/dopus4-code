@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 4.0 (14.02.2015) Kabara Jaroslav
+## version $VER: DOpus4.catalog 4.0 (22.02.2015) Kabara Jaroslav
 ## language czech
 ## codeset 5
 ;
@@ -138,19 +138,19 @@ Nelze kopírovat adresáø do sebe!
 ; You can't copy a directory into itself!
 ;
 STR_SHOWING_FONT
-Zobrazení zvoleného písma...
+Zobrazení vybraného písma...
 ; Showing selected font...
 ;
 STR_RUNNING_FILE
-Spou¹tìní zvoleného souboru...
+Spou¹tìní vybraného souboru...
 ; Running selected file...
 ;
 STR_PLAYING_FILE
-Pøehrávání zvoleného souboru...
+Pøehrávání vybraného souboru...
 ; Playing selected file...
 ;
 STR_SHOWING_FILE
-Zobrazování zvoleného souboru...
+Zobrazování vybraného souboru...
 ; Showing selected file...
 ;
 STR_READING_SELECTED_FILE
@@ -194,7 +194,7 @@ Zadejte øetìzec
 ; Enter a string
 ;
 STR_PLEASE_CHOOSE
-Zvolte prosím
+Vaberte si, prosím
 ; Please choose
 ;
 STR_COMMENTING
@@ -202,7 +202,7 @@ STR_COMMENTING
 ; commenting
 ;
 STR_PROTECTING
-Úprava pøíznakù
+Úprava atributù
 ; protecting
 ;
 STR_DATESTAMPING
@@ -820,7 +820,7 @@ STR_PROTECT_MASK
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-_H-skrytý
+_H-pozastavitelný
 ; _Hold
 ;
 STR_PROTECT_SCRIPT

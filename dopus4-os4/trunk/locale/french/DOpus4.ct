@@ -1,4 +1,4 @@
-## version $VER: DOpus4.catalog 4.0 (20.02.2015)
+## version $VER: DOpus4.catalog 4.0 (22.02.2015)
 ## language french
 ## codeset 111
 ; General
@@ -344,7 +344,7 @@ Entrez les arguments :
 ; Enter arguments
 ;
 STR_SELECT_FUNCTION
-Cliquez pour obtenir une aide, ou « Aide » à nouveau pour annuler.
+Cliquez une fonction pour obtenir une aide, ou « Aide » à nouveau pour annuler.
 ; Select function you need help with, or Help again to cancel.
 ;
 STR_CONFIG_CHANGED_LOAD
@@ -784,8 +784,8 @@ Masque  :
 ; Mask:
 ;
 STR_PROTECT_HIDDEN
-_Hold
-; _Hold
+(H) Cac_hé
+; _Hidden
 ;
 STR_PROTECT_SCRIPT
 (S) _Script

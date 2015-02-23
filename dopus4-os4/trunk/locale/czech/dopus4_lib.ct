@@ -1,4 +1,4 @@
-## version $VER: dopus4_lib.catalog 2.0 (23.03.2014) Kabara Jaroslav
+## version $VER: dopus4_lib.catalog 2.0 (22.02.2015) Kabara Jaroslav
 ## language czech
 ## codeset 5
 ;
@@ -60,7 +60,7 @@ Zaøízení
 ; Drives
 ;
 STR_FILEREQ_DIR
-   Adr
+    Adr
 ;     Dir
 ;
 STR_FILEREQ_NAME
@@ -68,23 +68,23 @@ Souborový dialog
 ; File request
 ;
 STR_DEV_DEV
- <DEV>
+  <DEV>
 ;   <DEV>
 ;
 STR_DEV_ASN
- <ASN>
+  <ASN>
 ;   <ASN>
 ;
 STR_DEV_VOL
- <VOL>
+  <VOL>
 ;   <VOL>
 ;
 STR_DEV_DFR
- <DFR>
+  <DFR>
 ;   <DFR>
 ;
 STR_DEV_NBD
- <NBD>
+  <NBD>
 ;   <NBD>
 ;
 STR_SELECT_DIR
@@ -92,5 +92,5 @@ Vyberte adresáø
 ; Select directory
 ;
 STR_SELECT_FILE
-Zvolte soubor
+Vyberte soubor
 ; Select file
