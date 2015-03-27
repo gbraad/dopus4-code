@@ -55,6 +55,17 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/dopusmessage.h>
 #include "printstrings.h"
 
+#ifndef DO_PRINT_H
+#define DO_PRINT_H
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 #define PRINTFLAG_EJECT      1
 #define PRINTFLAG_FILE       2
 #define PRINTFLAG_IGNORE     4
@@ -115,6 +126,14 @@ extern struct DefaultString default_strings[];
 
 #define STRING_VERSION 1
 
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 /* print.c */
 void activate_next_gadget(struct Gadget *gadget, struct Window *window);
 void get_print_env(PrintData *printdata);
@@ -131,4 +150,6 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 /* doprint.c */
 int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdata, struct Requester *requester);
 int check_print_abort(struct RequesterBase *);
+
+#endif /* DO_PRINT_H */
 

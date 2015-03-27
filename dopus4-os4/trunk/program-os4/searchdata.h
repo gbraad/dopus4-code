@@ -27,6 +27,9 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DOPUS_SEARCHDATA
+#define DOPUS_SEARCHDATA
+
 #define SEARCH_COL_FG          0
 #define SEARCH_COL_BG          1
 #define SEARCH_COL_SHINE       2
@@ -37,3 +40,5 @@ the existing commercial status of Directory Opus 5.
 #define SEARCH_COL_STRINGSELBG 7
 
 #define SEARCH_COLOURS 8
+
+#endif /* DOPUS_SEARCHDATA */

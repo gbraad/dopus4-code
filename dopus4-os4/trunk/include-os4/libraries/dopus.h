@@ -1,6 +1,3 @@
-#ifndef  DOPUSLIB_H
-#define  DOPUSLIB_H
-
 /*
 
 Directory Opus 4
@@ -40,6 +37,9 @@ the existing commercial status of Directory Opus 5.
  *
  */
 
+#ifndef  DOPUSLIB_H
+#define  DOPUSLIB_H
+
 #ifndef EXEC_LIBRARIES_H
 #include <exec/libraries.h>
 #endif
@@ -57,6 +57,13 @@ the existing commercial status of Directory Opus 5.
 #include <graphics/gfx.h>
 #include <dos/datetime.h>
 
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
 
 /* 64bit NULL pointer */
 #define NOLL ((void *)0LL)
@@ -280,4 +287,13 @@ struct DOpusSimpleRequest
 
 #define ERROR_NOT_CONFIG -1
 
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
 #endif /* DOPUSLIB_H */
+

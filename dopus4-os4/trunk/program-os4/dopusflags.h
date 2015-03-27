@@ -155,4 +155,5 @@ enum
 #define REPLACE_SKIPALL 5
 #define REPLACE_MERGE 6
 
-#endif
+#endif /* DOPUS_FLAGS */
+

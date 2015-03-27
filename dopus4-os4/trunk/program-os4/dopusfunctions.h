@@ -359,4 +359,4 @@ extern int search_last_line_pos;	/* Last line position searched */
 #define RXSTATUS_FIRST_NODE                 33
 #define RXSTATUS_CURRENT_BANK_NUMBER        34
 
-#endif
+#endif /* DOPUS_FUNCTIONS */

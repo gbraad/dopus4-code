@@ -27,6 +27,17 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DOPUS_LAUNCHEXTERNAL
+#define DOPUS_LAUNCHEXTERNAL
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 #define FS_CURDIR   1
 #define FS_SEGMENT  2
 #define FS_LAUNCHED 3
@@ -58,3 +69,14 @@ struct dopus_func_start
 };
 
 #define SEG_PRINT 0
+
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
+#endif /* DOPUS_LAUNCHEXTERNAL */
+

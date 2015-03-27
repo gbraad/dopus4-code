@@ -169,4 +169,5 @@ the existing commercial status of Directory Opus 5.
 
 #define HOTKEY_USEMMB 1
 
-#endif
+#endif /* DOPUS_CONFIGFLAGS */
+

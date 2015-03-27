@@ -27,6 +27,17 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DOPUS_PRINT_H
+#define DOPUS_PRINT_H
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 #define PSTYLE_NORMAL  1
 #define PSTYLE_NLQ     2
 #define PSTYLE_BOLD    3
@@ -53,3 +64,14 @@ struct PrintData
 };
 
 extern struct PrintData *printdata;
+
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
+#endif /* DOPUS_PRINT_H */
+

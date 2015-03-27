@@ -95,6 +95,7 @@ the existing commercial status of Directory Opus 5.
 
 #include <dopus/dopusmessage.h>
 #include <dopus/configflags.h>
+#include <dopus/dopusiff.h>
 
 #define ALL_REACTION_CLASSES
 #include <reaction/reaction.h>
@@ -104,7 +105,6 @@ the existing commercial status of Directory Opus 5.
 #include "arbiter.h"
 #include "dopusstructures.h"
 #include "dopusflags.h"
-#include "dopusiff.h"
 #include "dopusfunctions.h"
 #include "dopusdata.h"
 #include "dopusstrings.h"
@@ -207,4 +207,4 @@ extern char beepwave[16];
 
 extern struct Image appicon_image;
 
-#endif
+#endif /* DOPUS_INCLUDE */

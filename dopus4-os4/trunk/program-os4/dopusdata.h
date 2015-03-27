@@ -280,4 +280,5 @@ extern struct Gadget downbackgadget_gad;
 
 extern struct DiskObject *user_appicon;	// HUX: User selected app icon
 
-#endif
+#endif /* DOPUS_DATA */
+

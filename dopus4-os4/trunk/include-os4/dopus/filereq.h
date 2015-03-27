@@ -27,7 +27,17 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DOPUS_FILEREQ_H
+#define DOPUS_FILEREQ_H
 /*
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 #define FILEBASE 1
 #define FILENAME 1000
 #define DRAWERNAME 1001
@@ -40,7 +50,6 @@ the existing commercial status of Directory Opus 5.
 #define PARENT 1008
 
 #define INTERRUPT 2000
-
 
 struct direntry
 {
@@ -79,5 +88,14 @@ struct FileReqData
 #define DFRF_DIRREQ (1<<DFRB_DIRREQ)
 #define DFRF_MULTI  (1<<DFRB_MULTI)
 #define DFRF_SAVE   (1<<DFRB_SAVE)
+
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
 */
+#endif /* DOPUS_FILEREQ_H */
 

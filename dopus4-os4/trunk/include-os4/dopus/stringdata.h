@@ -1,6 +1,3 @@
-#ifndef DOPUS_STRINGDATA_H
-#define DOPUS_STRINGDATA_H
-
 /*
 
 Directory Opus 4
@@ -30,6 +27,17 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DOPUS_STRINGDATA_H
+#define DOPUS_STRINGDATA_H
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 /* Structure used by programs internally to define the default strings */
 
 struct DefaultString
@@ -53,4 +61,13 @@ struct StringData
 	struct Catalog *catalog;	// JRZ
 };
 
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
 #endif /* DOPUS_STRINGDATA_H */
+

@@ -1,6 +1,3 @@
-#ifndef DOPUS_CONFIG_H
-#define DOPUS_CONFIG_H
-
 /*
 
 Directory Opus 4
@@ -29,6 +26,9 @@ The release of Directory Opus 4 under the GPL in NO WAY affects
 the existing commercial status of Directory Opus 5.
 
 */
+
+#ifndef DOPUS_CONFIG_H
+#define DOPUS_CONFIG_H
 
 #ifdef __GNUC__
 	#ifdef __PPC__
@@ -407,4 +407,13 @@ struct ConfigStuff
 #include <dopus/configflags.h>
 #endif
 
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
 #endif /* DOPUS_CONFIG_H */
+
