@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	AmigaGuideBase = IExec->OpenLibrary("amigaguide.library", 0L);
 	IAmigaGuide = (struct AmigaGuideIFace *)IExec->GetInterface(AmigaGuideBase, "main", 1, NULL);
 	ApplicationBase = IExec->OpenLibrary("application.library", 0L);
-	IApplication = (struct ApplicationIFace *)IExec->GetInterface(ApplicationBase, "application", 1, NULL);
+	IApplication = (struct ApplicationIFace *)IExec->GetInterface(ApplicationBase, "application", 2, NULL);
 	CxBase = IExec->OpenLibrary("commodities.library", 0L);
 	ICommodities = (struct CommoditiesIFace *)IExec->GetInterface(CxBase, "main", 1, NULL);
 	GadToolsBase = IExec->OpenLibrary("gadtools.library", 0L);
