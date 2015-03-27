@@ -1,6 +1,3 @@
-#ifndef DOPUS_REQUESTERS_H
-#define DOPUS_REQUESTERS_H
-
 /*
 
 Directory Opus 4
@@ -29,6 +26,17 @@ The release of Directory Opus 4 under the GPL in NO WAY affects
 the existing commercial status of Directory Opus 5.
 
 */
+
+#ifndef DOPUS_REQUESTERS_H
+#define DOPUS_REQUESTERS_H
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
 
 /* Structures and Tags for font-sensitive layout routines */
 
@@ -201,4 +209,13 @@ typedef struct RequesterObject_ListView
 #define GADGET_INTEGER   7	/* Integer string gadget */
 #define GADGET_TINYGLASS 8	/* Smaller, centered glass gadget */
 
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
 #endif /* DOPUS_REQUESTERS_H */
+

@@ -32,7 +32,17 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_IFF
 #define DOPUS_IFF
 
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 /* Form types and other defines */
+
+#define ID_PAN  MAKE_ID('P','A','N',' ') /* Actually used in 8svx?? */
 
 #define ID_8SVX MAKE_ID('8','S','V','X')
 #define ID_ANHD MAKE_ID('A','N','H','D')
@@ -128,4 +138,12 @@ struct SHAMData
 	UWORD ColorTable[200][16];
 };
 
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
 #endif
+
+#endif /* DOPUS_IFF */

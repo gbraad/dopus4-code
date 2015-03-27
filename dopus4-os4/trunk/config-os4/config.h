@@ -27,6 +27,9 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DOPUS_CONFIGURATION_H
+#define DOPUS_CONFIGURATION_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -60,6 +63,15 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/config.h>
 #include <dopus/configflags.h>
 #include <dopus/dopusmessage.h>
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
+
 #undef CONFIG_VERSION
 
 #define NUM_MODULES 2
@@ -642,5 +654,16 @@ extern int bpg;
 
 extern char *left_right_cycle[3];
 
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
 #include "configstrings.h"
 #include "functions.h"
+
+#endif /* DOPUS_CONFIGURATION_H */
+

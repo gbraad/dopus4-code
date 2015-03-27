@@ -1,5 +1,3 @@
-#ifndef DOPUS_VIEW_H
-#define DOPUS_VIEW_H
 /*
 
 Directory Opus 4
@@ -28,6 +26,17 @@ The release of Directory Opus 4 under the GPL in NO WAY affects
 the existing commercial status of Directory Opus 5.
 
 */
+
+#ifndef DOPUS_VIEW_H
+#define DOPUS_VIEW_H
+
+#ifdef __GNUC__
+	#ifdef __PPC__
+		#pragma pack(2)
+	#endif
+#elif defined(__VBCC__)
+	#pragma amiga-align
+#endif
 
 #define PN_SIZE 20  /* Size of portname[] */
 
@@ -113,4 +122,13 @@ struct ViewData
 	struct VisInfo view_vis_info;
 };
 
+#ifdef __GNUC__
+   #ifdef __PPC__
+    #pragma pack()
+   #endif
+#elif defined(__VBCC__)
+   #pragma default-align
+#endif
+
 #endif /* DOPUS_VIEW_H */
+

@@ -40,7 +40,7 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "config.h"
-#include "dopusiff.h"
+#include <dopus/dopusiff.h>
 
 #define STRING_VERSION 1
 

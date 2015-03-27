@@ -244,4 +244,5 @@ extern struct Border *drive_bank_unsel_border;
 
 #define MAIN_GAD_BASE   1000	/* GadgetID base of custom gadgets */
 
-#endif
+#endif /* DOPUS_SCREEN_DATA */
+
