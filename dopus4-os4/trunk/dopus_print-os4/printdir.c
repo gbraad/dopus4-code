@@ -175,7 +175,7 @@ struct TagItem printdir_size_gadget[] = {
 	{RO_Width, 32},
 	{RO_WidthFine, -59},
 	{RO_Height, 1},
-	{RO_StringLen, 256},
+	{RO_StringLen, PATHBUF_SIZE},
 	{TAG_END, 0}
 }, printdir_print_gadget[] =
 {
@@ -284,7 +284,10 @@ void do_printdir(struct VisInfo *vis, char *portname, int wind)
 	for(a = 0; a < 4; a++)
 		stringex.Reserved[a] = 0;
 
-	if(!(window = IDOpus->OpenDORequester(&printdirreq)) || !(addreqgadgets(&printdirreq, printdir_gadgets, gadgets)) || !(IDOpus->AddRequesterObject(&printdirreq, printdir_print_text)) || !(IDOpus->AddRequesterObject(&printdirreq, printdir_output_text)))
+	if(!(window = IDOpus->OpenDORequester(&printdirreq)) ||
+	   !(addreqgadgets(&printdirreq, printdir_gadgets, gadgets)) ||
+	   !(IDOpus->AddRequesterObject(&printdirreq, printdir_print_text)) ||
+	   !(IDOpus->AddRequesterObject(&printdirreq, printdir_output_text)))
 	{
 		IDOpus->CloseRequester(&printdirreq);
 		return;
@@ -418,7 +421,8 @@ void do_printdir(struct VisInfo *vis, char *portname, int wind)
 void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, char *output, int wind)
 {
 	struct PrintDirData pddata;
-	char buf[256], pbuf[128], *s, *d;
+	int bufsize = 256, pbufsize = 128;
+	char buf[bufsize], pbuf[pbufsize], *s, *d;
 	int out = 0, abort = 0, a;
 
 	pddata.win = wind;
@@ -457,9 +461,9 @@ void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, ch
 						abort = 1;
 					break;
 				case ENTRY_DEVICE:
-					sprintf(buf, "%-32s", pddata.entry->name);
+					snprintf(buf, bufsize, "%-32s", pddata.entry->name);
 					if(pddata.entry->comment)
-						strcat(buf, pddata.entry->comment);
+						strlcat(buf, pddata.entry->comment, bufsize);
 					if(!(printdir_string(reqbase, out, buf)))
 						abort = 1;
 					break;
@@ -475,38 +479,37 @@ void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, ch
 					while(a--)
 						*d++ = ' ';
 					*d = 0;
-//                        lsprintf(pbuf,"%%-%lds",pddata.namelen);
-//                        lsprintf(buf,pbuf,pddata.entry->name);
+
 					if(flags & PD_SIZE)
 					{
 						if(pddata.entry->type <= ENTRY_FILE)
 						{
-							sprintf(pbuf, "%9qd ", pddata.entry->size);
-							strcat(buf, pbuf);
+							snprintf(pbuf, pbufsize, "%9qd ", pddata.entry->size);
+							strlcat(buf, pbuf, bufsize);
 						}
 						else if(pddata.entry->size != -1)
 						{
-							sprintf(pbuf, "[%8qd]", pddata.entry->size);
-							strcat(buf, pbuf);
+							snprintf(pbuf, pbufsize, "[%8qd]", pddata.entry->size);
+							strlcat(buf, pbuf, bufsize);
 						}
 						else
-							strcat(buf, "[     Dir]");
+							strlcat(buf, "[     Dir]", bufsize);
 					}
 					if(flags & PD_PROT)
 					{
-						strcat(buf, pddata.entry->protbuf);
-						strcat(buf, " ");
+						strlcat(buf, pddata.entry->protbuf, bufsize);
+						strlcat(buf, " ", bufsize);
 					}
 					if(flags & PD_DATE)
 					{
-						strcat(buf, pddata.entry->datebuf);
-						strcat(buf, " ");
+						strlcat(buf, pddata.entry->datebuf, bufsize);
+						strlcat(buf, " ", bufsize);
 					}
 					if(flags & PD_TYPE && pddata.entry->description)
 					{
-						strcat(buf, "(");
-						strcat(buf, pddata.entry->description);
-						strcat(buf, ")");
+						strlcat(buf, "(", bufsize);
+						strlcat(buf, pddata.entry->description, bufsize);
+						strlcat(buf, ")", bufsize);
 					}
 					if(!(printdir_string(reqbase, out, buf)))
 					{
@@ -515,7 +518,7 @@ void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, ch
 					}
 					if(flags & PD_COMM && pddata.entry->comment)
 					{
-						IDOpus->StrCombine(buf, ": ", pddata.entry->comment, 256);
+						IDOpus->StrCombine(buf, ": ", pddata.entry->comment, bufsize);
 						if(!(printdir_string(reqbase, out, buf)))
 							abort = 1;
 					}
@@ -569,7 +572,7 @@ void read_printdir_env(int *flags, int *printer, char *filename)
 	{
 		IDOS->Read(file, (char *)flags, sizeof(int));
 		IDOS->Read(file, (char *)printer, sizeof(int));
-		IDOS->Read(file, filename, 256);
+		IDOS->Read(file, filename, FILEBUF_SIZE);
 		IDOS->Close(file);
 	}
 }

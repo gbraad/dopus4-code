@@ -23,4 +23,21 @@ Aug 8, 2012 - Dopus_Print 4.18.1
    Dopus Print printer initialization is changed to an option so
    that multiple printer initializations can be avoided.
 
-* Added locale strings for new options in Dopus_Print GUI.
+  * Added locale strings for new options in Dopus_Print GUI.
+
+Feb 13, 2015 - Dopus_Print 4.18.2
+  * Bump revision for previous changes.
+
+April 18, 2015 - Dopus_Print 4.18.3
+  * Replaced string functions with size bounded string functions to avoid
+    buffer overflows.
+
+  * Replaced deprecated functions.
+
+  * Added file/path size #defines in include-os4/libraries/dopus.h.
+    Changed file/path buffer sizes as defined in include-os4/libraries/dopus.h.
+
+  * Created some string length #defines for consistancy.
+
+  * Bumped revision for next release.
+

@@ -89,7 +89,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Width, 35},
 	{RO_WidthFine, -14},
 	{RO_Height, 1},
-	{RO_StringLen, 256},
+	{RO_StringLen, PATHBUF_SIZE},
 	{TAG_END, 0}
 }, print_topmargin_gadget[] =
 {
@@ -104,7 +104,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Height, 1},
 	{RO_TextNum, STR_TOP_MARGIN},
 	{RO_TextPos, TEXTPOS_LEFT},
-	{RO_StringLen, 4},
+	{RO_StringLen, STR_LEN4},
 	{TAG_END, 0}
 }, print_bottommargin_gadget[] =
 {
@@ -119,7 +119,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Height, 1},
 	{RO_TextNum, STR_BOTTOM_MARGIN},
 	{RO_TextPos, TEXTPOS_LEFT},
-	{RO_StringLen, 4},
+	{RO_StringLen, STR_LEN4},
 	{TAG_END, 0}
 }, print_leftmargin_gadget[] =
 {
@@ -134,7 +134,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Height, 1},
 	{RO_TextNum, STR_LEFT_MARGIN},
 	{RO_TextPos, TEXTPOS_LEFT},
-	{RO_StringLen, 4},
+	{RO_StringLen, STR_LEN4},
 	{TAG_END, 0}
 }, print_rightmargin_gadget[] =
 {
@@ -149,7 +149,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Height, 1},
 	{RO_TextNum, STR_RIGHT_MARGIN},
 	{RO_TextPos, TEXTPOS_LEFT},
-	{RO_StringLen, 4},
+	{RO_StringLen, STR_LEN4},
 	{TAG_END, 0}
 }, print_tabsize_gadget[] =
 {
@@ -322,7 +322,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Width, 32},
 	{RO_WidthFine, -33},
 	{RO_Height, 1},
-	{RO_StringLen, 40},
+	{RO_StringLen, HEADFOOT_SIZE},
 	{TAG_END, 0}
 }, headfoot_textstyle_gadget[] =
 {
@@ -391,7 +391,7 @@ struct TagItem print_filerequester_gadget[] = {
 	{RO_Width, 32},
 	{RO_WidthFine, -59},
 	{RO_Height, 1},
-	{RO_StringLen, 256},
+	{RO_StringLen, PATHBUF_SIZE},
 	{TAG_END, 0}
 }, print_print_gadget[] =
 {
@@ -459,7 +459,10 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 	PrintData *printdata;
 	int a, headerfooter = 0, waitbits, result;
 	struct Requester busyreq;
-	char *print_file_buffer, *print_topmargin_buffer, *print_bottommargin_buffer, *print_leftmargin_buffer, *print_rightmargin_buffer, *print_tabsize_buffer, *output_filestring_buffer;
+	char *print_file_buffer, *print_topmargin_buffer;
+	char *print_bottommargin_buffer, *print_leftmargin_buffer;
+	char *print_rightmargin_buffer, *print_tabsize_buffer;
+	char *output_filestring_buffer;
 
 	for(a = 0; a < 3; a++)
 		text_pitch[a] = string_table[STR_PICA + a];
@@ -514,9 +517,11 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 	for(a = 0; a < 4; a++)
 		stringex.Reserved[a] = 0;
 
-	if(!(printdata = IExec->AllocMem(sizeof(PrintData), MEMF_CLEAR)))
+	if(!(printdata = IExec->AllocVecTags(sizeof(PrintData),
+	     AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END)))
+	{
 		return;
-
+	}
 	get_print_default(printdata);
 	get_print_env(printdata);
 
@@ -534,7 +539,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 			break;
 
 		default:
-			IExec->FreeMem(printdata, sizeof(PrintData));
+			IExec->FreeVec(printdata);
 			return;
 		}
 	}
@@ -542,7 +547,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 	if(!(gadgets = IDOpus->LAllocRemember(&printreq.rb_memory, sizeof(struct Gadget *) * PRINT_NUM_GADGETS, 0)) || !(addreqgadgets(&printreq, print_gadgets, gadgets)) || !(IDOpus->AddRequesterObject(&printreq, print_output_text)))
 	{
 		IDOpus->CloseRequester(&printreq);
-		IExec->FreeMem(printdata, sizeof(PrintData));
+		IExec->FreeVec(printdata);
 		return;
 	}
 
@@ -563,21 +568,21 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 		result = dopus_message(DOPUSMSG_GETNEXTFILE, (APTR) argslist, portname);
 	}
 	else if(argc > 0)
-		strcpy(print_file_buffer, argv[0]);
+		strlcpy(print_file_buffer, argv[0], PATHBUF_SIZE);
 	else
 		print_file_buffer[0] = 0;
 
 	if(printdata->top_margin < 1)
 		printdata->top_margin = 1;
-	sprintf(print_topmargin_buffer, "%d", printdata->top_margin);
-	sprintf(print_bottommargin_buffer, "%d", printdata->bottom_margin);
+	snprintf(print_topmargin_buffer, STR_LEN4, "%d", printdata->top_margin);
+	snprintf(print_bottommargin_buffer, STR_LEN4, "%d", printdata->bottom_margin);
 	if(printdata->left_margin < 1)
 		printdata->left_margin = 1;
-	sprintf(print_leftmargin_buffer, "%d", printdata->left_margin);
-	sprintf(print_rightmargin_buffer, "%d", printdata->right_margin);
-	sprintf(print_tabsize_buffer, "%d", printdata->tab_size);
+	snprintf(print_leftmargin_buffer, STR_LEN4, "%d", printdata->left_margin);
+	snprintf(print_rightmargin_buffer, STR_LEN4, "%d", printdata->right_margin);
+	snprintf(print_tabsize_buffer, STR_LEN3, "%d", printdata->tab_size);
 
-	strcpy(output_filestring_buffer, printdata->output_file);
+	strlcpy(output_filestring_buffer, printdata->output_file, PATHBUF_SIZE);
 
 	IDOpus->DoCycleGadget(gadgets[PRINT_PITCH], window, text_pitch, printdata->print_pitch);
 	IDOpus->DoCycleGadget(gadgets[PRINT_QUALITY], window, text_quality, printdata->text_quality);
@@ -626,8 +631,11 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 		IIntuition->OffGadget(gadgets[PRINT_FILE], window, NULL);
 	}
 
-	if(!portname && WorkbenchBase && IWorkbench && (appport = IExec->CreatePort(NULL, 0)))
+	if(!portname && WorkbenchBase && IWorkbench &&
+	  (appport = IExec->AllocSysObject(ASOT_PORT, NULL)))
+	{
 		appwindow = IWorkbench->AddAppWindowA(0, 0, window, appport, NULL);
+	}
 
 	for(;;)
 	{
@@ -639,13 +647,13 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 				{
 					if(appmsg->am_NumArgs > 0 && appmsg->am_ArgList[0].wa_Lock)
 					{
-						char buf[256];
+						char buf[PATHBUF_SIZE];
 
-						IDOS->NameFromLock(appmsg->am_ArgList[0].wa_Lock, buf, 256);
-						IDOS->AddPart(buf, appmsg->am_ArgList[0].wa_Name, 256);
+						IDOS->NameFromLock(appmsg->am_ArgList[0].wa_Lock, buf, PATHBUF_SIZE);
+						IDOS->AddPart(buf, appmsg->am_ArgList[0].wa_Name, PATHBUF_SIZE);
 						if(IDOpus->CheckExist(buf, NULL) < 0)
 						{
-							strcpy(print_file_buffer, buf);
+							strlcpy(print_file_buffer, buf, PATHBUF_SIZE);
 							IDOpus->RefreshStrGad(gadgets[PRINT_FILE], window);
 						}
 						else
@@ -780,7 +788,7 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 					if(!(get_file_byrequest(gadgets[OUTPUT_FILESTRING], window, 1)))
 						break;
 				case OUTPUT_FILESTRING:
-					strcpy(printdata->output_file, output_filestring_buffer);
+					strlcpy(printdata->output_file, output_filestring_buffer, PATHBUF_SIZE);
 					IDOpus->RefreshStrGad(gadgets[OUTPUT_FILESTRING], window);
 					if(gadgets[OUTPUT_PRINTER]->Flags & GFLG_SELECTED)
 					{
@@ -899,11 +907,11 @@ void do_print(struct VisInfo *vis, char *portname, struct DOpusArgsList *argslis
 				if(appwindow)
 					IWorkbench->RemoveAppWindow(appwindow);
 				if(appport)
-					IExec->DeletePort(appport);
+					IExec->FreeSysObject(ASOT_PORT, appport);
 				read_headerfooter_gadgets(gadgets, window, printdata, headerfooter);
 				IDOpus->CloseRequester(&printreq);
 				set_print_env(printdata);
-				IExec->FreeMem(printdata, sizeof(PrintData));
+				IExec->FreeVec(printdata);
 				return;
 			}
 		}
@@ -943,7 +951,7 @@ void show_headerfooter_gadgets(struct Gadget **gadgets, struct Window *window, P
 {
 	IDOpus->DoCycleGadget(gadgets[PRINT_HEADERFOOTER], window, header_footer_text, headerfooter);
 	IDOpus->DoCycleGadget(gadgets[HEADFOOT_TEXTSTYLE], window, text_styles, printdata->headfoot[headerfooter].text_style);
-	strcpy(((struct StringInfo *)gadgets[HEADFOOT_TITLESTRING]->SpecialInfo)->Buffer, printdata->headfoot[headerfooter].headfoot_title);
+	strlcpy(((struct StringInfo *)gadgets[HEADFOOT_TITLESTRING]->SpecialInfo)->Buffer, printdata->headfoot[headerfooter].headfoot_title, HEADFOOT_SIZE);
 
 	if(printdata->headfoot[headerfooter].headfoot_flags & HEADFOOTFLAG_TITLE)
 		gadgets[HEADFOOT_TITLE]->Flags |= GFLG_SELECTED;
@@ -965,7 +973,7 @@ void show_headerfooter_gadgets(struct Gadget **gadgets, struct Window *window, P
 
 void read_headerfooter_gadgets(struct Gadget **gadgets, struct Window *window, PrintData *printdata, int headerfooter)
 {
-	strcpy(printdata->headfoot[headerfooter].headfoot_title, ((struct StringInfo *)gadgets[HEADFOOT_TITLESTRING]->SpecialInfo)->Buffer);
+	strlcpy(printdata->headfoot[headerfooter].headfoot_title, ((struct StringInfo *)gadgets[HEADFOOT_TITLESTRING]->SpecialInfo)->Buffer, HEADFOOT_SIZE);
 
 	if(gadgets[HEADFOOT_TITLE]->Flags & GFLG_SELECTED)
 		printdata->headfoot[headerfooter].headfoot_flags |= HEADFOOTFLAG_TITLE;

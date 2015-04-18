@@ -68,10 +68,10 @@ the existing commercial status of Directory Opus 5.
 /* 64bit NULL pointer */
 #define NOLL ((void *)0LL)
 
-/* File requester definition structure */
+#define FILEBUF_SIZE 255	// 32
+#define PATHBUF_SIZE 1024
 
-//#define DIRBUF_SIZE  256
-#define FILEBUF_SIZE 256	// 32
+/* File requester definition structure */
 
 struct DOpusFileReq
 {
