@@ -27,6 +27,9 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#ifndef DO_PRINT_H
+#define DO_PRINT_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -54,9 +57,6 @@ the existing commercial status of Directory Opus 5.
 #include <proto/dopus.h>
 #include <dopus/dopusmessage.h>
 #include "printstrings.h"
-
-#ifndef DO_PRINT_H
-#define DO_PRINT_H
 
 #ifdef __GNUC__
 	#ifdef __PPC__
@@ -98,11 +98,15 @@ the existing commercial status of Directory Opus 5.
 #define HEADER               0
 #define FOOTER               1
 
+#define STR_LEN4 4
+#define STR_LEN3 3
+#define HEADFOOT_SIZE 40
+
 typedef struct HeadFootData
 {
 	char text_style;
 	char headfoot_flags;
-	char headfoot_title[40];
+	char headfoot_title[HEADFOOT_SIZE];
 } HeaderFooter;
 
 typedef struct MyPrinterData
@@ -115,7 +119,7 @@ typedef struct MyPrinterData
 	char print_pitch;
 	char text_quality;
 	char print_flags;
-	char output_file[256];
+	char output_file[PATHBUF_SIZE];
 	HeaderFooter headfoot[2];
 } PrintData;
 

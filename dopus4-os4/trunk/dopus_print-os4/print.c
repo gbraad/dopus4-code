@@ -34,7 +34,7 @@ void get_vis_info(struct VisInfo *vis, char *portname);
 int main(int argc, char **argv)
 {
 	struct VisInfo vis;
-	char **dummy_args, *port = NULL, *stringname;
+	char **dummy_args, *port = NULL;
 	struct DOpusArgsList *arglist = NULL;
 	BPTR oldcurdir = 0, *dirlocks;
 	int arg, printdir = 0, pdwind = -1;
@@ -62,7 +62,9 @@ int main(int argc, char **argv)
 	}
 	/* OpenLibrary() GetInterface() above  */
 
-	if((dummy_args = IDOpus->LAllocRemember(&memkey, 16 * sizeof(char *), MEMF_CLEAR)) && (dirlocks = IDOpus->LAllocRemember(&memkey, 16 * sizeof(BPTR), MEMF_CLEAR)) && (stringname = IDOpus->LAllocRemember(&memkey, 256, 0)) && (stringdata = IDOpus->LAllocRemember(&memkey, sizeof(struct StringData), MEMF_CLEAR)))
+	if((dummy_args = IDOpus->LAllocRemember(&memkey, 16 * sizeof(char *), MEMF_CLEAR)) &&
+	   (dirlocks = IDOpus->LAllocRemember(&memkey, 16 * sizeof(BPTR), MEMF_CLEAR)) &&
+	   (stringdata = IDOpus->LAllocRemember(&memkey, sizeof(struct StringData), MEMF_CLEAR)))
 	{
 
 		if(argc == 0)
@@ -70,7 +72,6 @@ int main(int argc, char **argv)
 			struct WBStartup *startup = (struct WBStartup *)argv;
 			int arg;
 
-//			startup = (struct WBStartup *)argv;
 			for(arg = 0; arg < startup->sm_NumArgs && arg < 16; arg++)
 			{
 				dummy_args[arg] = startup->sm_ArgList[arg].wa_Name;
@@ -133,7 +134,6 @@ int main(int argc, char **argv)
 		IExec->CloseLibrary(DOpusBase);
 
 	return(0);
-//	exit(0);
 }
 
 void get_vis_info(struct VisInfo *vis, char *portname)
@@ -174,8 +174,11 @@ int dopus_message(int cmd, APTR data, char *portname)
 	struct MsgPort *port, *replyport;
 	struct DOpusMessage msg;
 
+	if (!(portname && portname[0])) return (0);
+
 	IExec->Forbid();
-	if(portname && portname[0] && (port = IExec->FindPort(portname)) && (replyport = IExec->CreatePort(NULL, 0)))
+	if((port = IExec->FindPort(portname)) &&
+	    (replyport = IExec->AllocSysObject(ASOT_PORT,NULL)))
 	{
 		msg.msg.mn_Node.ln_Type = NT_MESSAGE;
 		msg.msg.mn_Node.ln_Name = NULL;
@@ -187,7 +190,8 @@ int dopus_message(int cmd, APTR data, char *portname)
 		IExec->Permit();
 		IExec->WaitPort(replyport);
 		IExec->GetMsg(replyport);
-		IExec->DeletePort(replyport);
+		IExec->FreeSysObject(ASOT_PORT, replyport);
+		IExec->Permit();
 		return (1);
 	}
 	IExec->Permit();
@@ -302,7 +306,7 @@ void activate_next_gadget(struct Gadget *gadget, struct Window *window)
 int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 {
 	struct DOpusFileReq filereq;
-	char dirbuf[256], filebuf[FILEBUF_SIZE], *ptr, *path;
+	char dirbuf[PATHBUF_SIZE], filebuf[FILEBUF_SIZE], *ptr, *path;
 
 	path = ((struct StringInfo *)gadget->SpecialInfo)->Buffer;
 
@@ -317,16 +321,16 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 	filereq.filearraykey = NULL;
 	filereq.filearray = NULL;
 
-	strcpy(dirbuf, path);
+	strlcpy(dirbuf, path, PATHBUF_SIZE);
 	if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
 	{
-		strcpy(filebuf, ptr);
+		strlcpy(filebuf, ptr, FILEBUF_SIZE);
 		*ptr = 0;
 	}
 	else if(ptr == dirbuf)
 	{
 		dirbuf[0] = 0;
-		strcpy(filebuf, path);
+		strlcpy(filebuf, path, FILEBUF_SIZE);
 	}
 	else
 		filebuf[0] = 0;
@@ -334,8 +338,10 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 	if(!(IDOpus->FileRequest(&filereq)) || !filebuf[0])
 		return (0);
 
-	strcpy(path, dirbuf);
-	IDOS->AddPart(path, filebuf, 256);
+	strlcpy(path, dirbuf, PATHBUF_SIZE);
+	if (!(IDOS->AddPart(path, filebuf, PATHBUF_SIZE)));
+		return (0);
+
 	IDOpus->RefreshStrGad(gadget, window);
 	return (1);
 }
@@ -344,12 +350,14 @@ int error_rets[2] = { 1, 0 };
 
 int check_error(struct RequesterBase *reqbase, char *str, int abort)
 {
-	struct DOpusSimpleRequest *req;
+	struct DOpusSimpleRequest *req = NULL;
 	char *error_gads[3];
 	int ret;
 
-	if(!(req = IExec->AllocMem(sizeof(struct DOpusSimpleRequest), MEMF_CLEAR)))
-		return (0);
+	req = IExec->AllocVecTags(sizeof(struct DOpusSimpleRequest),
+	      AVT_Type, MEMF_SHARED, AVT_ClearWithValue, 0, TAG_END);
+	if (!req) return (0);
+
 	req->text = str;
 	if(abort)
 	{
@@ -374,6 +382,6 @@ int check_error(struct RequesterBase *reqbase, char *str, int abort)
 		req->flags |= SRF_BORDERS;
 	req->title = "DOpus_Print";
 	ret = IDOpus->DoSimpleRequest(reqbase->rb_window, req);
-	IExec->FreeMem(req, sizeof(struct DOpusSimpleRequest));
+	IExec->FreeVec(req);
 	return (ret);
 }

@@ -1,7 +1,7 @@
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -ggdb -mcrt=newlib -Wall -O3 -I../include-os4
+CFLAGS = -gstabs -mcrt=newlib -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=newlib -lauto -lm
 
 OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
@@ -17,7 +17,7 @@ endif
 all: $(BUMPREV) DOpus_Print
 
 DOpus_Print : printstrings.h strings.c $(OBJS)
-	$(CC) $(OBJS) -o $@.debug $(LDFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
 data.o: data.c DOpus_Print_rev.h

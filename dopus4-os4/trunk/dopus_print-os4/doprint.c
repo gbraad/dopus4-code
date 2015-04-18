@@ -166,8 +166,11 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 	{
 		struct Preferences *prefs;
 
-		if(!(handle->port = IExec->CreatePort(NULL, 0)) || !(handle->ioreq = (struct IOStdReq *)IExec->CreateIORequest(handle->port, sizeof(struct IOStdReq))))
+		if(!(handle->port = IExec->AllocSysObject(ASOT_PORT, NULL)) ||
+		   !(handle->ioreq = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct IOStdReq), TAG_END)))
+		{
 			goto ENDPRINT;
+		}
 
 		for(;;)
 		{
@@ -175,7 +178,7 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 				break;
 			if(!(check_error(reqbase, string_table[STR_UNABLE_TO_OPEN_PRINTER], 0)))
 			{
-				IExec->DeleteIORequest((struct IORequest *)handle->ioreq);
+				IExec->FreeSysObject(ASOT_IOREQUEST, handle->ioreq);
 				handle->ioreq = NULL;
 				goto ENDPRINT;
 			}
@@ -200,7 +203,7 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 			prefs->PrintQuality = LETTER;
 
 		if (prefs->PrinterPort == PARALLEL_PRINTER)
-			strcpy(output_device,prefs->PrtDevName);
+			strlcpy(output_device, prefs->PrtDevName, sizeof(output_device));
 
 		if(printdata->print_flags & PRINTFLAG_INIT)
 			if(!(printer_command(reqbase, handle, "\033#1")))
@@ -215,7 +218,8 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 	}
 
 	buffersize = filesize;
-	while(!(buffer = IExec->AllocMem(buffersize, MEMF_CLEAR)))
+	while (!(buffer = IExec->AllocVecTags(buffersize, AVT_Type, MEMF_SHARED,
+	                                      AVT_ClearWithValue, 0, TAG_END)))
 	{
 		buffersize /= 2;
 		if(buffersize == 0)
@@ -453,7 +457,7 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 
       ENDPRINT:
 	if(buffer)
-		IExec->FreeMem(buffer, buffersize);
+		IExec->FreeVec(buffer);
 	if(fileh)
 		IDOS->Close(fileh);
 	if(handle->filehandle)
@@ -461,10 +465,10 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 	if(handle->ioreq)
 	{
 		IExec->CloseDevice((struct IORequest *)handle->ioreq);
-		IExec->DeleteIORequest((struct IORequest *)handle->ioreq);
+		IExec->FreeSysObject(ASOT_IOREQUEST, handle->ioreq);
 	}
 	if(handle->port)
-		IExec->DeletePort(handle->port);
+		IExec->FreeSysObject(ASOT_PORT, handle->port);
 	if(handle->req_rp)
 		IIntuition->EndRequest(requester, reqbase->rb_window);
 	IDOpus->LFreeRemember(&memkey);
@@ -472,7 +476,7 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 	if ((ret == 1) && (output_device[0] != '\0')
 	    && (IDOS->GetVar("DopusHPend",envbuf,sizeof(envbuf),0) > 0))
 	{
-		strcat(output_device, ".device");
+		strlcat(output_device, ".device", sizeof(output_device));
 		print_terminate(output_device);
 	}
 
@@ -500,12 +504,12 @@ int do_header_footer(struct PrintHandle *handle, PrintData *printdata, int type)
 
 		if(printdata->headfoot[type].headfoot_flags & HEADFOOTFLAG_TITLE)
 		{
-			char titlebuf[40];
+			char titlebuf[HEADFOOT_SIZE];
 
 			if(printdata->headfoot[type].headfoot_title[0])
-				strcpy(titlebuf, printdata->headfoot[type].headfoot_title);
+				strlcpy(titlebuf, printdata->headfoot[type].headfoot_title, HEADFOOT_SIZE);
 			else
-				strcpy(titlebuf, handle->filename);
+				strlcpy(titlebuf, handle->filename, HEADFOOT_SIZE);
 
 			if((a = strlen(titlebuf)) > handle->paper_width)
 			{
@@ -522,7 +526,7 @@ int do_header_footer(struct PrintHandle *handle, PrintData *printdata, int type)
 		{
 			char pagebuf[20];
 
-			sprintf(pagebuf, "%s %d", string_table[STR_PAGE], handle->current_page);
+			snprintf(pagebuf, sizeof(pagebuf), "%s %d", string_table[STR_PAGE], handle->current_page);
 
 			a = leftoffset + (handle->paper_width - strlen(pagebuf) - 1);
 			IExec->CopyMem(pagebuf, &handle->buffer[a], strlen(pagebuf));
@@ -676,7 +680,7 @@ void show_progress(struct PrintHandle *handle)
 	else
 		percent = ((float)((float)handle->total_pos / (float)handle->filesize)) * 100;
 
-	sprintf(buf, "%3ld%% %s ", (long int)percent, string_table[STR_COMPLETE]);
+	snprintf(buf, sizeof(buf), "%3ld%% %s ", (long int)percent, string_table[STR_COMPLETE]);
 	print_status(handle, buf, handle->progress_y);
 }
 
