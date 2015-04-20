@@ -292,11 +292,11 @@ struct Directory *findfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 
 	if(dir)
 	{
-//		Moved to dofindfile() in main 15.c
-//		if(str_arcorgname[0]) /* required for double-click */
-//		{
-//			name = str_arcorgname;
-//		}
+//		Reinstated - Was Moved to dofindfile() in main 15.c
+		if(str_arcorgname[0]) /* required for double-click */
+		{
+			name = str_arcorgname;
+		}
 
 		find = dir->firstentry;
 		if(count)
