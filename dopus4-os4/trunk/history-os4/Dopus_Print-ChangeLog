@@ -39,5 +39,6 @@ April 18, 2015 - Dopus_Print 4.18.3
 
   * Created some string length #defines for consistancy.
 
-  * Bumped revision for next release.
+  * Bumped program revision for next release.
 
+  + Committed repository revision 581.

@@ -292,7 +292,7 @@ IDOS->ExamineDir(). Should be a lot faster.
 * Updated versions & dates.
 * Released binary of repository revision 427
 
-****************************************************************
+*******************************************************************
 
 2012-10-12 - data.c dopusdata.h
 * Added global variable for copy buffer.
@@ -475,26 +475,28 @@ IDOS->ExamineDir(). Should be a lot faster.
 
 2012-12-08 - program-os4/DirectoryOpus_rev.h
 * Bumped subrevision for next release.
-Revision 559
+* Released Revision 559 ((DirectoryOpus 4.18.40)
+
+*******************************************************************
 
 2015-01-14 - dopusrt-os4/main.c
 * Added missing arguments check in DopusRT (if argc < 2).
 * Updated with new OS4 CommandLineInterface structure element names.
-Committed revision 561.
++ Committed revision 561.
 
 2015-01-20 - all
 * Updated function names, includes etc. for OS4 SDK 53.24.
 * Changed to use newer XadMaster includes (from OS4Depot).
-Committed revision 562.
++ Committed revision 562.
 
 2015-01-20 - all
 * Updated more function names, includes etc. for OS4 SDK 53.24.
-Committed revision 563.
++ Committed revision 563.
 
 2015-01-22 - program-os4/view.c
 * Fixed array declarations and string copies.
 * Fixed access of view_message structure after memory freed.
-Committed revision 564.
++ Committed revision 564.
 
 2015-02-04 - program-os4/view.c program-os4/view.h program-os4/main.c
              program-os4/main19.c program-os4/main20.c
@@ -507,40 +509,40 @@ Committed revision 564.
 * Changed "foreign window requester" to open on Dopus4 screen when
   quitting Dopus4.
 * Fixed launching of Read (dopus_view) processes.
-Committed revision 565.
++ Committed revision 565.
 
 2015-02-04 - history-os4
 * Updated history files
-Committed revision 566.
++Committed revision 566.
 
 2015-02-06 - history-os4/DirectoryOpus-ChangeLog program-os4/main22.c
 
 * Fixed copying of directories from archives.
 * Updated DirectoryOpus-ChangeLog.
-Committed revision 567.
++ Committed revision 567.
 
 2015-02-12 - program-os4/main16.c  program-os4/view.c
 * Fixed failure to unlock public screens after function call failures.
-Committed revision 568.
++ Committed revision 568.
 
 2015-02-13 - locale/DOpus4.cd
 * Updated "alien windows" requester text to match new previously
   updated requester actions.
-Committed revision 569.
++ Committed revision 569.
 
 2015-02-13 - all rev.h files
 * Updated versions (subrevisions) for next release.
-Committed revision 570.
++ Committed revision 570.
 
 2015-02-14 - locale/  s/
 * Updated Dopus4_Config.cd and Dopus4 program translations.
 * Updated locale makefile to handle added czech translation.
 * Added Czech and Polish help files.
-Committed revision 571.
++ Committed revision 571.
 
 2015-02-14 - history-os4/
 * Updated history files
-Committed revision 572.
++ Committed revision 572.
 
 2015-02-15 - external & program-os4/makefile
 * Added "external" directory containing header files (includes)
@@ -549,19 +551,45 @@ Committed revision 572.
   Dopus4 from the toplevel directory by entering "make".
 * Updated the Dopus4 program makefile to use the "external" directory
   for additional header files.
-Committed revision 573.
++ Committed revision 573.
 
 2015-02-20 - s/
 * Added German help files.
-Committed revision 574.
++ Committed revision 574.
 
 2015-02-21 - locale/
 * Updated locale definition & translation files with changed
   protection bit names for OS4 (Hidden is now Hold).
 * Added French translation file for Dopus4 program.
-Committed revision 575.
++ Committed revision 575.
 
 2015-02-22 - history-os4/ (DirectoryOpus 4.18.41)
 * Updated history files
-Committed revision 577.
++ Committed revision 577.
+
+2015-02-22 - locale/
+* Updated French and Czech translations.
++ Committed revision 578.
++ Released repository revision 578. (DirectoryOpus 4.18.41)
+
+*******************************************************************
+
+2015-03-27 - All header files (xxx.h)
+* Consolidated all iff definitions & eliminated duplicated iff definitions.
+* Added missing pragma pack directives to all header files.
++ Committed repository revision 579.
+
+2015-03-27 - program-os4/main.c library-os4/Makefile
+* Updated application library interface opening version to 2
+  to match current OS4 SDK includes.
+* Changed some flags in the library makefile.
++ Committed repository revision 580.
+
+2015-04-20 - program-os4/main15.c program-os4/main5.c history-os4/
+* Fixed a problem with filetype failures when double-clicking a file by
+  removing a previously added archive content copying workaround.
+* Bumped the program revision for next release. (DirectoryOpus 4.18.42)
+* Improved the config file included in the distribution archive.
+* Updated History files.
++ Committed repository revision 582.
 

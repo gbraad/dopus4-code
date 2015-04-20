@@ -30,16 +30,18 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/xadmaster.h>
 
+/* Removed and changed back to direct findfile() function call.
 struct Directory *dofindfile(struct DirectoryWindow *dir, STRPTR name, int *count)
 {
 	STRPTR fname = name;
 
-	if(str_arcorgname[0]) /* required for double-click */
+	if(str_arcorgname[0]) // required for double-click
 	{
 		fname = str_arcorgname;
 	}
 	return findfile(dir, fname, count);
 }
+*/
 
 void ftype_doubleclick(char *path, char *name, int state)
 {
@@ -67,7 +69,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 		return;
 	}
 	dostatustext(globstring[STR_INTERROGATING_FILES]);
-	file = dofindfile(dopus_curwin[data_active_window], name, NULL);
+	file = findfile(dopus_curwin[data_active_window], name, NULL);
 	busy();
 	if((type = checkfiletype(buf, FTFUNC_DOUBLECLICK, 0)))
 	{
