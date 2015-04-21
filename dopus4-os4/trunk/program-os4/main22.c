@@ -1687,7 +1687,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				byte = file->size;
 			}
 
-			if(exist && (tempfile = findfile(dwindow, namebuf, NULL)))
+			if(exist && (tempfile = findfile(dwindow, namebuf, NULL)) && (!arcfile))
+//			if(exist && (tempfile = findfile(dwindow, namebuf, NULL)))
 				removefile(tempfile, dwindow, inact, 0);
 			if((exdata = IDOS->ExamineObjectTags(EX_StringName, destname, TAG_END)))
 			{
