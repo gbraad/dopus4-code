@@ -166,8 +166,12 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 	{
 		struct Preferences *prefs;
 
-		if(!(handle->port = IExec->AllocSysObject(ASOT_PORT, NULL)) ||
-		   !(handle->ioreq = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct IOStdReq), TAG_END)))
+		if(!(handle->port = IExec->AllocSysObject(ASOT_PORT, NULL)))
+			goto ENDPRINT;
+		if (!(handle->ioreq = IExec->AllocSysObjectTags(ASOT_IOREQUEST,
+		                             ASOIOR_ReplyPort, handle->port,
+		                             ASOIOR_Size, sizeof(struct IOStdReq),
+		                             TAG_END)))
 		{
 			goto ENDPRINT;
 		}
