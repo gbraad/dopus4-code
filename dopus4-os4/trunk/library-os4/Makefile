@@ -12,7 +12,8 @@ RM     = rm -f
 
 # Change these as required
 OPTIMIZE = -O3
-DEBUG = # -gstabs -g -DDEBUG
+DEBUGOUT = #-DDEBUG
+DEBUG = -gstabs $(DEBUGOUT)
 #CFLAGS = -maltivec -mcrt=newlib -Wall -Wwrite-strings -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 CFLAGS = -mcrt=newlib -Wall -Wwrite-strings -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 
@@ -69,6 +70,11 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
 
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
 # Rules for building
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) -o $@
+
 $(TARGET): $(BUMPREV) $(OBJS)
 	$(CC) $(LINK) -nostartfiles -o $(TARGET).debug $(OBJS) $(LIBS)
 	$(STRIP) -s $(TARGET).debug -o $(TARGET)
