@@ -166,13 +166,22 @@ int main(int argc, char **argv)
 			{
 				if(out)
 				{
-					if((port = IExec->CreatePort(NULL, 0)))
+//					if((port = IExec->CreatePort(NULL, 0)))
+					if((port = IExec->AllocSysObject(ASOT_PORT, NULL)))
 					{
-						if((inputreq = (struct IOStdReq *)IExec->CreateIORequest(port, sizeof(struct IOStdReq))))
+//						if((inputreq = (struct IOStdReq *)IExec->CreateIORequest(port, sizeof(struct IOStdReq))))
+						if((inputreq = IExec->AllocSysObjectTags(ASOT_IOREQUEST,
+						                ASOIOR_ReplyPort, port,
+						                ASOIOR_Size, sizeof(struct IOStdReq),
+						                TAG_END)))
 						{
 							if(!(IExec->OpenDevice("input.device", 0L, (struct IORequest *)inputreq, 0L)))
 							{
-								if((interrupt = IExec->AllocMem(sizeof(struct Interrupt), MEMF_CLEAR|MEMF_PUBLIC)))
+//								if((interrupt = IExec->AllocMem(sizeof(struct Interrupt), MEMF_CLEAR|MEMF_PUBLIC)))
+								if((interrupt = IExec->AllocVecTags(sizeof(struct Interrupt),
+								                                    AVT_Type, MEMF_SHARED,
+								                                    AVT_ClearWithValue, 0,
+								                                    TAG_END)))
 								{
 									interrupt->is_Code = (APTR)InputHandler;
 									interrupt->is_Node.ln_Pri = 51;
@@ -217,13 +226,16 @@ int main(int argc, char **argv)
 									}
 									inputreq->io_Command = IND_REMHANDLER;
 									IExec->DoIO((struct IORequest *)inputreq);
-									IExec->FreeMem(interrupt, sizeof(struct Interrupt));
+//									IExec->FreeMem(interrupt, sizeof(struct Interrupt));
+									IExec->FreeVec(interrupt);
 								}
 								IExec->CloseDevice((struct IORequest *)inputreq);
 							}
-							IExec->DeleteIORequest((struct IORequest *)inputreq);
+//							IExec->DeleteIORequest((struct IORequest *)inputreq);
+							IExec->FreeSysObject(ASOT_IOREQUEST, inputreq);
 						}
-						IExec->DeletePort(port);
+//						IExec->DeletePort(port);
+						IExec->FreeSysObject(ASOT_PORT, port);
 					}
 				}
 			}
@@ -233,13 +245,15 @@ int main(int argc, char **argv)
 			if((port = IExec->FindPort(argv[2])))
 			{
 				IExec->Permit();
-				port1 = IExec->CreatePort(0, 0);
+//				port1 = IExec->CreatePort(0, 0);
+				port1 = IExec->AllocSysObject(ASOT_PORT, NULL);
 				msg.mn_Node.ln_Type = NT_MESSAGE;
 				msg.mn_ReplyPort = port1;
 				msg.mn_Length = sizeof(struct Message);
 				IExec->PutMsg(port, &msg);
 				IExec->WaitPort(port1);
-				IExec->DeletePort(port1);
+//				IExec->DeletePort(port1);
+				IExec->FreeSysObject(ASOT_PORT, port1);
 			}
 			else
 			{
@@ -284,8 +298,14 @@ BPTR CloneCommandDir(const char *taskname)
 		{
 			for(wext = BADDR(teachcli->cli_PathList); wext; wext = BADDR(wext->nextPath))
 			{
-				if(!(mext = IExec->AllocVec(sizeof(struct PathList), MEMF_PUBLIC)))
+//				if(!(mext = IExec->AllocVec(sizeof(struct PathList), MEMF_PUBLIC)))
+				if(!(mext = IExec->AllocVecTags(sizeof(struct PathList),
+				                                AVT_Type, MEMF_SHARED,
+				                                AVT_ClearWithValue, 0,
+			                                    TAG_END)))
+				{
 					break;
+				}
 
 				mext->nextPath = 0L;
 				mext->pathLock = IDOS->DupLock(wext->pathLock);
@@ -302,6 +322,38 @@ BPTR CloneCommandDir(const char *taskname)
 	return(newpath);
 }
 
+int setarg(struct WBArg *WBArg, char *name, BPTR curdir)
+{
+	char *p, *lastc;
+	unsigned char c;
+
+	if(!name || !name[0])
+		return (1);
+
+	lastc = NULL;
+	for(p = name; *p; p++)
+		if(*p == ':' || *p == '/')
+			lastc = p + 1;
+
+	if(!lastc)
+	{
+		WBArg->wa_Lock = IDOS->DupLock(curdir);
+		WBArg->wa_Name = name;
+	}
+	else
+	{
+		if(!lastc[0])
+			return (1);
+		WBArg->wa_Name = lastc;
+		c = lastc[0];
+		lastc[0] = 0;
+		if(!(WBArg->wa_Lock = IDOS->Lock(name, ACCESS_READ)))
+			return (1);
+		*lastc = c;
+	}
+	return (0);
+}
+
 void WBRun(int argc, char *argv[])
 {
 	IWorkbench->OpenWorkbenchObject(argv[0], TAG_END);
@@ -309,7 +361,8 @@ void WBRun(int argc, char *argv[])
 	return;
 }
 
-/*
+
+/* Replaced with workbench.library function call (above).
 void WBRun(int argc, char **argv)
 {
 	struct WBStartup *WBStartup = NULL;
@@ -446,34 +499,3 @@ void WBRun(int argc, char **argv)
 }
 */
 
-int setarg(struct WBArg *WBArg, char *name, BPTR curdir)
-{
-	char *p, *lastc;
-	unsigned char c;
-
-	if(!name || !name[0])
-		return (1);
-
-	lastc = NULL;
-	for(p = name; *p; p++)
-		if(*p == ':' || *p == '/')
-			lastc = p + 1;
-
-	if(!lastc)
-	{
-		WBArg->wa_Lock = IDOS->DupLock(curdir);
-		WBArg->wa_Name = name;
-	}
-	else
-	{
-		if(!lastc[0])
-			return (1);
-		WBArg->wa_Name = lastc;
-		c = lastc[0];
-		lastc[0] = 0;
-		if(!(WBArg->wa_Lock = IDOS->Lock(name, ACCESS_READ)))
-			return (1);
-		*lastc = c;
-	}
-	return (0);
-}
