@@ -69,7 +69,10 @@ void * _DOpus_LAllocRemember(struct DOpusIFace *Self, struct DOpusRemember **key
 
 	if(*key == NULL)
 	{
-		*key = IExec->AllocMem(sizeof(struct DOpusPool), MEMF_ANY|MEMF_CLEAR);
+		*key = IExec->AllocVecTags(sizeof(struct DOpusPool),
+		                           AVT_Type, MEMF_SHARED,
+		                           AVT_ClearWithValue, 0, TAG_END);
+//		*key = IExec->AllocMem(sizeof(struct DOpusPool), MEMF_ANY|MEMF_CLEAR);
 		if(*key == NULL)
 		{
 			return (0);
