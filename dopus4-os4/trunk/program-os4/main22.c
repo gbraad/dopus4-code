@@ -1480,8 +1480,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if((exist = checkexist(destname, NULL))) //IDOpus->CheckExist(destname, NULL)))
 			{
 				if(askeach)
-				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
+				{   // Workaround for archive directories
+					if (swindow && (swindow->flags & DWF_ARCHIVE) &&
+					   (file->type >= ENTRY_DIRECTORY) && !arcfile)
+					{
+						a = REPLACE_OK;
+					}
+					else if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
+//					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;

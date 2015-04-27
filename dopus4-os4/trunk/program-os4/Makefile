@@ -1,6 +1,22 @@
+# Makefile for the DirectoryOpus program
+
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 TOUCH = touch
+
+OPTIMIZE = -O3
+WARNINGS = -Wall -Wwrite-strings
+DEBUGOUT = #-DDEBUG
+DEBUG = -gstabs $(DEBUGOUT)
+CFLAGS = $(DEBUG) $(OPTIMIZE) $(WARNINGS) -I../include-os4 -I../external
+LDFLAGS = -gstabs -lauto -lraauto -lm
+FLEXCAT = flexcat
+
+ifdef REVISE
+BUMPREV:= revision
+else
+REVISE = sub
+endif
 
 OBJS = strings.o about.o arbiter.o archive.o assembly.o buffers.o\
 complete.o custom.o data.o dirtree.o doerror.o doidcmp.o recurse.o\
@@ -11,16 +27,6 @@ main18.o main19.o main20.o main21.o main22.o parentmulti.o protectdata.o\
 remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 reaction.o strstri.o
-
-CFLAGS = -gstabs -Wall -O3 -Wwrite-strings -I../include-os4 -I../external
-LDFLAGS = -gstabs -lauto -lraauto -lm
-FLEXCAT = flexcat
-
-ifdef REVISE
-BUMPREV:= revision
-else
-REVISE = sub
-endif
 
 all: $(BUMPREV) DirectoryOpus
 
