@@ -75,7 +75,7 @@ the existing commercial status of Directory Opus 5.
 
 struct DOpusFileReq
 {
-	char *title;		/* Requester title or NULL for default    */
+	const char *title;		/* Requester title or NULL for default    */
 	char *dirbuf, *filebuf;	/* Buffers for directory and filenames    */
 	struct Window *window;	/* Window in screen to appear on          */
 	int x, y;		/* x & y position of requester window     */
@@ -250,7 +250,7 @@ struct DOpusSimpleRequest
 	int *rets;		/* Gadget return values       */
 	int hi, lo;		/* 3D hi and lo pen colours   */
 	int fg, bg;		/* Text Fg and Bg pen colours */
-	const char *strbuf;		/* Buffer for string gadget   */
+	char *strbuf;		/* Buffer for string gadget   */
 	int strlen;		/* Maximum string length      */
 	int flags;		/* Flags, see below           */
 	struct TextFont *font;	/* Font to use, must be open  */
