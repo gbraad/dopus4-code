@@ -7,3 +7,6 @@ DOpusRT - ChangeLog
 2015-01-14 - DOpusRT 4.18.2
  * Added missing arguments check in DopusRT (if argc < 2).
 
+2015-04-27 - DOpusRT 4.18.3
+* Replaced all deprecated functions with new OS4 functions.
++ Committed revision 586.
