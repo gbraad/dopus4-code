@@ -66,4 +66,17 @@ old IDOS->Lock()/IDOS->Examine() pair.
   config file with newer Dopus4 that has no way to set that option.
 + Committed revision 576.
 
+2015-04-27 - dopus.library 22.42.2 library-os4/main/LAllocRemember.c
+                                   library-os4/Makefile
+                                   library-os4/main/LFreeRemember.c
+* Replaced deprecated memory allocation functions with new OS4 functions.
+* Improved library makefile.
+* Bumped library revision.
++ Committed revision 587.
+
+2015-04-28 - init.c & dopus.library_rev.h
+* Fixed library version string.
+* Bumped library revision (22.42.2).
++ Committed revision 589.
+
  

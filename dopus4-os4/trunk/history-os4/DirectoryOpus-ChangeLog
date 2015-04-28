@@ -592,4 +592,32 @@ IDOS->ExamineDir(). Should be a lot faster.
 * Improved the config file included in the distribution archive.
 * Updated History files.
 + Committed repository revision 582.
++ Released repository revision 582. (DirectoryOpus 4.18.42)
+
+*******************************************************************
+
+2015-04-21 - program-os4/main22.c include-os4/dopus/debug.h
+* Fixed removal of wrong file from destination lister when doing
+  a copyas from an archive.
+* Added a debug definition file.
++ Committed revision 583.
+
+2015-04-27 - program-os4/main22.c|Makefile|dopus.h|DirectoryOpus_rev.h
+* Improved the program makefile.
+* Added include of debug header file to dopus.h.
+* Fixed copying of same-named directories from an archive.
+* Bumped program revision for next release.
++ Committed revision 585.
+
+2015-04-27 - include-os4/libraries/dopus.h
+* Eliminated some compiler warnings by fixing some "char" & "const char"
+  declarations.
++ Committed revision 588.
+
+2015-04-28 - history-os4/
+* Updated history files.
++ Committed revision 590.
++ Released repository revision 590. (DirectoryOpus 4.18.43)
+
+*******************************************************************
 
