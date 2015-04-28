@@ -1,5 +1,5 @@
 @DATABASE "DOpusV4.guide"
-@(C) "Copyright 1994-2000 GPSoftware, Copyright 2000-2012 Directory Opus 4 Research Project"
+@(C) "Copyright 1994-2000 GPSoftware, Copyright 2000-2015 Directory Opus 4 Research Project"
 @AUTHOR "Christoph Gutjahr, Jonathan Potter"
 @$VER: DOpus4Manual_English 2.5 (12.08.12)
 
@@ -12,7 +12,7 @@
 
 Written by Christoph Gutjahr and Jonathan Potter@{PAR}
 
-Copyright 2000-2012 Directory Opus 4 Research Project@{PAR}
+Copyright 2000-2015 Directory Opus 4 Research Project@{PAR}
 Copyright 1994-2000 GPSoftware@{PAR}
 
 @{LINDENT 4}
