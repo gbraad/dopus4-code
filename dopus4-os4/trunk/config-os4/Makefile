@@ -1,10 +1,13 @@
-ASM = Work:Dev/PhxAss/PhxAss
-ASMOPTS = M=68020 SYMDEBUG SC SD 4
+# Makefile for Configopus module
 
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -ggdb -mcrt=newlib -O3 -Wall -I../include-os4
+OPTIMIZE = -O3
+WARNINGS = -Wall -Wwrite-strings
+DEBUGOUT = #-DDEBUG
+DEBUG = -gstabs $(DEBUGOUT)
+CFLAGS = -mcrt=newlib $(DEBUG) $(OPTIMIZE) $(WARNINGS) -I../include-os4
 LDFLAGS = -mcrt=newlib -lauto
 
 FLEXCAT = flexcat
