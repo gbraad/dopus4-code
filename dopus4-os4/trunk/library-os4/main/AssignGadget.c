@@ -74,7 +74,7 @@ void _DOpus_AssignGadget(struct DOpusIFace *Self, struct ConfigStuff *cstuff, in
 	}
 	if(a < bk || !bank)
 	{
-		if(!(temp = IExec->AllocMem(sizeof(struct dopusgadgetbanks), MEMF_CLEAR)))
+		if(!(temp = IExec->AllocVec(sizeof(struct dopusgadgetbanks), MEMF_CLEAR)))
 			return;
 		if(bank)
 			bank->next = temp;

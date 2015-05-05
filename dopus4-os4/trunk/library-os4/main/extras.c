@@ -84,7 +84,7 @@ char *getstringcopy(char *str)
 {
 	char *newstr = NULL;
 
-	if(str && (newstr = IExec->AllocMem(strlen(str) + 1, 0)))
+	if(str && (newstr = IExec->AllocVec(strlen(str) + 1, 0)))
 		IUtility->Strlcpy(newstr, str, strlen(str) + 1);
 	return (newstr);
 }
@@ -92,7 +92,7 @@ char *getstringcopy(char *str)
 void freestring(char *str)
 {
 	if(str)
-		IExec->FreeMem(str, strlen(str) + 1);
+		IExec->FreeVec(str);
 }
 
 int writestring(int file, char *string)

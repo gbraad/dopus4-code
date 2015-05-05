@@ -221,7 +221,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 	}
 	if(config->version < CONFIG_LESS_DODRIVES)
 	{
-		if(!(tempfunc = IExec->AllocMem(sizeof(struct dopusfunction) * DRIVECOUNT, MEMF_CLEAR)))
+		if(!(tempfunc = IExec->AllocVec(sizeof(struct dopusfunction) * DRIVECOUNT, MEMF_CLEAR)))
 		{
 			IDOS->Close(in);
 			return (ERROR_NO_FREE_STORE);
@@ -239,7 +239,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 		for(a = OLDDRIVECOUNT; a < DRIVECOUNT; a++)
 			tempfunc[a].fpen = 3;
 		IExec->CopyMem((STRPTR)tempfunc, (STRPTR)driveptr, sizeof(struct dopusfunction) * DRIVECOUNT);
-		IExec->FreeMem(tempfunc, sizeof(struct dopusfunction) * DRIVECOUNT);
+		IExec->FreeVec(tempfunc);
 	}
 	if(config->version <= CONFIG_CHANGE_DOSREQ)
 	{
@@ -347,7 +347,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 			pos += 2;
 			if((pos + sizeof(struct dopushotkey)) >= size)
 				break;
-			if((hotkey = IExec->AllocMem(sizeof(struct dopushotkey), MEMF_CLEAR)))
+			if((hotkey = IExec->AllocVec(sizeof(struct dopushotkey), MEMF_CLEAR)))
 			{
 				IExec->CopyMem((STRPTR)&cbuf[pos], (STRPTR)hotkey, sizeof(struct dopushotkey));
 				hotkey->func.function = NULL;
@@ -509,7 +509,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 			if((pos + b) >= size)
 				break;
 			++bk;
-			if(!(temp = IExec->AllocMem(sizeof(struct dopusgadgetbanks), MEMF_CLEAR)))
+			if(!(temp = IExec->AllocVec(sizeof(struct dopusgadgetbanks), MEMF_CLEAR)))
 				goto endthis;
 			if(!cstuff->firstbank)
 				cstuff->firstbank = temp;

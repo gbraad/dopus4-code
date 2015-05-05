@@ -129,11 +129,11 @@ void ftype_doubleclick(char *path, char *name, int state)
 		{
 //			len = ((struct XadMasterBase *)(IXadMaster->Data.LibBase))->xmb_RecogSize;
 			len = ((struct xadMasterBase *)XadMasterBase)->xmb_RecogSize;
-			mem = IExec->AllocMem(len, MEMF_ANY);
+			mem = IExec->AllocVec(len, MEMF_ANY);
 			IDOS->Read(fh, mem, len);
 			IDOS->Close(fh);
 			cl = IXadMaster->xadRecogFile(len, mem, NULL);
-			IExec->FreeMem(mem, len);
+			IExec->FreeVec(mem);
 			if(cl)
 			{
 				strcpy(str_pathbuffer[data_active_window], buf);

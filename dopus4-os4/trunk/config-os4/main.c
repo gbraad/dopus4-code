@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 	}
 	functypelist[13] = NULL;
 
-	if(!cmdport && !(config = (struct Config *)IExec->AllocMem(sizeof(struct Config), MEMF_CLEAR)))
+	if(!cmdport && !(config = (struct Config *)IExec->AllocVec(sizeof(struct Config), MEMF_CLEAR)))
 	{
 		quit();
 	}
@@ -276,7 +276,7 @@ void quit()
 		IDOpus->FreeConfig(&cstuff);
 		if(config)
 		{
-			IExec->FreeMem(config, sizeof(struct Config));
+			IExec->FreeVec(config);
 		}
 	}
 	if(myproc)
@@ -1207,7 +1207,7 @@ void doundo(struct ConfigUndo *undo, int type)
 			{
 				curhotkey = hotkey->next;
 				freestring(hotkey->func.function);
-				IExec->FreeMem(hotkey, sizeof(struct dopushotkey));
+				IExec->FreeVec(hotkey);
 				hotkey = curhotkey;
 			}
 			firsthotkey = NULL;
@@ -1255,7 +1255,7 @@ void freegadgetbank(struct dopusgadgetbanks *bank, int free)
 			freestring(bank->gadgets[a].function);
 		}
 		if(free)
-			IExec->FreeMem(bank, sizeof(struct dopusgadgetbanks));
+			IExec->FreeVec(bank);
 	}
 }
 
@@ -1284,7 +1284,7 @@ char *getcopy(STRPTR object, int size, struct DOpusRemember **key)
 	if(key)
 		newobject = (char *)IDOpus->LAllocRemember(key, size, MEMF_CLEAR);
 	else
-		newobject = IExec->AllocMem(size, MEMF_CLEAR);
+		newobject = IExec->AllocVec(size, MEMF_CLEAR);
 	if(newobject)
 		IExec->CopyMem((char *)object, (char *)newobject, size);
 	return (newobject);
@@ -1413,7 +1413,7 @@ void doglassimage(struct Gadget *gad)
 void freestring(STRPTR str)
 {
 	if(str)
-		IExec->FreeMem(str, strlen(str) + 1);
+		IExec->FreeVec(str);
 }
 
 static char lasttitle[80];
@@ -1541,7 +1541,7 @@ void loadrgb4(struct Screen *scr, USHORT *pal, int num)
 	int a, b;
 	ULONG *data;
 
-	if((data = IExec->AllocMem(num * 3 * sizeof(ULONG), 0)))
+	if((data = IExec->AllocVec(num * 3 * sizeof(ULONG), 0)))
 	{
 		for(a = 0, b = 0; a < num; a++)
 		{
@@ -1550,7 +1550,7 @@ void loadrgb4(struct Screen *scr, USHORT *pal, int num)
 			data[b++] = ((pal[a] & 0xf) << 28) | 0x0fffffff;
 		}
 		load_palette(scr, data, num);
-		IExec->FreeMem(data, num * 3 * sizeof(ULONG));
+		IExec->FreeVec(data);
 	}
 }
 
@@ -1569,13 +1569,13 @@ void load_palette(struct Screen *screen, uint32 *palette, int numcols)
 	{
 		uint32 *backup_palette;
 
-		if((backup_palette = IExec->AllocMem(((numcols * 3) + 2) * sizeof(ULONG), MEMF_CLEAR)))
+		if((backup_palette = IExec->AllocVec(((numcols * 3) + 2) * sizeof(ULONG), MEMF_CLEAR)))
 		{
 			IExec->CopyMem((char *)palette, (char *)&backup_palette[1], (numcols * 3) * sizeof(ULONG));
 			backup_palette[0] = numcols << 16;
 			backup_palette[(numcols * 3) + 1] = 0;
 			IGraphics->LoadRGB32(&screen->ViewPort, backup_palette);
-			IExec->FreeMem(backup_palette, ((numcols * 3) + 2) * sizeof(ULONG));
+			IExec->FreeVec(backup_palette);
 		}
 	}
 }

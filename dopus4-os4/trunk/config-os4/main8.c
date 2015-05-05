@@ -192,7 +192,7 @@ dohotkeysconfig()
 								else
 									newhot->next = hot->next;
 								freefunction(&hot->func);
-								IExec->FreeMem(hot, sizeof(struct dopushotkey));
+								IExec->FreeVec(hot);
 							}
 							else
 								dogadgetinfo(cfg_string[STR_SELECT_HOTKEY_TO_DELETE]);
