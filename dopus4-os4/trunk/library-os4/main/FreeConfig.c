@@ -96,7 +96,7 @@ void _DOpus_FreeConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 			freestring(bank->gadgets[a].function);
 		}
 		temp = bank->next;
-		IExec->FreeMem(bank, sizeof(struct dopusgadgetbanks));
+		IExec->FreeVec(bank);
 		bank = temp;
 	}
 	cstuff->firstbank = cstuff->curbank = NULL;
@@ -106,7 +106,7 @@ void _DOpus_FreeConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	{
 		temphot = hotkey->next;
 		freestring(hotkey->func.function);
-		IExec->FreeMem(hotkey, sizeof(struct dopushotkey));
+		IExec->FreeVec(hotkey);
 		hotkey = temphot;
 	}
 	cstuff->firsthotkey = NULL;

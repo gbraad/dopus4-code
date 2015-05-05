@@ -236,7 +236,7 @@ int dofiletypeconfig()
 						}
 						if(!type || request(cfg_string[STR_REDEFINE_EXISTING_CLASS_ACTION]))
 						{
-							if(type = IExec->AllocMem(sizeof(struct dopusfiletype), MEMF_CLEAR))
+							if(type = IExec->AllocVec(sizeof(struct dopusfiletype), MEMF_CLEAR))
 							{
 								strcpy(type->type, fclass->type);
 								strcpy(type->typeid, fclass->typeid);
@@ -256,7 +256,7 @@ int dofiletypeconfig()
 										addfiletype(tpos);
 									}
 								}
-								IExec->FreeMem(type, sizeof(struct dopusfiletype));
+								IExec->FreeVec(type);
 								listptr = makefiletypelist(&key);
 								showtypelist(listptr);
 							}
@@ -533,7 +533,7 @@ void readfileclasses()
 	int in, size, pos, lsize, a;
 	char *classbuf, buf[256], *typeid;
 
-	if((IDOpus->CheckExist(classname, &size)) >= 0 || !(classbuf = IExec->AllocMem(size, MEMF_CLEAR)))
+	if((IDOpus->CheckExist(classname, &size)) >= 0 || !(classbuf = IExec->AllocVec(size, MEMF_CLEAR)))
 		return;
 	if(in = IDOS->Open(classname, MODE_OLDFILE))
 	{
@@ -562,7 +562,7 @@ void readfileclasses()
 			pos = lsize + 1;
 		}
 	}
-	IExec->FreeMem(classbuf, size);
+	IExec->FreeVec(classbuf);
 }
 
 int importfileclasses()
@@ -708,7 +708,7 @@ int addfileclass(STRPTR type, STRPTR typeid, STRPTR recog)
 			last = fclass;
 		fclass = fclass->next;
 	}
-	if(!(newclass = IExec->AllocMem(sizeof(struct fileclass), MEMF_CLEAR)))
+	if(!(newclass = IExec->AllocVec(sizeof(struct fileclass), MEMF_CLEAR)))
 		return (0);
 	if(fclass)
 	{
@@ -731,7 +731,7 @@ int addfileclass(STRPTR type, STRPTR typeid, STRPTR recog)
 		firstclass = newclass;
 	strcpy(newclass->type, type);
 	strcpy(newclass->typeid, typeid);
-	if(recog && (newclass->recognition = IExec->AllocMem(strlen(recog) + 1, MEMF_CLEAR)))
+	if(recog && (newclass->recognition = IExec->AllocVec(strlen(recog) + 1, MEMF_CLEAR)))
 		strcpy(newclass->recognition, recog);
 	return (1);
 }
@@ -745,7 +745,7 @@ void freefileclasses()
 	{
 		newclass = fclass->next;
 		freestring(fclass->recognition);
-		IExec->FreeMem(fclass, sizeof(struct fileclass));
+		IExec->FreeVec(fclass);
 		fclass = newclass;
 	}
 	firstclass = NULL;
@@ -760,7 +760,7 @@ void removefileclass(struct fileclass *fclass)
 	if(fclass == firstclass)
 		firstclass = fclass->next;
 	freestring(fclass->recognition);
-	IExec->FreeMem(fclass, sizeof(struct fileclass));
+	IExec->FreeVec(fclass);
 }
 
 char **makeclasslist(struct DOpusRemember **key)
@@ -1441,7 +1441,7 @@ void makeclassrecog(struct fileclass *class, STRPTR *classlist, STRPTR classtype
 	class->recognition = NULL;
 	if(!size)
 		return;
-	if(!(buf = IExec->AllocMem(size + 2, MEMF_CLEAR)))
+	if(!(buf = IExec->AllocVec(size + 2, MEMF_CLEAR)))
 		return;
 	buf2[1] = 0;
 	for(a = 0; a < num; a++)
@@ -1459,7 +1459,7 @@ void makeclassrecog(struct fileclass *class, STRPTR *classlist, STRPTR classtype
 		}
 	}
 	class->recognition = getcopy(buf, -1, NULL);
-	IExec->FreeMem(buf, size + 2);
+	IExec->FreeVec(buf);
 }
 
 void checkclassswap()
@@ -1538,7 +1538,7 @@ void free_file_view()
 
 	if(fileview_buf)
 	{
-		IExec->FreeMem(fileview_buf, fileview_size);
+		IExec->FreeVec(fileview_buf);
 		fileview_buf = NULL;
 	}
 	fileview_size = fileview_lines = fileview_topline = 0;
@@ -1559,7 +1559,7 @@ void load_file_view()
 			fileview_size = 4096;
 		else if(fileview_size % 16)
 			fileview_size = ((fileview_size + 15) / 16) * 16;
-		if(fileview_buf = IExec->AllocMem(fileview_size, MEMF_CLEAR))
+		if(fileview_buf = IExec->AllocVec(fileview_size, MEMF_CLEAR))
 		{
 			rsize = IDOS->Read(file, fileview_buf, fileview_size);
 			fileview_lines = (rsize + 15) / 16;

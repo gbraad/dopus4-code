@@ -53,7 +53,7 @@ void allocdirbuffers(int newnum)
 				freedir(dir, -1);
 				if(dopus_curwin[win] == dir)
 					dopus_curwin[win] = dopus_firstwin[win];
-				IExec->FreeMem(dir, sizeof(struct DirectoryWindow));
+				IExec->FreeVec(dir);
 				if((--data_buffer_count[win]) < 1)
 					break;
 				dir = next;
@@ -66,7 +66,7 @@ void allocdirbuffers(int newnum)
 				dir = dir->next;
 			for(a = data_buffer_count[win]; a < newnum; a++)
 			{
-				if((next = IExec->AllocMem(sizeof(struct DirectoryWindow), MEMF_CLEAR)))
+				if((next = IExec->AllocVec(sizeof(struct DirectoryWindow), MEMF_CLEAR)))
 				{
 					if(!dir)
 					{

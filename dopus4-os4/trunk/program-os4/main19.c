@@ -36,7 +36,7 @@ void makereselect(struct DirWindowPars *winpar, int win)
 
 	if(winpar->reselection_list)
 	{
-		IExec->FreeMem(winpar->reselection_list, winpar->reselection_size);
+		IExec->FreeVec(winpar->reselection_list);
 		winpar->reselection_list = NULL;
 	}
 	if(win == -1 || (dopus_curwin[win]->firstentry && dopus_curwin[win]->firstentry->type == ENTRY_CUSTOM))
@@ -46,7 +46,7 @@ void makereselect(struct DirWindowPars *winpar, int win)
 	winpar->reselection_win = win;
 	winpar->reselection_size = (dopus_curwin[win]->dirsel + dopus_curwin[win]->filesel + 1) * FILEBUF_SIZE;
 
-	if(!(winpar->reselection_list = IExec->AllocMem(winpar->reselection_size, MEMF_CLEAR)))
+	if(!(winpar->reselection_list = IExec->AllocVec(winpar->reselection_size, MEMF_CLEAR)))
 		return;
 
 	dir = winpar->reselection_dir->firstentry;
@@ -733,7 +733,7 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 		return (searchbuffer(buffer, bufsize, matchbuf, matchsize, flags));
 	else
 	{
-		if(!(findbuf = IExec->AllocMem(32004, MEMF_CLEAR)))
+		if(!(findbuf = IExec->AllocVec(32004, MEMF_CLEAR)))
 			return (-1);
 		for(;;)
 		{
@@ -748,7 +748,7 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 			if((searchbuffer(findbuf, size, matchbuf, matchsize, flags)) == 1)
 			{
 				oldpos += ((int)search_found_position - (int)findbuf);
-				IExec->FreeMem(findbuf, 32004);
+				IExec->FreeVec(findbuf);
 				return (oldpos);
 			}
 			if(status_haveaborted)
@@ -757,7 +757,7 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 				break;
 			IDOS->ChangeFilePosition(file, -matchsize, OFFSET_CURRENT);
 		}
-		IExec->FreeMem(findbuf, 32004);
+		IExec->FreeVec(findbuf);
 	}
 	return (-1);
 }

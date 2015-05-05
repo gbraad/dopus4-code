@@ -323,7 +323,7 @@ void add_hotkey_objects(CxObj *broker, struct MsgPort *port, int add)
 	{
 		for(a = 0; a < hotkey_count; a++)
 			ICommodities->DeleteCxObjAll(filter_table[a]);
-		IExec->FreeMem(filter_table, hotkey_count * sizeof(CxObj *));
+		IExec->FreeVec(filter_table);
 		filter_table = NULL;
 	}
 
@@ -335,7 +335,7 @@ void add_hotkey_objects(CxObj *broker, struct MsgPort *port, int add)
 	if(hotkey_count == 0)
 		return;
 
-	filter_table = IExec->AllocMem(hotkey_count * sizeof(CxObj *), MEMF_CLEAR);
+	filter_table = IExec->AllocVec(hotkey_count * sizeof(CxObj *), MEMF_CLEAR);
 	if(filter_table == NULL)
 		return;
 

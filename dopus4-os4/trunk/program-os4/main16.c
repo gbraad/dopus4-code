@@ -192,11 +192,11 @@ void doreadhelp(char *file)
 	struct Help *temph, *curhelp;
 
 	freehelp();
-	if(!file[0] || !(buf = IExec->AllocMem(10000, MEMF_CLEAR)))
+	if(!file[0] || !(buf = IExec->AllocVec(10000, MEMF_CLEAR)))
 		return;
 	if(readfile(file, &helpbuf, &helpsize))
 	{
-		IExec->FreeMem(buf, 10000);
+		IExec->FreeVec(buf);
 		return;
 	}
 
@@ -256,7 +256,7 @@ void doreadhelp(char *file)
 			}
 		}
 	}
-	IExec->FreeMem(buf, 10000);
+	IExec->FreeVec(buf);
 	IExec->FreeVec(helpbuf);
 }
 
@@ -439,7 +439,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 			strcat(buf1, "\n\n");
 			s1 = strlen(buf1);
 			s = strlen(msg) + 1;
-			if((buf = IExec->AllocMem(s + s1, MEMF_CLEAR)))
+			if((buf = IExec->AllocVec(s + s1, MEMF_CLEAR)))
 			{
 				IExec->CopyMem(buf1, buf, s1);
 				IExec->CopyMem(msg, &buf[s1], s);
@@ -449,7 +449,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 		}
 		simplerequest(TDRIMAGE_INFO, msg, globstring[STR_CONTINUE], NULL);
 		if(buf)
-			IExec->FreeMem(buf, s);
+			IExec->FreeVec(buf);
 	}
 	else if(IAmigaGuide && func)
 	{

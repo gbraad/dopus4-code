@@ -138,10 +138,10 @@ doload(int type, int def)
 		if(!(strstri(loadnamebuf, ".CFG")))
 			IDOpus->StrConcat(loadnamebuf, ".CFG", 256);
 	}
-	if(!(newcstuff = IExec->AllocMem(sizeof(struct ConfigStuff), MEMF_CLEAR)) || !(newcstuff->config = IExec->AllocMem(sizeof(struct Config), MEMF_CLEAR)))
+	if(!(newcstuff = IExec->AllocVec(sizeof(struct ConfigStuff), MEMF_CLEAR)) || !(newcstuff->config = IExec->AllocVec(sizeof(struct Config), MEMF_CLEAR)))
 	{
 		if(newcstuff)
-			IExec->FreeMem(newcstuff, sizeof(struct ConfigStuff));
+			IExec->FreeVec(newcstuff);
 		unbusy();
 		return (0);
 	}
@@ -405,8 +405,8 @@ doload(int type, int def)
 	if(freecon & 2)
 		IDOpus->FreeConfig(newcstuff);
 	if(freecon & 1)
-		IExec->FreeMem(newcstuff->config, sizeof(struct Config));
-	IExec->FreeMem(newcstuff, sizeof(struct ConfigStuff));
+		IExec->FreeVec(newcstuff->config);
+	IExec->FreeVec(newcstuff);
 	cstufffix(&cstuff);
 	IDOpus->LFreeRemember(&fkey);
 	unbusy();

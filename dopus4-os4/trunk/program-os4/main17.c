@@ -337,7 +337,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		}
 		if(a > 0)
 		{
-			if((buf1 = IExec->AllocMem(a + 2, MEMF_CLEAR)))
+			if((buf1 = IExec->AllocVec(a + 2, MEMF_CLEAR)))
 			{
 				entry = dopus_curwin[win]->firstentry;
 				while(entry)
@@ -353,7 +353,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 					entry = entry->next;
 				}
 				rexx_set_return(msg, 0, buf1);
-				IExec->FreeMem(buf1, a + 2);
+				IExec->FreeVec(buf1);
 			}
 			else
 				rexx_set_return(msg, 10, NULL);

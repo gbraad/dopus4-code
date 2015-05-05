@@ -66,13 +66,13 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 		return (0);
 	if(!stringdata->string_table)
 	{
-		if(!(stringdata->string_table = IExec->AllocMem(stringdata->string_count * 4, MEMF_CLEAR)))
+		if(!(stringdata->string_table = IExec->AllocVec(stringdata->string_count * 4, MEMF_CLEAR)))
 			return (0);
 	}
 
 	if(stringdata->string_buffer)
 	{
-		IExec->FreeMem(stringdata->string_buffer, stringdata->string_size);
+		IExec->FreeVec(stringdata->string_buffer);
 		stringdata->string_buffer = NULL;
 	}
 	defstr = stringdata->default_table;

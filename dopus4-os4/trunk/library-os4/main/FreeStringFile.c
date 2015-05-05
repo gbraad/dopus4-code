@@ -62,12 +62,12 @@ void _DOpus_FreeStringFile(struct DOpusIFace *Self, struct StringData *stringdat
 	{
 		if(stringdata->string_buffer)
 		{
-			IExec->FreeMem(stringdata->string_buffer, stringdata->string_size);
+			IExec->FreeVec(stringdata->string_buffer);
 			stringdata->string_buffer = NULL;
 		}
 		if(stringdata->string_table)
 		{
-			IExec->FreeMem(stringdata->string_table, stringdata->string_count * 4);
+			IExec->FreeVec(stringdata->string_table);
 			stringdata->string_table = NULL;
 		}
 

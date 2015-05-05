@@ -105,7 +105,7 @@ void quit()
 	IDOS->UnLock(ramdisk_lock);
 
 	if(func_reselection.reselection_list)
-		IExec->FreeMem(func_reselection.reselection_list, func_reselection.reselection_size);
+		IExec->FreeVec(func_reselection.reselection_list);
 
 	if(count_port)
 		IExec->FreeSysObject(ASOT_PORT, count_port);
