@@ -53,7 +53,7 @@ int32 recursive_delete(STRPTR directory)
 			{
 				dofilename(dat->Name);
 
-				nodename = IExec->AllocVec(strlen(directory) + strlen(dat->Name) + 2, MEMF_ANY);
+				nodename = doAllocVec(strlen(directory) + strlen(dat->Name) + 2, MEMF_ANY);
 				strncpy(nodename, directory, strlen(directory) + 1);
 				IDOS->AddPart(nodename, dat->Name, strlen(directory) + strlen(dat->Name) + 2);
 
@@ -261,7 +261,7 @@ int32 recursive_hunt(STRPTR sourcename)
 
 				if(EXD_IS_DIRECTORY(data))
 				{
-					if((newsourcename = IExec->AllocVec(strlen(sourcename) + strlen(data->Name) + 2, MEMF_ANY)))
+					if((newsourcename = doAllocVec(strlen(sourcename) + strlen(data->Name) + 2, MEMF_ANY)))
 					{
 						strncpy(newsourcename, sourcename, strlen(sourcename) + strlen(data->Name) + 2);
 						IDOS->AddPart(newsourcename, data->Name, strlen(sourcename) + strlen(data->Name) + 2);
@@ -287,7 +287,7 @@ int32 recursive_hunt(STRPTR sourcename)
 					char gadfmt[100];
 					int x, len = strlen(globstring[STR_FOUND_A_MATCH]) + strlen(sourcename) + strlen(data->Name) + 4;
 
-					if((textfmt = IExec->AllocVec(len, MEMF_ANY)))
+					if((textfmt = doAllocVec(len, MEMF_ANY)))
 					{
 						snprintf(textfmt, len, globstring[STR_FOUND_A_MATCH], data->Name, sourcename);
 						snprintf(gadfmt, 100, "%s|%s|%s", globstring[STR_OKAY], globstring[STR_SKIP], globstring[STR_ABORT]);

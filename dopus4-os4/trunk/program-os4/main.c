@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 	/* status_flags contains various flags; initialise it to 0 to start with */
 
 	/* Initialise various data */
-	if((str_last_rexx_result = IExec->AllocVec(256, MEMF_ANY)))
+	if((str_last_rexx_result = doAllocVec(256, MEMF_ANY)))
 	{
 		str_last_rexx_result[0] = 0;
 	}

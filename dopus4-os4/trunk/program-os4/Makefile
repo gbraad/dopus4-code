@@ -30,7 +30,10 @@ reaction.o strstri.o
 
 all: $(BUMPREV) DirectoryOpus
 
-# DirectoryOpus itself
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) -o $@
+
 DirectoryOpus: $(OBJS)
 	$(CC) -o $@.debug $^ $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@

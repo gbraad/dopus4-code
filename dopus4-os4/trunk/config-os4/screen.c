@@ -664,7 +664,7 @@ int doscreenconfig()
 							IDOpus->GetWBScreen(&scrbuf);
 							wbdepth = 1 << scrbuf.RastPort.BitMap->Depth;
 							size = (wbdepth * 3) * sizeof(ULONG);
-							if((palbuf = IExec->AllocVec(size, MEMF_CLEAR)))
+							if((palbuf = doAllocVec(size, MEMF_CLEAR)))
 							{
 								ULONG palette[48];
 

@@ -65,7 +65,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 	if(!dir->xai)
 	{
 		dostatustext(globstring[STR_OPENING_ARCHIVE]);
-		if((dir->arcname = IExec->AllocVec(strlen(arcname) + 1, MEMF_ANY)))
+		if((dir->arcname = doAllocVec(strlen(arcname) + 1, MEMF_ANY)))
 		{
 			strcpy(dir->arcname, arcname);
 			if((dir->xai = IXadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))

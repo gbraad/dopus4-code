@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 	}
 	functypelist[13] = NULL;
 
-	if(!cmdport && !(config = (struct Config *)IExec->AllocVec(sizeof(struct Config), MEMF_CLEAR)))
+	if(!cmdport && !(config = (struct Config *)doAllocVec(sizeof(struct Config), MEMF_CLEAR)))
 	{
 		quit();
 	}
@@ -1284,7 +1284,7 @@ char *getcopy(STRPTR object, int size, struct DOpusRemember **key)
 	if(key)
 		newobject = (char *)IDOpus->LAllocRemember(key, size, MEMF_CLEAR);
 	else
-		newobject = IExec->AllocVec(size, MEMF_CLEAR);
+		newobject = doAllocVec(size, MEMF_CLEAR);
 	if(newobject)
 		IExec->CopyMem((char *)object, (char *)newobject, size);
 	return (newobject);
@@ -1541,7 +1541,7 @@ void loadrgb4(struct Screen *scr, USHORT *pal, int num)
 	int a, b;
 	ULONG *data;
 
-	if((data = IExec->AllocVec(num * 3 * sizeof(ULONG), 0)))
+	if((data = doAllocVec(num * 3 * sizeof(ULONG), 0)))
 	{
 		for(a = 0, b = 0; a < num; a++)
 		{
@@ -1569,7 +1569,7 @@ void load_palette(struct Screen *screen, uint32 *palette, int numcols)
 	{
 		uint32 *backup_palette;
 
-		if((backup_palette = IExec->AllocVec(((numcols * 3) + 2) * sizeof(ULONG), MEMF_CLEAR)))
+		if((backup_palette = doAllocVec(((numcols * 3) + 2) * sizeof(ULONG), MEMF_CLEAR)))
 		{
 			IExec->CopyMem((char *)palette, (char *)&backup_palette[1], (numcols * 3) * sizeof(ULONG));
 			backup_palette[0] = numcols << 16;

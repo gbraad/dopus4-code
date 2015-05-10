@@ -288,3 +288,5 @@ struct Window *openwindow(struct NewWindow *);
 
 /* swapmem.c */
 void SwapMem(char *, char *, int);
+void *doAllocVec(uint32 byteSize, uint32 attributes);
+

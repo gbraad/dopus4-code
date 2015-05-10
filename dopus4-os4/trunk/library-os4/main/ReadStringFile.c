@@ -26,6 +26,8 @@
 #include <proto/dopus.h>
 #include <stdarg.h>
 
+#include "extras.h"
+
 /****** dopus/main/ReadStringFile ******************************************
 *
 *   NAME
@@ -66,7 +68,7 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 		return (0);
 	if(!stringdata->string_table)
 	{
-		if(!(stringdata->string_table = IExec->AllocVec(stringdata->string_count * 4, MEMF_CLEAR)))
+		if(!(stringdata->string_table = doAllocVec(stringdata->string_count * 4, MEMF_CLEAR)))
 			return (0);
 	}
 
@@ -75,13 +77,13 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 		IExec->FreeVec(stringdata->string_buffer);
 		stringdata->string_buffer = NULL;
 	}
-	defstr = stringdata->default_table;
+	defstr = (struct DefaultString *)stringdata->default_table;
 
 	for(a = 0; a < stringdata->string_count; a++)
 	{
 		if(!defstr[a].string)
 			break;
-		stringdata->string_table[defstr[a].string_id] = defstr[a].string;
+		stringdata->string_table[defstr[a].string_id] = (char *)defstr[a].string;
 	}
 	if(filename)
 	{
@@ -95,7 +97,7 @@ int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata
 					{
 						if(!defstr[a].string)
 							break;
-						stringdata->string_table[defstr[a].string_id] = ILocale->GetCatalogStr(stringdata->catalog, defstr[a].string_id, defstr[a].string);
+						stringdata->string_table[defstr[a].string_id] = (char *)ILocale->GetCatalogStr(stringdata->catalog, defstr[a].string_id, defstr[a].string);
 					}
 					ILocale->CloseCatalog(stringdata->catalog);
 				}

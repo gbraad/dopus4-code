@@ -27,6 +27,10 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+/* The "From" comment lines indicate which OS3 DirectoryOpus4 library
+ * source file contained the functions declared below the comment line.
+*/
+
 #include <string.h>
 #include <stdarg.h>
 
@@ -42,7 +46,21 @@ the existing commercial status of Directory Opus 5.
 #include <clib/alib_stdio_protos.h>
 
 
-/* From borders.c */
+/* Same as in program-os4/main12.c ***********************/
+
+void * doAllocVec(uint32 byteSize, uint32 attributes)
+{
+	APTR memory;
+
+	memory = IExec->AllocVecTags(byteSize,
+	                             AVT_Type, MEMF_SHARED,
+	                             AVT_ClearWithValue, 0,
+	                             TAG_END);
+
+	return(memory);
+}
+
+/* From borders.c ****************************************/
 
 void fill_out_border_data(short *shine, short *shadow, int w, int h)
 {
@@ -76,15 +94,13 @@ void fill_out_border(struct Border *border, int fpen, int bpen, short *shine, sh
 	border[1].XY = shadow;
 }
 
-/* END From borders.c */
-
-/* From dopus_stuff.c */
+/* From dopus_stuff.c ************************************/
 
 char *getstringcopy(char *str)
 {
 	char *newstr = NULL;
 
-	if(str && (newstr = IExec->AllocVec(strlen(str) + 1, 0)))
+	if(str && (newstr = doAllocVec(strlen(str) + 1, 0)))
 		IUtility->Strlcpy(newstr, str, strlen(str) + 1);
 	return (newstr);
 }
@@ -174,9 +190,7 @@ void linkinnewfiletype(struct ConfigStuff *cstuff, struct dopusfiletype *temp)
 	}
 }
 
-/* END From dopus_stuff.c */
-
-/* From gui.c */
+/* From gui.c ********************************************/
 
 int makeusstring(char *from, char *to, int *uspos, int size)
 {
@@ -239,9 +253,7 @@ void HighlightRMBGad(struct RastPort *rp, struct RMBGadget *gad, int state)
 	}
 }
 
-/* END From gui.c */
-
-/* From function.c */
+/* From function.c ***************************************/
 
 void SwapMem(char *src, char *dst, int size)
 {
@@ -255,24 +267,7 @@ void SwapMem(char *src, char *dst, int size)
 	}
 }
 
-/*
-void LSprintfA(char *buf, char *fmt, void *args)
-{
-	IExec->RawDoFmt(fmt, args, NULL, buf);
-}
-
-void VARARGS68K LSprintf(char *buf, char *fmt, ...)
-{
-	va_list args;
-
-	va_start(args, fmt);
-	LSprintfA(buf, fmt, va_getlinearva(args, void *));
-	va_end(args);
-}
-*/
-/* END From functions.c */
-
-/* From imagery.c */
+/* From imagery.c ****************************************/
 
 struct Image *get_image_data(struct DOpusIFace *IDOpus, struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp)
 {
@@ -300,15 +295,11 @@ struct Image *get_image_data(struct DOpusIFace *IDOpus, struct DOpusRemember **k
 	return(image);
 }
 
-/* END From imagery.c */
-
-/* From language.c */
+/* From language.c ***************************************/
 
 char **string_table;
 
-/* END From language.c */
-
-/* From listview.c */
+/* From listview.c ***************************************/
 
 const char nullstring[] = "                                                                                                                                ";
 
@@ -503,4 +494,3 @@ int view_valid(struct DOpusListView *view, int itemnum)
 	return (0);
 }
 
-/* END From listview.c */

@@ -138,7 +138,7 @@ doload(int type, int def)
 		if(!(strstri(loadnamebuf, ".CFG")))
 			IDOpus->StrConcat(loadnamebuf, ".CFG", 256);
 	}
-	if(!(newcstuff = IExec->AllocVec(sizeof(struct ConfigStuff), MEMF_CLEAR)) || !(newcstuff->config = IExec->AllocVec(sizeof(struct Config), MEMF_CLEAR)))
+	if(!(newcstuff = doAllocVec(sizeof(struct ConfigStuff), MEMF_CLEAR)) || !(newcstuff->config = doAllocVec(sizeof(struct Config), MEMF_CLEAR)))
 	{
 		if(newcstuff)
 			IExec->FreeVec(newcstuff);

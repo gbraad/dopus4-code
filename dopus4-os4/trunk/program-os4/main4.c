@@ -345,7 +345,7 @@ int readfile(STRPTR name, STRPTR *buf, int64 *size)
 	if(IDOpus->CheckExist(name, &filesize) >= 0 || !(in = IDOS->Open(name, MODE_OLDFILE)))
 		return (-1);
 
-	if((*buf = IExec->AllocVec(filesize, MEMF_ANY)))
+	if((*buf = doAllocVec(filesize, MEMF_ANY)))
 	{
 		IDOS->Read(in, *buf, filesize);
 	}

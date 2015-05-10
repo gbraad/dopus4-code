@@ -525,7 +525,7 @@ int makenewbank(int insert)
 	struct dopusgadgetbanks *bank, *bank2;
 	int a;
 
-	if(!(bank = IExec->AllocVec(sizeof(struct dopusgadgetbanks), MEMF_CLEAR)))
+	if(!(bank = doAllocVec(sizeof(struct dopusgadgetbanks), MEMF_CLEAR)))
 	{
 		dogadgetinfo(cfg_string[STR_NO_MEMORY_FOR_NEW_BANK]);
 		return (0);
