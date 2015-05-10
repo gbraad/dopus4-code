@@ -46,7 +46,7 @@ void makereselect(struct DirWindowPars *winpar, int win)
 	winpar->reselection_win = win;
 	winpar->reselection_size = (dopus_curwin[win]->dirsel + dopus_curwin[win]->filesel + 1) * FILEBUF_SIZE;
 
-	if(!(winpar->reselection_list = IExec->AllocVec(winpar->reselection_size, MEMF_CLEAR)))
+	if(!(winpar->reselection_list = doAllocVec(winpar->reselection_size, MEMF_CLEAR)))
 		return;
 
 	dir = winpar->reselection_dir->firstentry;
@@ -733,7 +733,7 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 		return (searchbuffer(buffer, bufsize, matchbuf, matchsize, flags));
 	else
 	{
-		if(!(findbuf = IExec->AllocVec(32004, MEMF_CLEAR)))
+		if(!(findbuf = doAllocVec(32004, MEMF_CLEAR)))
 			return (-1);
 		for(;;)
 		{

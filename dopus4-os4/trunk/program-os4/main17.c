@@ -337,7 +337,7 @@ int rexxdisp(struct RexxMsg *msg, struct CommandList *cmd, char *command)
 		}
 		if(a > 0)
 		{
-			if((buf1 = IExec->AllocVec(a + 2, MEMF_CLEAR)))
+			if((buf1 = doAllocVec(a + 2, MEMF_CLEAR)))
 			{
 				entry = dopus_curwin[win]->firstentry;
 				while(entry)

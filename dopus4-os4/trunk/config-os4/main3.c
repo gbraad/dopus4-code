@@ -718,7 +718,7 @@ char *compilefunclist(STRPTR *funclist, STRPTR functype, struct DOpusRemember **
 	if(key)
 		buf = IDOpus->LAllocRemember(key, size, MEMF_CLEAR);
 	else
-		buf = IExec->AllocVec(size, MEMF_CLEAR);
+		buf = doAllocVec(size, MEMF_CLEAR);
 	if(!buf)
 		return (NULL);
 	buf2[1] = 0;

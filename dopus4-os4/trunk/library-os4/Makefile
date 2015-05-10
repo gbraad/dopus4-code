@@ -3,10 +3,8 @@
 CROSS_COMPILE = ppc-amigaos-
 
 CC     = $(CROSS_COMPILE)gcc 
-CXX    = $(CROSS_COMPILE)c++ 
 AS     = $(CROSS_COMPILE)as 
 LD     = $(CROSS_COMPILE)ld 
-RANLIB = $(CROSS_COMPILE)ranlib 
 STRIP  = $(CROSS_COMPILE)strip
 RM     = rm -f
 
@@ -26,9 +24,6 @@ TARGET = dopus.library
 
 # Additional linker libraries
 LIBS = #-lamiga
-
-# Version of the library to build
-VERSION = 51
 
 # Source code files used in this project
 # Add any additional files to this line

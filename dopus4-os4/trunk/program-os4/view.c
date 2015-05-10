@@ -147,9 +147,9 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 		}
 	}
 
-	if((view_message = IExec->AllocVec(sizeof(struct ViewMessage), MEMF_SHARED | MEMF_CLEAR)))
+	if((view_message = doAllocVec(sizeof(struct ViewMessage), MEMF_SHARED | MEMF_CLEAR)))
 	{
-		if ((view_message->filename = IExec->AllocVec(strlen(filename) + 1, MEMF_SHARED | MEMF_CLEAR)))
+		if ((view_message->filename = doAllocVec(strlen(filename) + 1, MEMF_SHARED | MEMF_CLEAR)))
 		{
 			strcpy(view_message->filename, filename);
 		}
@@ -159,7 +159,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 			return ret;
 		}
 
-		if ((view_message->name = IExec->AllocVec(strlen(name) + 1, MEMF_SHARED | MEMF_CLEAR)))
+		if ((view_message->name = doAllocVec(strlen(name) + 1, MEMF_SHARED | MEMF_CLEAR)))
 		{
 			strcpy(view_message->name, name);
 		}
@@ -172,7 +172,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 
 		if(initialsearch)
 		{
-			view_message->initialsearch = IExec->AllocVec(strlen(initialsearch) + 1, MEMF_SHARED | MEMF_CLEAR);
+			view_message->initialsearch = doAllocVec(strlen(initialsearch) + 1, MEMF_SHARED | MEMF_CLEAR);
 			strcpy(view_message->initialsearch, initialsearch);
 		}
 		else
@@ -274,7 +274,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 			if(size > 0)
 			{
-				if((vdata = IExec->AllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
+				if((vdata = doAllocVec(sizeof(struct ViewData), MEMF_SHARED | MEMF_CLEAR)))
 				{
 					if(view_msg->wait == 0)
 						view_runcount++;
@@ -511,7 +511,7 @@ int view_loadfile(struct ViewData *vdata)
 
 	vdata->view_buffer_size = vdata->view_file_size;
 
-	if(!(vdata->view_text_buffer = IExec->AllocVec((uint32)vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
+	if(!(vdata->view_text_buffer = doAllocVec((uint32)vdata->view_buffer_size, MEMF_SHARED | MEMF_CLEAR)))
 	{
 		return 0;
 	}
@@ -2013,7 +2013,7 @@ void view_viewhilite(struct ViewData *vdata, int x, int y, int x1, int y1)
 {
 	struct viewhilite *hi;
 
-	if(!(hi = IExec->AllocVec(sizeof(struct viewhilite), MEMF_SHARED | MEMF_CLEAR)))
+	if(!(hi = doAllocVec(sizeof(struct viewhilite), MEMF_SHARED | MEMF_CLEAR)))
 		return;
 	if(vdata->view_current_hilite)
 		vdata->view_current_hilite->next = hi;

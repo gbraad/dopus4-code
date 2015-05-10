@@ -335,7 +335,7 @@ void add_hotkey_objects(CxObj *broker, struct MsgPort *port, int add)
 	if(hotkey_count == 0)
 		return;
 
-	filter_table = IExec->AllocVec(hotkey_count * sizeof(CxObj *), MEMF_CLEAR);
+	filter_table = doAllocVec(hotkey_count * sizeof(CxObj *), MEMF_CLEAR);
 	if(filter_table == NULL)
 		return;
 

@@ -44,7 +44,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	{
 		while(buffer_size > 512)
 		{
-			if((copybuffer = IExec->AllocVec(buffer_size + 512, MEMF_ANY)))
+			if((copybuffer = doAllocVec(buffer_size + 512, MEMF_ANY)))
 				break;
 			buffer_size /= 2;
 		}

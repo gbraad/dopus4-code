@@ -241,6 +241,7 @@ void cleanupiconify(void);
 void dodiskinfo(char *);
 // void get_device_task(BPTR, char *, struct MsgPort *); !eliminated
 void getsizestring(char *, uint64);
+void * doAllocVec(uint32 byteSize, uint32 attributes); // added
 
 /* main13.c */
 void seedate(struct DateStamp *, char *, int);

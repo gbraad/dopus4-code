@@ -226,7 +226,7 @@ void rexx_copyresult(char *result)
 	char *new_lrr;
 
 	if(result)
-		if((new_lrr = IExec->AllocVec(strlen(result) + 1, MEMF_ANY)))
+		if((new_lrr = doAllocVec(strlen(result) + 1, MEMF_ANY)))
 		{
 			strcpy(new_lrr, result);
 			IExec->FreeVec(str_last_rexx_result);

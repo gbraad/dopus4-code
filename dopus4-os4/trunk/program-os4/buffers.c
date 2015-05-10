@@ -66,7 +66,7 @@ void allocdirbuffers(int newnum)
 				dir = dir->next;
 			for(a = data_buffer_count[win]; a < newnum; a++)
 			{
-				if((next = IExec->AllocVec(sizeof(struct DirectoryWindow), MEMF_CLEAR)))
+				if((next = doAllocVec(sizeof(struct DirectoryWindow), MEMF_CLEAR)))
 				{
 					if(!dir)
 					{

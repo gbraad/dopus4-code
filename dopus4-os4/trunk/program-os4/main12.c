@@ -69,6 +69,35 @@ void dodiskinfo(STRPTR path)
 	return;
 }
 
+
+void getsizestring(char *buf, uint64 a)
+{
+	a /= 1024;
+	if(a > 1073741824)
+		sprintf(buf, "HUGE");
+	else if(a > 1048576)
+		sprintf(buf, "%.1f G", (double)((double)a / 1048576));
+	else if(a > 1024)
+		sprintf(buf, "%.1f M", (double)((double)a / 1024));
+	else
+		sprintf(buf, "%ld K", (long)a);
+}
+
+
+void * doAllocVec(uint32 byteSize, uint32 attributes)
+{
+	APTR memory;
+
+	memory = IExec->AllocVecTags(byteSize,
+	                             AVT_Type, MEMF_SHARED,
+	                             AVT_ClearWithValue, 0,
+	                             TAG_END);
+
+	return(memory);
+}
+
+
+/*  Deprecated function */
 /*  The only call to this function was replaced by IDOS->DevNameFromLock()
 	in getdir() function of main2.c. This function is no longer needed.
 void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
@@ -101,16 +130,3 @@ void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 	IDOS->UnLockDosList(LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ);
 }
 */
-
-void getsizestring(char *buf, uint64 a)
-{
-	a /= 1024;
-	if(a > 1073741824)
-		sprintf(buf, "HUGE");
-	else if(a > 1048576)
-		sprintf(buf, "%.1f G", (double)((double)a / 1048576));
-	else if(a > 1024)
-		sprintf(buf, "%.1f M", (double)((double)a / 1024));
-	else
-		sprintf(buf, "%ld K", (long)a);
-}

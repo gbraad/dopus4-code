@@ -27,6 +27,11 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+/* The "From" comment lines indicate which OS3 DirectoryOpus4 library
+ * source file contained the functions declared below the comment line.
+*/
+
+
 enum
 {
 	STR_CONFIG_TOO_OLD=0,
@@ -53,16 +58,18 @@ enum
 	STR_STRING_COUNT
 };
 
-extern char **string_table;
+extern char **string_table; // From language.c
 
-/* From borders.c */
+/* Same as in program-os4/main12.c ***********************/
+
+void * doAllocVec(uint32 byteSize, uint32 attributes);
+
+/* From borders.c ****************************************/
 
 void fill_out_border_data(short *shine, short *shadow, int w, int h);
 void fill_out_border(struct Border *border, int fpen, int bpen, short *shine, short *shadow);
 
-/* END From borders.c */
-
-/* From dopus_stuff.c */
+/* From dopus_stuff.c ************************************/
 
 char *getstringcopy(char *str);
 void freestring(char *str);
@@ -71,35 +78,21 @@ int readline(char *buf, int pos, char *buf1, int size);
 void AssignDrive(struct ConfigStuff *cstuff, int drv, char *name, char *path);
 void linkinnewfiletype(struct ConfigStuff *cstuff, struct dopusfiletype *temp);
 
-/* END From dopus_stuff.c */
-
-/* From gui.c */
+/* From gui.c ********************************************/
 
 int makeusstring(char *from, char *to, int *uspos, int size);
 void ShowRMBGadName(struct DOpusIFace *IDOpus, struct RastPort *rp, struct RMBGadget *gad, int a);
 void HighlightRMBGad(struct RastPort *rp, struct RMBGadget *gad, int state);
 
-
-/* END From gui.c */
-
-/* From function.c */
+/* From function.c ***************************************/
 
 void SwapMem(char *src, char *dst, int size);
-/*
-void stuffChar(char c, char *buf);
-void LSprintfA(char *buf, char *fmt, void *args);
-void VARARGS68K LSprintf(char *buf, char *fmt, ...);
-*/
-/* END From functions.c */
 
-/* From imagery.c */
+/* From imagery.c ****************************************/
 
 struct Image *get_image_data(struct DOpusIFace *IDOpus, struct DOpusRemember **key, int width, int height, int depth, struct BitMap *bm, struct RastPort *rp);
 
-/* END From imagery.c */
-
-
-/* From listview.c */
+/* From listview.c ***************************************/
 
 void dohilite(struct DOpusListView *view, int a);
 void savepens(struct DOpusListView *view);
@@ -107,7 +100,5 @@ void restorepens(struct DOpusListView *view);
 void DisplayView(struct DOpusIFace *IDOpus, struct DOpusListView *view);
 int scroll_view(struct DOpusIFace *IDOpus, struct DOpusListView *view, int offset, int *histate, int oldoffset);
 int view_valid(struct DOpusListView *view, int itemnum);
-
-/* END From listview.c */
 
 /* END extras.h */

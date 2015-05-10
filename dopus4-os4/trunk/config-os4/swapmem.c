@@ -40,3 +40,40 @@ void SwapMem(char *src, char *dst, int size)
 		*src++ = tmp;
 	}
 }
+
+/************************** doAllocVec **************************
+*
+*   NAME
+*      doAllocVec -- allocate memory and track the size
+*
+*   SYNOPSIS
+*      void * doAllocVec(uint32 byteSize, uint32 attributes);
+*
+*   FUNCTION
+*      Allocates specified amount of memory with the exec AllocVecTags()
+*      function and returns a pointer to the memory allocated or NULL
+*      for failure. Attributes are currently ignored. Memory returned is
+*      type MEMF_SHARED and cleared to 0.
+*
+*   INPUTS
+*      byteSize - Amount of memory to be allocated in bytes.
+*      attributes - Currently ignored.
+*
+*   RESULT
+*      A pointer to memory allocated or NULL for failure.
+*
+******************************************************************
+*/
+
+void *doAllocVec(uint32 byteSize, uint32 attributes)
+{
+	APTR memory;
+
+	memory = IExec->AllocVecTags(byteSize,
+	                             AVT_Type, MEMF_SHARED,
+	                             AVT_ClearWithValue, 0,
+	                             TAG_END);
+
+	return(memory);
+}
+

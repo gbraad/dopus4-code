@@ -18,14 +18,17 @@ else
 REVISE = sub
 endif
 
-OBJS = main.o main1.o main2.o main3.o main4.o main5.o\
-screen.o screen_arrows.o screen_colors.o screen_fonts.o screen_palette.o \
-screen_sliders.o screen_screenmode.o data.o\
-main7.o main8.o main9.o gadgets.o strings.o paint_mode.o\
-chipdata.o swapmem.o\
+OBJS = main.o main1.o main2.o main3.o main4.o main5.o screen.o \
+screen_arrows.o screen_colors.o screen_fonts.o screen_palette.o \
+screen_sliders.o screen_screenmode.o data.o main7.o main8.o \
+main9.o gadgets.o strings.o paint_mode.o chipdata.o swapmem.o \
 autoinit_layers_base.o autoinit_layers_main.o
 
 all: $(BUMPREV) ConfigOpus
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) -o $@
 
 ConfigOpus: configstrings.h strings.c $(OBJS)
 	$(CC) -o $@.debug $(OBJS) $(LDFLAGS)
