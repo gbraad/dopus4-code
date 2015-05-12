@@ -352,7 +352,8 @@ void iconify(int louise, int buttons, int banknum)
 		IGraphics->SetDrMd(main_rp, JAM2);
 		if(icon_gotclock)
 		{
-			if((iconify_time_port = IExec->CreatePort(0, 0)))
+//			if((iconify_time_port = IExec->CreatePort(0, 0)))
+			if((iconify_time_port = IExec->AllocSysObject(ASOT_PORT, NULL)))
 			{
 				IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, &iconify_timereq.Request, 0);
 				iconify_timereq.Request.io_Message.mn_ReplyPort = iconify_time_port;
@@ -821,7 +822,8 @@ void remiclock()
 		IExec->AbortIO(&iconify_timereq.Request);
 	IExec->WaitIO(&iconify_timereq.Request);
 	IExec->CloseDevice(&iconify_timereq.Request);
-	IExec->DeletePort(iconify_time_port);
+//	IExec->DeletePort(iconify_time_port);
+	IExec->FreeSysObject(ASOT_PORT, iconify_time_port);
 }
 
 int getmaxmem(ULONG type)

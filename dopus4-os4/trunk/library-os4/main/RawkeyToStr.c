@@ -132,8 +132,14 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 			if(!(myproc = (struct Process *)IExec->FindTask(NULL)))
 				return (0);
 			port = &myproc->pr_MsgPort;
-			if(!(req = (struct IOStdReq *)IExec->CreateIORequest(port, sizeof(struct IOStdReq))))
+//			if(!(req = (struct IOStdReq *)IExec->CreateIORequest(port, sizeof(struct IOStdReq))))
+			if (!(req = IExec->AllocSysObjectTags(ASOT_IOREQUEST,
+			                           ASOIOR_ReplyPort, port,
+			                           ASOIOR_Size, sizeof(struct IOStdReq),
+			                           TAG_END)))
+			{
 				return (0);
+			}
 			if(IExec->OpenDevice("console.device", -1, (struct IORequest *)req, 0))
 			{
 				IExec->DeleteIORequest((struct IORequest *)req);
@@ -142,7 +148,8 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 			ConsoleDevice = (struct Device *)req->io_Device;
 			if(!(IConsole = (struct ConsoleIFace *)IExec->GetInterface((struct Library *)ConsoleDevice, "main", 1, NULL)))
 			{
-				IExec->DeleteIORequest((struct IORequest *)req);
+//				IExec->DeleteIORequest((struct IORequest *)req);
+				IExec->FreeSysObject(ASOT_IOREQUEST, req);
 				return (0);
 			}
 			inev.ie_NextEvent = NULL;
@@ -155,7 +162,8 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 			IConsole->RawKeyConvert(&inev, ocbuf, 2, NULL);
 			ocbuf[1] = 0;
 			IExec->CloseDevice((struct IORequest *)req);
-			IExec->DeleteIORequest((struct IORequest *)req);
+//			IExec->DeleteIORequest((struct IORequest *)req);
+			IExec->FreeSysObject(ASOT_IOREQUEST, req);
 			if(kbuf)
 				kbuf[0] = ocbuf[0];
 			if(!foo)
