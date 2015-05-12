@@ -1513,8 +1513,13 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 			if(!(flags & FLAG_ASYNC))
 			{
 				sprintf(portname, "dopus_run%d", system_dopus_runcount);
-				if(!(msgport = IExec->CreatePort(portname, 0)))
+//				if(!(msgport = IExec->CreatePort(portname, 0)))
+				if(!(msgport = IExec->AllocSysObjectTags(ASOT_PORT,
+				                                     ASOPORT_Name, portname,
+				                                     TAG_DONE)))
+				{
 					goto freeargs;
+				}
 			}
 			else
 				wb2f = 1;
@@ -1593,7 +1598,8 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 					break;
 				}
 			}
-			IExec->DeletePort(msgport);
+//			IExec->DeletePort(msgport);
+			IExec->FreeSysObject(ASOT_PORT, msgport);
 		}
 
 		if(!(flags & FLAG_ASYNC) && tnil)

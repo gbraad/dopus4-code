@@ -61,8 +61,10 @@ void hotkeytaskcode()
 	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
 	CxMsg *cxmsg;
 
-	hotkeymsg_port = IExec->CreatePort(NULL, 0);
-	inputport = IExec->CreatePort(NULL, 0);
+//	hotkeymsg_port = IExec->CreatePort(NULL, 0);
+//	inputport = IExec->CreatePort(NULL, 0);
+	hotkeymsg_port = IExec->AllocSysObject(ASOT_PORT, NULL);
+	inputport = IExec->AllocSysObject(ASOT_PORT, NULL);
 
 	if(CxBase && ICommodities)
 	{
@@ -307,8 +309,10 @@ void hotkeytaskcode()
 			IExec->ReplyMsg((struct Message *)cxmsg);
 	}
 
-	IExec->DeletePort(inputport);
-	IExec->DeletePort(hotkeymsg_port);
+//	IExec->DeletePort(inputport);
+//	IExec->DeletePort(hotkeymsg_port);
+	IExec->FreeSysObject(ASOT_PORT, inputport);
+	IExec->FreeSysObject(ASOT_PORT, hotkeymsg_port);
 	IExec->Wait(0);
 }
 
@@ -425,8 +429,10 @@ void clocktask()
 	cy = scrdata_clock_ypos + scr_font[FONT_CLOCK]->tf_Baseline - 1;
 	IExec->Permit();
 
-	clockmsg_port = IExec->CreatePort(NULL, 0);
-	clock_time_port = IExec->CreatePort(0, 0);
+//	clockmsg_port = IExec->CreatePort(NULL, 0);
+//	clock_time_port = IExec->CreatePort(0, 0);
+	clockmsg_port = IExec->AllocSysObject(ASOT_PORT, NULL);
+	clock_time_port = IExec->AllocSysObject(ASOT_PORT, NULL);
 
 	IExec->OpenDevice(TIMERNAME, UNIT_VBLANK, (struct IORequest *)&ctimereq.Request, 0);
 	ctimereq.Request.io_Message.mn_ReplyPort = clock_time_port;
@@ -458,8 +464,10 @@ void clocktask()
 						IExec->AbortIO(&ctimereq.Request);
 					IExec->WaitIO(&ctimereq.Request);
 					IExec->CloseDevice((struct IORequest *)&ctimereq.Request);
-					IExec->DeletePort(clock_time_port);
-					IExec->DeletePort(clockmsg_port);
+//					IExec->DeletePort(clock_time_port);
+//					IExec->DeletePort(clockmsg_port);
+					IExec->FreeSysObject(ASOT_PORT, clock_time_port);
+					IExec->FreeSysObject(ASOT_PORT, clockmsg_port);
 					clockmsg_port = NULL;
 					IExec->ReplyMsg((struct Message *)cmsg);
 					IExec->Forbid();

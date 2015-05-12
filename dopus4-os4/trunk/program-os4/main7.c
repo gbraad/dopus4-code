@@ -112,9 +112,14 @@ void drawrecaround(struct RastPort *r, int x, int y, int x1, int y1, int width, 
 
 BOOL OpenAHI(void)
 {
-	if((AHImp = IExec->CreateMsgPort()))
+//	if((AHImp = IExec->CreateMsgPort()))
+	if((AHImp = IExec->AllocSysObject(ASOT_PORT, NULL)))
 	{
-		if((AHIio = (struct AHIRequest *)IExec->CreateIORequest(AHImp, sizeof(struct AHIRequest))))
+//		if((AHIio = (struct AHIRequest *)IExec->CreateIORequest(AHImp, sizeof(struct AHIRequest))))
+		if((AHIio = IExec->AllocSysObjectTags(ASOT_IOREQUEST,
+		                             ASOIOR_ReplyPort, AHImp,
+		                             ASOIOR_Size, sizeof(struct AHIRequest),
+		                             TAG_END)))
 		{
 			AHIio->ahir_Version = 4;
 			if(!(AHIDevice = IExec->OpenDevice(AHINAME, AHI_NO_UNIT, (struct IORequest *)AHIio, 0)))
@@ -144,9 +149,11 @@ void CloseAHI(void)
 	if(!AHIDevice)
 		IExec->CloseDevice((struct IORequest *)AHIio);
 	AHIDevice = -1;
-	IExec->DeleteIORequest((struct IORequest *)AHIio);
+//	IExec->DeleteIORequest((struct IORequest *)AHIio);
+	IExec->FreeSysObject(ASOT_IOREQUEST, AHIio);
 	AHIio = NULL;
-	IExec->DeleteMsgPort(AHImp);
+//	IExec->DeleteMsgPort(AHImp);
+	IExec->FreeSysObject(ASOT_PORT, AHImp);
 	AHImp = NULL;
 	IExec->DropInterface((struct Interface *)IAHI);
 	IAHI = NULL;
@@ -342,8 +349,13 @@ int doplay8svxold(STRPTR fname, int loop)
 
 		for(a = 0; a < 2; a++)
 		{
-			if(!(audio_req1[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) || !(audio_req2[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) || !(audio_port[a] = IExec->CreatePort(NULL, 0)))
+			if(!(audio_req1[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) ||
+			   !(audio_req2[a] = IExec->AllocPooled(audio_memory_pool, sizeof(struct IOAudio))) ||
+//			   !(audio_port[a] = IExec->CreatePort(NULL, 0)))
+			   !(audio_port[a] = IExec->AllocSysObject(ASOT_PORT, NULL)))
+			{
 				return (-2);
+			}
 		}
 
 		for(a = 0; a < 2; a++)
@@ -515,7 +527,8 @@ void kill8svx()
 			if(audio_port[a])
 			{
 				while(IExec->GetMsg(audio_port[a]));
-				IExec->DeletePort(audio_port[a]);
+//				IExec->DeletePort(audio_port[a]);
+				IExec->FreeSysObject(ASOT_PORT, audio_port[a]);
 				audio_port[a] = NULL;
 			}
 		}
