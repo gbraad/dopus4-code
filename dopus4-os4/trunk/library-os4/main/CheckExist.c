@@ -32,7 +32,7 @@
 *      CheckExist -- Description
 *
 *   SYNOPSIS
-*      int CheckExist(char * name, int * size);
+*      int CheckExist(const char * name, int * size);
 *
 *   FUNCTION
 *
@@ -55,7 +55,7 @@
 *
 */
 
-int _DOpus_CheckExist(struct DOpusIFace *Self, char *name, int *size)
+int _DOpus_CheckExist(struct DOpusIFace *Self, const char *name, int *size)
 {
 	int a = 0;
 //	BPTR lock;

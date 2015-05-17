@@ -61,7 +61,7 @@ extern void                 VARARGS68K _DOpus_LFreeRemember(struct DOpusIFace *,
 extern void                 VARARGS68K _DOpus_SetBusyPointer(struct DOpusIFace *, struct Window * window);
 extern void                 VARARGS68K _DOpus_GetWBScreen(struct DOpusIFace *, struct Screen * scrbuf);
 extern int                  VARARGS68K _DOpus_SearchPathList(struct DOpusIFace *, char * name, char * buffer, int size);
-extern int                  VARARGS68K _DOpus_CheckExist(struct DOpusIFace *, char * name, int * size);
+extern int                  VARARGS68K _DOpus_CheckExist(struct DOpusIFace *, const char * name, int * size);
 extern void                 VARARGS68K _DOpus_StrToUpper(struct DOpusIFace *, char * from, char * to);
 extern void                 VARARGS68K _DOpus_StrToLower(struct DOpusIFace *, char * from, char * to);
 extern int                  VARARGS68K _DOpus_RawkeyToStr(struct DOpusIFace *, USHORT code, USHORT qual, char * buf, char * kbuf, int len);
@@ -79,7 +79,7 @@ extern int                  VARARGS68K _DOpus_DefaultConfig(struct DOpusIFace *,
 extern int                  VARARGS68K _DOpus_GetDevices(struct DOpusIFace *, struct ConfigStuff * cstuff);
 extern int                  VARARGS68K _DOpus_AssignGadget(struct DOpusIFace *, struct ConfigStuff * cstuff, int banknum, int gadnum, char * name, char * func);
 extern int                  VARARGS68K _DOpus_AssignMenu(struct DOpusIFace *, struct ConfigStuff * cstuff, int itemnum, char * name, char * func);
-extern int                  VARARGS68K _DOpus_FindSystemFile(struct DOpusIFace *, char * name, char * buffer, int size, int type);
+extern int                  VARARGS68K _DOpus_FindSystemFile(struct DOpusIFace *, const char * name, char * buffer, int size, int type);
 extern void                 VARARGS68K _DOpus_Do3DFrame(struct DOpusIFace *, struct RastPort * a0arg, int x, int y, int w, int h, char * title, int tp, int bp);
 extern int                  VARARGS68K _DOpus_FreeConfig(struct DOpusIFace *, struct ConfigStuff * cstuff);
 extern void                 VARARGS68K _DOpus_DoCycleGadget(struct DOpusIFace *, struct Gadget * gadget, struct Window * window, char ** choices, int selection);
@@ -98,7 +98,7 @@ extern APTR                 VARARGS68K _DOpus_AddRequesterObject(struct DOpusIFa
 extern void                 VARARGS68K _DOpus_RefreshRequesterObject(struct DOpusIFace *, struct RequesterBase * reqbase, struct RequesterObject * object);
 extern void                 VARARGS68K _DOpus_ObjectText(struct DOpusIFace *, struct RequesterBase * reqbase, short left, short top, short width, short height, char * text, unsigned short textpos);
 extern void                 VARARGS68K _DOpus_DoGlassImage(struct DOpusIFace *, struct RastPort * rp, struct Gadget * gadget, int shine, int shadow, int type);
-extern int                  VARARGS68K _DOpus_ReadStringFile(struct DOpusIFace *, struct StringData * stringdata, char * filename);
+extern int                  VARARGS68K _DOpus_ReadStringFile(struct DOpusIFace *, struct StringData * stringdata, const char * filename);
 extern int                  VARARGS68K _DOpus_FreeStringFile(struct DOpusIFace *, struct StringData * stringdata);
 extern void                 VARARGS68K _DOpus_LFreeRemEntry(struct DOpusIFace *, struct DOpusRemember ** key, char * pointer);
 extern void                 VARARGS68K _DOpus_AddGadgetBorders(struct DOpusIFace *, struct DOpusRemember ** key, struct Gadget * gadget, int count, int shine, int shadow);
