@@ -70,7 +70,7 @@ static struct TagItem makelink_type_gadget[] =
 	{ RO_LeftFine, 28 },
 	{ RO_Width, 38 },
 	{ RO_StringBuf, 0 },
-	{ RO_StringLen, 107 },
+	{ RO_StringLen, FILEBUF_SIZE }, // Must be less than PATHBUF_SIZE.
 	{ RO_StringUndo, (ULONG) str_undobuffer },
 	{ TAG_END, 0 }
 }, makelink_destname_gadget[] =
@@ -87,7 +87,7 @@ static struct TagItem makelink_type_gadget[] =
 	{ RO_Width, 46 },
 	{ RO_WidthFine, 2 },
 	{ RO_StringBuf, 0 },
-	{ RO_StringLen, 255 },
+	{ RO_StringLen, PATHBUF_SIZE -1 },
 	{ RO_StringUndo, (ULONG) str_undobuffer },
 	{ TAG_END, 0 }
 }, makelink_glass_gadget[] =
@@ -187,12 +187,13 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 		globstring[STR_MAKELINK_TYPE_HARD],
 		NULL
 	};
-	char makelink_namebuf[108], makelink_destbuf[256];
+	char makelink_namebuf[FILEBUF_SIZE] = {0};
+	char makelink_destbuf[PATHBUF_SIZE] = {0};
 	int makelink_type;
 	int ret = 0;
 
-	strcpy(makelink_namebuf, namebuf);
-	strcpy(makelink_destbuf, destbuf);
+	strlcpy(makelink_namebuf, namebuf, sizeof(makelink_namebuf));
+	strlcpy(makelink_destbuf, destbuf, sizeof(makelink_destbuf));
 	makelink_type = *type ? 1 : 0;
 
 	fix_requester(&makelink_req, globstring[STR_ENTER_MAKELINK_PARAMS]);
@@ -200,7 +201,11 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 	set_reqobject(makelink_name_gadget, RO_StringBuf, (ULONG) makelink_namebuf);
 	set_reqobject(makelink_destname_gadget, RO_StringBuf, (ULONG) makelink_destbuf);
 
-	if(!(swindow = IDOpus->OpenDORequester(&makelink_req)) || !(name_gad = addreqgadgets(&makelink_req, makelink_gadgets, 0, NULL)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_type_text)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_name_text)) || !(IDOpus->AddRequesterObject(&makelink_req, makelink_dest_text)))
+	if(!(swindow = IDOpus->OpenDORequester(&makelink_req)) ||
+	     !(name_gad = addreqgadgets(&makelink_req, makelink_gadgets, 0, NULL)) ||
+	     !(IDOpus->AddRequesterObject(&makelink_req, makelink_type_text)) ||
+	     !(IDOpus->AddRequesterObject(&makelink_req, makelink_name_text)) ||
+	     !(IDOpus->AddRequesterObject(&makelink_req, makelink_dest_text)))
 	{
 		IDOpus->CloseRequester(&makelink_req);
 		return (0);
@@ -246,33 +251,30 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 				case MAKELINK_DESTSELECT:
 					{
 						struct FileRequester *aslreq;
-						char dirbuf[1024], filebuf[FILEBUF_SIZE], *ptr;
+						char dirbuf[PATHBUF_SIZE], filebuf[FILEBUF_SIZE], *ptr;
 
-//						IDOpus->LStrCpy(dirbuf, makelink_destbuf);
-						strncpy(dirbuf, makelink_destbuf, 1024);
+						strlcpy(dirbuf, makelink_destbuf, sizeof(dirbuf));
 						if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
 						{
-//							IDOpus->LStrCpy(filebuf, ptr);
-							strncpy(filebuf, ptr, FILEBUF_SIZE);
+							strlcpy(filebuf, ptr, sizeof(filebuf));
 							*ptr = 0;
 						}
 						else if(IDOpus->CheckExist(dirbuf, NULL) < 1)
 						{
 							dirbuf[0] = 0;
-//							IDOpus->LStrCpy(filebuf, makelink_destbuf);
-							strncpy(filebuf, makelink_destbuf, FILEBUF_SIZE);
+							strlcpy(filebuf, makelink_destbuf, sizeof(filebuf));
 						}
 						else
 						{
 							filebuf[0] = 0;
 						}
+
 						if((aslreq = IAsl->AllocAslRequestTags(ASL_FileRequest, ASLFR_Window, swindow, ASLFR_TitleText, globstring[STR_FILE_REQUEST], ASLFR_InitialFile, filebuf, ASLFR_InitialDrawer, dirbuf, TAG_END)))
 						{
 							if(IAsl->AslRequest(aslreq, NULL))
 							{
-//								IDOpus->LStrCpy(makelink_destbuf, aslreq->fr_Drawer);
-								strncpy(makelink_destbuf, aslreq->fr_Drawer, 256);
-								IDOS->AddPart(makelink_destbuf, aslreq->fr_File, 256);
+								strlcpy(makelink_destbuf, aslreq->fr_Drawer, sizeof(makelink_destbuf));
+								IDOS->AddPart(makelink_destbuf, aslreq->fr_File, sizeof(makelink_destbuf));
 							}
 							IDOpus->RefreshStrGad(makelink_destname_gad, swindow);
 							IDOpus->ActivateStrGad(makelink_destname_gad, swindow);
@@ -282,9 +284,9 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 					break;
 				case MAKELINK_OKAY:
 					ret = 1;
-					strcpy(namebuf, str_pathbuffer[data_active_window]);
-					IDOS->AddPart(namebuf, makelink_namebuf, 256);
-					strcpy(destbuf, makelink_destbuf);
+					strlcpy(namebuf, str_pathbuffer[data_active_window], PATHBUF_SIZE);
+					IDOS->AddPart(namebuf, makelink_namebuf, PATHBUF_SIZE);
+					strlcpy(destbuf, makelink_destbuf, PATHBUF_SIZE);
 					*type = makelink_type;
 				case MAKELINK_CANCEL:
 					IDOpus->CloseRequester(&makelink_req);
@@ -298,7 +300,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 
 int makelink(int rexx)
 {
-	char name[256], path[2048];
+	char name[PATHBUF_SIZE], path[PATHBUF_SIZE];
 	int mode, result;
 	BPTR newlock = 0, oldlock = 0;
 
@@ -306,8 +308,8 @@ int makelink(int rexx)
 
 	if(rexx)
 	{
-		strcpy(name, rexx_args[0]);
-		strcpy(path, rexx_args[1]);
+		strlcpy(name, rexx_args[0], sizeof(name));
+		strlcpy(path, rexx_args[1], sizeof(path));
 		if(atoi(rexx_args[2]))
 			mode = 1;
 	}
@@ -332,7 +334,7 @@ int makelink(int rexx)
 		{
 			if((lock = IDOS->Lock(path, ACCESS_READ)))
 			{
-				if(IDOS->MakeLink(name, lock, LINK_HARD))
+				if(IDOS->MakeLink(name, (APTR)lock, LINK_HARD))
 				{
 					dostatustext(str_okaystring);
 					result = 1;
@@ -346,7 +348,7 @@ int makelink(int rexx)
 		{
 			if((lock = IDOS->Lock(path, ACCESS_READ)))
 			{
-				if(IDOS->MakeLink(name, (int32)&path, LINK_SOFT))
+				if(IDOS->MakeLink(name, path, LINK_SOFT))
 				{
 					dostatustext(str_okaystring);
 					result = 1;

@@ -209,7 +209,7 @@ void doconfig()
 
 	IExec->Forbid();
 	old_name = arexx_port->mp_Node.ln_Name;
-	arexx_port->mp_Node.ln_Name = "foo";
+	arexx_port->mp_Node.ln_Name = (STRPTR)"foo";
 	IExec->Permit();
 
 	while(confignotdone == 1)
@@ -389,7 +389,7 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 	for(a = argcount; a < 16; a++)
 	{
-		args[a] = "";
+		args[a] = (char *)"";
 	}
 
 	print_func.argcount = argcount;

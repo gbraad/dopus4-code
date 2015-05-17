@@ -315,8 +315,8 @@ void closedisplay()
 			}
 			free_colour_table();
 			IIntuition->RemoveGadget(Window, iconifygadget);
-			IIntuition->DisposeObject(iconifygadget);
-			IIntuition->DisposeObject(iconifyimage);
+			IIntuition->DisposeObject((Object *)iconifygadget);
+			IIntuition->DisposeObject((Object *)iconifyimage);
 
 			IIntuition->CloseWindow(Window);
 			Window = NULL;

@@ -354,12 +354,12 @@ int internal_function(int function, int rexx, char *source, char *dest)
 		{
 			a = data_drive_offset + (function - DRIVE1);
 			if(config->drive[a].name[0])
-				dohelp(NULL, "*drivegadgets", config->drive[a].key, config->drive[a].qual, NULL);
+				dohelp(NULL, (char *)"*drivegadgets", config->drive[a].key, config->drive[a].qual, NULL);
 		}
 		else if(command)
 		{
-			strcpy(buf, "*");
-			strcat(buf, command->name);
+			strlcpy(buf, "*", sizeof(buf));
+			strlcat(buf, command->name, sizeof(buf));
 			dohelp(NULL, buf, 0, 0, NULL);
 		}
 	}
@@ -370,7 +370,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 			a = (function - DRIVE1) + data_drive_offset;
 			if(config->drive[a].name[0] && config->drive[a].function)
 			{
-				strcpy(str_pathbuffer[data_active_window], config->drive[a].function);
+				strlcpy(str_pathbuffer[data_active_window], config->drive[a].function, sizeof(str_pathbuffer[data_active_window]));
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 			}
 		}

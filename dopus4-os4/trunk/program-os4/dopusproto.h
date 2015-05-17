@@ -46,7 +46,8 @@ int32 arbiter_process(char *, int32, struct ExecBase *);
 /* archive.c */
 int readarchive(struct DirectoryWindow *, int);
 void freearchive(struct DirectoryWindow *);
-BOOL unarcfiledir(const struct DirectoryWindow *, const char *, char *, const char *);
+//BOOL unarcfiledir(const struct DirectoryWindow *, const char *, char *, const char *);
+BOOL unarcfiledir(struct DirectoryWindow *, const char *, char *, const char *);
 BOOL getsourcefromarc(struct DirectoryWindow *, char *, char *);
 void arcfillfib(struct FileInfoBlock *, struct Directory *);
 void removetemparcfile(const char *);
@@ -87,8 +88,8 @@ void load_palette(struct Screen *, ULONG *);
 void get_palette(struct Screen *, ULONG *);
 void read_configuration(int);
 void read_data_files(int);
-int get_data_file(char *, char *, int);
-void get_config_file(char *, char *);
+int get_data_file(char *, const char *, int);
+void get_config_file(char *, const char *);
 void setup_draw_info(void);
 
 /* main1.c */
@@ -234,7 +235,7 @@ struct MsgPort *CreateUniquePort(CONST_STRPTR, STRPTR, int *);
 void iconify(int, int, int);
 void remiclock(void);
 int getmaxmem(ULONG);
-void iconstatustext(char *, int);
+void iconstatustext(const char *, int);
 void cleanupiconify(void);
 
 /* main12.c */
@@ -309,7 +310,7 @@ void shutthingsdown(int);
 void setupwindreq(struct Window *);
 void hilite_req_gadget(struct Window *, USHORT);
 int simplerequest(uint32, char *, ...);
-int whatsit(char *, int, const char *, char *);
+int whatsit(char *, int, char *, char *);
 struct dopusfiletype *checkfiletype(char *, int, int);
 int checkfiletypefunc(char *, int);
 int dochecktype(struct dopusfiletype *, char *, int, struct ExamineData *);
@@ -342,8 +343,8 @@ void fix_gadget_highlight(struct newdopusfunction *, struct Gadget *, int);
 void init_menus(void);
 void layout_menus(void);
 int maxgadwidth(struct TextFont *, char **, int);
-int gettextlength(struct TextFont *, char *, int *, int);
-int dotextlength(struct RastPort *, char *, int *, int);
+int gettextlength(struct TextFont *, CONST_STRPTR, int *, int);
+int dotextlength(struct RastPort *, CONST_STRPTR, int *, int);
 void doposdriveprop(void);
 int getgadbankcount(void);
 void doposgadgetprop(int);
@@ -449,7 +450,7 @@ void centergadtext(struct Window *, struct Gadget *, char *);
 /* tasks.c */
 void hotkeytaskcode(void);
 void add_hotkey_objects(CxObj *, struct MsgPort *, int);
-CxObj *set_dopus_filter(CxObj *, struct MsgPort *, char *, USHORT, USHORT, int, int);
+CxObj *set_dopus_filter(CxObj *, struct MsgPort *, const char *, USHORT, USHORT, int, int);
 void set_hotkey(CxObj *, USHORT, USHORT);
 void dummy_idcmp(struct MsgPort *, ULONG, USHORT, APTR, int, int);
 void clocktask(void);
@@ -472,8 +473,8 @@ int dopus_iconinfo(char *);
 void setup_externals(void);
 void fill_out_visinfo(struct VisInfo *, struct Screen *);
 
-/* localefunc.c */
-void readstrings(char *);
+/* strings.c */
+void readstrings(const char *);
 int getkeyshortcut(CONST_STRPTR);
 
 /* searchdata.c */

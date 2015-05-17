@@ -214,14 +214,14 @@ struct StringExtend		/* Path fields StringExtension */
 	{ 0, 0, 0, 0 }
 };
 
-char str_pathbuffer[2][256];	/* Path fields buffers */
-char str_undobuffer[256];	/* General undo buffer for string gads */
+char str_pathbuffer[2][PATHBUF_SIZE];	/* Path fields buffers */
+char str_undobuffer[UNDOBUF_SIZE];	/* General undo buffer for string gads */
 
 struct StringInfo		/* Path fields StringInfos */
 	path_stringinfo[2] =
 {
-	{ (STRPTR) str_pathbuffer[0], (STRPTR) str_undobuffer, 0, 256, 0 },
-	{ (STRPTR) str_pathbuffer[1], (STRPTR) str_undobuffer, 0, 256, 0 }
+	{ (STRPTR) str_pathbuffer[0], (STRPTR) str_undobuffer, 0, PATHBUF_SIZE, 0 },
+	{ (STRPTR) str_pathbuffer[1], (STRPTR) str_undobuffer, 0, PATHBUF_SIZE, 0 }
 };
 
 struct Gadget *main_gadgets,	/* Custom gadgets */
