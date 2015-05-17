@@ -70,6 +70,8 @@ the existing commercial status of Directory Opus 5.
 
 #define FILEBUF_SIZE 255	// 32
 #define PATHBUF_SIZE 1024
+/* Undo buffer size must be at least path buffer size */
+#define UNDOBUF_SIZE 1024
 
 /* File requester definition structure */
 

@@ -77,7 +77,7 @@ const static char *look_dirs[] =
 };
 
 
-int _DOpus_FindSystemFile(struct DOpusIFace *Self, char *name, char *buf, int size, int type)
+int _DOpus_FindSystemFile(struct DOpusIFace *Self, const char *name, char *buf, int size, int type)
 {
 	char temp[256];
 

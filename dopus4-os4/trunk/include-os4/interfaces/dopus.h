@@ -72,7 +72,7 @@ struct DOpusIFace
 	void APICALL (*SetBusyPointer)(struct DOpusIFace *Self, struct Window * window);
 	void APICALL (*GetWBScreen)(struct DOpusIFace *Self, struct Screen * scrbuf);
 	int APICALL (*SearchPathList)(struct DOpusIFace *Self, char * name, char * buffer, int size);
-	int APICALL (*CheckExist)(struct DOpusIFace *Self, char * name, int * size);
+	int APICALL (*CheckExist)(struct DOpusIFace *Self, const char * name, int * size);
 	void APICALL (*StrToUpper)(struct DOpusIFace *Self, char * from, char * to);
 	void APICALL (*StrToLower)(struct DOpusIFace *Self, char * from, char * to);
 	int APICALL (*RawkeyToStr)(struct DOpusIFace *Self, USHORT code, USHORT qual, char * buf, char * kbuf, int len);
@@ -90,7 +90,7 @@ struct DOpusIFace
 	int APICALL (*GetDevices)(struct DOpusIFace *Self, struct ConfigStuff * cstuff);
 	int APICALL (*AssignGadget)(struct DOpusIFace *Self, struct ConfigStuff * cstuff, int banknum, int gadnum, char * name, char * func);
 	int APICALL (*AssignMenu)(struct DOpusIFace *Self, struct ConfigStuff * cstuff, int itemnum, char * name, char * func);
-	int APICALL (*FindSystemFile)(struct DOpusIFace *Self, char * name, char * buffer, int size, int type);
+	int APICALL (*FindSystemFile)(struct DOpusIFace *Self, const char * name, char * buffer, int size, int type);
 	void APICALL (*Do3DFrame)(struct DOpusIFace *Self, struct RastPort * a0arg, int x, int y, int w, int h, char * title, int tp, int bp);
 	int APICALL (*FreeConfig)(struct DOpusIFace *Self, struct ConfigStuff * cstuff);
 	void APICALL (*DoCycleGadget)(struct DOpusIFace *Self, struct Gadget * gadget, struct Window * window, char ** choices, int selection);
@@ -109,7 +109,7 @@ struct DOpusIFace
 	void APICALL (*RefreshRequesterObject)(struct DOpusIFace *Self, struct RequesterBase * reqbase, struct RequesterObject * object);
 	void APICALL (*ObjectText)(struct DOpusIFace *Self, struct RequesterBase * reqbase, short left, short top, short width, short height, char * text, unsigned short textpos);
 	void APICALL (*DoGlassImage)(struct DOpusIFace *Self, struct RastPort * rp, struct Gadget * gadget, int shine, int shadow, int type);
-	int APICALL (*ReadStringFile)(struct DOpusIFace *Self, struct StringData * stringdata, char * filename);
+	int APICALL (*ReadStringFile)(struct DOpusIFace *Self, struct StringData * stringdata, const char * filename);
 	int APICALL (*FreeStringFile)(struct DOpusIFace *Self, struct StringData * stringdata);
 	void APICALL (*LFreeRemEntry)(struct DOpusIFace *Self, struct DOpusRemember ** key, char * pointer);
 	void APICALL (*AddGadgetBorders)(struct DOpusIFace *Self, struct DOpusRemember ** key, struct Gadget * gadget, int count, int shine, int shadow);

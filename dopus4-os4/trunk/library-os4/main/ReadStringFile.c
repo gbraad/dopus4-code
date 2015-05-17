@@ -34,7 +34,7 @@
 *      ReadStringFile -- Description
 *
 *   SYNOPSIS
-*      int ReadStringFile(struct StringData * stringdata, char * filename);
+*      int ReadStringFile(struct StringData * stringdata, const char * filename);
 *
 *   FUNCTION
 *
@@ -57,7 +57,7 @@
 *
 */
 
-int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata, char *filename)
+int _DOpus_ReadStringFile(struct DOpusIFace *Self, struct StringData *stringdata, const char *filename)
 {
 	struct Library *LocaleBase = IExec->OpenLibrary("locale.library", 50L);
 	struct LocaleIFace *ILocale = (struct LocaleIFace *)IExec->GetInterface(LocaleBase, "main", 1, NULL);
