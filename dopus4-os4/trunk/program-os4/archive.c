@@ -212,7 +212,8 @@ BOOL getsourcefromarc(struct DirectoryWindow *dir, char *buf, char *file)
 	return FALSE;
 }
 
-BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *namebuf, const char *file)
+//BOOL unarcfiledir(const struct DirectoryWindow * dir, const char *path, char *namebuf, const char *file)
+BOOL unarcfiledir(struct DirectoryWindow * dir, const char *path, char *namebuf, const char *file)
 {
 	if(dir->xai)
 	{

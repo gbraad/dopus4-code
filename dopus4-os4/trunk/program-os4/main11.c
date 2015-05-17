@@ -839,7 +839,7 @@ int getmaxmem(ULONG type)
 	return (a);
 }
 
-void iconstatustext(char *buf, int buttons)
+void iconstatustext(const char *buf, int buttons)
 {
 	strcpy(icontitletext, buf);
 	IIntuition->SetWindowTitles(Window, icontitletext, (char *)-1);

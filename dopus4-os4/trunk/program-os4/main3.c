@@ -336,19 +336,19 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 			switch (size)
 			{
 			case DLT_DEVICE:
-				comment = "<DEV>";
+				comment = (char *)"<DEV>";
 				break;
 			case DLT_DIRECTORY:
-				comment = "<ASN>";
+				comment = (char *)"<ASN>";
 				break;
 			case DLT_VOLUME:
-				comment = "<VOL>";
+				comment = (char *)"<VOL>";
 				break;
 			case DLT_LATE:
-				comment = "<DFR>";
+				comment = (char *)"<DFR>";
 				break;
 			case DLT_NONBINDING:
-				comment = "<NBD>";
+				comment = (char *)"<NBD>";
 				break;
 			}
 		}

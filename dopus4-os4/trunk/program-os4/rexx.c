@@ -45,7 +45,7 @@ void rexx_dispatch(int allfuncs)
 
 	while((msg = (struct RexxMsg *)IExec->GetMsg(arexx_port)))
 	{
-		if((!RexxSysBase || !(IRexxSys->IsRexxMsg((struct Message *)msg))) && msg->rm_Node.mn_Node.ln_Type != NT_REPLYMSG)
+		if((!RexxSysBase || !(IRexxSys->IsRexxMsg(msg))) && msg->rm_Node.mn_Node.ln_Type != NT_REPLYMSG)
 		{
 
 			struct DOpusMessage *dopusmsg;
@@ -178,7 +178,7 @@ struct RexxMsg *send_rexx_command(STRPTR command, int (*replyfunc) (), struct Re
 		RexxMsg->rm_Action = RXCOMM;
 		RexxMsg->rm_Args[1] = (STRPTR) replyfunc;
 		RexxMsg->rm_Args[2] = (STRPTR) msg;
-		RexxMsg->rm_Node.mn_Node.ln_Name = "REXX";
+		RexxMsg->rm_Node.mn_Node.ln_Name = (STRPTR)"REXX";
 
 		IExec->Forbid();
 		if((rxport = IExec->FindPort("REXX")))

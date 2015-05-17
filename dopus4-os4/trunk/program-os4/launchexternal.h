@@ -53,7 +53,7 @@ struct DOpusStartup
 struct dopus_func_start
 {
 	BPTR segment;		/* Pointer to pre-loaded segment */
-	char *procname;		/* Name to start process as      */
+	const char *procname;	/* Name to start process as      */
 	char *segname;		/* Name to load segment from     */
 	int argcount;		/* Argument count                */
 	char **args;		/* Argument array                */

@@ -52,7 +52,7 @@ static const struct DefaultString default_strings[] =
 char str_okaystring[30];
 char str_cancelstring[30];
 
-void readstrings(STRPTR file)
+void readstrings(CONST_STRPTR file)
 {
 	stringdata.default_table = default_strings;
 	stringdata.string_count = STR_STRING_COUNT;

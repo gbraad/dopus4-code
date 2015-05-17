@@ -241,7 +241,7 @@ int simplerequest(uint32 image, STRPTR txt, ...)
 	                               TAG_DONE));
 }
 
-int whatsit(char *txt, int max, const char *buffer, char *skiptxt)
+int whatsit(char *txt, int max, char *buffer, char *skiptxt)
 {
 	char *gads[4];
 	int a = 1, rets[3];

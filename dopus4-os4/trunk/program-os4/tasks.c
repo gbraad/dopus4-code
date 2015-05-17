@@ -347,7 +347,7 @@ void add_hotkey_objects(CxObj *broker, struct MsgPort *port, int add)
 		filter_table[a] = set_dopus_filter(broker, port, NULL, hotkey->code, hotkey->qualifier, HOTKEY_HOTKEY + a, 1);
 }
 
-CxObj *set_dopus_filter(CxObj *broker, struct MsgPort *port, STRPTR string, USHORT code, USHORT qual, int command, int translate)
+CxObj *set_dopus_filter(CxObj *broker, struct MsgPort *port, const char *string, USHORT code, USHORT qual, int command, int translate)
 {
 	CxObj *filter;
 

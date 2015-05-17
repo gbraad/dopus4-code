@@ -398,7 +398,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 		}
 		else
 		{
-			char *fptr;
+			const char *fptr;
 
 			switch (dateformat(config->dateformat))
 			{

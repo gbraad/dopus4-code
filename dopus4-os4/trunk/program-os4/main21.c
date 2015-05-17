@@ -531,7 +531,7 @@ int maxgadwidth(struct TextFont *font, char **gads, int num)
 	return (mw);
 }
 
-int gettextlength(struct TextFont *font, char *text, int *len, int width)
+int gettextlength(struct TextFont *font, CONST_STRPTR text, int *len, int width)
 {
 	struct RastPort testrast;
 
@@ -541,7 +541,7 @@ int gettextlength(struct TextFont *font, char *text, int *len, int width)
 	return (dotextlength(&testrast, text, len, width));
 }
 
-int dotextlength(struct RastPort *r, char *text, int *len, int width)
+int dotextlength(struct RastPort *r, CONST_STRPTR text, int *len, int width)
 {
 	int l, x = 0;
 	struct TextExtent ext;

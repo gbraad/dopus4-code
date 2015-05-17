@@ -1479,7 +1479,7 @@ void read_data_files(int fb)
 	readstrings("dopus4.catalog");
 }
 
-int get_data_file(STRPTR buf, STRPTR suff, int fb)
+int get_data_file(STRPTR buf, CONST_STRPTR suff, int fb)
 {
 	char temp[40];
 
@@ -1498,7 +1498,7 @@ int get_data_file(STRPTR buf, STRPTR suff, int fb)
 	return (1);
 }
 
-void get_config_file(STRPTR buf, STRPTR suff)
+void get_config_file(STRPTR buf, CONST_STRPTR suff)
 {
 	char temp[256];
 

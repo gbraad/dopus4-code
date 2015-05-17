@@ -457,10 +457,10 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 		AMIGAGUIDECONTEXT agc;
 		char buf[32];
 
-		nag.nag_Name = "DirectoryOpus.guide";
+		nag.nag_Name = (STRPTR)"DirectoryOpus.guide";
 		nag.nag_Screen = Window->WScreen;
 		nag.nag_Flags = 0;
-		nag.nag_Context = helpcontext;
+		nag.nag_Context = (void *)helpcontext; //(void *) eliminates warning
 		nag.nag_Node = getAGnode(buf, func[0] == '*' ? func + 1 : func);
 
 		if((agc = IAmigaGuide->OpenAmigaGuide(&nag, NULL)))

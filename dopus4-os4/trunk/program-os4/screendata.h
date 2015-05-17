@@ -148,8 +148,8 @@ extern struct Image vert_propimage[2],	/* Vertical slider Image */
 extern struct StringExtend string_extend;	/* Path fields StringExtension */
 extern struct StringExtend requester_stringex;	/* Path fields StringExtension */
 
-extern char str_pathbuffer[2][256];	/* Path fields buffers */
-extern char str_undobuffer[256];	/* General undo buffer for string gads */
+extern char str_pathbuffer[2][PATHBUF_SIZE];	/* Path fields buffers */
+extern char str_undobuffer[UNDOBUF_SIZE];	/* General undo buffer for string gads */
 
 extern struct StringInfo	/* Path fields StringInfos */
   path_stringinfo[2];
