@@ -27,6 +27,7 @@
 #include <dopus/stringdata.h>
 #include <proto/dopus.h>
 #include <stdarg.h>
+#include <string.h>
 
 /****** dopus/main/FSSetMenuStrip ******************************************
 *
@@ -125,7 +126,7 @@ int _DOpus_FSSetMenuStrip(struct DOpusIFace *Self, struct Window *window, struct
 
 					if(first == 0)
 					{
-						if(Self->LStrnCmp((char *)text->IText, "   ", 3) == 0)
+						if (strncmp((char *)text->IText, "   ", 3) == 0)
 							text->IText = &text->IText[3];
 						if(item->Flags & CHECKIT)
 							text->LeftEdge = checkwidth;

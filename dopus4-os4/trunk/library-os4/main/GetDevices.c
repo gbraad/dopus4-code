@@ -27,6 +27,7 @@
 #include <dopus/stringdata.h>
 #include <proto/dopus.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "extras.h"
 
@@ -75,8 +76,8 @@ int _DOpus_GetDevices(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 		if(dl->dol_Type == DLT_DEVICE && dl->dol_Port)
 		{
 			IDOS->CopyStringBSTRToC(dl->dol_Name, pathname, 256);
-			Self->LStrCat(pathname, ":");
-			Self->LStrnCpy(devname, pathname, 15);
+			strlcpy(pathname, ":", 256);
+			strlcpy(devname, pathname, 15);
 			devname[15] = 0;
 			AssignDrive(cstuff, a, devname, pathname);
 			++a;
@@ -106,15 +107,15 @@ int _DOpus_GetDevices(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 		while((dl = IDOS->NextDosEntry(dl, LDF_ASSIGNS)))
 		{
 			IDOS->CopyStringBSTRToC(dl->dol_Name, pathname, 256);
-			Self->LStrCat(pathname, ":");
-			Self->LStrnCpy(devname, pathname, 15);
+			strlcpy(pathname, ":", 256);
+			strlcpy(devname, pathname, 15);
 			devname[15] = 0;
 			AssignDrive(cstuff, a, devname, pathname);
 			++a;
 			if(a == DRIVECOUNT)
 				break;
 		}
-		IDOS->UnLockDosList(LDF_DEVICES | LDF_READ);
+		IDOS->UnLockDosList(LDF_ASSIGNS | LDF_READ);
 	}
 	p = a - d;
 	for(gap = p / 2; gap > 0; gap /= 2)

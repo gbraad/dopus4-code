@@ -25,6 +25,7 @@
 #include <dopus/stringdata.h>
 #include <proto/dopus.h>
 #include <stdarg.h>
+#include <string.h>
 
 /****** dopus/main/SearchPathList ******************************************
 *
@@ -80,7 +81,7 @@ int _DOpus_SearchPathList(struct DOpusIFace *Self, char *name, char *buffer, int
 	{
 		IDOS->UnLock(lock);
 		IDOS->SetProcWindow(wsave);
-		Self->LStrCpy(buffer, name);
+		strlcpy(buffer, name, size);
 		return(1);
 	}
     

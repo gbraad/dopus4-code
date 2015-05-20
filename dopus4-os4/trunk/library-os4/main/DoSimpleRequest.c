@@ -67,7 +67,10 @@ extern char **string_table;
 
 int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struct DOpusSimpleRequest *simple)
 {
-	int textlen, a, b, c, cw, cy, cb, sw, height, maxlen, llen, num, gwidth = 0, gspace, gx, ty, ac, ogy, gadgetid = 0, ls, gy, last, gnum, lines, dl, strgad, sfy, hnum, rows = 1, macc, ogx, maxwidth, winwidth, winheight, xoffset, yoffset, d;
+	int textlen, a, b, c, cw, cy, cb, sw, height, maxlen, llen, num;
+	int gwidth = 0, gspace, gx, ty, ac, ogy, gadgetid = 0, ls, gy, last;
+	int gnum, lines, dl, strgad, sfy, hnum, rows = 1, macc, ogx, maxwidth;
+	int winwidth, winheight, xoffset, yoffset, d;
 	struct NewWindow *newwindow;
 	struct DOpusRemember *key;
 	struct Gadget *gadgets, *contgad, *gad = NULL, *glassgad = NULL;
@@ -162,13 +165,15 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 
 	if(simple->strbuf)
 	{
-		if(!(sinfo = (struct StringInfo *)Self->LAllocRemember(&key, sizeof(struct StringInfo), MEMF_CLEAR)) || !(extend = (struct StringExtend *)Self->LAllocRemember(&key, sizeof(struct StringExtend), MEMF_CLEAR)) || !(strbuf = (char *)Self->LAllocRemember(&key, simple->strlen + 1, MEMF_CLEAR)))
+		if(!(sinfo = (struct StringInfo *)Self->LAllocRemember(&key, sizeof(struct StringInfo), MEMF_CLEAR)) ||
+		   !(extend = (struct StringExtend *)Self->LAllocRemember(&key, sizeof(struct StringExtend), MEMF_CLEAR)) ||
+		   !(strbuf = (char *)Self->LAllocRemember(&key, simple->strlen + 1, MEMF_CLEAR)))
 		{
 			Self->LFreeRemember(&key);
 			return (0);
 		}
-//		Self->LStrCpy(strbuf, simple->strbuf);
-		strcpy(strbuf, simple->strbuf);
+
+		strlcpy(strbuf, simple->strbuf, simple->strlen + 1);
 		if(simple->flags & SRF_GLASS)
 			glassgad = Self->LAllocRemember(&key, sizeof(struct Gadget), MEMF_CLEAR);
 	}
@@ -654,18 +659,18 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					}
 					filereq.filearraykey = NULL;
 
-					Self->LStrCpy(dirbuf, strbuf);
+					strlcpy(dirbuf, strbuf, sizeof(dirbuf));
 					if(!(simple->flags & SRF_DIRGLASS))
 					{
 						if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
 						{
-							Self->LStrCpy(filebuf, ptr);
+							strlcpy(filebuf, ptr, sizeof(filebuf));
 							*ptr = 0;
 						}
 						else if(Self->CheckExist(dirbuf, NULL) < 1)
 						{
 							dirbuf[0] = 0;
-							Self->LStrCpy(filebuf, strbuf);
+							strlcpy(filebuf, strbuf, sizeof(filebuf));
 						}
 						else
 						{
@@ -674,10 +679,10 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					}
 					if(Self->FileRequest(&filereq))
 					{
-						Self->LStrCpy(strbuf, dirbuf);
+						strlcpy(strbuf, dirbuf, simple->strlen + 1);
 						if(!(simple->flags & SRF_DIRGLASS))
 						{
-							IDOS->AddPart(strbuf, filebuf, 256);
+							IDOS->AddPart(strbuf, filebuf, simple->strlen + 1);
 						}
 					}
 					Self->RefreshStrGad(&gadgets[strgad], Window);
@@ -687,8 +692,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 				IIntuition->CloseWindow(Window);
 				if(gadgetid && simple->strbuf)
 				{
-//					Self->LStrCpy(simple->strbuf, strbuf);
-					strcpy(simple->strbuf, strbuf);
+					strlcpy(simple->strbuf, strbuf, simple->strlen + 1);
 				}
 				Self->LFreeRemember(&key);
 

@@ -171,11 +171,11 @@ STATIC struct Library *libInit(struct Library *LibraryBase, APTR seglist, struct
 
 	libBase->LibNode.lib_Node.ln_Type = NT_LIBRARY;
 	libBase->LibNode.lib_Node.ln_Pri = 0;
-	libBase->LibNode.lib_Node.ln_Name = "dopus.library";
+	libBase->LibNode.lib_Node.ln_Name = (STRPTR)"dopus.library";
 	libBase->LibNode.lib_Flags = LIBF_SUMUSED | LIBF_CHANGED;
 	libBase->LibNode.lib_Version = VERSION;
 	libBase->LibNode.lib_Revision = REVISION;
-	libBase->LibNode.lib_IdString = VSTRING;
+	libBase->LibNode.lib_IdString = (APTR)VSTRING;
 
 	libBase->SegList = (BPTR) seglist;
 

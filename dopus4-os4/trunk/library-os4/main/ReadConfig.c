@@ -67,6 +67,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 	uint32 b;
 	USHORT ver, mag;
 	STRPTR cbuf, buf, tbuf;
+	int32 buf_size = 4096, tbuf_size = 256; // cbuf size set to size (below)
 	char buf2[102], buf3[102];
 	struct dopusfiletype *newtype;
 	struct olddopusfiletype otype;
@@ -229,7 +230,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 		driveptr = (struct dopusdrive *)config->drive;
 		for(a = 0; a < OLDDRIVECOUNT; a++)
 		{
-			Self->LStrCpy(tempfunc[a].name, driveptr[a].name);
+			strlcpy(tempfunc[a].name, driveptr[a].name, sizeof(tempfunc[0].name));
 			tempfunc[a].key = driveptr[a].key;
 			tempfunc[a].qual = driveptr[a].qual;
 			tempfunc[a].fpen = driveptr[a].fpen;
@@ -263,7 +264,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 	{
 		for(a = 0; a < MENUCOUNT; a++)
 		{
-			Self->LStrCpy(buf2, (STRPTR)&config->menu[a]);
+			strlcpy(buf2, (STRPTR)&config->menu[a], sizeof(buf2));
 			config->menu[a].name = (STRPTR)getstringcopy(buf2);
 			config->menu[a].pad2[0] = 0;
 			config->menu[a].pad2[1] = 0;
@@ -280,7 +281,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 		config->loadexternal = 0;
 	}
 	key = NULL;
-	if(!(cbuf = (STRPTR)Self->LAllocRemember(&key, size, MEMF_CLEAR)) || !(buf = (STRPTR)Self->LAllocRemember(&key, 4096, MEMF_CLEAR)) || !(tbuf = (STRPTR)Self->LAllocRemember(&key, 256, MEMF_CLEAR)))
+	if(!(cbuf = (STRPTR)Self->LAllocRemember(&key, size, MEMF_CLEAR)) || !(buf = (STRPTR)Self->LAllocRemember(&key, buf_size, MEMF_CLEAR)) || !(tbuf = (STRPTR)Self->LAllocRemember(&key, tbuf_size, MEMF_CLEAR)))
 	{
 		IDOS->Close(in);
 		Self->LFreeRemember(&key);
@@ -387,20 +388,20 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 				    readline(cbuf, pos, buf, size)) == -1)
 					break;
 				if((newtype->recognition = Self->LAllocRemember(&cstuff->typekey, strlen(buf) + 1, 0)))
-					Self->LStrCpy((STRPTR)newtype->recognition, buf);
+					strlcpy((STRPTR)newtype->recognition, buf, strlen(buf) + 1);
 				for(a = 0; a < FILETYPE_FUNCNUM; a++)
 				{
 					if((pos = readline(cbuf, pos, buf, size)) == -1)
 						break;
 					if((newtype->function[a] = Self->LAllocRemember(&cstuff->typekey, strlen(buf) + 1, 0)))
-						Self->LStrCpy(newtype->function[a], buf);
+						strlcpy(newtype->function[a], buf, strlen(buf) + 1);
 				}
 				newtype->iconpath = NULL;
 				if(config->version > CONFIG_CHANGE_FILETYPE)
 				{
 					pos = readline(cbuf, pos, buf, size);
 					if(buf[0] && (newtype->iconpath = Self->LAllocRemember(&cstuff->typekey, strlen(buf) + 1, 0)))
-						Self->LStrCpy(newtype->iconpath, buf);
+						strlcpy(newtype->iconpath, buf, strlen(buf) + 1);
 				}
 				linkinnewfiletype(cstuff, newtype);
 			}
@@ -414,14 +415,14 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 			{
 				IExec->CopyMem((STRPTR)&cbuf[pos], (STRPTR)&otype, sizeof(struct olddopusfiletype));
 				pos += sizeof(struct olddopusfiletype);
-				Self->LStrnCpy(newtype->type, otype.type, 32);
+				strlcpy(newtype->type, otype.type, 32);
 				newtype->type[31] = 0;
 				newtype->typeid[0] = 0;
 				for(a = 0; a < FILETYPE_FUNCNUM; a++)
 					newtype->function[a] = NULL;
 				for(a = 0; a < 4; a++)
 				{
-					Self->LStrnCpy(newtype->actionstring[a], otype.actionstring[a], 39);
+					strlcpy(newtype->actionstring[a], otype.actionstring[a], 39);
 					newtype->actionstring[a][39] = 0;
 					newtype->which[a] = otype.which[a];
 					newtype->stack[a] = otype.stack[a];
@@ -438,12 +439,11 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 					if((pos = readline(cbuf, pos, buf, size)) == -1)
 						break;
 					if((newtype->function[a] = Self->LAllocRemember(&cstuff->typekey, strlen(buf) + 1, MEMF_CLEAR)))
-						Self->LStrCpy(newtype->function[a], buf);
+						strlcpy(newtype->function[a], buf, strlen(buf) + 1);
 				}
 				buf[0] = 0;
 				if(otype.filepat[0])
-//					LSprintf(buf, "%lc%s%lc", FTYC_MATCHNAME, otype.filepat, ((otype.recogchars[0]) ? ((otype.and) ? FTYC_AND : FTYC_OR) : FTYC_ENDSECTION));
-					sprintf(buf, "%lc%s%lc", FTYC_MATCHNAME, otype.filepat, ((otype.recogchars[0]) ? ((otype.and) ? FTYC_AND : FTYC_OR) : FTYC_ENDSECTION));
+					snprintf(buf, size, "%lc%s%lc", FTYC_MATCHNAME, otype.filepat, ((otype.recogchars[0]) ? ((otype.and) ? FTYC_AND : FTYC_OR) : FTYC_ENDSECTION));
 				if(otype.recogchars[0])
 				{
 					b = mv = 0;
@@ -456,17 +456,15 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 							{
 								if((IDOS->HexToLong(buf2, &b)) > 0)
 								{
-//									LSprintf(buf3, "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
-									sprintf(buf3, "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
-									Self->StrConcat(buf, buf3, 4096);
+									snprintf(buf3, sizeof(buf3), "%lc%ld%lc", FTYC_MOVETO, b, FTYC_ENDSECTION);
+									strlcat(buf, buf3, buf_size);
 								}
 								mv = 1;
 							}
 							else
 							{
-//								LSprintf(buf3, "%lc$%s%lc", FTYC_MATCH, buf2, FTYC_AND);
-								sprintf(buf3, "%lc$%s%lc", FTYC_MATCH, buf2, FTYC_AND);
-								Self->StrConcat(buf, buf3, 4096);
+								snprintf(buf3, sizeof(buf3), "%lc$%s%lc", FTYC_MATCH, buf2, FTYC_AND);
+								strlcat(buf, buf3, buf_size);
 								mv = 0;
 							}
 							if(!otype.recogchars[a])
@@ -489,7 +487,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 						buf[b - 1] = 0;
 				}
 				if((newtype->recognition = Self->LAllocRemember(&cstuff->typekey, strlen(buf) + 1, MEMF_CLEAR)))
-					Self->LStrCpy((STRPTR)newtype->recognition, buf);
+					strlcpy((STRPTR)newtype->recognition, buf, strlen(buf) + 1);
 				linkinnewfiletype(cstuff, newtype);
 			}
 		}
@@ -557,7 +555,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 			{
 				for(gad = 0; gad < GADCOUNT; gad++)
 				{
-					Self->LStrCpy(buf, (STRPTR)&bank->gadgets[gad]);
+					strlcpy(buf, (STRPTR)&bank->gadgets[gad], buf_size);
 					bank->gadgets[gad].name = (STRPTR)getstringcopy(buf);
 					bank->gadgets[gad].pad2[0] = 0;
 					bank->gadgets[gad].pad2[1] = 0;
@@ -584,7 +582,7 @@ int _DOpus_ReadConfig(struct DOpusIFace *Self, STRPTR name, struct ConfigStuff *
 				if(bank->gadgets[a].key == 0)
 					bank->gadgets[a].key = 0xff;
 
-		Self->LStrCpy(config->autodirs[1], config->autodirs[0] + 30);
+		strlcpy(config->autodirs[1], config->autodirs[0] + 30, sizeof(config->autodirs[1]));
 	}
 
 	cstuff->curbank = cstuff->firstbank;

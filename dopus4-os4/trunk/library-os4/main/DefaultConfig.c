@@ -110,9 +110,9 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	config->dynamicflags = UPDATE_FREE | UPDATE_SCROLL | UPDATE_LEFTJUSTIFY | UPDATE_PROGRESSINDICATOR | UPDATE_PROGRESSIND_COPY | UPDATE_REDRAW;
 
 	/* System */
-	Self->LStrCpy(config->outputcmd, "NewCLI");
-	Self->LStrCpy(config->output, "CON:0/16/1024/500/Directory Opus Output/CLOSE");
-	Self->LStrCpy(config->shellstartup, "Shell-Startup");
+	strlcpy(config->outputcmd, "NewCLI", sizeof(config->outputcmd));
+	strlcpy(config->output, "CON:0/16/1024/500/Directory Opus Output/CLOSE", sizeof(config->output));
+	strlcpy(config->shellstartup, "Shell-Startup", sizeof(config->shellstartup));
 	config->priority = 0;
 
 	config->icontype = ICON_MEMORY | ICON_DATE | ICON_TIME;
@@ -142,10 +142,10 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	config->hidepatparsed[0] = 0;
 
 
-	Self->LStrCpy(config->autodirs[0], "SYS:");
-	Self->LStrCpy(config->autodirs[1], "RAM:");
 //	config->autodirs[0][0] = 0;
 //	config->autodirs[1][0] = 0;
+	strlcpy(config->autodirs[0], "SYS:", sizeof(config->autodirs[0]));
+	strlcpy(config->autodirs[1], "RAM:", sizeof(config->autodirs[1]));
 
 	config->startupscript[0] = 0;
 	config->uniconscript[0] = 0;
@@ -200,10 +200,10 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	for(i = 0; i < NUMFONTS; i++)
 	{
 		config->fontsizes[i] = 16;
-		Self->LStrCpy(config->fontbufs[i], "Bitstream Vera Sans Mono.font");
+		strlcpy(config->fontbufs[i], "Bitstream Vera Sans Mono.font", sizeof(config->fontbufs[0]));
 	}
 	config->fontsizes[0] = 8;
-	Self->LStrCpy(config->fontbufs[0], "topaz.font");
+	strlcpy(config->fontbufs[0], "topaz.font", sizeof(config->fontbufs[0]));
 
 	config->generalscreenflags = SCR_GENERAL_TITLESTATUS | SCR_GENERAL_TINYGADS | SCR_GENERAL_INDICATERMB | SCR_GENERAL_REQDRAG | SCR_GENERAL_WINBORDERS | SCR_GENERAL_NEWLOOKPROP | SCR_GENERAL_GADSLIDERS;
 
@@ -246,11 +246,11 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	/* Buttons */
 	for(i = 0; i < 42; i++)
 	{
-		Self->AssignGadget(cstuff, 0, i, defgads[i], deffuncs[i]);
+		Self->AssignGadget(cstuff, 0, i, (char *)defgads[i], (char *)deffuncs[i]);
 	}
 	for(i = 0; i < 42; i++)
 	{
-		Self->AssignGadget(cstuff, 0, i + 42, revgads[i], revfuncs[i]);
+		Self->AssignGadget(cstuff, 0, i + 42, (char *)revgads[i], (char *)revfuncs[i]);
 	}
 	for(i = 78; i < GADCOUNT; i++)
 	{
@@ -300,8 +300,8 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	cstuff->curbank = firstbank;
 
 	/* Menus */
-	Self->LStrCpy(config->menutit[0], "Project");
-	Self->LStrCpy(config->menutit[1], "Function");
+	strlcpy(config->menutit[0], "Project", sizeof(config->menutit[0]));
+	strlcpy(config->menutit[1], "Function", sizeof(config->menutit[1]));
 	for(i = 2; i < 5; i++)
 	{
 		config->menutit[i][0] = 0;
@@ -309,14 +309,14 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 
 	for(i = 0; i < 7; i++)
 	{
-		Self->AssignMenu(cstuff, i, defmenus1[i], deffuncs1[i]);
+		Self->AssignMenu(cstuff, i, (char *)defmenus1[i], (char *)deffuncs1[i]);
 		config->menu[i].key = defmenkeys1[i];
 		config->menu[i].qual = defmenqual1[i];
 	}
 	for(i = 20; i < 24; i++)
 	{
 		h = i - 20;
-		Self->AssignMenu(cstuff, i, defmenus2[h], deffuncs2[h]);
+		Self->AssignMenu(cstuff, i, (char *)defmenus2[h], (char *)deffuncs2[h]);
 		config->menu[i].key = defmenkeys2[h];
 		config->menu[i].qual = defmenqual2[h];
 	}
@@ -342,24 +342,24 @@ int _DOpus_DefaultConfig(struct DOpusIFace *Self, struct ConfigStuff *cstuff)
 	{
 		if((type = (struct dopusfiletype *)Self->LAllocRemember(&cstuff->typekey, sizeof(struct dopusfiletype), MEMF_CLEAR)))
 		{
-			Self->LStrCpy(type->type, deftype_type[i]);
-			Self->LStrCpy(type->typeid, deftype_typeid[i]);
+			strlcpy(type->type, deftype_type[i], sizeof(type->type));
+			strlcpy(type->typeid, deftype_typeid[i], sizeof(type->typeid));
 			if((type->recognition = Self->LAllocRemember(&cstuff->typekey, strlen(deftype_recog[i]) + 1, 0)))
 			{
-				Self->LStrCpy(type->recognition, deftype_recog[i]);
+				strlcpy(type->recognition, deftype_recog[i], strlen(deftype_recog[i] + 1));
 			}
 			for(a = 0; a < 4; a++)
 			{
 				if(deftype_funcs[i][a])
 				{
 					b = deftype_funcpos[i][a];
-					Self->LStrCpy(type->actionstring[b], deftype_action[i][a]);
+					strlcpy(type->actionstring[b], deftype_action[i][a], sizeof(type->actionstring[0]));
 					type->which[b] = deftype_which[i][a];
 					type->delay[b] = deftype_delay[i][a];
 					type->stack[b] = 8192; //4000;
 					if((type->function[b] = Self->LAllocRemember(&cstuff->typekey, strlen(deftype_funcs[i][a]) + 1, 0)))
 					{
-						Self->LStrCpy(type->function[b], deftype_funcs[i][a]);
+						strlcpy(type->function[b], deftype_funcs[i][a], strlen(deftype_funcs[i][a] + 1));
 					}
 				}
 			}
