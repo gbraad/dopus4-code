@@ -82,7 +82,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 				{
 					int a;
 
-					Self->LStrnCpy(freq->filebuf, ptr, FILEBUF_SIZE - 2);
+					strlcpy(freq->filebuf, ptr, FILEBUF_SIZE - 2);
 					a = strlen(freq->filebuf);
 					if(freq->filebuf[a - 1] == '/')
 					{
@@ -146,7 +146,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 		{
 			if((ptr = IDOS->FilePart(freq->dirbuf)))
 			{
-				Self->LStrCpy(initialfont, ptr);
+				strlcpy(initialfont, ptr, sizeof(initialfont));
 				a = strlen(initialfont);
 				if(initialfont[a - 1] == '/')
 				{
@@ -184,13 +184,11 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 				{
 					if(freq->dirbuf)
 					{
-						Self->StrCombine(freq->dirbuf, "FONTS:", ((struct FontRequester *)request)->fo_Attr.ta_Name, 256);
-						Self->LStrCat(freq->dirbuf, "/");
+						snprintf(freq->dirbuf, 256, "FONTS:%s/", ((struct FontRequester *)request)->fo_Attr.ta_Name);
 					}
 					if(freq->filebuf)
 					{
-//						LSprintf(freq->filebuf, "%ld", ((struct FontRequester *)request)->fo_Attr.ta_YSize);
-						sprintf(freq->filebuf, "%d", ((struct FontRequester *)request)->fo_Attr.ta_YSize);
+						snprintf(freq->filebuf, FILEBUF_SIZE, "%d", ((struct FontRequester *)request)->fo_Attr.ta_YSize);
 					}
 				}
 				else
@@ -198,13 +196,13 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 					fr = (struct FileRequester *)request;
 					if(freq->dirbuf)
 					{
-						Self->LStrCpy(freq->dirbuf, fr->fr_Drawer);
+						strlcpy(freq->dirbuf, fr->fr_Drawer, 256);
 					}
 					if(!(freq->flags & DFRF_DIRREQ))
 					{
 						if(freq->filebuf)
 						{
-							Self->LStrCpy(freq->filebuf, fr->fr_File);
+							strlcpy(freq->filebuf, fr->fr_File, FILEBUF_SIZE);
 						}
 					}
 					if(freq->flags & DFRF_MULTI && fr->fr_NumArgs > 0)
@@ -215,7 +213,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 							{
 								if((freq->filearray[a] = Self->LAllocRemember(&freq->filearraykey, strlen(fr->fr_ArgList[a].wa_Name) + 1, MEMF_CLEAR)))
 								{
-									Self->LStrCpy(freq->filearray[a], fr->fr_ArgList[a].wa_Name);
+									strlcpy(freq->filearray[a], fr->fr_ArgList[a].wa_Name, strlen(fr->fr_ArgList[a].wa_Name) + 1);
 								}
 							}
 						}

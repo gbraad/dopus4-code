@@ -66,13 +66,13 @@ int _DOpus_StrConcat(struct DOpusIFace *Self, char *s1, char *s2, int len)
 
 	if(a + b < len)
 	{
-		Self->LStrnCpy(&s1[b], s2, a);
+		strlcpy(&s1[b], s2, a);
 		s1[b + a] = 0;
 		return(1);
 	}
 
 	if(len > b)
-		Self->LStrnCpy(&s1[b], s2, len - b);
+		strlcpy(&s1[b], s2, len - b);
 
 	s1[len] = 0;
 	return(0);

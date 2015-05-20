@@ -19,7 +19,6 @@
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <proto/console.h>
-#include <proto/utility.h>
 #include <dos/dos.h>
 #include <dos/dosextens.h>
 #include <libraries/dopus.h>
@@ -71,7 +70,8 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 	struct MsgPort *port;
 	struct IOStdReq *req;
 	struct Process *myproc;
-	char ocbuf[20], cbuf[20], *foo;
+	char ocbuf[20], cbuf[20];
+	const char *foo;
 
 	if(buf)
 		buf[0] = 0;
@@ -81,8 +81,7 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 		if(code & IECODE_UP_PREFIX)
 			code -= 0x80;
 		if(code >= 0x50 && code <= 0x59)
-//			IUtility->SNPrintf(cbuf, 20, "F%ld", code - 0x4f);
-			sprintf(cbuf, "F%d", code - 0x4f);
+			snprintf(cbuf, sizeof(cbuf), "F%d", code - 0x4f);
 		else if(code != (uint16)~0 && code != 0xff)
 		{
 			foo = NULL;
@@ -128,7 +127,7 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 				break;
 			}
 			if(foo)
-				Self->LStrCpy(cbuf, foo);
+				strlcpy(cbuf, foo, sizeof(cbuf));
 			if(!(myproc = (struct Process *)IExec->FindTask(NULL)))
 				return (0);
 			port = &myproc->pr_MsgPort;
@@ -142,7 +141,8 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 			}
 			if(IExec->OpenDevice("console.device", -1, (struct IORequest *)req, 0))
 			{
-				IExec->DeleteIORequest((struct IORequest *)req);
+//				IExec->DeleteIORequest((struct IORequest *)req);
+				IExec->FreeSysObject(ASOT_IOREQUEST, req);
 				return (0);
 			}
 			ConsoleDevice = (struct Device *)req->io_Device;
@@ -167,33 +167,33 @@ int _DOpus_RawkeyToStr(struct DOpusIFace *Self, uint16 code, uint16 qual, char *
 			if(kbuf)
 				kbuf[0] = ocbuf[0];
 			if(!foo)
-				Self->LStrCpy(cbuf, ocbuf);
+				strlcpy(cbuf, ocbuf, sizeof(cbuf));
 		}
 	}
 	if(buf)
 	{
 		if(qual & IEQUALIFIER_LCOMMAND)
-			Self->StrConcat(buf, "LAMIGA + ", len);
+			strlcat(buf, "LAMIGA + ", len);
 		if(qual & IEQUALIFIER_RCOMMAND)
-			Self->StrConcat(buf, "RAMIGA + ", len);
+			strlcat(buf, "RAMIGA + ", len);
 		if(qual & IEQUALIFIER_CONTROL)
-			Self->StrConcat(buf, "CONTROL + ", len);
+			strlcat(buf, "CONTROL + ", len);
 		if(qual & IEQUALIFIER_LSHIFT)
-			Self->StrConcat(buf, "LSHIFT + ", len);
+			strlcat(buf, "LSHIFT + ", len);
 		if(qual & IEQUALIFIER_RSHIFT)
-			Self->StrConcat(buf, "RSHIFT + ", len);
+			strlcat(buf, "RSHIFT + ", len);
 		if(qual & IEQUALIFIER_LALT)
-			Self->StrConcat(buf, "LALT + ", len);
+			strlcat(buf, "LALT + ", len);
 		if(qual & IEQUALIFIER_RALT)
-			Self->StrConcat(buf, "RALT + ", len);
+			strlcat(buf, "RALT + ", len);
 		if((code == (uint16) ~ 0) || (code == 0xff && buf[0]))
 			buf[strlen(buf) - 3] = 0;
 		else if(cbuf[0])
 		{
 			Self->StrToUpper(cbuf, ocbuf);
-			Self->StrConcat(buf, "'", len);
-			Self->StrConcat(buf, ocbuf, len);
-			Self->StrConcat(buf, "'", len);
+			strlcat(buf, "'", len);
+			strlcat(buf, ocbuf, len);
+			strlcat(buf, "'", len);
 		}
 	}
 

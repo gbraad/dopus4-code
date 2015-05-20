@@ -62,8 +62,8 @@ int _DOpus_TackOn(struct DOpusIFace *Self, char *path, char *file, int len)
 
 	a = strlen(path) - 1;
 	if((a >= 0) && (path[a] != ':') && (path[a] != '/'))
-		Self->StrConcat(path, "/", len);
+		strlcat(path, "/", len);
 	if(file)
-		Self->StrConcat(path, file, len);
+		strlcat(path, file, len);
 	return((int)strlen(path));
 }

@@ -13,12 +13,9 @@
  *
  */
 
-#include <stdio.h>
-
 #include <exec/exec.h>
 #include <proto/exec.h>
 #include <proto/dos.h>
-#include <proto/utility.h>
 #include <dos/dos.h>
 #include <libraries/dopus.h>
 #include <intuition/intuition.h>
@@ -27,6 +24,8 @@
 #include <dopus/stringdata.h>
 #include <proto/dopus.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "extras.h"
 
@@ -82,7 +81,7 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, const char *name, char *buf, 
 	char temp[256];
 
       tryloop:
-	Self->LStrnCpy(temp, name, 256);
+	strlcpy(temp, name, 256);
 	if(!(IDOS->FindSegment(temp, NULL, 0)))
 	{
 		if(Self->CheckExist(temp, NULL) >= 0)
@@ -92,7 +91,7 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, const char *name, char *buf, 
 
 			for(a = 0; a < 1; a++)
 			{
-				IUtility->SNPrintf(temp, 256, "%s%s", look_dirs[type + a], name);
+				snprintf(temp, 256, "%s%s", look_dirs[type + a], name);
 
 				if(Self->CheckExist(temp, NULL) < 0)
 					break;
@@ -119,7 +118,7 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, const char *name, char *buf, 
 	}
 	if(temp[0])
 	{
-		Self->LStrnCpy(buf, temp, size);
+		strlcpy(buf, temp, size);
 		return (1);
 	}
 	else if(type == SYSFILE_MODULE)
@@ -133,8 +132,7 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, const char *name, char *buf, 
 		req_gads[1] = string_table[STR_CANCEL];
 		req_gads[2] = NULL;
 
-//		LSprintf(reqbuf, string_table[STR_CANNOT_FIND_FILE_REQ], name, req_gads[0], req_gads[1]);
-		sprintf(reqbuf, string_table[STR_CANNOT_FIND_FILE_REQ], name, req_gads[0], req_gads[1]);
+		snprintf(reqbuf, sizeof(reqbuf), string_table[STR_CANNOT_FIND_FILE_REQ], name, req_gads[0], req_gads[1]);
 
 		req.text = reqbuf;
 		req.gads = req_gads;
@@ -149,7 +147,7 @@ int _DOpus_FindSystemFile(struct DOpusIFace *Self, const char *name, char *buf, 
 		if(Self->DoSimpleRequest(NULL, &req))
 			goto tryloop;
 	}
-	Self->LStrnCpy(buf, name, size);
+	strlcpy(buf, name, size);
 
 	return (0);
 }

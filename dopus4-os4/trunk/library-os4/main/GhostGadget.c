@@ -65,7 +65,7 @@ void _DOpus_GhostGadget(struct DOpusIFace *Self, struct Gadget *gad, struct Rast
 	const UWORD ditherdata[] = { 0x8888, 0x2222 };
 
 	IGraphics->SetDrMd(rp, COMPLEMENT);
-	SetAfPt(rp, ditherdata, 1);
+	SetAfPt(rp, (UWORD *)ditherdata, 1);
 	IGraphics->RectFill(rp, gad->LeftEdge+xoff, gad->TopEdge + yoff, gad->LeftEdge+gad->Width-1-xoff, gad->TopEdge+gad->Height-1-yoff);
 	SetAfPt(rp, NULL, 0);
 	IGraphics->SetDrMd(rp, old_drmd);

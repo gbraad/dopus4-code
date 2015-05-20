@@ -395,7 +395,7 @@ APTR _DOpus_AddRequesterObject(struct DOpusIFace *Self, struct RequesterBase *re
 				break;
 			}
 			if(string && (*string = Self->LAllocRemember(&reqbase->rb_memory, strlen((char *)data) + 1, 0)))
-				Self->LStrCpy(*string, (char *)data);
+				strlcpy(*string, (char *)data, strlen((char *)data) + 1);
 			break;
 
 			/* Text positioning */
