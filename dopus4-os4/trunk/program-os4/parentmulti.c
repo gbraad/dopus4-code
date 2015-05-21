@@ -227,7 +227,6 @@ int do_parent_multi(STRPTR path)
 			{
 				if(table[view->itemselected])
 				{
-//					if(IDOpus->LStrnCmp(table[view->itemselected], "  + ", 4) == 0)
 					if(strncmp(table[view->itemselected], "  + ", 4) == 0)
 //						strcpy(buf, &table[view->itemselected][4]);
 						strncpy(buf, &table[view->itemselected][4], 256);
@@ -251,6 +250,7 @@ int do_parent_multi(STRPTR path)
 	}
 }
 
+/* This function just returns 0 since ported to OS4 - why?? */
 int get_multi_volume(BPTR lock, STRPTR *table, struct DOpusRemember **key)
 {
 /*	struct DosList *doslist;

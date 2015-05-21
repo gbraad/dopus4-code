@@ -309,7 +309,6 @@ char *getfiledescription(STRPTR name, int win)
 		return (NULL);
 	strncpy(buf, str_pathbuffer[win], 256);
 	strncat(buf, name, 256);
-//	IDOpus->StrCombine(buf, str_pathbuffer[win], name, 256);
 	if(!(type = checkfiletype(buf, -1, 0)))
 		return (NULL);
 	if((strcmp(type->type, "Default") == 0) || (strcmp(type->type, globstring[STR_FTYPE_DEFAULT]) == 0))
