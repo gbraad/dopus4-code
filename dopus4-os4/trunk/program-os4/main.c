@@ -1504,7 +1504,6 @@ void get_config_file(STRPTR buf, CONST_STRPTR suff)
 
 	strncpy(temp, str_config_basename, 256);
 	strncat(temp, suff, 256);
-//	IDOpus->StrCombine(temp, str_config_basename, suff, 256);
 	if(IDOpus->CheckExist(temp, NULL) < 0)
 	{
 		strcpy(buf, temp);
@@ -1514,20 +1513,17 @@ void get_config_file(STRPTR buf, CONST_STRPTR suff)
 	{
 		strncpy(temp, IDOS->FilePart(str_config_basename), 256);
 		strncat(temp, suff, 256);
-//		IDOpus->StrCombine(temp, IDOS->FilePart(str_config_basename), suff, 256);
 	}
 	if(!(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
 	{
 		strncpy(temp, "DirectoryOpus", 256);
 		strncat(temp, suff, 256);
-//		IDOpus->StrCombine(temp, "DirectoryOpus", suff, 256);
 		if(!(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
 		{
 			if(IDOpus->CheckExist("PROGDIR:S", NULL))
 			{
 				strncpy(buf, "PROGDIR:S/DirectoryOpus", 256);
 				strncat(buf, suff, 256);
-//				IDOpus->StrCombine(buf, "PROGDIR:S/DirectoryOpus", suff, 256);
 			}
 		}
 	}

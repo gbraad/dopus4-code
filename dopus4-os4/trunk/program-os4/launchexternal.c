@@ -248,7 +248,6 @@ void doconfig()
 				config_changed = rcfg->changed;
 				strncpy(str_config_file, rcfg->configname, 256);
 				strncat(str_config_file, ".CFG", 256);
-//				IDOpus->StrCombine(str_config_file, rcfg->configname, ".CFG", 256);
 				strncpy(str_config_basename, rcfg->configname, 256);
 				status_configuring = 1;
 				break;
@@ -353,7 +352,6 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 	strncpy(portname, "&", 20);
 	strncat(portname, port, 20);
-//	IDOpus->StrCombine(portname, "&", port, 20);
 	args[1] = portname;
 
 	if(printdir)
