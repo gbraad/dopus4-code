@@ -49,26 +49,32 @@ all : config dopusrt print library program catalogs
 
 .PHONY : config
 config:
+	@echo " "
 	$(MAKE) -C config-os4
 
 .PHONY : dopusrt
 dopusrt:
+	@echo " "
 	$(MAKE) -C dopusrt-os4
 
 .PHONY : print
 print:
+	@echo " "
 	$(MAKE) -C dopus_print-os4
 
 .PHONY : library
 library:
+	@echo " "
 	$(MAKE) -C library-os4
 
 .PHONY : program
 program:
+	@echo " "
 	$(MAKE) -C program-os4
 
-'PHONY : catalogs
+.PHONY : catalogs
 catalogs:
+	@echo " "
 	$(MAKE) -C locale
 
 #

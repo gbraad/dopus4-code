@@ -16,6 +16,10 @@ endif
 
 all: $(BUMPREV) DOpus_Print
 
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) -o $@
+
 DOpus_Print : printstrings.h strings.c $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
