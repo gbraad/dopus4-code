@@ -58,6 +58,18 @@
 
 int _DOpus_StrConcat(struct DOpusIFace *Self, char *s1, char *s2, int len)
 {
+	int combined_length = 0;
+
+	combined_length = strlcat(s1, s2, len);
+	if (combined_length < len)
+		return(1);
+
+	return(0);
+}
+
+/* Original verison
+int _DOpus_StrConcat(struct DOpusIFace *Self, char *s1, char *s2, int len)
+{
 	int a, b;
 
 	a = strlen(s2);
@@ -77,4 +89,5 @@ int _DOpus_StrConcat(struct DOpusIFace *Self, char *s1, char *s2, int len)
 	s1[len] = 0;
 	return(0);
 }
+*/
 
