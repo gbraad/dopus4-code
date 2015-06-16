@@ -518,7 +518,9 @@ void printdirectory(struct RequesterBase *reqbase, char *portname, int flags, ch
 					}
 					if(flags & PD_COMM && pddata.entry->comment)
 					{
-						IDOpus->StrCombine(buf, ": ", pddata.entry->comment, bufsize);
+//						IDOpus->Str Combine(buf, ": ", pddata.entry->comment, bufsize);
+						strlcpy(buf, ": ", bufsize);
+						strlcat(buf, pddata.entry->comment, bufsize);
 						if(!(printdir_string(reqbase, out, buf)))
 							abort = 1;
 					}
