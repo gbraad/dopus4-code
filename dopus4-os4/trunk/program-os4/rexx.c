@@ -62,7 +62,7 @@ void rexx_dispatch(int allfuncs)
 				arglist = (struct DOpusArgsList *)dopusmsg->data;
 				if(arglist->single_file)
 				{
-					strcpy(arglist->file_data, arglist->single_file);
+					strlcpy(arglist->file_data, arglist->single_file, PATHBUF_SIZE);
 					arglist->single_file = NULL;
 				}
 				else if(arglist->file_list)
@@ -70,8 +70,8 @@ void rexx_dispatch(int allfuncs)
 					struct Directory *entry;
 
 					entry = (struct Directory *)arglist->file_list;
-					strcpy(arglist->file_data, dopus_curwin[arglist->file_window]->directory);
-					IDOS->AddPart(arglist->file_data, entry->name, 256);
+					strlcpy(arglist->file_data, dopus_curwin[arglist->file_window]->directory, PATHBUF_SIZE);
+					IDOS->AddPart(arglist->file_data, entry->name, PATHBUF_SIZE);
 					arglist->last_select = arglist->file_list;
 
 					entry = entry->next;
@@ -142,7 +142,7 @@ void rexx_dispatch(int allfuncs)
 								rexx_return_value = 0;
 								internal_function(func_global_function, rexx_global_flag, NULL, NULL);
 								func_global_function = 0;
-								sprintf(buf, "%ld", rexx_return_value);
+								snprintf(buf, sizeof(buf), "%ld", rexx_return_value);
 								rexx_set_return(msg, rexx_result_code, buf);
 							}
 							break;
@@ -228,7 +228,7 @@ void rexx_copyresult(char *result)
 	if(result)
 		if((new_lrr = doAllocVec(strlen(result) + 1, MEMF_ANY)))
 		{
-			strcpy(new_lrr, result);
+			strlcpy(new_lrr, result, strlen(result) + 1);
 			IExec->FreeVec(str_last_rexx_result);
 			str_last_rexx_result = new_lrr;
 		}

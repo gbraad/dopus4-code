@@ -60,10 +60,10 @@ int checkisfont(STRPTR pathname, STRPTR fontname)
 	int a;
 	char fontsize[36], fontpath[256], *ptr;
 
-	strcpy(fontpath, pathname);
+	strlcpy(fontpath, pathname, sizeof(fontpath));
 	if((ptr = IDOS->FilePart(fontpath)))
 	{
-		strcpy(fontsize, ptr);
+		strlcpy(fontsize, ptr, sizeof(fontsize));
 		*(--ptr) = 0;
 		if((ptr = IDOS->FilePart(fontpath)))
 		{
@@ -74,10 +74,10 @@ int checkisfont(STRPTR pathname, STRPTR fontname)
 			}
 			if(!fontsize[a])
 			{
-				strcat(fontpath, ".font");
+				strlcat(fontpath, ".font", sizeof(fontpath));
 				if(IDOpus->CheckExist(fontpath, NULL))
 				{
-					strcpy(fontname, fontpath);
+					strlcpy(fontname, fontpath, sizeof(fontname));
 					return (1);
 				}
 			}

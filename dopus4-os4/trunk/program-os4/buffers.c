@@ -115,7 +115,7 @@ int bringinbuffer(char *dirbuf, int win, int read)
 		}
 		if(read)
 		{
-			strcpy(str_pathbuffer[data_active_window], dirbuf);
+			strlcpy(str_pathbuffer[data_active_window], dirbuf, sizeof(str_pathbuffer[0]));
 			startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY);
 		}
 		else
@@ -185,7 +185,7 @@ void startgetdir(int win, int flags)
 			expand_path("", str_pathbuffer[win]);
 		}
 		checkdir(str_pathbuffer[win], &path_strgadget[win]);
-		strcpy(dopus_curwin[win]->directory, str_pathbuffer[win]);
+		strlcpy(dopus_curwin[win]->directory, str_pathbuffer[win], sizeof(dopus_curwin[win]->directory));
 		getdir(dopus_curwin[win], win, (flags & SGDFLAGS_REREADINGOLD));
 	}
 	seename(win);
@@ -197,7 +197,7 @@ void startgetdir(int win, int flags)
 void incrementbuf(int win, int dir, int show)
 {
 	advancebuf(win, dir);
-	strcpy(str_pathbuffer[win], dopus_curwin[win]->directory);
+	strlcpy(str_pathbuffer[win], dopus_curwin[win]->directory, sizeof(str_pathbuffer[win]));
 	checkdir(str_pathbuffer[win], &path_strgadget[win]);
 	checksize(win);
 	check_old_buffer(win);
@@ -221,16 +221,16 @@ void copydirwin(struct DirectoryWindow *sourcewin, struct DirectoryWindow *destw
 	busy();
 	freedir(destwin, dest);
 	copy = sourcewin->firstentry;
-	strcpy(destwin->realdevice, sourcewin->realdevice);
+	strlcpy(destwin->realdevice, sourcewin->realdevice, sizeof(destwin->realdevice));
 	while(copy)
 	{
 		if(!(addfile(destwin, dest, copy->name, copy->size, copy->type, &copy->date, copy->comment, copy->protection, copy->subtype, FALSE, copy->dispstr, NULL, copy->owner_id, copy->group_id)))
 			break;
 		copy = copy->next;
 	}
-	strcpy(str_pathbuffer[dest], sourcewin->directory);
-	strcpy(destwin->directory, sourcewin->directory);
-	strcpy(destwin->diskname, sourcewin->diskname);
+	strlcpy(str_pathbuffer[dest], sourcewin->directory, sizeof(str_pathbuffer[dest]));
+	strlcpy(destwin->directory, sourcewin->directory, sizeof(destwin->directory));
+	strlcpy(destwin->diskname, sourcewin->diskname, sizeof(destwin->diskname));
 	destwin->hlen = sourcewin->hlen;
 	destwin->flags = sourcewin->flags;
 	copy_datestamp(&sourcewin->dirstamp, &destwin->dirstamp);
@@ -264,7 +264,7 @@ void swapdirwin()
 
 	for(tmp = 0; tmp < 2; tmp++)
 	{
-		strcpy(str_pathbuffer[tmp], dopus_curwin[tmp]->directory);
+		strlcpy(str_pathbuffer[tmp], dopus_curwin[tmp]->directory, sizeof(str_pathbuffer[0]));
 		refreshwindow(tmp, 1);
 		checkdir(str_pathbuffer[tmp], &path_strgadget[tmp]);
 		checksize(tmp);
@@ -339,7 +339,7 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 	}
 	IDOS->SetProcWindow((APTR)-1L);
 
-	strncpy(tempbuf, dirbuf, 300);
+	strlcpy(tempbuf, dirbuf, 300);
 
 	if(config->dirflags & DIRFLAGS_EXPANDPATHS)
 	{
@@ -347,7 +347,6 @@ struct DirectoryWindow *findbuffer(char *dirbuf, int win, int canchecklocks, int
 		expand_path(dirbuf, tempbuf);
 	}
 	IDOpus->TackOn(tempbuf, NULL, 300);
-//	strncat(tempbuf, "/", 300);
 
 	for(try = 0; try < 2; try++)
 	{
@@ -424,7 +423,7 @@ void renamebuffers(char *old, char *new)
 		{
 			if(replacepart(dir->directory, old, new) && dopus_curwin[win] == dir)
 			{
-				strcpy(str_pathbuffer[win], dir->directory);
+				strlcpy(str_pathbuffer[win], dir->directory, sizeof(str_pathbuffer[0]));
 				checkdir(str_pathbuffer[win], &path_strgadget[win]);
 			}
 			dir = dir->next;
@@ -443,15 +442,14 @@ int replacepart(char *string, char *old, char *new)
 	if((stringlen = strlen(string)) > oldlen)
 	{
 		stringlen -= oldlen;
-		strncpy(tempbuf, &string[oldlen], stringlen);
+		strlcpy(tempbuf, &string[oldlen], stringlen);
 		tempbuf[stringlen] = 0;
 	}
 	else
 		stringlen = 0;
-	strcpy(string, new);
+	strlcpy(string, new, 256);
 	if(stringlen > 0)
-//		IDOpus->StrConcat(string, tempbuf, 256);
-		strncat(string, tempbuf, 256);
+		strlcat(string, tempbuf, 256);
 	return (1);
 }
 
@@ -564,7 +562,7 @@ void userentrymessage(struct DirectoryWindow *dir, struct Directory *entry, int 
 		char message[200];
 
 		/* Port was not out there; put up an error requester */
-		sprintf(message, globstring[STR_CUSTPORT_NOT_FOUND], dir->custhandler);
+		snprintf(message, sizeof(message), globstring[STR_CUSTPORT_NOT_FOUND], dir->custhandler);
 		simplerequest(TDRIMAGE_ERROR, message, str_okaystring, NULL);
 
 		/* Clear message and return */
@@ -612,7 +610,7 @@ void makespecialdir(int win, char *title)
 		dopus_oldwin[win] = dopus_curwin[win];
 		dopus_curwin[win] = dopus_specialwin[win];
 	}
-	strcpy(dopus_curwin[win]->diskname, title);
+	strlcpy(dopus_curwin[win]->diskname, title, sizeof(dopus_curwin[win]->diskname));
 	str_pathbuffer[win][0] = 0;
 	checkdir(str_pathbuffer[win], &path_strgadget[win]);
 	freedir(dopus_curwin[win], win);
@@ -648,7 +646,7 @@ void check_old_buffer(int win)
 
 					char rootname[256];
 
-					strcpy(rootname, dopus_curwin[win]->directory);
+					strlcpy(rootname, dopus_curwin[win]->directory, sizeof(rootname));
 					if(getroot(rootname, NULL) && (strcmp(rootname, dopus_curwin[win]->volumename)) != 0)
 					{
 						reread = 1;
@@ -705,7 +703,7 @@ void go_to_buffer(int win, struct DirectoryWindow *dir)
 {
 	endnotify(win);
 	dopus_curwin[win] = dir;
-	strcpy(str_pathbuffer[win], dir->directory);
+	strlcpy(str_pathbuffer[win], dir->directory, sizeof(str_pathbuffer[win]));
 	checkdir(str_pathbuffer[win], &path_strgadget[win]);
 	checksize(win);
 	check_old_buffer(win);

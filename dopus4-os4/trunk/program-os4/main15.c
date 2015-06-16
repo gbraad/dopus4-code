@@ -54,8 +54,8 @@ void ftype_doubleclick(char *path, char *name, int state)
 	struct Directory *file;
 	APTR dto = NULL;
 
-	strcpy(buf, path);
-	IDOS->AddPart(buf, name, 256);
+	strlcpy(buf, path, sizeof(buf));
+	IDOS->AddPart(buf, name, sizeof(buf));
 	threelongs[0] = 0;
 
 	if(IDOpus->CheckExist(buf, &size) >= 0)
@@ -90,14 +90,14 @@ void ftype_doubleclick(char *path, char *name, int state)
 
 			if(type->actionstring[FTFUNC_DOUBLECLICK][0])
 			{
-				do_title_string(type->actionstring[FTFUNC_DOUBLECLICK], title, 0, name);
+				do_title_string(type->actionstring[FTFUNC_DOUBLECLICK], title, 0, name, sizeof(title));
 				dostatustext(title);
 			}
 			else
 			{
 				title[0] = 0;
 			}
-			strcpy(func_single_file, name);
+			strlcpy(func_single_file, name, sizeof(func_single_file));
 			dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 			if(file && file->selected)
 			{
@@ -136,7 +136,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 			IExec->FreeVec(mem);
 			if(cl)
 			{
-				strcpy(str_pathbuffer[data_active_window], buf);
+				strlcpy(str_pathbuffer[data_active_window], buf, sizeof(str_pathbuffer[0]));
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				return;
 			}
@@ -152,8 +152,8 @@ void ftype_doubleclick(char *path, char *name, int state)
 			return;
 		}
 		dostatustext(globstring[STR_RUNNING_FILE]);
-		strncpy(buf2, buf, 256);
-		strncat(buf2, ".info", 256);
+		strlcpy(buf2, buf, 256);
+		strlcat(buf2, ".info", 256);
 		if(IDOpus->CheckExist(buf2, NULL) < 0)
 		{
 			a = 1;
@@ -172,7 +172,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 	if((dto = IDataTypes->NewDTObject(buf, DTA_GroupID, GID_PICTURE, TAG_END)))
 	{
 		dostatustext(globstring[STR_SHOWING_FILE]);
-		strcpy(func_single_file, name);
+		strlcpy(func_single_file, name, sizeof(func_single_file));
 		a = LoadPic(buf);
 		if(a)
 		{
@@ -185,7 +185,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 	if((dto = IDataTypes->NewDTObject(buf, DTA_GroupID, GID_SOUND, TAG_END)))
 	{
 		dostatustext(globstring[STR_PLAYING_FILE]);
-		strcpy(func_single_file, name);
+		strlcpy(func_single_file, name, sizeof(func_single_file));
 		a = doplay8svx(buf, (config->viewbits & VIEWBITS_PLAYLOOP) ? 1 : 0);
 		if(a)
 		{
@@ -212,7 +212,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 			infoscreen = IIntuition->LockPubScreen(NULL);
 		}
 
-		strcpy(buffer, buf);
+		strlcpy(buffer, buf, sizeof(buffer));
 		b = strlen(buffer);
 		buffer[b - 5] = '\0';
 		plock = IDOS->ParentDir(flock);
@@ -236,7 +236,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 
 		if(type->actionstring[FTFUNC_DOUBLECLICK][0])
 		{
-			do_title_string(type->actionstring[FTFUNC_DOUBLECLICK], title, 0, name);
+			do_title_string(type->actionstring[FTFUNC_DOUBLECLICK], title, 0, name, sizeof(title));
 			dostatustext(title);
 		}
 		else
@@ -246,14 +246,14 @@ void ftype_doubleclick(char *path, char *name, int state)
 
 		if(!status_iconified)
 		{
-			strcpy(func_single_file, name);
+			strlcpy(func_single_file, name, sizeof(func_single_file));
 		}
 		dofunctionstring(type->function[FTFUNC_DOUBLECLICK], name, title, &par);
 	}
 	else
 	{
 		dostatustext(globstring[STR_READING_SELECTED_FILE]);
-		strcpy(func_single_file, name);
+		strlcpy(func_single_file, name, sizeof(func_single_file));
 		if(viewfile(buf, str_arcorgname[0] ? str_arcorgname : name, FUNC_SMARTREAD, NULL, str_arcorgname[0] ? 1 : 0, 1))
 			okay();
 		func_single_file[0] = 0;
@@ -284,7 +284,7 @@ int filesearch(char *name, int *found, int skipall)
 		*found = 1;
 		if(skipall > -1)
 		{
-			sprintf(buf, globstring[STR_FOUND_A_MATCH_READ], name);
+			snprintf(buf, sizeof(buf), globstring[STR_FOUND_A_MATCH_READ], name);
 			if((rec = simplerequest(TDRIMAGE_INFO, buf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], (skipall) ? globstring[STR_SKIP_ALL] : NULL, NULL)) == 1)
 			{
 				message = IDOS->FilePart(name);
@@ -542,7 +542,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					refreshwindow(a, 3);
 					break;
 				}
-				if(doparent(str_pathbuffer[a]))
+				if(doparent(str_pathbuffer[a], sizeof(str_pathbuffer[0])))
 					do_parent_root(a);
 				else
 					dodevicelist(a);
@@ -550,13 +550,13 @@ int internal_function(int function, int rexx, char *source, char *dest)
 			case FUNC_ROOT:
 				if(!rexx || rexx_argcount < 1 || (a = atoi(rexx_args[0])) < 0 || a > 1)
 					a = data_active_window;
-				if(doroot(str_pathbuffer[a]))
+				if(doroot(str_pathbuffer[a], sizeof(str_pathbuffer[0])))
 					do_parent_root(a);
 				break;
 			case FUNC_PARENTLIST:
 				if(!rexx || !rexx_argcount > 0 || (a = atoi(rexx_args[0])) < 0 || a > 1)
 					a = data_active_window;
-				if(str_pathbuffer[a][0] && do_parent_multi(str_pathbuffer[a]))
+				if(str_pathbuffer[a][0] && do_parent_multi(str_pathbuffer[a], sizeof(str_pathbuffer[0])))
 					startgetdir(a, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				break;
 			case FUNC_HELP:
@@ -619,11 +619,11 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					{
 						char *ptr;
 
-						strcpy(func_external_file, rexx_args[0]);
-						strcpy(buf2, func_external_file);
+						strlcpy(func_external_file, rexx_args[0], sizeof(func_external_file));
+						strlcpy(buf2, func_external_file, sizeof(buf2));
 						if((ptr = IDOS->FilePart(buf2)))
 						{
-							strcpy(func_single_file, ptr);
+							strlcpy(func_single_file, ptr, sizeof(func_single_file));
 							*ptr = 0;
 						}
 						spath = buf2;
@@ -636,25 +636,25 @@ int internal_function(int function, int rexx, char *source, char *dest)
 						buf2[0] = 0;
 						if(command->flags & RCL_NOFILE)
 						{
-							if(!(getdummypath(buf2, STR_SELECT_A_DIRECTORY)))
+							if(!(getdummypath(buf2, STR_SELECT_A_DIRECTORY, sizeof(buf2))))
 								return (0);
 							spath = buf2;
 						}
 						else
 						{
-							if(!(getdummyfile(&dummy_entry, buf2)))
+							if(!(getdummyfile(&dummy_entry, buf2, sizeof(buf2))))
 								return (0);
-							IDOpus->TackOn(buf2, NULL, 256);
+							IDOpus->TackOn(buf2, NULL, sizeof(buf2));
 							spath = buf2;
 							func_single_entry = &dummy_entry;
-							strcpy(func_external_file, buf2);
-							strcpy(func_single_file, dummy_entry.name);
+							strlcpy(func_external_file, buf2, sizeof(func_external_file));
+							strlcpy(func_single_file, dummy_entry.name, sizeof(func_single_file));
 						}
 					}
 					else
 					{
-						strcpy(buf2, source);
-						IDOS->AddPart(buf2, func_single_file, 256);
+						strlcpy(buf2, source, sizeof(buf2));
+						IDOS->AddPart(buf2, func_single_file, sizeof(buf2));
 						if(!(filloutdummy(buf2, &dummy_entry)))
 							return (0);
 						func_single_entry = &dummy_entry;
@@ -662,7 +662,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 					if(command->flags & RCL_NEEDDEST && (!dpath || !dpath[0]))
 					{
 						buf[0] = 0;
-						if(!(getdummypath(buf, STR_SELECT_DESTINATION_DIR)))
+						if(!(getdummypath(buf, STR_SELECT_DESTINATION_DIR, sizeof(buf))))
 							return (0);
 						dpath = buf;
 					}

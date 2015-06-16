@@ -379,7 +379,7 @@ CONST_STRPTR helpcontext[] =
 	NULL
 };
 
-char *getAGnode(char *buf, char *func)
+char *getAGnode(char *buf, char *func, int bufsize)
 {
 	int i;
 
@@ -392,7 +392,7 @@ char *getAGnode(char *buf, char *func)
 			break;
 
 	if(helpcontext[i] == NULL)
-		strcpy(buf, "Main");
+		strlcpy(buf, "Main", bufsize);
 
 	return buf;
 }
@@ -434,9 +434,9 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 		if(key > 0)
 		{
 			IDOpus->RawkeyToStr(key, qual, buf2, NULL, 30);
-			strcpy(buf1, globstring[STR_KEY]);
-			strcat(buf1, buf2);
-			strcat(buf1, "\n\n");
+			strlcpy(buf1, globstring[STR_KEY], sizeof(buf1));
+			strlcat(buf1, buf2, sizeof(buf1));
+			strlcat(buf1, "\n\n", sizeof(buf1));
 			s1 = strlen(buf1);
 			s = strlen(msg) + 1;
 			if((buf = doAllocVec(s + s1, MEMF_CLEAR)))
@@ -461,7 +461,7 @@ void dohelp(char *name, char *func, int key, int qual, char *defmsg)
 		nag.nag_Screen = Window->WScreen;
 		nag.nag_Flags = 0;
 		nag.nag_Context = (void *)helpcontext; //(void *) eliminates warning
-		nag.nag_Node = getAGnode(buf, func[0] == '*' ? func + 1 : func);
+		nag.nag_Node = getAGnode(buf, func[0] == '*' ? func + 1 : func, sizeof(buf));
 
 		if((agc = IAmigaGuide->OpenAmigaGuide(&nag, NULL)))
 		{
@@ -478,7 +478,7 @@ void checkstringgads(int a)
 {
 	--a;
 	checkdir(str_pathbuffer[a], &path_strgadget[a]);
-	strcpy(dopus_curwin[a]->directory, str_pathbuffer[a]);
+	strlcpy(dopus_curwin[a]->directory, str_pathbuffer[a], sizeof(dopus_curwin[0]->directory));
 }
 
 void setdirsize(struct Directory *dir, long long byte, int win)

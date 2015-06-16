@@ -48,7 +48,7 @@ int readarchive(struct DirectoryWindow *, int);
 void freearchive(struct DirectoryWindow *);
 //BOOL unarcfiledir(const struct DirectoryWindow *, const char *, char *, const char *);
 BOOL unarcfiledir(struct DirectoryWindow *, const char *, char *, const char *);
-BOOL getsourcefromarc(struct DirectoryWindow *, char *, char *);
+BOOL getsourcefromarc(struct DirectoryWindow *, char *, char *, int);
 void arcfillfib(struct FileInfoBlock *, struct Directory *);
 void removetemparcfile(const char *);
 uint32 extractarchive(char *, char *, char *);
@@ -79,7 +79,7 @@ int main(int, char **);
 int SetUp(int);
 void setupdisplay(int);
 void drawscreen(void);
-struct TextFont *getfont(char *, int *, int);
+struct TextFont *getfont(char *, int *, int, int);
 void allocstrings(void);
 char *astring(int);
 void allocdragbuffers(void);
@@ -89,7 +89,7 @@ void get_palette(struct Screen *, ULONG *);
 void read_configuration(int);
 void read_data_files(int);
 int get_data_file(char *, const char *, int);
-void get_config_file(char *, const char *);
+void get_config_file(char *, const char *, int);
 void setup_draw_info(void);
 
 /* main1.c */
@@ -114,7 +114,7 @@ void horizontalscroll(int, int);
 void findfirstsel(int, int);
 void findfirstchar(int, char);
 void doinfodisplay(struct Directory *, int);
-void nodayseedate(struct DateStamp *, char *);
+void nodayseedate(struct DateStamp *, char *, int);
 void display_entry(struct Directory *, int, int, int);
 void entry_text(int, struct Directory *, char *, int, int, int);
 void builddisplaystring(struct Directory *, char *, int);
@@ -123,11 +123,11 @@ void displaydirgiven(int, struct Directory *, char);
 void endfollow(int);
 void getprotdatelengths(struct RastPort *);
 void setsizedisplen(struct RastPort *);
-void buildkmgstring(char *, unsigned long long, int);
+void buildkmgstring(char *, unsigned long long, int, int);
 
 /* main3.c */
-int doparent(char *);
-int doroot(char *);
+int doparent(char *, int);
+int doroot(char *, int);
 struct Directory *addfile(struct DirectoryWindow *, int, char *, long long, int, struct DateStamp *, char *, int, int, int, char *, struct Directory *, UWORD, UWORD);
 int namesort(char *, char *);
 int inter_sort(char *, char *);
@@ -198,7 +198,7 @@ int checkexec(char *);
 void newcli(char *);
 void getprot(int, char *);
 int getprotval(char *);
-int checkexistreplace(char *, char *, struct DateStamp *, int, int);
+int checkexistreplace(char *, char *, int, struct DateStamp *, int, int);
 void layoutcenter(int);
 void fix_rmb_gadgets(void);
 void dosizedirwindows(int);
@@ -226,10 +226,10 @@ void dodevicelist(int);
 void getcurdir(char *);
 void checksize(int);
 void centerwindow(struct NewWindow *);
-char *parsedatetime(char *, char *, char *, int *);
+char *parsedatetime(char *, char *, char *, int *, int);
 void copy_datestamp(struct DateStamp *, struct DateStamp *);
 ULONG clone_screen(struct Screen *, struct ExtNewScreen *);
-struct MsgPort *CreateUniquePort(CONST_STRPTR, STRPTR, int *);
+struct MsgPort *CreateUniquePort(CONST_STRPTR, STRPTR, int *, int);
 
 /* main11.c */
 void iconify(int, int, int);
@@ -241,11 +241,11 @@ void cleanupiconify(void);
 /* main12.c */
 void dodiskinfo(char *);
 // void get_device_task(BPTR, char *, struct MsgPort *); !eliminated
-void getsizestring(char *, uint64);
+void getsizestring(char *, uint64, int);
 void * doAllocVec(uint32 byteSize, uint32 attributes); // added
 
 /* main13.c */
-void seedate(struct DateStamp *, char *, int);
+void seedate(struct DateStamp *, char *, int, int);
 int setdate(char *, struct DateStamp *);
 void seename(int);
 void displayname(int, int);
@@ -290,7 +290,7 @@ void setdirsize(struct Directory *, long long, int);
 int rexxdisp(struct RexxMsg *, struct CommandList *, char *);
 int parse(STRPTR);
 void changebuffer(int);
-char *dosstatus(int, char *, char *);
+//char *dosstatus(int, char *, char *); // unused
 void dopustofront(void);
 void dopustoback(void);
 int checkkeyword(char **, int, int);
@@ -366,27 +366,27 @@ int getfunction(char *, char **);
 int customthing(char *, char *, char *, struct dopusfuncpar *, struct function_data *);
 int buildcustfunc(char *, int, char *, int *, int, int, int, struct function_data *);
 int addfilename(char *, char *, char *, int);
-void parserunline(STRPTR, STRPTR);
+void parserunline(STRPTR, STRPTR, int);
 void custunselect(struct Directory *, int, struct function_data *);
 void doreloadfiles(struct function_data *);
 struct Directory *reload_file(int, char *);
 int openscriptfile(struct dopusfuncpar *, struct function_data *);
 int closescriptfile(struct dopusfuncpar *, int, struct function_data *);
 //int getdummyfile(struct Directory *, char *, struct DOpusFileReq *);
-int getdummyfile(struct Directory *, STRPTR);
+int getdummyfile(struct Directory *, STRPTR, int);
 int filloutdummy(char *, struct Directory *);
 //int dirrequester(struct DOpusFileReq *, char *, char *);
-void do_title_string(char *, char *, int, char *);
-void addreqfilename(char *, int);
+void do_title_string(char *, char *, int, char *, int);
+void addreqfilename(char *, int, int);
 struct Directory *custgetfirst(struct function_data *);
 void custnextsel(struct Directory **);
 int check_dest_path(struct function_data *);
-int32 getdummypath(STRPTR, int);
-void build_default_string(char *, char *, char *, char *, char *);
+int32 getdummypath(STRPTR, int, int);
+void build_default_string(char *, char *, char *, char *, char *, int);
 
 /* doerror.c */
 int doerror(int);
-void geterrorstring(char *, int);
+void geterrorstring(char *, int, int);
 void dostatustext(char *);
 void okay(void);
 void myabort(void);
@@ -417,7 +417,7 @@ int getprotectdata(int *, int *);
 void do_prot_display(int, Object_Border *, struct Gadget *);
 
 /* renamedata.c */
-int getrenamedata(char *, char *);
+int getrenamedata(char *, char *, int);
 
 /* select.c */
 void doselection(int, int);
@@ -488,7 +488,7 @@ void do_remember_config(struct RememberData *);
 void do_restore_config(struct RememberData *);
 
 /* parentmulti.c */
-int do_parent_multi(char *);
+int do_parent_multi(char *, int);
 int get_multi_volume(BPTR, char **, struct DOpusRemember **);
 
 /* dirtree.c */

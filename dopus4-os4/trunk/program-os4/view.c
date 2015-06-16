@@ -51,7 +51,7 @@ int view_linedown(struct ViewData *);
 void view_status_text(struct ViewData *, char *);
 void view_printtext(struct ViewData *, int);
 void view_checkprint(struct ViewData *, int);
-void view_makeuphex(struct ViewData *, char *, unsigned char *, int);
+void view_makeuphex(struct ViewData *, char *, unsigned char *, int, int);
 void view_togglescroll(struct ViewData *);
 int view_setupdisplay(struct ViewData *);
 void view_viewhilite(struct ViewData *, int, int, int, int);
@@ -151,7 +151,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 	{
 		if ((view_message->filename = doAllocVec(strlen(filename) + 1, MEMF_SHARED | MEMF_CLEAR)))
 		{
-			strcpy(view_message->filename, filename);
+			strlcpy(view_message->filename, filename, strlen(filename) + 1);
 		}
 		else
 		{
@@ -161,7 +161,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 
 		if ((view_message->name = doAllocVec(strlen(name) + 1, MEMF_SHARED | MEMF_CLEAR)))
 		{
-			strcpy(view_message->name, name);
+			strlcpy(view_message->name, name, strlen(name) + 1);
 		}
 		else
 		{
@@ -173,7 +173,7 @@ int viewfile(STRPTR filename, STRPTR name, int function, STRPTR initialsearch, i
 		if(initialsearch)
 		{
 			view_message->initialsearch = doAllocVec(strlen(initialsearch) + 1, MEMF_SHARED | MEMF_CLEAR);
-			strcpy(view_message->initialsearch, initialsearch);
+			strlcpy(view_message->initialsearch, initialsearch, strlen(initialsearch) + 1);
 		}
 		else
 		{
@@ -1468,7 +1468,7 @@ void view_print(struct ViewData *vdata, STRPTR str, int y, int len)
 
 		if(vdata->view_display_as_hex)
 		{
-			view_makeuphex(vdata, str, textbuf, vdata->view_text_offset + y);
+			view_makeuphex(vdata, str, textbuf, vdata->view_text_offset + y, sizeof(textbuf));
 			len = vdata->view_char_width;
 		}
 		else
@@ -1902,7 +1902,7 @@ void view_printtext(struct ViewData *vdata, int state)
 		if((IDOS->Write(out, print_ptr, print_size)) < print_size)
 		{
 			IDOS->Close(out);
-			sprintf(temp, globstring[STR_ERROR_PRINTING_FILE], IDOS->IoErr());
+			snprintf(temp, sizeof(temp), globstring[STR_ERROR_PRINTING_FILE], IDOS->IoErr());
 			view_simplerequest(vdata, temp, globstring[STR_CONTINUE], NULL);
 			return;
 		}
@@ -1914,11 +1914,11 @@ void view_printtext(struct ViewData *vdata, int state)
 			str = vdata->view_text_buffer;
 			for(a = 0; a < vdata->view_line_count; a++)
 			{
-				view_makeuphex(vdata, str, buf1, a);
+				view_makeuphex(vdata, str, buf1, a, sizeof(buf1));
 				if((IDOS->Write(out, (char *)buf1, 63)) < 63)
 				{
 					IDOS->Close(out);
-					sprintf(temp, globstring[STR_ERROR_PRINTING_FILE], IDOS->IoErr());
+					snprintf(temp, sizeof(temp), globstring[STR_ERROR_PRINTING_FILE], IDOS->IoErr());
 					view_simplerequest(vdata, temp, globstring[STR_CONTINUE], NULL);
 					return;
 				}
@@ -1933,11 +1933,11 @@ void view_printtext(struct ViewData *vdata, int state)
 			tb = vdata->view_text_offset * 16;
 			for(a = 0; a < vdata->view_lines_per_screen; a++)
 			{
-				view_makeuphex(vdata, str, buf1, vdata->view_text_offset + a);
+				view_makeuphex(vdata, str, buf1, vdata->view_text_offset + a, sizeof(buf1));
 				if((IDOS->Write(out, (char *)buf1, 63)) < 63)
 				{
 					IDOS->Close(out);
-					sprintf(temp, globstring[STR_ERROR_PRINTING_FILE], IDOS->IoErr());
+					snprintf(temp, sizeof(temp), globstring[STR_ERROR_PRINTING_FILE], IDOS->IoErr());
 					view_simplerequest(vdata, temp, globstring[STR_CONTINUE], NULL);
 					return;
 				}
@@ -1960,7 +1960,7 @@ void view_checkprint(struct ViewData *vdata, int code)
 	view_unbusy(vdata);
 }
 
-void view_makeuphex(struct ViewData *vdata, STRPTR hex, UBYTE *textbuf, int line)
+void view_makeuphex(struct ViewData *vdata, STRPTR hex, UBYTE *textbuf, int line, int textbuf_size)
 {
 	UBYTE buf2[20];
 	int at, b, c, e;
@@ -1988,7 +1988,7 @@ void view_makeuphex(struct ViewData *vdata, STRPTR hex, UBYTE *textbuf, int line
 	else
 		c = -1;
 	buf2[16] = 0;
-	sprintf((char *)textbuf, "%08lx: %08lx %08lx %08lx %08lx %s\n", (long)line * 16, ((long *)hex)[0], ((long *)hex)[1], ((long *)hex)[2], ((long *)hex)[3], buf2);
+	snprintf((char *)textbuf, textbuf_size, "%08lx: %08lx %08lx %08lx %08lx %s\n", (long)line * 16, ((long *)hex)[0], ((long *)hex)[1], ((long *)hex)[2], ((long *)hex)[3], buf2);
 	if(c > -1)
 	{
 		for(b = c; b < 46; b++)

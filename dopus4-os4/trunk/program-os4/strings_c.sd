@@ -3,8 +3,7 @@
 ##shortstrings
 /****************************************************************
 
-   This file was created automatically by `%fv'
-   from "..%f0".
+   This file was created automatically
 
    Do NOT edit by hand!
 
@@ -62,8 +61,8 @@ void readstrings(CONST_STRPTR file)
 		quit();
 	globstring = stringdata.string_table;
 
-	strcpy(str_okaystring, globstring[STR_OKAY]);
-	strcpy(str_cancelstring, globstring[STR_CANCEL]);
+	strlcpy(str_okaystring, globstring[STR_OKAY], sizeof(str_okaystring));
+	strlcpy(str_cancelstring, globstring[STR_CANCEL], sizeof(str_cancelstring));
 }
 
 int getkeyshortcut(CONST_STRPTR str)

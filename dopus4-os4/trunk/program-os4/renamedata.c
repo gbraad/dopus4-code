@@ -131,7 +131,7 @@ struct TagItem rename_oldname_gadget[] =
 };
 
 
-int getrenamedata(STRPTR src, STRPTR dst)
+int getrenamedata(STRPTR src, STRPTR dst, int namesize)
 {
 	uint32 class, code, gadgetid = 0, qual;
 	struct Window *rwindow;
@@ -139,8 +139,8 @@ int getrenamedata(STRPTR src, STRPTR dst)
 
 	fix_requester(&rename_req, globstring[STR_ENTER_NEW_NAME]);
 
-	strcpy(oldname_buffer, src);
-	strcpy(newname_buffer, dst);
+	strlcpy(oldname_buffer, src, sizeof(oldname_buffer));
+	strlcpy(newname_buffer, dst, sizeof(newname_buffer));
 
 	if(!(rwindow = IDOpus->OpenDORequester(&rename_req)) || !(gadlist = addreqgadgets(&rename_req, rename_gadgets, 0, NULL)))
 	{
@@ -185,8 +185,8 @@ int getrenamedata(STRPTR src, STRPTR dst)
 					gadgetid = RENAME_OKAY;
 
 				case RENAME_OKAY:
-					strcpy(src, oldname_buffer);
-					strcpy(dst, newname_buffer);
+					strlcpy(src, oldname_buffer, namesize);
+					strlcpy(dst, newname_buffer, namesize);
 				case RENAME_SKIP:
 				case RENAME_CANCEL:
 					IDOpus->CloseRequester(&rename_req);

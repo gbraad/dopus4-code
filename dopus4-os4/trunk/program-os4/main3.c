@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-int doparent(char *str)
+int doparent(char *str, int size)
 {
 	int i, b, c;
 
@@ -42,9 +42,9 @@ int doparent(char *str)
 		char tempbuf[256];
 
 		expand_path(str, tempbuf);
-		if((strcmp(str, tempbuf)) == 0 || !(doparent(tempbuf)))
+		if((strcmp(str, tempbuf)) == 0 || !(doparent(tempbuf, sizeof(tempbuf))))
 			return (0);
-		strcpy(str, tempbuf);
+		strlcpy(str, tempbuf, size);
 		return (1);
 	}
 	if(str[i] == '/')
@@ -69,7 +69,7 @@ int doparent(char *str)
 	return (1);
 }
 
-int doroot(char *str)
+int doroot(char *str, int size)
 {
 	int i, b, f = 0, c;
 
@@ -88,7 +88,7 @@ int doroot(char *str)
 				*(--c) = 0;
 		}
 		IDOS->UnLock(l);
-		return (c ? 1 : doparent(str));
+		return (c ? 1 : doparent(str, size));
 	}
 	i = c;
 	for(b = 0; b < i; b++)
@@ -103,9 +103,9 @@ int doroot(char *str)
 		char tempbuf[256];
 
 		expand_path(str, tempbuf);
-		if((strcmp(str, tempbuf)) == 0 || !(doroot(tempbuf)))
+		if((strcmp(str, tempbuf)) == 0 || !(doroot(tempbuf, size)))
 			return (0);
-		strcpy(str, tempbuf);
+		strlcpy(str, tempbuf, size);
 		return (1);
 	}
 	else if(f > 0)
@@ -301,13 +301,13 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 		if(dispstr && dispstr[0])
 		{
 			if((newentry->dispstr = IExec->AllocPooled(dir_memory_pool, strlen(dispstr) + 1)))
-				strcpy(newentry->dispstr, dispstr);
+				strlcpy(newentry->dispstr, dispstr, strlen(dispstr) + 1);
 		}
-		sprintf(newentry->name, "%d", dir->total);
+		snprintf(newentry->name, sizeof(newentry->name), "%d", dir->total);
 	}
 	else
 	{
-		IUtility->Strlcpy(newentry->name, name, FILEBUF_SIZE - 2);
+		strlcpy(newentry->name, name, FILEBUF_SIZE - 2);
 		if(type != ENTRY_DEVICE)
 		{
 			/* get missing data for the new entry */
@@ -327,9 +327,10 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 				}
 			}
 		}
-		if(type != ENTRY_DEVICE && description && (newentry->description = IExec->AllocPooled(dir_memory_pool, strlen(description) + 1)))
+		if(type != ENTRY_DEVICE && description &&
+		   (newentry->description = IExec->AllocPooled(dir_memory_pool, strlen(description) + 1)))
 		{
-			strcpy(newentry->description, description);
+			strlcpy(newentry->description, description, strlen(description) + 1);
 		}
 		if(type == ENTRY_DEVICE)
 		{
@@ -361,13 +362,13 @@ struct Directory *addfile(struct DirectoryWindow *dir, int win, char *name, int6
 		newentry->date.ds_Minute = date->ds_Minute;
 		newentry->date.ds_Tick = date->ds_Tick;
 
-		seedate(date, newentry->datebuf, 1);
+		seedate(date, newentry->datebuf, 1, sizeof(newentry->datebuf));
 	}
 
 	if(comment && comment[0])
 	{
 		if((newentry->comment = IExec->AllocPooled(dir_memory_pool, strlen(comment) + 1)))
-			strcpy(newentry->comment, comment);
+			strlcpy(newentry->comment, comment, strlen(comment) + 1);
 	}
 
 	/* locate insert position */
@@ -938,14 +939,14 @@ int dorun(STRPTR name, int state, int workbench)
 	{
 		buf[0] = 0;
 	}
-	strncat(buf, "\"", 256);
-	strncat(buf, name, 256);
-	strncat(buf, "\"", 256);
+	strlcat(buf, "\"", sizeof(buf));
+	strlcat(buf, name, sizeof(buf));
+	strlcat(buf, "\"", sizeof(buf));
 
-	len = 256 - strlen(buf);
+	len = sizeof(buf) - strlen(buf);
 	if(state)
 	{
-		snprintf(louise, 80, globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
+		snprintf(louise, sizeof(louise), globstring[STR_ENTER_ARGUMENTS_FOR], IDOS->FilePart(name));
 		if(!(rec = whatsit(louise, len, argbuf, globstring[STR_SKIP])))
 		{
 			myabort();
@@ -967,8 +968,8 @@ int dorun(STRPTR name, int state, int workbench)
 	}
 	if(argbuf[0])
 	{
-		strncat(buf, " ", 256);
-		strncat(buf, argbuf, 256);
+		strlcat(buf, " ", sizeof(buf));
+		strlcat(buf, argbuf, sizeof(buf));
 	}
 	defaultpar(&par);
 	dofunctionstring(buf, NULL, IDOS->FilePart(name), &par);

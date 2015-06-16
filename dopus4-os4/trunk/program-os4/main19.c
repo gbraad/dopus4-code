@@ -65,7 +65,7 @@ void makereselect(struct DirWindowPars *winpar, int win)
 		++num;
 	}
 	if(top)
-		strcpy(winpar->top_name, top->name);
+		strlcpy(winpar->top_name, top->name, sizeof(winpar->top_name));
 	else
 		winpar->top_name[0] = 0;
 	winpar->offset = dopus_curwin[win]->offset;
@@ -206,27 +206,27 @@ int simplerequest(uint32 image, STRPTR txt, ...)
 
 	if(cancelgad)
 	{
-		sprintf(gadgets, "%s", gads[0]);
+		snprintf(gadgets, sizeof(gadgets), "%s", gads[0]);
 		for(i = 1; gads[i] != NULL; i++)
 		{
 			if(gads[i])
 			{
-				strcat(gadgets, "|");
-				strcat(gadgets, gads[i]);
+				strlcat(gadgets, "|", sizeof(gadgets));
+				strlcat(gadgets, gads[i], sizeof(gadgets));
 			}
 		}
-		strcat(gadgets, "|");
-		strcat(gadgets, cancelgad);
+		strlcat(gadgets, "|", sizeof(gadgets));
+		strlcat(gadgets, cancelgad, sizeof(gadgets));
 	}
 	else
 	{
-		sprintf(gadgets, "%s", gads[0]);
+		snprintf(gadgets, sizeof(gadgets), "%s", gads[0]);
 		for(i = 1; gads[i] != NULL; i++)
 		{
 			if(gads[i])
 			{
-				strcat(gadgets, "|");
-				strcat(gadgets, gads[i]);
+				strlcat(gadgets, "|", sizeof(gadgets));
+				strlcat(gadgets, gads[i], sizeof(gadgets));
 			}
 		}
 	}
@@ -347,7 +347,7 @@ int checkfiletypefunc(char *name, int fn)
 
 		if(type->actionstring[fn][0])
 		{
-			do_title_string(type->actionstring[fn], title, 0, IDOS->FilePart(name));
+			do_title_string(type->actionstring[fn], title, 0, IDOS->FilePart(name), sizeof(title));
 			dostatustext(title);
 		}
 		else
@@ -629,7 +629,7 @@ int checktypechars(int file, char *match, int nocase)
 			if(match[a] != '?')
 			{
 				char hexbuf[3] = {0,};
-				strncpy(hexbuf, &match[a], 2);
+				strlcpy(hexbuf, &match[a], 3);
 				IDOS->HexToLong(hexbuf, &val);
 				if(val != matchbuf[m])
 				{
@@ -694,7 +694,7 @@ int64 typesearch(int file, char *find, int flags, char *buffer, int bufsize)
 			else
 			{
 				char hexbuf[] = "\0\0\0\0";
-				strncpy(hexbuf, &find[a], 2);
+				strlcpy(hexbuf, &find[a], 3);
 				IDOS->HexToLong(&hexbuf[0], &value);
 				matchbuf[matchsize] = (char)value;
 			}

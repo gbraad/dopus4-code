@@ -58,20 +58,21 @@ void makedir(int rexx)
 				{
 					return;
 				}
-				strcpy(new_directory, str_pathbuffer[data_active_window]);
-				IDOS->AddPart(new_directory, rexx_args[0], 256);
+				strlcpy(new_directory, str_pathbuffer[data_active_window], sizeof(new_directory));
+				IDOS->AddPart(new_directory, rexx_args[0], sizeof(new_directory));
 				if(rexx_args[1][0] && (rexx_args[1][0] == '1'))
 					addicon = 1;
 			}
 			else
 			{
-				strcpy(new_directory, rexx_args[0]);
+				strlcpy(new_directory, rexx_args[0], sizeof(new_directory));
 				win = -1;
 			}
 		}
 		else if(status_iconified)
 		{
-			if(!(status_flags & STATUS_ISINBUTTONS) || (!(getdummypath(new_directory, STR_ENTER_DIRECTORY_NAME))))
+			if(!(status_flags & STATUS_ISINBUTTONS) ||
+			  (!(getdummypath(new_directory, STR_ENTER_DIRECTORY_NAME, sizeof(new_directory)))))
 			{
 				return;
 			}
@@ -83,7 +84,7 @@ void makedir(int rexx)
 			{
 				return;
 			}
-			strcpy(new_directory, str_pathbuffer[data_active_window]);
+			strlcpy(new_directory, str_pathbuffer[data_active_window], sizeof(new_directory));
 
 			if(!(whatsit(globstring[STR_ENTER_DIRECTORY_NAME], config->iconflags & ICONFLAG_MAKEDIRICON ? FILEBUF_SIZE - 7 : FILEBUF_SIZE - 2, dirname, NULL)) || !dirname[0])
 			{
@@ -134,7 +135,7 @@ void makedir(int rexx)
 		{
 			struct ExamineData *data = NULL;
 
-			strcat(new_directory, ".info");
+			strlcat(new_directory, ".info", sizeof(new_directory));
 			if((iconwrite(ICONTYPE_DRAWER, new_directory)) == 1 && (data = IDOS->ExamineObjectTags(EX_StringName, new_directory, TAG_END)))
 			{
 				if(win > -1)
@@ -170,7 +171,7 @@ int iconwrite(int type, STRPTR name)
 	if(!IconBase)
 		return (0);
 
-	strcpy(namebuf, name);
+	strlcpy(namebuf, name, sizeof(namebuf));
 	if((ptr = (char *)strstri(namebuf, ".info")))
 		*ptr = 0;
 
@@ -191,9 +192,9 @@ int iconwrite(int type, STRPTR name)
 
 	if(originalicon)
 	{
-		strcpy(sourcebuf, originalicon);
+		strlcpy(sourcebuf, originalicon, sizeof(sourcebuf));
 		if(!(strstri(sourcebuf, ".info")))
-			strcat(sourcebuf, ".info");
+			strlcat(sourcebuf, ".info", sizeof(sourcebuf));
 	}
 
 	for(;;)
@@ -244,7 +245,7 @@ int copyicon(STRPTR srce, STRPTR dest, int *err)
 	struct DiskObject *diskobj;
 	char buf[256], *ptr;
 
-	strcpy(buf, srce);
+	strlcpy(buf, srce, sizeof(buf));
 	if((ptr = (char *)strstri(buf, ".info")))
 		*ptr = 0;
 
@@ -298,23 +299,23 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 			{
 				dos_global_entry.protection = data->Protection;
 				dos_global_entry.comment = dos_copy_comment;
-				strcpy(dos_copy_comment, data->Comment);
+				strlcpy(dos_copy_comment, data->Comment, sizeof(dos_copy_comment));
 				dos_global_entry.dispstr = NULL;
 				getprot(dos_global_entry.protection, dos_global_entry.protbuf);
 				IExec->CopyMem(&data->Date, &dos_global_entry.date, sizeof(struct DateStamp));
-				seedate(&dos_global_entry.date, dos_global_entry.datebuf, 1);
+				seedate(&dos_global_entry.date, dos_global_entry.datebuf, 1, sizeof(dos_global_entry.datebuf));
 				dos_global_entry.selected = 0;
 
 				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			}
 			IDOS->SetProcWindow(save);
 			ptr = IDOS->FilePart(rexx_args[argnum]);
-			strcpy(dos_global_entry.name, ptr);
+			strlcpy(dos_global_entry.name, ptr, sizeof(dos_global_entry.name));
 			if(ptr > rexx_args[argnum])
 			{
 				*ptr = 0;
-				strcpy(rexx_pathbuffer[win], rexx_args[argnum]);
-				IDOpus->TackOn(rexx_pathbuffer[win], NULL, 256);
+				strlcpy(rexx_pathbuffer[win], rexx_args[argnum], REXXARG_SIZE);
+				IDOpus->TackOn(rexx_pathbuffer[win], NULL, REXXARG_SIZE);
 			}
 			else
 			{
@@ -329,8 +330,8 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 		}
 		else
 		{
-			strcpy(rexx_pathbuffer[win], rexx_args[argnum]);
-			IDOpus->TackOn(rexx_pathbuffer[win], NULL, 256);
+			strlcpy(rexx_pathbuffer[win], rexx_args[argnum], REXXARG_SIZE);
+			IDOpus->TackOn(rexx_pathbuffer[win], NULL, REXXARG_SIZE);
 			removeargstring(argnum);
 			return (rexx_pathbuffer[win]);
 		}

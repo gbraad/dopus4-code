@@ -31,6 +31,7 @@ the existing commercial status of Directory Opus 5.
 
 static struct RecursiveDirectory **recurse_parent_array;	/* Array of parent directories */
 static char *tree_buffer, *tree_path_buffer;
+int tree_buffer_size = PATHBUF_SIZE;
 
 void dotree(int win)
 {
@@ -43,12 +44,12 @@ void dotree(int win)
 
 	name = dopus_curwin[win]->directory;
 	advancebuf(win, 1);
-	strcpy(dopus_curwin[win]->directory, name);
-	strcpy(str_pathbuffer[win], name);
+	strlcpy(dopus_curwin[win]->directory, name, sizeof(dopus_curwin[win]->directory));
+	strlcpy(str_pathbuffer[win], name, sizeof(str_pathbuffer[0]));
 	checkdir(str_pathbuffer[win], &path_strgadget[win]);
 	freedir(dopus_curwin[win], win);
 	dopus_curwin[win]->diskfree = dopus_curwin[win]->disktot = dopus_curwin[win]->diskblock = -1;
-	strcpy(dopus_curwin[win]->diskname, globstring[STR_DIR_TREE]);
+	strlcpy(dopus_curwin[win]->diskname, globstring[STR_DIR_TREE], sizeof(dopus_curwin[win]->diskname));
 
 	dostatustext(globstring[STR_SCANNING_TREE]);
 	busy();
@@ -59,9 +60,9 @@ void dotree(int win)
 	if(first_recurse)
 	{
 		recurse_parent_array = IDOpus->LAllocRemember(&recurse_dir_key, (recurse_max_depth + 1) * 4, MEMF_CLEAR);
-		if((tree_buffer = IDOpus->LAllocRemember(&recurse_dir_key, 1024, MEMF_CLEAR)))
+		if((tree_buffer = IDOpus->LAllocRemember(&recurse_dir_key, tree_buffer_size, MEMF_CLEAR)))
 		{
-			tree_path_buffer = IDOpus->LAllocRemember(&recurse_dir_key, 1024, MEMF_CLEAR);
+			tree_path_buffer = IDOpus->LAllocRemember(&recurse_dir_key, tree_buffer_size, MEMF_CLEAR);
 			dostatustext(globstring[STR_BUILDING_TREE]);
 			ret = 1;
 			build_tree(first_recurse);
@@ -98,7 +99,7 @@ int build_tree(struct RecursiveDirectory *rec)
 	{
 		b = 0;
 		if(tree_path_buffer)
-			strcpy(tree_path_buffer, str_pathbuffer[data_active_window]);
+			strlcpy(tree_path_buffer, str_pathbuffer[data_active_window], tree_buffer_size);
 		for(a = 0; a < recdepth; a++)
 		{
 			if(!recurse_parent_array || !recurse_parent_array[a])
@@ -110,18 +111,18 @@ int build_tree(struct RecursiveDirectory *rec)
 				else
 					tree_buffer[b++] = ' ';
 				if(tree_path_buffer)
-					IDOS->AddPart(tree_path_buffer, recurse_parent_array[a]->name, 1024);
+					IDOS->AddPart(tree_path_buffer, recurse_parent_array[a]->name, tree_buffer_size);
 			}
 			tree_buffer[b++] = ' ';
 			tree_buffer[b++] = ' ';
 		}
 		if(rec->next)
-			strcpy(&tree_buffer[b], "|--");
+			strlcpy(&tree_buffer[b], "|--", tree_buffer_size - b);
 		else
-			strcpy(&tree_buffer[b], "+--");
-		strcpy(&tree_buffer[b + 3], rec->name);
+			strlcpy(&tree_buffer[b], "+--", tree_buffer_size - b);
+		strlcpy(&tree_buffer[b + 3], rec->name, tree_buffer_size - (b + 3));
 		if(tree_path_buffer)
-			IDOS->AddPart(tree_path_buffer, rec->name, 1024);
+			IDOS->AddPart(tree_path_buffer, rec->name, tree_buffer_size);
 		if(!(addfile(dopus_curwin[data_active_window], data_active_window, rec->name, 0, ENTRY_CUSTOM, &rec->date, tree_buffer, 0, CUSTOMENTRY_DIRTREE, FALSE, tree_path_buffer, NULL, 0, 0)))
 			return (0);
 		if(rec->child)

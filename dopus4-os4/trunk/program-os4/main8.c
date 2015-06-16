@@ -45,7 +45,7 @@ void newcli(char *spec)
 {
 	char buf[200];
 
-	sprintf(buf, "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
+	snprintf(buf, sizeof(buf), "%s \"%s\"", config->outputcmd, spec ? spec : config->output);
 //	if(!(IDOS->Execute(buf, 0, nil_file_handle)))
 	if(!(IDOS->System(buf, NULL)))
 	{
@@ -91,7 +91,7 @@ int getprotval(STRPTR buf)
 	return (prot);
 }
 
-int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date, int allabort, int type)
+int checkexistreplace(STRPTR sourcename, STRPTR destname, int destname_size, struct DateStamp *date, int allabort, int type)
 {
 	struct ExamineData *sdata, *ddata;
 	char buf[500], datebuf1[40], datebuf2[40], gadgetbuf[100];
@@ -157,8 +157,8 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 		}
 		else
 		{
-			seedate(&sdata->Date, datebuf1, 0);
-			seedate(&ddata->Date, datebuf2, 0);
+			seedate(&sdata->Date, datebuf1, 0, sizeof(datebuf1));
+			seedate(&ddata->Date, datebuf2, 0, sizeof(datebuf2));
 
 			if(EXD_IS_DIRECTORY(ddata) && EXD_IS_DIRECTORY(sdata))
 			{
@@ -195,12 +195,12 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, struct DateStamp *date
 			{
 				char dname[FILEBUF_SIZE];
 
-				strncpy(dname, IDOS->FilePart(sourcename), FILEBUF_SIZE);
+				strlcpy(dname, IDOS->FilePart(sourcename), FILEBUF_SIZE);
 
 				if(whatsit(globstring[STR_ENTER_NEW_NAME], FILEBUF_SIZE, dname, NULL))
 				{
 					*IDOS->FilePart(destname) = 0;
-					strcat(destname, dname);
+					strlcat(destname, dname, destname_size);
 				}
 			}
 			else

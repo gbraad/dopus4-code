@@ -55,7 +55,7 @@ int start_external(struct dopus_func_start *func)
 	for(arg = 0; arg < func->argcount; arg++)
 		func->startup.wbstartup.sm_ArgList[arg].wa_Name = func->args[arg];
 
-	strcpy(path, func->segname);
+	strlcpy(path, func->segname, sizeof(path));
 	if((ptr = IDOS->FilePart(path)))
 		*ptr = 0;
 
@@ -141,20 +141,18 @@ void doconfig()
 	char *func_args[2], *old_name;
 	struct Config config_backup = {0};
 
-	sprintf(replyname, "%s%d", config_replyport_basename, system_dopus_runcount);
+	snprintf(replyname, sizeof(replyname), "%s%d", config_replyport_basename, system_dopus_runcount);
 	if(!(conport = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, replyname, ASOPORT_Pri, 20, ASOPORT_Public, TRUE, TAG_DONE)))
 		return;
 
-	sprintf(buf, "%d", system_dopus_runcount);
-	sprintf(buf1, "dopus4_config%d", system_dopus_runcount);
+	snprintf(buf, sizeof(buf), "%d", system_dopus_runcount);
+	snprintf(buf1, sizeof(buf1), "dopus4_config%d", system_dopus_runcount);
 
-//	strcpy(funcpath, "ConfigOpus");
-	IUtility->Strlcpy(funcpath, "PROGDIR:Modules/ConfigOpus", 80);
+	strlcpy(funcpath, "PROGDIR:Modules/ConfigOpus", sizeof(funcpath));
 
 	if(!configopus_segment)
 	{
 		dostatustext(globstring[STR_LOADING_CONFIG]);
-//		strcpy(funcpath, "PROGDIR:Modules/ConfigOpus");
 	}
 
 	func_args[0] = funcpath;
@@ -178,7 +176,7 @@ void doconfig()
 	}
 
 	dostatustext(globstring[STR_WAITING_FOR_PORT]);
-	sprintf(portname, "dopus4_config_port%d", system_dopus_runcount);
+	snprintf(portname, sizeof(portname), "dopus4_config_port%d", system_dopus_runcount);
 	cmdport = NULL;
 
 	for(a = 0; a < 1000; a++)
@@ -202,7 +200,7 @@ void doconfig()
 	status_configuring = -1;
 	shutthingsdown(1);
 	old_bufcount = config->bufcount;
-	strcpy(old_language, config->language);
+	strlcpy(old_language, config->language, sizeof(old_language));
 	dotaskmsg(hotkeymsg_port, HOTKEY_KILLHOTKEYS, 0, 0, NULL, 0);
 
 	endnotifies();
@@ -229,7 +227,7 @@ void doconfig()
 				cfg.firstbank = dopus_firstgadbank;
 				cfg.changed = config_changed;
 				cfg.firsthotkey = dopus_firsthotkey;
-				strcpy(cfg.configname, str_config_basename);
+				strlcpy(cfg.configname, str_config_basename, sizeof(cfg.configname));
 				cfg.Screen = MainScreen;
 				replymsg->data = &cfg;
 				break;
@@ -246,9 +244,9 @@ void doconfig()
 				dopus_firsthotkey = rcfg->firsthotkey;
 				filetype_key = rcfg->typekey;
 				config_changed = rcfg->changed;
-				strncpy(str_config_file, rcfg->configname, 256);
-				strncat(str_config_file, ".CFG", 256);
-				strncpy(str_config_basename, rcfg->configname, 256);
+				strlcpy(str_config_file, rcfg->configname, sizeof(str_config_file));
+				strlcat(str_config_file, ".CFG", sizeof(str_config_file));
+				strlcpy(str_config_basename, rcfg->configname, sizeof(str_config_basename));
 				status_configuring = 1;
 				break;
 			case CONFIG_NEW_HOTKEY:
@@ -283,7 +281,7 @@ void doconfig()
 		{
 			allocdirbuffers(config->bufcount);
 			for(a = 0; a < 2; a++)
-				strcpy(str_pathbuffer[a], dopus_curwin[a]->directory);
+				strlcpy(str_pathbuffer[a], dopus_curwin[a]->directory, sizeof(str_pathbuffer[0]));
 		}
 		if(strcmp(old_language, config->language))
 			read_data_files(0);
@@ -344,14 +342,14 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 	print_func.segment = dopusprint_segment;
 	print_func.procname = "DOpus_Print";
 
-	IUtility->Strlcpy(funcpath, "PROGDIR:Modules/DOpus_Print", 80); //external_modules[SEG_PRINT]);
+	strlcpy(funcpath, "PROGDIR:Modules/DOpus_Print", sizeof(funcpath)); //external_modules[SEG_PRINT]);
 
 	print_func.segname = funcpath;
 
 	args[0] = print_func.segname;
 
-	strncpy(portname, "&", 20);
-	strncat(portname, port, 20);
+	strlcpy(portname, "&", sizeof(portname));
+	strlcat(portname, port, sizeof(portname));
 	args[1] = portname;
 
 	if(printdir)
@@ -360,14 +358,13 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 
 		if(!rexx || rexx_argcount < 1 || (win = atoi(rexx_args[0])) < 0 || win > 1)
 			win = data_active_window;
-		sprintf(arglistbuf, "@%d", win);
+		snprintf(arglistbuf, sizeof(arglistbuf), "@%d", win);
 		abase = 2;
 		--rexx_argcount;
 	}
 	else
 	{
-//		sprintf(arglistbuf, "!%d", arglist);
-		sprintf(arglistbuf, "!%lu", (uint32)arglist);
+		snprintf(arglistbuf, sizeof(arglistbuf), "!%lu", (uint32)arglist);
 	}
 
 	args[2] = arglistbuf;
@@ -437,8 +434,8 @@ void dopus_print(int rexx, struct DOpusArgsList *arglist, int printdir, char *po
 				case DOPUSMSG_GETNEXTFILE:
 					arg = (struct DOpusArgsList *)dmsg->data;
 					if(arg->single_file)
-					{
-						strcpy(arg->file_data, arg->single_file);
+					{ // Should be PATHBUF_SIZE instead of 256
+						strlcpy(arg->file_data, arg->single_file, 256);
 						arg->single_file = NULL;
 					}
 					else
@@ -465,7 +462,7 @@ int dopus_iconinfo(char *filename)
 {
 	struct Screen *infoscreen = NULL;
 	BPTR plock, flock = IDOS->Lock(filename, ACCESS_READ);
-	char buffer[108] = { 0, }, *a = NULL;
+	char buffer[FILEBUF_SIZE] = { 0, }, *a = NULL;
 	int ret = 1;
 
 	if(!flock)
@@ -495,7 +492,7 @@ int dopus_iconinfo(char *filename)
 		}
 	}
 
-	strcpy(buffer, IDOS->FilePart(filename));
+	strlcpy(buffer, IDOS->FilePart(filename), sizeof(buffer));
 	if((a = isicon(buffer)))
 	{
 		*a = '\0';

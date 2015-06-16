@@ -192,7 +192,7 @@ int copyfile(STRPTR src, STRPTR dst, int *err, STRPTR password, int encryptstate
 	if(config->copyflags & COPY_NOTE)
 	{
 		IDOS->SetComment(dst, data->Comment);
-		strcpy(dos_copy_comment, data->Comment);
+		strlcpy(dos_copy_comment, data->Comment, sizeof(dos_copy_comment));
 	}
 	else
 	{
@@ -340,10 +340,10 @@ int delfile(STRPTR name, STRPTR nam, STRPTR errs, int unprotect, int errcheck)
 						char textformat[400], gadformat[100], errortext[100];
 
 						doerror(ERROR_DELETE_PROTECTED);
-						geterrorstring(errortext, ERROR_DELETE_PROTECTED);
-						snprintf(textformat, 400, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], nam, errortext);
-						strncat(textformat, globstring[STR_SELECT_UNPROTECT], 400);
-						snprintf(gadformat, 100, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
+						geterrorstring(errortext, ERROR_DELETE_PROTECTED, sizeof(errortext));
+						snprintf(textformat, sizeof(textformat), globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], nam, errortext);
+						strlcat(textformat, globstring[STR_SELECT_UNPROTECT], sizeof(textformat));
+						snprintf(gadformat, sizeof(gadformat), "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
 						if(!(a = ra_simplerequest(textformat, gadformat, REQIMAGE_WARNING)))
 						{
 							return (-1);
@@ -492,7 +492,7 @@ void update_buffer_stamp(int win, int true)
 	}
 
 	dirwin = dopus_curwin[win];
-	strcpy(dirbuf, str_pathbuffer[win]);
+	strlcpy(dirbuf, str_pathbuffer[win], sizeof(dirbuf));
 	for(;;)
 	{
 		if(true)
@@ -504,7 +504,7 @@ void update_buffer_stamp(int win, int true)
 				copy_datestamp(&data->Date, &dirwin->dirstamp);
 				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			}
-			if(!(doparent(dirbuf)) || !(dirwin = findbuffer(dirbuf, win, 0, 1)))
+			if(!(doparent(dirbuf, sizeof(dirbuf))) || !(dirwin = findbuffer(dirbuf, win, 0, 1)))
 				break;
 		}
 		else

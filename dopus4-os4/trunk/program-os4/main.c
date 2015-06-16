@@ -108,7 +108,7 @@ int main(int argc, char **argv)
 	iconstart = 0;
 	checkrunning = 0;
 
-	strcpy(str_config_basename, "DirectoryOpus");
+	strlcpy(str_config_basename, "DirectoryOpus", sizeof(str_config_basename));
 
 	if(argc >= 1)
 	{
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 					iconstart = 2;
 					break;
 				case 'c':
-					strcpy(str_config_basename, &argv[a][2]);
+					strlcpy(str_config_basename, &argv[a][2], sizeof(str_config_basename));
 					break;
 				case 'C':
 					checkrunning = 1;
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
 			if((IIcon->FindToolType(toolarray, "BUTTONSTART")))
 				iconstart = 2;
 			if((s = (STRPTR)IIcon->FindToolType(toolarray, "CONFIGFILE")))
-				strcpy(str_config_basename, s);
+				strlcpy(str_config_basename, s, sizeof(str_config_basename));
 			if((IIcon->FindToolType(toolarray, "CHECK")))
 				checkrunning = 1;
 			if(IIcon->FindToolType(toolarray,"BEHINDWB"))
@@ -230,12 +230,15 @@ int main(int argc, char **argv)
 
 	if(startdir)
 	{
-		strcpy((char *)config->autodirs[0], startdir);
+		strlcpy((char *)config->autodirs[0], startdir, sizeof(config->autodirs[0]));
 	}
 
 	initlistermenu();
 
-	if(!(install_arbiter()) || !(count_port = IExec->AllocSysObject(ASOT_PORT, NULL)) || !(general_port = IExec->AllocSysObject(ASOT_PORT, NULL)) || !(arexx_port = CreateUniquePort("DOPUS", str_arexx_portname, &system_dopus_runcount)))
+	if(!(install_arbiter()) ||
+	   !(count_port = IExec->AllocSysObject(ASOT_PORT, NULL)) ||
+	   !(general_port = IExec->AllocSysObject(ASOT_PORT, NULL)) ||
+	   !(arexx_port = CreateUniquePort("DOPUS", str_arexx_portname, &system_dopus_runcount, sizeof(str_arexx_portname))))
 	{
 		quit();
 	}
@@ -265,8 +268,8 @@ int main(int argc, char **argv)
 	}
 	ramdisk_lock = IDOS->Lock("RAM:", ACCESS_READ);
 
-	strcpy(str_select_pattern[0], "#?");
-	strcpy(str_select_pattern[3], "#?");
+	strlcpy(str_select_pattern[0], "#?", SELECTPAT_SIZE);
+	strlcpy(str_select_pattern[3], "#?", SELECTPAT_SIZE);
 
 	{
 		struct DateTime dt;
@@ -367,9 +370,9 @@ int main(int argc, char **argv)
 		{
 			if(config->autodirs[a][0])
 			{
-				strncpy(str_pathbuffer[a], (char *)config->autodirs[a], 108);
+				strlcpy(str_pathbuffer[a], (char *)config->autodirs[a], 108);
 				checkdir(str_pathbuffer[a], (sup) ? &path_strgadget[a] : NULL);
-				strncpy(dopus_curwin[a]->directory, str_pathbuffer[a], 108);
+				strlcpy(dopus_curwin[a]->directory, str_pathbuffer[a], 108);
 				getdir(dopus_curwin[a], a, 0);
 			}
 		}
@@ -510,7 +513,7 @@ int SetUp(int tit)
 		{
 			if(config->fontsizes[a] > 8)
 			{
-				strcpy(config->fontbufs[a], "topaz.font");
+				strlcpy(config->fontbufs[a], "topaz.font", sizeof(config->fontbufs[0]));
 				config->fontsizes[a] = 8;
 			}
 		}
@@ -534,7 +537,7 @@ int SetUp(int tit)
 	{
 		freefont(a);
 		b = config->fontsizes[a];
-		scr_font[a] = getfont(config->fontbufs[a], &b, (a == FONT_GENERAL) || (a == FONT_TEXT));
+		scr_font[a] = getfont(config->fontbufs[a], &b, (a == FONT_GENERAL) || (a == FONT_TEXT), sizeof(config->fontbufs[0]));
 		config->fontsizes[a] = b;
 	}
 
@@ -1293,12 +1296,12 @@ void drawscreen()
 	IGraphics->SetAPen(main_rp, screen_pens[1].pen);
 }
 
-struct TextFont *getfont(STRPTR font, int *size, int noprop)
+struct TextFont *getfont(STRPTR fontname, int *size, int noprop, int fontname_size)
 {
 	struct TextFont *tf = NULL;
 	static struct TextAttr sfont = { NULL, 0, 0, 0 };
 
-	sfont.ta_Name = (STRPTR)font;
+	sfont.ta_Name = (STRPTR)fontname;
 	sfont.ta_YSize = *size;
 	if((tf = IGraphics->OpenFont(&sfont)) && tf->tf_YSize == sfont.ta_YSize && (!(tf->tf_Flags & FPF_PROPORTIONAL) || !noprop))
 	{
@@ -1318,7 +1321,7 @@ struct TextFont *getfont(STRPTR font, int *size, int noprop)
 		{
 			IGraphics->CloseFont(tf);
 		}
-		strcpy(font, "topaz.font");
+		strlcpy(fontname, "topaz.font", fontname_size);
 		*size = 8;
 		sfont.ta_YSize = 8;
 		tf = IDiskfont->OpenDiskFont(&sfont);
@@ -1330,13 +1333,13 @@ void allocstrings()
 {
 	int a;
 	for(a = 0; a < 16; a++)
-		rexx_args[a] = astring(256);
-	str_arexx_command = astring(256);
+		rexx_args[a] = astring(REXXARG_SIZE);
+	str_arexx_command = astring(REXXARG_SIZE);
 	for(a = 0; a < 4; a++)
-		str_select_pattern[a] = astring(80);
+		str_select_pattern[a] = astring(SELECTPAT_SIZE);
 	for(a = 0; a < 2; a++)
 	{
-		rexx_pathbuffer[a] = astring(256);
+		rexx_pathbuffer[a] = astring(REXXARG_SIZE);
 		dopus_specialwin[a] = (struct DirectoryWindow *)astring(sizeof(struct DirectoryWindow));
 	}
 	menu_menuitem = (struct MenuItem *)astring(MENUCOUNT * sizeof(struct MenuItem));
@@ -1349,7 +1352,7 @@ void allocstrings()
 	{
 		str_space_string[a] = ' ';
 	}
-	str_last_statustext = astring(512);
+	str_last_statustext = astring(STATUSTEXT_SIZE);
 	remember_data = (struct RememberData *)astring(sizeof(struct RememberData));
 }
 
@@ -1444,7 +1447,7 @@ void read_configuration(int def)
 	char buf[256];
 
 	freedynamiccfg();
-	get_config_file(buf, ".CFG");
+	get_config_file(buf, ".CFG", sizeof(buf));
 	if(def || !(readsetup(buf)))
 	{
 		getdefaultconfig();
@@ -1483,7 +1486,7 @@ int get_data_file(STRPTR buf, CONST_STRPTR suff, int fb)
 {
 	char temp[40];
 
-	sprintf(temp, "DO_%s.%s", config->language, suff);
+	snprintf(temp, sizeof(temp), "DO_%s.%s", config->language, suff);
 
 	if(!config->language[0] || !(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
 	{
@@ -1492,38 +1495,38 @@ int get_data_file(STRPTR buf, CONST_STRPTR suff, int fb)
 			buf[0] = 0;
 			return (0);
 		}
-		sprintf(temp, "DirectoryOpus.%s", suff);
+		snprintf(temp, sizeof(temp), "DirectoryOpus.%s", suff);
 		IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA);
 	}
 	return (1);
 }
 
-void get_config_file(STRPTR buf, CONST_STRPTR suff)
+void get_config_file(STRPTR buf, CONST_STRPTR suff, int bufsize)
 {
 	char temp[256];
 
-	strncpy(temp, str_config_basename, 256);
-	strncat(temp, suff, 256);
+	strlcpy(temp, str_config_basename, sizeof(temp));
+	strlcat(temp, suff, sizeof(temp));
 	if(IDOpus->CheckExist(temp, NULL) < 0)
 	{
-		strcpy(buf, temp);
+		strlcpy(buf, temp, bufsize);
 		return;
 	}
 	if(IDOS->FilePart(str_config_basename))
 	{
-		strncpy(temp, IDOS->FilePart(str_config_basename), 256);
-		strncat(temp, suff, 256);
+		strlcpy(temp, IDOS->FilePart(str_config_basename), sizeof(temp));
+		strlcat(temp, suff, sizeof(temp));
 	}
-	if(!(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
+	if(!(IDOpus->FindSystemFile(temp, buf, bufsize, SYSFILE_DATA)))
 	{
-		strncpy(temp, "DirectoryOpus", 256);
-		strncat(temp, suff, 256);
-		if(!(IDOpus->FindSystemFile(temp, buf, 256, SYSFILE_DATA)))
+		strlcpy(temp, "DirectoryOpus", sizeof(temp));
+		strlcat(temp, suff, sizeof(temp));
+		if(!(IDOpus->FindSystemFile(temp, buf, bufsize, SYSFILE_DATA)))
 		{
 			if(IDOpus->CheckExist("PROGDIR:S", NULL))
 			{
-				strncpy(buf, "PROGDIR:S/DirectoryOpus", 256);
-				strncat(buf, suff, 256);
+				strlcpy(buf, "PROGDIR:S/DirectoryOpus", bufsize);
+				strlcat(buf, suff, bufsize);
 			}
 		}
 	}

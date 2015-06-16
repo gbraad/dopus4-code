@@ -42,28 +42,28 @@ void do_remember_config(struct RememberData *data)
 	data->existflags = config->existflags;
 	data->sortflags = config->sortflags;
 	data->dynamicflags = config->dynamicflags;
-	strcpy(data->outputcmd, config->outputcmd);
-	strcpy(data->output, config->output);
+	strlcpy(data->outputcmd, config->outputcmd, sizeof(data->outputcmd));
+	strlcpy(data->output, config->output, sizeof(data->output));
 	data->scrdepth = config->scrdepth;
 	data->screenflags = config->screenflags;
 	data->screenmode = config->screenmode;
 	data->scrw = config->scrw;
 	data->scrh = config->scrh;
 	data->dirflags = config->dirflags;
-	strcpy(data->defaulttool, config->defaulttool);
+	strlcpy(data->defaulttool, config->defaulttool, sizeof(data->defaulttool));
 	data->showdelay = config->showdelay;
 	data->viewbits = config->viewbits;
 	data->fadetime = config->fadetime;
 	data->hiddenbit = config->hiddenbit;
-	strcpy(data->showpat, config->showpat);
-	strcpy(data->hidepat, config->hidepat);
+	strlcpy(data->showpat, config->showpat, sizeof(data->showpat));
+	strlcpy(data->hidepat, config->hidepat, sizeof(data->hidepat));
 	data->icontype = config->icontype;
 	data->scrclktype = config->scrclktype;
 	data->showfree = config->showfree;
 	for(a = 0; a < NUMFONTS; a++)
 	{
 		data->fontsizes[a] = config->fontsizes[a];
-		strcpy(data->fontbufs[a], config->fontbufs[a]);
+		strlcpy(data->fontbufs[a], config->fontbufs[a], sizeof(data->fontbufs[0]));
 	}
 	data->dateformat = config->dateformat;
 	data->gadgetrows = config->gadgetrows;
@@ -78,8 +78,8 @@ void do_remember_config(struct RememberData *data)
 	data->wbwiny = config->wbwiny;
 	data->scr_winw = config->scr_winw;
 	data->scr_winh = config->scr_winh;
-	strcpy(data->pubscreen_name, config->pubscreen_name);
-	strcpy(data->portname, str_arexx_portname);
+	strlcpy(data->pubscreen_name, config->pubscreen_name, sizeof(data->pubscreen_name));
+	strlcpy(data->portname, str_arexx_portname, sizeof(data->portname));
 }
 
 void do_restore_config(struct RememberData *data)
@@ -95,28 +95,28 @@ void do_restore_config(struct RememberData *data)
 	config->existflags = data->existflags;
 	config->sortflags = data->sortflags;
 	config->dynamicflags = data->dynamicflags;
-	strcpy(config->outputcmd, data->outputcmd);
-	strcpy(config->output, data->output);
+	strlcpy(config->outputcmd, data->outputcmd, sizeof(config->outputcmd));
+	strlcpy(config->output, data->output, sizeof(config->output));
 	config->scrdepth = data->scrdepth;
 	config->screenflags = data->screenflags;
 	config->screenmode = data->screenmode;
 	config->scrw = data->scrw;
 	config->scrh = data->scrh;
 	config->dirflags = data->dirflags;
-	strcpy(config->defaulttool, data->defaulttool);
+	strlcpy(config->defaulttool, data->defaulttool, sizeof(config->defaulttool));
 	config->showdelay = data->showdelay;
 	config->viewbits = data->viewbits;
 	config->fadetime = data->fadetime;
 	config->hiddenbit = data->hiddenbit;
-	strcpy(config->showpat, data->showpat);
-	strcpy(config->hidepat, data->hidepat);
+	strlcpy(config->showpat, data->showpat, sizeof(config->showpat));
+	strlcpy(config->hidepat, data->hidepat, sizeof(config->hidepat));
 	config->icontype = data->icontype;
 	config->scrclktype = data->scrclktype;
 	config->showfree = data->showfree;
 	for(a = 0; a < NUMFONTS; a++)
 	{
 		config->fontsizes[a] = data->fontsizes[a];
-		strcpy(config->fontbufs[a], data->fontbufs[a]);
+		strlcpy(config->fontbufs[a], data->fontbufs[a], sizeof(config->fontbufs[0]));
 	}
 	config->dateformat = data->dateformat;
 	config->gadgetrows = data->gadgetrows;
@@ -134,6 +134,6 @@ void do_restore_config(struct RememberData *data)
 	config->wbwiny = data->wbwiny;
 	config->scr_winw = data->scr_winw;
 	config->scr_winh = data->scr_winh;
-	strcpy(config->pubscreen_name, data->pubscreen_name);
+	strlcpy(config->pubscreen_name, data->pubscreen_name, sizeof(config->pubscreen_name));
 	change_port_name(data->portname);
 }

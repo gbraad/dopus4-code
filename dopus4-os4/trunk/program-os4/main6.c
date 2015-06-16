@@ -53,30 +53,30 @@ void get_printdir_data(struct PrintDirData *pddata)
 		switch (ENTRYTYPE(pddata->entry->type))
 		{
 		case ENTRY_DEVICE:
-			strcpy(pddata->titlebuf, globstring[STR_DEVICE_LIST]);
+			strlcpy(pddata->titlebuf, globstring[STR_DEVICE_LIST], sizeof(pddata->titlebuf));
 			break;
 		case ENTRY_CUSTOM:
 			switch (pddata->entry->subtype)
 			{
 			case CUSTOMENTRY_DIRTREE:
-				strcpy(pddata->titlebuf, globstring[STR_DIR_TREE]);
-				strcat(pddata->titlebuf, "\n");
+				strlcpy(pddata->titlebuf, globstring[STR_DIR_TREE], sizeof(pddata->titlebuf));
+				strlcat(pddata->titlebuf, "\n", sizeof(pddata->titlebuf));
 				goto printdiskname;
 			default:
-				strcpy(pddata->titlebuf, globstring[STR_CUSTOM_LIST]);
+				strlcpy(pddata->titlebuf, globstring[STR_CUSTOM_LIST], sizeof(pddata->titlebuf));
 				break;
 			}
 			break;
 		default:
 		      printdiskname:
-			strcat(pddata->titlebuf, globstring[STR_DIRECTORY]);
+			strlcat(pddata->titlebuf, globstring[STR_DIRECTORY], sizeof(pddata->titlebuf));
 			if(expand_path(str_pathbuffer[win], buf))
-				strcat(pddata->titlebuf, buf);
+				strlcat(pddata->titlebuf, buf, sizeof(pddata->titlebuf));
 			else
-				strcat(pddata->titlebuf, str_pathbuffer[win]);
+				strlcat(pddata->titlebuf, str_pathbuffer[win], sizeof(pddata->titlebuf));
 			break;
 		}
-	strcat(pddata->titlebuf, "\n");
+	strlcat(pddata->titlebuf, "\n", sizeof(pddata->titlebuf));
 }
 
 void startnotify(int win)
@@ -87,7 +87,7 @@ void startnotify(int win)
 	{
 		if(dopus_curwin[win]->disktot > (2 * (1 << 20)))
 		{
-			strncpy(dos_notify_names[win], str_pathbuffer[win], 1024);
+			strlcpy(dos_notify_names[win], str_pathbuffer[win], sizeof(dos_notify_names[0]));
 			if((dos_notify_req[win] = IDOS->AllocDosObjectTags(DOS_NOTIFYREQUEST, ADO_NotifyName, dos_notify_names[win], ADO_NotifyMethod, NRF_SEND_MESSAGE, ADO_NotifyUserData, win, ADO_NotifyPort, count_port, TAG_END)))
 			{
 				if(!(IDOS->StartNotify(dos_notify_req[win])))
@@ -307,8 +307,8 @@ char *getfiledescription(STRPTR name, int win)
 	}
 	if(a > DISPLAY_LAST || !name[0])
 		return (NULL);
-	strncpy(buf, str_pathbuffer[win], 256);
-	strncat(buf, name, 256);
+	strlcpy(buf, str_pathbuffer[win], sizeof(buf));
+	strlcat(buf, name, sizeof(buf));
 	if(!(type = checkfiletype(buf, -1, 0)))
 		return (NULL);
 	if((strcmp(type->type, "Default") == 0) || (strcmp(type->type, globstring[STR_FTYPE_DEFAULT]) == 0))
@@ -403,7 +403,7 @@ void change_port_name(STRPTR name)
 {
 	IExec->Forbid();
 	IExec->RemPort(arexx_port);
-	strncpy(str_arexx_portname, name, 29);
+	strlcpy(str_arexx_portname, name, sizeof(str_arexx_portname));
 	str_arexx_portname[29] = 0;
 	IExec->AddPort(arexx_port);
 	IExec->Permit();

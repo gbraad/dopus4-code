@@ -39,7 +39,7 @@ struct NewBroker hotkey_broker =
 {
 	NB_VERSION,
 	NULL,
-	"Directory Opus © Jonathan Potter",
+	"Directory Opus 4 © Jonathan Potter",
 	"The most amazing program ever written",
 	0,
 	COF_SHOW_HIDE,
@@ -61,20 +61,18 @@ void hotkeytaskcode()
 	CxObj *broker = NULL, *hotkey_filter = NULL, *mmb_filter = NULL;
 	CxMsg *cxmsg;
 
-//	hotkeymsg_port = IExec->CreatePort(NULL, 0);
-//	inputport = IExec->CreatePort(NULL, 0);
 	hotkeymsg_port = IExec->AllocSysObject(ASOT_PORT, NULL);
 	inputport = IExec->AllocSysObject(ASOT_PORT, NULL);
 
 	if(CxBase && ICommodities)
 	{
-		strcpy(cxname, "Directory Opus");
+		strlcpy(cxname, "Directory Opus", sizeof(cxname));
 		if(system_dopus_runcount)
 		{
 			char tmp[8];
 
-			snprintf(tmp, 8, " (%d)", system_dopus_runcount + 1);
-			strncat(cxname, tmp, 20);
+			snprintf(tmp, sizeof(tmp), " (%d)", system_dopus_runcount + 1);
+			strlcat(cxname, tmp, sizeof(cxname));
 		}
 		hotkey_broker.nb_Name = cxname;
 		hotkey_broker.nb_Port = inputport;
@@ -495,8 +493,8 @@ void clocktask()
 
 							if(config->scrclktype & SCRCLOCK_DATE)
 							{
-								sprintf(buf, "%-9s  ", date);
-								strcat(formstring, buf);
+								snprintf(buf, sizeof(buf), "%-9s  ", date);
+								strlcat(formstring, buf, sizeof(formstring));
 							}
 							if(config->scrclktype & SCRCLOCK_TIME)
 							{
@@ -518,9 +516,9 @@ void clocktask()
 									{
 										h = 12;
 									}
-									sprintf(time, "%02ld:%02ld:%02ld%c", h, m, s, ampm);
+									snprintf(time, sizeof(time), "%02ld:%02ld:%02ld%c", h, m, s, ampm);
 								}
-								strcat(formstring, time);
+								strlcat(formstring, time, sizeof(formstring));
 							}
 						}
 					}

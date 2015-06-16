@@ -33,7 +33,9 @@ static struct Directory *selectedentry;
 
 void doselection(int win, int state)
 {
-	int a, b, c, d, e, x, y, ox, oy, fa, la, juststart, atot, drag, offx = 0, offy = 0, candrag, comp = -1, oc, gad, multidrag = 0, type, okrepeatdrag = 0;
+	int a, b, c, d, e, x, y, ox, oy, fa, la, juststart, atot, drag;
+	int offx = 0, offy = 0, candrag, comp = -1, oc, gad, multidrag = 0;
+	int type, okrepeatdrag = 0;
 	ULONG class = 0, code = 0, qual = 0;
 	char buf[40], *ptr;
 	struct Directory *next;
@@ -148,7 +150,7 @@ void doselection(int win, int state)
 								if(qual & IEQUALIFIER_ANYSHIFT && dopus_curwin[win]->filesel > 1)
 								{
 									multidrag = 1;
-									sprintf(buf, globstring[STR_MULTI_DRAG], dopus_curwin[win]->filesel);
+									snprintf(buf, sizeof(buf), globstring[STR_MULTI_DRAG], dopus_curwin[win]->filesel);
 									ptr = buf;
 									type = -1;
 								}
@@ -332,7 +334,7 @@ void doselection(int win, int state)
 					else
 					{
 						last_selected_entry = selectedentry;
-						strcpy(func_single_file, selectedentry->name);
+						strlcpy(func_single_file, selectedentry->name, sizeof(func_single_file));
 						if(selectedentry->selected)
 							unselect(data_active_window, selectedentry);
 					}
@@ -415,8 +417,8 @@ int dopus_select(int win, int o)
 			display_entry(temp, win, scrdata_dirwin_xpos[win] - dopus_curwin[win]->hoffset + 1, scrdata_font_baseline + (scrdata_font_ysize * o) + scrdata_dirwin_ypos[win]);
 			if(config->iconflags & ICONFLAG_AUTOSELECT)
 			{
-				strncpy(sbuf, temp->name, FILEBUF_SIZE - 1);
-				strncat(sbuf, ".info", FILEBUF_SIZE - 1);
+				strlcpy(sbuf, temp->name, FILEBUF_SIZE - 1);
+				strlcat(sbuf, ".info", FILEBUF_SIZE - 1);
 				if((temp2 = findfile(dopus_curwin[win], sbuf, &foundcount)))
 				{
 					if(temp2->selected != temp->selected)
@@ -456,7 +458,7 @@ int dopus_select(int win, int o)
 				if(!(dopus_curwin[win]->flags & DWF_ARCHIVE))
 					advancebuf(win, 1);
 				if(temp->type == ENTRY_DEVICE)
-					strcpy(str_pathbuffer[win], temp->name);
+					strlcpy(str_pathbuffer[win], temp->name, sizeof(str_pathbuffer[0]));
 				else
 				{
 					if(temp->subtype == ENTRY_LINK)
@@ -464,21 +466,21 @@ int dopus_select(int win, int o)
 						BPTR linklock = 0;
 						char linkbuf[512] = {0};
 
-						strcpy(linkbuf, dir);
-						IDOS->AddPart(linkbuf, temp->name, 512);
+						strlcpy(linkbuf, dir, sizeof(linkbuf));
+						IDOS->AddPart(linkbuf, temp->name, sizeof(linkbuf));
 						if ((linklock = IDOS->Lock(linkbuf, ACCESS_READ)))
 						{
-							IDOS->NameFromLock(linklock, linkbuf, 512);
+							IDOS->NameFromLock(linklock, linkbuf, sizeof(linkbuf));
 							IDOS->UnLock(linklock);
 						}
-						strcpy(str_pathbuffer[win], linkbuf);
+						strlcpy(str_pathbuffer[win], linkbuf, sizeof(str_pathbuffer[0]));
 
 //						struct FileInfoBlock *fib = IDOS->AllocDosObject(DOS_FIB, NULL);
 //						struct DevProc *dp;
 //						BPTR ld, lf;
 //						char linkbuf[512], buf[256];
 
-//						strcpy(linkbuf, dir);
+//						strlcpy(linkbuf, dir, sizeof(linkbuf));
 //						do
 //						{
 //							ld = IDOS->Lock(linkbuf, ACCESS_READ);
@@ -507,14 +509,14 @@ int dopus_select(int win, int o)
 //							}
 //						}
 //						while(fib->fib_DirEntryType == ST_SOFTLINK);
-//						strcpy(str_pathbuffer[win], linkbuf);
+//						strlcpy(str_pathbuffer[win], linkbuf, sizeof(str_pathbuffer[0]));
 //						IDOS->FreeDosObject(DOS_FIB, fib);
 
 					}
 					else
 					{
-						strcpy(str_pathbuffer[win], dir);
-						IDOS->AddPart(str_pathbuffer[win], temp->name, 256);
+						strlcpy(str_pathbuffer[win], dir, sizeof(str_pathbuffer[0]));
+						IDOS->AddPart(str_pathbuffer[win], temp->name, sizeof(str_pathbuffer[0]));
 					}
 				}
 				startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
@@ -534,7 +536,7 @@ int dopus_select(int win, int o)
 						bringinbuffer(last_selected_entry->dispstr, win, 1);
 					else
 					{
-						strcpy(str_pathbuffer[win], last_selected_entry->dispstr);
+						strlcpy(str_pathbuffer[win], last_selected_entry->dispstr, sizeof(str_pathbuffer[0]));
 						startgetdir(win, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 					}
 					time_previous_sec = 0;
@@ -560,11 +562,11 @@ int dopus_select(int win, int o)
 					{
 						char path[256], tempname[FILEBUF_SIZE];
 
-						strcpy(path, "T:");
+						strlcpy(path, "T:", sizeof(path));
 						if(unarcfiledir(dopus_curwin[win], path, tempname, temp->name))
 						{
 							ftype_doubleclick(path, tempname, 1);
-							IDOS->AddPart(path, tempname, 256);
+							IDOS->AddPart(path, tempname, sizeof(path));
 							removetemparcfile(path);
 						}
 					}
@@ -651,8 +653,8 @@ void defselect(int win, int o, int state)
 		}
 		if(config->iconflags & ICONFLAG_AUTOSELECT)
 		{
-			strncpy(sbuf, temp->name, FILEBUF_SIZE - 1);
-			strncat(sbuf, ".info", FILEBUF_SIZE - 1);
+			strlcpy(sbuf, temp->name, FILEBUF_SIZE - 1);
+			strlcat(sbuf, ".info", FILEBUF_SIZE - 1);
 			if((temp2 = findfile(dopus_curwin[win], sbuf, &foundcount)))
 			{
 				if(temp2->selected != temp->selected)
@@ -808,7 +810,7 @@ void doselect(int rexx)
 	{
 		boobs = rexx_arg_value[0];
 		selecttype = rexx_arg_value[1];
-		strcpy(str_select_pattern[selecttype], rexx_args[0]);
+		strlcpy(str_select_pattern[selecttype], rexx_args[0], SELECTPAT_SIZE);
 	}
 	if(boobs)
 	{
@@ -850,19 +852,19 @@ void getseldatestamps(STRPTR buf, struct DateStamp *ds1, struct DateStamp *ds2)
 	int a;
 
 	datebuf[0][0] = datebuf[1][0] = timebuf[0][0] = timebuf[1][0] = a = 0;
-	ptr = parsedatetime(buf, datebuf[0], timebuf[0], &a);
+	ptr = parsedatetime(buf, datebuf[0], timebuf[0], &a, sizeof(datebuf[0]));
 	switch (a)
 	{
 	case 0:
-		strcpy(datebuf[1], datebuf[0]);
-		strcpy(timebuf[1], "23:59:59");
+		strlcpy(datebuf[1], datebuf[0], sizeof(datebuf[0]));
+		strlcpy(timebuf[1], "23:59:59", sizeof(timebuf[0]));
 		break;
 	case -1:
-		strcpy(datebuf[1], datebuf[0]);
-		strcpy(timebuf[1], timebuf[0]);
+		strlcpy(datebuf[1], datebuf[0], sizeof(datebuf[0]));
+		strlcpy(timebuf[1], timebuf[0], sizeof(timebuf[0]));
 		break;
 	default:
-		parsedatetime(ptr, datebuf[1], timebuf[1], &a);
+		parsedatetime(ptr, datebuf[1], timebuf[1], &a, sizeof(datebuf[0]));
 		break;
 	}
 	strtostamp(datebuf[0], timebuf[0], ds1);
@@ -1029,22 +1031,22 @@ void doselinfo(int win)
 
 	if(!dopus_curwin[win]->firstentry || dopus_curwin[win]->firstentry->type != ENTRY_CUSTOM)
 	{
-		buildkmgstring(b1, dopus_curwin[win]->bytessel, config->listerdisplayflags[win] & SIZE_KMG);
-		buildkmgstring(b2, dopus_curwin[win]->bytestot, config->listerdisplayflags[win] & SIZE_KMG);
-		sprintf(str_select_info, globstring[STR_DIRS_FILES_BYTES_COUNT], dopus_curwin[win]->dirsel, dopus_curwin[win]->dirtot, dopus_curwin[win]->filesel, dopus_curwin[win]->filetot, b1, b2);
+		buildkmgstring(b1, dopus_curwin[win]->bytessel, config->listerdisplayflags[win] & SIZE_KMG, sizeof(b1));
+		buildkmgstring(b2, dopus_curwin[win]->bytestot, config->listerdisplayflags[win] & SIZE_KMG, sizeof(b2));
+		snprintf(str_select_info, sizeof(str_select_info), globstring[STR_DIRS_FILES_BYTES_COUNT], dopus_curwin[win]->dirsel, dopus_curwin[win]->dirtot, dopus_curwin[win]->filesel, dopus_curwin[win]->filetot, b1, b2);
 	}
 	else
 	{
 		switch (dopus_curwin[win]->firstentry->subtype)
 		{
 		case CUSTOMENTRY_DIRTREE:
-			sprintf(str_select_info, globstring[STR_ENTRIES_IN_TREE], dopus_curwin[win]->total);
+			snprintf(str_select_info, sizeof(str_select_info), globstring[STR_ENTRIES_IN_TREE], dopus_curwin[win]->total);
 			break;
 		case CUSTOMENTRY_BUFFERLIST:
-			sprintf(str_select_info, globstring[STR_DIRS_IN_BUFFERS], dopus_curwin[win]->total);
+			snprintf(str_select_info, sizeof(str_select_info), globstring[STR_DIRS_IN_BUFFERS], dopus_curwin[win]->total);
 			break;
 		case CUSTOMENTRY_USER:
-			sprintf(str_select_info, globstring[STR_USER_ENTRIES], dopus_curwin[win]->total);
+			snprintf(str_select_info, sizeof(str_select_info), globstring[STR_USER_ENTRIES], dopus_curwin[win]->total);
 			break;
 		}
 	}
@@ -1083,14 +1085,14 @@ int doactive(int state, int showinfo)
 				unselect(data_active_window, last_selected_entry);
 				entry = last_selected_entry;
 				dostatustext(globstring[STR_INTERROGATING_FILE]);
-				strncpy(buf, str_pathbuffer[data_active_window], 256);
-				strncat(buf, last_selected_entry->name, 256);
+				strlcpy(buf, str_pathbuffer[data_active_window], sizeof(buf));
+				strlcat(buf, last_selected_entry->name, sizeof(buf));
 				busy();
 				if((type = checkfiletype(buf, FTFUNC_CLICKMCLICK, 0)))
 				{
 					char title[256];
 
-					strcpy(func_single_file, last_selected_entry->name);
+					strlcpy(func_single_file, last_selected_entry->name, sizeof(func_single_file));
 					par.which = type->which[FTFUNC_CLICKMCLICK];
 					par.stack = type->stack[FTFUNC_CLICKMCLICK];
 					par.key = par.qual = 0;
@@ -1100,7 +1102,7 @@ int doactive(int state, int showinfo)
 
 					if(type->actionstring[FTFUNC_CLICKMCLICK][0])
 					{
-						do_title_string(type->actionstring[FTFUNC_CLICKMCLICK], title, 0, NULL);
+						do_title_string(type->actionstring[FTFUNC_CLICKMCLICK], title, 0, NULL, sizeof(title));
 						dostatustext(title);
 					}
 					else
@@ -1144,12 +1146,12 @@ int doactive(int state, int showinfo)
 						return (1);
 					}
 					else
-						strcpy(str_pathbuffer[data_active_window], last_selected_entry->dispstr);
+						strlcpy(str_pathbuffer[data_active_window], last_selected_entry->dispstr, sizeof(str_pathbuffer[0]));
 				}
 				else
 				{
-					strcpy(str_pathbuffer[data_active_window], dopus_curwin[1 - data_active_window]->directory);
-					IDOS->AddPart(str_pathbuffer[data_active_window], last_selected_entry->name, 256);
+					strlcpy(str_pathbuffer[data_active_window], dopus_curwin[1 - data_active_window]->directory, sizeof(str_pathbuffer[0]));
+					IDOS->AddPart(str_pathbuffer[data_active_window], last_selected_entry->name, sizeof(str_pathbuffer[0]));
 				}
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				time_previous_sec = 0;

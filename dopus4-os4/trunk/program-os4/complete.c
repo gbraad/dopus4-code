@@ -31,11 +31,11 @@ the existing commercial status of Directory Opus 5.
 
 void do_path_completion(int win, USHORT qual)
 {
-	char path[2048], match[FILEBUF_SIZE], *ptr;
+	char path[256], match[FILEBUF_SIZE], *ptr;
 	struct complete_entry *entry, *curentry, *addpos;
 	int new = 0, a;
 
-	strncpy(path, str_pathbuffer[win], 2048);
+	strlcpy(path, str_pathbuffer[win], PATHBUF_SIZE);
 	a = strlen(path);
 
 	if(a > 0 && (path[a - 1] == '/' || path[a - 1] == ':'))
@@ -44,7 +44,7 @@ void do_path_completion(int win, USHORT qual)
 	}
 	else if((ptr = IDOS->FilePart(path)))
 	{
-		strncpy(match, ptr, FILEBUF_SIZE - 1);
+		strlcpy(match, ptr, FILEBUF_SIZE - 1);
 		match[FILEBUF_SIZE - 1] = 0;
 		*ptr = 0;
 	}
@@ -79,8 +79,8 @@ void do_path_completion(int win, USHORT qual)
 	{
 		APTR context = NULL;
 
-		strcpy(completion[win].match, match);
-		strcpy(completion[win].path, path);
+		strlcpy(completion[win].match, match, sizeof(completion[win].match));
+		strlcpy(completion[win].path, path, sizeof(completion[win].path));
 		IDOpus->LFreeRemember(&completion[win].memory);
 		completion[win].firstentry = NULL;
 		completion[win].currententry = NULL;
@@ -100,7 +100,7 @@ void do_path_completion(int win, USHORT qual)
 				{
 					if((entry = IDOpus->LAllocRemember(&completion[win].memory, sizeof(struct complete_entry), MEMF_CLEAR)))
 					{
-						strcpy(entry->name, data->Name);
+						strlcpy(entry->name, data->Name, sizeof(entry->name));
 						addpos = completion[win].firstentry;
 						curentry = NULL;
 						while (addpos)
@@ -173,7 +173,7 @@ void do_path_completion(int win, USHORT qual)
 		}
 	}
       docomplete:
-	strcpy(str_pathbuffer[win], path);
+	strlcpy(str_pathbuffer[win], path, sizeof(str_pathbuffer[win]));
 	IDOS->AddPart(str_pathbuffer[win], completion[win].currententry->name, 256);
 	IDOpus->RefreshStrGad(&path_strgadget[win], Window);
 	IDOpus->ActivateStrGad(&path_strgadget[win], Window);

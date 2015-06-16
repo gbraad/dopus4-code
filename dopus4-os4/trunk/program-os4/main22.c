@@ -43,17 +43,17 @@ int return_type(struct ExamineData *data, int type)
 int checkrecurse(STRPTR source, STRPTR dest)
 {
 	BPTR srclock = 0, destlock = 0;
-	char srcpath[FILEBUF_SIZE] = {0}, destpath[FILEBUF_SIZE] = {0};
+	char srcpath[PATHBUF_SIZE] = {0}, destpath[PATHBUF_SIZE] = {0};
 	int err;
 
 	if ((srclock = IDOS->Lock(source, SHARED_LOCK)))
 	{
 		if ((destlock = IDOS->Lock(dest, SHARED_LOCK)))
 		{
-			if (IDOS->DevNameFromLock(srclock, srcpath, FILEBUF_SIZE, DN_FULLPATH))
+			if (IDOS->DevNameFromLock(srclock, srcpath, PATHBUF_SIZE, DN_FULLPATH))
 			{
 				IDOS->UnLock(srclock);
-				if (IDOS->DevNameFromLock(destlock, destpath, FILEBUF_SIZE, DN_FULLPATH))
+				if (IDOS->DevNameFromLock(destlock, destpath, PATHBUF_SIZE, DN_FULLPATH))
 				{
 					IDOS->UnLock(destlock);
 					if (strncmp(srcpath, destpath, strlen(srcpath)) == 0)
@@ -74,10 +74,12 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 {
 	struct InfoData *infodata = NULL;
 	struct ExamineData *exdata = NULL;
-	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0, noshow = 0, err = 0;
-	int sourcewild = 0, destwild = 0, firstset = 0, breakout = 0, rexarg = 0, protstuff[2];
-	int okayflag = 0, show = 0, lastfile = 0, flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
-	int globflag, noremove, doicons = 0, value = 0, progtype = 0, blocksize = 0, retval = 0;
+	int a = 0, b = 0, special = 0, candoicon = 1, old = 0, specflags = 0;
+	int noshow = 0, err = 0, sourcewild = 0, destwild = 0, firstset = 0;
+	int  breakout = 0, rexarg = 0, okayflag = 0, show = 0, lastfile = 0;
+	int flag = 0, exist = 0, count = 0, data = 0, mask = 0, temp = 0;
+	int doicons = 0, value = 0, progtype = 0, blocksize = 0, retval = 0;
+	int globflag, noremove,	protstuff[2];
 	int32 total = -1;
 	int64 byte = 0, bb;
 	struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
@@ -95,6 +97,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	char progress_copy = 0, prog_indicator = 0;
 	BOOL arcfile;
 	BOOL dirdone = TRUE;
+ 	// namesize must be <= assigned sizes in 'database' allocation (300).
+	int namesize = 298;
 
 	if(act > -1)
 		swindow = dopus_curwin[act];
@@ -170,7 +174,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			++rexarg;
 			file = tempfile;
 			func_single_entry = file;
-			strcpy(func_single_file, file->name);
+			strlcpy(func_single_file, file->name, sizeof(func_single_file));
 			globflag = 1;
 		}
 	}
@@ -180,21 +184,21 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		return (0);	/* No files selected, return */
 	}
 
-	if(!(database = IExec->AllocPooled(function_memory_pool, 3000)))
+	if(!(database = IExec->AllocPooled(function_memory_pool, FILEFUNCBUF_SIZE * 10)))
 	{
 		return (0);
 	}
 
 	sourcename = database;
-	destname = database + 300;
-	oldiconname = database + 600;
-	newiconname = database + 900;
-	buf = database + 1200;
-	buf1 = database + 1500;
-	buf2 = database + 1800;
-	namebuf = database + 2100;
-	srename = database + 2400;
-	drename = database + 2700;
+	destname = database + FILEFUNCBUF_SIZE;
+	oldiconname = database + (FILEFUNCBUF_SIZE * 2);
+	newiconname = database + (FILEFUNCBUF_SIZE * 3);
+	buf = database + (FILEFUNCBUF_SIZE * 4);
+	buf1 = database + (FILEFUNCBUF_SIZE * 5);
+	buf2 = database + (FILEFUNCBUF_SIZE * 6);
+	namebuf = database + (FILEFUNCBUF_SIZE * 7);
+	srename = database + (FILEFUNCBUF_SIZE * 8);
+	drename = database + (FILEFUNCBUF_SIZE * 9);
 
 	if(swindow)
 		scrdata_old_offset_store = swindow->offset;	/* Store directory offset for auto-scroll */
@@ -250,8 +254,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				goto endfunction;
 			}
-			strcpy(srename, rexx_args[0]);
-			strcpy(drename, rexx_args[1]);
+			strlcpy(srename, rexx_args[0], namesize);
+			strlcpy(drename, rexx_args[1], namesize);
 			if(strchr(srename, '*'))
 			{
 				sourcewild = 1;
@@ -262,7 +266,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				strcpy(namebuf, drename);
+				strlcpy(namebuf, drename, namesize);
 				firstset = 1;
 			}
 		}
@@ -271,10 +275,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(file->selected)
 				{
-					strcpy(srename, file->name);
-					strcpy(drename, file->name);
+					strlcpy(srename, file->name, namesize);
+					strlcpy(drename, file->name, namesize);
 					displaydirgiven(act, file, 0);
-					if(!(a = getrenamedata(srename, drename)) || !srename[0] || !drename[0])
+					if(!(a = getrenamedata(srename, drename, namesize)) || !srename[0] || !drename[0])
 					{
 						endfollow(act);
 						myabort();
@@ -292,7 +296,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						}
 						else
 						{
-							strcpy(namebuf, drename);
+							strlcpy(namebuf, drename, namesize);
 							firstset = 1;
 							total = -1;
 						}
@@ -363,7 +367,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_HUNT:
 		if(rexx && rexx_argcount > 0)
 		{
-			strncpy(str_hunt_name, rexx_args[rexarg], 80);
+			strlcpy(str_hunt_name, rexx_args[rexarg], 80);
 		}
 		else if(!(whatsit(globstring[STR_ENTER_HUNT_PATTERN], 80, str_hunt_name, NULL)) || !str_hunt_name[0])
 		{
@@ -377,8 +381,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
         case FUNC_PRINT:
 		if(globflag)
 		{
-			strncpy(sourcename, sourcedir, 256);
-			strncat(sourcename, file->name, 256);
+			strlcpy(sourcename, sourcedir, 256);
+			strlcat(sourcename, file->name, 256);
 			arglist.single_file = sourcename;
 			arglist.file_list = NULL;
 			arglist.last_select = NULL;
@@ -413,7 +417,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		}
 		if(rexx && rexx_argcount > 0)
 		{
-			strcpy(buf2, rexx_args[rexarg]);
+			strlcpy(buf2, rexx_args[rexarg], namesize);
 		}
 		else if(!(whatsit(globstring[STR_ENTER_PASSWORD], 20, buf2, NULL)) || !buf2[0])
 		{
@@ -423,7 +427,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		if(buf2[0] == '-')
 		{
 			data = 0;
-			strcpy(buf2, &buf2[1]);
+			strlcpy(buf2, &buf2[1], namesize);
 		}
 		else
 		{
@@ -464,7 +468,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_SEARCH:
 		if(rexx && rexx_argcount > 0)
 		{
-			strcpy(str_search_string, rexx_args[rexarg]);
+			strlcpy(str_search_string, rexx_args[rexarg], sizeof(str_search_string));
 		}
 		else
 		{
@@ -554,18 +558,18 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 			case FUNC_SEARCH:
 			case FUNC_HUNT:
-				strncpy(titlebuf, title, 32);
-				strncat(titlebuf, ": ", 32);
-				strncat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
+				strlcpy(titlebuf, title, 32);
+				strlcat(titlebuf, ": ", 32);
+				strlcat(titlebuf, (function == FUNC_SEARCH) ? str_search_string : str_hunt_name, 32);
 				break;
 			default:
-				strncpy(titlebuf, title, 32);
-				strncat(titlebuf, "...", 32);
+				strlcpy(titlebuf, title, 32);
+				strlcat(titlebuf, "...", 32);
 			}
 		}
 		else
 		{
-			strncpy(titlebuf, "Directory Opus", 32);
+			strlcpy(titlebuf, "Directory Opus", 32);
 		}
 
 		if(total == -1)
@@ -595,10 +599,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 		if(doicons && candoicon && !(isicon(file->name)))
 		{
-			strncpy(oldiconname, file->name, 256);
-			strncat(oldiconname, ".info", 256);
-			strncpy(buf1, sourcedir, 256);
-			strncat(buf1, oldiconname, 256);
+			strlcpy(oldiconname, file->name, 256);
+			strlcat(oldiconname, ".info", 256);
+			strlcpy(buf1, sourcedir, 256);
+			strlcat(buf1, oldiconname, 256);
 
 			if(!(IDOpus->CheckExist(buf1, NULL)))
 				oldiconname[0] = 0;
@@ -623,17 +627,17 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 
 		arcfile = FALSE;
 	      functionloop:
-		strncpy(sourcename, sourcedir, 256);
-		strncat(sourcename, file->name, 256);
+		strlcpy(sourcename, sourcedir, 256);
+		strlcat(sourcename, file->name, 256);
 		if(!special || count == 0 || (special == 2 && file->type >= 0))
 		{
 			dofilename(sourcename);
 			displaydirgiven(act, file, 0);
 		}
 		if(!firstset && !lastfile && !namebuf[0])
-			strncpy(namebuf, file->name, 300);
+			strlcpy(namebuf, file->name, namesize);
 		else if(lastfile)
-			strncpy(namebuf, IDOS->FilePart(newiconname), 300);
+			strlcpy(namebuf, IDOS->FilePart(newiconname), namesize);
 		okayflag = a = 0;
 		show = -1;
 
@@ -670,10 +674,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					par.delay = type->delay[a];
 					status_previousabort = 0;
 					if(status_iconified && status_flags & STATUS_ISINBUTTONS)
-						strcpy(func_external_file, sourcename);
+						strlcpy(func_external_file, sourcename, sizeof(func_external_file));
 					if(type->actionstring[a][0])
 					{
-						do_title_string(type->actionstring[a], title, 0, file->name);
+						do_title_string(type->actionstring[a], title, 0, file->name, sizeof(title));
 						dostatustext(title);
 					}
 					else
@@ -684,7 +688,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				else
 				{
-					sprintf(buf, globstring[STR_NOT_IDENTIFIED], file->name);
+					snprintf(buf, namesize, globstring[STR_NOT_IDENTIFIED], file->name);
 					dostatustext(buf);
 				}
 			}
@@ -714,8 +718,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(doicons && !(isicon(file->name)))
 			{
-				strncpy(oldiconname, file->name, 256);
-				strncat(oldiconname, ".info", 256);
+				strlcpy(oldiconname, file->name, 256);
+				strlcat(oldiconname, ".info", 256);
 				bb = -1;
 				if((file = findfile(swindow, oldiconname, NULL)))
 				{
@@ -724,10 +728,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				else
 				{
-					char filenamebuffer[2048];
+					char filenamebuffer[PATHBUF_SIZE];
 
-					strncpy(filenamebuffer, sourcedir, 2048);
-					IDOS->AddPart(filenamebuffer, oldiconname, 2048);
+					strlcpy(filenamebuffer, sourcedir, PATHBUF_SIZE);
+					IDOS->AddPart(filenamebuffer, oldiconname, PATHBUF_SIZE);
 					if((exdata = IDOS->ExamineObjectTags(EX_StringName, filenamebuffer, TAG_END)))
 					{
 						bb = exdata->FileSize;
@@ -803,7 +807,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					struct dopusfuncpar par;
 
-					sprintf(buf, "Execute \"%s\"", sourcename);
+					snprintf(buf, namesize, "Execute \"%s\"", sourcename);
 					defaultpar(&par);
 					dofunctionstring(buf, NULL, NULL, &par);
 					okayflag = 1;
@@ -921,7 +925,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			if(config->deleteflags & DELETE_FILES && askeach && !lastfile)
 			{
-				sprintf(buf2, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);
+				snprintf(buf2, namesize, file->type == ENTRY_DEVICE ? globstring[STR_QUERY_REMOVE_ASSIGN] : globstring[STR_WISH_TO_DELETE], file->name);
 				a = simplerequest(TDRIMAGE_QUESTION, buf2, globstring[file->type == ENTRY_DEVICE ? STR_REMOVE : STR_DELETE], globstring[STR_CANCEL], globstring[STR_ALL], globstring[STR_SKIP], NULL);
 				if(a == 3)
 				{
@@ -940,7 +944,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				char buf[FILEBUF_SIZE], *c;
 
-				strcpy(buf, file->name);
+				strlcpy(buf, file->name, sizeof(buf));
 				c = strchr(buf, ':');
 				if(c)
 					*c = 0;
@@ -997,16 +1001,16 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			      retry_rename:
 				if(lastfile)
 				{
-					strncpy(destname, sourcedir, 256);
-					strncat(destname, newiconname, 256);
+					strlcpy(destname, sourcedir, 256);
+					strlcat(destname, newiconname, 256);
 				}
 				else
 				{
 					namebuf[FILEBUF_SIZE - 1] = 0;
-					strncpy(destname, sourcedir, 256);
-					strncat(destname, namebuf, 256);
-					strncpy(newiconname, namebuf, 256);
-					strncat(newiconname, ".info", 256);
+					strlcpy(destname, sourcedir, 256);
+					strlcat(destname, namebuf, 256);
+					strlcpy(newiconname, namebuf, 256);
+					strlcat(newiconname, ".info", 256);
 				}
 				if(!(IDOS->Rename(sourcename, destname)))
 				{
@@ -1016,7 +1020,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						{
 							if(!lastfile)
 							{
-								if((a = checkexistreplace(sourcename, destname, &file->date, destwild, FUNC_RENAME)) == REPLACE_ABORT)
+								if((a = checkexistreplace(sourcename, destname, FILEFUNCBUF_SIZE, &file->date, destwild, FUNC_RENAME)) == REPLACE_ABORT)
 								{
 									myabort();
 									break;
@@ -1084,11 +1088,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					if(file->type >= ENTRY_DIRECTORY)
 					{
-						strncpy(buf, sourcedir, 256);
-						strncat(buf, file->name, 256);
+						strlcpy(buf, sourcedir, 256);
+						strlcat(buf, file->name, 256);
 						IDOpus->TackOn(buf, NULL, 256);
-						strncpy(buf1, sourcedir, 256);
-						strncat(buf1, namebuf, 256);
+						strlcpy(buf1, sourcedir, 256);
+						strlcat(buf1, namebuf, 256);
 						IDOpus->TackOn(buf1, NULL, 256);
 						renamebuffers(buf, buf1);
 					}
@@ -1098,7 +1102,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 						{
 							IExec->CopyMem((char *)file, (char *)&filebuf, sizeof(struct Directory));
 							if(file->comment)
-								strcpy(buf2, file->comment);
+								strlcpy(buf2, file->comment, namesize);
 							else
 								buf2[0] = 0;
 							removefile(file, swindow, act, 0);
@@ -1106,7 +1110,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							addfile(swindow, act, namebuf, filebuf.size, filebuf.type, &filebuf.date, buf2, filebuf.protection, filebuf.subtype, 1, NULL, NULL, filebuf.owner_id, filebuf.group_id);
 						}
 						else
-							strcpy(file->name, namebuf);
+							strlcpy(file->name, namebuf, sizeof(file->name));
 						if(lastfile)
 							refreshwindow(act, 0);
 					}
@@ -1121,7 +1125,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(!lastfile && !flag)
 			{
 				if(rexx && rexx_argcount > 1)
-					strcpy(namebuf, rexx_args[1]);
+					strlcpy(namebuf, rexx_args[1], namesize);
 				else
 				{
 					if(!(a = whatsit(globstring[STR_ENTER_NEW_NAME_MOVE], FILEBUF_SIZE - 2, namebuf, globstring[STR_SKIP])))
@@ -1142,14 +1146,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		case FUNC_MOVE:
 			if(lastfile)
 			{
-				strcpy(destname, newiconname);
+				strlcpy(destname, newiconname, namesize);
 			}
 			else
 			{
-				strncpy(destname, destdir, 256);
-				strncat(destname, namebuf, 256);
-				strncpy(newiconname, destname, 256);
-				strncat(newiconname, ".info", 256);
+				strlcpy(destname, destdir, 256);
+				strlcat(destname, namebuf, 256);
+				strlcpy(newiconname, destname, 256);
+				strlcat(newiconname, ".info", 256);
 			}
 			if(swindow && (swindow->flags & DWF_ARCHIVE))
 			{
@@ -1166,7 +1170,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_MOVE), 0)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, FILEFUNCBUF_SIZE, &file->date, (function == FUNC_MOVE), 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1188,8 +1192,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					else if(a == REPLACE_RENAME)
 					{
-						strncpy(newiconname, destname, 256);
-						strncat(newiconname, ".info", 256);
+						strlcpy(newiconname, destname, 256);
+						strlcat(newiconname, ".info", 256);
 						goto retry_move;
 					}
 				}
@@ -1437,7 +1441,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(!lastfile && !flag)
 			{
 				if(rexx && rexx_argcount > 1)
-					strcpy(namebuf, rexx_args[1]);
+					strlcpy(namebuf, rexx_args[1], namesize);
 				else
 				{
 					if(!(a = whatsit((specflags & FUNCFLAGS_COPYISCLONE) ? globstring[STR_ENTER_NEW_NAME_CLONE] : globstring[STR_ENTER_NEW_NAME], FILEBUF_SIZE - 2, namebuf, globstring[STR_SKIP])))
@@ -1464,16 +1468,16 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		case FUNC_COPY:
 			if(lastfile)
 			{
-				strcpy(destname, newiconname);
+				strlcpy(destname, newiconname, namesize);
 			}
 			else
 			{
-				strncpy(destname, destdir, 256);
-				strncat(destname, namebuf, 256);
-				strncpy(newiconname, destname, 256);
-				strncat(newiconname, ".info", 256);
+				strlcpy(destname, destdir, 256);
+				strlcat(destname, namebuf, 256);
+				strlcpy(newiconname, destname, 256);
+				strlcat(newiconname, ".info", 256);
 			}
-			arcfile = getsourcefromarc(swindow, sourcename, file->name);
+			arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
 			if(checksame(destdir, sourcename, 0) == LOCK_SAME)
 				break;
 			retry_copy:
@@ -1486,8 +1490,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					{
 						a = REPLACE_OK;
 					}
-					else if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
-//					if((a = checkexistreplace(sourcename, destname, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
+					else if((a = checkexistreplace(sourcename, destname, FILEFUNCBUF_SIZE, &file->date, (function == FUNC_COPY), 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1507,8 +1510,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					else if(a == REPLACE_RENAME)
 					{
-						strncpy(newiconname, destname, 256);
-						strncat(newiconname, ".info", 256);
+						strlcpy(newiconname, destname, 256);
+						strlcat(newiconname, ".info", 256);
 						goto retry_copy;
 					}
 				}
@@ -1633,7 +1636,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					dos_copy_protection = file->protection;
 					if(file->comment)
 					{
-						strcpy(dos_copy_comment, file->comment);
+						strlcpy(dos_copy_comment, file->comment, sizeof(dos_copy_comment));
 					}
 					else
 					{
@@ -1752,7 +1755,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				okayflag = 1;
 				break;
 			}
-			arcfile = getsourcefromarc(swindow, sourcename, file->name);
+			arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
 			a = viewfile(sourcename, str_arcorgname[0] ? str_arcorgname : file->name, function, NULL, /*str_arcorgname[0] ? 1 : 0*/ 1, (entry_depth > 1));
 			if(a != -2)
 			{
@@ -1796,7 +1799,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				file = NULL;
 				break;
 			}
-			arcfile = getsourcefromarc(swindow, sourcename, file->name);
+			arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
 			if(entry_depth < 2 && checkfiletypefunc(sourcename, FTFUNC_SHOW))
 			{
 				okayflag = 1;
@@ -1824,7 +1827,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			break;
 
 		case FUNC_ICONINFO:
-			arcfile = getsourcefromarc(swindow, sourcename, file->name);
+			arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
 			if(strcmp(file->name, ".info") == 0)
 			{
 				okayflag = 1;
@@ -1896,7 +1899,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				file = NULL;
 				break;
 			}
-			arcfile = getsourcefromarc(swindow, sourcename, file->name);
+			arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
 			if(entry_depth < 2 && checkfiletypefunc(sourcename, (function == FUNC_PLAY) ? FTFUNC_PLAY : FTFUNC_LOOPPLAY))
 			{
 				okayflag = 1;
@@ -1926,10 +1929,10 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				file = NULL;
 				break;
 			}
-			strncpy(buf2, file->name, FILEBUF_SIZE - 1);
-			strncat(buf2, ".info", FILEBUF_SIZE - 1);
-			strncpy(destname, sourcename, 256);
-			strncat(destname, ".info", 256);
+			strlcpy(buf2, file->name, FILEBUF_SIZE - 1);
+			strlcat(buf2, ".info", FILEBUF_SIZE - 1);
+			strlcpy(destname, sourcename, 256);
+			strlcat(destname, ".info", 256);
 			if((a = IDOpus->CheckExist(sourcename, NULL)) == 0)
 			{
 				doerror((a = IDOS->IoErr()));
@@ -1954,7 +1957,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				if(askeach)
 				{
 					doerror(ERROR_OBJECT_EXISTS);
-					if((a = checkexistreplace(destname, destname, NULL, 1, 0)) == REPLACE_ABORT)
+					if((a = checkexistreplace(destname, destname, FILEFUNCBUF_SIZE, NULL, 1, 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -1974,7 +1977,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					}
 					else if(a == REPLACE_RENAME)
 					{
-						strcpy(buf2, IDOS->FilePart(destname));
+						strlcpy(buf2, IDOS->FilePart(destname), namesize);
 					}
 				}
 				if(autoskip)
@@ -2001,11 +2004,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			if(askeach)
 			{
 				if(rexx && rexx_argcount > 0)
-					strcpy(buf2, rexx_args[rexarg]);
+					strlcpy(buf2, rexx_args[rexarg], namesize);
 				else
 				{
 					if(file->comment)
-						strcpy(buf2, file->comment);
+						strlcpy(buf2, file->comment, namesize);
 					else
 						buf2[0] = 0;
 					if(!(a = whatsit(globstring[STR_ENTER_COMMENT], 79, buf2, globstring[STR_ALL])))
@@ -2067,7 +2070,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					if(file->comment)
 						IExec->FreePooled(dir_memory_pool, file->comment, strlen(file->comment) + 1);
 					if((file->comment = IExec->AllocPooled(dir_memory_pool, strlen(buf2) + 1)))
-						strcpy(file->comment, buf2);
+						strlcpy(file->comment, buf2, strlen(buf2) + 1);
 				}
 			}
 			break;
@@ -2142,14 +2145,14 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				file = NULL;
 				break;
 			}
-			strncpy(destname, destdir, 256);
-			strncat(destname, file->name, 256);
-			arcfile = getsourcefromarc(swindow, sourcename, file->name);
-			if(checkexist(destname, 0)) //IDOpus->CheckExist(destname, NULL))
+			strlcpy(destname, destdir, 256);
+			strlcat(destname, file->name, 256);
+			arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
+			if(checkexist(destname, NULL)) //IDOpus->CheckExist(destname, NULL))
 			{
 				if(askeach)
 				{
-					if((a = checkexistreplace(sourcename, destname, &file->date, 1, 0)) == REPLACE_ABORT)
+					if((a = checkexistreplace(sourcename, destname, FILEFUNCBUF_SIZE, &file->date, 1, 0)) == REPLACE_ABORT)
 					{
 						myabort();
 						break;
@@ -2176,7 +2179,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 					break;
 				}
 			}
-			if(!checkexist(destname, 0)) //!IDOpus->CheckExist(destname, NULL))
+			if(!checkexist(destname, NULL)) //!IDOpus->CheckExist(destname, NULL))
 			{
 				FOREVER
 				{
@@ -2225,11 +2228,11 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(rexx && rexx_argcount > 0)
 				{
-					strcpy(buf2, rexx_args[rexarg]);
+					strlcpy(buf2, rexx_args[rexarg], namesize);
 				}
 				else
 				{
-					seedate(&(file->date), buf2, 0);
+					seedate(&(file->date), buf2, 0, FILEFUNCBUF_SIZE);
 					if(!(a = whatsit(globstring[STR_ENTER_DATE_AND_TIME], 20, buf2, globstring[STR_ALL])))
 					{
 						myabort();
@@ -2242,7 +2245,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				}
 				if(buf2[0])
 				{
-					parsedatetime(buf2, buf, buf1, &a);
+					parsedatetime(buf2, buf, buf1, &a, FILEFUNCBUF_SIZE);
 					strtostamp(buf, buf1, &datetime.dat_Stamp);
 				}
 				else
@@ -2277,7 +2280,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							IExec->CopyMem((char *)file, (char *)&filebuf, sizeof(struct Directory));
 							if(file->comment)
 							{
-								strcpy(buf2, file->comment);
+								strlcpy(buf2, file->comment, namesize);
 								filebuf.comment = buf2;
 							}
 							removefile(file, swindow, act, 0);
@@ -2288,7 +2291,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 							file->date.ds_Days = datetime.dat_Stamp.ds_Days;
 							file->date.ds_Minute = datetime.dat_Stamp.ds_Minute;
 							file->date.ds_Tick = datetime.dat_Stamp.ds_Tick;
-							seedate(&file->date, file->datebuf, 1);
+							seedate(&file->date, file->datebuf, 1, sizeof(file->datebuf));
 						}
 					}
 					break;
@@ -2339,7 +2342,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			{
 				if(file->type <= ENTRY_FILE)
 				{
-					arcfile = getsourcefromarc(swindow, sourcename, file->name);
+					arcfile = getsourcefromarc(swindow, sourcename, file->name, namesize);
 					a = filesearch(sourcename, &b, (askeach) ? 1 : -1);
 					count += b;
 					if(a == 2)
@@ -2453,8 +2456,8 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 			}
 			else
 			{
-				strncpy(sourcename, sourcedir, 256);
-				strncat(sourcename, oldiconname, 256);
+				strlcpy(sourcename, sourcedir, 256);
+				strlcat(sourcename, oldiconname, 256);
 				if(filloutdummy(sourcename, &dummyfile))
 				{
 					dummyfile.selected = 0;
@@ -2485,7 +2488,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		}
 		else if(count > 0)
 		{
-			sprintf(buf2, globstring[STR_FOUND_MATCHING_FILES], count);
+			snprintf(buf2, namesize, globstring[STR_FOUND_MATCHING_FILES], count);
 			dostatustext(buf2);
 			ra_simplerequest(buf2, globstring[STR_CONTINUE], REQIMAGE_INFO);
 		}
@@ -2512,7 +2515,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				simplerequest(TDRIMAGE_INFO, globstring[STR_STRING_NOT_FOUND], globstring[STR_CONTINUE], NULL);
 			else
 			{
-				sprintf(buf2, globstring[STR_MATCHED_FILES], count);
+				snprintf(buf2, namesize, globstring[STR_MATCHED_FILES], count);
 				simplerequest(TDRIMAGE_INFO, buf2, globstring[STR_CONTINUE], NULL);
 			}
 			okayflag = 1;
@@ -2565,13 +2568,13 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				{
 					percent = 100 / (needed / memvalue);
 				}
-				sprintf(buf, globstring[STR_CHECKFIT_STRING], data * (int64)blocksize, memvalue, percent);
+				snprintf(buf, namesize, globstring[STR_CHECKFIT_STRING], data * (int64)blocksize, memvalue, percent);
 				dostatustext(buf);
 			}
 			else
 			{
 				doselinfo(act);
-				strcat(str_select_info, (memvalue <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT]);
+				strlcat(str_select_info, (memvalue <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT], sizeof(str_select_info));
 				dostatustext(str_select_info);
 			}
 			okayflag = 0;

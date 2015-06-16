@@ -122,30 +122,25 @@ int getdir(struct DirectoryWindow *dir, int win, int incmess)
 		}
 		if(str_pathbuffer[win][a] == ':')
 		{
-			strncpy(dir->realdevice, str_pathbuffer[win], a + 1);
+			strlcpy(dir->realdevice, str_pathbuffer[win], sizeof(dir->realdevice));
 		}
 		return (0);
 	}
 
-	strncpy(buf, str_pathbuffer[win], 256);
+	strlcpy(buf, str_pathbuffer[win], sizeof(buf));
 	if(getroot(buf, NULL))
 	{
-		strncpy(dir->volumename, buf, 32);
-//		strncat(buf, ":", 256);
-//		if((deviceport = (struct MsgPort *)IDOS->DeviceProc(buf)))
-//		{
-//			get_device_task(mylock, dir->realdevice, deviceport);
-//		}
-		if (IDOS->DevNameFromLock(mylock, buf, 32, DN_DEVICEONLY));
-			strncpy(dir->realdevice, buf, 32);
+		strlcpy(dir->volumename, buf, sizeof(dir->volumename));
+		if (IDOS->DevNameFromLock(mylock, buf, sizeof(buf), DN_DEVICEONLY));
+			strlcpy(dir->realdevice, buf, sizeof(dir->realdevice));
 	}
 
 	if(config->dirflags & DIRFLAGS_EXPANDPATHS)
 	{
-		IDOS->NameFromLock(mylock, buf, 256);
-		strcpy(str_pathbuffer[win], buf);
+		IDOS->NameFromLock(mylock, buf, sizeof(buf));
+		strlcpy(str_pathbuffer[win], buf, sizeof(str_pathbuffer[0]));
 		checkdir(str_pathbuffer[win], Window ? &path_strgadget[win] : NULL);
-		strcpy(dir->directory, str_pathbuffer[win]);
+		strlcpy(dir->directory, str_pathbuffer[win], sizeof(dir->directory));
 	}
 
 	if((data = IDOS->ExamineObjectTags(EX_FileLock, mylock, TAG_END)))
@@ -510,22 +505,22 @@ void doinfodisplay(struct Directory *entry, int state)
 	if(entry->selected == state)
 	{
 		getprot(entry->protection, pbuf);
-		nodayseedate(&(entry->date), dbuf);
-		sprintf(buf, "%8s %18s ", pbuf, dbuf);
+		nodayseedate(&(entry->date), dbuf, sizeof(dbuf));
+		snprintf(buf, sizeof(buf), "%8s %18s ", pbuf, dbuf);
 		if(entry->type != ENTRY_CUSTOM && entry->comment)
-			strcat(buf, entry->comment);
+			strlcat(buf, entry->comment, sizeof(buf));
 	}
 	dostatustext(buf);
 }
 
-void nodayseedate(struct DateStamp *ds, char *date)
+void nodayseedate(struct DateStamp *ds, char *date, int datesize)
 {
 	char datebuf[16], timebuf[16];
 	struct DateTime dt;
 
 	copy_datestamp(ds, &dt.dat_Stamp);
 	initdatetime(&dt, datebuf, timebuf, 0);
-	sprintf(date, "%s %s", datebuf, timebuf);
+	snprintf(date, datesize, "%s %s", datebuf, timebuf);
 }
 
 void displaydirgiven(int win, struct Directory *dir, char bypass)
@@ -896,7 +891,7 @@ void entry_text(int win, struct Directory *entry, char *buf, int len, int x, int
 //#define DISPLAYSIZEFORMAT     "%qd"
 #define DISPLAYSIZEFORMAT     "%lld"
 
-void buildkmgstring(char *buf, uint64 size, int kmgmode)
+void buildkmgstring(char *buf, uint64 size, int kmgmode, int bufsize)
 {
 	if(kmgmode)
 	{
@@ -924,20 +919,20 @@ void buildkmgstring(char *buf, uint64 size, int kmgmode)
 				div = 1024;
 				c = 'K';
 			}
-			sprintf(tmp, "%.1f", size / div);
+			snprintf(tmp, sizeof(tmp), "%.1f", size / div);
 
 			if(tmp[3] == '.')
 				tmp[3] = 0;
 			else if(tmp[4] == '.')
 				tmp[4] = 0;
-			sprintf(buf, "%4s%lc", tmp, c);
+			snprintf(buf, bufsize, "%4s%lc", tmp, c);
 		}
 		else
-			sprintf(buf, "%4lld", size);
+			snprintf(buf, bufsize, "%4lld", size);
 	}
 	else
 	{
-		sprintf(buf, DISPLAYSIZEFORMAT, size);
+		snprintf(buf, bufsize, DISPLAYSIZEFORMAT, size);
 	}
 }
 
@@ -1073,7 +1068,7 @@ void builddisplaystring(struct Directory *display, char *sbuf, int win)
 			PUTCODE(&sbuf, TEXT_PENS, fg << 8 | bg);
 
 			if(display->type < ENTRY_DEVICE || (display->type > ENTRY_DEVICE && display->size >= 0))
-				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG);
+				buildkmgstring(sizebuf, display->size, config->listerdisplayflags[win] & SIZE_KMG, sizeof(sizebuf));
 			else
 				sizebuf[0] = 0;
 

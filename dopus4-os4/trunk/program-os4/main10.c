@@ -59,10 +59,10 @@ void doarexx(int rexx)
 
 	buf[0] = 0;
 	if(rexx)
-		strncpy(buf, rexx_args[0], 256);
+		strlcpy(buf, rexx_args[0], sizeof(buf));
 	else
 	{
-		strncpy(buf, str_arexx_command, 256);
+		strlcpy(buf, str_arexx_command, sizeof(buf));
 		if(!(whatsit(globstring[STR_ENTER_AREXX_COMMAND], 256, buf, (char *)-2)))
 			return;
 	}
@@ -70,22 +70,22 @@ void doarexx(int rexx)
 		return;
 	if(!(strstri(buf, "address")) && buf[0] != '\"')
 	{
-		strcpy(str_arexx_command, buf);
-		strcpy(&buf[1], str_arexx_command);
+		strlcpy(str_arexx_command, buf, REXXARG_SIZE);
+		strlcpy(&buf[1], str_arexx_command, sizeof(buf) - 1);
 		buf[0] = '*';
 		if(getfunction(buf, NULL) != -1)
 		{
 			dofunctionstring(buf, NULL, NULL, NULL);
 			return;
 		}
-		strncpy(buf, str_arexx_command, 256);
+		strlcpy(buf, str_arexx_command, sizeof(buf));
 	}
 	if(!(IExec->FindPort("REXX")))
 	{
 		simplerequest(TDRIMAGE_WARNING, globstring[STR_AREXX_NOT_RUNNING], str_okaystring, NULL);
 		return;
 	}
-	strcpy(str_arexx_command, buf);
+	strlcpy(str_arexx_command, buf, REXXARG_SIZE);
 	status_flags |= STATUS_DONEREXX;
 	rexx_command(buf, NULL);
 }
@@ -106,7 +106,7 @@ void setcurdir(int rexx)
 		}
 	}
 	else
-		strncpy(dir, rexx_args[0], 256);
+		strlcpy(dir, rexx_args[0], sizeof(dir));
 	if(!(lock = IDOS->Lock(dir, ACCESS_READ)))
 	{
 		doerror(-1);
@@ -140,8 +140,8 @@ void dodevicelist(int win)
 	{
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, 32);
-			strcat(devname, ":");
+			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, sizeof(devname));
+			strlcat(devname, ":", sizeof(devname));
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
 		}
@@ -156,8 +156,8 @@ void dodevicelist(int win)
 	{
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, 32);
-			strcat(devname, ":");
+			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, sizeof(devname));
+			strlcat(devname, ":", sizeof(devname));
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
 		}
@@ -172,8 +172,8 @@ void dodevicelist(int win)
 	{
 		if(dl->dol_Type != DLT_DEVICE || dl->dol_Task)
 		{
-			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, 32);
-			strcat(devname, ":");
+			IDOS->CopyStringBSTRToC(dl->dol_Name, devname, sizeof(devname));
+			strlcat(devname, ":", sizeof(devname));
 			if(!(addfile(dopus_curwin[win], win, devname, dl->dol_Type, 0, NULL, NULL, 0, 0, FALSE, NULL, addafter, 0, 0)))
 				break;
 		}
@@ -188,7 +188,9 @@ void dodevicelist(int win)
 	okay();
 }
 
-/*
+/* Unused
+** Added _ (underscore) to string functions to avoid search matches
+** in this unused function. Remove this function if not needed.
 int huntfile(char *name, char *completename, int *aa)
 {
 	char buf[FILEBUF_SIZE];
@@ -201,7 +203,7 @@ int huntfile(char *name, char *completename, int *aa)
 
 		if((ptr = IDOS->FilePart(completename)))
 		{
-			strncpy(buf, IDOS->FilePart(completename), 300);
+			str_ncpy(buf, IDOS->FilePart(completename), 300);
 			*ptr = 0;
 		}
 		else
@@ -210,15 +212,14 @@ int huntfile(char *name, char *completename, int *aa)
 		}
 
 		*aa = 1;
-
-		snprintf(mesbuf, 300, globstring[STR_FOUND_A_MATCH], buf, completename);
+		sn_printf(mesbuf, 300, globstring[STR_FOUND_A_MATCH], buf, completename);
 		if((rec = simplerequest(TDRIMAGE_QUESTION, mesbuf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], NULL)) == 1)
 		{
 			if(!status_iconified)
 			{
 				unbusy();
 				advancebuf(data_active_window, 1);
-				strcpy(str_pathbuffer[data_active_window], completename);
+				str_cpy(str_pathbuffer[data_active_window], completename);
 				startgetdir(data_active_window, 3);
 				busy();
 			}
@@ -304,7 +305,7 @@ void centerwindow(struct NewWindow *wind)
 	}
 }
 
-char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
+char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis, int bufsize)
 {
 	STRPTR datebuf, timebuf, ptr, temp;
 	char dbuffer[80], mydtbuf[20], mytmbuf[20];
@@ -313,7 +314,7 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 
 	timebuf = datebuf = NULL;
 	*dis = 0;
-	strcpy(dbuffer, buf);
+	strlcpy(dbuffer, buf, sizeof(dbuffer));
 	b = strlen(dbuffer);
 	for(a = 0; a < b; a++)
 		if(!(isspace(dbuffer[a])))
@@ -388,13 +389,13 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 
 	c = 0;
 	if(datebuf && (a = strlen(datebuf)) < 16 && a > 2)
-		strcpy(dbuf, datebuf);
+		strlcpy(dbuf, datebuf, bufsize);
 	else
 	{
 		if((*dis) != 2)
 		{
 			c = 1;
-			strcpy(dbuf, mydtbuf);
+			strlcpy(dbuf, mydtbuf, bufsize);
 		}
 		else
 		{
@@ -409,17 +410,17 @@ char *parsedatetime(char *buf, char *dbuf, char *tbuf, int *dis)
 				fptr = "1-Jan-78";
 				break;
 			}
-			strcpy(dbuf, fptr);
+			strlcpy(dbuf, fptr, bufsize);
 		}
 	}
 	if(timebuf && (a = strlen(timebuf)) < 9 && a > 2)
 	{
-		strcpy(tbuf, timebuf);
+		strlcpy(tbuf, timebuf, bufsize);
 		if(!(*dis))
 			*dis = -1;
 	}
 	else
-		strcpy(tbuf, c ? (char *)mytmbuf : (char *)"00:00:00");
+		strlcpy(tbuf, c ? (char *)mytmbuf : (char *)"00:00:00", bufsize);
 
 	return (ptr);
 }
@@ -460,7 +461,7 @@ ULONG clone_screen(struct Screen *original, struct ExtNewScreen *clone)
 	return ((ULONG) clone->ViewModes);
 }
 
-struct MsgPort *CreateUniquePort(CONST_STRPTR base, STRPTR buffer, int *count)
+struct MsgPort *CreateUniquePort(CONST_STRPTR base, STRPTR buffer, int *count, int bufsize)
 {
 	int a;
 	struct MsgPort *port;
@@ -468,10 +469,10 @@ struct MsgPort *CreateUniquePort(CONST_STRPTR base, STRPTR buffer, int *count)
 	IExec->Forbid();
 	for(a = 0;; a++)
 	{
-		snprintf(buffer, 30, "%s%d", config_replyport_basename, a);
+		snprintf(buffer, bufsize, "%s%d", config_replyport_basename, a);
 		if(!(IExec->FindPort(buffer)))
 		{
-			sprintf(buffer, "%s.%d", base, a + 1);
+			snprintf(buffer, bufsize, "%s.%d", base, a + 1);
 			if(!(IExec->FindPort(buffer)))
 			{
 				port = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, buffer, ASOPORT_CopyName, TRUE, TAG_DONE);
