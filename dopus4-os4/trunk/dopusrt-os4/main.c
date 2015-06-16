@@ -403,7 +403,8 @@ void WBRun(int argc, char **argv)
 					ok = 0;
 			}
 			else if(diskobj->do_Type == WBTOOL)
-				IDOpus->LStrCpy(namebuf, argv[0]);
+//				IDOpus->LSt rCpy(namebuf, argv[0]);
+				strlcpy(namebuf, argv[0], sizeof(namebuf));
 			else if(diskobj->do_Type == WBPROJECT)
 			{
 				if(IDOpus->SearchPathList(diskobj->do_DefaultTool, namebuf, 256))
