@@ -114,35 +114,35 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		}
 		IDOS->Examine(mylock, myfinfo);
 	}
-	if(!(name = IDOpus->LAllocRemember(&memkey, 5 * 2048, MEMF_CLEAR)))
+	if(!(name = IDOpus->LAllocRemember(&memkey, 5 * PATHBUF_SIZE, MEMF_CLEAR)))
 	{
 		doerror(-1);
 		IDOS->FreeDosObject(DOS_FIB, myfinfo);
 		IDOS->FreeDosObject(DOS_FIB, enfinfo);
 		return (-1);
 	}
-	dir = name + 2048;
-	dest = dir + 2048;
-	dname = dest + 2048;
-	ddir = dname + 2048;
+	dir = name + PATHBUF_SIZE;
+	dest = dir + PATHBUF_SIZE;
+	dname = dest + PATHBUF_SIZE;
+	ddir = dname + PATHBUF_SIZE;
 
 	if(fdir) //temp fix for relative link copy failure
 	{
 		if ((mylock) && (dowhat & R_COPY))
 		{
-			if (!(IDOS->DevNameFromLock(mylock, dir, 2048, DN_FULLPATH)))
-				strncpy(dir, fdir, 2048);
+			if (!(IDOS->DevNameFromLock(mylock, dir, PATHBUF_SIZE, DN_FULLPATH)))
+				strlcpy(dir, fdir, PATHBUF_SIZE);
 		}
 		else
-			strncpy(dir, fdir, 2048);
+			strlcpy(dir, fdir, PATHBUF_SIZE);
 	}
 
 	if(fdest)
-		strncpy(dest, fdest, 2048);
+		strlcpy(dest, fdest, PATHBUF_SIZE);
 
 	if(dowhat & R_COPY)
 	{
-		strcpy(ddir, dest);
+		strlcpy(ddir, dest, PATHBUF_SIZE);
 		if(!(a = copymakedir(&memkey, &first_makedir, dest, myfinfo)) || a == -1)
 		{
 			IDOS->UnLock(mylock);
@@ -160,8 +160,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		lister.total = lister.filesel = lister.dirsel = lister.dirtot = lister.filetot = 0;
 		lister.bytessel = 0;
 		lister.bytestot = 0;
-		strcpy(lister.directory, dir);
-		strcat(lister.directory, "/");
+		strlcpy(lister.directory, dir, sizeof(lister.directory));
+		strlcat(lister.directory, "/", sizeof(lister.directory));
 		readarchive(&lister, 0);
 		arcfillfib(myfinfo, entry = lister.firstentry);
 		to_do = lister.total;
@@ -180,7 +180,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			if(current_recurse)
 			{
 				IDOS->UnLock(mylock);
-				strcpy(dname, dir);
+				strlcpy(dname, dir, PATHBUF_SIZE);
 				mylock = current_recurse->lock;
 				if((entry = current_recurse->entry))
 				{
@@ -190,15 +190,15 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					for(to_do = lister.total, t_entry = lister.firstentry; t_entry != entry; to_do--, t_entry = t_entry->next);
 				}
 				IExec->CopyMemQuick(&current_recurse->info, myfinfo, sizeof(struct FileInfoBlock));
-				strcpy(dir, current_recurse->dir);
-				strcpy(dest, current_recurse->dest);
+				strlcpy(dir, current_recurse->dir, PATHBUF_SIZE);
+				strlcpy(dest, current_recurse->dest, PATHBUF_SIZE);
 				data = current_recurse->data;
 				data2 = current_recurse->data2;
 				data3 = current_recurse->data3;
 				current_recurse = current_recurse->last;
 
-				strcpy(name, dir);
-				IDOS->AddPart(name, myfinfo->fib_FileName, 2048);
+				strlcpy(name, dir, PATHBUF_SIZE);
+				IDOS->AddPart(name, myfinfo->fib_FileName, PATHBUF_SIZE);
 
 				if(dowhat & R_GETNAMES)
 				{
@@ -209,12 +209,12 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 
 				else if(dowhat & R_COPY)
 				{
-					strcpy(ddir, dest);
+					strlcpy(ddir, dest, PATHBUF_SIZE);
 					if(config->copyflags & COPY_DATE)
 					{
-						IDOS->AddPart(ddir, myfinfo->fib_FileName, 2048);
+						IDOS->AddPart(ddir, myfinfo->fib_FileName, PATHBUF_SIZE);
 						IDOS->SetFileDate(ddir, &myfinfo->fib_Date);
-						strcpy(ddir, dest);
+						strlcpy(ddir, dest, PATHBUF_SIZE);
 					}
 				}
 
@@ -309,8 +309,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 		}
 		IExec->CopyMemQuick((char *)myfinfo, (char *)enfinfo, sizeof(struct FileInfoBlock));
 
-		strncpy(name, dir, 2048);
-		IDOS->AddPart(name, enfinfo->fib_FileName, 2048);
+		strlcpy(name, dir, PATHBUF_SIZE);
+		IDOS->AddPart(name, enfinfo->fib_FileName, PATHBUF_SIZE);
 
 		if(FIB_IS_DRAWER(enfinfo))
 		{
@@ -323,7 +323,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				{
 					if((new_rec = IDOpus->LAllocRemember(&recurse_dir_key, sizeof(struct RecursiveDirectory), MEMF_CLEAR)))
 					{
-						strcpy(new_rec->name, enfinfo->fib_FileName);
+						strlcpy(new_rec->name, enfinfo->fib_FileName, sizeof(new_rec->name));
 						IExec->CopyMem((char *)&enfinfo->fib_Date, (char *)&new_rec->date, sizeof(struct DateStamp));
 						if(addparent_recurse)
 						{
@@ -374,16 +374,16 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					adata3 = (APTR) cur_lastparent;
 					addparent_recurse = cur_parent;
 				}
-				strcpy(dname, dest);
+				strlcpy(dname, dest, PATHBUF_SIZE);
 				if(dowhat & R_COPY)
 				{
-					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
+					IDOS->AddPart(dname, enfinfo->fib_FileName, PATHBUF_SIZE);
 					adir = dir;
 					adest = dest;
 					adata = data;
 					ndir = name;
 					ndest = dname;
-					strcpy(ddir, dname);
+					strlcpy(ddir, dname, PATHBUF_SIZE);
 					if((a = copymakedir(&memkey, &first_makedir, ddir, enfinfo)) == -1)
 					{
 						ret = -10;
@@ -439,8 +439,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 							to_do = 0;
 						continue;
 					}
-					strcpy(dir, ndir);
-					strcpy(dest, ndest);
+					strlcpy(dir, ndir, PATHBUF_SIZE);
+					strlcpy(dest, ndest, PATHBUF_SIZE);
 					if(mylock)
 					{
 						if(!(mylock = IDOS->Lock(dir, ACCESS_READ)))
@@ -457,8 +457,8 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 						lister.total = lister.filesel = lister.dirsel = lister.dirtot = lister.filetot = 0;
 						lister.bytessel = 0;
 						lister.bytestot = 0;
-						strcpy(lister.directory, dir);
-						strcat(lister.directory, "/");
+						strlcpy(lister.directory, dir, sizeof(lister.directory));
+						strlcat(lister.directory, "/", sizeof(lister.directory));
 						readarchive(&lister, 0);
 						arcfillfib(myfinfo, entry = lister.firstentry);
 						to_do = lister.total;
@@ -481,10 +481,11 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 				goto skipgetnam;
 			else if(dowhat & R_STARDIR)
 			{
-				if((trec = IDOpus->LAllocRemember(&rec_pathkey, sizeof(struct recpath), MEMF_CLEAR)) && (trec->path = IDOpus->LAllocRemember(&rec_pathkey, (strlen(name) + 1) - data, MEMF_CLEAR)))
+				if((trec = IDOpus->LAllocRemember(&rec_pathkey, sizeof(struct recpath), MEMF_CLEAR)) &&
+				   (trec->path = IDOpus->LAllocRemember(&rec_pathkey, (strlen(name) + 1) - data, MEMF_CLEAR)))
 				{
 					trec->next = NULL;
-					strcpy(trec->path, &name[data]);
+					strlcpy(trec->path, &name[data], (strlen(name) + 1) - data);
 					if(crec)
 						crec->next = trec;
 					crec = trec;
@@ -496,22 +497,22 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 			{
 				if(dowhat & R_COPY)
 				{
-					strcpy(dname, ddir);
-					IDOS->AddPart(dname, enfinfo->fib_FileName, 2048);
+					strlcpy(dname, ddir, PATHBUF_SIZE);
+					IDOS->AddPart(dname, enfinfo->fib_FileName, PATHBUF_SIZE);
 
 					if(!mylock)
 					{
 						char tempname[FILEBUF_SIZE];
 
-						strcpy(name, "T:");
+						strlcpy(name, "T:", PATHBUF_SIZE);
 						if(!unarcfiledir(&lister, name, tempname, enfinfo->fib_FileName))
 							continue;
-						IDOS->AddPart(name, tempname, 2048);
+						IDOS->AddPart(name, tempname, PATHBUF_SIZE);
 					}
 					if(askall)
 					{
 						a = 0;
-						if((a = checkexistreplace(name, dname, &enfinfo->fib_Date, 1, 0)) == REPLACE_ABORT)
+						if((a = checkexistreplace(name, dname, PATHBUF_SIZE, &enfinfo->fib_Date, 1, 0)) == REPLACE_ABORT)
 						{
 							myabort();
 							ret = -10;
@@ -668,10 +669,10 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					{
 						char tempname[FILEBUF_SIZE];
 
-						strcpy(name, "T:");
+						strlcpy(name, "T:", PATHBUF_SIZE);
 						if(!unarcfiledir(&lister, name, tempname, enfinfo->fib_FileName))
 							continue;
-						IDOS->AddPart(name, tempname, 256);
+						IDOS->AddPart(name, tempname, PATHBUF_SIZE);
 					}
 					suc = filesearch(name, &a, 0);
 					if(!mylock)
@@ -748,10 +749,11 @@ int addrecurse(struct DOpusRemember **key, char *dir, char *dest, int data, APTR
 	if(!(rec = IDOpus->LAllocRemember(key, sizeof(struct recurse), MEMF_ANY | MEMF_CLEAR)))
 		return (0);
 	rec->last = current_recurse;
-	if(!(rec->dir = IDOpus->LAllocRemember(key, strlen(dir) + 1, MEMF_ANY | MEMF_CLEAR)) || !(rec->dest = IDOpus->LAllocRemember(key, strlen(dest) + 1, MEMF_ANY | MEMF_CLEAR)))
+	if(!(rec->dir = IDOpus->LAllocRemember(key, strlen(dir) + 1, MEMF_ANY | MEMF_CLEAR)) ||
+	   !(rec->dest = IDOpus->LAllocRemember(key, strlen(dest) + 1, MEMF_ANY | MEMF_CLEAR)))
 		return (0);
-	strcpy(rec->dir, dir);
-	strcpy(rec->dest, dest);
+	strlcpy(rec->dir, dir, strlen(dir) + 1);
+	strlcpy(rec->dest, dest, strlen(dest) + 1);
 	rec->data = data;
 	rec->data2 = data2;
 	rec->data3 = data3;
@@ -798,9 +800,10 @@ int copymakedir(struct DOpusRemember **key, struct makedirlist **first, char *di
 			if(config->copyflags & COPY_NOTE)
 				IDOS->SetComment(dirname, finfo->fib_Comment);
 
-			if((list = IDOpus->LAllocRemember(key, sizeof(struct makedirlist), MEMF_CLEAR)) && (list->path = IDOpus->LAllocRemember(key, strlen(dirname) + 1, 0)))
+			if((list = IDOpus->LAllocRemember(key, sizeof(struct makedirlist), MEMF_CLEAR)) &&
+			   (list->path = IDOpus->LAllocRemember(key, strlen(dirname) + 1, 0)))
 			{
-				strcpy(list->path, dirname);
+				strlcpy(list->path, dirname, strlen(dirname) + 1);
 				if(!(pos = *first))
 					*first = list;
 				else

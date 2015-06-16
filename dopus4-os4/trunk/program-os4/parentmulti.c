@@ -86,7 +86,8 @@ struct TagItem pm_lister[] =
 	pm_okay_gadget, pm_cancel_gadget, NULL
 };
 
-int do_parent_multi(STRPTR path)
+
+int do_parent_multi(STRPTR path, int pathsize)
 {
 	ULONG class;
 	uint16 gadgetid = 0;
@@ -148,11 +149,11 @@ int do_parent_multi(STRPTR path)
 	count = 0;
 	while(parentlock)
 	{
-		IDOS->NameFromLock(parentlock, buf, 256);
+		IDOS->NameFromLock(parentlock, buf, sizeof(buf));
 		if((table[count] = IDOpus->LAllocRemember(&pm_req.rb_memory, (a = (strlen(buf) + 3)), 0)))
 		{
-			strncpy(table[count], buf, a - 1);
-//			strncat(table[count], "/", a - 1);
+			strlcpy(table[count], buf, a - 1);
+//			strlcat(table[count], "/", a - 1);
 			IDOpus->TackOn(table[count], NULL, a - 1);
 			++count;
 		}
@@ -177,7 +178,7 @@ int do_parent_multi(STRPTR path)
 	IIntuition->ClearPointer(rwindow);
 
 	if(table[0])
-		strcpy(buf, table[0]);
+		strlcpy(buf, table[0], sizeof(buf));
 
 	for(a = 0; a < 2; a++)
 	{
@@ -219,7 +220,7 @@ int do_parent_multi(STRPTR path)
 					IDOpus->RemoveListView(listview, 1);
 					IDOpus->CloseRequester(&pm_req);
 					if(gadgetid == PM_OKAY)
-						strcpy(path, buf);
+						strlcpy(path, buf, pathsize);
 					return ((int)gadgetid);
 				}
 			}
@@ -228,16 +229,14 @@ int do_parent_multi(STRPTR path)
 				if(table[view->itemselected])
 				{
 					if(strncmp(table[view->itemselected], "  + ", 4) == 0)
-//						strcpy(buf, &table[view->itemselected][4]);
-						strncpy(buf, &table[view->itemselected][4], 256);
+						strlcpy(buf, &table[view->itemselected][4], sizeof(buf));
 					else
-//						strcpy(buf, table[view->itemselected]);
-						strncpy(buf, table[view->itemselected], 256);
+						strlcpy(buf, table[view->itemselected], sizeof(buf));
 					if(view->itemselected == lastsel && (IIntuition->DoubleClick(lastseconds, lastmicros, seconds, micros)))
 					{
 						IDOpus->RemoveListView(listview, 1);
 						IDOpus->CloseRequester(&pm_req);
-						strcpy(path, buf);
+						strlcpy(path, buf, pathsize);
 						return (PM_OKAY);
 					}
 					lastseconds = seconds;
@@ -275,10 +274,12 @@ int get_multi_volume(BPTR lock, STRPTR *table, struct DOpusRemember **key)
 			{
 				if(table)
 				{
-					IDOS->NameFromLock(list->al_Lock, buf, 256);
+					IDOS->NameFromLock(list->al_Lock, buf, sizeof(buf));
 					if(table[tabcount] = IDOpus->LAllocRemember(key, (a = (strlen(buf) + 7)), 0))
 					{
-						IDOpus->StrCombine(table[tabcount], "  + ", buf, a - 1);
+//						IDOpus->Str Combine(table[tabcount], "  + ", buf, a - 1);
+						strlcpy(table[tabcount], "  + ", a -1);
+						strlcat(table[tabcount], buf, a - 1);
 						IDOpus->TackOn(table[tabcount], a - 1);
 						++tabcount;
 					}

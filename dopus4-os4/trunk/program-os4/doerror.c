@@ -37,7 +37,7 @@ int doerror(int err)
 		err = IDOS->IoErr();
 	if(err)
 	{
-		geterrorstring(buf, err);
+		geterrorstring(buf, err, sizeof(buf));
 		dostatustext(buf);
 		rexx_result_code = err;
 		return (1);
@@ -45,14 +45,14 @@ int doerror(int err)
 	return (0);
 }
 
-void geterrorstring(char *buf, int err)
+void geterrorstring(char *buf, int err, int bufsize)
 {
 	char buf2[80];
 
 	IDOS->Fault(err, NULL, buf2, 80);
-	sprintf(buf, globstring[STR_DOS_ERROR_CODE], err);
-	strcat(buf, " - ");
-	strcat(buf, buf2);
+	snprintf(buf, bufsize, globstring[STR_DOS_ERROR_CODE], err);
+	strlcat(buf, " - ", bufsize);
+	strlcat(buf, buf2, bufsize);
 }
 
 void dostatustext(char *text)
@@ -68,7 +68,7 @@ void dostatustext(char *text)
 	}
 	if(status_flags & STATUS_FROMHOTKEY)
 		return;
-	strcpy(str_last_statustext, text);
+	strlcpy(str_last_statustext, text, STATUSTEXT_SIZE);
 	if(scrdata_status_height > 0)
 	{
 		r = main_rp;
@@ -181,7 +181,7 @@ void geterrorhelp(int st)
 		err = atoi(rexx_args[0]);
 	if(doerror(err))
 	{
-		sprintf(buf2, "!%d", err);
+		snprintf(buf2, sizeof(buf2), "!%d", err);
 		dohelp(buf2, NULL, 0, 0, globstring[STR_NO_HELP_FOR_ERROR]);
 	}
 	else
@@ -201,9 +201,9 @@ int checkerror(char *action, char *name, int err)
 	if(!(config->errorflags & ERROR_ENABLE_OPUS))
 		return ((skip) ? 2 : 3);
 
-	geterrorstring(buf2, err);
+	geterrorstring(buf2, err, sizeof(buf2));
 
-	sprintf(buf, globstring[STR_ERROR_OCCURED], action, name, buf2);
+	snprintf(buf, sizeof(buf), globstring[STR_ERROR_OCCURED], action, name, buf2);
 	for(;;)
 	{
 		a = simplerequest(TDRIMAGE_WARNING, buf, globstring[STR_TRY_AGAIN], globstring[STR_CANCEL], (skip) ? globstring[STR_SKIP] : NULL, (dopus_firsthelp && erhelp) ? globstring[STR_ERROR_ERROR_HELP] : NULL, NULL);
@@ -211,7 +211,7 @@ int checkerror(char *action, char *name, int err)
 		{
 			char helpbuf[20];
 
-			sprintf(helpbuf, "!%d", err);
+			snprintf(helpbuf, sizeof(helpbuf), "!%d", err);
 			dohelp(helpbuf, NULL, 0, 0, globstring[STR_NO_HELP_FOR_ERROR]);
 			busy();
 		}

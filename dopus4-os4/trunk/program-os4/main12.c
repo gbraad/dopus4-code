@@ -70,17 +70,17 @@ void dodiskinfo(STRPTR path)
 }
 
 
-void getsizestring(char *buf, uint64 a)
+void getsizestring(char *buf, uint64 a, int bufsize)
 {
 	a /= 1024;
 	if(a > 1073741824)
-		sprintf(buf, "HUGE");
+		snprintf(buf, bufsize, "HUGE");
 	else if(a > 1048576)
-		sprintf(buf, "%.1f G", (double)((double)a / 1048576));
+		snprintf(buf, bufsize, "%.1f G", (double)((double)a / 1048576));
 	else if(a > 1024)
-		sprintf(buf, "%.1f M", (double)((double)a / 1024));
+		snprintf(buf, bufsize, "%.1f M", (double)((double)a / 1024));
 	else
-		sprintf(buf, "%ld K", (long)a);
+		snprintf(buf, bufsize, "%ld K", (long)a);
 }
 
 
@@ -123,9 +123,9 @@ void get_device_task(BPTR lock, char *buffer, struct MsgPort *port)
 	}
 	else
 	{
-		strcpy(buffer, ((struct Task *)port->mp_SigTask)->tc_Node.ln_Name);
+		strlcpy(buffer, ((struct Task *)port->mp_SigTask)->tc_Node.ln_Name, 31);
 	}
-	strcat(buffer, ":");
+	strlcat(buffer, ":", 31);
 
 	IDOS->UnLockDosList(LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ);
 }

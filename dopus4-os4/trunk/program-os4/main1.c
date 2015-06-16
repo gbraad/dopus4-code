@@ -35,8 +35,8 @@ int readsetup(STRPTR file)
 	STRPTR s;
 	int a;
 
-	strcpy(str_config_file, file);
-	strcpy(str_config_basename, file);
+	strlcpy(str_config_file, file, sizeof(str_config_file));
+	strlcpy(str_config_basename, file, sizeof(str_config_basename));
 	if((s = (STRPTR)strstri(IDOS->FilePart(str_config_basename), ".CFG")))
 		*s = 0;
 

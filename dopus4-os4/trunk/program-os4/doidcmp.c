@@ -116,10 +116,10 @@ void doidcmp()
 						char pathbuf[768], filebuf[256];
 						struct ApplicationOpenPrintDocMsg *aopdm = (struct ApplicationOpenPrintDocMsg *)&applibmsg->msg;
 
-						IUtility->Strlcpy(pathbuf, aopdm->fileName, 768);
-						IUtility->Strlcpy(filebuf, IDOS->FilePart(aopdm->fileName), 256);
+						strlcpy(pathbuf, aopdm->fileName, sizeof(pathbuf));
+						strlcpy(filebuf, IDOS->FilePart(aopdm->fileName), sizeof(filebuf));
 						*IDOS->PathPart(pathbuf) = 0;
-						strcpy(func_external_file, aopdm->fileName);
+						strlcpy(func_external_file, aopdm->fileName, sizeof(func_external_file));
 						ftype_doubleclick(pathbuf, filebuf, 0);
 						unbusy();
 					}
@@ -184,8 +184,7 @@ void doidcmp()
 									else
 										IDOS->AddPart(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
 									if(!(IDOpus->CheckExist(func_external_file, NULL)))
-//										IDOpus->StrConcat(func_external_file, ".info", 256);
-										strncat(func_external_file, ".info", 256);
+										strlcat(func_external_file, ".info", 256);
 									dofunctionstring(dopus_curgadbank->gadgets[b].function, dopus_curgadbank->gadgets[b].name, NULL, (struct dopusfuncpar *)&dopus_curgadbank->gadgets[b].which);
 								}
 							}
@@ -195,7 +194,7 @@ void doidcmp()
 								{
 									char pathbuf[256];
 									IDOS->NameFromLock(apmsg->am_ArgList[a].wa_Lock, pathbuf, 256);
-									strcpy(func_external_file, pathbuf);
+									strlcpy(func_external_file, pathbuf, sizeof(func_external_file));
 									IDOS->AddPart(func_external_file, apmsg->am_ArgList[a].wa_Name, 256);
 									ftype_doubleclick(pathbuf, apmsg->am_ArgList[a].wa_Name, 0);
 									unbusy();
@@ -303,7 +302,7 @@ void doidcmp()
 				{
 					function = FUNC_QUIT;
 					rexx_argcount = 1;
-					strcpy(rexx_args[0], "force");
+					strlcpy(rexx_args[0], "force", REXXARG_SIZE);
 				}
 				unbusy();
 				break;
@@ -624,7 +623,7 @@ void doidcmp()
 				{
 					if(check_key_press(&config->drive[a], code, qual))
 					{
-						strcpy(str_pathbuffer[data_active_window], config->drive[a].function);
+						strlcpy(str_pathbuffer[data_active_window], config->drive[a].function, sizeof(str_pathbuffer[0]));
 						startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY);
 						goto foobarbaz;
 					}
@@ -994,7 +993,7 @@ void doidcmp()
 							if(IIntuition->DoubleClick(time_previous_sec, time_previous_micro, time_current_sec, time_current_micro))
 							{
 								busy();
-								if(str_pathbuffer[data_active_window][0] && do_parent_multi(str_pathbuffer[data_active_window]))
+								if(str_pathbuffer[data_active_window][0] && do_parent_multi(str_pathbuffer[data_active_window], sizeof(str_pathbuffer[0])))
 								{
 									startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 								}
@@ -1058,8 +1057,8 @@ void doidcmp()
 
 							if(!(dopus_curwin[w]->flags & DWF_ARCHIVE))
 							{
-								strcpy(buf, dopus_curwin[w]->directory);
-								if(!(doroot(buf)))
+								strlcpy(buf, dopus_curwin[w]->directory, sizeof(buf));
+								if(!(doroot(buf, sizeof(buf))))
 								{
 									function = FUNC_DEVICELIST;
 									break;
@@ -1207,7 +1206,7 @@ void doidcmp()
 
 								dopus_select(win, a - dopus_curwin[win]->offset);
 								for(file = dopus_curwin[win]->firstentry; a--; file = file->next);
-								strcpy(buf, str_pathbuffer[win]);
+								strlcpy(buf, str_pathbuffer[win], sizeof(buf));
 								IDOS->AddPart(buf, file->name, 256);
 
 								if((type = checkfiletype(buf, FTFUNC_MMBCLICK, 0)))
@@ -1223,14 +1222,14 @@ void doidcmp()
 
 									if(type->actionstring[FTFUNC_MMBCLICK][0])
 									{
-										do_title_string(type->actionstring[FTFUNC_MMBCLICK], buf, 0, file->name);
+										do_title_string(type->actionstring[FTFUNC_MMBCLICK], buf, 0, file->name, sizeof(buf));
 										dostatustext(buf);
 									}
 									else
 									{
 										buf[0] = 0;
 									}
-									strcpy(func_single_file, file->name);
+									strlcpy(func_single_file, file->name, sizeof(func_single_file));
 									dofunctionstring(type->function[FTFUNC_MMBCLICK], file->name, buf, &par);
 									func_single_file[0] = 0;
 								}

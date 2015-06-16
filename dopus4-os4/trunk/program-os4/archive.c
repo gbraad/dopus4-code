@@ -35,11 +35,12 @@ int readarchive(struct DirectoryWindow *dir, int win)
 	long len, i;
 	struct xadFileInfo *xfi;
 	struct DateStamp ds;
-	char arcname[256] = { 0, }, arcdir[256] = { 0, }, buf[FILEBUF_SIZE] = { 0, }, *c = NULL;
+	char arcname[PATHBUF_SIZE] = { 0, }, arcdir[PATHBUF_SIZE] = { 0, };
+	char buf[FILEBUF_SIZE] = { 0, }, *c = NULL;
 	int type;
 
-	strcpy(arcdir, "");
-	strcpy(arcname, dir->directory);
+	strlcpy(arcdir, "", sizeof(arcdir));
+	strlcpy(arcname, dir->directory, sizeof(arcname));
 	if((len = strlen(arcname)))
 	{
 		if(arcname[len - 1] == '/')
@@ -58,7 +59,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 		{
 			*(c - 1) = 0;
 		}
-		strcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname);
+		strlcpy(arcdir, dir->directory + (ULONG) c - (ULONG) arcname, sizeof(arcdir));
 	}
 	len = strlen(arcdir);
 	IDOS->UnLock(lock);
@@ -67,7 +68,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 		dostatustext(globstring[STR_OPENING_ARCHIVE]);
 		if((dir->arcname = doAllocVec(strlen(arcname) + 1, MEMF_ANY)))
 		{
-			strcpy(dir->arcname, arcname);
+			strlcpy(dir->arcname, arcname, strlen(arcname) + 1);
 			if((dir->xai = IXadMaster->xadAllocObjectA(XADOBJ_ARCHIVEINFO, NULL)))
 			{
 				struct TagItem ti[2] = { { XAD_INFILENAME, (Tag)arcname} , { TAG_END, 0 } };
@@ -195,17 +196,17 @@ void freearchive(struct DirectoryWindow *dir)
 	}
 }
 
-BOOL getsourcefromarc(struct DirectoryWindow *dir, char *buf, char *file)
+BOOL getsourcefromarc(struct DirectoryWindow *dir, char *buf, char *file, int bufsize)
 {
 	if(dir && (dir->flags & DWF_ARCHIVE))
 	{
 		char srcdir[256], tempname[FILEBUF_SIZE];
 
-		strcpy(srcdir, "T:");
+		strlcpy(srcdir, "T:", sizeof(srcdir));
 		if(unarcfiledir(dir, srcdir, tempname, file))
 		{
 			IDOS->AddPart(srcdir, tempname, 256);
-			strcpy(buf, srcdir);
+			strlcpy(buf, srcdir, bufsize);
 			return TRUE;
 		}
 	}
@@ -231,29 +232,29 @@ BOOL unarcfiledir(struct DirectoryWindow * dir, const char *path, char *namebuf,
 				}
 			}
 
-			strcpy(arcname, dir->arcname);
+			strlcpy(arcname, dir->arcname, sizeof(arcname));
 			c = strstr(dir->directory, IDOS->FilePart(arcname));
 			if(c)
 			{
-				for(; c && (*c != '/'); c++);
+				for(; (*c != '\0') && (*c != '/'); c++);
 			}
 			if(c)
 			{
 				c++;
 			}
-			strcpy(arcdir, c ? c : "");
+			strlcpy(arcdir, c ? c : "", sizeof(arcdir));
 
-			IDOS->AddPart(arcdir, file, 256);
-			strcpy(namebuf, "dopustmp");
-			sprintf(arcname, "%04lx", IUtility->GetUniqueID());
-			strcat(namebuf, arcname);
+			IDOS->AddPart(arcdir, file, sizeof(arcdir));
+			strlcpy(namebuf, "dopustmp", FILEBUF_SIZE);
+			snprintf(arcname, sizeof(arcname), "%04lx", IUtility->GetUniqueID());
+			strlcat(namebuf, arcname, FILEBUF_SIZE);
 			c = strchr(file, '.');
 			if(c)
 			{
-				strcat(namebuf, c);
+				strlcat(namebuf, c, FILEBUF_SIZE);
 			}
-			strcpy(arcname, path);
-			strcat(arcname, namebuf);
+			strlcpy(arcname, path, sizeof(arcname));
+			strlcat(arcname, namebuf, sizeof(arcname));
 			for(xfi = dir->xai->xai_FileInfo; xfi; xfi = xfi->xfi_Next)
 			{
 				if(strcmp(xfi->xfi_FileName, arcdir) == 0)
@@ -281,7 +282,7 @@ BOOL unarcfiledir(struct DirectoryWindow * dir, const char *path, char *namebuf,
 								IDOS->SetComment(arcname, xfi->xfi_Comment);
 							}
 
-							strcpy(str_arcorgname, file);
+							strlcpy(str_arcorgname, file, sizeof(str_arcorgname));
 							return TRUE;
 						}
 					case XADERR_PASSWORD:
@@ -312,13 +313,13 @@ void arcfillfib(struct FileInfoBlock *fib, struct Directory *entry)
 	if(entry == NULL)
 		return;
 	fib->fib_DirEntryType = entry->type;
-	strncpy(fib->fib_FileName, entry->name, 108);
+	strlcpy(fib->fib_FileName, entry->name, 108);
 	fib->fib_Protection = entry->protection;
 	fib->fib_Size = (int)entry->size;
 	fib->fib_Date = entry->date;
 	if(entry->comment)
 	{
-		strncpy(fib->fib_Comment, entry->comment, 80);
+		strlcpy(fib->fib_Comment, entry->comment, 80);
 	}
 	else
 	{
@@ -388,7 +389,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 	struct Hook *ProgressHook;
 	int32 xad_result;
 	uint32 retval = 0;
-	char sourcename[2048] = { 0, }, destname[2048] = { 0, };
+	char sourcename[PATHBUF_SIZE] = { 0, }, destname[PATHBUF_SIZE] = { 0, };
 
 	struct xadArchiveInfo *xadai = NULL;
 	struct xadFileInfo *xadfi = NULL;
@@ -397,7 +398,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 	xadskipall = 0;
 
 	snprintf(gadgetstring, 100, "%s|%s|%s|%s|%s", globstring[STR_REPLACE], globstring[STR_REPLACE_ALL], globstring[STR_SKIP], globstring[STR_SKIP_ALL], globstring[STR_CANCEL]);
-	snprintf(sourcename, 2048, "%s%s", source, archivename);
+	snprintf(sourcename, PATHBUF_SIZE, "%s%s", source, archivename);
 
 	if((ProgressHook = IExec->AllocSysObjectTags(ASOT_HOOK, ASOHOOK_Entry, ProgressFunc, TAG_END)))
 	{
@@ -418,13 +419,13 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 					}
 					else if(xadfi->xfi_Flags != XADFIF_DIRECTORY)
 					{
-						memset(destname, 0, 2048);
-						snprintf(destname, 2048, "%s%s", destination, xadfi->xfi_FileName);
+						memset(destname, 0, PATHBUF_SIZE);
+						snprintf(destname, PATHBUF_SIZE, "%s%s", destination, xadfi->xfi_FileName);
 						if((config->dynamicflags & UPDATE_PROGRESSIND_COPY))
 						{
 							arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 100, IDOS->FilePart(xadfi->xfi_FileName), 0);
 						}
-						snprintf(formatstring, 1024, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
+						snprintf(formatstring, FORMATSTR_SIZE, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
 						if((xad_result = IXadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) == 0L)
 						{
 							struct DateStamp d;

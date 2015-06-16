@@ -76,13 +76,13 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 	{
 		noloop = 1;
 		if((ptr = IDOS->FilePart(func_external_file)))
-			strcpy(func_single_file, ptr);
-		strcpy(funcdata->source_path, func_external_file);
+			strlcpy(func_single_file, ptr, sizeof(func_single_file));
+		strlcpy(funcdata->source_path, func_external_file, sizeof(funcdata->source_path));
 		if((ptr = IDOS->FilePart(funcdata->source_path)))
 			*ptr = 0;
 		norm = 0;
 		if(!status_iconified)
-			strcpy(funcdata->dest_path, str_pathbuffer[data_active_window]);
+			strlcpy(funcdata->dest_path, str_pathbuffer[data_active_window], sizeof(funcdata->dest_path));
 		funcdata->activewin = 1 - data_active_window;
 		funcdata->inactivewin = data_active_window;
 	}
@@ -95,10 +95,10 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 
 	if(norm)
 	{
-		strcpy(funcdata->source_path,
-		       str_arcorgname[0] ? "T:" : str_pathbuffer[funcdata->activewin]);
-		strcpy(funcdata->dest_path,
-		       str_pathbuffer[funcdata->inactivewin]);
+		strlcpy(funcdata->source_path,
+		       str_arcorgname[0] ? "T:" : str_pathbuffer[funcdata->activewin], sizeof(funcdata->source_path));
+		strlcpy(funcdata->dest_path,
+		       str_pathbuffer[funcdata->inactivewin], sizeof(funcdata->dest_path));
 	}
 
 	status_justabort = status_haveaborted = 0;
@@ -198,7 +198,7 @@ int handlefunctionss(char *funcbuf, char *name, char *title, struct dopusfuncpar
 		{
 			char buf2[256], newfunc[MAXCOMMANDLEN];
 
-			parserunline(funcbuf, buf2);
+			parserunline(funcbuf, buf2, sizeof(buf2));
 			if(!(buildcustfunc(buf2, strlen(funcbuf), newfunc, NULL, 0, 0, 0, funcdata)))
 				return (1);
 			funcbuf = newfunc;
@@ -251,8 +251,8 @@ int handlefunctionss(char *funcbuf, char *name, char *title, struct dopusfuncpar
 					funcdata->activewin = data_active_window;
 					funcdata->inactivewin = 1 - data_active_window;
 
-					strcpy(funcdata->source_path, str_pathbuffer[funcdata->activewin]);
-					strcpy(funcdata->dest_path, str_pathbuffer[funcdata->inactivewin]);
+					strlcpy(funcdata->source_path, str_pathbuffer[funcdata->activewin], sizeof(funcdata->source_path));
+					strlcpy(funcdata->dest_path, str_pathbuffer[funcdata->inactivewin], sizeof(funcdata->dest_path));
 
 					funcdata->entry_first = checkalltot(dopus_curwin[funcdata->activewin]);
 				}
@@ -367,8 +367,8 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 			for(a = 1; a < b; a++)
 				if(function[a] == '!')
 					break;
-			strncpy(buf2, &function[1], a - 1);
-			sprintf(tbuf, "CD %s\n", buf2);
+			strlcpy(buf2, &function[1], a - 1);
+			snprintf(tbuf, sizeof(tbuf), "CD %s\n", buf2);
 			IDOS->Write(funcdata->output_file, tbuf, strlen(tbuf));
 			return (1);
 		}
@@ -386,13 +386,13 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 					*ptr = '\n';
 				++ptr;
 			}
-			sprintf(tbuf, "%s\n", name);
+			snprintf(tbuf, sizeof(tbuf), "%s\n", name);
 			IDOS->Write(funcdata->output_file, tbuf, strlen(tbuf));
 		}
 	}
 	else
 	{
-		parserunline(function, (STRPTR)buf);
+		parserunline(function, (STRPTR)buf, sizeof(buf));
 		ptr = buf;
 		while (*ptr)
 		{
@@ -427,14 +427,14 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 			else
 			{
 				if(type == FT_BATCH)
-					strcpy(tbuf, "Execute ");
+					strlcpy(tbuf, "Execute ", sizeof(tbuf));
 				else if(type == FT_WORKBENCH)
-					sprintf(tbuf, "\"%s\" -r ", str_dopusrt_path);
+					snprintf(tbuf, sizeof(tbuf), "\"%s\" -r ", str_dopusrt_path);
 				else
 					tbuf[0] = 0;
 				IDOS->Write(funcdata->output_file, tbuf, strlen(tbuf));
 
-				sprintf(tbuf, "%s\n", buf2);
+				snprintf(tbuf, sizeof(tbuf), "%s\n", buf2);
 				IDOS->Write(funcdata->output_file, tbuf, strlen(tbuf));
 			}
 			if(moretodo && (funcdata->entry_first || funcdata->file_request.filearray))
@@ -464,8 +464,10 @@ int customthing(char *name, char *title, char *function, struct dopusfuncpar *pa
 
 int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, int star, int reload, int quote, struct function_data *funcdata)
 {
-	char buf3[256], *ptr, filebuf[FILEBUF_SIZE], dirbuf[2048] = { 0, }, *spath, defbuf[256], titlebuf[80];
-	int a, pos, bufpos = 0, d, f, sblen, buftitpos, h, qad = quote * 2, def, tit;
+	char buf3[256], filebuf[FILEBUF_SIZE], dirbuf[2048] = { 0, };
+	char defbuf[256], titlebuf[80],  *ptr, *spath;
+	int a, pos, bufpos = 0, d, f, sblen, buftitpos, h;
+	int qad = quote * 2, def, tit;
 	struct Directory *cust = NULL, dummy;
 	struct args *arg;
 
@@ -484,7 +486,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			{
 				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
 				{
-					if(getdummyfile(&dummy, dirbuf))
+					if(getdummyfile(&dummy, dirbuf, sizeof(dirbuf)))
 						cust = &dummy;
 					else
 						return (0);
@@ -493,7 +495,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 					cust = custgetfirst(funcdata);
 				if(cust)
 				{
-					strcpy(funcdata->last_file, funcdata->source_path);
+					strlcpy(funcdata->last_file, funcdata->source_path, sizeof(funcdata->last_file));
 					IDOS->AddPart(funcdata->last_file, cust->name, 256);
 					if(!funcdata->recursive_path && cust->type > 0)
 					{
@@ -501,8 +503,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 						{
 							IDOpus->LFreeRemember(&rec_pathkey);
 							funcdata->entry_current = cust;
-							strncpy(buf3, funcdata->source_path, 256);
-							strncat(buf3, cust->name, 256);
+							strlcpy(buf3, funcdata->source_path, 256);
+							strlcat(buf3, cust->name, 256);
 							if(recursedir(buf3, NULL, R_STARDIR, strlen(funcdata->source_path)))
 								return (0);
 							setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -542,7 +544,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			}
 			else
 			{
-				strcpy(funcdata->last_file, func_single_file);
+				strlcpy(funcdata->last_file, func_single_file, sizeof(funcdata->last_file));
 				bufpos += addfilename(buffer, func_single_file, NULL, quote);
 			}
 			break;
@@ -554,7 +556,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				a = d = strlen(buffer);
 				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
 				{
-					if(getdummyfile(&dummy, dirbuf))
+					if(getdummyfile(&dummy, dirbuf, sizeof(dirbuf)))
 						cust = &dummy;
 					else
 						return (0);
@@ -571,8 +573,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 							{
 								IDOpus->LFreeRemember(&rec_pathkey);
 								funcdata->entry_current = cust;
-								strncpy(buf3, funcdata->source_path, 256);
-								strncat(buf3, cust->name, 256);
+								strlcpy(buf3, funcdata->source_path, 256);
+								strlcat(buf3, cust->name, 256);
 								if(recursedir(buf3, NULL, R_STARDIR, strlen(funcdata->source_path)))
 									return (0);
 								setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -611,7 +613,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 									custunselect(cust, reload, funcdata);
 							}
 						}
-						strncat(buffer, " ", MAXCOMMANDLEN);
+						strlcat(buffer, " ", MAXCOMMANDLEN);
 						a = strlen(buffer);
 					}
 					if(!funcdata->recursive_path)
@@ -631,7 +633,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			else
 			{
 				bufpos += addfilename(buffer, func_single_file, NULL, quote);
-				strncat(buffer, " ", MAXCOMMANDLEN);
+				strlcat(buffer, " ", MAXCOMMANDLEN);
 				++bufpos;
 			}
 			break;
@@ -642,7 +644,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			{
 				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
 				{
-					if(getdummyfile(&dummy, dirbuf))
+					if(getdummyfile(&dummy, dirbuf, sizeof(dirbuf)))
 						cust = &dummy;
 					else
 						return (0);
@@ -656,7 +658,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				}
 				if(cust)
 				{
-					strcpy(funcdata->last_file, spath);
+					strlcpy(funcdata->last_file, spath, sizeof(funcdata->last_file));
 					IDOS->AddPart(funcdata->last_file, cust->name, 256);
 					if(!funcdata->recursive_path && cust->type > 0)
 					{
@@ -664,8 +666,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 						{
 							IDOpus->LFreeRemember(&rec_pathkey);
 							funcdata->entry_current = cust;
-							strncpy(buf3, spath, 256);
-							strncat(buf3, cust->name, 256);
+							strlcpy(buf3, spath, 256);
+							strlcat(buf3, cust->name, 256);
 							if(recursedir(buf3, NULL, R_STARDIR, 0))
 								return (0);
 							setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -707,7 +709,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			else
 			{
 				bufpos += addfilename(buffer, funcdata->source_path, func_single_file, quote);
-				strcpy(funcdata->last_file, funcdata->source_path);
+				strlcpy(funcdata->last_file, funcdata->source_path, sizeof(funcdata->last_file));
 				IDOS->AddPart(funcdata->last_file, func_single_file, 256);
 			}
 			break;
@@ -719,7 +721,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				a = d = strlen(buffer);
 				if(status_iconified || status_flags & STATUS_FROMHOTKEY)
 				{
-					if(getdummyfile(&dummy, dirbuf))
+					if(getdummyfile(&dummy, dirbuf, sizeof(dirbuf)))
 						cust = &dummy;
 					else
 						return (0);
@@ -742,8 +744,8 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 							{
 								IDOpus->LFreeRemember(&rec_pathkey);
 								funcdata->entry_current = cust;
-								strncpy(buf3, spath, 256);
-								strncat(buf3, cust->name, 256);
+								strlcpy(buf3, spath, 256);
+								strlcat(buf3, cust->name, 256);
 								if(recursedir(buf3, NULL, R_STARDIR, 0))
 									return (0);
 								setdirsize(cust, dos_global_bytecount, funcdata->activewin);
@@ -782,7 +784,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 									custunselect(cust, reload, funcdata);
 							}
 						}
-						strncat(buffer, " ", MAXCOMMANDLEN);
+						strlcat(buffer, " ", MAXCOMMANDLEN);
 						a = strlen(buffer);
 					}
 					if(!funcdata->recursive_path)
@@ -802,27 +804,27 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			else
 			{
 				bufpos += addfilename(buffer, funcdata->source_path, func_single_file, quote);
-				strncat(buffer, " ", MAXCOMMANDLEN);
+				strlcat(buffer, " ", MAXCOMMANDLEN);
 				++bufpos;
 			}
 			break;
 
 		case FUNC_SOURCE:
 		case FUNC_SOURCE_RR:
-			strcpy(buf3, funcdata->source_path);
+			strlcpy(buf3, funcdata->source_path, sizeof(buf3));
 			if((status_iconified || status_flags & STATUS_FROMHOTKEY))
 			{
-				if(getdummypath(buf3, STR_SELECT_SOURCE_DIR))
+				if(getdummypath(buf3, STR_SELECT_SOURCE_DIR, sizeof(buf3)))
 				{
 					myabort();
 					return (0);
 				}
-				strncat(buffer, buf3, MAXCOMMANDLEN);
+				strlcat(buffer, buf3, MAXCOMMANDLEN);
 				bufpos = strlen(buffer);
 			}
 			else
 			{
-				strncat(buffer, funcdata->source_path, MAXCOMMANDLEN);
+				strlcat(buffer, funcdata->source_path, MAXCOMMANDLEN);
 				bufpos += sblen;
 			}
 		case FUNC_NOSOURCE_RR:
@@ -834,7 +836,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 		case FUNC_DEST_RR:
 			if(!(check_dest_path(funcdata)))
 				return (0);
-			strncat(buffer, funcdata->dest_path, MAXCOMMANDLEN);
+			strlcat(buffer, funcdata->dest_path, MAXCOMMANDLEN);
 			bufpos += strlen(funcdata->dest_path);
 		case FUNC_NODEST_RR:
 			if(function[pos] != FUNC_DEST)
@@ -842,7 +844,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			break;
 
 		case FUNC_SCREENNAME:
-			strncat(buffer, str_arexx_portname, MAXCOMMANDLEN);
+			strlcat(buffer, str_arexx_portname, MAXCOMMANDLEN);
 			bufpos += strlen(str_arexx_portname);
 			break;
 
@@ -872,7 +874,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 
 				if(data && data[0])
 				{
-					strncat(buffer, data, MAXCOMMANDLEN);
+					strlcat(buffer, data, MAXCOMMANDLEN);
 					bufpos += strlen(data);
 				}
 			}
@@ -892,7 +894,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 
 			if((a = IDOS->GetVar(titlebuf, buf3, 256, 0)) > 0)
 			{
-				strncat(buffer, buf3, MAXCOMMANDLEN);
+				strlcat(buffer, buf3, MAXCOMMANDLEN);
 				bufpos += a;
 			}
 			break;
@@ -901,7 +903,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			if(funcdata->function_count && funcdata->arg_use)
 			{
 			      use_old_arg:
-				strncat(buffer, funcdata->arg_use->argstring, MAXCOMMANDLEN);
+				strlcat(buffer, funcdata->arg_use->argstring, MAXCOMMANDLEN);
 				bufpos += strlen(funcdata->arg_use->argstring);
 				funcdata->arg_use = funcdata->arg_use->next;
 				for(f = pos + 1; f < line_len && function[f] != FUNC_ENDARG; f++);
@@ -939,7 +941,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 
 			buf3[0] = 0;
 			if(buftitpos > -1)
-				build_default_string(defbuf, buf3, funcdata->last_file, funcdata->source_path, funcdata->dest_path);
+				build_default_string(defbuf, buf3, funcdata->last_file, funcdata->source_path, funcdata->dest_path, sizeof(buf3));
 
 			if(!(whatsit(ptr, 256, buf3, NULL)))
 			{
@@ -956,9 +958,9 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				else
 					funcdata->arg_current->next = arg;
 				funcdata->arg_current = arg;
-				strcpy(funcdata->arg_current->argstring, buf3);
+				strlcpy(funcdata->arg_current->argstring, buf3, sizeof(funcdata->arg_current->argstring));
 			}
-			strncat(buffer, buf3, MAXCOMMANDLEN);
+			strlcat(buffer, buf3, MAXCOMMANDLEN);
 			bufpos += strlen(buf3);
 			pos = f;
 			break;
@@ -974,7 +976,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 						if((bufpos + strlen(funcdata->file_request.filearray[funcdata->fileargpos]) + qad) < MAXCOMMANDLEN)
 						{
 							bufpos += addfilename(buffer, funcdata->file_request.filearray[funcdata->fileargpos], NULL, quote);
-							strncat(buffer, " ", MAXCOMMANDLEN);
+							strlcat(buffer, " ", MAXCOMMANDLEN);
 							++bufpos;
 							++funcdata->fileargpos;
 						}
@@ -1037,9 +1039,9 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				funcdata->file_request.title = (char *)function + pos + 1;
 			buf3[0] = 0;
 			if(buftitpos > -1)
-				build_default_string(&function[buftitpos], buf3, funcdata->last_file, funcdata->source_path, funcdata->dest_path);
+				build_default_string(&function[buftitpos], buf3, funcdata->last_file, funcdata->source_path, funcdata->dest_path, sizeof(buf3));
 			else if(h & DFRF_FONT)
-				strcpy(buf3, "FONTS:");
+				strlcpy(buf3, "FONTS:", sizeof(buf3));
 			funcdata->file_request.dirbuf = buf3;
 			funcdata->file_request.filebuf = filebuf;
 			filebuf[0] = 0;
@@ -1050,7 +1052,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				{
 					if(ptr[(strlen(ptr) - 1)] != '/')
 					{
-						strcpy(filebuf, ptr);
+						strlcpy(filebuf, ptr, sizeof(filebuf));
 						*ptr = 0;
 					}
 				}
@@ -1068,14 +1070,14 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 				if(!(h & DFRF_DIRREQ))
 				{
 					if(quote)
-						strncat(buffer, "\"", MAXCOMMANDLEN);
-					strncat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
+						strlcat(buffer, "\"", MAXCOMMANDLEN);
+					strlcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
 					IDOS->AddPart(buffer, filebuf, MAXCOMMANDLEN);
 					if(quote)
-						strncat(buffer, "\"", MAXCOMMANDLEN);
+						strlcat(buffer, "\"", MAXCOMMANDLEN);
 				}
 				else
-					strncat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
+					strlcat(buffer, funcdata->file_request.dirbuf, MAXCOMMANDLEN);
 				bufpos = strlen(buffer);
 			}
 			else
@@ -1106,33 +1108,33 @@ int addfilename(char *buf, char *part1, char *part2, int quote)
 
 	if(quote)
 	{
-		strncat(buf, "\"", MAXCOMMANDLEN);
+		strlcat(buf, "\"", MAXCOMMANDLEN);
 		++c;
 	}
 	if(part1)
 	{
-		strncat(buf, part1, MAXCOMMANDLEN);
+		strlcat(buf, part1, MAXCOMMANDLEN);
 		c += strlen(part1);
 	}
 	if(part2)
 	{
-		strncat(buf, part2, MAXCOMMANDLEN);
+		strlcat(buf, part2, MAXCOMMANDLEN);
 		c += strlen(part2);
 	}
 	if(quote)
 	{
-		strncat(buf, "\"", MAXCOMMANDLEN);
+		strlcat(buf, "\"", MAXCOMMANDLEN);
 		++c;
 	}
 	return (c);
 }
 
-void parserunline(STRPTR buf, STRPTR buf1)
+void parserunline(STRPTR buf, STRPTR buf1, int buf1size)
 {
 	int a, b, c, d;
 
 	a = strlen(buf);
-	memset(buf1, 0, 256);
+	memset(buf1, 0, buf1size);
 	c = 0;
 	for(b = 0; b < a; b++)
 	{
@@ -1261,7 +1263,7 @@ void parserunline(STRPTR buf, STRPTR buf1)
 		}
 		buf1[c] = buf[b];
 		++c;
-		if(c == 256)
+		if(c == buf1size)
 			break;
 	}
 }
@@ -1277,9 +1279,10 @@ void custunselect(struct Directory *dir, int rel, struct function_data *funcdata
 	{
 		if(rel && dir->name[0])
 		{
-			if((temp = IDOpus->LAllocRemember(&funcdata->reload_memkey, sizeof(struct recpath), MEMF_CLEAR)) && (temp->path = IDOpus->LAllocRemember(&funcdata->reload_memkey, FILEBUF_SIZE, MEMF_CLEAR)))
+			if((temp = IDOpus->LAllocRemember(&funcdata->reload_memkey, sizeof(struct recpath), MEMF_CLEAR)) &&
+			   (temp->path = IDOpus->LAllocRemember(&funcdata->reload_memkey, FILEBUF_SIZE, MEMF_CLEAR)))
 			{
-				strcpy(temp->path, dir->name);
+				strlcpy(temp->path, dir->name, FILEBUF_SIZE);
 				if(funcdata->reload_current)
 					funcdata->reload_current->next = temp;
 				funcdata->reload_current = temp;
@@ -1302,8 +1305,8 @@ void doreloadfiles(struct function_data *funcdata)
 	off = dopus_curwin[funcdata->activewin]->offset;
 	while (rel)
 	{
-		strncpy(buf, funcdata->source_path, 256);
-		strncat(buf, rel->path, 256);
+		strlcpy(buf, funcdata->source_path, 256);
+		strlcat(buf, rel->path, 256);
 		reload_file(funcdata->activewin, buf);
 		rel = rel->next;
 	}
@@ -1400,7 +1403,7 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 
 	for(a = 0; a < 100; a++)
 	{
-		sprintf(funcdata->scriptname, "%sdopustemp.tmp%d", buf, a);
+		snprintf(funcdata->scriptname, sizeof(funcdata->scriptname), "%sdopustemp.tmp%d", buf, a);
 		if((funcdata->output_file = IDOS->Open(funcdata->scriptname, MODE_NEWFILE)))
 		{
 			break;
@@ -1412,28 +1415,28 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 		return (0);
 	}
 
-	sprintf(funcdata->tempfile, "%sdopusout.tmp%d", buf, a);
+	snprintf(funcdata->tempfile, sizeof(funcdata->tempfile), "%sdopusout.tmp%d", buf, a);
 
 	rec_pathkey = NULL;
 
-	sprintf(buf, "\"%s\" -s\n", str_dopusrt_path);
+	snprintf(buf, sizeof(buf), "\"%s\" -s\n", str_dopusrt_path);
 	IDOS->Write(funcdata->output_file, buf, strlen(buf));
 
 	if(par->which & FLAG_SHELLUP)
 	{
 		if(config->shellstartup[0])
 		{
-			strncpy(buf, "S:", 40);
-			strncat(buf, config->shellstartup, 40);
+			strlcpy(buf, "S:", 40); // sizeof(buf) ??
+			strlcat(buf, config->shellstartup, 40); // sizeof(buf) ??
 		}
 		else
 		{
-			strcpy(buf, "S:Shell-Startup");
+			strlcpy(buf, "S:Shell-Startup", sizeof(buf));
 		}
 
 		if((data = IDOS->ExamineObjectTags(EX_StringName, buf, TAG_END)))
 		{
-			sprintf(buf2, "Execute %s\n", buf);
+			snprintf(buf2, sizeof(buf2), "Execute %s\n", buf);
 			IDOS->Write(funcdata->output_file, buf2, strlen(buf2));
 			IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 		}
@@ -1457,30 +1460,30 @@ int openscriptfile(struct dopusfuncpar *par, struct function_data *funcdata)
 	if(status_flags & STATUS_FROMHOTKEY)
 	{
 		expand_path("", buf2);
-		sprintf(buf, "CD \"%s\"\n", buf2);
+		snprintf(buf, sizeof(buf), "CD \"%s\"\n", buf2);
 	}
 	else
 	{
 		if(par->which & FLAG_CDSOURCE && funcdata->source_path[0])
-			sprintf(buf, "CD \"%s\"\n", funcdata->source_path);
+			snprintf(buf, sizeof(buf), "CD \"%s\"\n", funcdata->source_path);
 		else if(par->which & FLAG_CDDEST)
 		{
 			if(!(check_dest_path(funcdata)))
 			{
 				return (0);
 			}
-			sprintf(buf, "CD \"%s\"\n", funcdata->dest_path);
+			snprintf(buf, sizeof(buf), "CD \"%s\"\n", funcdata->dest_path);
 		}
 	}
 	if(buf[0])
 		IDOS->Write(funcdata->output_file, buf, strlen(buf));
 
-	sprintf(buf, "Stack %d\n", (par->stack < 4000) ? 4000 : par->stack);
+	snprintf(buf, sizeof(buf), "Stack %d\n", (par->stack < 4000) ? 4000 : par->stack);
 	IDOS->Write(funcdata->output_file, buf, strlen(buf));
 
 	if(par->pri != 0)
 	{
-		sprintf(buf, "ChangeTaskPri %d\n", par->pri);
+		snprintf(buf, sizeof(buf), "ChangeTaskPri %d\n", par->pri);
 		IDOS->Write(funcdata->output_file, buf, strlen(buf));
 	}
 	return (1);
@@ -1509,10 +1512,10 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 
 		if(flags & FLAG_OUTWIND)
 		{
-			sprintf(buf2, "%s \"%s\" from %s", config->outputcmd, config->output, funcdata->scriptname);
+			snprintf(buf2, sizeof(buf2), "%s \"%s\" from %s", config->outputcmd, config->output, funcdata->scriptname);
 			if(!(flags & FLAG_ASYNC))
 			{
-				sprintf(portname, "dopus_run%d", system_dopus_runcount);
+				snprintf(portname, sizeof(portname), "dopus_run%d", system_dopus_runcount);
 //				if(!(msgport = IExec->CreatePort(portname, 0)))
 				if(!(msgport = IExec->AllocSysObjectTags(ASOT_PORT,
 				                                     ASOPORT_Name, portname,
@@ -1525,18 +1528,18 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 				wb2f = 1;
 		}
 		else
-			sprintf(buf2, "%sExecute %s", (flags & FLAG_ASYNC) ? "Run " : "", funcdata->scriptname);
+			snprintf(buf2, sizeof(buf2), "%sExecute %s", (flags & FLAG_ASYNC) ? "Run " : "", funcdata->scriptname);
 
 		if(flags & FLAG_OUTWIND)
 		{
 			if(par->delay != 0)
 			{
-				sprintf(buf, "\"%s\" -w %d \"%s\"\n", str_dopusrt_path, par->delay, globstring[STR_PRESS_MOUSE_BUTTON]);
+				snprintf(buf, sizeof(buf), "\"%s\" -w %d \"%s\"\n", str_dopusrt_path, par->delay, globstring[STR_PRESS_MOUSE_BUTTON]);
 				IDOS->Write(funcdata->output_file, buf, strlen(buf));
 			}
 			if(msgport)
 			{
-				sprintf(buf, "\"%s\" -p %s\n", str_dopusrt_path, portname);
+				snprintf(buf, sizeof(buf), "\"%s\" -p %s\n", str_dopusrt_path, portname);
 				IDOS->Write(funcdata->output_file, buf, strlen(buf));
 			}
 			IDOS->Write(funcdata->output_file, "EndCLI >NIL:\n", 13);
@@ -1544,7 +1547,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 
 		if(str_arcorgname[0])
 		{
-			sprintf(buf, "Delete \"%s\"\n", funcdata->last_file);
+			snprintf(buf, sizeof(buf), "Delete \"%s\"\n", funcdata->last_file);
 
 			IDOS->Write(funcdata->output_file, buf, strlen(buf));
 			str_arcorgname[0] = 0;
@@ -1666,7 +1669,7 @@ int closescriptfile(struct dopusfuncpar *par, int run, struct function_data *fun
 	return (run);
 }
 
-int getdummyfile(struct Directory *fbuf,  STRPTR dirbuf)
+int getdummyfile(struct Directory *fbuf,  STRPTR dirbuf, int dirbufsize)
 {
 	struct FileRequester *aslfreq;
 	char file[FILEBUF_SIZE], buf[2048];
@@ -1697,17 +1700,17 @@ int getdummyfile(struct Directory *fbuf,  STRPTR dirbuf)
 	}
 	else
 	{
-		strncpy(dirbuf, aslfreq->fr_Drawer, 2048);
+		strlcpy(dirbuf, aslfreq->fr_Drawer, dirbufsize);
 	}
 
 	if(aslfreq->fr_File)
 	{
-		strncpy(buf, dirbuf, 2048);
-		IDOS->AddPart(buf, aslfreq->fr_File, 2048);
+		strlcpy(buf, dirbuf, sizeof(buf));
+		IDOS->AddPart(buf, aslfreq->fr_File, sizeof(buf));
 		IAsl->FreeAslRequest(aslfreq);
 		return (filloutdummy(buf, fbuf));
 	}
-	strcpy(func_single_file, aslfreq->fr_File);
+	strlcpy(func_single_file, aslfreq->fr_File, sizeof(func_single_file));
 	IAsl->FreeAslRequest(aslfreq);
 	return (1);
 }
@@ -1719,7 +1722,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 	if((data = IDOS->ExamineObjectTags(EX_StringName, name, TAG_END)))
 	{
 		fbuf->last = fbuf->next = NULL;
-		strcpy(fbuf->name, data->Name);
+		strlcpy(fbuf->name, data->Name, sizeof(fbuf->name));
 		fbuf->type = returntype(data);
 		if(EXD_IS_FILE(data))
 		{
@@ -1733,7 +1736,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 		fbuf->protection = data->Protection;
 		fbuf->comment = fbuf->dispstr = NULL;
 		getprot(fbuf->protection, fbuf->protbuf);
-		seedate(&data->Date, fbuf->datebuf, 1);
+		seedate(&data->Date, fbuf->datebuf, 1, sizeof(fbuf->datebuf));
 		IExec->CopyMem(&data->Date, &fbuf->date, sizeof(struct DateStamp));
 		fbuf->selected = 1;
 
@@ -1744,7 +1747,7 @@ int filloutdummy(char *name, struct Directory *fbuf)
 	return 0;
 }
 
-void do_title_string(char *string, char *buf, int ml, char *name)
+void do_title_string(char *string, char *buf, int ml, char *name, int bufsize)
 {
 	int a, b, c;
 
@@ -1756,9 +1759,9 @@ void do_title_string(char *string, char *buf, int ml, char *name)
 		{
 			buf[c] = 0;
 			if(name)
-				strcat(buf, name);
+				strlcat(buf, name, bufsize);
 			else
-				addreqfilename(buf, data_active_window);
+				addreqfilename(buf, data_active_window, bufsize);
 			c = strlen(buf);
 		}
 		else
@@ -1775,12 +1778,12 @@ void do_title_string(char *string, char *buf, int ml, char *name)
 	buf[c] = 0;
 }
 
-void addreqfilename(char *buf, int win)
+void addreqfilename(char *buf, int win, int bufsize)
 {
 	struct Directory *dir;
 
 	if(func_single_file[0])
-		strcat(buf, func_single_file);
+		strlcat(buf, func_single_file, bufsize);
 	else
 	{
 		dir = dopus_curwin[win]->firstentry;
@@ -1791,7 +1794,7 @@ void addreqfilename(char *buf, int win)
 			dir = dir->next;
 		}
 		if(dir && dir->selected && dir->type < 0)
-			strcat(buf, dir->name);
+			strlcat(buf, dir->name, bufsize);
 	}
 }
 
@@ -1824,7 +1827,9 @@ int check_dest_path(struct function_data *funcdata)
 {
 	if(funcdata->dest_path[0])
 		return (1);
-	if((status_iconified || status_flags & STATUS_FROMHOTKEY) && ((getdummypath(funcdata->dest_path, STR_SELECT_DESTINATION_DIR)) || !funcdata->dest_path[0]))
+	if((status_iconified || status_flags & STATUS_FROMHOTKEY) &&
+	   ((getdummypath(funcdata->dest_path, STR_SELECT_DESTINATION_DIR, sizeof(funcdata->dest_path))) ||
+	     !funcdata->dest_path[0]))
 	{
 		myabort();
 		return (0);
@@ -1838,7 +1843,7 @@ int check_dest_path(struct function_data *funcdata)
 	return (1);
 }
 
-int32 getdummypath(STRPTR dir, int title)
+int32 getdummypath(STRPTR dir, int title, int dirsize)
 {
 	struct FileRequester *asldreq;
 	BOOL ret = FALSE;
@@ -1858,7 +1863,7 @@ int32 getdummypath(STRPTR dir, int title)
 			}
 			else
 			{
-				strcpy(dir, asldreq->fr_Drawer);
+				strlcpy(dir, asldreq->fr_Drawer, dirsize);
 			}
 		}
 		IAsl->FreeAslRequest(asldreq);
@@ -1867,14 +1872,15 @@ int32 getdummypath(STRPTR dir, int title)
 	return ret;
 }
 
-void build_default_string(char *string, char *buffer, char *filename, char *sourcepath, char *destpath)
+void build_default_string(char *string, char *buffer, char *filename, char *sourcepath, char *destpath, int bufsize)
 {
 	int len, a, pos, flag;
+	int buflen = bufsize - 1;
 	char *ptr;
 
 	len = strlen(string);
 	pos = 0;
-	for(a = 0; a < len && pos < 255; a++)
+	for(a = 0; a < len && pos < buflen; a++)
 	{
 		if(string[a] == '[' && string[a + 2] == ']')
 		{
@@ -1882,17 +1888,17 @@ void build_default_string(char *string, char *buffer, char *filename, char *sour
 			switch (string[a + 1])
 			{
 			case 'f':
-				strncpy(&buffer[pos], filename, 255 - pos);
+				strlcpy(&buffer[pos], filename, buflen - pos);
 				break;
 			case 'o':
 				if((ptr = IDOS->FilePart(filename)))
-					strncpy(&buffer[pos], ptr, 255 - pos);
+					strlcpy(&buffer[pos], ptr, buflen - pos);
 				break;
 			case 's':
-				strncpy(&buffer[pos], sourcepath, 255 - pos);
+				strlcpy(&buffer[pos], sourcepath, buflen - pos);
 				break;
 			case 'd':
-				strncpy(&buffer[pos], destpath, 255 - pos);
+				strlcpy(&buffer[pos], destpath, buflen - pos);
 				break;
 			default:
 				flag = 0;

@@ -153,7 +153,7 @@ int getselectdata(STRPTR *buffer, int *selbase)
 		select_base_array[a] = globstring[STR_SELECT_NAME + a];
 	}
 	select_base_array[3] = globstring[STR_SELECT_COMMENT];
-	strcpy(sel_patternbuf, buffer[select_base]);
+	strlcpy(sel_patternbuf, buffer[select_base], sizeof(sel_patternbuf));
 
 	if(!(swindow = IDOpus->OpenDORequester(&select_req)) || !(gadlist = addreqgadgets(&select_req, select_gadgets, 0, NULL)) || !(IDOpus->AddRequesterObject(&select_req, select_title_text)))
 	{
@@ -193,11 +193,11 @@ int getselectdata(STRPTR *buffer, int *selbase)
 				switch (gadgetid)
 				{
 				case SELECT_SELECTBASE:
-					strcpy(buffer[select_base], sel_patternbuf);
+					strlcpy(buffer[select_base], sel_patternbuf, SELECTPAT_SIZE);
 					if(++select_base > 3)
 						select_base = 0;
 					IDOpus->DoCycleGadget(gadlist, swindow, select_base_array, select_base);
-					strcpy(sel_patternbuf, buffer[select_base]);
+					strlcpy(sel_patternbuf, buffer[select_base], sizeof(sel_patternbuf));
 					IDOpus->RefreshStrGad(gadlist->NextGadget, swindow);
 					IDOpus->ActivateStrGad(gadlist->NextGadget, swindow);
 					break;
@@ -217,7 +217,7 @@ int getselectdata(STRPTR *buffer, int *selbase)
 						ret = select_type + 1;
 				case SELECT_CANCEL:
 					IDOpus->CloseRequester(&select_req);
-					strcpy(buffer[select_base], sel_patternbuf);
+					strlcpy(buffer[select_base], sel_patternbuf, SELECTPAT_SIZE);
 					*selbase = select_base;
 					return (ret);
 				}

@@ -54,7 +54,7 @@ int32 recursive_delete(STRPTR directory)
 				dofilename(dat->Name);
 
 				nodename = doAllocVec(strlen(directory) + strlen(dat->Name) + 2, MEMF_ANY);
-				strncpy(nodename, directory, strlen(directory) + 1);
+				strlcpy(nodename, directory, strlen(directory) + 1);
 				IDOS->AddPart(nodename, dat->Name, strlen(directory) + strlen(dat->Name) + 2);
 
 				if(EXD_IS_DIRECTORY(dat))
@@ -95,9 +95,9 @@ int32 recursive_delete(STRPTR directory)
 							else
 							{
 								doerror(ERROR_DELETE_PROTECTED);
-								geterrorstring(buf2, ERROR_DELETE_PROTECTED);
+								geterrorstring(buf2, ERROR_DELETE_PROTECTED, sizeof(buf2));
 								snprintf(buf, 300, globstring[STR_ERROR_OCCURED], globstring[STR_DELETING], dat->Name, buf2);
-								strncat(buf, globstring[STR_SELECT_UNPROTECT], 300);
+								strlcat(buf, globstring[STR_SELECT_UNPROTECT], 300);
 								snprintf(buf2, 100, "%s|%s|%s|%s", globstring[STR_UNPROTECT], globstring[STR_UNPROTECT_ALL], globstring[STR_SKIP], globstring[STR_ABORT]);
 								if((a = ra_simplerequest(buf, buf2, REQIMAGE_WARNING)) == 1) // Unprotect
 								{
@@ -263,7 +263,7 @@ int32 recursive_hunt(STRPTR sourcename)
 				{
 					if((newsourcename = doAllocVec(strlen(sourcename) + strlen(data->Name) + 2, MEMF_ANY)))
 					{
-						strncpy(newsourcename, sourcename, strlen(sourcename) + strlen(data->Name) + 2);
+						strlcpy(newsourcename, sourcename, strlen(sourcename) + strlen(data->Name) + 2);
 						IDOS->AddPart(newsourcename, data->Name, strlen(sourcename) + strlen(data->Name) + 2);
 						y = recursive_hunt(newsourcename);
 						if(y > 0)
@@ -297,7 +297,7 @@ int32 recursive_hunt(STRPTR sourcename)
 							{
 								unbusy();
 								advancebuf(data_active_window, 1);
-								strncpy(str_pathbuffer[data_active_window], sourcename, 256);
+								strlcpy(str_pathbuffer[data_active_window], sourcename, sizeof(str_pathbuffer[0]));
 								startgetdir(data_active_window, 3);
 								busy();
 							}

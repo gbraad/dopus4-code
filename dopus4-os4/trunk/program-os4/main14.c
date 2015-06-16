@@ -60,7 +60,7 @@ void doassign(int rexx)
 					if(buf1[0] == 0)
 						blank = 1;
 				}
-				strcpy(buf, dev->name);
+				strlcpy(buf, dev->name, sizeof(buf));
 				buf[(strlen(buf) - 1)] = 0;
 				if(blank)
 				{
@@ -116,7 +116,7 @@ void doassign(int rexx)
 	}
 	else
 	{
-		strcpy(buf, rexx_args[0]);
+		strlcpy(buf, rexx_args[0], sizeof(buf));
 	}
 	for(a = 0; a < strlen(buf); a++)
 	{
@@ -185,7 +185,6 @@ BOOL getreal(char *name, STRPTR realname, int size)
 		if (devproc->dvp_Flags & DVPF_ASSIGN)
 		{
 			if (IDOS->DevNameFromLock(devproc->dvp_Lock, realname, size, DN_FULLPATH))
-//			if (IDOS->NameFromLock(devproc->dvp_Lock, realname, size))
 			{
 				file = strchr(name,':'); file++;
 				IDOS->AddPart(realname, file, size);
@@ -205,7 +204,7 @@ int checkexist(char *name, int *size)
 	static char buffer[FILEBUF_SIZE] = {0};
 
 	if (!name) return 0;
-	if (getreal(name, buffer, FILEBUF_SIZE))
+	if (getreal(name, buffer, PATHBUF_SIZE))
 		return IDOpus->CheckExist(buffer, size);
 	return IDOpus->CheckExist(name, size);
 }

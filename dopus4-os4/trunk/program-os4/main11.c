@@ -91,8 +91,12 @@ void iconify(int louise, int buttons, int banknum)
 	struct DateTime dt;
 	struct Screen scrbuf, *sptr;
 	struct DrawInfo *drinfo;
-	int wmes, chipc, fast, h, m, s, waitbits, a = 0, b, nheight, nwidth, buttonrows = 0, oldrows, olddata_gadgetrow_offset, x, y, x1, y1, c, d, w, fastnum = 0, chipnum = 0, bankcount = 0, bankstep = 0, menunum, itemnum, num, cdelay, usage, oldusage = 100;
-	char date[16], time[16], buf[50], buf1[50], buf2[50], formstring[100], *old;
+	int wmes, chipc, fast, h, m, s, waitbits, a = 0, b, nheight, nwidth;
+	int buttonrows = 0, oldrows, olddata_gadgetrow_offset, x, y, x1, y1;
+	int c, d, w, fastnum = 0, chipnum = 0, bankcount = 0, bankstep = 0;
+	int menunum, itemnum, num, cdelay, usage, oldusage = 100;
+	char date[16], time[16], buf[50], buf1[50], buf2[50], formstring[100];
+	char *old;
 	struct dopusgadgetbanks *bank, *oldbank, **bankarray = { NULL, };
 	struct dopushotkey *hotkey;
 	struct dopusfuncpar par;
@@ -209,13 +213,13 @@ void iconify(int louise, int buttons, int banknum)
 		if(!(icon_type & (ICON_MEMORY | ICON_DATE | ICON_TIME | ICON_CPU)))
 		{
 			if(buttons)
-				strcpy(buf, "WW");
+				strlcpy(buf, "WW", sizeof(buf));
 			else
-				strcpy(buf, "DirOpusWW");
+				strlcpy(buf, "DirOpusWW", sizeof(buf));
 		}
 		else
 		{
-			strcpy(buf, "W");
+			strlcpy(buf, "W", sizeof(buf));
 			icon_gotclock = 1;
 			if(icon_type & ICON_MEMORY)
 			{
@@ -229,51 +233,51 @@ void iconify(int louise, int buttons, int banknum)
 				if(icon_type & ICON_C_AND_F)
 				{
 					if(fastnum < 2)
-						sprintf(buf2, "%lc:", globstring[STR_CLOCK_MEM][0]);
+						snprintf(buf2, sizeof(buf2), "%lc:", globstring[STR_CLOCK_MEM][0]);
 					else
-						sprintf(buf2, "%lc:", globstring[STR_CLOCK_CHIP][0]);
-					strcat(buf, buf2);
+						snprintf(buf2, sizeof(buf2), "%lc:", globstring[STR_CLOCK_CHIP][0]);
+					strlcat(buf, buf2, sizeof(buf));
 				}
 				else
 				{
 					if(fastnum < 2)
-						strcat(buf, globstring[STR_CLOCK_MEM]);
+						strlcat(buf, globstring[STR_CLOCK_MEM], sizeof(buf));
 					else
-						strcat(buf, globstring[STR_CLOCK_CHIP]);
+						strlcat(buf, globstring[STR_CLOCK_CHIP], sizeof(buf));
 				}
 				for(a = 0; a < chipnum; a++)
 					buf1[a] = '8';
 				buf1[a] = 0;
-				strcat(buf, buf1);
+				strlcat(buf, buf1, sizeof(buf));
 				if(fastnum > 1)
 				{
 					if(icon_type & ICON_C_AND_F)
-						sprintf(buf2, " %lc:", globstring[STR_CLOCK_FAST][0]);
+						snprintf(buf2, sizeof(buf2), " %lc:", globstring[STR_CLOCK_FAST][0]);
 					else
-						sprintf(buf2, " %s", globstring[STR_CLOCK_FAST]);
-					strcat(buf, buf2);
+						snprintf(buf2, sizeof(buf2), " %s", globstring[STR_CLOCK_FAST]);
+					strlcat(buf, buf2, sizeof(buf));
 					for(a = 0; a < fastnum; a++)
 						buf1[a] = '8';
 					buf1[a] = 0;
-					strcat(buf, buf1);
+					strlcat(buf, buf1, sizeof(buf));
 				}
-				strcat(buf, " ");
+				strlcat(buf, " ", sizeof(buf));
 			}
 			if(icon_type & ICON_CPU)
-				strcat(buf, "CPU:100% ");
+				strlcat(buf, "CPU:100% ", sizeof(buf));
 			if(icon_type & ICON_DATE)
-				strcat(buf, "88-WWW-88 ");
+				strlcat(buf, "88-WWW-88 ", sizeof(buf));
 			if(icon_type & ICON_TIME)
 			{
-				strcat(buf, "88:88:88");
+				strlcat(buf, "88:88:88", sizeof(buf));
 				if(config->dateformat & DATE_12HOUR)
-					strcat(buf, "P");
-				strcat(buf, " ");
+					strlcat(buf, "P", sizeof(buf));
+				strlcat(buf, " ", sizeof(buf));
 			}
 			if((icon_len = strlen(buf)) && buf[icon_len - 1] != ' ')
-				strcat(buf, " ");
+				strlcat(buf, " ", sizeof(buf));
 
-			strcat(buf, "W");
+			strlcat(buf, "W", sizeof(buf));
 
 		}
 		icon_len = 0;
@@ -418,27 +422,27 @@ void iconify(int louise, int buttons, int banknum)
 				{
 					if(icon_type & ICON_C_AND_F)
 					{
-						sprintf(buf1, "%lc:%%%dld %lc:%%%dld ", globstring[STR_CLOCK_CHIP][0], chipnum, globstring[STR_CLOCK_FAST][0], fastnum);
+						snprintf(buf1, sizeof(buf1), "%lc:%%%dld %lc:%%%dld ", globstring[STR_CLOCK_CHIP][0], chipnum, globstring[STR_CLOCK_FAST][0], fastnum);
 					}
 					else
 					{
-						sprintf(buf1, "%s%%%dld %s%%%dld ", globstring[STR_CLOCK_CHIP], chipnum, globstring[STR_CLOCK_FAST], fastnum);
+						snprintf(buf1, sizeof(buf1), "%s%%%dld %s%%%dld ", globstring[STR_CLOCK_CHIP], chipnum, globstring[STR_CLOCK_FAST], fastnum);
 					}
-					sprintf(buf, buf1, chipc, fast);
+					snprintf(buf, sizeof(buf), buf1, chipc, fast);
 				}
 				else
 				{
 					if(icon_type & ICON_C_AND_F)
 					{
-						sprintf(buf1, "%lc:%%%dld ", globstring[STR_CLOCK_MEM][0], chipnum);
+						snprintf(buf1, sizeof(buf1), "%lc:%%%dld ", globstring[STR_CLOCK_MEM][0], chipnum);
 					}
 					else
 					{
-						sprintf(buf1, "%s%%%dld ", globstring[STR_CLOCK_MEM], chipnum);
+						snprintf(buf1, sizeof(buf1), "%s%%%dld ", globstring[STR_CLOCK_MEM], chipnum);
 					}
-					sprintf(buf, buf1, chipc);
+					snprintf(buf, sizeof(buf), buf1, chipc);
 				}
-				strcat(formstring, buf);
+				strlcat(formstring, buf, sizeof(formatstring));
 			}
 			if(icon_type & ICON_CPU)
 			{
@@ -446,16 +450,16 @@ void iconify(int louise, int buttons, int banknum)
 
 				if(!usage)
 					usage = oldusage;
-				sprintf(buf, "CPU:%3d%% ", usage);
-				strcat(formstring, buf);
+				snprintf(buf, sizeof(buf), "CPU:%3d%% ", usage);
+				strlcat(formstring, buf, sizeof(formatstring));
 				oldusage = usage;
 			}
 			IDOS->DateStamp(&(dt.dat_Stamp));
 			initdatetime(&dt, date, time, 0);
 			if(icon_type & ICON_DATE)
 			{
-				strcat(formstring, date);
-				strcat(formstring, " ");
+				strlcat(formstring, date, sizeof(formatstring));
+				strlcat(formstring, " ", sizeof(formatstring));
 			}
 			if(icon_type & ICON_TIME)
 			{
@@ -464,10 +468,10 @@ void iconify(int louise, int buttons, int banknum)
 					h = dt.dat_Stamp.ds_Minute / 60;
 					m = dt.dat_Stamp.ds_Minute % 60;
 					s = dt.dat_Stamp.ds_Tick / TICKS_PER_SECOND;
-					sprintf(time, "%02d:%02d:%02d", h, m, s);
+					snprintf(time, sizeof(time), "%02d:%02d:%02d", h, m, s);
 				}
-				strcat(formstring, time);
-				strcat(formstring, " ");
+				strlcat(formstring, time, sizeof(formatstring));
+				strlcat(formstring, " ", sizeof(formatstring));
 			}
 			if(!cdelay)
 			{
@@ -530,10 +534,10 @@ void iconify(int louise, int buttons, int banknum)
 						char pathbuf[768], filebuf[256];
 						struct ApplicationOpenPrintDocMsg *aopdm = (struct ApplicationOpenPrintDocMsg *)&applibmsg->msg;
 
-						IUtility->Strlcpy(pathbuf, aopdm->fileName, 768);
-						IUtility->Strlcpy(filebuf, IDOS->FilePart(aopdm->fileName), 256);
+						strlcpy(pathbuf, aopdm->fileName, sizeof(pathbuf));
+						strlcpy(filebuf, IDOS->FilePart(aopdm->fileName), sizeof(filebuf));
 						*IDOS->PathPart(pathbuf) = 0;
-						strcpy(func_external_file, aopdm->fileName);
+						strlcpy(func_external_file, aopdm->fileName, sizeof(func_external_file));
 						ftype_doubleclick(pathbuf, filebuf, 0);
 						unbusy();
 					}
@@ -579,13 +583,12 @@ void iconify(int louise, int buttons, int banknum)
 										{
 											IDOS->NameFromLock(amsg->am_ArgList[a].wa_Lock, func_external_file, 256);
 											if(func_external_file[0] && func_external_file[(strlen(func_external_file) - 1)] == ':' && !amsg->am_ArgList[a].wa_Name[0])
-												IDOS->AddPart(func_external_file, "Disk.info", 256);
+												IDOS->AddPart(func_external_file, "Disk.info", sizeof(func_external_file));
 											else
-												IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
+												IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, sizeof(func_external_file));
 											if(!(IDOpus->CheckExist(func_external_file, NULL)))
 											{
-//												IDOpus->StrConcat(func_external_file, ".info", 256);
-												strncat(func_external_file, ".info", 256);
+												strlcat(func_external_file, ".info", sizeof(func_external_file));
 												if(!isicon(func_external_file))
 													func_external_file[0] = 0;
 											}
@@ -603,9 +606,9 @@ void iconify(int louise, int buttons, int banknum)
 									{
 										char pathbuf[256];
 
-										IDOS->NameFromLock(amsg->am_ArgList[a].wa_Lock, pathbuf, 256);
-										strcpy(func_external_file, pathbuf);
-										IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, 256);
+										IDOS->NameFromLock(amsg->am_ArgList[a].wa_Lock, pathbuf, sizeof(pathbuf));
+										strlcpy(func_external_file, pathbuf, sizeof(func_external_file));
+										IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, sizeof(func_external_file));
 										ftype_doubleclick(pathbuf, amsg->am_ArgList[a].wa_Name, 0);
 										IIntuition->ModifyIDCMP(Window, ICON_IDCMP);
 										unbusy();
@@ -841,7 +844,7 @@ int getmaxmem(ULONG type)
 
 void iconstatustext(const char *buf, int buttons)
 {
-	strcpy(icontitletext, buf);
+	strlcpy(icontitletext, buf, sizeof(icontitletext));
 	IIntuition->SetWindowTitles(Window, icontitletext, (char *)-1);
 }
 

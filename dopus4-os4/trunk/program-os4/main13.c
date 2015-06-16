@@ -29,7 +29,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-void seedate(struct DateStamp *ds, char *date, int pad)
+void seedate(struct DateStamp *ds, char *date, int pad, int datesize)
 {
 	char timebuf[16], datebuf[16];
 	struct DateTime dt;
@@ -37,7 +37,7 @@ void seedate(struct DateStamp *ds, char *date, int pad)
 	copy_datestamp(ds, &dt.dat_Stamp);
 	initdatetime(&dt, datebuf, timebuf, 1);
 
-	sprintf(date, "%s %s", datebuf, timebuf);
+	snprintf(date, datesize, "%s %s", datebuf, timebuf);
 }
 
 int setdate(char *name, struct DateStamp *date)
@@ -83,20 +83,20 @@ void seename(int win)
 					return;
 				}
 			}
-			strcpy(buf, str_pathbuffer[win]);
+			strlcpy(buf, str_pathbuffer[win], sizeof(buf));
 			dopus_curwin[win]->diskname[0] = 0;
 			IDOS->SetProcWindow((APTR)-1L);
 			if(!(a = getroot(buf, NULL)))
 			{
-				strcpy(dopus_curwin[win]->diskname, globstring[STR_DIR_NOT_AVAILABLE_TITLE]);
+				strlcpy(dopus_curwin[win]->diskname, globstring[STR_DIR_NOT_AVAILABLE_TITLE], sizeof(dopus_curwin[win]->diskname));
 				dopus_curwin[win]->disktot = dopus_curwin[win]->diskfree = dopus_curwin[win]->diskblock = -1;
 				displayname(win, 1);
 				if(config->errorflags & ERROR_ENABLE_DOS)
 					IDOS->SetProcWindow(Window);
 				return;
 			}
-			strcpy(dopus_curwin[win]->diskname, buf);
-			strcpy(dopus_curwin[win]->volumename, buf);
+			strlcpy(dopus_curwin[win]->diskname, buf, sizeof(dopus_curwin[win]->diskname));
+			strlcpy(dopus_curwin[win]->volumename, buf, sizeof(dopus_curwin[win]->volumename));
 
 			dopus_curwin[win]->diskfree = bytes(str_pathbuffer[win], &tot, &bl);
 			dopus_curwin[win]->disktot = tot;
@@ -134,8 +134,8 @@ void displayname(int win, int clear)
 		tot = dopus_curwin[win]->disktot;
 		IGraphics->SetDrMd(main_rp, JAM2);
 
-		strncpy(buf2, dopus_curwin[win]->diskname, 80);
-		strncat(buf2, str_space_string, 80);
+		strlcpy(buf2, dopus_curwin[win]->diskname, sizeof(buf2));
+		strlcat(buf2, str_space_string, sizeof(buf2));
 		IGraphics->SetFont(main_rp, scr_font[FONT_NAMES]);
 
 		len = 30;
@@ -146,27 +146,27 @@ void displayname(int win, int clear)
 			if(config->showfree & SHOWFREE_BYTES || config->showfree == 0)
 			{
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%qd)", free);
+					snprintf(buf, sizeof(buf), " (%qd)", free);
 				else
-					sprintf(buf, " %qd", free);
+					snprintf(buf, sizeof(buf), " %qd", free);
 			}
 			else if(config->showfree & SHOWFREE_KILO)
 			{
-				getsizestring(buf, free);
+				getsizestring(buf, free, sizeof(buf));
 				if(dopus_curwin[win]->flags & DWF_READONLY)
 				{
 					char buf1[30];
 
-					sprintf(buf1, "(%s)", buf);
-					strcpy(buf, buf1);
+					snprintf(buf1, sizeof(buf1), "(%s)", buf);
+					strlcpy(buf, buf1, sizeof(buf));
 				}
 			}
 			else if(config->showfree & SHOWFREE_BLOCKS)
 			{
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%d)", dopus_curwin[win]->diskblock);
+					snprintf(buf, sizeof(buf), " (%d)", dopus_curwin[win]->diskblock);
 				else
-					sprintf(buf, " %d", dopus_curwin[win]->diskblock);
+					snprintf(buf, sizeof(buf), " %d", dopus_curwin[win]->diskblock);
 			}
 			else if(config->showfree & SHOWFREE_PERCENT)
 			{
@@ -181,12 +181,12 @@ void displayname(int win, int clear)
 				if(b > 100)
 					b = 100;
 				if(dopus_curwin[win]->flags & DWF_READONLY)
-					sprintf(buf, " (%d%%)", b);
+					snprintf(buf, sizeof(buf), " (%d%%)", b);
 				else
-					sprintf(buf, " %d%%", b);
+					snprintf(buf, sizeof(buf), " %d%%", b);
 			}
-			strncpy(buf3, buf, 14);
-			strncat(buf3, str_space_string, 14);
+			strlcpy(buf3, buf, sizeof(buf3));
+			strlcat(buf3, str_space_string, sizeof(buf3));
 			len2 = 12;
 			len3 = strlen(buf);
 			FOREVER
@@ -197,8 +197,8 @@ void displayname(int win, int clear)
 				len2 = 12;
 				x1 = dotextlength(main_rp, buf2, &len, scrdata_diskname_width[win] - 4);
 			}
-			strncpy(buf3, str_space_string, 13);
-			strcpy(&buf3[len2 - len3], buf);
+			strlcpy(buf3, str_space_string, sizeof(buf3));
+			strlcpy(&buf3[len2 - len3], buf, sizeof(buf3) - (len2 - len3));
 		}
 		else
 			x = 0;
@@ -255,29 +255,29 @@ void relabel_disk(int rexx, char *path)
 	char oldname[36], name[36];
 	char buf[256];
 
-	strcpy(buf, rexx ? rexx_args[0] : path);
+	strlcpy(buf, rexx ? rexx_args[0] : path, sizeof(buf));
 	if(!(getroot(buf, NULL)))
 	{
 		doerror(-1);
 		return;
 	}
-	strcat(buf, ":");
+	strlcat(buf, ":", sizeof(buf));
 	getroot(buf, NULL);
 
-	strcpy(name, buf);
-	strcpy(oldname, name);
+	strlcpy(name, buf, sizeof(name));
+	strlcpy(oldname, name, sizeof(oldname));
 	if(!rexx)
 	{
 		if(!(whatsit(globstring[STR_ENTER_NEW_DISK_NAME], 30, name, NULL)))
 			return;
 	}
 	else
-		strcpy(name, rexx_args[1]);
+		strlcpy(name, rexx_args[1], sizeof(name));
 
 	if(name[strlen(name) - 1] == ':')
 		name[strlen(name) - 1] = 0;
 
-	strncat(buf, ":", 256);
+	strlcat(buf, ":", sizeof(buf));
 	if(!IDOS->Relabel(buf, name))
 	{
 		doerror(-1);
@@ -286,11 +286,11 @@ void relabel_disk(int rexx, char *path)
 	{
 		if((strncmp(str_pathbuffer[data_active_window], oldname, strlen(oldname))) == 0 && str_pathbuffer[data_active_window][strlen(oldname)] == ':')
 		{
-			strncpy(buf, name, 256);
-			strncat(buf, &str_pathbuffer[data_active_window][strlen(oldname)], 256);
-			strcpy(str_pathbuffer[data_active_window], buf);
+			strlcpy(buf, name, sizeof(buf));
+			strlcat(buf, &str_pathbuffer[data_active_window][strlen(oldname)], sizeof(buf));
+			strlcpy(str_pathbuffer[data_active_window], buf, sizeof(str_pathbuffer[0]));
 			checkdir(str_pathbuffer[data_active_window], &path_strgadget[data_active_window]);
-			strcpy(dopus_curwin[data_active_window]->directory, str_pathbuffer[data_active_window]);
+			strlcpy(dopus_curwin[data_active_window]->directory, str_pathbuffer[data_active_window], sizeof(dopus_curwin[0]->directory));
 		}
 		seename(data_active_window);
 	}
