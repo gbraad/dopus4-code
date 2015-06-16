@@ -82,18 +82,18 @@ void dosave(int new)
 			unbusy();
 			return;
 		}
-		strcpy(configname, dirbuf);
-		IDOS->AddPart(configname, filebuf, 256);
-		if(!(stricmp(configname, "DirectoryOpus.DefCFG")))
+		strlcpy(configname, dirbuf, sizeof(configname));
+		IDOS->AddPart(configname, filebuf, sizeof(configname));
+		if(!(strcasecmp(configname, "DirectoryOpus.DefCFG")))
 			if(!(strstri(configname, ".CFG")))
-				IDOpus->StrConcat(configname, ".CFG", 256);
+				strlcat(configname, ".CFG", sizeof(configname));
 	}
 
 	fixcstuff(&cstuff);
 
 	if(!IDOpus->SaveConfig(configname, &cstuff))
 	{
-		sprintf(buf, cfg_string[STR_SAVE_FAILED], IDOS->IoErr());
+		snprintf(buf, sizeof(buf), cfg_string[STR_SAVE_FAILED], IDOS->IoErr());
 		if(request(buf))
 			goto trysave;
 	}
@@ -105,7 +105,7 @@ void dosave(int new)
 	unbusy();
 }
 
-doload(int type, int def)
+int doload(int type, int def)
 {
 	char *path, buf[80], *menulist[6], menuarray[6], **ftypelist, *typearray;
 	struct DOpusRemember *fkey;
@@ -133,10 +133,10 @@ doload(int type, int def)
 			unbusy();
 			return (0);
 		}
-		strcpy(loadnamebuf, dirbuf);
-		IDOS->AddPart(loadnamebuf, filebuf, 256);
+		strlcpy(loadnamebuf, dirbuf, sizeof(loadnamebuf));
+		IDOS->AddPart(loadnamebuf, filebuf, sizeof(loadnamebuf));
 		if(!(strstri(loadnamebuf, ".CFG")))
-			IDOpus->StrConcat(loadnamebuf, ".CFG", 256);
+			strlcat(loadnamebuf, ".CFG", sizeof(loadnamebuf));
 	}
 	if(!(newcstuff = doAllocVec(sizeof(struct ConfigStuff), MEMF_CLEAR)) || !(newcstuff->config = doAllocVec(sizeof(struct Config), MEMF_CLEAR)))
 	{
@@ -154,9 +154,9 @@ doload(int type, int def)
 		{
 			IIntuition->ClearPointer(Window);
 			if(a == ERROR_NOT_CONFIG)
-				strcpy(buf, cfg_string[STR_FILE_NOT_VALID_CONFIGURATION]);
+				strlcpy(buf, cfg_string[STR_FILE_NOT_VALID_CONFIGURATION], sizeof(buf));
 			else
-				sprintf(buf, cfg_string[STR_OPEN_FAILED], a);
+				snprintf(buf, sizeof(buf), cfg_string[STR_OPEN_FAILED], a);
 			if(request(buf))
 				goto tryload;
 		}
@@ -182,7 +182,7 @@ doload(int type, int def)
 			IExec->CopyMem((char *)newcstuff, (char *)&cstuff, sizeof(struct ConfigStuff));
 			cstuff.config = config;
 			IExec->CopyMem((char *)newcstuff->config, (char *)config, sizeof(struct Config));
-			strcpy(configname, loadnamebuf);
+			strlcpy(configname, loadnamebuf, sizeof(configname));
 			freecon = 1;
 			break;
 		case CFG_OPERATION:
@@ -199,7 +199,7 @@ doload(int type, int def)
 			freecon = 3;
 			break;
 		case CFG_GADGET:
-			if(bank = firstbank)
+			if((bank = firstbank))
 			{
 				while(bank->next)
 					bank = bank->next;
@@ -207,7 +207,7 @@ doload(int type, int def)
 			bank2 = newcstuff->firstbank;
 			while(bank2)
 			{
-				if(nbank = (struct dopusgadgetbanks *)getcopy((char *)bank2, sizeof(struct dopusgadgetbanks), NULL))
+				if((nbank = (struct dopusgadgetbanks *)getcopy((char *)bank2, sizeof(struct dopusgadgetbanks), NULL)))
 				{
 					nbank->next = NULL;
 					if(bank)
@@ -261,7 +261,7 @@ doload(int type, int def)
 						config->menu[c].name = getcopy(config->menu[c].name, -1, NULL);
 						config->menu[c].function = getcopy(config->menu[c].function, -1, NULL);
 					}
-					strcpy(config->menutit[a], newcstuff->config->menutit[b]);
+					strlcpy(config->menutit[a], newcstuff->config->menutit[b], sizeof(config->menutit[0]));
 					++b;
 				}
 			}
@@ -304,7 +304,7 @@ doload(int type, int def)
 			{
 				if(typearray[b])
 				{
-					if(ntype = (struct dopusfiletype *)getcopy((char *)ftype, sizeof(struct dopusfiletype), &typekey))
+					if((ntype = (struct dopusfiletype *)getcopy((char *)ftype, sizeof(struct dopusfiletype), &typekey)))
 					{
 						ntype->next = NULL;
 						ntype->recognition = getcopy(ftype->recognition, -1, &typekey);
@@ -350,7 +350,7 @@ doload(int type, int def)
 			{
 				if(typearray[b])
 				{
-					if(nhotkey = (struct dopushotkey *)getcopy((char *)fhotkey, sizeof(struct dopushotkey), NULL))
+					if((nhotkey = (struct dopushotkey *)getcopy((char *)fhotkey, sizeof(struct dopushotkey), NULL)))
 					{
 						nhotkey->next = NULL;
 						nhotkey->func.function = getcopy(fhotkey->func.function, -1, NULL);
@@ -380,17 +380,17 @@ doload(int type, int def)
 			config->generalscreenflags = newcstuff->config->generalscreenflags;
 			IExec->CopyMem((char *)newcstuff->config->scrollborders, (char *)config->scrollborders, sizeof(struct Rectangle) * 2);
 			IExec->CopyMem((char *)newcstuff->config->new_palette, (char *)config->new_palette, sizeof(ULONG) * 48);
-			strcpy(config->pubscreen_name, newcstuff->config->pubscreen_name);
+			strlcpy(config->pubscreen_name, newcstuff->config->pubscreen_name, sizeof(config->pubscreen_name));
 			config->slider_pos = newcstuff->config->slider_pos;
 			freecon = 3;
 			break;
 		case CFG_SYSTEM:
 			IExec->CopyMem((char *)newcstuff->config->outputcmd, (char *)config->outputcmd, offsetof(struct Config, gadgetrows) - offsetof(struct Config, outputcmd));
 			IExec->CopyMem((char *)newcstuff->config->startupscript, (char *)config->startupscript, offsetof(struct Config, pad8) - offsetof(struct Config, startupscript));
-			strcpy(config->uniconscript, newcstuff->config->uniconscript);
+			strlcpy(config->uniconscript, newcstuff->config->uniconscript, sizeof(config->uniconscript));
 			config->addiconflags = newcstuff->config->addiconflags;
-			strcpy(config->shellstartup, newcstuff->config->shellstartup);
-			strcpy(config->language, newcstuff->config->language);
+			strlcpy(config->shellstartup, newcstuff->config->shellstartup, sizeof(config->shellstartup));
+			strlcpy(config->language, newcstuff->config->language, sizeof(config->language));
 			config->loadexternal = newcstuff->config->loadexternal;
 			freecon = 3;
 			break;
@@ -430,13 +430,13 @@ void copyconfigonly(struct Config *config1, struct Config *config2)
 	IDOpus->LFreeRemember(&key);
 }
 
-dolistwindow(STRPTR title, int w, int h, STRPTR *items, int flags, STRPTR selarray, int *item)
+int dolistwindow(STRPTR title, int w, int h, STRPTR *items, int flags, STRPTR selarray, int *item)
 {
 	struct Window *wind;
 	struct DOpusListView *view;
 	ULONG class;
 	USHORT code;
-	int a, gadgetid, all = 1, count;
+	int a, gadgetid = 0, all = 1, count;
 	char **gadtxt;
 
 	listlist.w = w;
@@ -484,7 +484,7 @@ dolistwindow(STRPTR title, int w, int h, STRPTR *items, int flags, STRPTR selarr
 	for(;;)
 	{
 		IExec->Wait(1 << wind->UserPort->mp_SigBit);
-		while(IMsg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort))
+		while((IMsg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort)))
 		{
 			if((view = IDOpus->ListViewIDCMP(&listlist, IMsg)) == (struct DOpusListView *)-1)
 			{
@@ -551,7 +551,7 @@ void copytoclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, S
 	struct Clip *newclip, *pos;
 
 	busy();
-	if(newclip = IDOpus->LAllocRemember(&clipkey, sizeof(struct Clip), MEMF_CLEAR))
+	if((newclip = IDOpus->LAllocRemember(&clipkey, sizeof(struct Clip), MEMF_CLEAR)))
 	{
 		newclip->func.function = compilefunclist(funclist, functype, &clipkey);
 		newclip->func.which = getselflags(flagsel);
@@ -560,7 +560,7 @@ void copytoclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, S
 		newclip->func.delay = atoi(edit_delaybuf);
 		newclip->func.fpen = func->fpen;
 		newclip->func.bpen = func->bpen;
-		strcpy(newclip->name, edit_namebuf);
+		strlcpy(newclip->name, edit_namebuf, sizeof(newclip->name));
 		pos = firstclip;
 		while(pos && pos->next)
 			pos = pos->next;
@@ -573,7 +573,7 @@ void copytoclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, S
 	unbusy();
 }
 
-pasteclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, STRPTR *displist, STRPTR flagsel)
+int pasteclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, STRPTR *displist, STRPTR flagsel)
 {
 	char **cliplist;
 	struct DOpusRemember *key = NULL;
@@ -592,7 +592,7 @@ pasteclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, STRPTR 
 			break;
 		if(!(cliplist[a] = IDOpus->LAllocRemember(&key, 40, MEMF_CLEAR)))
 			break;
-		strcpy(cliplist[a], clip->name);
+		strlcpy(cliplist[a], clip->name, 40);
 		clip = clip->next;
 	}
 	cliplist[a] = NULL;
@@ -605,10 +605,10 @@ pasteclip(struct dopusfunction *func, STRPTR *funclist, STRPTR functype, STRPTR 
 		if(clip)
 		{
 			erasefunction(func, funclist, displist, flagsel);
-			sprintf(edit_stackbuf, "%ld", clip->func.stack);
-			sprintf(edit_prioritybuf, "%ld", clip->func.pri);
-			sprintf(edit_delaybuf, "%ld", clip->func.delay);
-			strcpy(edit_namebuf, clip->name);
+			snprintf(edit_stackbuf, sizeof(edit_stackbuf), "%d", clip->func.stack);
+			snprintf(edit_prioritybuf, sizeof(edit_prioritybuf), "%d", clip->func.pri);
+			snprintf(edit_delaybuf, sizeof(edit_delaybuf), "%d", clip->func.delay);
+			strlcpy(edit_namebuf, clip->name, sizeof(edit_namebuf));
 			func->key = 0;
 			func->qual = 0;
 			func->fpen = clip->func.fpen;
@@ -629,21 +629,21 @@ void makefilebuffer(STRPTR buf)
 {
 	char *ptr;
 
-	strcpy(dirbuf, buf);
+	strlcpy(dirbuf, buf, sizeof(dirbuf));
 	ptr = IDOS->FilePart(dirbuf);
 	if(ptr > dirbuf)
 	{
-		strcpy(filebuf, ptr);
+		strlcpy(filebuf, ptr, sizeof(filebuf));
 		*ptr = 0;
 	}
 	else if(IDOpus->CheckExist(dirbuf, NULL) < 1)
 	{
 		dirbuf[0] = 0;
-		strcpy(filebuf, buf);
+		strlcpy(filebuf, buf, sizeof(filebuf));
 	}
 }
 
-char *strstri(STRPTR string, STRPTR substring)
+char *strstri(STRPTR string, CONST_STRPTR substring)
 {
 	int a, len, sublen;
 
@@ -653,7 +653,7 @@ char *strstri(STRPTR string, STRPTR substring)
 
 	for(a = 0; a < len; a++)
 	{
-		if(IDOpus->LStrnCmpI(&string[a], substring, sublen) == 0)
+		if(strncasecmp(&string[a], substring, sublen) == 0)
 			return (string + a);
 	}
 	return (NULL);

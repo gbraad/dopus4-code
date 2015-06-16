@@ -180,7 +180,7 @@ int dooperationconfig()
 								a = 20;
 							else if(a > MAX_DISPLAYLENGTH)
 								a = MAX_DISPLAYLENGTH;
-							sprintf(formatlen_buf[b], "%ld", a);
+							snprintf(formatlen_buf[b], sizeof(formatlen_buf[0]), "%ld", a);
 							IDOpus->RefreshStrGad(gad, Window);
 							config->displaylength[formatwin][(uint32)displenmap[b]] = a;
 							if(code != 0x9)
@@ -501,7 +501,9 @@ int dosystemconfig()
 					{
 						congad = (struct ConfigGadget *)gad->UserData;
 						ptr = ((struct StringInfo *)congad->gad->SpecialInfo)->Buffer;
-						if(system_requester(ptr, (char *)congad->buffer, congad->gad, congad->bit))
+						if(system_requester(ptr, (char *)congad->buffer,
+						                    congad->gad, congad->bit,
+						                    ((struct StringInfo *)congad->gad->SpecialInfo)->MaxChars))
 							processtickgad(systemgadgets[lastsel], 0, -1, -1);
 					}
 					else if(gadgetid >= STRING_BASE)
@@ -599,7 +601,9 @@ int dosystemconfig()
 						case ICON_ICONREQ:
 							if(iconlistview.itemselected < 0)
 								break;
-							if(!system_requester(edit_funcbuf, NULL, &icongads[1], 0))
+							if(!system_requester(edit_funcbuf, NULL,
+							                     &icongads[1], 0,
+							                     sizeof(edit_funcbuf)))
 								break;
 
 						case ICON_ICONPATH:
@@ -624,7 +628,7 @@ int dosystemconfig()
 									if(edit_funcbuf[0])
 									{
 										if((type->iconpath = IDOpus->LAllocRemember(&typekey, strlen(edit_funcbuf) + 1, 0)))
-											strcpy(type->iconpath, edit_funcbuf);
+											strlcpy(type->iconpath, edit_funcbuf, strlen(edit_funcbuf) + 1);
 									}
 									else
 										type->iconpath = NULL;
@@ -632,7 +636,7 @@ int dosystemconfig()
 								break;
 							}
 							if(ptr)
-								IDOpus->LStrnCpy(ptr, edit_funcbuf, 79);
+								strlcpy(ptr, edit_funcbuf, ICONPATH_SIZE);
 							if(edit_funcbuf[0])
 								iconlistview.items[iconlistview.itemselected][1] = '*';
 							else
@@ -644,10 +648,12 @@ int dosystemconfig()
 							break;
 
 						case ICON_TOOLREQ:
-							if(!system_requester(edit_pathbuf, NULL, &icongads[3], 0))
+							if(!system_requester(edit_pathbuf, NULL,
+							                     &icongads[3], 0,
+							                     sizeof(edit_pathbuf)))
 								break;
 						case ICON_TOOLPATH:
-							IDOpus->LStrnCpy(config->defaulttool, edit_pathbuf, 79);
+							strlcpy(config->defaulttool, edit_pathbuf, sizeof(config->defaulttool));
 							if(code != 0x9)
 								getnextgadget(gad);
 							break;
@@ -717,14 +723,14 @@ int dosystemconfig()
 							switch (gadgetid)
 							{
 							case SYS_AMIGADOS:
-								sprintf(buf, "%d", config->priority);
-								makestring(config->outputcmd, config->output, config->shellstartup, buf, NULL);
+								snprintf(buf, sizeof(buf), "%d", config->priority);
+								makestring((int8 *)config->outputcmd, config->output, config->shellstartup, buf, NULL);
 								break;
 							case SYS_STARTUP:
-								makestring(config->autodirs[0], config->autodirs[1], config->startupscript, config->uniconscript, config->configreturnscript, NULL);
+								makestring((int8 *)config->autodirs[0], config->autodirs[1], config->startupscript, config->uniconscript, config->configreturnscript, NULL);
 								break;
 							case SYS_DIRECTORIES:
-								sprintf(buf, "%d", config->bufcount);
+								snprintf(buf, sizeof(buf), "%d", config->bufcount);
 								makestring((int8 *)buf, NULL);
 								break;
 							case SYS_HOTKEYS:
@@ -750,7 +756,7 @@ int dosystemconfig()
 									if(!(IDOpus->FindSystemFile(external_module_name[a], buf, 80, SYSFILE_MODULE)))
 										module_sel_array[a] |= 2;
 								}
-								modulelist.items = external_module_list;
+								modulelist.items = (char **)external_module_list;
 								modulelist.selectarray = module_sel_array;
 								setuplist(&modulelist, 200, 18);
 								unbusy();
@@ -764,17 +770,17 @@ int dosystemconfig()
 //								IGraphics->BltTemplate((PLANEPTR) DOpusBase->pdb_check, 0, 2, rp, x_off + 208, y_off + 77, 13, 7);
 								break;
 							case SYS_VIEWPLAY:
-								sprintf(buf, "%d", config->showdelay);
-								sprintf(buf1, "%d", config->fadetime);
-								sprintf(buf2, "%d", config->tabsize);
-								sprintf(buf3, "%d", config->viewtext_topleftx);
-								sprintf(buf4, "%d", config->viewtext_toplefty);
-								sprintf(buf5, "%d", config->viewtext_width);
-								sprintf(buf6, "%d", config->viewtext_height);
-								makestring(buf, buf1, buf2, buf3, buf4, buf5, buf6, NULL);
+								snprintf(buf, sizeof(buf), "%d", config->showdelay);
+								snprintf(buf1, sizeof(buf1), "%d", config->fadetime);
+								snprintf(buf2, sizeof(buf2), "%d", config->tabsize);
+								snprintf(buf3, sizeof(buf3), "%d", config->viewtext_topleftx);
+								snprintf(buf4, sizeof(buf4), "%d", config->viewtext_toplefty);
+								snprintf(buf5, sizeof(buf5), "%d", config->viewtext_width);
+								snprintf(buf6, sizeof(buf6), "%d", config->viewtext_height);
+								makestring((int8 *)buf, buf1, buf2, buf3, buf4, buf5, buf6, NULL);
 								break;
 							case SYS_SHOWPATTERN:
-								makestring(config->showpat, config->hidepat, NULL);
+								makestring((int8 *)config->showpat, config->hidepat, NULL);
 								break;
 							case SYS_ICONS:
 								removetickgads();
@@ -788,7 +794,7 @@ int dosystemconfig()
 								}
 								IGraphics->SetAPen(rp, screen_pens[1].pen);
 								IDOpus->UScoreText(rp, cfg_string[STR_PROJECTS_DEFAULT_TOOL], x_off + 172, y_off + 150, -1);
-								strcpy(edit_pathbuf, config->defaulttool);
+								strlcpy(edit_pathbuf, config->defaulttool, sizeof(edit_pathbuf));
 								edit_funcbuf[0] = 0;
 								IDOpus->AddGadgets(Window, icongads, NULL, 4, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
 								IDOpus->Do3DBox(rp, x_off + 459, y_off + 126, 149, 40, screen_pens[config->gadgetbotcol].pen, screen_pens[config->gadgettopcol].pen);
@@ -828,7 +834,7 @@ int dosystemconfig()
 						break;
 					}
 					if(ptr)
-						strcpy(edit_funcbuf, ptr);
+						strlcpy(edit_funcbuf, ptr, sizeof(edit_funcbuf));
 					else
 						edit_funcbuf[0] = 0;
 					IDOpus->RefreshStrGad(&icongads[1], Window);
@@ -907,17 +913,17 @@ void fixdisplaylengths(int win)
 			config->displaylength[win][(uint32)displenmap[a]] = 20;
 		else if(config->displaylength[win][(uint32)displenmap[a]] > MAX_DISPLAYLENGTH)
 			config->displaylength[win][(uint32)displenmap[a]] = MAX_DISPLAYLENGTH;
-		sprintf(formatlen_buf[a], "%d", config->displaylength[win][(uint32)displenmap[a]]);
+		snprintf(formatlen_buf[a], sizeof(formatlen_buf[0]), "%d", config->displaylength[win][(uint32)displenmap[a]]);
 	}
 	IIntuition->RefreshGList(&formatgads[6], Window, NULL, -1);
 }
 
-int system_requester(char *buf, char *buf2, struct Gadget *gad, int32 bit)
+int system_requester(char *buf, char *buf2, struct Gadget *gad, int32 bit, int32 bufsize)
 {
 	if(!buf[0])
 	{
 		if(buf2 && IDOpus->CheckExist(buf2, NULL))
-			strcpy(dirbuf, buf2);
+			strlcpy(dirbuf, buf2, sizeof(dirbuf));
 		else
 			dirbuf[0] = 0;
 		filebuf[0] = 0;
@@ -937,9 +943,9 @@ int system_requester(char *buf, char *buf2, struct Gadget *gad, int32 bit)
 	filereq.window = Window;
 	if(IDOpus->FileRequest(&filereq))
 	{
-		strcpy(buf, dirbuf);
+		strlcpy(buf, dirbuf, bufsize);
 		if(bit == 0)
-			IDOS->AddPart(buf, filebuf, 256);
+			IDOS->AddPart(buf, filebuf, bufsize);
 		IDOpus->RefreshStrGad(gad, Window);
 		return (1);
 	}
@@ -958,7 +964,7 @@ void system_makeiconlist(int make)
 	{
 		for(count = 3, type = firsttype; type; count++, type = type->next)
 		{
-			if(IDOpus->LStrCmpI(type->type, "Default") == 0)
+			if(strcasecmp(type->type, "Default") == 0)
 				--count;
 		}
 		if((iconlistview.items = IDOpus->LAllocRemember(&key, (count + 1) * 4, MEMF_CLEAR)))
@@ -968,7 +974,7 @@ void system_makeiconlist(int make)
 		{
 			for(a = 0; a < 3; a++)
 			{
-				strcpy(iconlistview.items[a], icontypes[a]);
+				strlcpy(iconlistview.items[a], icontypes[a], 256);
 			}
 			if(config->drawericon[0])
 			{
@@ -996,12 +1002,12 @@ void system_makeiconlist(int make)
 			}
 			for(a = 3, type = firsttype; a < count; a++, type = type->next)
 			{
-				if(IDOpus->LStrCmpI(type->type, "Default") == 0)
+				if(strcasecmp(type->type, "Default") == 0)
 					--a;
 				else if((iconlistview.items[a] = IDOpus->LAllocRemember(&key, strlen(type->type) + 4, 0)))
 				{
-					strcpy(iconlistview.items[a], "   ");
-					strcat(iconlistview.items[a], type->type);
+					strlcpy(iconlistview.items[a], "   ", strlen(type->type) + 4);
+					strlcat(iconlistview.items[a], type->type, strlen(type->type) + 4);
 					if(type->iconpath)
 						iconlistview.items[a][1] = '*';
 				}

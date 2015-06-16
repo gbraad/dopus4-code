@@ -391,7 +391,7 @@ int doscreenconfig()
 								IDOpus->RefreshListView(&fontsizelistview, 1);
 							}
 							if(c != a)
-								dofontdemo(config->fontbufs[fontnum], config->fontsizes[fontnum]);
+								dofontdemo(config->fontbufs[fontnum], config->fontsizes[fontnum], sizeof(config->fontbufs[0]));
 							break;
 
 						case ARROWCYCLE:
@@ -457,7 +457,7 @@ int doscreenconfig()
 						case SCREENMODE_WIDTH:
 							a = atoi(screenwidth_buf);
 							if(a % 2)
-								sprintf(screenwidth_buf, "%d", a + 1);
+								snprintf(screenwidth_buf, sizeof(screenwidth_buf), "%d", a + 1);
 							IDOpus->CheckNumGad(&screenmodegads[SCREENMODE_WIDTH - 300], Window, curmode->minw, curmode->maxw);
 							config->scrw = atoi(screenwidth_buf);
 							config->scr_winw = config->scrw;
@@ -493,7 +493,7 @@ int doscreenconfig()
 								a = curmode->maxdepth;
 							else if(a < 2)
 								a = 2;
-							sprintf(screendepth_buf, "%d", (1 << a));
+							snprintf(screendepth_buf, sizeof(screendepth_buf), "%d", (1 << a));
 							IDOpus->RefreshStrGad(&screenmodegads[SCREENMODE_DEPTH - 300], Window);
 							config->scrdepth = a;
 							IDOpus->FixSliderPot(Window, &screenmodegads[SCREENMODE_SLIDER - 300], config->scrdepth - 2, curmode->maxdepth - 1, 1, 2);
@@ -575,7 +575,7 @@ int doscreenconfig()
 					{
 						if(view->listid == 2)
 						{
-							strcpy(buf, config->fontbufs[fontnum]);
+							strlcpy(buf, config->fontbufs[fontnum], sizeof(buf));
 							if((ptr = strstri(buf, ".font")))
 								*ptr = 0;
 							if(strcmp(buf, view->items[view->itemselected]))
@@ -583,9 +583,9 @@ int doscreenconfig()
 								fontsize_buf[0] = 0;
 								IDOpus->RefreshStrGad(&fontsizegadget, Window);
 
-								strcpy(config->fontbufs[fontnum], view->items[view->itemselected]);
+								strlcpy(config->fontbufs[fontnum], view->items[view->itemselected], sizeof(config->fontbufs[0]));
 								config->fontsizes[fontnum] = initfontlist(fontnum, 0, fontplaceflags[fontnum]);
-								IDOpus->StrConcat(config->fontbufs[fontnum], ".font", 40);
+								strlcat(config->fontbufs[fontnum], ".font", sizeof(config->fontbufs[0]));
 							}
 						}
 						else if(view->listid == 3)
@@ -596,7 +596,7 @@ int doscreenconfig()
 							a = config->fontsizes[fontnum];
 							config->fontsizes[fontnum] = atoi(view->items[view->itemselected]);
 							if(a != config->fontsizes[fontnum])
-								dofontdemo(config->fontbufs[fontnum], config->fontsizes[fontnum]);
+								dofontdemo(config->fontbufs[fontnum], config->fontsizes[fontnum], sizeof(config->fontbufs[fontnum]));
 						}
 					}
 				}
@@ -772,15 +772,15 @@ void makescreenedit(int mode)
 			for(b = 0; b < a; b++)
 			{
 				if((screenmodelist[b] = IDOpus->LAllocRemember(&screenkey, DISPLAYNAMELEN, MEMF_CLEAR)))
-					strcpy(screenmodelist[b], screenmode->name);
+					strlcpy(screenmodelist[b], screenmode->name, DISPLAYNAMELEN);
 				if(screenmode->mode == MODE_WORKBENCHCLONE)
 					wclone = b;
 				if(screenmode->mode == config->screenmode)
 				{
 					if(screenmode->mode == MODE_PUBLICSCREENUSE)
 					{
-						sprintf(buf, "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
-						if(IUtility->Stricmp(buf, screenmode->name) == 0)
+						snprintf(buf, sizeof(buf), "%s:%s", config->pubscreen_name, cfg_string[STR_SCREEN_MODE_USE]);
+						if(strcasecmp(buf, screenmode->name) == 0)
 							screenmodeview.itemselected = b;
 					}
 					else
@@ -852,7 +852,7 @@ void makescreenedit(int mode)
 			sortfontlist(avail, num, 1);
 			for(fnum = 0; fnum < num; fnum++)
 			{
-				if((ptr = strstri(avail[fnum].af_Attr.ta_Name, ".font")))
+				if((ptr = strstri((STRPTR)avail[fnum].af_Attr.ta_Name, ".font")))
 					*ptr = 0;
 				avail[fnum].af_Attr.ta_Style = 0;
 			}
@@ -860,7 +860,7 @@ void makescreenedit(int mode)
 			{
 				for(a = 0; a < num; a++)
 				{
-					if(!stricmp((char *)avail[a].af_Attr.ta_Name, (char *)avail[fnum].af_Attr.ta_Name))
+					if(!strcasecmp((char *)avail[a].af_Attr.ta_Name, (char *)avail[fnum].af_Attr.ta_Name))
 						++avail[fnum].af_Attr.ta_Style;
 				}
 			}
@@ -896,7 +896,7 @@ void makescreenedit(int mode)
 						if(!fontsizelist[a][b])
 						{
 							if((fontsizelist[a][b] = IDOpus->LAllocRemember(&fontkey, 8, MEMF_CLEAR)))
-								sprintf(fontsizelist[a][b], "%4d", avail[fnum].af_Attr.ta_YSize);
+								snprintf(fontsizelist[a][b], 8, "%4d", avail[fnum].af_Attr.ta_YSize);
 							break;
 						}
 
@@ -921,7 +921,7 @@ void makescreenedit(int mode)
 		fontsize_buf[0] = 0;
 		IDOpus->AddGadgets(Window, &fontsizegadget, NULL, 1, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, 1);
 		initfontlist(FONT_CLOCK, 1, 0);
-		strcpy(old_general_font, config->fontbufs[0]);
+		strlcpy(old_general_font, config->fontbufs[0], sizeof(old_general_font));
 		break;
 
 	case SCREEN_GENERAL:
@@ -1002,7 +1002,7 @@ void removescreenedit(int mode)
 	case SCREEN_FONTS:
 		IDOpus->RemoveListView(&fontplacelist, 3);
 		IIntuition->RemoveGList(Window, &fontsizegadget, 1);
-		if(IDOpus->LStrCmpI(config->fontbufs[0], old_general_font) != 0)
+		if(strncasecmp(config->fontbufs[0], old_general_font, sizeof(config->fontbufs[0])) != 0)
 		{
 			close_screen();
 			open_screen();

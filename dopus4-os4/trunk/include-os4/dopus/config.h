@@ -156,6 +156,10 @@ the existing commercial status of Directory Opus 5.
 
 #define MAX_DISPLAYLENGTH 4096
 
+/* Some "struct Config" element sizes */
+#define ICONPATH_SIZE 80
+#define TOOLPATH_SIZE 80
+
 struct olddopusgadget
 {
 	char name[10];
@@ -275,8 +279,8 @@ struct Config
 	char outputcmd[80], output[80];
 	int gadgetrows;
 
-//	int8 separatemethod[2];
-	char separatemethod[2];
+	int8 separatemethod[2];
+//	char separatemethod[2];
 
 	char language[30];
 
@@ -317,7 +321,8 @@ struct Config
 
 	UWORD hotkeycode, hotkeyqual;
 
-	char toolicon[80], projecticon[80], drawericon[80], defaulttool[80];
+	char toolicon[ICONPATH_SIZE], projecticon[ICONPATH_SIZE];
+	char drawericon[ICONPATH_SIZE], defaulttool[TOOLPATH_SIZE];
 	char priority;
 	unsigned char showdelay, viewbits, fadetime, tabsize;
 

@@ -62,7 +62,7 @@ void doglassimage(struct Gadget *);
 void freestring(char *);
 void doscreentitle(char *);
 struct IntuiMessage *getintuimsg(void);
-struct TextFont *getfont(char *, int *, int);
+struct TextFont *getfont(char *, int *, int, int);
 void load_palette(struct Screen *, ULONG *, int);
 void get_palette(struct Screen *, ULONG *, int);
 void open_screen(void);
@@ -79,7 +79,7 @@ int dosystemconfig(void);
 void getnextgadget(struct Gadget *);
 int fixformlist(int);
 void fixdisplaylengths(int);
-int system_requester(char *, char *, struct Gadget *, int32);
+int system_requester(char *, char *, struct Gadget *, int32, int32);
 void system_makeiconlist(int);
 void system_showicon(char *, int);
 void get_language_list(struct DOpusRemember **);
@@ -125,7 +125,7 @@ void deleteentry(char **, char *, char **, int);
 void endedit(void);
 void setupforedit(int, int);
 void checkswapgad(void);
-int funcrequester(int, char *, char *);
+int funcrequester(int, char *, char *, int);
 void makenewentry(char **, char *, char **, int);
 void setupcolourbox(struct RastPort *, int, int, int, int);
 void getfiletypefunc(struct dopusfunction *, struct dopusfiletype *, int);
@@ -214,7 +214,7 @@ struct ScreenMode *getscreenmode(int);
 
 int initfontlist(int, int, int);
 void sortfontlist(struct AvailFonts *, int, int);
-void dofontdemo(char *, int);
+void dofontdemo(char *, int, int);
 
 /* screen_palette.c */
 
@@ -246,7 +246,7 @@ int dolistwindow(char *, int, int, char **, int, char *, int *);
 void copytoclip(struct dopusfunction *, char **, char *, char *);
 int pasteclip(struct dopusfunction *, char **, char *, char **, char *);
 void makefilebuffer(char *);
-char *strstri(char *, char *);
+char *strstri(char *, const char *);
 
 /* main8.c */
 
