@@ -31,14 +31,14 @@ the existing commercial status of Directory Opus 5.
 
 static struct dopusfunction *seldrive;
 
-dodriveconfig()
+int dodriveconfig()
 {
 	ULONG class;
-	USHORT code, gadgetid, qual;
+	USHORT code, gadgetid = DRIVE_CANCEL, qual;
 	struct ConfigUndo *undo;
 	struct DOpusRemember *gadkey;
 	struct dopusfunction *seconddrive;
-	struct Gadget *gad;
+	struct Gadget *gad = NULL;
 	struct Border *unselborder, *selborder;
 	int a, b, x, y, mode = -1, editon = 0, dnum = -1, odnum;
 	char buf[256];
@@ -91,7 +91,7 @@ dodriveconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			class = IMsg->Class;
 			code = IMsg->Code;
@@ -360,9 +360,9 @@ dodriveconfig()
 							seldrive = &config->drive[a];
 							showdrivename(seldrive, gad);
 							setupcolourbox(rp, x_off + 150, y_off + 76, seldrive->fpen, seldrive->bpen);
-							strcpy(edit_namebuf, seldrive->name);
+							strlcpy(edit_namebuf, seldrive->name, sizeof(edit_namebuf));
 							if(seldrive->function)
-								strcpy(edit_pathbuf, seldrive->function);
+								strlcpy(edit_pathbuf, seldrive->function, sizeof(edit_pathbuf));
 							else
 								edit_pathbuf[0] = 0;
 							IGraphics->SetAPen(rp, screen_pens[1].pen);
@@ -420,7 +420,7 @@ dodriveconfig()
 					break;
 
 				case DRIVE_EDITNAME:
-					strcpy(seldrive->name, edit_namebuf);
+					strlcpy(seldrive->name, edit_namebuf, sizeof(seldrive->name));
 					showfuncob(rp, seldrive->name, seldrive->fpen, seldrive->bpen, CFG_DRIVE, x_off + 244, y_off + 66);
 					showdrivename(seldrive, seligad);
 					if(code != 0x9)
@@ -435,11 +435,11 @@ dodriveconfig()
 					break;
 
 				case DRIVE_EDITREQ:
-					strcpy(dirbuf, edit_pathbuf);
-					if(funcrequester(FREQ_PATHREQ, buf, NULL))
+					strlcpy(dirbuf, edit_pathbuf, sizeof(dirbuf));
+					if(funcrequester(FREQ_PATHREQ, buf, NULL, sizeof(buf)))
 					{
-						IDOpus->LStrnCpy(edit_pathbuf, buf, FILEBUF_SIZE);
-						edit_pathbuf[FILEBUF_SIZE] = 0;
+						strlcpy(edit_pathbuf, buf, sizeof(edit_pathbuf));
+//						edit_pathbuf[FILEBUF_SIZE] = 0;
 						b = strlen(edit_pathbuf);
 						for(a = b; a >= 0; a--)
 						{
@@ -505,7 +505,7 @@ void showdrivename(struct dopusfunction *drive, struct Gadget *gadget)
 	{
 		IGraphics->SetAPen(rp, screen_pens[drive->fpen].pen);
 		IGraphics->SetBPen(rp, screen_pens[drive->bpen].pen);
-		strcpy(showname, drive->name);
+		strlcpy(showname, drive->name, sizeof(showname));
 		l = (80 - 8) / rp->Font->tf_XSize;
 		showname[l] = 0;
 		IDOpus->UScoreText(rp, showname, x + ((80 - ((a = strlen(showname)) * rp->Font->tf_XSize)) / 2), y + 7, -1);
@@ -616,7 +616,7 @@ void deletedrive(struct dopusfunction *drive)
 void sortdrivebank(int m)
 {
 	int gap, i, j, k;
-	char *ptr1, *ptr2, *zstr = "\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f";
+	char *ptr1, *ptr2, *zstr = (char *)"\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f";
 
 	m *= 6;
 	for(gap = 3; gap > 0; gap /= 2)
@@ -626,7 +626,7 @@ void sortdrivebank(int m)
 				k = j + gap;
 				ptr1 = (config->drive[j + m].name[0]) ? config->drive[j + m].name : zstr;
 				ptr2 = (config->drive[k + m].name[0]) ? config->drive[k + m].name : zstr;
-				if(IDOpus->LStrCmpI(ptr1, ptr2) <= 0)
+				if(strncasecmp(ptr1, ptr2, sizeof(config->drive[0].name)) <= 0)
 					break;
 				SwapMem((char *)&config->drive[j + m], (char *)&config->drive[k + m], sizeof(struct dopusfunction));
 			}

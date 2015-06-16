@@ -77,10 +77,10 @@ int initscreenmodes()
 		pubscreen = (struct PubScreenNode *)pubscreenlist->lh_Head;
 		while(pubscreen->psn_Node.ln_Succ)
 		{
-			if(IUtility->Stricmp(pubscreen->psn_Node.ln_Name, "Workbench") != 0 && IUtility->Strnicmp(pubscreen->psn_Node.ln_Name, "DOPUS.", 6) != 0 && pubscreen->psn_Screen->Width >= 640 && pubscreen->psn_Screen->Height >= 480 && pubscreen->psn_Screen->RastPort.BitMap->Depth > 1)
+			if(strncasecmp(pubscreen->psn_Node.ln_Name, "Workbench", 10) != 0 && strncasecmp(pubscreen->psn_Node.ln_Name, "DOPUS.", 6) != 0 && pubscreen->psn_Screen->Width >= 640 && pubscreen->psn_Screen->Height >= 480 && pubscreen->psn_Screen->RastPort.BitMap->Depth > 1)
 			{
 
-				sprintf(namebuf, "%s:%s", pubscreen->psn_Node.ln_Name, cfg_string[STR_SCREEN_MODE_USE]);
+				snprintf(namebuf, sizeof(namebuf), "%s:%s", pubscreen->psn_Node.ln_Name, cfg_string[STR_SCREEN_MODE_USE]);
 				count += addscreenmode(namebuf, 640, 480, pubscreen->psn_Screen->Width, pubscreen->psn_Screen->Height, pubscreen->psn_Screen->Width, pubscreen->psn_Screen->Height, pubscreen->psn_Screen->RastPort.BitMap->Depth, MODE_PUBLICSCREENUSE);
 
 			}
@@ -104,7 +104,7 @@ int addscreenmode(STRPTR name, UWORD minw, UWORD minh, UWORD maxw, UWORD maxh, U
 	screenmode = firstmode;
 	while(screenmode)
 	{
-		if(IDOpus->LStrCmpI(screenmode->name, name) == 0)
+		if(strncasecmp(screenmode->name, name, sizeof(screenmode->name)) == 0)
 			return (0);
 		if(!screenmode->next)
 			break;
@@ -118,7 +118,7 @@ int addscreenmode(STRPTR name, UWORD minw, UWORD minh, UWORD maxw, UWORD maxh, U
 		else
 			firstmode = scrmode;
 
-		IUtility->Strlcpy(scrmode->name, name, 80);
+		strlcpy(scrmode->name, name, sizeof(scrmode->name));
 		scrmode->minw = minw;
 		scrmode->minh = minh;
 
@@ -160,13 +160,13 @@ struct ScreenMode *showdisplaydesc()
 		return (NULL);
 	}
 
-	sprintf(modebuf, "%16s: %d %s %d", cfg_string[STR_MINIMUM_SIZE], mode->minw, cfg_string[STR_BY], mode->minh);
+	snprintf(modebuf, sizeof(modebuf), "%16s: %d %s %d", cfg_string[STR_MINIMUM_SIZE], mode->minw, cfg_string[STR_BY], mode->minh);
 	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 147, -1);
-	sprintf(modebuf, "%16s: %d %s %d", cfg_string[STR_MAXIMUM_SIZE], mode->maxw, cfg_string[STR_BY], mode->maxh);
+	snprintf(modebuf, sizeof(modebuf), "%16s: %d %s %d", cfg_string[STR_MAXIMUM_SIZE], mode->maxw, cfg_string[STR_BY], mode->maxh);
 	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 155, -1);
-	sprintf(modebuf, "%16s: %d %s %d", cfg_string[STR_DEFAULT_SIZE], mode->defw, cfg_string[STR_BY], mode->defh);
+	snprintf(modebuf, sizeof(modebuf), "%16s: %d %s %d", cfg_string[STR_DEFAULT_SIZE], mode->defw, cfg_string[STR_BY], mode->defh);
 	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 163, -1);
-	sprintf(modebuf, "%16s: %d", cfg_string[STR_MAXIMUM_COLORS], (1 << mode->maxdepth));
+	snprintf(modebuf, sizeof(modebuf), "%16s: %d", cfg_string[STR_MAXIMUM_COLORS], (1 << mode->maxdepth));
 	IDOpus->UScoreText(rp, modebuf, x_off + 240, y_off + 171, -1);
 
 	return (mode);
@@ -174,8 +174,8 @@ struct ScreenMode *showdisplaydesc()
 
 void fixmodegads(struct ScreenMode *mode)
 {
-	sprintf(screenwidth_buf, "%d", config->scrw);
-	sprintf(screenheight_buf, "%d", config->scrh);
+	snprintf(screenwidth_buf, sizeof(screenwidth_buf), "%d", config->scrw);
+	snprintf(screenheight_buf, sizeof(screenheight_buf), "%d", config->scrh);
 
 	if(config->scrdepth < 2)
 		config->scrdepth += 2;
@@ -183,7 +183,7 @@ void fixmodegads(struct ScreenMode *mode)
 		config->scrdepth = ((mode) ? mode->maxdepth : 8);
 	config->scrdepth = 8;
 
-	sprintf(screendepth_buf, "%d", (1 << config->scrdepth));
+	snprintf(screendepth_buf, sizeof(screendepth_buf), "%d", (1 << config->scrdepth));
 
 	if(mode && !(screenmodegads[SCREENMODE_WIDTH - 300].Flags & GFLG_DISABLED))
 	{
@@ -270,7 +270,7 @@ void sortscreenmodes(int count, int off)
 			{
 				mode1 = getscreenmode(j + off);
 				mode2 = getscreenmode(j + gap + off);
-				if(!mode1 || !mode2 || IDOpus->LStrCmpI(mode1->name, mode2->name) <= 0)
+				if(!mode1 || !mode2 || strncasecmp(mode1->name, mode2->name, sizeof(mode1->name)) <= 0)
 					break;
 				SwapMem((char *)mode1->name, (char *)mode2->name, sizeof(struct ScreenMode) - 4);
 			}

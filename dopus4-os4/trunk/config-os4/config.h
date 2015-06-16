@@ -63,6 +63,7 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/config.h>
 #include <dopus/configflags.h>
 #include <dopus/dopusmessage.h>
+#include <dopus/debug.h>
 
 #ifdef __GNUC__
 	#ifdef __PPC__
@@ -187,6 +188,8 @@ enum
 #define NUMFONTS 16
 #define USEDRIVECOUNT 30
 
+#define FUNCTYPE_SIZE 40
+
 struct fileclass
 {
 	struct fileclass *last, *next;
@@ -209,7 +212,7 @@ extern struct RastPort *rp;
 extern struct Process *myproc;
 extern struct IntuiMessage *IMsg;
 extern APTR wsave, realwsave;
-extern char *spacestring;
+extern const char *spacestring;
 extern char fontbuf[50];
 extern struct TextAttr sfont, bsfont;
 extern struct Config *config, *undoconfig;
@@ -511,7 +514,7 @@ extern struct dopusgadgetbanks *lastbank();
 extern int fontplaceflags[], fontplacevals[];
 extern struct RMBGadget nextbankrmb, insertbankrmb, formatclearrmb, sampleclearrmb;
 extern struct DOpusListView editlists[3], cmdlist, screenmodeview, listlist, iconlistview, fontsizelistview, fontlistview, fontplacelist, editclasslist, hotkeyslist, helplist, filetypeactionlist, modulelist;
-extern char *external_module_list[], *external_module_name[];
+extern const char *external_module_list[], *external_module_name[];
 extern int external_module_map[];
 
 extern struct Gadget editfuncgadgets[15], cmdcancelgad, menuslidergads[3], editdrivegadgets[4], palettegads[6], coloursgad, screenmodegads[7], editclassgadgets[14], listokaygad[3], formatgads[11], hotkeygad, hotkeymmbgad, arrowgadgets[8], fontsizegadget, helpgad, helpcancelgad, draggad, icongads[4], depthgads[2], screen_sliders_gadgets[];
@@ -609,7 +612,7 @@ extern struct IntuiText newtext, opentext, savetext, saveastext, cuttext, copyte
 
 extern int network;
 
-extern char *ftype_funcs[];
+extern const char *ftype_funcs[];
 
 extern struct StringData stringdata;
 

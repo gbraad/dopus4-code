@@ -27,6 +27,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
 #include "config.h"
 
 #define ABS(x) ((x)<0?-(x):(x))
@@ -44,7 +45,7 @@ int initfontlist(int num, int move, int flags)
 		fontlistview.items = only8list;
 	else if(flags == FFLAG_NOPROP)
 		fontlistview.items = noproplist;
-	strcpy(name, config->fontbufs[num]);
+	strlcpy(name, config->fontbufs[num], sizeof(name));
 	if((ptr = strstri(name, ".font")))
 	{
 		*ptr = 0;
@@ -96,7 +97,7 @@ int initfontlist(int num, int move, int flags)
 					if(one != -1)
 					{
 						size = config->fontsizes[num];
-						sprintf(fontsize_buf, "%d", size);
+						snprintf(fontsize_buf, sizeof(fontsize_buf), "%d", size);
 						IDOpus->RefreshStrGad(&fontsizegadget, Window);
 						fontsizelistview.itemselected = -1;
 					}
@@ -110,8 +111,8 @@ int initfontlist(int num, int move, int flags)
 	IDOpus->RefreshListView(&fontlistview, 2);
 	if(size > -1)
 	{
-		strcat(name, ".font");
-		dofontdemo(name, size);
+		strlcat(name, ".font", sizeof(name));
+		dofontdemo(name, size, sizeof(name));
 	}
 	return (size);
 }
@@ -127,12 +128,12 @@ void sortfontlist(struct AvailFonts *avail, int num, int type)
 				k = j + gap;
 				if(type == 0)
 				{
-					if(IDOpus->LStrCmpI((char *)avail[j].af_Attr.ta_Name, (char *)avail[k].af_Attr.ta_Name) <= 0)
+					if(strcasecmp((char *)avail[j].af_Attr.ta_Name, (char *)avail[k].af_Attr.ta_Name) <= 0)
 						break;
 				}
 				else
 				{
-					if(IDOpus->LStrCmpI((char *)avail[j].af_Attr.ta_Name, (char *)avail[k].af_Attr.ta_Name))
+					if(strcasecmp((char *)avail[j].af_Attr.ta_Name, (char *)avail[k].af_Attr.ta_Name))
 						break;
 					if(avail[j].af_Attr.ta_YSize <= avail[k].af_Attr.ta_YSize)
 						break;
@@ -141,7 +142,7 @@ void sortfontlist(struct AvailFonts *avail, int num, int type)
 			}
 }
 
-void dofontdemo(STRPTR name, int size)
+void dofontdemo(STRPTR name, int size, int namesize)
 {
 	struct TextFont *font;
 	struct Region *reg, *oldreg = NULL;
@@ -159,7 +160,7 @@ void dofontdemo(STRPTR name, int size)
 	IGraphics->SetAPen(rp, screen_pens[1].pen);
 	busy();
 	IDOpus->UScoreText(rp, cfg_string[STR_LOADING_FONT], x_off + 329, y_off + 133, -1);
-	if((font = getfont(name, &size, 0)))
+	if((font = getfont(name, &size, 0, namesize)))
 	{
 		IGraphics->SetAPen(rp, screen_pens[0].pen);
 		IGraphics->RectFill(rp, x_off + 146, y_off + 94, x_off + 613, y_off + 167);

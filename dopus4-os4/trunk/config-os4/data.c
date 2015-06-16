@@ -60,7 +60,7 @@ struct TagItem scr_taglist[] =
 
 struct ExtNewScreen configscr =
 {
-	0, 0, 800, 600, 0, 0, 1, 0 /*HIRES*/, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, VERS, NULL, NULL, scr_taglist
+	0, 0, 800, 600, 0, 0, 1, 0 /*HIRES*/, CUSTOMSCREEN | SCREENBEHIND | NS_EXTENDED, &sfont, (STRPTR)VERS, NULL, NULL, scr_taglist
 };
 
 struct NewWindow configwin =
@@ -86,7 +86,7 @@ struct RastPort *rp;
 struct Process *myproc = NULL;
 struct IntuiMessage *IMsg;
 APTR wsave, realwsave;
-char *spacestring = "                                                                                                                                                      ";
+const char *spacestring = "                                                                                                                                                      ";
 
 char fontbuf[50];
 struct TextAttr sfont = { (STRPTR)fontbuf, 8, 0, 0 }, bsfont = { (STRPTR)fontbuf, 8, FSF_BOLD, 0 };
@@ -149,14 +149,14 @@ struct DOpusListView cmdlist =
 	5, NULL, 0, 0, 338, 56, NULL, NULL, NULL, DLVF_MULTI | DLVF_TTOP | DLVF_CHECK | DLVF_HIREC, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, NULL
 };
 
-char *external_module_list[] =
+const char *external_module_list[] =
 {
 	"ConfigOpus",
 	"Print, Printdir",
 	NULL
 };
 
-char *external_module_name[] =
+const char *external_module_name[] =
 {
 	"ConfigOpus",
 	"DOpus_Print",
@@ -196,7 +196,7 @@ struct DOpusFileReq filereq =
 	NULL, dirbuf, filebuf, NULL, 162, 22, 10, 0, NULL, NULL
 };
 
-char *defdir[5] = { "", "SYS:", "SYS:", "S:", "REXX:" };
+char *defdir[5] = { (char *)"", (char *)"SYS:", (char *)"SYS:", (char *)"S:", (char *)"REXX:" };
 
 struct newdopusfunction *selgad;
 struct Gadget *seligad;
@@ -328,7 +328,7 @@ char *formatnames[FORMAT_MAXNUM + 1], *selectedformatnames[FORMAT_MAXNUM + 1];
 
 int rowtrans[5] = { 0, 1, 2, 3, 6 };
 struct TextFont *tfont;
-char *fontdatabuf = NULL, **fontlist, *(**fontsizelist), **noproplist, *(**nopropsizelist), **only8list, *only8sizelist[] = { "8", NULL };
+char *fontdatabuf = NULL, **fontlist, *(**fontsizelist), **noproplist, *(**nopropsizelist), **only8list, *only8sizelist[] = { (char *)"8", NULL };
 struct fileclass *firstclass;
 char classname[256];
 struct DOpusRemember *helpkey = NULL;
@@ -366,7 +366,7 @@ struct StringData stringdata;
 
 int network;
 
-char *ftype_funcs[] =
+const char *ftype_funcs[] =
 {
 	"AnsiRead",
 	"HexRead",

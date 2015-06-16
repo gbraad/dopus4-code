@@ -32,13 +32,13 @@ the existing commercial status of Directory Opus 5.
 static struct DOpusRemember *hkey;
 static char **hotkeylist;
 
-dohotkeysconfig()
+int dohotkeysconfig()
 {
 	ULONG class;
-	USHORT code, gadgetid;
+	USHORT code, gadgetid = 0;
 	struct ConfigUndo *undo;
 	struct DOpusListView *view;
-	struct dopushotkey hotkey, *newhot, *hot, *swapfirst = NULL;
+	struct dopushotkey hotkey, *newhot = NULL, *hot, *swapfirst = NULL;
 	int a, mode = -1;
 
 	showconfigscreen(CFG_HOTKEYS);
@@ -48,7 +48,7 @@ dohotkeysconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if((view = IDOpus->ListViewIDCMP(&hotkeyslist, IMsg)) == (struct DOpusListView *)-1)
 			{
@@ -127,7 +127,7 @@ dohotkeysconfig()
 					      editnewhotkey:
 						if(doedithotkey(&hotkey))
 						{
-							if(newhot = (struct dopushotkey *)getcopy((char *)&hotkey, sizeof(struct dopushotkey), NULL))
+							if((newhot = (struct dopushotkey *)getcopy((char *)&hotkey, sizeof(struct dopushotkey), NULL)))
 							{
 								newhot->func.function = getcopy(hotkey.func.function, -1, NULL);
 								hot = firsthotkey;
@@ -231,7 +231,7 @@ void makehotkeylist()
 {
 	struct dopushotkey *hotkey;
 	char *buf, str[40], name[40];
-	int a, count;
+	int a, count, hotkeysize = 80;
 
 	IDOpus->LFreeRemember(&hkey);
 	hotkeylist = NULL;
@@ -242,17 +242,17 @@ void makehotkeylist()
 			break;
 		hotkey = hotkey->next;
 	}
-	if(count && (hotkeylist = IDOpus->LAllocRemember(&hkey, (count + 1) * 4, MEMF_CLEAR)) && (buf = IDOpus->LAllocRemember(&hkey, count * 80, MEMF_CLEAR)))
+	if(count && (hotkeylist = IDOpus->LAllocRemember(&hkey, (count + 1) * 4, MEMF_CLEAR)) && (buf = IDOpus->LAllocRemember(&hkey, count * hotkeysize, MEMF_CLEAR)))
 	{
 		hotkey = firsthotkey;
 		for(a = 0; a < count; a++)
 		{
-			hotkeylist[a] = &buf[a * 80];
+			hotkeylist[a] = &buf[a * hotkeysize];
 			IDOpus->RawkeyToStr(hotkey->code, hotkey->qualifier, str, NULL, 39);
 			str[39] = 0;
-			strcpy(name, hotkey->name);
+			strlcpy(name, hotkey->name, sizeof(name));
 			name[36] = 0;
-			sprintf(hotkeylist[a], "%-36s %s", name, str);
+			snprintf(hotkeylist[a], hotkeysize, "%-36s %s", name, str);
 			hotkey = hotkey->next;
 		}
 	}
@@ -263,7 +263,7 @@ void makehotkeylist()
 	IDOpus->RefreshListView(&hotkeyslist, 1);
 }
 
-doedithotkey(struct dopushotkey *hotkey)
+int doedithotkey(struct dopushotkey *hotkey)
 {
 	int a;
 
@@ -281,13 +281,13 @@ void drawcornerimage(struct RastPort *r, int x1, int y1, int bc, int tc)
 	IGraphics->RectFill(r, x1 - 5, y1 - 1, x1, y1 + 3);
 	IGraphics->SetDrMd(r, JAM1);
 	IGraphics->SetAPen(r, screen_pens[bc].pen);
-	IGraphics->BltTemplate((char *)pageflip_data1, 0, 2, r, x1 - 6, y1 - 1, 6, 5);
+	IGraphics->BltTemplate((CONST PLANEPTR)pageflip_data1, 0, 2, r, x1 - 6, y1 - 1, 6, 5);
 	IGraphics->SetAPen(r, screen_pens[tc].pen);
-	IGraphics->BltTemplate((char *)pageflip_data2, 0, 2, r, x1 - 6, y1, 6, 3);
+	IGraphics->BltTemplate((CONST PLANEPTR)pageflip_data2, 0, 2, r, x1 - 6, y1, 6, 3);
 	IGraphics->SetDrMd(r, JAM2);
 }
 
-fixrmbimage(struct RMBGadget *rmb, struct Gadget *gad, int on, int x, int y)
+int fixrmbimage(struct RMBGadget *rmb, struct Gadget *gad, int on, int x, int y)
 {
 	int op, ret = 0, a;
 	struct RMBGadget *rmbgad;
@@ -353,12 +353,12 @@ void doradiobuttons()
 
 	buttononimage = IDOpus->GetButtonImage(15, 9, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen, screen_pens[3].pen, screen_pens[0].pen, &buttonkey);
 
-	if(checkoffimage = IDOpus->GetCheckImage(screen_pens[1].pen, screen_pens[0].pen, 0, &buttonkey))
+	if((checkoffimage = IDOpus->GetCheckImage(screen_pens[1].pen, screen_pens[0].pen, 0, &buttonkey)))
 		IExec->CopyMem((char *)checkoffimage, (char *)&copy_checkoffimage, sizeof(struct Image));
 	else
 		copy_checkoffimage.ImageData = NULL;
 
-	if(checkonimage = IDOpus->GetCheckImage(screen_pens[1].pen, screen_pens[0].pen, 1, &buttonkey))
+	if((checkonimage = IDOpus->GetCheckImage(screen_pens[1].pen, screen_pens[0].pen, 1, &buttonkey)))
 		IExec->CopyMem((char *)checkonimage, (char *)&copy_checkonimage, sizeof(struct Image));
 	else
 		copy_checkonimage.ImageData = NULL;

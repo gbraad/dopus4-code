@@ -27,12 +27,13 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
 #include "config.h"
 
 int dofiletypeconfig()
 {
 	ULONG class;
-	USHORT code, gadgetid;
+	USHORT code, gadgetid = FILETYPE_CANCEL;
 	struct ConfigUndo *undo;
 	struct DOpusRemember *key;
 	struct DOpusListView *view;
@@ -60,7 +61,7 @@ int dofiletypeconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if((view = IDOpus->ListViewIDCMP(&filetypeactionlist, IMsg)) == (struct DOpusListView *)-1)
 			{
@@ -125,7 +126,7 @@ int dofiletypeconfig()
 							if(!(fclass = getfileclasslist(3)))
 								break;
 							IExec->CopyMem((char *)fclass, (char *)&classbuf, sizeof(struct fileclass));
-							classbuf.recognition = getcopy(fclass->recognition, -1, NULL);
+							classbuf.recognition = (unsigned char *)getcopy((STRPTR)fclass->recognition, -1, NULL);
 							classbuf.next = classbuf.last = NULL;
 							if(editclass(&classbuf, 1))
 								classchange = 1;
@@ -155,12 +156,12 @@ int dofiletypeconfig()
 							break;
 						case 7:
 							if(classname[0])
-								strcpy(dirbuf, classname);
+								strlcpy(dirbuf, classname, sizeof(dirbuf));
 							else
-								strcpy(dirbuf, "PROGDIR:S/DirectoryOpus.CLA");
-							if(ptr = IDOS->FilePart(dirbuf))
+								strlcpy(dirbuf, "PROGDIR:S/DirectoryOpus.CLA", sizeof(dirbuf));
+							if((ptr = IDOS->FilePart(dirbuf)))
 							{
-								strcpy(filebuf, ptr);
+								strlcpy(filebuf, ptr, sizeof(filebuf));
 								*ptr = 0;
 							}
 							filereq.flags = 0;
@@ -170,8 +171,8 @@ int dofiletypeconfig()
 								filebuf[0] = 0;
 							if(!filebuf[0])
 								break;
-							strcpy(classname, dirbuf);
-							IDOS->AddPart(classname, filebuf, 256);
+							strlcpy(classname, dirbuf, sizeof(classname));
+							IDOS->AddPart(classname, filebuf, sizeof(classname));
 							busy();
 							if(savefileclasses())
 								classchange = 0;
@@ -236,11 +237,11 @@ int dofiletypeconfig()
 						}
 						if(!type || request(cfg_string[STR_REDEFINE_EXISTING_CLASS_ACTION]))
 						{
-							if(type = doAllocVec(sizeof(struct dopusfiletype), MEMF_CLEAR))
+							if((type = doAllocVec(sizeof(struct dopusfiletype), MEMF_CLEAR)))
 							{
-								strcpy(type->type, fclass->type);
-								strcpy(type->typeid, fclass->typeid);
-								type->recognition = getcopy(fclass->recognition, -1, &typekey);
+								strlcpy(type->type, fclass->type, sizeof(type->type));
+								strlcpy(type->typeid, fclass->typeid, sizeof(type->typeid));
+								type->recognition = getcopy((STRPTR)fclass->recognition, -1, &typekey);
 								for(a = 0; a < 4; a++)
 								{
 									type->stack[a] = 8192;
@@ -248,7 +249,7 @@ int dofiletypeconfig()
 								}
 								if(editfiletype(type, &key, 1))
 								{
-									if(tpos = (struct dopusfiletype *)getcopy((char *)type, sizeof(struct dopusfiletype), &typekey))
+									if((tpos = (struct dopusfiletype *)getcopy((char *)type, sizeof(struct dopusfiletype), &typekey)))
 									{
 										tpos->recognition = getcopy(type->recognition, -1, &typekey);
 										for(a = 0; a < 4; a++)
@@ -364,7 +365,7 @@ char **makefiletypelist(struct DOpusRemember **key)
 	type = firsttype;
 	for(a = 0; a < count; a++)
 	{
-		if(list[a] = IDOpus->LAllocRemember(key, 60, MEMF_CLEAR))
+		if((list[a] = IDOpus->LAllocRemember(key, 60, MEMF_CLEAR)))
 		{
 			if(type->type[0])
 				sprintf(list[a], "%-50s%s", type->type, type->typeid);
@@ -408,13 +409,13 @@ void filetypetitle(struct dopusfiletype *type)
 {
 	char title[80];
 
-	sprintf(title, "%s : %s", cfg_string[STR_FILETYPE_CLASS], type->type);
+	snprintf(title, sizeof(title), "%s : %s", cfg_string[STR_FILETYPE_CLASS], type->type);
 	if(type->typeid[0])
 	{
 		char extra[16];
 
-		sprintf(extra, " (%s)", type->typeid);
-		strcat(title, extra);
+		snprintf(extra, sizeof(extra), " (%s)", type->typeid);
+		strlcat(title, extra, sizeof(title));
 	}
 	doscreentitle(title);
 }
@@ -481,28 +482,28 @@ int editclass(struct fileclass *class, int new)
 	}
 	cleanconfigscreen();
 	doscreentitle(cfg_string[STR_FILE_CLASS_EDIT_SCREEN]);
-	strcpy(editbuf.type, class->type);
-	strcpy(editbuf.typeid, class->typeid);
-	editbuf.recognition = getcopy(class->recognition, -1, NULL);
+	strlcpy(editbuf.type, class->type, sizeof(editbuf.type));
+	strlcpy(editbuf.typeid, class->typeid, sizeof(editbuf.typeid));
+	editbuf.recognition = (unsigned char *)getcopy((STRPTR)class->recognition, -1, NULL);
 	if((b = editfileclass(&editbuf, new)))
 	{
 		if(c)
 		{
 			if(!new)
 				removefileclass(class);
-			addfileclass(editbuf.type, editbuf.typeid, editbuf.recognition);
+			addfileclass(editbuf.type, editbuf.typeid, (char *)editbuf.recognition);
 		}
 		else
 		{
-			freestring(class->recognition);
-			class->recognition = getcopy(editbuf.recognition, -1, NULL);
-			strcpy(class->type, editbuf.type);
-			strcpy(class->typeid, editbuf.typeid);
+			freestring((char *)class->recognition);
+			class->recognition = (unsigned char *)getcopy((STRPTR)editbuf.recognition, -1, NULL);
+			strlcpy(class->type, editbuf.type, sizeof(class->type));
+			strlcpy(class->typeid, editbuf.typeid, sizeof(class->typeid));
 		}
 	}
 	if(c)
 		showconfigscreen(CFG_FILETYPE);
-	freestring(editbuf.recognition);
+	freestring((char *)editbuf.recognition);
 	makehelpname((char *)-1);
 	return (b);
 }
@@ -535,7 +536,7 @@ void readfileclasses()
 
 	if((IDOpus->CheckExist(classname, &size)) >= 0 || !(classbuf = doAllocVec(size, MEMF_CLEAR)))
 		return;
-	if(in = IDOS->Open(classname, MODE_OLDFILE))
+	if((in = IDOS->Open(classname, MODE_OLDFILE)))
 	{
 		IDOS->Read(in, classbuf, size);
 		IDOS->Close(in);
@@ -544,7 +545,7 @@ void readfileclasses()
 		{
 			if((pos = readline(classbuf, pos, buf, size)) == -1)
 				break;
-			typeid = "";
+			typeid = (char *)"";
 			for(a = 0; buf[a]; a++)
 			{
 				if(buf[a] == 1)
@@ -573,15 +574,15 @@ int importfileclasses()
 
 	filereq.flags = 0;
 	filereq.title = cfg_string[STR_SELECT_CLASS_FILE_TO_LOAD];
-	strcpy(dirbuf, classname);
-	if(classbuf = IDOS->FilePart(dirbuf))
+	strlcpy(dirbuf, classname, sizeof(dirbuf));
+	if((classbuf = IDOS->FilePart(dirbuf)))
 		*classbuf = 0;
 	filebuf[0] = 0;
 	filereq.window = Window;
 	if(!(IDOpus->FileRequest(&filereq)) || !filebuf[0])
 		return (0);
-	strcpy(buf, dirbuf);
-	IDOS->AddPart(buf, filebuf, 256);
+	strlcpy(buf, dirbuf, sizeof(buf));
+	IDOS->AddPart(buf, filebuf, sizeof(buf));
 
 	while(!(in = IDOS->Open(buf, MODE_OLDFILE)))
 	{
@@ -616,7 +617,7 @@ int importfileclasses()
 			if((pos = readline(classbuf, pos, buf, size)) == -1)
 				break;
 			classlist[a] = &classbuf[tpos];
-			classtypeid[a] = "";
+			classtypeid[a] = (char *)"";
 			for(b = 0; buf[b]; b++)
 			{
 				if(buf[b] == 1)
@@ -660,10 +661,10 @@ int savefileclasses()
 	if(!firstclass)
 		return (1);
 	if(!classname[0])
-		strcpy(classname, "PROGDIR:S/DirectoryOpus.CLA");
+		strlcpy(classname, "PROGDIR:S/DirectoryOpus.CLA", sizeof(classname));
 	while(!(out = IDOS->Open(classname, MODE_NEWFILE)))
 	{
-		sprintf(buf, cfg_string[STR_SAVE_FAILED], IDOS->IoErr());
+		snprintf(buf, sizeof(buf), cfg_string[STR_SAVE_FAILED], IDOS->IoErr());
 		if(!(request(buf)))
 			return (0);
 	}
@@ -684,7 +685,7 @@ int savefileclasses()
 		IDOS->Write(out, &f, 1);
 		if(fclass->recognition)
 		{
-			if((IDOS->Write(out, fclass->recognition, (a = (strlen(fclass->recognition) + 1)))) < a)
+			if((IDOS->Write(out, fclass->recognition, (a = (strlen((char *)fclass->recognition) + 1)))) < a)
 				break;
 		}
 		else
@@ -697,12 +698,12 @@ int savefileclasses()
 
 int addfileclass(STRPTR type, STRPTR typeid, STRPTR recog)
 {
-	struct fileclass *fclass, *newclass, *last;
+	struct fileclass *fclass, *newclass, *last = NULL;
 
 	fclass = firstclass;
 	while(fclass)
 	{
-		if(IDOpus->LStrCmpI(fclass->type, type) >= 0)
+		if(strncasecmp(fclass->type, type, sizeof(fclass->type)) >= 0)
 			break;
 		if(!fclass->next)
 			last = fclass;
@@ -729,10 +730,10 @@ int addfileclass(STRPTR type, STRPTR typeid, STRPTR recog)
 	}
 	else
 		firstclass = newclass;
-	strcpy(newclass->type, type);
-	strcpy(newclass->typeid, typeid);
+	strlcpy(newclass->type, type, sizeof(newclass->type));
+	strlcpy(newclass->typeid, typeid, sizeof(newclass->typeid));
 	if(recog && (newclass->recognition = doAllocVec(strlen(recog) + 1, MEMF_CLEAR)))
-		strcpy(newclass->recognition, recog);
+		strlcpy((char *)newclass->recognition, recog, strlen(recog) + 1);
 	return (1);
 }
 
@@ -744,7 +745,7 @@ void freefileclasses()
 	while(fclass)
 	{
 		newclass = fclass->next;
-		freestring(fclass->recognition);
+		freestring((char *)fclass->recognition);
 		IExec->FreeVec(fclass);
 		fclass = newclass;
 	}
@@ -759,7 +760,7 @@ void removefileclass(struct fileclass *fclass)
 		fclass->next->last = fclass->last;
 	if(fclass == firstclass)
 		firstclass = fclass->next;
-	freestring(fclass->recognition);
+	freestring((char *)fclass->recognition);
 	IExec->FreeVec(fclass);
 }
 
@@ -779,8 +780,8 @@ char **makeclasslist(struct DOpusRemember **key)
 	fclass = firstclass;
 	for(a = 0; a < count; a++)
 	{
-		if(list[a] = IDOpus->LAllocRemember(key, 40, MEMF_CLEAR))
-			strcpy(list[a], fclass->type);
+		if((list[a] = IDOpus->LAllocRemember(key, 40, MEMF_CLEAR)))
+			strlcpy(list[a], fclass->type, 40);
 		fclass = fclass->next;
 	}
 	return (list);
@@ -810,7 +811,7 @@ int editfileclass(struct fileclass *fclass, int new)
 {
 	int a, b, old, selitem, lasta = -1, x, y, mx, my, off, temp, waitbits, remapp = 0, char_w;
 	ULONG class, sec, mic, oldsec, oldmic;
-	USHORT code, gadgetid, qual;
+	USHORT code, qual, gadgetid = CLASS_CANCEL;
 	struct Gadget *gad;
 	struct DOpusListView *view;
 	struct DOpusRemember *key = NULL;
@@ -826,8 +827,8 @@ int editfileclass(struct fileclass *fclass, int new)
 	dispclasslist(classlist, classtype, displist);
 
 	namesinfo.MaxChars = 32;
-	strcpy(edit_namebuf, fclass->type);
-	strcpy(edit_typeidbuf, fclass->typeid);
+	strlcpy(edit_namebuf, fclass->type, sizeof(edit_namebuf));
+	strlcpy(edit_typeidbuf, fclass->typeid, sizeof(edit_typeidbuf));
 	edit_funcbuf[0] = 0;
 	edit_pathbuf[0] = 0;
 	editclassgadgets[4].Flags &= ~GFLG_SELECTED;
@@ -878,7 +879,7 @@ int editfileclass(struct fileclass *fclass, int new)
 	{
 		if(appobject)
 		{
-			while(appmsg = (struct AppMessage *)IExec->GetMsg(appport))
+			while((appmsg = (struct AppMessage *)IExec->GetMsg(appport)))
 			{
 				IIntuition->ActivateWindow(Window);
 				if(appmsg->am_ID == MY_APPOBJECT && appmsg->am_NumArgs > 0 && (*appmsg->am_ArgList[0].wa_Name))
@@ -891,7 +892,7 @@ int editfileclass(struct fileclass *fclass, int new)
 				IExec->ReplyMsg((struct Message *)appmsg);
 			}
 		}
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if((view = IDOpus->ListViewIDCMP(&editclasslist, IMsg)) == (struct DOpusListView *)-1)
 			{
@@ -984,7 +985,7 @@ int editfileclass(struct fileclass *fclass, int new)
 						if(off)
 							break;
 						class = 0;
-						while(IMsg = getintuimsg())
+						while((IMsg = getintuimsg()))
 						{
 							if(IMsg->Class == IDCMP_MOUSEMOVE || IMsg->Class == IDCMP_MOUSEBUTTONS)
 								class = IMsg->Class;
@@ -1091,7 +1092,7 @@ int editfileclass(struct fileclass *fclass, int new)
 								if(!temp++)
 									IDOS->Delay(10);
 							}
-							while(IMsg = getintuimsg())
+							while((IMsg = getintuimsg()))
 							{
 								class = IMsg->Class;
 								code = IMsg->Code;
@@ -1114,8 +1115,8 @@ int editfileclass(struct fileclass *fclass, int new)
 					{
 					case CLASS_OKAY:
 						makeclassrecog(fclass, classlist, classtype);
-						strcpy(fclass->type, edit_namebuf);
-						strcpy(fclass->typeid, edit_typeidbuf);
+						strlcpy(fclass->type, edit_namebuf, sizeof(fclass->type));
+						strlcpy(fclass->typeid, edit_typeidbuf, sizeof(fclass->typeid));
 					case CLASS_CANCEL:
 						if(editclassgadgets[3].Flags & GFLG_DISABLED)
 							seteditclassgads(1);
@@ -1130,7 +1131,7 @@ int editfileclass(struct fileclass *fclass, int new)
 
 					case CLASS_OPERATION:
 						checkclassswap();
-						if((a = funcrequester(FREQ_FILETYPE, NULL, cfg_string[STR_LIST_OF_FILETYPE_COMMANDS])))
+						if((a = funcrequester(FREQ_FILETYPE, NULL, cfg_string[STR_LIST_OF_FILETYPE_COMMANDS], 0)))
 						{
 							classtype[selitem] = a;
 							showclassop(classtype[selitem]);
@@ -1174,7 +1175,7 @@ int editfileclass(struct fileclass *fclass, int new)
 								selitem = editclasslist.count;
 								seteditclassgads(1);
 							}
-							insertnewclass(classlist, classtype, selitem, displist, " ", 2);
+							insertnewclass(classlist, classtype, selitem, displist, (char *)" ", 2);
 							lasta = selitem;
 						}
 						else
@@ -1197,7 +1198,7 @@ int editfileclass(struct fileclass *fclass, int new)
 
 					case CLASS_FILEVIEWREQ:
 					      getfileview:
-						if(!(funcrequester(FREQ_GENERIC, edit_pathbuf, NULL)))
+						if(!(funcrequester(FREQ_GENERIC, edit_pathbuf, NULL, sizeof(edit_pathbuf))))
 							break;
 						IDOpus->RefreshStrGad(&editclassgadgets[9], Window);
 					case CLASS_FILEVIEW:
@@ -1252,7 +1253,7 @@ int editfileclass(struct fileclass *fclass, int new)
 						seteditclassgads(1);
 					selitem = view->itemselected;
 					if(classlist[selitem])
-						strcpy(edit_funcbuf, classlist[selitem]);
+						strlcpy(edit_funcbuf, classlist[selitem], sizeof(edit_funcbuf));
 					else
 						edit_funcbuf[0] = 0;
 					IDOpus->RefreshStrGad(&editclassgadgets[7], Window);
@@ -1273,7 +1274,7 @@ void makeeditclasslist(struct fileclass *class, STRPTR *classlist, STRPTR classt
 
 	if(!class->recognition)
 		return;
-	len = strlen(class->recognition);
+	len = strlen((char *)class->recognition);
 	type = -1;
 	pos = num = 0;
 	for(a = 0; a <= len; a++)
@@ -1288,7 +1289,7 @@ void makeeditclasslist(struct fileclass *class, STRPTR *classlist, STRPTR classt
 			if(class->recognition[a] > FTYC_ENDLIMIT && class->recognition[a] < FTYC_ENDSECTION)
 			{
 			      doandor:
-				classlist[num] = getcopy(" ", 2, NULL);
+				classlist[num] = getcopy((STRPTR)" ", 2, NULL);
 				for(b = 0; b < 13; b++)
 				{
 					if(classopvals[b] == class->recognition[a])
@@ -1304,7 +1305,7 @@ void makeeditclasslist(struct fileclass *class, STRPTR *classlist, STRPTR classt
 		else if(pos == 255 || class->recognition[a] > FTYC_ENDLIMIT || !class->recognition[a])
 		{
 			buf[pos] = 0;
-			if(classlist[num] = getcopy(buf, -1, NULL))
+			if((classlist[num] = getcopy(buf, -1, NULL)))
 			{
 				for(b = 0; b < 13; b++)
 				{
@@ -1338,12 +1339,14 @@ void dispclasslist(STRPTR *classlist, STRPTR classtype, STRPTR *displist)
 	{
 		if(!classlist[a])
 			break;
-		strcpy(buf, classopslist[classtype[a] - 1]);
+		strlcpy(buf, classopslist[classtype[a] - 1], sizeof(buf));
 		ptr = strchr(buf, ' ');
 		*ptr = 0;
-		IDOpus->StrCombine(displist[a], buf, spacestring, 15);
+//		IDOpus->Str Combine(displist[a], buf, spacestring, 15);
+		strlcpy(displist[a], buf, 15);
+		strlcat(displist[a], spacestring, 15);
 		if(classopvals[classtype[a] - 1] < FTYC_COMMANDOK)
-			IDOpus->StrConcat(displist[a], classlist[a], 75);
+			strlcat(displist[a], classlist[a], 75);
 	}
 	for(; a < MAXFUNCS; a++)
 		displist[a][0] = 0;
@@ -1399,7 +1402,7 @@ void insertnewclass(STRPTR *classlist, STRPTR classtype, int entry, STRPTR *disp
 	if(string[0] == ' ' && string[1] == 0)
 		edit_funcbuf[0] = 0;
 	else
-		strcpy(edit_funcbuf, string);
+		strlcpy(edit_funcbuf, string, sizeof(edit_funcbuf));
 	IDOpus->RefreshStrGad(&editclassgadgets[7], Window);
 	showclassop(type);
 	IDOpus->ActivateStrGad(&editclassgadgets[7], Window);
@@ -1416,7 +1419,7 @@ void endclassedit(int item, STRPTR *classlist, STRPTR classtype, STRPTR *displis
 			removeclassentry(classlist, classtype, item);
 	}
 	else
-		classlist[item] = getcopy(" ", 2, NULL);
+		classlist[item] = getcopy((char *)" ", 2, NULL);
 	dispclasslist(classlist, classtype, displist);
 	IDOpus->RefreshListView(&editclasslist, 1);
 	edit_funcbuf[0] = 0;
@@ -1437,7 +1440,7 @@ void makeclassrecog(struct fileclass *class, STRPTR *classlist, STRPTR classtype
 		size += strlen(classlist[a]) + 2;
 		++num;
 	}
-	freestring(class->recognition);
+	freestring((char *)class->recognition);
 	class->recognition = NULL;
 	if(!size)
 		return;
@@ -1447,18 +1450,18 @@ void makeclassrecog(struct fileclass *class, STRPTR *classlist, STRPTR classtype
 	for(a = 0; a < num; a++)
 	{
 		buf2[0] = classopvals[classtype[a] - 1];
-		strcat(buf, buf2);
+		strlcat(buf, buf2, size + 2);
 		if(buf2[0] < FTYC_COMMANDOK)
 		{
-			strcat(buf, classlist[a]);
+			strlcat(buf, classlist[a], size + 2);
 			if(a == (num - 1) || classopvals[classtype[a + 1] - 1] < FTYC_COMMANDOK)
 			{
 				buf2[0] = FTYC_ENDSECTION;
-				strcat(buf, buf2);
+				strlcat(buf, buf2, size + 2);
 			}
 		}
 	}
-	class->recognition = getcopy(buf, -1, NULL);
+	class->recognition = (unsigned char *)getcopy(buf, -1, NULL);
 	IExec->FreeVec(buf);
 }
 
@@ -1480,10 +1483,10 @@ void showclassop(int op)
 	IGraphics->RectFill(rp, x_off + 37, y_off + 140, x_off + 152, y_off + 151);
 	IGraphics->SetAPen(rp, screen_pens[1].pen);
 	if(op < 1)
-		ptr = "----";
+		ptr = (char *)"----";
 	else
 	{
-		strcpy(str, classopslist[op - 1]);
+		strlcpy(str, classopslist[op - 1], sizeof(str));
 		ptr = strchr(str, ' ');
 		*ptr = 0;
 		ptr = str;
@@ -1501,7 +1504,7 @@ struct fileclass *getfileclasslist(int type)
 	struct fileclass *fclass = NULL;
 
 	fileclasslist = makeclasslist(&key);
-	if((a = funcrequester(FREQ_FILECLASS, NULL, fileclasstype[type])))
+	if((a = funcrequester(FREQ_FILECLASS, NULL, fileclasstype[type], 0)))
 	{
 		fclass = firstclass;
 		while((--a) && fclass && fclass->next)
@@ -1559,7 +1562,7 @@ void load_file_view()
 			fileview_size = 4096;
 		else if(fileview_size % 16)
 			fileview_size = ((fileview_size + 15) / 16) * 16;
-		if(fileview_buf = doAllocVec(fileview_size, MEMF_CLEAR))
+		if((fileview_buf = doAllocVec(fileview_size, MEMF_CLEAR)))
 		{
 			rsize = IDOS->Read(file, fileview_buf, fileview_size);
 			fileview_lines = (rsize + 15) / 16;
@@ -1594,7 +1597,8 @@ void file_view_text(STRPTR txt, int line)
 
 void show_file_view(void)
 {
-	int line, a, off, old, top, bottom, scroll, ox, px, aox, apx, char_w;
+	int line, a, off, old, top, bottom, scroll, ox, px, char_w;
+	int aox = 0, apx = 0;
 	char buf[80], buf2[30];
 
 	top = 0;
@@ -1630,7 +1634,7 @@ void show_file_view(void)
 			else
 			{
 				off = (fileview_topline + line) * 16;
-				sprintf(buf, "%08lx: ", off);
+				snprintf(buf, sizeof(buf), "%08lx: ", (long)off);
 				old = off;
 				ox = px = -1;
 				for(a = 0; a < 4; a++)
@@ -1638,7 +1642,7 @@ void show_file_view(void)
 					sprintf(buf2, "%08lx ", *((long *)(fileview_buf + off)));
 					off += 4;
 
-					strcat(buf, buf2);
+					strlcat(buf, buf2, sizeof(buf));
 					if(px == -1 && fileview_position >= off - 4 && fileview_position < off)
 					{
 						apx = fileview_position - (off - 4);
@@ -1667,7 +1671,7 @@ void show_file_view(void)
 				if(ox > -1)
 				{
 					IGraphics->SetAPen(rp, screen_pens[2].pen);
-					sprintf(buf2, "%02lx", fileview_buf[fileview_offset]);
+					snprintf(buf2, sizeof(buf2), "%02lx", (long)fileview_buf[fileview_offset]);
 					IGraphics->Move(rp, x_off + 9 + (10 + ox) * char_w, y_off + 27 + (line * 8));
 					IGraphics->Text(rp, buf2, 2);
 					buf2[0] = (isprint(fileview_buf[fileview_offset]) ? fileview_buf[fileview_offset] : '.');
@@ -1696,9 +1700,9 @@ void show_view_number(int num, int pos)
 	{
 		y = y_off + 39 + (26 * pos);
 		if(fileview_type == 0)
-			sprintf(buf, "$%08lx", num);
+			snprintf(buf, sizeof(buf), "$%08lx", (long)num);
 		else
-			sprintf(buf, "%09ld", num);
+			snprintf(buf, sizeof(buf), "%09ld", (long)num);
 		IDOpus->UScoreText(rp, buf, x_off + 543, y, -1);
 	}
 }

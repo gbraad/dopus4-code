@@ -40,7 +40,7 @@ void readhelp()
 	helpbuffer = NULL;
 	helpsize = 0;
 
-	sprintf(helpname, "CO_%s.HLP", config->language);
+	snprintf(helpname, sizeof(helpname), "CO_%s.HLP", config->language);
 	if(!config->language[0] || !(IDOpus->FindSystemFile(helpname, helpfilename, 256, SYSFILE_DATA)))
 		IDOpus->FindSystemFile("ConfigOpus.HLP", helpfilename, 256, SYSFILE_DATA);
 
@@ -102,7 +102,7 @@ void doconfighelp()
 		}
 		else if(test == 1)
 		{
-			if(IDOpus->LStrCmpI(&helpbuffer[a], currenthelpname) == 0)
+			if(strcasecmp(&helpbuffer[a], currenthelpname) == 0)
 				test = -1;
 			else
 				++test;
@@ -344,8 +344,8 @@ void init_strings()
 
 	for(a = 0; a < 8; a++)
 		mainmenugads[a] = cfg_string[STR_MAINMENU_GADGETS + a];
-	mainmenugads[8] = "";
-	mainmenugads[9] = "";
+	mainmenugads[8] = (char *)"";
+	mainmenugads[9] = (char *)"";
 	mainmenugads[10] = cfg_string[STR_MENU_SAVE];
 	mainmenugads[11] = cfg_string[STR_USE];
 	mainmenugads[12] = cfg_string[STR_CANCEL];
@@ -364,7 +364,7 @@ void init_strings()
 	for(a = 0; a < 7; a++)
 		operationgads[a + 1] = cfg_string[STR_OPERATION_DATEFORMAT + a];
 	for(a = 8; a < 11; a++)
-		operationgads[a] = "";
+		operationgads[a] = (char *)"";
 	operationgads[11] = cfg_string[STR_OKAY];
 	operationgads[12] = cfg_string[STR_CANCEL];
 	operationgads[13] = NULL;
@@ -374,8 +374,8 @@ void init_strings()
 	systemgads[3] = cfg_string[STR_HOTKEY];
 	for(a = 3; a < 8; a++)
 		systemgads[a + 1] = cfg_string[STR_SYSTEM_AMIGADOS + a];
-	systemgads[9] = "";
-	systemgads[10] = "";
+	systemgads[9] = (char *)"";
+	systemgads[10] = (char *)"";
 	systemgads[11] = cfg_string[STR_OKAY];
 	systemgads[12] = cfg_string[STR_CANCEL];
 	systemgads[13] = NULL;
@@ -394,7 +394,7 @@ void init_strings()
 
 	editfuncgads[0] = cfg_string[STR_OKAY];
 	for(a = 1; a < 4; a++)
-		editfuncgads[a] = "";
+		editfuncgads[a] = (char *)"";
 	editfuncgads[4] = cfg_string[STR_CANCEL];
 	editfuncgads[5] = NULL;
 
@@ -405,7 +405,7 @@ void init_strings()
 		editfuncgads2[a + 1] = cfg_string[STR_EDIT_NAME + a];
 	for(a = 9; a < 12; a++)
 		editfuncgads2[a] = (char *)-1;
-	editfuncgads2[12] = "{}";
+	editfuncgads2[12] = (char *)"{}";
 	editfuncgads2[13] = cfg_string[STR_EDIT_ACTION];
 	editfuncgads2[14] = cfg_string[STR_EDIT_CLASS];
 	editfuncgads2[15] = NULL;
@@ -438,19 +438,19 @@ void init_strings()
 
 	drivegadgets2[0] = cfg_string[STR_EDIT_NAME];
 	drivegadgets2[1] = cfg_string[STR_EDIT_SAMPLE];
-	drivegadgets2[2] = "";
-	drivegadgets2[3] = "";
+	drivegadgets2[2] = (char *)"";
+	drivegadgets2[3] = (char *)"";
 	drivegadgets2[4] = NULL;
 
 	hotkeysgadgets[0] = cfg_string[STR_HOTKEYS_NEWHOTKEY];
-	hotkeysgadgets[1] = "";
+	hotkeysgadgets[1] = (char *)"";
 	hotkeysgadgets[2] = cfg_string[STR_OPERATION_DELETE];
-	hotkeysgadgets[3] = "";
+	hotkeysgadgets[3] = (char *)"";
 	hotkeysgadgets[4] = cfg_string[STR_EDIT_DUPLICATE];
 	hotkeysgadgets[5] = cfg_string[STR_OKAY];
-	hotkeysgadgets[6] = "";
+	hotkeysgadgets[6] = (char *)"";
 	hotkeysgadgets[7] = cfg_string[STR_EDIT_SWAP];
-	hotkeysgadgets[8] = "";
+	hotkeysgadgets[8] = (char *)"";
 	hotkeysgadgets[9] = cfg_string[STR_CANCEL];
 	hotkeysgadgets[10] = NULL;
 
@@ -462,7 +462,7 @@ void init_strings()
 	screengadgets[5] = cfg_string[STR_SCREEN_SCREENMODE];
 	screengadgets[6] = cfg_string[STR_SCREEN_SLIDERS];
 	for(a = 7; a < 11; a++)
-		screengadgets[a] = "";
+		screengadgets[a] = (char *)"";
 	screengadgets[11] = cfg_string[STR_OKAY];
 	screengadgets[12] = cfg_string[STR_CANCEL];
 	screengadgets[13] = NULL;
@@ -507,13 +507,13 @@ void init_strings()
 		arrowtypetxt[a] = cfg_string[STR_ARROWTYPE_UPDOWN + a];
 
 	filetypeactiongadgets[0] = cfg_string[STR_NEW];
-	filetypeactiongadgets[1] = "";
+	filetypeactiongadgets[1] = (char *)"";
 	filetypeactiongadgets[2] = cfg_string[STR_EDIT_SWAP];
-	filetypeactiongadgets[3] = "";
+	filetypeactiongadgets[3] = (char *)"";
 	filetypeactiongadgets[4] = cfg_string[STR_OPERATION_DELETE];
 	filetypeactiongadgets[5] = cfg_string[STR_OKAY];
 	for(a = 6; a < 9; a++)
-		filetypeactiongadgets[a] = "";
+		filetypeactiongadgets[a] = (char *)"";
 	filetypeactiongadgets[9] = cfg_string[STR_CANCEL];
 	filetypeactiongadgets[10] = NULL;
 
@@ -552,16 +552,16 @@ void init_strings()
 	palettenames[13] = NULL;
 
 	for(a = 0; a < 3; a++)
-		sprintf(functypelist[a], "   %-11s %s", cfg_string[STR_FTYPE_ACTION], cfg_string[STR_FTYPE_CLICKMCLICK + a]);
+		snprintf(functypelist[a], FUNCTYPE_SIZE, "   %-11s %s", cfg_string[STR_FTYPE_ACTION], cfg_string[STR_FTYPE_CLICKMCLICK + a]);
 	for(a = 0; a < 10; a++)
-		sprintf(functypelist[a + 3], "   %-11s %s", cfg_string[STR_FTYPE_COMMAND], ftype_funcs[a]);
+		snprintf(functypelist[a + 3], FUNCTYPE_SIZE, "   %-11s %s", cfg_string[STR_FTYPE_COMMAND], ftype_funcs[a]);
 
 	fileview_types[0] = cfg_string[STR_FILEVIEW_HEX];
 	fileview_types[1] = cfg_string[STR_FILEVIEW_DEC];
 
 	for(a = 0; a < 5; a++)
 		functypestr[a] = cfg_string[STR_FUNCTION_COMMAND + a];
-	functypestr[5] = "----";
+	functypestr[5] = (char *)"----";
 
 	left_right_cycle[0] = cfg_string[STR_SYS_STARTUP_LEFT];
 	left_right_cycle[1] = cfg_string[STR_SYS_STARTUP_RIGHT];

@@ -34,12 +34,12 @@ static struct dopusgadgetbanks *currentbank, *selbank;
 int dogadgetconfig()
 {
 	ULONG class;
-	USHORT code, gadgetid;
+	USHORT code, gadgetid = GAD_CANCEL;
 	struct ConfigUndo *undo;
 	struct DOpusRemember *gadkey = NULL;
 	struct dopusgadgetbanks *bank, *bank2;
 	struct newdopusfunction *secondgad;
-	struct Gadget *gad;
+	struct Gadget *gad = NULL;
 	struct Border *unselborder, *selborder;
 	char buf[80];
 	int a, b, x, y, mode = -1;
@@ -103,7 +103,7 @@ int dogadgetconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			class = IMsg->Class;
 			code = IMsg->Code;
@@ -143,7 +143,7 @@ int dogadgetconfig()
 					case 1:
 						if(doload(CFG_GADGET, a))
 						{
-							if(bank = firstbank)
+							if((bank = firstbank))
 							{
 								while(bank->next)
 									bank = bank->next;
@@ -412,7 +412,7 @@ int dogadgetconfig()
 					}
 					else if(!request(cfg_string[STR_REALLY_DELETE_BANK]))
 						break;
-					if(bank = lastbank(currentbank))
+					if((bank = lastbank(currentbank)))
 						bank->next = currentbank->next;
 					if(firstbank == currentbank)
 						firstbank = currentbank->next;
@@ -485,9 +485,9 @@ void showgadgets(struct dopusgadgetbanks *bank, int show)
 			++a;
 			bank2 = bank2->next;
 		}
-		sprintf(buf, "%s %ld", cfg_string[STR_GADGET_BANK_NUMBER], a + 1);
+		snprintf(buf, sizeof(buf), "%s %d", cfg_string[STR_GADGET_BANK_NUMBER], a + 1);
 		if(paint_state)
-			strcat(buf, cfg_string[STR_PAINT_STATE]);
+			strlcat(buf, cfg_string[STR_PAINT_STATE], sizeof(buf));
 		ptr = buf;
 	}
 	else
@@ -627,9 +627,9 @@ static int menuoffset;
 int domenuconfig()
 {
 	ULONG class;
-	USHORT code, gadgetid;
+	USHORT code, gadgetid = MENU_CANCEL;
 	struct ConfigUndo *undo;
-	struct Gadget *gad;
+	struct Gadget *gad = NULL;
 	struct DOpusRemember *menukey = NULL;
 	struct newdopusfunction *secondmenu;
 	int a, b, x, y, mode = -1, gid, mnum = -1, omnum;
@@ -689,7 +689,7 @@ int domenuconfig()
 	for(;;)
 	{
 		IExec->Wait(1 << Window->UserPort->mp_SigBit);
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			class = IMsg->Class;
 			code = IMsg->Code;
@@ -722,7 +722,7 @@ int domenuconfig()
 					{
 					case 0:
 					case 1:
-						if(b = doload(CFG_MENU, a))
+						if((b = doload(CFG_MENU, a)))
 						{
 							showmenus(5);
 							if(a)
@@ -824,7 +824,7 @@ int domenuconfig()
 							dogadgetinfo(cfg_string[STR_MENU_ITEM_INSERTED]);
 							break;
 						case MENU_DELETEMENU:
-							sprintf(buf, "%s\n%s", config->menutit[mnum], cfg_string[STR_REALLY_DELETE_THIS_MENU]);
+							snprintf(buf, sizeof(buf), "%s\n%s", config->menutit[mnum], cfg_string[STR_REALLY_DELETE_THIS_MENU]);
 							if(request(buf))
 							{
 								b = (mnum * 20) + 20;
@@ -895,7 +895,7 @@ int domenuconfig()
 											config->menu[a].name = getcopy(config->menu[a].name, -1, NULL);
 											config->menu[a].function = getcopy(config->menu[a].function, -1, NULL);
 										}
-										strcpy(config->menutit[mnum], config->menutit[omnum]);
+										strlcpy(config->menutit[mnum], config->menutit[omnum], sizeof(config->menutit[0]));
 										break;
 									case MENU_SWAPMENU:
 										if(omnum < 0 || mnum == omnum)
@@ -964,7 +964,7 @@ int domenuconfig()
 					for(;;)
 					{
 						IExec->Wait(1 << Window->UserPort->mp_SigBit);
-						while(IMsg = getintuimsg())
+						while((IMsg = getintuimsg()))
 						{
 							class = IMsg->Class;
 							IExec->ReplyMsg((struct Message *)IMsg);
@@ -1002,7 +1002,7 @@ int domenuconfig()
 					IDOS->Delay(5);
 					for(;;)
 					{
-						while(IMsg = getintuimsg())
+						while((IMsg = getintuimsg()))
 						{
 							class = IMsg->Class;
 							IExec->ReplyMsg((struct Message *)IMsg);
@@ -1177,7 +1177,7 @@ int doinitmenutext(int id)
 void sortmenustrip(int m)
 {
 	int gap, i, j, k;
-	char *ptr1, *ptr2, *zstr = "\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f";
+	char *ptr1, *ptr2, *zstr = (char *)"\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f";
 
 	m *= 20;
 	for(gap = 10; gap > 0; gap /= 2)
@@ -1187,7 +1187,7 @@ void sortmenustrip(int m)
 				k = j + gap;
 				ptr1 = (config->menu[j + m].name && config->menu[j + m].name[0]) ? config->menu[j + m].name : zstr;
 				ptr2 = (config->menu[k + m].name && config->menu[k + m].name[0]) ? config->menu[k + m].name : zstr;
-				if(IDOpus->LStrCmpI(ptr1, ptr2) <= 0)
+				if(strncasecmp(ptr1, ptr2, sizeof(config->menu[0].name)) <= 0)
 					break;
 				SwapMem((char *)&config->menu[j + m], (char *)&config->menu[k + m], sizeof(struct newdopusfunction));
 			}
@@ -1201,7 +1201,8 @@ void do_menuscreen_title(int title)
 	{
 		char temp[80];
 
-		IDOpus->StrCombine(temp, cfg_string[title], cfg_string[STR_PAINT_STATE], 80);
+		strlcpy(temp, cfg_string[title], sizeof(temp));
+		strlcat(temp, cfg_string[STR_PAINT_STATE], sizeof(temp));
 		doscreentitle(temp);
 	}
 }

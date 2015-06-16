@@ -27,6 +27,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
+#include <ctype.h>
 #include "config.h"
 #define MAXFUNCLISTLEN 100
 
@@ -37,13 +38,14 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 	int a, selitem, x, y, b, ofp, obp, curtype = 0, tof, waitbits;
 	ULONG class;
 	USHORT code, qual, gadgetid;
-	struct Gadget *gad;
-	char flagsel[NUMFLAGS], *funclist[MAXFUNCS + 1], functype[MAXFUNCS], *displist[MAXFUNCS + 1], buf[256], buf1[256], *ptr, t;
+	struct Gadget *gad = NULL;
+	char flagsel[NUMFLAGS], *funclist[MAXFUNCS + 1], functype[MAXFUNCS];
+	char *displist[MAXFUNCS + 1], buf[256], buf1[256], *ptr, t;
 	struct DOpusRemember *key = NULL;
 	struct DOpusListView *view;
 	struct fileclass fclass;
-	struct dopusfiletype *ftype;
-	struct dopushotkey *hotkey;
+	struct dopusfiletype *ftype = NULL;
+	struct dopushotkey *hotkey = NULL;
 	unsigned char c;
 
 	if(type == CFG_FILETYPE)
@@ -90,7 +92,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 	if(type == CFG_HOTKEYS)
 	{
 		namesinfo.MaxChars = 40;
-		strcpy(edit_namebuf, hotkey->name);
+		strlcpy(edit_namebuf, hotkey->name, sizeof(edit_namebuf));
 		editfuncgadgets[1].NextGadget = &editfuncgadgets[2];
 		editfuncgadgets[12].NextGadget = NULL;
 		editfuncgadgets[0].LeftEdge = x_off + 132;
@@ -102,7 +104,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 	{
 		namesinfo.MaxChars = 64;
 		if(((struct newdopusfunction *)func)->name)
-			strcpy(edit_namebuf, ((struct newdopusfunction *)func)->name);
+			strlcpy(edit_namebuf, ((struct newdopusfunction *)func)->name, sizeof(edit_namebuf));
 		else
 			edit_namebuf[0] = 0;
 		editfuncgadgets[1].NextGadget = &editfuncgadgets[2];
@@ -153,7 +155,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 		if(appobject)
 		{
 			tof = 0;
-			while(appmsg = (struct AppMessage *)IExec->GetMsg(appport))
+			while((appmsg = (struct AppMessage *)IExec->GetMsg(appport)))
 			{
 				IIntuition->ActivateWindow(Window);
 				if(appmsg->am_ID == MY_APPOBJECT && appmsg->am_NumArgs > 0)
@@ -194,7 +196,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 			if(tof && Screen)
 				IIntuition->ScreenToFront(Screen);
 		}
-		while(IMsg = getintuimsg())
+		while((IMsg = getintuimsg()))
 		{
 			if((view = IDOpus->ListViewIDCMP(editlists, IMsg)) == (struct DOpusListView *)-1)
 			{
@@ -220,10 +222,10 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 					case 1:
 						if(type == CFG_FILETYPE)
 						{
-							IDOpus->LStrnCpy(edit_namebuf, ftype->type, 22);
-							edit_namebuf[22] = 0;
-							sprintf(buf, " (%ld)", curtype + 1);
-							IDOpus->StrConcat(edit_namebuf, buf, 28);
+							strlcpy(edit_namebuf, ftype->type, 23);
+//							edit_namebuf[22] = 0;
+							snprintf(buf, sizeof(buf), " (%d)", curtype + 1);
+							strlcat(edit_namebuf, buf, 28);
 						}
 						copytoclip(func, funclist, functype, flagsel);
 						if(ITEMNUM(code) == 1)
@@ -382,17 +384,17 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 						editgadson(1);
 						IDOpus->RemoveListView(editlists, 3);
 						fclass.last = fclass.next = NULL;
-						strcpy(fclass.type, ftype->type);
-						strcpy(fclass.typeid, ftype->typeid);
-						if(fclass.recognition = getcopy(ftype->recognition, -1, NULL))
+						strlcpy(fclass.type, ftype->type, sizeof(fclass.type));
+						strlcpy(fclass.typeid, ftype->typeid, sizeof(fclass.typeid));
+						if((fclass.recognition = (unsigned char *)getcopy(ftype->recognition, -1, NULL)))
 						{
 							if(editclass(&fclass, -1))
 							{
-								ftype->recognition = getcopy(fclass.recognition, -1, &typekey);
-								strcpy(ftype->type, fclass.type);
-								strcpy(ftype->typeid, fclass.typeid);
+								ftype->recognition = getcopy((char *)fclass.recognition, -1, &typekey);
+								strlcpy(ftype->type, fclass.type, sizeof(ftype->type));
+								strlcpy(ftype->typeid, fclass.typeid, sizeof(ftype->typeid));
 							}
-							freestring(fclass.recognition);
+							freestring((char *)fclass.recognition);
 						}
 						cleanconfigscreen();
 						filetypetitle(ftype);
@@ -432,8 +434,14 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 								if((--functype[selitem]) < 1)
 									functype[selitem] = NUM_TYPES - 1;
 							}
-							else if((--functype[selitem]) < 0)
-								functype[selitem] = NUM_TYPES - 1;
+							else
+							{
+								int8 functypetemp = functype[selitem];
+								if (--functypetemp < 0)
+									functype[selitem] = NUM_TYPES - 1;
+								else
+									--functype[selitem];
+							}
 						}
 						else if((++functype[selitem]) >= NUM_TYPES)
 							functype[selitem] = (type == CFG_HOTKEYS) ? 1 : 0;
@@ -456,7 +464,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 						}
 						if(gadgetid == EDIT_DUPLICATE && edit_funcbuf[0] && editlists[0].count < MAXFUNCS)
 						{
-							strcpy(edit_funcbuf, funclist[selitem]);
+							strlcpy(edit_funcbuf, funclist[selitem], sizeof(edit_funcbuf));
 							functype[editlists[0].count] = functype[selitem];
 							selitem = editlists[0].count;
 							editlists[0].topitem += MAXFUNCS;
@@ -474,7 +482,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 									makedispfunc(funclist[a], functype[a], displist[a]);
 								}
 								++editlists[0].count;
-								funclist[selitem] = getcopy(" ", 2, NULL);
+								funclist[selitem] = getcopy((char *)" ", 2, NULL);
 								makedispfunc(funclist[selitem], (type == CFG_HOTKEYS) ? 1 : 0, displist[selitem]);
 							}
 							else
@@ -502,14 +510,14 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 					case EDIT_ARGREQ:
 						cmdlist.topitem = 0;
 					case EDIT_REQUESTER:
-						if(funcrequester((gadgetid == EDIT_ARGREQ) ? FREQ_ARGREQ : functype[selitem], buf, (gadgetid == EDIT_ARGREQ) ? cfg_string[STR_ARGUMENT_CONTROL_SEQUENCES] : cfg_string[STR_AVAILABLE_COMMANDS]))
+						if(funcrequester((gadgetid == EDIT_ARGREQ) ? FREQ_ARGREQ : functype[selitem], buf, (gadgetid == EDIT_ARGREQ) ? cfg_string[STR_ARGUMENT_CONTROL_SEQUENCES] : cfg_string[STR_AVAILABLE_COMMANDS], sizeof(buf)))
 						{
-							strcpy(buf1, &edit_funcbuf[funcsinfo.BufferPos]);
+							strlcpy(buf1, &edit_funcbuf[funcsinfo.BufferPos], sizeof(buf1));
 							edit_funcbuf[funcsinfo.BufferPos] = 0;
-							IDOpus->StrConcat(edit_funcbuf, buf, 256);
+							strlcat(edit_funcbuf, buf, sizeof(edit_funcbuf));
 							if(gadgetid == EDIT_ARGREQ || functype[selitem] != FT_INTERNAL)
-								IDOpus->StrConcat(edit_funcbuf, " ", 256);
-							IDOpus->StrConcat(edit_funcbuf, buf1, 256);
+								strlcat(edit_funcbuf, " ", sizeof(edit_funcbuf));
+							strlcat(edit_funcbuf, buf1, sizeof(edit_funcbuf));
 							a = funcsinfo.BufferPos + strlen(buf) + 1;
 							IDOpus->RefreshStrGad(&editfuncgadgets[11], Window);
 							funcsinfo.BufferPos = (a > 255) ? 255 : a;
@@ -562,7 +570,7 @@ int editfunction(struct dopusfunction *func, int type, APTR data)
 						}
 						selitem = view->itemselected;
 						editgadson(1);
-						strcpy(edit_funcbuf, funclist[selitem]);
+						strlcpy(edit_funcbuf, funclist[selitem], sizeof(edit_funcbuf));
 						setupforedit(functype[selitem], 1);
 					}
 					break;
@@ -661,11 +669,12 @@ void makefunclist(STRPTR func, STRPTR *funclist, STRPTR functype)
 				buf[pos] = 0;
 				if(gottype == FT_CHDIR)
 				{
-					IDOpus->StrCombine(buf1, "CD ", buf, 256);
-					strcpy(buf, buf1);
+					strlcpy(buf1, "CD ", sizeof(buf1));
+					strlcat(buf1, buf, sizeof(buf1));
+					strlcpy(buf, buf1, sizeof(buf));
 					gottype = FT_EXECUTABLE;
 				}
-				if(funclist[num] = getcopy(buf, -1, NULL))
+				if((funclist[num] = getcopy(buf, -1, NULL)))
 				{
 					functype[num] = gottype;
 					++num;
@@ -687,13 +696,13 @@ void makedispfunc(STRPTR func, char type, STRPTR disp)
 {
 	if(!disp)
 		return;
-	if(!func || !func[0] || type < 0 || type >= NUM_TYPES)
+	if(!func || !func[0] || (signed char)type < 0 || type >= NUM_TYPES)
 		disp[0] = 0;
 	else
 	{
-		strcpy(disp, functypestr[type]);
-		IDOpus->StrConcat(disp, spacestring, 13);
-		IDOpus->StrConcat(disp, func, MAXFUNCLISTLEN - 2);
+		strlcpy(disp, functypestr[(int)type], MAXFUNCLISTLEN - 2);
+		strlcat(disp, spacestring, 13);
+		strlcat(disp, func, MAXFUNCLISTLEN - 2);
 	}
 }
 
@@ -748,11 +757,11 @@ char *compilefunclist(STRPTR *funclist, STRPTR functype, struct DOpusRemember **
 		if(typec)
 		{
 			buf2[0] = typec;
-			strcat(buf, buf2);
+			strlcat(buf, buf2, size);
 		}
-		strcat(buf, funclist[a]);
+		strlcat(buf, funclist[a], size);
 		if(a < (num - 1))
-			strcat(buf, "||");
+			strlcat(buf, "||", size);
 	}
 	return (buf);
 }
@@ -1138,7 +1147,7 @@ void checkswapgad()
 	}
 }
 
-int funcrequester(int type, STRPTR buf, STRPTR title)
+int funcrequester(int type, STRPTR buf, STRPTR title, int bufsize)
 {
 	struct Window *wind;
 	ULONG class;
@@ -1187,7 +1196,7 @@ int funcrequester(int type, STRPTR buf, STRPTR title)
 		for(;;)
 		{
 			IExec->Wait(1 << wind->UserPort->mp_SigBit);
-			while(IMsg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort))
+			while((IMsg = (struct IntuiMessage *)IExec->GetMsg(wind->UserPort)))
 			{
 				if((view = IDOpus->ListViewIDCMP(&cmdlist, IMsg)) == (struct DOpusListView *)-1)
 				{
@@ -1207,7 +1216,7 @@ int funcrequester(int type, STRPTR buf, STRPTR title)
 				{
 					if(buf)
 					{
-						strcpy(buf, cmdlist.items[view->itemselected]);
+						strlcpy(buf, cmdlist.items[view->itemselected], bufsize);
 						ptr = buf;
 						while(*(ptr))
 						{
@@ -1240,21 +1249,24 @@ int funcrequester(int type, STRPTR buf, STRPTR title)
 		case FT_AREXX:
 			filebuf[0] = 0;
 			if(IDOpus->CheckExist(defdir[type], NULL))
-				strcpy(dirbuf, defdir[type]);
+				strlcpy(dirbuf, defdir[type], sizeof(dirbuf));
 			else
 				dirbuf[0] = 0;
 			break;
 		case FREQ_GENERIC:
-			strcpy(dirbuf, buf);
-			if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
+			if (buf)
 			{
-				strcpy(filebuf, ptr);
-				*ptr = 0;
-			}
-			else
-			{
-				IDOpus->LStrnCpy(filebuf, buf, FILEBUF_SIZE - 1);
-				dirbuf[0] = 0;
+				strlcpy(dirbuf, buf, sizeof(dirbuf));
+				if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
+				{
+					strlcpy(filebuf, ptr, sizeof(filebuf));
+					*ptr = 0;
+				}
+				else
+				{
+					strlcpy(filebuf, buf, sizeof(filebuf));
+					dirbuf[0] = 0;
+				}
 			}
 			break;
 		case FREQ_PATHREQ:
@@ -1262,26 +1274,29 @@ int funcrequester(int type, STRPTR buf, STRPTR title)
 			filereq.title = cfg_string[STR_SELECT_DESIRED_DIRECTORY];
 			break;
 		}
-
-		filereq.window = Window;
-		if(!dirbuf[0])
+		if (buf)
 		{
-			BPTR lock;
-
-			if(lock = IDOS->Lock("", ACCESS_READ))
+			filereq.window = Window;
+			if(!dirbuf[0])
 			{
-				IDOS->NameFromLock(lock, dirbuf, 256);
-				IDOS->UnLock(lock);
+				BPTR lock;
+
+				if((lock = IDOS->Lock("", ACCESS_READ)))
+				{
+					IDOS->NameFromLock(lock, dirbuf, sizeof(dirbuf));
+					IDOS->UnLock(lock);
+				}
 			}
+			busy();
+
+			if(IDOpus->FileRequest(&filereq))
+			{
+				strlcpy(buf, dirbuf, bufsize);
+				IDOS->AddPart(buf, filebuf, bufsize);
+				ret = 1;
+			}
+			unbusy();
 		}
-		busy();
-		if(IDOpus->FileRequest(&filereq))
-		{
-			strcpy(buf, dirbuf);
-			IDOS->AddPart(buf, filebuf, 256);
-			ret = 1;
-		}
-		unbusy();
 		break;
 	}
 	return (ret);
@@ -1317,7 +1332,7 @@ void getfiletypefunc(struct dopusfunction *func, struct dopusfiletype *ftype, in
 	func->delay = ftype->delay[type];
 	freestring(func->function);
 	func->function = getcopy(ftype->function[type], -1, NULL);
-	strcpy(edit_actionbuf, ftype->actionstring[type]);
+	strlcpy(edit_actionbuf, ftype->actionstring[type], sizeof(edit_actionbuf));
 }
 
 void makefiletypefunc(struct dopusfunction *func, struct dopusfiletype *ftype, int type)
@@ -1330,13 +1345,13 @@ void makefiletypefunc(struct dopusfunction *func, struct dopusfiletype *ftype, i
 	ftype->delay[type] = func->delay;
 	freestring(ftype->function[type]);
 	ftype->function[type] = getcopy(func->function, -1, NULL);
-	strcpy(ftype->actionstring[type], edit_actionbuf);
+	strlcpy(ftype->actionstring[type], edit_actionbuf, sizeof(ftype->actionstring[0]));
 }
 
 void fixeditfunction(struct dopusfunction *func, STRPTR flagsel, STRPTR *funclist, STRPTR functype, int selitem, int type, APTR data, int curtype)
 {
-	struct dopusfiletype *ftype;
-	struct dopushotkey *hotkey;
+	struct dopusfiletype *ftype = NULL;
+	struct dopushotkey *hotkey = NULL;
 
 	if(type == CFG_FILETYPE)
 		ftype = (struct dopusfiletype *)data;
@@ -1368,7 +1383,7 @@ void fixeditfunction(struct dopusfunction *func, STRPTR flagsel, STRPTR *funclis
 		IDOpus->RefreshListView(&editlists[2], 1);
 	}
 	else if(type == CFG_HOTKEYS)
-		strcpy(hotkey->name, edit_namebuf);
+		strlcpy(hotkey->name, edit_namebuf, sizeof(hotkey->name));
 	else
 	{
 		freestring(((struct newdopusfunction *)func)->name);
@@ -1379,7 +1394,7 @@ void fixeditfunction(struct dopusfunction *func, STRPTR flagsel, STRPTR *funclis
 void setupeditdisplay(struct dopusfunction *func, int type, APTR data, int curtype, STRPTR *displist, STRPTR *funclist, STRPTR functype, STRPTR flagsel, int add)
 {
 	int a;
-	struct dopusfiletype *ftype;
+	struct dopusfiletype *ftype = NULL;
 
 	if(type == CFG_FILETYPE)
 		ftype = (struct dopusfiletype *)data;
@@ -1412,9 +1427,9 @@ void setupeditdisplay(struct dopusfunction *func, int type, APTR data, int curty
 	else
 		IDOpus->RefreshListView(editlists, 3);
 	edit_funcbuf[0] = 0;
-	sprintf(edit_stackbuf, "%d", func->stack);
-	sprintf(edit_prioritybuf, "%d", func->pri);
-	sprintf(edit_delaybuf, "%d", func->delay);
+	snprintf(edit_stackbuf, sizeof(edit_stackbuf), "%d", func->stack);
+	snprintf(edit_prioritybuf, sizeof(edit_prioritybuf), "%d", func->pri);
+	snprintf(edit_delaybuf, sizeof(edit_delaybuf), "%d", func->delay);
 	IIntuition->RefreshGList(&editfuncgadgets[6], Window, NULL, 3);
 	if(type == CFG_FILETYPE)
 		IIntuition->RefreshGList(&editfuncgadgets[13], Window, NULL, 1);
@@ -1427,7 +1442,7 @@ void erasefunction(struct dopusfunction *func, STRPTR *funclist, STRPTR *displis
 	freefunclist(funclist);
 	for(a = 0; a < MAXFUNCS; a++)
 		displist[a][0] = 0;
-	strcpy(edit_stackbuf, "8192");
+	strlcpy(edit_stackbuf, "8192", sizeof(edit_stackbuf));
 	edit_prioritybuf[0] = '0';
 	edit_prioritybuf[1] = 0;
 	edit_delaybuf[0] = '2';
@@ -1487,7 +1502,7 @@ void rem_appobject(int type)
 			IWorkbench->RemoveAppIcon(appobject);
 		else if(!Screen)
 			IWorkbench->RemoveAppWindow(appobject);
-		while(appmsg = (struct AppMessage *)IExec->GetMsg(appport))
+		while((appmsg = (struct AppMessage *)IExec->GetMsg(appport)))
 			IExec->ReplyMsg((struct Message *)appmsg);
 	}
 	appobject = NULL;

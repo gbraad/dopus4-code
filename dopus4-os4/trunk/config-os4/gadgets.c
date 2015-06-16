@@ -128,10 +128,10 @@ struct ConfigGadget op_copygadgets[] =
 {
 	{ CTYPE_TEXT, 0, STR_SYS_AMIGADOS_TITLE, 169, 75},
 	{ CTYPE_STR, 0, -1, 284, 84, -1, -1, 4, 80},
-	{ CTYPE_REQ, 0, STR_SYS_AMIGADOS_SHELL, 248, 81, -1, -1, 0, 0, "C:"},
+	{ CTYPE_REQ, 0, STR_SYS_AMIGADOS_SHELL, 248, 81, -1, -1, 0, 0, (signed char *)"C:"},
 	{ CTYPE_STR, 0, STR_SYS_AMIGADOS_CONSOLE, 252, 99, -1, -1, 0, 80},
 	{ CTYPE_STR, 0, -1, 284, 114, -1, -1, 4, 30},
-	{ CTYPE_REQ, 0, STR_SYS_AMIGADOS_STARTUP, 248, 111, -1, -1, 0, 0, "S:"},
+	{ CTYPE_REQ, 0, STR_SYS_AMIGADOS_STARTUP, 248, 111, -1, -1, 0, 0, (signed char *)"S:"},
 	{ CTYPE_STR, 0, STR_SYS_AMIGADOS_PRIORITY, 252, 129, 80, -1, 1, 3},
 	{ 0, 0, -1 }
 }, sys_clockgadgets[] =
@@ -194,16 +194,16 @@ struct ConfigGadget op_copygadgets[] =
 {
 	{ CTYPE_TEXT, 0, STR_SYS_STARTUP_TITLE, 149, 60},
 	{ CTYPE_STR, 0, -1, 263, 69, -1, -1, 4, 70},
-	{ CTYPE_REQ, 0, STR_SYS_STARTUP_LEFT, 227, 66, -1, -1, 1, 0, "SYS:"},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_LEFT, 227, 66, -1, -1, 1, 0, (signed char *)"SYS:"},
 	{ CTYPE_STR, 0, -1, 263, 85, -1, -1, 4, 70},
-	{ CTYPE_REQ, 0, STR_SYS_STARTUP_RIGHT, 227, 82, -1, -1, 1, 0, "SYS:"},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_RIGHT, 227, 82, -1, -1, 1, 0, (signed char *)"SYS:"},
 	{ CTYPE_TEXT, 0, STR_SYS_STARTUP_AREXX, 149, 111},
 	{ CTYPE_STR, 0, -1, 263, 122, -1, -1, 4, 80},
-	{ CTYPE_REQ, 0, STR_SYS_STARTUP_STARTUP, 227, 119, -1, -1, 0, 0, "REXX:"},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_STARTUP, 227, 119, -1, -1, 0, 0, (signed char *)"REXX:"},
 	{ CTYPE_STR, 0, -1, 263, 138, -1, -1, 4, 80},
-	{ CTYPE_REQ, 0, STR_SYS_STARTUP_UNICONIFY, 227, 135, -1, -1, 0, 0, "REXX:"},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_UNICONIFY, 227, 135, -1, -1, 0, 0, (signed char *)"REXX:"},
 	{ CTYPE_STR, 0, -1, 263, 154, -1, -1, 4, 80},
-	{ CTYPE_REQ, 0, STR_SYS_STARTUP_CONFIG, 227, 151, -1, -1, 0, 0, "REXX:"},
+	{ CTYPE_REQ, 0, STR_SYS_STARTUP_CONFIG, 227, 151, -1, -1, 0, 0, (signed char *)"REXX:"},
 	{ 0, 0, -1 }
 }, sys_viewplaygadgets[] =
 {

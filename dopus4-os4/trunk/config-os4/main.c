@@ -75,11 +75,11 @@ int main(int argc, char **argv)
 	{
 		if(IDOpus->CheckExist("PROGDIR:/S", NULL))
 		{
-			IUtility->Strlcpy(configname, "PROGDIR:/S/DirectoryOpus.CFG", 256);
+			strlcpy(configname, "PROGDIR:/S/DirectoryOpus.CFG", sizeof(configname));
 		}
 		else
 		{
-			IUtility->Strlcpy(configname, "s:DirectoryOpus.CFG", 256);
+			strlcpy(configname, "s:DirectoryOpus.CFG", sizeof(configname));
 		}
 	}
 
@@ -100,12 +100,12 @@ int main(int argc, char **argv)
 		if(wbmsg->sm_NumArgs > 1)
 		{
 			IDOS->StrToLong(wbmsg->sm_ArgList[1].wa_Name, &num);
-			sprintf(portname, "dopus4_config_port%ld", num);
+			snprintf(portname, sizeof(portname), "dopus4_config_port%ld", num);
 			if(!(conport = IExec->AllocSysObjectTags(ASOT_PORT, ASOPORT_Name, portname, ASOPORT_Pri, 20, ASOPORT_Public, TRUE, TAG_END)))
 			{
 				quit();
 			}
-			sprintf(rportname, "dopus4_config_reply%ld", num);
+			snprintf(rportname, sizeof(rportname), "dopus4_config_reply%ld", num);
 			IExec->Forbid();
 			if(!(cmdport = IExec->FindPort(rportname)))
 			{
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
 
 	for(a = 0; a < 13; a++)
 	{
-		if(!(functypelist[a] = IDOpus->LAllocRemember(&mainkey, 40, MEMF_CLEAR)))
+		if(!(functypelist[a] = IDOpus->LAllocRemember(&mainkey, FUNCTYPE_SIZE, MEMF_CLEAR)))
 		{
 			quit();
 		}
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
 		quit();
 	}
 	getconfig();
-	IUtility->Strlcpy(oldconfigname, configname, 256);
+	strlcpy(oldconfigname, configname, sizeof(oldconfigname));
 
 //	appport = IExec->CreatePort(NULL, 0);
 	appport = IExec->AllocSysObjectTags(ASOT_PORT, TAG_DONE);
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
 					if(gadgetid == CFG_CANCEL)
 					{
 						doundo(undo, UNDO_ALL);
-						strcpy(configname, oldconfigname);
+						strlcpy(configname, oldconfigname, sizeof(configname));
 						lchanged = changed = 0;
 					}
 					doundo(undo, 0);
@@ -338,9 +338,9 @@ void getconfig()
 		firsthotkey = cfg->firsthotkey;
 		typekey = cfg->typekey;
 		changed = cfg->changed;
-		IUtility->Strlcpy(configname, cfg->configname, 256);
-		IUtility->Strlcat(configname, ".CFG", 256);
-		IUtility->Strlcpy(loadnamebuf, configname, 256);
+		strlcpy(configname, cfg->configname, sizeof(configname));
+		strlcat(configname, ".CFG", sizeof(configname));
+		strlcpy(loadnamebuf, configname, sizeof(loadnamebuf));
 		Screen = cfg->Screen;
 	}
 	else
@@ -364,7 +364,7 @@ void giveconfig()
 		cfg.changed = ((lchanged || changed) ? 1 : 0);
 		if(lchanged == 2)
 			cfg.changed = 2;
-		strcpy(cfg.configname, configname);
+		strlcpy(cfg.configname, configname, sizeof(cfg.configname));
 		if((ptr = strstri(cfg.configname, ".CFG")))
 			*ptr = 0;
 		cfg.Window = Window;
@@ -379,7 +379,7 @@ void readconfig()
 	fixcstuff(&cstuff);
 	if((IDOpus->ReadConfig(configname, &cstuff)) != 1)
 		IDOpus->DefaultConfig(&cstuff);
-	strcpy(loadnamebuf, configname);
+	strlcpy(loadnamebuf, configname, sizeof(loadnamebuf));
 	cstufffix(&cstuff);
 }
 
@@ -558,9 +558,9 @@ void showconfigscreen(int scr)
 		break;
 	}
 	if(scr == CFG_MAINMENU)
-		strcpy(currenthelpname, cfg_string[STR_MAIN_MENU]);
+		strlcpy(currenthelpname, cfg_string[STR_MAIN_MENU], sizeof(currenthelpname));
 	else
-		strcpy(currenthelpname, mainmenugads[scr]);
+		strlcpy(currenthelpname, mainmenugads[scr], sizeof(currenthelpname));
 }
 
 void initsidegads(STRPTR *gads, int toggle, int vert)
@@ -1011,7 +1011,9 @@ int processtickgad(struct ConfigGadget *gads, int flag, int sel, int num)
 				{
 					if(gads[a].bit & 2)
 						IDOpus->CheckHexGad(gad, Window, 0, 0xff);
-					strcpy((char *)gads[a].buffer, ((struct StringInfo *)gad->SpecialInfo)->Buffer);
+					strlcpy((char *)gads[a].buffer,
+					      ((struct StringInfo *)gad->SpecialInfo)->Buffer,
+						  ((struct StringInfo *)gad->SpecialInfo)->MaxChars);
 				}
 			}
 		}
@@ -1061,7 +1063,7 @@ struct ConfigUndo *makeundo(int type)
 			undo->menu[a].function = getcopy(config->menu[a].function, -1, &key);
 		}
 		for(a = 0; a < 5; a++)
-			strcpy(undo->menutit[a], config->menutit[a]);
+			strlcpy(undo->menutit[a], config->menutit[a], sizeof(undo->menutit[0]));
 	}
 	if(type & UNDO_DRIVE && (undo->drive = (struct dopusfunction *)getcopy((char *)config->drive, sizeof(struct dopusfunction) * DRIVECOUNT, &key)))
 	{
@@ -1186,7 +1188,7 @@ void doundo(struct ConfigUndo *undo, int type)
 				config->menu[a].function = getcopy(undo->menu[a].function, -1, NULL);
 			}
 			for(a = 0; a < 5; a++)
-				strcpy(config->menutit[a], undo->menutit[a]);
+				strlcpy(config->menutit[a], undo->menutit[a], sizeof(config->menutit[0]));
 		}
 		if(type & UNDO_DRIVE && undo->drive)
 		{
@@ -1309,7 +1311,7 @@ void makestring(int8 *buf, ...)
 			cgad = (struct ConfigGadget *)gad->UserData;
 			cgad->buffer = buf;
 			ptr = (char *)((struct StringInfo *)gad->SpecialInfo)->Buffer;
-			strcpy(ptr, (char *)buf);
+			strlcpy(ptr, (char *)buf, ((struct StringInfo *)gad->SpecialInfo)->MaxChars);
 			IDOpus->RefreshStrGad(gad, Window);
 			if(!first)
 				first = gad;
@@ -1344,7 +1346,7 @@ int getstring(STRPTR text, STRPTR buf, int len, int num)
 	req.flags = num | SRF_BORDERS | SRF_RECESSHI | SRF_EXTEND;
 	req.value = (int)&stringex;
 	req.font = NULL;
-	req.title = "ConfigOpus";
+	req.title = (char *)"ConfigOpus";
 	busy();
 	a = IDOpus->DoSimpleRequest(Window, &req);
 	unbusy();
@@ -1361,7 +1363,7 @@ int do_request(STRPTR text, STRPTR pos, STRPTR neg)
 	char buf[100] = { 0, };
 	int32 a;
 
-	sprintf(buf, "%s|%s", pos, neg);
+	snprintf(buf, sizeof(buf), "%s|%s", pos, neg);
 /*	struct DOpusSimpleRequest req;
 	char *gads[3];
 	static int rets[2] = { 1, 0 };
@@ -1421,7 +1423,7 @@ static char lasttitle[80];
 void doscreentitle(STRPTR str)
 {
 	if(str && str != (char *)-1)
-		strcpy(lasttitle, str);
+		strlcpy(lasttitle, str, sizeof(lasttitle));
 	IIntuition->SetWindowTitles(Window, lasttitle, (char *)-1);
 }
 
@@ -1499,7 +1501,7 @@ struct IntuiMessage *getintuimsg()
 	return (imsg);
 }
 
-struct TextFont *getfont(STRPTR font, int *size, int flags)
+struct TextFont *getfont(STRPTR font, int *size, int flags, int fontnamesize)
 {
 	BPTR lock;
 	struct TextFont *tf;
@@ -1513,7 +1515,7 @@ struct TextFont *getfont(STRPTR font, int *size, int flags)
 		IGraphics->CloseFont(tf);
 	if(!(lock = IDOS->Lock("FONTS:", ACCESS_READ)))
 	{
-		strcpy(font, "topaz.font");
+		strlcpy(font, "topaz.font", fontnamesize);
 		*size = 8;
 		sfont.ta_YSize = 8;
 		return ((IGraphics->OpenFont(&sfont)));
@@ -1528,7 +1530,7 @@ struct TextFont *getfont(STRPTR font, int *size, int flags)
 	{
 		if(tf)
 			IGraphics->CloseFont(tf);
-		strcpy(font, "topaz.font");
+		strlcpy(font, "topaz.font", fontnamesize);
 		*size = 8;
 		sfont.ta_YSize = 8;
 		tf = IGraphics->OpenFont(&sfont);
@@ -1610,8 +1612,8 @@ void open_screen()
 			IGraphics->CloseFont(tfont);
 		}
 		a = 8;
-		tfont = getfont(config->fontbufs[0], &a, FFLAG_8ONLY);
-		strcpy(sfont.ta_Name, tfont->tf_Message.mn_Node.ln_Name);
+		tfont = getfont(config->fontbufs[0], &a, FFLAG_8ONLY, sizeof(config->fontbufs[0]));
+		strlcpy((STRPTR)sfont.ta_Name, tfont->tf_Message.mn_Node.ln_Name, sizeof(fontbuf));
 
 		if(Screen)
 		{
