@@ -339,7 +339,7 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 		return (0);
 
 	strlcpy(path, dirbuf, PATHBUF_SIZE);
-	if (!(IDOS->AddPart(path, filebuf, PATHBUF_SIZE)));
+	if (!(IDOS->AddPart(path, filebuf, PATHBUF_SIZE)))
 		return (0);
 
 	IDOpus->RefreshStrGad(gadget, window);

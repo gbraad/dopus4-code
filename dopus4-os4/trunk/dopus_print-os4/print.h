@@ -56,6 +56,7 @@ the existing commercial status of Directory Opus 5.
 
 #include <proto/dopus.h>
 #include <dopus/dopusmessage.h>
+#include <dopus/debug.h>
 #include "printstrings.h"
 
 #ifdef __GNUC__

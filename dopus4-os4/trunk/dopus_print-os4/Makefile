@@ -1,7 +1,8 @@
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 
-CFLAGS = -gstabs -mcrt=newlib -Wall -O3 -I../include-os4
+DEBUGOUT = #-DDEBUG
+CFLAGS = -gstabs -mcrt=newlib -Wall -O3 -I../include-os4 $(DEBUGOUT)
 LDFLAGS = -mcrt=newlib -lauto -lm
 
 OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
@@ -15,10 +16,6 @@ REVISE = sub
 endif
 
 all: $(BUMPREV) DOpus_Print
-
-%.o : %.c
-	@echo ">>>>>Compiling $<"
-	@$(CC) -c $< $(CFLAGS) -o $@
 
 DOpus_Print : printstrings.h strings.c $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@.debug $(LDFLAGS)
