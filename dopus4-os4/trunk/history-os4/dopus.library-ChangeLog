@@ -66,6 +66,14 @@ old IDOS->Lock()/IDOS->Examine() pair.
   config file with newer Dopus4 that has no way to set that option.
 + Committed revision 576.
 
+***Released archive of repository revision 578. (DirectoryOpus 4.18.41)
+
+2015-03-27 - library-os4/Makefile
+* Changed some flags in the library makefile.
++ Committed revision 580.
+
+***Released archive of repository revision 582. (DirectoryOpus 4.18.42)
+
 2015-04-27 - dopus.library 22.42.2 library-os4/main/LAllocRemember.c
                                    library-os4/Makefile
                                    library-os4/main/LFreeRemember.c
@@ -78,5 +86,48 @@ old IDOS->Lock()/IDOS->Examine() pair.
 * Fixed library version string.
 * Bumped library revision (22.42.2).
 + Committed revision 589.
+
+***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
+
+2015-05-05 - config-os4/#?
+* Replaced all AllocMem() and FreeMem() function calls with AllocVec()
+  and FreeVec() function calls.
++ Committed revision 593.
+
+2015-05-08 - program-os4/ config-os4/ library-os4
+* Replaced all deprecated memory allocation functions with Dopus4
+  functions that use the OS4 AllocvecTags() function.
+* Modified makefiles to make compiler text output more readable.
++ Committed revision 594.
+
+2015-05-12 - library-os4/main/RawkeyToStr.c
+* Replaced all deprecated msgport & iorequest creation functions.
++ Committed revision 595.
+
+2015-05-17 - library-os4/dopus_vectors.c library-os4/main/CheckExist.c
+             library-os4/main/FindSystemFile.c library-os4/main/ReadStringFile.c
+             include-os4/interfaces/dopus.h include-os4/libraries/dopus.h
+* Changed some function arguments to eliminate compiler warnings
+  in the Dopus4 program & ConfigOpus.
+* Updated the Dopus4 library interface header to match changes in the
+  library functions.
+* Added string buffer size definition to Dopus4 library header.
++ Committed revision 596.
+
+2015-05-20 - library-os4/#?
+* Added missing type casting to eliminate compiler warnings.
+* Replaced internal library string functions and unbounded C library
+  string functions with size limited C library string functions.
++ Committed revision 598.
+
+2015-05-28 - library-os4/main/StrConcat.c
+* Fixed broken string concatination in library StrConcat function.
++ Committed revision 601.
+
+2015-06-16 - library-os4/
+* Replaced unbounded sprintf/LSPrintf functions with size limited
+  snprintf functions.
++ Committed revision 602.
+
 
  

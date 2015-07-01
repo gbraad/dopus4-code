@@ -15,5 +15,44 @@ button.
 * Small fix to System->Icons part. Doesn't give a DSI anymore, and shows
 the '*' part for the three default icons, if icons are chosen by the user.
 
-2015-02-22 - ConfigOpus 4.18.2
+2015-02-13 - config-os4/ConfigOpus_rev.h (ConfigOpus 4.18.2)
+* Updated version (subrevisions) for next release.
++ Committed revision 570.
+
+2015-02-22 - config-os4/gadgets.c
 * Disabled hidden protection bit option. H bit is actually hold bit.
++ Committed revision 576.
+
+***Released archive of repository revision 578. (DirectoryOpus 4.18.41)
+
+2015-03-27 - All header files (xxx.h) - config-os4/dopusiff.h
+* Moved duplicated iff definitions to added include-os4/dopusiff.h
+* Removed config-os4/dopusiff.h
+* Added missing pragma pack directives to all header files.
++ Committed revision 579.
+
+***Released archive of repository revision 582. (DirectoryOpus 4.18.42)
+***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
+
+2015-04-28 - config-os4/Makefile
+* Improved ConfigOpus makefile.
++ Committed revision 591.
+
+2015-05-05 - config-os4/#?
+* Replaced all AllocMem() and FreeMem() function calls with AllocVec()
+  and FreeVec() function calls.
++ Committed revision 593.
+
+2015-05-08 - config-os4/#?
+* Replaced all deprecated memory allocation functions with Dopus4
+  functions that use the OS4 AllocvecTags() function.
+* Modified makefile to make compiler text output more readable.
++ Committed revision 594.
+
+2015-06-16 config-os4/#? include-os4/dopus/config.h
+* Fixed all compiler warnings with added type-casting and changing some
+  structure & variable declarations to match function arg declarations.
+* Replaced all unbounded string functions and dopus.library string functions
+  with size limited C library string functions. (strlcpy, snprintf etc.)
++ Committed revision 605.
+

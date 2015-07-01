@@ -619,5 +619,41 @@ IDOS->ExamineDir(). Should be a lot faster.
 + Committed revision 590.
 + Released repository revision 590. (DirectoryOpus 4.18.43)
 
+2015-04-28 - DirectoryOpus.guide
+* Updated guide copyright dates etc.
+Committed revision 592.
+
+2015-05-05 - program-os4/ config-os4/ library-os4
+* Replaced all AllocMem() and FreeMem() function calls with AllocVec()
+  and FreeVec() function calls.
++ Committed revision 593.
+
+2015-05-08 - program-os4/
+* Replaced all deprecated memory allocation functions with Dopus4
+  functions that use the OS4 AllocvecTags() function.
+* Modified makefiles to make compiler text output more readable.
++ Committed revision 594.
+
+2015-05-12 - program-os4/ library-os4/main/RawkeyToStr.c
+* Replaced all deprecated msgport & iorequest creation functions.
++ Committed revision 595.
+
+2015-05-17 - program-os4/
+* Added type casting to numerous function calls to eliminate compiler warnings.
++ Committed revision 597.
+
+2015-05-20 - program-os4/
+* Removed disabled (commented out) string functions from program sources.
++ Committed revision 599.
+
+2015-06-16 - program-os4
+* Replaced all unbounded string functions and dopus.library string functions
+  with size limited C library string functions. (strlcpy, snprintf etc.)
++ Committed revision 604.
+
+2015-07-01 - docs/english/Readme.txt
+* Added readme file to the diropus4 repository.
+Committed revision 607.
+
 *******************************************************************
 

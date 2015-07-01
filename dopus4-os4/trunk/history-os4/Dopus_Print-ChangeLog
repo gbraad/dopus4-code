@@ -1,53 +1,86 @@
 Dopus_Print - ChangeLog:
 ------------------------
 
-Aug 8, 2012 - Dopus_Print 4.18.1
+2012-08-08 - Dopus_Print 4.18.1
 * The following new options were added to the Dopus Print GUI:
 
-  *Ignore bottom margin
+  >Ignore bottom margin
    Ignore bottom margin setting in Dopus Print settings and let
    the printer control the pagelength (bottom margin).
 
-  *Add carriage return to formfeeds
+  >Add carriage return to formfeeds
    Add a carriage return to formfeeds for printers that don't
    automatically perform a carriage return when starting a new
    page.
 
-  *Eject page before printing
+  >Eject page before printing
    Eject a blank first page for printers (or drivers) that print
    a top line higher on the first page than on subsequent pages.
 
-  *Initialize Printer
+  >Initialize Printer
    Dopus Print previously initialized the printer by default. Since
    the latest OS4 printer prefs have an initialization option, the
    Dopus Print printer initialization is changed to an option so
    that multiple printer initializations can be avoided.
 
-  * Added locale strings for new options in Dopus_Print GUI.
+  >Added locale strings for new options in Dopus_Print GUI.
 
-Feb 13, 2015 - Dopus_Print 4.18.2
-  * Bump revision for previous changes.
+2015-02-13 - Dopus_Print 4.18.2
+* Bump revision for previous changes.
 
-April 18, 2015 - Dopus_Print 4.18.3
-  * Replaced string functions with size bounded string functions to avoid
+2015-03-27 - dopus_print-os4/print.h
+* Moved duplicated iff definitions to recently added include-os4/dopusiff.h
+
+* Added missing pragma pack directives to all header files.
+
++ Committed revision 579.
+
+2015-04-18 - Dopus_Print 4.18.3
+* Replaced string functions with size bounded string functions to avoid
     buffer overflows.
 
-  * Replaced deprecated functions.
+* Replaced deprecated functions.
 
-  * Added file/path size #defines in include-os4/libraries/dopus.h.
+* Added file/path size #defines in include-os4/libraries/dopus.h.
     Changed file/path buffer sizes as defined in include-os4/libraries/dopus.h.
 
-  * Created some string length #defines for consistancy.
+* Created some string length #defines for consistancy.
 
-  * Bumped program revision for next release.
+* Bumped program revision for next release.
 
-  + Committed repository revision 581.
++ Committed repository revision 581.
 
-April 23, 2015 - Dopus_Print 4.18.4
-  * Added missing reply port to IORequest allocation for opening
+***Released archive of repository revision 582. (DirectoryOpus 4.18.42)
+
+2015-04-23 - Dopus_Print 4.18.4
+* Added missing reply port to IORequest allocation for opening
     printer.device.
 
-  * Bumped program revision for next release.
+* Bumped program revision for next release.
 
-  + Committed repository revision 584.
++ Committed repository revision 584.
 
+***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
+
+2015-05-20 - Makefile dopusrt-print/Makefile
+* Made cosmetic changes to makefiles for better output readability.
+
++ Committed revision 600.
+
+2015-06-16 - dopus_print-os4/printdir.c
+* Replaced dopus.library string functions with size limited C library
+  functions.
+
++ Committed revision 603.
+
+2015-06-16 - dopus_print-os4/print.c
+             dopus_print-os4/print.h
+             dopus_print-os4/Makefile
+* Fixed bug in Dopus_Print that prevented updating of the output
+  filename in the requester.
+
+* Added inclusion of the debug header (include-os4/dopus/debug.h).
+
+* Updated the makefile for debug output when necessary.
+
++ Committed revision 606.
