@@ -27,7 +27,7 @@
 
 /* Version Tag */
 #include "dopus.library_rev.h"
-STATIC CONST UBYTE __attribute__ ((used)) verstag[] = NEW_VERSTAG " OS4";
+STATIC CONST UBYTE __attribute__ ((used)) verstag[] = VERSTAG " OS4";
 
 struct Interface *INewlib;
 
