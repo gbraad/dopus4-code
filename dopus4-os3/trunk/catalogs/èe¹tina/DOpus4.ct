@@ -1,0 +1,1093 @@
+## version $VER: DOpus4.catalog 4.0 (22.02.2015) Kabara Jaroslav
+## language èe¹tina
+## codeset 5
+;
+;#basename DOpus4
+;#language english
+;#version 4
+;
+; DOpus4.cd - Directory Opus 4 catalog description file
+;
+; $VER: DOpus4.cd 4.0 (21.11.2012)
+;
+;
+; General
+;
+STR_DIRS_FILES_BYTES_COUNT
+Adresáøù: %03ld/%03ld, souborù: %03ld/%03ld, bajtù: %7s/%7s
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
+;
+STR_DOPUS_ALREADY_RUNNING
+Directory Opus je ji¾ rezidentnì v pamìti.\nChcete jej spustit je¹tì jednou?
+; Directory Opus is already resident in memory.\nDo you want to run another copy?
+;
+STR_UNABLE_TO_OPEN_WINDOW
+Nelze otevøít okno nebo obrazovku!
+; Unable to open screen/window!
+;
+STR_WELCOME_TO_DOPUS
+Vítejte v Directory Opusu!
+; Welcome to Directory Opus!
+;
+STR_WELCOME_BACK_TO_DOPUS
+Vítejte zpìt v Directory Opusu!
+; Welcome back to Directory Opus!
+;
+STR_INTERROGATING_FILE
+Zpracovávání souboru...
+; Interrogating file...
+;
+STR_READING_DIRECTORY
+Naèítání adresáøe...
+; Reading directory...
+;
+STR_ENTER_ARGUMENTS_FOR
+Zadejte argumenty pro \"%s\"
+; Enter arguments for \"%s\"
+;
+STR_ENTER_DIRECTORY_NAME
+Zadejte název adresáøe
+; Enter directory name
+;
+STR_DIRECTORY_CREATED
+Adresáø byl vytvoøen.
+; Directory created.
+;
+STR_DIRECTORY
+Adresáø 
+; Directory 
+;
+STR_DEVICE_LIST
+Seznam zaøízení\n\n
+; Device list\n\n
+;
+STR_NO_CHIP_FOR_ICON
+Ikonu nelze naèíst
+; Cannot load icon
+;
+STR_ERROR_IN_IFF
+Chyba ve struktuøe IFF souboru
+; Error in IFF structure
+;
+STR_CANT_ALLOCATE_AUDIO
+Nelze alokovat zvukové kanály
+; Can't allocate audio channels
+;
+STR_FILE_EXISTS_REPLACE
+Soubor \"%s\" ji¾ exituje! Chcete jej nahradit?
+; \"%s\" already exists! Replace?
+;
+STR_SELECT_UNPROTECT
+\nOchranu proti smazání odstraníte kliknutím na Povolit smazání.
+; \nSelect Unprotect to set the deletion bit.
+;
+STR_AREXX_NOT_RUNNING
+Nelze nalézt ARexxový server!
+; ARexx server not found!
+;
+STR_ENTER_AREXX_COMMAND
+Zadejte ARexxový pøíkaz
+; Enter ARexx command
+;
+STR_ENTER_NEW_CD
+Zadejte nový aktuální adresáø
+; Enter new current directory
+;
+STR_SCANNING_DEVICE_LIST
+Prohledávání seznamu zaøízení...
+; Scanning device list...
+;
+STR_FOUND_A_MATCH
+Byl nalezen soubor \"%s\" v adresáøi\n\"%s\"\nPøejít do daného místa?
+; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+;
+STR_BUFFERS_CLEARED
+Aktuálnì nezobrazené zásobníky byly uvolnìny.
+; Buffers not currently displayed have been cleared.
+;
+STR_DOS_ERROR_CODE
+Chyba AmigaDOSu è.%ld
+; DOS error code %ld
+;
+STR_ENTER_NEW_DISK_NAME
+Zadejte nový název diskety
+; Enter new disk name
+;
+STR_ENTER_ASSIGN_NAME
+Zadejte adresáø pro logické zaøízení
+; Enter directory to re-assign device
+;
+STR_CANT_CANCEL_ASSIGN
+Nelze zru¹it logické zaøízení.
+; Can't cancel assign.
+;
+STR_ENTER_DEVICE_NAME
+Zadejte název zaøízení pro tento adresáø
+; Enter device name for this directory
+;
+STR_ASSIGN_FAILED
+Nelze vytvoøit logické zaøízení
+; Assign failed
+;
+STR_NO_DESTINATION_SELECTED
+Není zvolen cílový adresáø!
+; No destination directory selected!
+;
+STR_CANT_COPY_DIR_TO_ITSELF
+Nelze kopírovat adresáø do sebe!
+; You can't copy a directory into itself!
+;
+STR_SHOWING_FONT
+Zobrazení vybraného písma...
+; Showing selected font...
+;
+STR_RUNNING_FILE
+Spou¹tìní vybraného souboru...
+; Running selected file...
+;
+STR_PLAYING_FILE
+Pøehrávání vybraného souboru...
+; Playing selected file...
+;
+STR_SHOWING_FILE
+Zobrazování vybraného souboru...
+; Showing selected file...
+;
+STR_READING_SELECTED_FILE
+Naèítání textového souboru...
+; Reading selected file...
+;
+STR_FOUND_A_MATCH_READ
+Hledaný øetìzec byl nalezen v souboru\n\"%s\"\nChcete tento soubor zobrazit?
+; Found a match in the file\n\"%s\"\nShall I read the file?
+;
+STR_CONFIG_CHANGED_QUIT
+Byly provedeny zmìny v nastavení programu.\nOpravdu chcete program ukonèit?
+; You have modified the configuration.\nDo you really want to quit?
+;
+STR_SAVING_CONFIG
+Ukládání nastavení...
+; Saving configuration...
+;
+STR_READING_CONFIG
+Naèítání nastavení...
+; Reading configuration...
+;
+STR_CONFIG_CHANGED_LASTSAVED
+Byly provedeny zmìny v nastavení programu.\nOpravdu chcete naèíst pùvodní nastavení?
+; You have modified the configuration.\nReally load the last-saved settings?
+;
+STR_CONFIG_CHANGED_DEFAULTS
+Byly provedeny zmìny v nastavení programu.\nChcete je pøed obnovením výchozího nastavení nejprve ulo¾it?
+; You have modified the configuration.\nSave before restoring defaults?
+;
+STR_HELP_NOT_AVAILABLE
+Pro tuto funkci není nápovìda k dispozici!
+; Help not available for that function!
+;
+STR_SCANNING_TREE
+Prohledávání stromové struktury...
+; Scanning directory tree...
+;
+STR_ENTER_A_STRING
+Zadejte øetìzec
+; Enter a string
+;
+STR_PLEASE_CHOOSE
+Vaberte si, prosím
+; Please choose
+;
+STR_COMMENTING
+Úprava komentáøe
+; commenting
+;
+STR_PROTECTING
+Úprava atributù
+; protecting
+;
+STR_DATESTAMPING
+Úprava data
+; datestamping
+;
+STR_DELETING
+Mazání
+; deleting
+;
+STR_COPYING
+Kopírování
+; copying
+;
+STR_CREATING
+Vytváøení
+; creating
+;
+STR_CANT_OVERCOPY_FILES
+Nelze kopírovat soubor do sebe!
+; You can't copy these files over themselves!
+;
+STR_INTERROGATING_FILES
+Zpracovávání souborù...
+; Interrogating files...
+;
+STR_NOT_IDENTIFIED
+%s nelze identifikovat.
+; %s could not be identified.
+;
+STR_LOADING_CONFIG
+Spou¹tìní konfiguraèního programu...
+; Loading configuration program...
+;
+STR_WAITING_FOR_PORT
+Èekání na port konfiguraèního programu...
+; Waiting for configuration port...
+;
+STR_CONFIG_NOT_FOUND
+Konfiguraèní program nenalezen, nebo jej nelze spustit.
+; Configuration program not found/could not be loaded.
+;
+STR_ALIEN_WINDOWS
+Na obrazovce programu Opus jsou okna jiných programù.\nV¹echna je zavøete a kliknìte na tlaèítko Opakovat\nnebo zvolte Zru¹it pro návrat k Directory Opusu.
+; There are visitor windows open on the Directory Opus screen.\nClose all visitor windows and select Retry\n or select Cancel to return to Directory Opus.
+;
+STR_REALLY_DELETE
+Opravdu chcete smazat vybrané polo¾ky?
+; Do you really wish to delete selected entries?
+;
+STR_WISH_TO_DELETE
+Opravdu chcete smazat soubor \"%s\"?
+; Do you really wish to delete \"%s\"?
+;
+STR_NOT_EMPTY
+Adresáø \"%s\" není prázdný! Smazat?
+; \"%s\" is not empty! Delete?
+;
+STR_ENTER_NEW_NAME
+Zadejte nový název
+; Enter new name
+;
+STR_RENAMING
+Pøejmenovávání
+; renaming
+;
+STR_ENTER_NEW_NAME_MOVE
+Zadejte nový název pro pøesunovaný soubor
+; Enter new name for moved file
+;
+STR_MOVING
+Pøesouvání
+; moving
+;
+STR_ENTER_NEW_NAME_CLONE
+Zadejte název pro identickou kopii
+; Enter name for cloned entry
+;
+STR_SIZES_NOT_KNOWN
+Neznámá velikost nìkterého z oznaèených adresáøù.\nPøejete si jí zjistit?
+; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
+;
+STR_ENTRIES_MAY_NOT_FIT
+Pro oznaèené objekty není na cílovém zaøízení dostatek místa.\nChcete i pøesto pokraèovat v kopírování?
+; Selected entries will probably not fit in destination.\nContinue with the copy?
+;
+STR_ENTER_HUNT_PATTERN
+Zadejte masku pro vyhledávání souboru
+; Enter file pattern to hunt
+;
+STR_COULD_NOT_FIND_FILE
+Soubor nebyl nalezen!
+; Sorry! File could not be found!
+;
+STR_FOUND_MATCHING_FILES
+Maska odpovídá %ld souboru(ùm).
+; Found %ld matching files.
+;
+STR_ADDING_ICON
+Pøidávání ikony pro
+; adding an icon to
+;
+STR_SELECT_COMMENT
+Komentáø
+; Comment
+;
+STR_ENTER_COMMENT
+Zadejte komentáø
+; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+Nelze uzavøít okno obrazovky, jeliko¾\njsou na ní otevøena jiná okna.\nProsím, zavøete je v¹echny.
+; I cannot close the screen because\nthere are visitor windows opened on it.\nI'll wait quietly until they are closed
+;
+STR_ENTER_PASSWORD
+Zadejte heslo
+; Enter password
+;
+STR_ENTER_DATE_AND_TIME
+Zadejte datum a èas (nic = aktuální)
+; Enter date and time (blank for current)
+;
+STR_ENTER_SEARCH_STRING
+Zadejte vyhledávaný øetìzec
+; Enter search string
+;
+STR_RENAME_REQ
+Pøe_jmenovat
+; Re_name
+;
+STR_STRING_NOT_FOUND
+Øetìzec nebyl nalezen!
+; Sorry! String could not be found!
+;
+STR_MATCHED_FILES
+Øetìzec byl nalezen v %ld souborech.
+; Matched in %ld files.
+;
+STR_NO_SOURCE_SELECTED
+Není vybrán zdrojový adresáø.
+; No source directory selected!
+;
+STR_TEMPORARY_OUTPUT_FILE
+Doèasný výstupní soubor
+; Temporary output file
+;
+STR_ENTER_ARGUMENTS
+Zadejte argumenty
+; Enter arguments
+;
+STR_SELECT_FUNCTION
+Vyberte si funkci, ke které chcete zobrazit nápovìdu. Ukonèíte opìtovným stisknutím klávesy Help.
+; Select function you need help with, or Help again to cancel.
+;
+STR_CONFIG_CHANGED_LOAD
+Nastavení programu bylo zmìnìno.\nOpravdu chcete naèíst novou konfiguraci?
+; You have modified the configuration.\nReally load a new configuration file?
+;
+STR_ABORTED
+Pøeru¹eno.
+; Aborted.
+;
+STR_ENTER_DOS_ERROR_CODE
+Zadejte èíslo AmigaDOS chyby
+; Enter DOS error code
+;
+STR_NO_HELP_FOR_ERROR
+Pro tuto chybovou hlá¹ku není nápovìda k dispozici!
+; Help not available for that error code!
+;
+;
+; This becomes something like "An error ocurred deleting "object"
+;                              DOS error code 214 - Disk is write-protected"
+;
+STR_ERROR_OCCURED
+Vyskytla se chyba %s \"%s\"\n%s
+; An error occured %s \"%s\"\n%s
+;
+;
+; Rename window
+;
+STR_RENAME
+Pøejmenovat
+; Rename
+;
+STR_AS
+Jako
+; As
+;
+STR_ENTER_SELECT_PATTERN
+Zadejte masku pro výbìr
+; Enter select pattern
+;
+STR_READING_FILE
+Naèítání souboru...
+; Reading file...
+;
+STR_COUNTING_LINES
+Poèítání øádkù...
+; Counting lines...
+;
+; Built-in text viewer requesters
+;
+STR_JUMP_TO_LINE
+Pøejít na øádek è.?
+; Jump to which line?
+;
+STR_JUMP_TO_PERCENTAGE
+Pøejít na které procento textu?
+; Jump to what percentage?
+;
+; Printer related errors
+;
+STR_CANT_OPEN_PRINTER
+Nelze otevøít tiskárnu!
+; Can't open printer!
+;
+STR_ERROR_PRINTING_FILE
+Chyba v prùbìhu tisku souboru! IoErr = %ld\n
+; Error printing file! IoErr = %ld\n
+;
+STR_READY_PRINTER
+Pøipravte tiskárnu a stisknìte OK pro pokraèování
+; Ready printer, and choose OKAY to continue
+;
+STR_CANT_FIND_ICON
+Pro tento soubor nelze nalézt nebo naèíst ikonu.
+; Unable to find or load an icon for that file.
+;
+STR_ENCRYPTING
+Kódování
+; encrypting
+;
+STR_REPLACE_ALL
+Nahradit _v¹e
+; Replace _all
+;
+STR_CONTINUE_WITH_SEARCH
+Pøejete si pokraèovat ve vyhledávání?
+; Do you wish to continue with the search?
+;
+STR_REALLY_QUIT
+Opravdu chcete ukonèit program Directory Opus?
+; Do you really want to quit Directory Opus?
+;
+STR_REALLY_PROCEED
+Opravdu chcete provést tuto operaci?
+; Do you really wish to proceed with this operation?
+;
+STR_SELECT_SOURCE_DIR
+Zvolte zdrojový adresáø
+; Select the source directory
+;
+STR_SELECT_DESTINATION_DIR
+Zvolte cílový adresáø
+; Select the destination directory
+;
+STR_SELECT_A_FILE
+Zvolte soubor
+; Select a file
+;
+STR_SELECT_A_DIRECTORY
+Zvolte adresáø
+; Select a directory
+;
+STR_DEVICE_LIST_TITLE
+<Seznam zaøízení>
+; <Device list>
+;
+STR_DIR_NOT_AVAILABLE_TITLE
+<Adresáø není k dispozici>
+; <Directory not available>
+;
+STR_BUFFER_LIST_TITLE
+<Seznam zásobníkù>
+; <Buffer list>
+;
+STR_UNPROTECT
+Povolit smazání
+; Unprotect
+;
+; Action gadgets in requesters
+;
+; Please do NOT put shortcuts where there isn't any!
+;
+STR_RUN
+_Spustit
+; _Run
+;
+STR_TRY_AGAIN
+_Zkusit znovu
+; _Try Again
+;
+STR_RETRY
+_Opakovat
+; _Retry
+;
+STR_ABORT
+_Pøeru¹it
+; A_bort
+;
+STR_REPLACE
+_Nahradit
+; _Replace
+;
+STR_MERGE
+_Spojit
+; _Merge
+;
+STR_SKIP
+Pø_ekoèit
+; _Skip
+;
+STR_ALL
+_V¹e
+; _All
+;
+STR_REMOVE
+Odstranit
+; Remove
+;
+STR_QUIT
+_Ukonèit
+; _Quit
+;
+STR_SAVE_QUIT
+_Ulo¾it a ukonèit
+; _Save & quit
+;
+STR_LOAD
+Naèíst
+; Load
+;
+STR_SAVE
+Ulo¾it
+; Save
+;
+STR_DEFAULTS
+Výchozí
+; Defaults
+;
+STR_DELETE
+_Smazat
+; _Delete
+;
+STR_YES
+Ano
+; Yes
+;
+STR_NO
+Ne
+; No
+;
+STR_ICONIFY
+_Ikonifikovat
+; _Iconify
+;
+STR_CONTINUE
+_Pokraèovat
+; C_ontinue
+;
+STR_OKAY
+_OK
+; _Okay
+;
+STR_CANCEL
+_Zru¹it
+; _Cancel
+;
+;
+;
+STR_OKAY_TITLE
+OK
+; OK
+;
+STR_FILE
+Soubor
+; File
+;
+STR_ICON
+Ikona
+; Icon
+;
+STR_OLD_NEW_FILE_REPLACE
+\"%s\" ji¾ existuje! Nahradit?\n\n\
+Nový      -  Velikost : %9lld  Datum : %19s\n\
+Souèasný  -  Velikost : %9lld  Datum : %19s
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %9lld  Date : %19s\n\
+; Old  -  Size : %9lld  Date : %19s
+;
+STR_CUSTOM_LIST
+U¾ivatelský seznam
+; Custom list
+;
+STR_ENTRIES_IN_TREE
+%ld polo¾ek v adresáøovém stromu
+; %ld entries in tree
+;
+STR_DIRS_IN_BUFFERS
+%ld adresáøù v zásobníku
+; %ld directories in buffers
+;
+STR_USER_ENTRIES
+%ld u¾ivatelských polo¾ek
+; %ld user-defined entries
+;
+STR_UNICONIFY
+Zru¹it ikonifikaci
+; Uniconify
+;
+STR_CUSTPORT_NOT_FOUND
+Port u¾ivatelem zadaného handleru\n\"%s\"\nnelze naèíst!
+; User-specified custom handler port\n\"%s\"\ncould not be found!
+;
+STR_CHECKFIT_STRING
+Je zapotøebí: %11lld bajtù  Volných: %11lld bajtù  Vyhovuje na: %.1f%%
+; Bytes needed : %11lld   Bytes free : %11lld   Fit : %.1f%%
+;
+STR_DIR_TREE
+<Adresáøový strom>
+; <Directory tree>
+;
+STR_BUILDING_TREE
+Vytváøení stromové struktury...
+; Generating tree structure...
+;
+STR_UNPROTECT_ALL
+Povolit pro _v¹echny
+; Unprotect all
+;
+STR_READING_CHANGED_DIRECTORY
+Zmìnìn obsah zásobníku - nové naèítání
+; Buffered directory changed - re-reading
+;
+STR_CREATING_DIRECTORY
+Vytváøení adresáøe
+; creating directory
+;
+STR_UNABLE_TO_LOAD_MODULE
+Nelze naèíst externí modul
+; Unable to load external module
+;
+; Selecting by pattern (Accessed by position after first)
+;
+STR_SELECT_ALL_ENTRIES
+V¹e
+; All entries
+;
+STR_SELECT_ONLY_FILES
+Pouze soubory
+; Only files
+;
+STR_SELECT_ONLY_DIRS
+Pouze adresáøe
+; Only dirs
+;
+STR_SELECT_NAME
+Název
+; Name
+;
+STR_SELECT_DATE
+Datum
+; Date
+;
+STR_SELECT_BITS
+Bity
+; Bits
+;
+;
+STR_STARTING_PRINT_MODULE
+Spou¹tìní tiskového modulu...
+; Starting print module...
+;
+STR_ABOUT
+%s\n\
+Zalo¾eno na verzi 4.12 uvolnìné pod GPL.\n\
+Upravil Jacek Rzeuski.\n\
+Autorská práva 1993-2006 - Jonathan Potter\n\n\
+Verzi pro AmigaOS 4.x vytvoøil a spravuje Joachim Birging.\n\n\
+DirectoryOpus: %d.%d.%d\n\
+dopus.library: %ld.%ld\n\
+Zkompilováno pomocí: %s\n\
+Datum kompilace: %s\n\
+Èas kompilace: %s\n\n\
+Tento program byl uvolnìn pod podmínkami GNU GPL licence verze 2\n\
+nebo novìj¹í. Pro více informací si pøeètìte soubor README.\n\n\
+V¹ichni u¾ivatelé programu Directory Opus 4 ¹íøeného pod GPL mohou\n\
+pøejít na nejnovìj¹í verzi programu Directory Opus za sní¾enou cenu.\n\
+Pro více informací nav¹tivte stránku http://www.gpsoft.com.au
+; %s\n\
+; Based on GPL release version 4.12\n\
+; Modified by Jacek Rzeuski\n\
+; Copyright 1993-2006 Jonathan Potter\n\n\
+; Amiga OS4 version coded and maintained by Joachim Birging\n\n\
+; DirectoryOpus: %d.%d.%d\n\
+; dopus.library: %ld.%ld\n\
+; Compiled with: %s\n\
+; Compilation date: %s\n\
+; Compilation time: %s\n\n\
+; This program is released under the terms of the GNU GPL\n\
+; either version 2 of the License, or (at your option) any later version.\n\
+; See the the file README for details.\n\n\
+; All users of Directory Opus 4 distributed under the GPL may be entitled\n\
+; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
+; Please see http://www.gpsoft.com.au for more information.
+;
+; Searching a string in a file
+;
+STR_SEARCH_NO_CASE
+Nerozli¹ovat malá a VELKÁ?
+; Case insensitive
+; Treat upper and lower case as the same
+;
+STR_SEARCH_WILD
+Pou¾ívat ? jako masku
+; Recognise ? as a wildcard character
+;
+STR_SEARCH_ONLYWORD
+Hledat pouze celá slova
+; Whole words
+; Only match on whole, unbroken words
+;
+;
+STR_ENTER_FILTER
+Maska pro filtrování:
+; Enter file filter
+;
+STR_SELECT_PROTECTION_BITS
+Vyberte nové atributy
+; Select new protection bits
+;
+STR_DIRECTORY_OPUS_REQUEST
+Po¾adavek programu Directory Opus
+; Directory Opus Request
+;
+STR_CLOCK_CHIP
+CHIP:
+; CHIP:
+;
+STR_CLOCK_FAST
+FAST:
+; FAST:
+;
+STR_CLOCK_TOTAL
+CELKEM:
+; TOTAL:
+;
+STR_CLOCK_MEM
+RAM:
+; MEM:
+;
+;
+; Used to describe the keyboard shortcut for some function
+;
+STR_KEY
+Klávesa:
+; Key :
+;
+;
+; The tiny buttons at the bottom-right corner of the main window
+;
+STR_TINY_BUTTONS
+BRSA?EHKIU
+; BRSA?EFCIQ
+;
+;
+; The tiny buttons used in the built-in text viewer
+;
+STR_VIEW_BUTTONS
+UDTBSPQ
+; UDTBSPQ
+;
+STR_TEXT_VIEWER_TITLE
+Directory Opus - prohlí¾eè textù
+; Directory Opus Text Viewer
+;
+;
+; Protect window (1/2) (Bit names accessed by position after first)
+;
+; NOTE: Shortcuts for the protection flags are hardcoded. You should NOT
+;       change them, but use something like this instead:
+;
+;       (_H) - <your translation for "Hidden">
+;       (_S) - <your translation for "Script">
+;       (_P) - <your translation for "Pure">
+;       ...
+;
+STR_PROTECT_ALL_BITS
+V¹e
+; All bits
+;
+STR_PROTECT_NONE
+®ádné
+; None
+;
+STR_PROTECT_TOGGLE
+Zamìnit
+; Toggle
+;
+STR_PROTECT_REVERT
+Zru¹it
+; Revert
+;
+STR_PROTECT_OLD
+Pùvodní:
+; Old :
+;
+STR_PROTECT_NEW
+   Nové:
+; New :
+;
+STR_PROTECT_MASK
+  Maska:
+; Mask:
+;
+STR_PROTECT_HIDDEN
+_H-pozastavitelný
+; _Hold
+;
+STR_PROTECT_SCRIPT
+_S-skript
+; _Script
+;
+STR_PROTECT_PURE
+_P-reentrantní
+; _Pure
+;
+STR_PROTECT_ARCHIVE
+_A-archivovaný
+; _Archive
+;
+STR_PROTECT_READ
+_R-èitelný
+; _Read
+;
+STR_PROTECT_WRITE
+_W-zapisovatelný
+; _Write
+;
+STR_PROTECT_EXECUTED
+_E-spustitelný
+; _Execute
+;
+STR_PROTECT_DELETED
+_D-smazatelný
+; _Delete
+;
+STR_FILE_REQUEST
+Zvolte soubor
+; File request
+;
+STR_BUTTON_STRIP
+Directory Opus - tlaèítková li¹ta
+; Directory Opus Button Strip
+;
+STR_NO_FIT
+ N
+;  N
+;
+STR_YES_FIT
+ A
+;  Y
+;
+STR_FTYPE_DEFAULT
+Standardní
+; Default
+;
+STR_FTYPE_UNKNOWN
+Neznámý formát souboru
+; Unknown file type
+;
+STR_MULTI_DRAG
+Roz¹íøená volba - oznaèeno %ld souborù
+; Multi-drag - %ld files selected
+;
+STR_PRESS_MOUSE_BUTTON
+Pokraèování po stisknutí levého tlaèítka my¹i...
+; Press left mouse button to continue...
+;
+STR_ERROR_ERROR_HELP
+Nápovìda
+; Error help
+;
+STR_SKIP_ALL
+Pøeskoèit _v¹e
+; S_kip all
+;
+STR_PARENT_MULTI
+Vy¹¹í adresáøe...
+; Parents and Multi-Assigns...
+;
+STR_OPENING_ARCHIVE
+Otevírání archivu...
+; Opening archive...
+;
+; Pop-up menu (1/2)
+;
+STR_LISTER_MENU
+Nastavení výpisu souborù
+; Lister options
+;
+STR_FILE_NAME
+Název
+; Name
+;
+STR_FILE_SIZE
+Velikost
+; Size
+;
+STR_PROTECTION_BITS
+Pøíznaky
+; Protection
+;
+STR_CREATION_DATE
+Datum
+; Date
+;
+STR_FILE_COMMENT
+Komentáø
+; Comment
+;
+STR_FILE_TYPE
+Formát souboru
+; File type
+;
+STR_OWNER
+Vlastník
+; Owner
+;
+STR_GROUP
+Skupina
+; Group
+;
+STR_NET_PROTECTION_BITS
+Sí»ové pøíznaky
+; Net protection bits
+;
+STR_REVERSE_ORDER
+Reverzní tøídìní
+; Reverse order
+;
+STR_SIZE_AS_KMG
+Velikost ve formátu K/M/G
+; Sizes in K/M/G format
+;
+;
+;
+STR_BRING_TO_FRONT
+_Pøenést do popøedí
+; _Bring to front
+;
+STR_REPLACE_DIR_WITH_FILE
+\"%s\" ji¾ existuje! Nahradit?\n\n\
+Nový      -  Velikost : %9lld  Datum : %19s\n\
+Souèasný  -                    Datum : %19s
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %9lld  Date : %19s\n\
+; Old  -                  Date : %19s
+;
+STR_REPLACE_FILE_WITH_DIR
+\"%s\" ji¾ existuje! Nahradit?\n\n\
+Nový      -                    Datum : %19s\n\
+Souèasný  -  Velikost : %9lld  Datum : %19s
+; \"%s\" already exists! Replace?\n\n\
+; New  -                  Date : %19s\n\
+; Old  -  Size : %9lld  Date : %19s
+;
+STR_OPERATION_NOT_SUPPORTED
+Operace není podporována
+; Operation not supported
+;
+STR_QUERY_REMOVE_ASSIGN
+Opravdu chcete odstranit logické zaøízení \"%s\"?
+; Do you really wish to remove \"%s\" assign?
+;
+; Pop-up menu (2/2)
+;
+STR_DIRSFIRST
+Zobrazit nejdøíve adresáøe
+; Show dirs first
+;
+STR_FILESFIRST
+Zobrazit nejdøíve soubory
+; Show files first
+;
+STR_MIXDIRSFILES
+Míchat soubory a adresáøe
+; Mix files and dirs
+;
+STR_SORTALPHA
+Èistì alfanumericky
+; Plain alphanumeric
+;
+STR_SORTDEC
+Rozpoznávat desetinná èísla
+; Recognize decimals
+;
+STR_SORTHEX
+Rozpoznávat hexadecimálnì
+; Recognize hexadecimals
+;
+STR_SORTBY
+Tøídit podle
+; Sort by
+;
+STR_NAMESORT_MENU
+Tøídìní názvù
+; Name sorting
+;
+STR_FILE_EXTENSION
+Roz¹íøení
+; Extension
+;
+;
+; Protect window (2/2)
+;
+STR_PROTECT_OKAY
+_Ok
+; _Okay
+;
+STR_PROTECT_ALL
+_V¹echny
+; A_ll
+;
+;
+; Experimental (enter "Makelink" in the ARexx window to see these)
+;
+STR_ENTER_MAKELINK_PARAMS
+Zadejte parametry odkazu
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Soft
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Hard
+; Hard
+;
+STR_MAKELINK_TYPE
+Typ
+; Type
+;
+STR_MAKELINK_NAME
+Název odkazu
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Cíl odkazu
+; Link destination
+;
+STR_PROTECT_CANCEL
+_Zru¹it
+; _Cancel
+;
+STR_EXTRACT_ARCHIVE
+Rozbalování archivu...
+; Extracting archive...
+;
+; Directory Protect, Comment, DateStamp options
+;
+STR_DIR_COMMENT
+Komentáø
+; Comment
+;
+STR_DIR_PROTECT
+Ochránit
+; Protect
+;
+STR_DIR_DATESTAMP
+Datum
+; DateStamp
+;
+STR_DIR_ALL
+Adresáø a _obsah
+; Directory & _Contents
+;
+STR_DIR_DIR
+_Pouze adresáø
+; _Directory Only
+;
+STR_DIR_MESSAGE
+%s adresáø \"%s\" pouze\n\n\
+NEBO adresáø a v¹echen obsah?
+; %s directory \"%s\" only\n\n\
+; OR directory and all contents?
+;
