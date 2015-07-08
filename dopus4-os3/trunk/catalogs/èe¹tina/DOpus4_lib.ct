@@ -1,0 +1,96 @@
+## version $VER: dopus4_lib.catalog 2.0 (22.02.2015) Kabara Jaroslav
+## language èe¹tina
+## codeset 5
+;
+; DOpus4_Lib.cd - dopus.library catalog description file
+;
+; $VER: DOpus4_Lib.cd 2.0 (02.11.2006)
+;
+;
+STR_CONFIG_TOO_OLD
+Konfiguraèní soubory z verze 3.32 a ni¾¹í nelze pou¾ít!
+; Pre-3.32 configuration files not recognised!
+;
+STR_CONTINUE
+Pokraèovat
+; Continue
+;
+STR_REQUEST
+Po¾adavek
+; Request
+;
+STR_TRY_AGAIN
+Zkusit znovu
+; Try Again
+;
+STR_CANCEL
+Zru¹it
+; Cancel
+;
+STR_CANNOT_FIND_FILE_REQ
+Nelze najít soubor \"%s\"\n\
+ani v adresáøi C:, ani v v adresáøi\n\
+Modules/ ani v adresáøi DOPUS:Modules/.\n\
+Vlo¾te disketu DOpus a vyberte\n\
+%s, nebo %s pro pøeru¹ení operace
+; Unable to find the file \"%s\"\n\
+; in either the C: directory or the\n\
+; Modules/ or the DOPUS:Modules/ directory.\n\
+; Insert DOpus disk if necessary and select\n\
+; %s, or %s to abort the operation
+;
+STR_FILEREQ_FILE
+Soubor
+; File
+;
+STR_FILEREQ_DRAWER
+Adresáø
+; Drawer
+;
+STR_FILEREQ_ACCEPT
+Pøijmout
+; Accept
+;
+STR_FILEREQ_PARENT
+O adresáø vý¹
+; Parent
+;
+STR_FILEREQ_DRIVES
+Zaøízení
+; Drives
+;
+STR_FILEREQ_DIR
+    Adr
+;     Dir
+;
+STR_FILEREQ_NAME
+Souborový dialog
+; File request
+;
+STR_DEV_DEV
+  <DEV>
+;   <DEV>
+;
+STR_DEV_ASN
+  <ASN>
+;   <ASN>
+;
+STR_DEV_VOL
+  <VOL>
+;   <VOL>
+;
+STR_DEV_DFR
+  <DFR>
+;   <DFR>
+;
+STR_DEV_NBD
+  <NBD>
+;   <NBD>
+;
+STR_SELECT_DIR
+Vyberte adresáø
+; Select directory
+;
+STR_SELECT_FILE
+Vyberte soubor
+; Select file

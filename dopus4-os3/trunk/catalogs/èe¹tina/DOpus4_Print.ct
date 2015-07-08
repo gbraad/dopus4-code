@@ -1,0 +1,261 @@
+## version $VER: DOpus4_Print.catalog 4.0 (23.03.2014) Kabara Jaroslav
+## language èe¹tina
+## codeset 5
+;
+;#basename Dopus4_Print
+;#language english
+;#version 4
+;
+; DOpus4_Print.cd - Directory Opus 4 Print module catalog description file
+;
+; $VER: DOpus4_Print.cd 4.0 (21.11.2012)
+;
+;
+STR_SELECT_FILE
+Zvolte soubor
+; Select file
+;
+STR_ABORT
+Pøeru¹it
+; Abort
+;
+STR_CONTINUE
+Pokraèovat
+; Continue
+;
+STR_OKAY
+OK
+; Okay
+;
+STR_CANCEL
+Zru¹it
+; Cancel
+;
+STR_FILE
+Soubor
+; File
+;
+STR_TOP_MARGIN
+Horní okraj
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Spodní okraj
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Levý okraj
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Pravý okraj
+; Right Margin
+;
+STR_TAB_SIZE
+Øádkování
+; Tab size
+;
+STR_PRINT_PITCH
+©íøka pásma
+; Print pitch
+;
+STR_QUALITY
+Hustota
+; Density
+;
+STR_EJECT
+Vysunout poslední stránku
+; Eject final page
+;
+STR_IGNORE
+Ignorovat spodní okraj
+; Ignore bottom margin
+;
+STR_ADD_CR
+Add carriage return to formfeeds
+; Add carriage return to formfeeds
+;
+STR_EJECT_FIRST
+Vysunout stránku pøed tiskem
+; Eject page before printing
+;
+STR_INIT_PRINTER
+Inicializovat tiskárnu
+; Initialize Printer
+;
+STR_CONFIGURATION
+nastavení...
+; configuration...
+;
+STR_TITLE
+Název
+; Title
+;
+STR_DATE
+Datum
+; Date
+;
+STR_PAGE_NUMBER
+Èíslo stránky
+; Page no.
+;
+STR_TEXT_STYLE
+Styl textu
+; Text style
+;
+STR_PRINTER
+Tiskárna
+; Printer
+;
+STR_PRINT
+Tisk
+; Print
+;
+STR_EXIT
+Ukonèit
+; Exit
+;
+STR_OUTPUT_TO
+Výstup do...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Elite
+; Elite
+;
+STR_FINE
+Fine
+; Fine
+;
+STR_NORMAL
+Normální
+; Normal
+;
+STR_BOLD
+Tuènì
+; Bold
+;
+STR_ITALICS
+Kurzíva
+; Italics
+;
+STR_UNDERLINED
+Podtr¾ené
+; UnLined
+;
+STR_DOUBLESTRIKE
+Pøe¹krtnuté
+; DbStrik
+;
+STR_SHADOW
+Stínované
+; Shadow
+;
+STR_DRAFT
+Koncept
+; Draft
+;
+STR_LETTER
+Dopisní
+; Letter
+;
+STR_HEADER
+Hlavièka
+; Header
+;
+STR_FOOTER
+Patièka
+; Footer
+;
+STR_SIZE
+Velikost
+; Size
+;
+STR_PROTECTION
+Ochrana
+; Protection
+;
+STR_COMMENT
+Komentáø
+; Comment
+;
+STR_FILETYPE
+Typ souboru
+; File type
+;
+STR_PRINT_DOT
+Tisk...
+; Print...
+;
+STR_PRINTDIR
+Tisk adresáøe
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+Soubor nelze otevøít. Zkusit znovu?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+Nelze otevøít výstupní soubor. Zkusit znovu?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+Nelze inicializovat tiskárnu. Zkusit znovu?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+Chyba pøi tisku adresáøe. Zkusit znovu?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+Zadáno ¹patné heslo. Zkusit znovu?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+Chyba v prùbìhu tisku. Zkusit znovu?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+Opravdu chcete pøeru¹it tisk?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Vytváøení souboru
+; Creating file
+;
+STR_OPENING_PRINTER
+Otevírání tiskárny
+; Opening printer
+;
+STR_LOADING_FILE
+Naèítání souboru...
+; Loading file...
+;
+STR_PRINTING_FILE
+Tisk souboru...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+Stisknìte ESC pro pøeru¹ení
+; Press ESC to abort
+;
+STR_PAGE
+Strana
+; Page
+;
+STR_COMPLETE
+dokonèeno
+; complete
+;
+STR_TOFILE
+Soubor
+; File
+;
+STR_PRINTWIN
+Tisk
+; Print
+;
