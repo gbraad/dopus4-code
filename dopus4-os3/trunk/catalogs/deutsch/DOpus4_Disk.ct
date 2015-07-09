@@ -1,4 +1,6 @@
-## version $VER: DOpus4_Disk.ct 1.2 (10.06.01)
+## version $VER: DOpus4_Disk.catalog 1.2 (10.06.01)
+## codeset 0
+## language deutsch
 STR_FORMAT_NAME
 _Name
 ;#DEF _Name

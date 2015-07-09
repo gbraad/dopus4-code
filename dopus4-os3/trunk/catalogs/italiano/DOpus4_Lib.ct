@@ -1,6 +1,7 @@
 ## chunk AUTH Massimo Mascia & Stefano Guidetti
-## language italiano
 ## version $VER: DOpus4_Lib.catalog 1.1 (12.01.2002)
+## codeset 0
+## language italiano
 ;
 STR_CONFIG_TOO_OLD
 Configurazioni precedenti alla v.3.32 non riconosciute!

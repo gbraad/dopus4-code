@@ -1,6 +1,7 @@
 ## chunk AUTH Massimo Mascia, Francesco Mancuso & Stefano Guidetti
-## language italiano
 ## version $VER: DOpus4.catalog 1.5 (12.01.2002)
+## codeset 0
+## language italiano
 ;
 STR_DIRS_FILES_BYTES_COUNT
 Directory : %03ld/%03ld  File : %03ld/%03ld  Byte : %7s/%7s

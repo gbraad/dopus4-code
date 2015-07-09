@@ -1,4 +1,6 @@
-## version $VER: DOpus4_Icon.ct 1.0 (06.06.01)
+## version $VER: DOpus4_Icon.catalog 1.0 (06.06.01)
+## codeset 0
+## language deutsch
 STR_REMAP_COLORS
 Neue _Farben
 ;#DEF Rema_p colors
