@@ -1,6 +1,7 @@
 ## chunk AUTH Christoph Gutjahr
+## version $VER: DOpus4_Config.catalog 1.0 (09.06.01)
+## codeset 0
 ## language deutsch
-## version $VER: DOpus4_Config.ct 1.0 (09.06.01)
 STR_REALLY_DISCARD_CONFIG
 Möchten Sie die aktuelle Konfiguration\nwirklich verwerfen?
 ;#DEF Do you really want to discard the\ncurrent configuration settings?
@@ -1405,7 +1406,7 @@ STR_OP_UPDATE_REDRAWMORE
 Mehr als eine Viertelseite neuzeichnen.
 ;#DEF Redraw more than a quarter of a page
 ;#SET (//)
-STR_OP_UPDATE_QUIETGETDIR,
+STR_OP_UPDATE_QUIETGETDIR
 Rollbalken beim Scannen refreshen
 ;#DEF Update listview slider while scanning
 ;#SET (//)
