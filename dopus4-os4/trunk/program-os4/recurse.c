@@ -231,6 +231,7 @@ int32 huntfunc(struct Hook *hook, STRPTR matchstring, struct ExamineData *data)
 	{
 		if(EXD_IS_FILE(data))
 		{
+			dos_global_bytecount += data->FileSize;
 			ret = IDOS->MatchPatternNoCase(matchstring, data->Name);
 		}
 	}
@@ -273,6 +274,10 @@ int32 recursive_hunt(STRPTR sourcename)
 						else if(y == -10)
 						{
 							ret = -10;
+						}
+						else if(y == -3)
+						{
+							ret = -3;
 						}
 						IExec->FreeVec(newsourcename);
 					}
