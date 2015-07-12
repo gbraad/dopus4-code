@@ -329,7 +329,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 	case FUNC_COPY:
 		if(destdir[0] && (checksame(sourcedir, destdir, 1) == LOCK_SAME))
 			goto endfunction;
-//        case FUNC_CLONE:
+//	case FUNC_CLONE:
 	case FUNC_COPYAS:
 		if(!(checkdest(inact)))
 			goto endfunction;
@@ -378,7 +378,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 		IExec->CopyMem(str_hunt_name_parsed, buf2, 170);
 		candoicon = 0;
 		break;
-        case FUNC_PRINT:
+	case FUNC_PRINT:
 		if(globflag)
 		{
 			strlcpy(sourcename, sourcedir, 256);
@@ -1724,6 +1724,7 @@ int dofilefunction(int function, int flags, char *sourcedir, char *destdir, int 
 				okayflag = 1;
 				break;
 			}
+			dos_global_bytecount = 0;
 			if((a = recursive_hunt(sourcename)) == -3)
 			{
 				wildselect(buf2, 2, 0, WILDSELECT_NAME);
