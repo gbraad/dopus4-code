@@ -1,0 +1,9 @@
+/* Dopus4 ARexx Script */
+
+OPTIONS RESULTS
+
+PARSE ARG port file
+
+ADDRESS VALUE port
+'SMARTREAD' file
+

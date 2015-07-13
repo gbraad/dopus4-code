@@ -1,0 +1,25 @@
+; Dopus WBRun startup script with optional delay
+; Refer to DirectoryOpus.guide for other command line arguments.
+
+; UnComment one of these Wait commands to delay opening
+; DirectoryOpus if necessary.
+;C:Wait
+;C:Wait 2 SECS 
+
+; ** Uncomment only one of the commands shown below **
+
+; Start DirectoryOpus behind Workbench
+; DirectoryOpus must be configured to open on a screen;
+; preferably with the screenmode set to "Workbench:Clone"
+DirectoryOpus -B
+
+; Start DirectoryOpus iconified
+; DirectoryOpus should be configured to use an appicon, or else it
+; will iconify to a dragbar at the top of the Workbench screen
+; DirectoryOpus -i
+
+; Start DirectoryOpus button iconified
+; DirectoryOpus -b
+
+; Start DirectoryOpus as configured
+; DirectoryOpus
