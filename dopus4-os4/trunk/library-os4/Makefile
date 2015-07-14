@@ -1,34 +1,24 @@
 # Makefile for dopus.library
 
-CROSS_COMPILE = ppc-amigaos-
+NAME := dopus.library
+DESTDIR  := ../.bin
+TARGET   := $(DESTDIR)/$(NAME)
 
-CC     = $(CROSS_COMPILE)gcc 
-AS     = $(CROSS_COMPILE)as 
-LD     = $(CROSS_COMPILE)ld 
-STRIP  = $(CROSS_COMPILE)strip
-RM     = rm -f
+CC     = ppc-amigaos-gcc 
+STRIP  = ppc-amigaos-strip
+TOUCH = touch
+MAKEDIR = mkdir -p
+REMOVE = rm -r -f
 
 # Change these as required
 OPTIMIZE = -O3
-DEBUGOUT = #-DDEBUG
-DEBUG = -gstabs $(DEBUGOUT)
+DEBUG = -gstabs
 #CFLAGS = -maltivec -mcrt=newlib -Wall -Wwrite-strings -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 CFLAGS = -mcrt=newlib -Wall -Wwrite-strings -I../include-os4 -I. $(OPTIMIZE) $(DEBUG)
 
 # Flags passed to gcc during linking
 #LINK = -maltivec -mcrt=newlib
 LINK = -mcrt=newlib
-
-# Name of the "thing" to build
-TARGET = dopus.library
-
-# Additional linker libraries
-LIBS = #-lamiga
-
-# Source code files used in this project
-# Add any additional files to this line
-
-SRCS = init.c
 
 ifdef REVISE
 BUMPREV:= revision
@@ -63,24 +53,36 @@ main_SRCS = main/Obtain.c main/Release.c main/FileRequest.c main/Do3DBox.c \
     main/CreateGadgetBorders.c main/SelectGadget.c main/FSSetMenuStrip.c \
     main/extras.c main/data.c
 
+# library Initialization Source File
+SRCS = init.c
+
 OBJS = $(main_SRCS:.c=.o)  $(SRCS:.c=.o)
+
 # Rules for building
+
+all: $(BUMPREV) $(TARGET)
+
+.PHONY: debug setdebug
+debug: setdebug all
+setdebug:
+	$(eval override CFLAGS += -DDEBUG)
 
 %.o : %.c
 	@echo ">>>>>Compiling $<"
 	@$(CC) -c $< $(CFLAGS) -o $@
 
-$(TARGET): $(BUMPREV) $(OBJS)
-	$(CC) $(LINK) -nostartfiles -o $(TARGET).debug $(OBJS) $(LIBS)
+$(TARGET): $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
+	$(CC) $(LINK) -nostartfiles -o $(TARGET).debug $(OBJS)
 	$(STRIP) -s $(TARGET).debug -o $(TARGET)
 
 init.o: init.c dopus.library_rev.h
 
 .PHONY: clean
 clean:
-	@$(RM) $(TARGET) $(TARGET).debug $(OBJS)
+	@$(REMOVE) $(TARGET) $(TARGET).debug $(OBJS)
 
 .PHONY: revision
 revision:
-	revbump $(TARGET) $(REVISE)
+	revbump $(NAME) $(REVISE)
 
