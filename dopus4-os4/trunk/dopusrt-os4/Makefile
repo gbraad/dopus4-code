@@ -1,5 +1,14 @@
+# Makefile for DOpusRT runtime program
+
+NAME := DOpusRT
+DESTDIR  := ../.bin
+TARGET   := $(DESTDIR)/$(NAME)
+
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
+TOUCH = touch
+MAKEDIR = mkdir -p
+REMOVE = rm -r -f
 
 CFLAGS = -gstabs -mcrt=newlib -O3 -Wall -I../include-os4
 LDFLAGS = -mcrt=newlib -lauto
@@ -10,21 +19,26 @@ else
 REVISE = sub
 endif
 
-all: $(BUMPREV) DOpusRT
+all: $(BUMPREV) $(TARGET)
 
-#%.o : %.c
+.PHONY: debug setdebug
+debug: setdebug all
+setdebug:
+	$(eval override CFLAGS += -DDEBUG)
+
 main.o: main.c DOpusRT_rev.h
 	@echo ">>>>>Compiling $<"
-	@$(CC) -c $< $(CFLAGS) -o $@
+	$(CC) -c $< $(CFLAGS) -o $@
 
-DOpusRT: main.o
+$(TARGET): main.o
+	@$(MAKEDIR) $(DESTDIR)
 	$(CC) -o $@.debug $< $(LDFLAGS)
 	@$(STRIP) -s $@.debug -o $@
 
-#main.o: main.c DOpusRT_rev.h
-
+# revision target
+.PHONY: revision
 revision:
-	revbump DOpusRT $(REVISE)
+	revbump $(NAME) $(REVISE)
 
 clean:
-	@rm -f *.o DOpusRT DOpusRT.debug
+	@$(REMOVE) *.o $(TARGET) $(TARGET).debug

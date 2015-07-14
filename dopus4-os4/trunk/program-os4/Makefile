@@ -1,13 +1,18 @@
 # Makefile for the DirectoryOpus program
 
+NAME := DirectoryOpus
+DESTDIR  := ../.bin
+TARGET   := $(DESTDIR)/$(NAME)
+
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
 TOUCH = touch
+MAKEDIR = mkdir -p
+REMOVE = rm -r -f
 
 OPTIMIZE = -O3
 WARNINGS = -Wall -Wwrite-strings
-DEBUGOUT = #-DDEBUG
-DEBUG = -gstabs $(DEBUGOUT)
+DEBUG = -gstabs
 CFLAGS = $(DEBUG) $(OPTIMIZE) $(WARNINGS) -I../include-os4 -I../external
 LDFLAGS = -gstabs -lauto -lraauto -lm
 FLEXCAT = flexcat
@@ -28,13 +33,19 @@ remember.o renamedata.o rexx.o screendata.o searchdata.o select.o\
 selectdata.o tasks.o view.o popupmenu.o makelinkdata.o chipimage.o\
 reaction.o strstri.o
 
-all: $(BUMPREV) DirectoryOpus
+all: $(BUMPREV) $(TARGET)
+
+.PHONY: debug setdebug
+debug: setdebug all
+setdebug:
+	$(eval override CFLAGS += -DDEBUG)
 
 %.o : %.c
 	@echo ">>>>>Compiling $<"
 	@$(CC) -c $< $(CFLAGS) -o $@
 
-DirectoryOpus: $(OBJS)
+$(TARGET): $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
 	$(CC) -o $@.debug $^ $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
@@ -50,9 +61,9 @@ dopusstrings.h: ../locale/DOpus4.cd dopusstrings_h.sd
 # revision targets
 .PHONY: revision
 revision:
-	revbump DirectoryOpus $(REVISE)
+	revbump $(NAME) $(REVISE)
 
 # clean targets
 clean:
-	@rm -f *.o DirectoryOpus DirectoryOpus.debug
-	@rm -f dopusstrings.h strings.c
+	@$(REMOVE) *.o $(TARGET) $(TARGET).debug
+	@$(REMOVE) dopusstrings.h strings.c

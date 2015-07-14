@@ -1,12 +1,18 @@
-# Makefile for Configopus module
+# Makefile for ConfigOpus module
+
+NAME := ConfigOpus
+DESTDIR  := ../.bin
+TARGET   := $(DESTDIR)/$(NAME)
 
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
+TOUCH = touch
+MAKEDIR = mkdir -p
+REMOVE = rm -r -f
 
 OPTIMIZE = -O3
 WARNINGS = -Wall -Wwrite-strings
-DEBUGOUT = #-DDEBUG
-DEBUG = -gstabs $(DEBUGOUT)
+DEBUG = -gstabs
 CFLAGS = -mcrt=newlib $(DEBUG) $(OPTIMIZE) $(WARNINGS) -I../include-os4
 LDFLAGS = -mcrt=newlib -lauto
 
@@ -24,13 +30,19 @@ screen_sliders.o screen_screenmode.o data.o main7.o main8.o \
 main9.o gadgets.o strings.o paint_mode.o chipdata.o swapmem.o \
 autoinit_layers_base.o autoinit_layers_main.o
 
-all: $(BUMPREV) ConfigOpus
+all: $(BUMPREV) $(TARGET)
+
+.PHONY: debug setdebug
+debug: setdebug all
+setdebug:
+	$(eval override CFLAGS += -DDEBUG)
 
 %.o : %.c
 	@echo ">>>>>Compiling $<"
 	@$(CC) -c $< $(CFLAGS) -o $@
 
-ConfigOpus: configstrings.h strings.c $(OBJS)
+$(TARGET): configstrings.h strings.c $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
 	$(CC) -o $@.debug $(OBJS) $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
@@ -42,10 +54,12 @@ configstrings.h: ../locale/DOpus4_Config.cd configstrings_h.sd
 strings.c: ../locale/DOpus4_Config.cd configstrings.h strings_c.sd
 	$(FLEXCAT) ../locale/DOpus4_Config.cd strings.c=strings_c.sd
 
+# revision target
 .PHONY: revision
 revision:
 	revbump ConfigOpus $(REVISE)
 
+# clean target
 clean:
-	@rm -f *.o ConfigOpus ConfigOpus.debug
-	@rm -f configstrings.h strings.c
+	@$(REMOVE) *.o $(TARGET) $(TARGET).debug
+	@$(REMOVE) configstrings.h strings.c

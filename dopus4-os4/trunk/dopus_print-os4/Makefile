@@ -1,13 +1,20 @@
+# Makefile for DOpus_Print module.
+
+NAME := DOpus_Print
+DESTDIR  := ../.bin
+TARGET   := $(DESTDIR)/$(NAME)
+
 CC = ppc-amigaos-gcc
 STRIP = ppc-amigaos-strip
+TOUCH = touch
+MAKEDIR = mkdir -p
+REMOVE = rm -r -f
+FLEXCAT = flexcat
 
-DEBUGOUT = #-DDEBUG
-CFLAGS = -gstabs -mcrt=newlib -Wall -O3 -I../include-os4 $(DEBUGOUT)
+CFLAGS = -gstabs -mcrt=newlib -Wall -O3 -I../include-os4
 LDFLAGS = -mcrt=newlib -lauto -lm
 
 OBJS = print.o printreq.o doprint.o data.o printdir.o strings.o
-
-FLEXCAT = flexcat
 
 ifdef REVISE
 BUMPREV:= revision
@@ -15,10 +22,20 @@ else
 REVISE = sub
 endif
 
-all: $(BUMPREV) DOpus_Print
+all: $(BUMPREV) $(TARGET)
 
-DOpus_Print : printstrings.h strings.c $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@.debug $(LDFLAGS)
+.PHONY: debug setdebug
+debug: setdebug all
+setdebug:
+	$(eval override CFLAGS += -DDEBUG)
+
+%.o : %.c
+	@echo ">>>>>Compiling $<"
+	@$(CC) -c $< $(CFLAGS) -o $@
+
+$(TARGET) : printstrings.h strings.c $(OBJS)
+	@$(MAKEDIR) $(DESTDIR)
+	$(CC) $(OBJS) -o $@.debug $(LDFLAGS)
 	$(STRIP) -s $@.debug -o $@
 
 data.o: data.c DOpus_Print_rev.h
@@ -33,5 +50,5 @@ revision:
 	revbump DOpus_Print $(REVISE)
 
 clean:
-	@rm -rf *.o DOpus_Print DOpus_Print.debug
-	@rm -rf printstrings.h strings.c
+	@$(REMOVE) *.o $(TARGET) $(TARGET).debug
+	@$(REMOVE) printstrings.h strings.c

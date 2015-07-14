@@ -26,6 +26,9 @@
 #ifndef DOPUS_STRINGDATA_H
 #include <dopus/stringdata.h>
 #endif
+#ifndef DOPUS_DEBUG_H
+#include <dopus/debug.h>
+#endif
 
 /****************************************************************************/
 

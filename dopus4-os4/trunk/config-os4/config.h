@@ -60,10 +60,9 @@ the existing commercial status of Directory Opus 5.
 #include <proto/wb.h>
 
 #include <proto/dopus.h>
-#include <dopus/config.h>
+//#include <dopus/config.h>
 #include <dopus/configflags.h>
 #include <dopus/dopusmessage.h>
-#include <dopus/debug.h>
 
 #ifdef __GNUC__
 	#ifdef __PPC__
