@@ -129,5 +129,12 @@ old IDOS->Lock()/IDOS->Examine() pair.
   snprintf functions.
 + Committed revision 602.
 
+2015-07-03 - library-os4/dopus.library_rev.h (dopus.library 22.43)
+* Updated version (revision) for next release.
++ Committed revision 609.
 
+2015-07-14 - library-os4/makefile
+* Added new arguments to makefile for enabling serial debug output.
+* Added serial debug output target to makefile.
++ Committed revision 614.
  

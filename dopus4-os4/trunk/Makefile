@@ -151,13 +151,17 @@ release: all
 	@${CPY} .bin/DirectoryOpus $(RELEASEDIR)
 	@${CPY} .bin/DirectoryOpus.debug $(RELEASEDIR)
 	@${CPY} .bin/ConfigOpus $(RELEASEDIR)/Modules
+	@${CPY} .bin/ConfigOpus.debug $(RELEASEDIR)/Modules
 	@${CPY} .bin/dopus.library $(RELEASEDIR)/Libs
+	@${CPY} .bin/dopus.library.debug $(RELEASEDIR)/Libs
 	@${CPY} .bin/DOpus_Print $(RELEASEDIR)/Modules
+	@${CPY} .bin/DOpus_Print.debug $(RELEASEDIR)/Modules
 	@${CPY} .bin/DOpusRT $(RELEASEDIR)/C
+	@${CPY} .bin/DOpusRT.debug $(RELEASEDIR)/C
 	@${CPY} COPYING $(RELEASEDIR)
 	@${CPY} docs/english/Readme.txt $(RELEASEDIR)
 	@${CPY} docs/english/DirectoryOpus.guide $(RELEASEDIR)/Docs
-	@${CPY} history-os4/*-ChangeLog $(RELEASEDIR)/History
+	@${CPY} history-os4/* $(RELEASEDIR)/History
 	@${CPY} S/*.* $(RELEASEDIR)/S
 	@${CPY} extras/default.dopus $(RELEASEDIR)/Rexx
 	@${CPY} extras/DirectoryOpus.CFG $(RELEASEDIR)/S

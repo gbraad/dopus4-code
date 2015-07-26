@@ -680,9 +680,11 @@ Starte Druck-Modul...
 ;
 STR_ABOUT
 %s\nBasierend auf GPL Release Version 4.12\n\
-Modifiziert von Jacek Rzeuski\n\
-Copyright 1993-2006 Jonathan Potter\n\n\
-AmigaOS 4-Version von Joachim Birging\n\n\
+Copyright 1993-2000 Jonathan Potter\n\
+Amiga OS3 version modifiziert von Jacek Rzeuski\n\
+Amiga OS4 version von Joachim Birging\n\n\
+Copyright 2001-2015 unter GNU General Public License (GPL)\n\
+Sourcecode verfügbar unter: http://sourceforge.net/projects/diropus4/\n\n\
 DirectoryOpus: %d.%d.%d\n\
 dopus.library: %ld.%ld\n\
 Compiled with: %s\n\
@@ -691,17 +693,18 @@ Compilation time: %s\n\n\
 Dieses Programm ist freie Software; Es darf gemäß den Bestimmungen\n\
 der GNU General Public License Version 2 (oder einer beliebigen\n\
 späteren Version) vertrieben oder geändert werden. Weitere Details\n\
-sind der Datei README zu entnehmen.\n\n\
+sind der Datei COPYING zu entnehmen.\n\n\
 Alle Benutzer von Directory Opus 4 (inklusive der Versionen, die\n\
 unter der GPL vertrieben werden) sind berechtigt, zu reduzierten\n\
 Preisen ein Upgrade auf die neueste Version von Directory Opus 5\n\
-zu erwerben:\n\n\
-http://www.gpsoft.com.au
+zu erwerben: http://www.gpsoft.com.au
 ; %s\n\
 ; Based on GPL release version 4.12\n\
-; Modified by Jacek Rzeuski\n\
-; Copyright 1993-2006 Jonathan Potter\n\n\
-; Amiga OS4 version coded and maintained by Joachim Birging\n\n\
+; Copyright 1993-2000 Jonathan Potter\n\
+; Amiga OS3 version modified by Jacek Rzeuski\n\
+; Amiga OS4 version coded by Joachim Birging\n\n\
+; Copyright 2001-2015 under GNU General Public License (GPL)\n\
+; Sourcecode available at: http://sourceforge.net/projects/diropus4/\n\n\
 ; DirectoryOpus: %d.%d.%d\n\
 ; dopus.library: %ld.%ld\n\
 ; Compiled with: %s\n\
@@ -709,7 +712,7 @@ http://www.gpsoft.com.au
 ; Compilation time: %s\n\n\
 ; This program is released under the terms of the GNU GPL\n\
 ; either version 2 of the License, or (at your option) any later version.\n\
-; See the the file README for details.\n\n\
+; See the the file COPYING for details.\n\n\
 ; All users of Directory Opus 4 distributed under the GPL may be entitled\n\
 ; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
 ; Please see http://www.gpsoft.com.au for more information.

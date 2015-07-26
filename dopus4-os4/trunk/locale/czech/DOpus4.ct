@@ -680,24 +680,28 @@ Spou¹tìní tiskového modulu...
 STR_ABOUT
 %s\n\
 Zalo¾eno na verzi 4.12 uvolnìné pod GPL.\n\
-Upravil Jacek Rzeuski.\n\
-Autorská práva 1993-2006 - Jonathan Potter\n\n\
-Verzi pro AmigaOS 4.x vytvoøil a spravuje Joachim Birging.\n\n\
+Autorská práva 1993-2000 - Jonathan Potter\n\
+Verzi pro AmigaOS 3.x upravil Jacek Rzeuski\n\
+Verzi pro AmigaOS 4.x vytvoøil Joachim Birging\n\n\
+Copyright 2001-2015 pod GNU General Public License\n\
+Zdrojového kódu k dispozici na: http://sourceforge.net/projects/diropus4/\n\n\
 DirectoryOpus: %d.%d.%d\n\
 dopus.library: %ld.%ld\n\
 Zkompilováno pomocí: %s\n\
 Datum kompilace: %s\n\
 Èas kompilace: %s\n\n\
 Tento program byl uvolnìn pod podmínkami GNU GPL licence verze 2\n\
-nebo novìj¹í. Pro více informací si pøeètìte soubor README.\n\n\
+nebo novìj¹í. Pro více informací si pøeètìte soubor COPYING.\n\n\
 V¹ichni u¾ivatelé programu Directory Opus 4 ¹íøeného pod GPL mohou\n\
 pøejít na nejnovìj¹í verzi programu Directory Opus za sní¾enou cenu.\n\
 Pro více informací nav¹tivte stránku http://www.gpsoft.com.au
 ; %s\n\
 ; Based on GPL release version 4.12\n\
-; Modified by Jacek Rzeuski\n\
-; Copyright 1993-2006 Jonathan Potter\n\n\
-; Amiga OS4 version coded and maintained by Joachim Birging\n\n\
+; Copyright 1993-2000 Jonathan Potter\n\
+; Amiga OS3 version modified by Jacek Rzeuski\n\
+; Amiga OS4 version coded by Joachim Birging\n\n\
+; Copyright 2001-2015 under GNU General Public License (GPL)\n\
+; Sourcecode available at: http://sourceforge.net/projects/diropus4/\n\n\
 ; DirectoryOpus: %d.%d.%d\n\
 ; dopus.library: %ld.%ld\n\
 ; Compiled with: %s\n\
@@ -705,7 +709,7 @@ Pro více informací nav¹tivte stránku http://www.gpsoft.com.au
 ; Compilation time: %s\n\n\
 ; This program is released under the terms of the GNU GPL\n\
 ; either version 2 of the License, or (at your option) any later version.\n\
-; See the the file README for details.\n\n\
+; See the the file COPYING for details.\n\n\
 ; All users of Directory Opus 4 distributed under the GPL may be entitled\n\
 ; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
 ; Please see http://www.gpsoft.com.au for more information.

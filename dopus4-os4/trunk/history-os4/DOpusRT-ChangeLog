@@ -19,7 +19,7 @@ DOpusRT - ChangeLog
 + Committed revision 586.
 
 2015-04-28 - dopusrt-os4/DOpusRT_rev.h
-* Bumped dopusrt revision (4.18.3).
+* Bumped dopusrt subrevision (4.18.3).
 + Committed revision 589.
 
 ***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
@@ -34,3 +34,13 @@ DOpusRT - ChangeLog
 * Replaced dopus.library string functions with size limited C library
   functions.
 + Committed revision 603.
+
+2015-07-03 - dopusrt-os4/DOpusRT_rev.h
+* Bumped dopusrt subrevision (4.18.4).
++ Committed revision 609.
+
+2015-07-14 - dopus_print-os4/makefile
+* Added new argument to makefile for enabling serial debug output.
+* Added serial debug output target to makefile.
++ Committed revision 614.
+

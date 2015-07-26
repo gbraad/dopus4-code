@@ -655,5 +655,45 @@ Committed revision 592.
 * Added readme file to the diropus4 repository.
 Committed revision 607.
 
+2015-07-03 - program-os4/DirectoryOpus_rev.h (DirectoryOpus 4.18.44)
+* Updated version (subrevision) for next release.
++ Committed revision 609.
+
+2015-07-12 - main22.c recurse.c
+* Fixed directory sizes displayed in a lister when searching for a
+  filename (or pattern) in multiple directories with the hunt command.
+* Fixed a hunt command failure to highlight the found file when the file
+  was located in a subdirectory of the directory being searched. When the
+  user selected the OK button in the "Shall I go there?" requester,
+  the hunt command would display a requester stating that the file was
+  not found but then load the directory where the file was located.
++ Committed revision 612.
+
+2015-07-13 - extras/* extras/icons
+* Added "extras" directory with files needed for a release.
++ Committed revision 613.
+
+2015-07-14 - program-os4/makefile config-os4/dopus.h
+* Added serial debug output target to program makefile.
+* Changed proto/dopus.h to include dopus/debug.h for enabling serial
+  debug output in all DirectoryOpus components.
+* Removed debug header inclusion from dopus.h since it's now
+  included with the library proto header.
+* Updated release target in main makefile.
++ Committed revision 614.
+
+2015-07-26 - history-os4/* docs/english/Readme.txt Makefile
+             extras/DirectoryOpus.CFG extras/icons/DirectoryOpus.info
+             locale/ program-os4/main20.c
+* Fixed a crash in the Dopus4 text viewer. If Dopus4 was on the
+  Workbench screen and the text viewer was open when the user quit
+  the Dopus4 program, the viewer would crash (Grim readper).
+* Updated history files and readme.
+* Added debug files to release target in main makefile.
+* Added a missing Tooltype to the DirectoryOpus icon.
+* Changed some button colors in config example.
+* Changed the copyright in about window.
++ Committed revision 615.
+
 *******************************************************************
 

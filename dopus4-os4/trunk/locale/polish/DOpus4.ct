@@ -680,26 +680,30 @@ Uruchamiam modu³ drukarki...
 STR_ABOUT
 %s\n\
 Na podstawie wersji GPL 4.12\n\
-Zmodyfikowanej przez Jacka Rzeuskiego\n\
-Copyright 1993-2006 Jonathan Potter\n\n\
-Wersja dla AmigaOS4 przygotowana i rozwijana przez Joachima Birginga\n\n\
+Copyright 1993-2000 Jonathan Potter\n\
+Wersja dla Amiga OS3 zmodyfikowanej przez Jacek Rzeuski\n\
+Wersja dla Amiga OS4 przygotowana i rozwijana przez Joachim Birging\n\n\
+Copyright 2001-2015 licencji GNU General Public License (GPL)\n\
+Kodu ?ród?owego dost?pne w: http://sourceforge.net/projects/diropus4/\n\n\
 DirectoryOpus: %d.%d.%d\n\
 dopus.library: %ld.%ld\n\
 Skompilowany przy wykorzystaniu: %s\n\
 Data kompilacji: %s\n\
 Godzina kompilacji: %s\n\n\
 Program ten zosta³ wydany na licencji GNU GPL\n\
-w wersji 2, lub (je¶li wolisz) zgodnie z dowoln± pó¼niejsz±.\n\
-Bli¿sze informacje znadziesz w pliku README.\n\n\
-Wszyscy u¿ytkownicy Directory Opusa 4 rozpowszechnianego na licencji GPL\n\
-mog± byæ upowa¿nieni do uaktualnienia do najnowszej wersji programu po\n\
-obni¿onej cenie.\n\
+w wersji 2, lub (je¶li wolisz) zgodnie z dowoln± pó¼niejsz.\n\
+Bli¿sze informacje znadziesz w pliku COPYING.\n\n\
+Wszyscy u¿ytkownicy Directory Opus 4 rozpowszechnianego na\n\
+licencji GPL mog± byæ upowa¿nieni do uaktualnienia do\n\
+najnowszej wersji programu po obni¿onej cenie.\n\
 Wiêcej informacji znajdziesz na stronie http://www.gpsoft.com.au.
 ; %s\n\
 ; Based on GPL release version 4.12\n\
-; Modified by Jacek Rzeuski\n\
-; Copyright 1993-2006 Jonathan Potter\n\n\
-; Amiga OS4 version coded and maintained by Joachim Birging\n\n\
+; Copyright 1993-2000 Jonathan Potter\n\
+; Amiga OS3 version modified by Jacek Rzeuski\n\
+; Amiga OS4 version coded by Joachim Birging\n\n\
+; Copyright 2001-2015 under GNU General Public License (GPL)\n\
+; Sourcecode available at: http://sourceforge.net/projects/diropus4/\n\n\
 ; DirectoryOpus: %d.%d.%d\n\
 ; dopus.library: %ld.%ld\n\
 ; Compiled with: %s\n\
@@ -707,7 +711,7 @@ Wiêcej informacji znajdziesz na stronie http://www.gpsoft.com.au.
 ; Compilation time: %s\n\n\
 ; This program is released under the terms of the GNU GPL\n\
 ; either version 2 of the License, or (at your option) any later version.\n\
-; See the the file README for details.\n\n\
+; See the the file COPYING for details.\n\n\
 ; All users of Directory Opus 4 distributed under the GPL may be entitled\n\
 ; to upgrade to the latest versions of Directory Opus at a reduced price.\n\
 ; Please see http://www.gpsoft.com.au for more information.

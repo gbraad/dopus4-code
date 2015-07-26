@@ -26,51 +26,40 @@ Dopus_Print - ChangeLog:
   >Added locale strings for new options in Dopus_Print GUI.
 
 2015-02-13 - Dopus_Print 4.18.2
-* Bump revision for previous changes.
+* Bumped revision for previous changes.
 
 2015-03-27 - dopus_print-os4/print.h
 * Moved duplicated iff definitions to recently added include-os4/dopusiff.h
-
 * Added missing pragma pack directives to all header files.
-
 + Committed revision 579.
 
 2015-04-18 - Dopus_Print 4.18.3
 * Replaced string functions with size bounded string functions to avoid
     buffer overflows.
-
 * Replaced deprecated functions.
-
 * Added file/path size #defines in include-os4/libraries/dopus.h.
     Changed file/path buffer sizes as defined in include-os4/libraries/dopus.h.
-
 * Created some string length #defines for consistancy.
-
 * Bumped program revision for next release.
-
 + Committed repository revision 581.
 
 ***Released archive of repository revision 582. (DirectoryOpus 4.18.42)
 
-2015-04-23 - Dopus_Print 4.18.4
+2015-04-23 - dopus_print-os4/doprint.c
 * Added missing reply port to IORequest allocation for opening
     printer.device.
-
-* Bumped program revision for next release.
-
+* Bumped revision for next release. (Dopus_Print 4.18.4)
 + Committed repository revision 584.
 
 ***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
 
-2015-05-20 - Makefile dopusrt-print/Makefile
-* Made cosmetic changes to makefiles for better output readability.
-
+2015-05-20 - dopus_print-os4/Makefile
+* Made cosmetic changes to makefile for better output readability.
 + Committed revision 600.
 
 2015-06-16 - dopus_print-os4/printdir.c
 * Replaced dopus.library string functions with size limited C library
   functions.
-
 + Committed revision 603.
 
 2015-06-16 - dopus_print-os4/print.c
@@ -78,9 +67,18 @@ Dopus_Print - ChangeLog:
              dopus_print-os4/Makefile
 * Fixed bug in Dopus_Print that prevented updating of the output
   filename in the requester.
-
 * Added inclusion of the debug header (include-os4/dopus/debug.h).
-
 * Updated the makefile for debug output when necessary.
-
 + Committed revision 606.
+
+2015-07-03 - dopus_print-os4/DOpus_Print_rev.h
+* Updated version (revision) for next release. (DOpus_Print 4.18.5)
++ Committed revision 609.
+
+2015-07-14 - dopus_print-os4/makefile dopus_print-os4/print.h
+* Added new argument to makefile for enabling serial debug output.
+* Added serial debug output target to makefile.
+* Removed inclusion of debug header from print.h because the debug
+  header is now included with the library proto header.
++ Committed revision 614.
+
