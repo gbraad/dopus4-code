@@ -56,3 +56,11 @@ the '*' part for the three default icons, if icons are chosen by the user.
   with size limited C library string functions. (strlcpy, snprintf etc.)
 + Committed revision 605.
 
+2015-07-03 - config-os4/ConfigOpus_rev.h (ConfigOpus 4.18.3)
+* Updated version (subrevision) for next release.
++ Committed revision 609.
+
+2015-07-14 - config-os4/makefile config-os4/config.h
+* Added serial debug output target to makefile.
+* Removed debug header inclusion from config.h since it's now
+  included with the library proto header.

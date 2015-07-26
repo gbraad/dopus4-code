@@ -191,32 +191,34 @@ void freedynamiccfg()
 
 int checkwindowquit()
 {
-//	struct Window *wind, *temp;
 	char portname[PN_SIZE] = {'\0'};
 	extern ULONG view_runcount;
 	int a = 0;
 	int runcount = view_runcount;
 	int count = 0;
 
-	if(!MainScreen)
+//	if(!MainScreen)
+//	{
+//		return (1);
+//	}
+	if(MainScreen)
 	{
-		return (1);
-	}
-	for(;;)
-	{
-		if((IIntuition->PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
+		for(;;)
 		{
-			busy();
-			if(!(simplerequest(TDRIMAGE_WARNING, globstring[STR_ALIEN_WINDOWS], globstring[STR_RETRY], str_cancelstring, NULL)))
+			if((IIntuition->PubScreenStatus(MainScreen, PSNF_PRIVATE) & PSNF_PRIVATE) == 0)
 			{
-				unbusy();
-				IIntuition->PubScreenStatus(MainScreen, 0);
-				return (0);
+				busy();
+				if(!(simplerequest(TDRIMAGE_WARNING, globstring[STR_ALIEN_WINDOWS], globstring[STR_RETRY], str_cancelstring, NULL)))
+				{
+					unbusy();
+					IIntuition->PubScreenStatus(MainScreen, 0);
+					return (0);
+				}
 			}
-		}
-		else
-		{
-			break;
+			else
+			{
+				break;
+			}
 		}
 	}
 
@@ -238,20 +240,6 @@ int checkwindowquit()
 			if (count >= runcount) break;
 		}
 	}
-
-/*
-	for(wind = MainScreen->FirstWindow; wind;)
-	{
-printf("In closewindow loop\n");
-		temp = wind->NextWindow;
-		if(wind != Window)
-		{
-			IIntuition->CloseWindow(wind);
-printf("Closed a window\n");
-		}
-		wind = temp;
-	}
-*/
 
 	unbusy();
 	return (1);
@@ -336,3 +324,19 @@ void closedisplay()
 		IExec->Permit();
 	}
 }
+
+/*  Old window cleanup that closes windows dopus that doesn't own - bad!
+//	struct Window *wind, *temp;
+	for(wind = MainScreen->FirstWindow; wind;)
+	{
+printf("In closewindow loop\n");
+		temp = wind->NextWindow;
+		if(wind != Window)
+		{
+			IIntuition->CloseWindow(wind);
+printf("Closed a window\n");
+		}
+		wind = temp;
+	}
+*/
+

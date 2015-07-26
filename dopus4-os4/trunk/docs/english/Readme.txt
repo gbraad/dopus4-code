@@ -37,26 +37,43 @@ email list. Include the version number in any reports.
 
 Changes in this release (4.18.44) include:
 
-*Updated copyright data in english DirectoryOpus.guide.
+*Fixed directory sizes displayed in a lister when searching for a
+ filename (or pattern) in multiple directories with the hunt command.
+
+*Fixed a hunt command failure to highlight the found file when the file
+ was located in a subdirectory of the directory being searched. When the
+ user selected the OK button in the "Shall I go there?" requester,
+ the hunt command would display a requester stating that the file was
+ not found but then load the directory where the file was located.
+
+*Fixed a crash in the Dopus4 text viewer. If Dopus4 was on the
+ Workbench screen and the text viewer was open when the user quit
+ the Dopus4 program, the viewer would crash (Grim readper).
+
+*Fixed a bug in Dopus_Print that prevented updating of the output
+ filename in the requester.
 
 *Changed makefiles to create 'stabs' debug binaries and improve
  compiler output readability. All Dopus4 components will now display
  specific function information in a stack trace if there is a failure
  when running debug binaries.
 
-*Replaced all deprecated memory allocation functions with new
- OS4 memory allocation functions.
+*Replaced all internal string functions and unbounded 'C' library string
+ functions with size limited 'C' library string functions to eliminate
+ possible buffer overflows.
+
+*Replaced all deprecated memory allocation functions with new OS4 memory
+ allocation functions.
 
 *Replaced all deprecated message related functions with new OS4 functions.
 
 *Fixed all compiler warnings to make it easier to spot new warnings.
 
-*Replaced all internal string functions and unbounded 'C' library string
- functions with size limited 'C' library string functions to eliminate
- possible buffer overflows.
+* Added a missing Tooltype to the DirectoryOpus icon.
 
-*Fixed a bug in Dopus_Print that prevented updating of the output
- filename in the requester.
+*Changed the copyright data in about window.
+
+*Updated copyright data in english DirectoryOpus.guide.
 
 *Updated history files.
 
