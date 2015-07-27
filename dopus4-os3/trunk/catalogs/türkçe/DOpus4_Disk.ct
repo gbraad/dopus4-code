@@ -1,0 +1,273 @@
+## version $VER: DOpus_Disk.catalog 1.1 (17.10.2012)
+## codeset 6
+## language türkçe
+## chunk AUTH Alper Sönmez
+;
+STR_FORMAT_NAME
+_Ad
+; _Name
+;
+STR_FORMAT_FFS
+_Hýzlý Dosya Sistemi
+; _Fast File System
+;
+STR_FORMAT_INTERNATIONAL
+_Uluslararasý Kip
+; _International Mode
+;
+STR_FORMAT_CACHING
+_Dizin Önbelleklemeli
+; _Directory Caching
+;
+STR_FORMAT_TRASHCAN
+_Çöp Kutusu Koy
+; _Put Trashcan
+;
+STR_FORMAT_VERIFY
+D_oðrula
+; _Verify
+;
+STR_FORMAT_FORMAT
+Biçimlendir
+; Format
+;
+STR_FORMAT_QUICKFORMAT
+Hýzlý Biçim.
+; Quick Format
+;
+STR_FORMAT_EXIT
+Çýkýþ
+; E_xit
+;
+STR_FORMAT_EMPTY
+Boþ
+; Empty
+;
+STR_FORMAT_INFODISPLAY
+%ld iz, %ld bayt/iz, %s
+; %ld tracks, %ld bytes/trk, %s
+;
+STR_FORMAT_FORMATTING
+%ld biçimlendiriliyor, %ld kaldý
+; Formatting %ld, %ld to go
+;
+STR_FORMAT_VERIFYING
+%ld doðrulanýyor, %ld kaldý
+; Verifying  %ld, %ld to go
+;
+STR_FORMAT_INITIALISING
+Disk ilklendiriliyor...
+; Initialising disk...
+;
+STR_FORMAT_FORMATERROR
+%ld nolu izde biçimlendirme hatasý
+; Format error on track %ld
+;
+STR_FORMAT_ERRORVERIFYING
+%ld nolu izin doðrulanmasýnda hata
+; Error verifying track %ld
+;
+STR_FORMAT_VERIFYERROR
+%ld nolu izde doðrulama hatasý
+; Verify error on track %ld
+;
+STR_SUCCESS
+Ýþlem baþarýlý
+; Operation successful
+;
+STR_FAILED_ERROR
+Ýþlem baþarýsýz
+; Operation failed
+;
+STR_MEMORY_ERROR
+Bellek yetersiz
+; Not enough memory
+;
+STR_BITMAP_ERROR
+Biteþlem hatasý
+; Bitmap error
+;
+STR_DEVICE_ERROR
+Aygýt hatasý
+; Device error
+;
+STR_NODEVICE_ERROR
+Aygýt açýlamadý
+; Couldn't open device
+;
+STR_RETRY
+Tekrar dene
+; Retry
+;
+STR_NODISKPRESENT
+%s sürücüsünde disk yok
+; No disk present in %s
+;
+STR_DISKWRITEPROTECTED
+%s sürücüsündeki disk yazma korumalý
+; Disk in %s is write protected
+;
+STR_ABORTED
+Durduruldu...
+; Aborted.
+;
+STR_FORMAT_MAKINGTRASHCAN
+Çöp kutusu oluþturuluyor...
+; Creating Trashcan...
+;
+STR_DISK_NOT_BLANK
+%s sürücüsündeki disk boþ deðil!\n\n\
+"%s" veribirimi %s içeriyor.\n\n\
+Tüm veri silinecek.\n\
+%s iþlemini sürdürmek için 'Devam et'e týklayýn.
+; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n\
+; All data will be erased.\nChoose Proceed to continue the %s.
+;
+STR_PROCEED
+Devam et
+; Proceed
+;
+STR_CHECKING_DESTINATION
+Hedef disk kontrol ediliyor...
+; Checking destination disk...
+;
+STR_DISKCOPY_DISKCOPY
+DiskKopyala
+; _Diskcopy
+;
+STR_DISKCOPY_FROM
+Kaynak...
+; From...
+;
+STR_DISKCOPY_TO
+Hedef...
+; To...
+;
+STR_DISKCOPY_INFODISPLAY
+%s, %s kullanýmda
+; %s, %s used
+;
+STR_DISKCOPY_NODISK
+Disk bilgisi bulunamadý
+; No disk info available
+;
+STR_CHECKING_DISKS
+Disk(ler) sýnanýyor...
+; Checking disk(s)...
+;
+STR_DISKCOPY_READING
+Okunuyor %ld, %ld kaldý
+; Reading    %ld, %ld to go
+;
+STR_DISKCOPY_WRITING
+Yazýlýyor %ld, %ld kaldý
+; Writing    %ld, %ld to go
+;
+STR_DISKCOPY_READERROR
+%ld nolu izde okuma hatasý
+; Read error on track %ld
+;
+STR_DISKCOPY_WRITEERROR
+%ld nolu izde yazma hatasý
+; Write error on track %ld
+;
+STR_DISKCOPY_INSERTSOURCE
+Kaynak diski %s sürücüsüne takýn
+; Insert source disk in %s
+;
+STR_DISKCOPY_INSERTDEST
+Hedef diski %s sürücüsüne takýn
+; Insert destination disk in %s
+;
+STR_INSTALL_INSTALL
+Kur
+; Install
+;
+STR_INSTALL_NOBOOT
+Baþlatmasýz
+; No Boot
+;
+STR_INSTALL_NOINFO
+Baþlatma bloðu bulunamadý
+; Bootblock info unavailable
+;
+STR_INSTALL_NOTBOOTABLE
+Disk baþlatýlabilir deðil
+; Disk is not bootable
+;
+STR_INSTALL_NORMAL
+Normal %s %s baþlatma bloðu
+; Normal %s %s bootblock
+;
+STR_INSTALL_NONSTANDARD
+Standart dýþý baþlatma bloðu
+; Non-standard bootblock
+;
+STR_INSTALL_ERRORWRITING
+Baþlatma bloðu yazýlamadý!
+; Error writing bootblock!
+;
+STR_INVALID_DISK
+Disk kurulmaya uygun deðil
+; Disk is unsuitable for installing
+;
+STR_INSTALL_INSTALLINGDISK
+Disk kuruluyor...
+; Installing disk...
+;
+STR_CANCEL
+Vazgeç
+; Cancel
+;
+STR_BUMP_NAMES
+Ad _bindir
+; _Bump name
+;
+STR_BUMPING_NAME
+Disk adý bindiriliyor...
+; Bumping disk name...
+;
+STR_DISKCOPY_CHECK
+Sýna
+; _Check
+;
+STR_WINDOW_FORMAT
+Biçimlendir
+; Format
+;
+STR_WINDOW_DISKCOPY
+DiskKopyala
+; Diskcopy
+;
+STR_WINDOW_INSTALL
+Kur
+; Install
+;
+STR_DISK_NOT_BLANK_FORMAT
+Format
+; Format
+;
+STR_DISK_NOT_BLANK_DISKCOPY
+Diskcopy
+; Diskcopy
+;
+STR_FORMAT_SFS_CASE
+Case-sensitive
+; Case-sensitive
+;
+STR_FORMAT_SFS_SHOWREC
+Show 'Recycled'
+; Show 'Recycled'
+;
+STR_FORMAT_SFS_NOREC
+No 'Recycled'
+; No 'Recycled'
+;
+STR_FORMAT_PFS_DELDIR
+DelDir blocks
+; DelDir blocks
+;
+STR_FORMAT_PFS_FNSIZE
+Filename size
+; Filename size
+;

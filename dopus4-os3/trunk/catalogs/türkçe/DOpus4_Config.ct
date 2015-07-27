@@ -1,0 +1,2490 @@
+## version $VER: DOpus4_Config.catalog 1.1 (12.10.2012)
+## codeset 6
+## language türkçe
+## chunk AUTH Alper Sönmez
+;
+STR_REALLY_DISCARD_CONFIG
+Mevcut ayarlamalarý gerçekten\n\
+yoksaymak istiyor musunuz?
+; Do you really want to discard the\ncurrent configuration settings?
+;
+STR_EXIT_WITHOUT_SAVING
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; Do you really want to exit without\nsaving the current configuration settings?
+;
+STR_CONFIGURATION_MAIN_SCREEN
+Ayarlar ana ekraný
+; Configuration main screen
+;
+STR_OPERATION_SCREEN
+Ýþlem ayarlarý ekraný
+; Operation configuration screen
+;
+STR_MENU_SCREEN
+Menü ayarlarý ekraný
+; Menu configuration screen
+;
+STR_DRIVE_SCREEN
+Sürücü düðmeleri ayarlarý ekraný
+; Drive button configuration screen
+;
+STR_FILETYPE_SCREEN
+Dosya türü ayarlarý ekraný
+; Filetype configuration screen
+;
+STR_SCREEN_SCREEN
+Ekran ayarlarý ekraný
+; Screen configuration screen
+;
+STR_SYSTEM_SCREEN
+Sistem ayarlarý ekraný
+; System configuration screen
+;
+STR_HOTKEYS_SCREEN
+Genel kýsayol tuþlarý ayarlarý ekraný
+; Global hotkeys configuration screen
+;
+STR_MAIN_MENU
+Ana Menü
+; Main Menu
+;
+STR_LEFT_MOUSE_BUTTON
+Sol fare tuþu
+; Left mouse button
+;
+STR_RIGHT_MOUSE_BUTTON
+Sað fare tuþu
+; Right mouse button
+;
+STR_OKAY
+Tamam
+; Okay
+;
+STR_CANCEL
+Ýptal
+; Cancel
+;
+STR_AVAILABLE_DISPLAY_ITEMS
+Mevcut gösterim baþlýklarý...
+; Available display items...
+;
+STR_SELECTED_DISPLAY_ITEMS
+Seçilen gösterimler...
+; Selected display items...
+;
+STR_DISPLAYED_LENGTHS
+Gösterim uzunluklarý...
+; Displayed lengths...
+;
+STR_CHECK_INDICATES_SORT
+(  Ýþaretlenene göre sýralanýr)
+; (  Check indicates sort item)
+;
+STR_ENTRY_SEPARATION
+Girdi ayýracý...
+; Entry separation...
+;
+STR_UNICONIFY_HOTKEY
+Gizleme/gösterme kýsayol tuþu
+; Uniconify/activate hotkey
+;
+STR_PROJECTS_DEFAULT_TOOL
+Proje'nin Varsayýlan Aracý...
+; Project's Default Tool...
+;
+STR_SELECT_DESIRED_FILE
+Arzuladýðýnýz dosyayý seçin
+; Select the desired file
+;
+STR_SELECT_DESIRED_DIRECTORY
+Arzuladýðýnýz dizini seçin
+; Select the desired directory
+;
+STR_SELECT_DESIRED_FONT
+Arzuladýðýnýz yazýtipi ve boyutunu seçin
+; Select the desired font and size
+;
+STR_HOTKEY_USCORE
+_Kýsayol
+; _Hotkey
+;
+STR_NEW_GADGET_BANKS_APPENDED
+Yeni düðme bankalarý mevcut eklenir.
+; New button banks appended to existing ones.
+;
+STR_DEFAULT_GADGET_BANKS_APPENDED
+Varsayýlan düðme bankalarý mevcutlara eklenir.
+; Default button banks appended to existing ones.
+;
+STR_NO_GADGET_BANKS_CONFIGURED
+Ayarlanmýþ bir düðme bankasý yok!
+; There are no button banks configured!
+;
+STR_GADGET_DELETED
+Düðme silindi.
+; Button deleted.
+;
+STR_SELECT_GADGET_TO_COPY
+Orjinal düðmenin taþýnacaðý düðme konumunu seçin.
+; Select the button position to copy the original button to.
+;
+STR_SELECT_GADGET_TO_SWAP
+Seçilen düðme ile yer deðiþtirilecek düðmeyi seçin.
+; Select the button to swap with the first button.
+;
+STR_SELECT_A_GADGET_TO_COPY
+Kopyalanacak düðmeyi seçin.
+; Select a button to copy.
+;
+STR_SELECT_FIRST_GADGET_TO_SWAP
+Yer deðiþtirme yapýlacak düðmeyi seçin.
+; Select the first button to swap.
+;
+STR_GADGET_EDIT_SCREEN
+Düðme düzenleme ekraný
+; Button edit screen
+;
+STR_ENTER_BANK_TO_COPY
+Bu bankanýn taþýnacaðý banka numarasýný girin. \n\
+Eðer var olmayan bir banka ise yenisi oluþturulur.
+; Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
+;
+STR_BANK_ALREADY_EXISTS
+Seçilen banka mevcut! Gerçekten bu bankanýn\n\
+üzerine yazmak istiyor musunuz?
+; Selected bank already exists! Do you really\nwant to overwrite this bank?
+;
+STR_GADGET_BANK_COPIED
+Düðme bankasý kopyalandý.
+; Button bank copied.
+;
+STR_ENTER_BANK_TO_SWAP
+Bu banka ile yer deðiþtirilecek banka numarasýný girin.
+; Enter bank number to swap this bank with.
+;
+STR_BANK_DOES_NOT_EXIST
+Seçilen düðme bankasý yok!
+; Selected button bank does not exist.
+;
+STR_BANKS_SWAPPED
+Düðme bankalarý yer deðiþtirildi.
+; Button banks swapped.
+;
+STR_ONLY_BANK_CONFIGURED
+Bu ayarlanmýþ olan tek düðme bankasý!\n\
+Gerçekten bu bankayý silmek istiyor musunuz?
+; This is the only button bank configured!\nDo you really want to delete this button bank?
+;
+STR_REALLY_DELETE_BANK
+Bu düðme bankasýný gerçekten silmek istiyor musunuz?
+; Do you really want to delete this button bank?
+;
+STR_BANK_DELETED
+Düðme bankasý silindi.
+; Button bank deleted.
+;
+STR_SELECT_GADGET_TO_DELETE
+Silinecek düðmeyi seçin.
+; Select a button to delete.
+;
+STR_GADGET_BANK_NUMBER
+Düðme bankasý no
+; Button bank number
+;
+STR_GADGET_SCREEN_NO_BANKS
+Düðme ayarlarý ekraný - ayarlanmýþ banka yok
+; Button configuration screen - no banks configured
+;
+STR_NO_MEMORY_FOR_NEW_BANK
+Yeni banka için bellek tahsis edilemedi!
+; Unable to allocate memory for new bank!
+;
+STR_NEW_BANK_CREATED
+Yeni düðme bankasý oluþturuldu.
+; New button bank created.
+;
+STR_NEW_MENUS_LOADED
+Yeni menüler yüklendi.
+; New menus loaded.
+;
+STR_DEFAULT_MENUS_LOADED
+Varsayýlan menüler yüklendi.
+; Default menus loaded.
+;
+STR_ENTER_MENU_TITLE
+Menü baþlýðýný girin.
+; Enter menu title.
+;
+STR_MENU_ITEM_DELETED
+Menü nesnesi silindi.
+; Menu item deleted.
+;
+STR_MENU_ITEM_INSERTED
+Menü nesnesi araya eklendi.
+; Menu item inserted.
+;
+STR_REALLY_DELETE_THIS_MENU
+Bu menüyü gerçekten silmek istiyor musunuz?
+; Do you really want to delete this menu?
+;
+STR_MENU_DELETED
+Menü silindi.
+; Menu deleted.
+;
+STR_MENU_SORTED
+Menü sýralandý.
+; Menu sorted.
+;
+STR_SELECT_MENU_TO_COPY
+Seçilen menünün kopyalanacaðý yeri seçin.
+; Select an item in the menu to copy the original menu to.
+;
+STR_SELECT_MENU_TO_SWAP
+Seçilen ile yer deðiþtirilecek menüyü seçin.
+; Select an item in the menu to swap with the first.
+;
+STR_SELECT_ITEM_TO_COPY
+Seçilen menü nesnesinin kopyalanacaðý konumu seçin.
+; Select item position to copy the original menu item to.
+;
+STR_SELECT_ITEM_TO_SWAP
+Seçilen ile yer deðiþtirilecek menü nesnesini seçin.
+; Select menu item to swap with the first item.
+;
+STR_MENU_ITEM_EDIT_SCREEN
+Menü nesnesi düzenleme ekraný
+; Menu item edit screen
+;
+STR_SELECT_ITEM_IN_MENU_TO_COPY
+Kopyalanacak menüyü seçin.
+; Select an item in the menu to copy.
+;
+STR_SELECT_ITEM_IN_MENU_TO_SWAP
+Yer deðiþtirilecek menüyü seçin.
+; Select an item in the first menu to swap.
+;
+STR_SELECT_ITEM_IN_MENU_TO_DELETE
+Silinecek menüyü seçin.
+; Select an item in the menu to delete.
+;
+STR_SELECT_ITEM_IN_MENU_TO_SORT
+Sýralanacak menüyü seçin.
+; Select an item in the menu to sort.
+;
+STR_SELECT_ITEM_TO_INSERT_BEFORE
+ÖNÜNE yeni bi nesne eklenecek menü nesnesini seçin.
+; Select the menu item to insert the new item BEFORE.
+;
+STR_SELECT_MENU_ITEM_TO_COPY
+Kopyalanacak menü nesnesini seçin.
+; Select a menu item to copy.
+;
+STR_SELECT_MENU_ITEM_TO_SWAP
+Yer deðiþtirilecek menü nesnesini seçin.
+; Select the first menu item to swap.
+;
+STR_SELECT_MENU_ITEM_TO_DELETE
+Silinecek menü nesnesini seçin.
+; Select a menu item to delete.
+;
+STR_EDIT
+Düzenle
+; Edit
+;
+STR_SHORTCUT_KEY
+_Kýsayol tuþu
+; Shortcut _key
+;
+STR_HOTKEY
+Kýsayol
+; Hotkey
+;
+STR_ARGUMENT_CONTROL_SEQUENCES
+Mevcut fonksiyonlarýn listesi...
+; List of available functions...
+;
+STR_AVAILABLE_COMMANDS
+Mevcut komutlarýn listesi...
+; List of available commands...
+;
+STR_FOREGROUND
+Ön-alan
+; Foreground
+;
+STR_BACKGROUND
+Art-alan
+; Background
+;
+STR_DROP_A_TOOL_HERE
+Buraya bir araç býrakýn!
+; Drop a tool here!
+;
+STR_NEW_DRIVE_BANKS_LOADED
+Yeni sürücü bankalarý yüklendi.
+; New drive banks loaded.
+;
+STR_DEFAULT_DRIVE_BANKS_RESET
+Varsayýlan sürücü bankalarý sýfýrlandý.
+; Default drive banks reset.
+;
+STR_DRIVE_GADGET_DELETED
+Sürücü düðmesi silindi.
+; Drive button deleted.
+;
+STR_SELECT_DRIVE_TO_COPY_TO
+Seçilen sürücü düðmesinin kopyalacanacaðý konumu seçin.
+; Select the drive position to copy the original drive button to.
+;
+STR_SELECT_DRIVE_TO_SWAP_WITH_FIRST
+Seçilen ile yer deðiþtirilecek sürücü düðmesini seçin.
+; Select the drive button to swap with the first button.
+;
+STR_SELECT_DRIVE_BANK_TO_COPY_TO
+Seçilen sürücü bankasýnýn kopyalanacaðý konumu seçin.
+; Select a drive button in the bank to copy the original bank to.
+;
+STR_SELECT_DRIVE_BANK_TO_SWAP_WITH_FIRST
+Seçilen ile yer deðiþtirilecek sürücü bankasýný seçin.
+; Select a drive button in the bank to swap with the first bank.
+;
+STR_REALLY_DELETE_DRIVE_BANK
+Bu sürücü bankasýný gerçekten silmek istiyor musunuz?
+; Do you really want to delete this drive bank?
+;
+STR_PATH
+_Yol
+; _Path
+;
+STR_SYSTEM_DEVICES_LISTED
+Sistem aygýtlarýnýn listesi.
+; System devices listed.
+;
+STR_SELECT_DRIVE_BANK_TO_COPY
+Kopyalanacak sürücü bankasýna týklayýn.
+; Select a drive button in the bank to copy.
+;
+STR_SELECT_DRIVE_BANK_TO_SWAP
+Yer deðiþtirilecek sürücü bankasýna týklayýn.
+; Select a drive button in the first bank to swap.
+;
+STR_SELECT_DRIVE_BANK_TO_DELETE
+Silinecek sürücü bankasýna týklayýn.
+; Select a drive button in the bank to delete.
+;
+STR_SELECT_DRIVE_BANK_TO_SORT
+Sýralanacak sürücü bankasýna týklayýn.
+; Select a drive button in the bank to sort.
+;
+STR_SELECT_DRIVE_GADGET_TO_COPY
+Kopyalanacak sürücü bankasýna týklayýn.
+; Select a drive button to copy.
+;
+STR_SELECT_DRIVE_GADGET_TO_SWAP
+Yer deðiþtirilecek sürücü düðmesine týklayýn.
+; Select the first drive button to swap.
+;
+STR_SELECT_DRIVE_GADGET_TO_DELETE
+Silinecek sürücü düðmesine týklayýn.
+; Select a drive button to delete.
+;
+STR_NEW_FILETYPES_MERGED
+Yeni dosya türleri var olanlarla birleþtirildi.
+; New filetypes merged with existing ones.
+;
+STR_DEFAULT_FILETYPES_MERGED
+Varsayýlan dosya türleri var olanlarla birleþtirildi.
+; Default filetypes merged with existing ones.
+;
+STR_REALLY_DELETE_THIS_CLASS
+Bu sýnýfý gerçekten silmek istiyor musunuz?
+; Do you really want to delete this class?
+;
+STR_FILE_CLASS_DELETED
+Dosya sýnýfý silindi.
+; File class deleted.
+;
+STR_SELECT_CLASS_FILE_TO_LOAD
+Yüklenecek sýnýf dosyasýný seçin
+; Select the class file to load
+;
+STR_ENTER_NAME_TO_SAVE_CLASSES
+Dosya sýnýflarýný kaydetmek için bir ad girin
+; Enter a name to save the file classes
+;
+STR_SELECT_CLASSES_TO_IMPORT
+Ýçe aktarýlacak dosya sýnýflarýný seçin
+; Select file classes to import
+;
+STR_ERASE_ALL_CLASSES
+Tüm dosya sýnýflarýný silmek istediðinizden emin misiniz?
+; Do you really wish to erase all file classes?
+;
+STR_EXIT_WITHOUT_SAVING_CLASSES
+Dosya sýnýflarýna yapýlan deðiþiklikler kaydedilmeden\n\
+bu bölümden çýkmak istediðinizden emin misiniz?
+; Do you really wish to exit this section without\nsaving changes made to the file classes?
+;
+STR_REDEFINE_EXISTING_CLASS_ACTION
+Bu dosya sýnýfý için tanýmlanmýþ bir eylem mevcut.\n\
+Devam etmek istiyor musunuz?
+; That file class already has an action defined\nfor it. Do you wish to continue?
+;
+STR_DEFAULT_ACTION_CAN_NOT_BE_MOVED
+Varsayýlan eylem taþýnamaz.
+; The default action can not be moved.
+;
+STR_CLASS_ACTIONS_SWAPPED
+Sýnýf eylemleri yer deðiþtirildi.
+; Class actions swapped.
+;
+STR_SELECT_ACTION_TO_SWAP
+Yer deðiþtirilecek eylemi seçin.
+; Select the first action to swap.
+;
+STR_SELECT_ACTION_TO_SWAP_WITH_FIRST
+Seçilen ile yer deðiþtirilecek eylemi seçin.
+; Select the second action to swap with the first.
+;
+STR_SELECT_ACTION_TO_DELETE
+Silinecek eylemi seçin.
+; Select an action to delete.
+;
+STR_REALLY_DELETE_THIS_ACTION
+Bu eylemi gerçekten silmek istiyor musunuz?
+; Do you really want to delete this action?
+;
+STR_ACTION_DELETED
+Eylem silindi.
+; Action deleted.
+;
+STR_FILETYPE_CLASS
+Dosya türü sýnýfý
+; Filetype class
+;
+STR_EDIT_CLASS
+Sýnýfý düzenle
+; Edit class
+;
+STR_FILE_CLASS_EDIT_SCREEN
+Dosya sýnýfý düzenleme ekraný
+; File class edit screen
+;
+STR_OPEN_FAILED
+Açma baþarýsýz - DOS hata kodu %ld\n\
+Yeniden dene?
+; Open failed - DOS error code %ld\nTry again?
+;
+STR_SAVE_FAILED
+Kayýt baþarýsýz - DOS hata kodu %ld\n\
+Yeniden dene?
+; Save failed - DOS error code %ld\nTry again?
+;
+STR_LIST_OF_FILETYPE_COMMANDS
+Dosya tanýmlama komutlarýnýn listesi...
+; List of file identification commands...
+;
+STR_POSITION
+Konum
+; Position
+;
+STR_OFFSET
+Ofset
+; Offset
+;
+STR_FILE_NOT_FOUND
+Dosya bulunamadý!
+; File not found!
+;
+STR_EXAMPLE
+Örnek
+; Example
+;
+STR_DISPLAY_MODE_DESCRIPTION
+Ekran kipi özellikleri...
+; Display mode description...
+;
+STR_DISPLAY_ITEM
+Gösterim nesnesi...
+; Display item...
+;
+STR_FONT
+Yazý tipi...
+; Font...
+;
+STR_FONT_SIZE
+Boyut..
+; Size...
+;
+STR_MODIFY_SIZE
+Boyut ayarý...
+; Adjust size...
+;
+STR_USE_MMB
+Orta fare tuþu kullan
+; Use middle mouse button
+;
+STR_MINIMUM_SIZE
+En az boyut
+; Minimum size
+;
+STR_MAXIMUM_SIZE
+En fazla boyut
+; Maximum size
+;
+STR_DEFAULT_SIZE
+Varsayýlan boyut
+; Default size
+;
+STR_MAXIMUM_COLORS
+En fazla renk
+; Maximum colors
+;
+STR_LOADING_FONT
+Yazý tipi yükleniyor...
+; Loading font...
+;
+STR_FONT_COULD_NOT_BE_LOADED
+Yazý tipi yüklenemedi!
+; Font could not be loaded!
+;
+STR_ENTER_CONFIGURATION_FILENAME
+Ayar dosyasý adýný girin
+; Enter configuration filename
+;
+STR_SELECT_CONFIGURATION_TO_LOAD
+Yüklenecek ayar dosyasýný seçin
+; Select configuration file to load
+;
+STR_FILE_NOT_VALID_CONFIGURATION
+Dosya geçerli bir ayar dosyasý deðil!\n\
+Yeniden dene?
+; File is not a valid configuration file!\nTry again?
+;
+STR_SELECT_MENUS_TO_IMPORT
+Ýçe aktarýlacak menüleri seçin
+; Select menus to import
+;
+STR_SELECT_FILETYPES_TO_IMPORT
+Ýçe aktarýlacak dosya türlerini seçin
+; Select filetypes to import
+;
+STR_SELECT_HOTKEYS_TO_IMPORT
+Ýçe aktarýlacak kýsayollarý seçin
+; Select hotkeys to import
+;
+STR_SELECT_FUNCTION_TO_PASTE
+Yapýþtýrýlacak eylemi seçin
+; Select function to paste
+;
+STR_NEW_HOTKEYS_MERGED
+Yeni kýsayollar var olanlarla birleþtirildi.
+; New hotkeys merged with existing ones.
+;
+STR_DEFAULT_HOTKEYS_MERGED
+Varsayýlan kýsayollar var olanlarla birleþtirildi.
+; Default hotkeys merged with existing ones.
+;
+STR_SELECT_HOTKEY_TO_DELETE
+Silinecek kýsayolu seçin.
+; Select hotkey to delete.
+;
+STR_SELECT_HOTKEY_TO_DUPLICATE
+Bir kopyasý oluþturulacak kýsayolu seçin.
+; Select hotkey to duplicate.
+;
+STR_REALLY_DELETE_HOTKEY
+Bu kýsayolu gerçekten silmek istiyor musunuz?
+; Do you really want to delete this hotkey?
+;
+STR_HOTKEY_DELETED
+Kýsayol silindi.
+; Hotkey deleted.
+;
+STR_HOTKEY_EDIT_SCREEN
+Kýsayol düzenleme ekraný
+; Hotkey edit screen
+;
+STR_NEW_BANK
+Yeni banka
+; New bank
+;
+STR_INSERT_BANK
+Banka sok
+; Insert bank
+;
+STR_NEXT_BANK
+Sonraki bank
+; Next bank
+;
+STR_LAST_BANK
+Önceki banka
+; Prev bank
+;
+STR_CLEAR
+Temizle
+; Clear
+;
+STR_CLEAR_LAST
+Sondakini temizle
+; Clear last
+;
+STR_MENU_DEFAULT
+Varsayýlan
+; Default
+;
+STR_MENU_OPEN
+Aç...
+; Open...
+;
+STR_MENU_SAVE
+Kaydet
+; Save
+;
+STR_MENU_SAVE_AS
+Farklý Kaydet...
+; Save As...
+;
+STR_MENU_CUT
+Kes
+; Cut
+;
+STR_MENU_COPY
+Kopyala
+; Copy
+;
+STR_MENU_PASTE
+Yapýþtýr...
+; Paste...
+;
+STR_MENU_ERASE
+Sil
+; Erase
+;
+STR_MENU_NEW
+Yeni...
+; New...
+;
+STR_MENU_EDIT
+Düzenle...
+; Edit...
+;
+STR_MENU_DELETE
+Sil...
+; Delete...
+;
+STR_GADGETROWS_NONE
+Düðme yok
+; No buttons
+;
+STR_GADGETROWS_ONE
+Tek sýra
+; One row
+;
+STR_GADGETROWS_TWO
+Ýki sýra
+; Two rows
+;
+STR_GADGETROWS_THREE
+Üç sýra
+; Three rows
+;
+STR_GADGETROWS_SIX
+Altý sýra
+; Six rows
+;
+STR_MENUNAME_CONFIGURE
+Ayarlar
+; Configure
+;
+STR_MENUNAME_GADGETROWS
+Düðme sýralarý
+; Button rows
+;
+STR_MENUNAME_CLASSES
+Sýnýflar
+; Classes
+;
+STR_FILECLASS_DEFINE
+Sýnýf için bir eylem tanýmla...
+; Define an action for class...
+;
+STR_FILECLASS_EDIT
+Düzenlenecek sýnýfý seçin...
+; Select class to edit...
+;
+STR_FILECLASS_DELETE
+Silinecek sýnýfý seçin...
+; Select class to delete...
+;
+STR_FONTPLACE_CLOCK
+Saat/Bellek
+; Clock/Memory
+;
+STR_FONTPLACE_GADGETS
+Özel düðmeler
+; Custom buttons
+;
+STR_FONTPLACE_MENUS
+Özel menüler
+; Custom menus
+;
+STR_FONTPLACE_DISKNAMES
+Disk adlarý
+; Disk names
+;
+STR_FONTPLACE_WINDOW
+Dizin penceresi
+; Directory window
+;
+STR_FONTPLACE_GENERAL
+Genel (8 piksel)
+; General (8 point)
+;
+STR_FONTPLACE_ICONIFY
+Düðmelere küçültünce
+; Iconify to buttons
+;
+STR_FONTPLACE_PATHS
+Yol adlarý
+; Path names
+;
+STR_FONTPLACE_REQUESTERS
+Ýstemciler
+; Requesters
+;
+STR_FONTPLACE_STATUS
+Durum çubuðu
+; Status bar
+;
+STR_FONTPLACE_TEXTVIEWER
+Metin görüntüleyici
+; Text viewer
+;
+STR_PALETTE_PRESETS
+Öntanýmlar...
+; Presets...
+;
+STR_ICONLIST_TITLE
+SimgeEkle simgeleri...
+; AddIcon's icons...
+;
+STR_FORMAT_NAME
+Dosya adý
+; File name
+;
+STR_FORMAT_SIZE
+Dosya boyutu
+; File size
+;
+STR_FORMAT_BITS
+Koruma bitleri
+; Protection bits
+;
+STR_FORMAT_DATE
+Oluþturma tarihi
+; Creation date
+;
+STR_FORMAT_COMMENT
+Dosya açýklamasý
+; File comment
+;
+STR_FORMAT_TYPE
+Dosya türü
+; File type
+;
+STR_ICONS_DRAWER
+   Çekmece simgesi
+;    Drawer icon
+;
+STR_ICONS_TOOL
+   Varsayýlan Araç simgesi
+;    Default Tool icon
+;
+STR_ICONS_PROJECT
+   Varsayýlan Proje simgesi
+;    Default Project icon
+;
+STR_MAINMENU_GADGETS
+Düðmeler
+; Buttons
+;
+STR_MAINMENU_DRIVES
+Sürücüler
+; Drives
+;
+STR_MAINMENU_FILETYPES
+Dosya türleri
+; Filetypes
+;
+STR_MAINMENU_HOTKEYS
+Kýsayollar
+; Hotkeys
+;
+STR_MAINMENU_MENUS
+Menüler
+; Menus
+;
+STR_MAINMENU_OPERATION
+Ýþlem
+; Operation
+;
+STR_MAINMENU_SCREEN
+Ekran
+; Screen
+;
+STR_MAINMENU_SYSTEM
+Sistem
+; System
+;
+STR_ALL
+Tümü
+; All
+;
+STR_OPERATION_DATEFORMAT
+Tarih biçemi
+; Date format
+;
+STR_OPERATION_DELETE
+Sil
+; Delete
+;
+STR_OPERATION_ERRORCHECK
+Hata sýnama
+; Error check
+;
+STR_OPERATION_GENERAL
+Genel
+; General
+;
+STR_OPERATION_ICONS
+Simgeler
+; Icons
+;
+STR_OPERATION_LISTFORMAT
+Liste biçemi
+; List format
+;
+STR_OPERATION_UPDATE
+Güncelle
+; Update
+;
+STR_SYSTEM_AMIGADOS
+AmigaDOS
+; AmigaDOS
+;
+STR_SYSTEM_CLOCKS
+Sayaçlar
+; Clocks
+;
+STR_SYSTEM_DIRECTORIES
+Dizinler
+; Directories
+;
+STR_SYSTEM_ICONS
+Simgeler
+; Icons
+;
+STR_SYSTEM_MODULES
+Modüller
+; Modules
+;
+STR_SYSTEM_SHOWPATTERN
+Gösterim
+; Show pattern
+;
+STR_SYSTEM_STARTUP
+Baþlangýç
+; Startup
+;
+STR_SYSTEM_VIEWPLAY
+Göster&Oynat
+; View & Play
+;
+STR_GADGET_COPYBANK
+Banka kopya
+; Copy bank
+;
+STR_GADGET_SWAPBANK
+Banka deðiþ
+; Swap bank
+;
+STR_GADGET_DELETEBANK
+Banka sil
+; Delete bank
+;
+STR_GADGET_COPYGADGET
+Düðme kopya
+; Copy button
+;
+STR_GADGET_SWAPGADGET
+Düðme deðiþ
+; Swap button
+;
+STR_GADGET_DELETEGADGET
+Düðme sil
+; Del. button
+;
+STR_FLAG_AUTOICONIFY
+Oto gizle
+; Auto iconify
+;
+STR_FLAG_CDDESTINATION
+Hedefe dizin deðiþtir
+; CD destination
+;
+STR_FLAG_CDSOURCE
+Kaynaða dizin deðiþtir
+; CD source
+;
+STR_FLAG_DOPUSTOFRONT
+Directory Opus öne
+; Directory Opus to front
+;
+STR_FLAG_DOALLFILES
+Tüm dosyalara
+; Do all files
+;
+STR_FLAG_INCLUDEDOPUS
+DOpus-Startup'u ekle
+; Include DOpus-Startup
+;
+STR_FLAG_INCLUDESHELL
+Shell-Startup'u ekle
+; Include Shell-Startup
+;
+STR_FLAG_NOQUOTE
+Dosya adý týrnaklamasýz
+; No filename quote
+;
+STR_FLAG_OUTPUTFILE
+Dosyaya çýktý
+; Output to file
+;
+STR_FLAG_OUTPUTWINDOW
+Pencereye çýktý
+; Output window
+;
+STR_FLAG_RECURSIVE
+Derinlemesine
+; Recursive directories
+;
+STR_FLAG_RELOAD
+Her dosyayý yeniden yükle
+; Reload each file
+;
+STR_FLAG_RESCANDEST
+Hedefi yeniden tara
+; Rescan destination
+;
+STR_FLAG_RESCANSOURCE
+Kaynaðý yeniden tara
+; Rescan source
+;
+STR_FLAG_RUNASYNC
+Eþ zamanlý çalýþtýr
+; Run asynchronously
+;
+STR_FLAG_WORKBENCHTOFRONT
+Workbench öne
+; Workbench to front
+;
+STR_EDIT_NAME
+_Ad
+; _Name
+;
+STR_EDIT_SAMPLE
+Örnekle
+; Sample
+;
+STR_EDIT_NEWENTRY
+Yeni girdi
+; New entry
+;
+STR_EDIT_DUPLICATE
+Kopyala
+; Duplicate
+;
+STR_EDIT_SWAP
+Yer deðiþtir
+; Swap
+;
+STR_EDIT_STACKSIZE
+_Yýðýn boyutu
+; _Stack size
+;
+STR_EDIT_PRIORITY
+_Öncelik
+; _Priority
+;
+STR_EDIT_CLOSEDELAY
+Kapanma _gecikmesi
+; _Close delay
+;
+STR_EDIT_ACTION
+_Olay açýklamasý
+; _Event description
+;
+STR_EDITCLASS_FILECLASS
+_Sýnýf
+; _File class
+;
+STR_EDITCLASS_CLASSID
+Sýnýf _ID
+; Class _ID
+;
+STR_EDITCLASS_FILEVIEWER
+_Gösterici
+; File _viewer
+;
+STR_MENU_COPYMENU
+Menü kopyala
+; Copy menu
+;
+STR_MENU_SWAPMENU
+Menü deðiþ
+; Swap menu
+;
+STR_MENU_DELETEMENU
+Menü sil
+; Delete menu
+;
+STR_MENU_SORTMENU
+Menü sýrala
+; Sort menu
+;
+STR_MENU_INSERTITEM
+Nesne sok
+; Insert item
+;
+STR_MENU_COPYITEM
+Nesne kopya
+; Copy item
+;
+STR_MENU_SWAPITEM
+Nesne deðiþ
+; Swap item
+;
+STR_MENU_DELETEITEM
+Nesne sil
+; Delete item
+;
+STR_DRIVES_GETDRIVES
+Sürücü al
+; Get drives
+;
+STR_DRIVES_SORTBANK
+Banka sýrala
+; Sort bank
+;
+STR_DRIVES_COPYDRIVE
+Sürücü kopya
+; Copy drive
+;
+STR_DRIVES_SWAPDRIVE
+Sürücü deðiþ
+; Swap drive
+;
+STR_DRIVES_DELETEDRIVE
+Sürücü sil
+; Delete drive
+;
+STR_HOTKEYS_NEWHOTKEY
+Yeni kýsayol
+; New hotkey
+;
+STR_SCREEN_COLORS
+Renkler
+; Colors
+;
+STR_SCREEN_FONTS
+Yazýtipleri
+; Fonts
+;
+STR_SCREEN_PALETTE
+Palet
+; Palette
+;
+STR_SCREEN_SCREENMODE
+Erkan kipi
+; Screen mode
+;
+STR_PALETTE_RED
+_Kýrmýzý
+; _Red
+;
+STR_PALETTE_GREEN
+_Yeþil
+; _Green
+;
+STR_PALETTE_BLUE
+_Mavi
+; _Blue
+;
+STR_COLOR_STATUS
+Durum çubuðu
+; Status bar
+;
+STR_COLOR_SELDISK
+Seçilmiþ disk adý
+; Selected disk name
+;
+STR_COLOR_UNSELDISK
+Seçilmemiþ disk adý
+; Unselected disk name
+;
+STR_COLOR_SELDIR
+Seçilmiþ dizin
+; Selected directory
+;
+STR_COLOR_UNSELDIR
+Seçilmemiþ dizin
+; Unselected directory
+;
+STR_COLOR_SELFILE
+Seçilmiþ dosya
+; Selected file
+;
+STR_COLOR_UNSELFILE
+Seçilmemiþ dosya
+; Unselected file
+;
+STR_COLOR_SLIDERS
+Kaydýraçlar
+; Sliders
+;
+STR_COLOR_ARROWS
+Oklar
+; Arrows
+;
+STR_COLOR_TINY
+Küçük düðmeler
+; Tiny buttons
+;
+STR_COLOR_CLOCK
+Saat/bellek çubuðu
+; Clock/memory bar
+;
+STR_COLOR_REQUESTER
+Ýstemci metni
+; Requester text
+;
+STR_COLOR_BOXES
+3B kutular
+; 3D boxes
+;
+STR_COLOR_PATHNAME
+Yol adý
+; Path name
+;
+STR_COLOR_SELPATHNAME
+Seçilmiþ yol adý
+; Selected path name
+;
+STR_SCREENMODE_WIDTH
+_Geniþlik
+; _Width
+;
+STR_SCREENMODE_HEIGHT
+_Yükseklik
+; _Height
+;
+STR_SCREENMODE_COLORS
+_Renkler
+; _Colors
+;
+STR_SCREENMODE_DEFAULT
+Varsayýlaný kullan
+; Use default
+;
+STR_SCREENMODE_HALFHEIGHT
+Yarým ekran yüksekliði
+; Half-height screen
+;
+STR_LISTFORMAT_TITLE
+Listenin biçemi
+; Format of the list in the
+;
+STR_LISTFORMAT_RESET
+Sýfýrla
+; Reset
+;
+STR_LISTFORMAT_NAME
+Dosya adý
+; 
+;
+STR_LISTFORMAT_COMMENT
+Dosya açýklamasý
+; 
+;
+STR_LISTFORMAT_REVERSE
+Ters sýralama
+; Reverse sorting
+;
+STR_ARROWS_INSIDE
+Oklar içeride
+; Arrows on the inside
+;
+STR_ARROWS_OUTSIDE
+Oklar dýþarda
+; Arrows on the outside
+;
+STR_ARROWS_EACH
+Oklar her iki uçta
+; One arrow at each end of the button
+;
+STR_ARROWTYPE_UPDOWN
+Yukarý/aþaðý kaydýr
+; Scroll up/down
+;
+STR_ARROWTYPE_LEFTRIGHT
+Sola/saða kaydýr
+; Scroll left/right
+;
+STR_ARROWTYPE_PREVNEXT
+Önbellek önceki/sonraki
+; Buffer previous/next
+;
+STR_NEW
+Yeni
+; New
+;
+STR_MISC_FLAGS
+Bayraklar...
+; Misc. flags...
+;
+STR_OP_COPY_WHENCOPYING
+Dosya ve dizinleri kopyalarken...
+; When copying files and directories...
+;
+STR_OP_COPY_CHECKDEST
+Baþlamadan önce hedefin boþ alanýný denetle
+; Check destination's free space before starting
+;
+STR_OP_COPY_SETARCHIVE
+Bittikten sonra kaynaðýn Arþiv bitini kur
+; Set archive bit of source after finishing
+;
+STR_OP_COPY_ALSOCOPY
+Kaynaktan aþaðýdakileri de kopyala...
+; Also copy source's...
+;
+STR_OP_COPY_DATESTAMP
+tarih bilgisini
+; datestamp
+;
+STR_OP_COPY_BITS
+koruma bitlerini
+; protection bits
+;
+STR_OP_COPY_COMMENT
+açýklamayý
+; comment
+;
+STR_OP_COPY_IFFILEEXISTS
+Bir dosya zaten mevcutsa...
+; What to do when a file already exists...
+;
+STR_OP_COPY_ALWAYSREPLACE
+Her zaman üzerine yaz
+; Always replace files
+;
+STR_OP_COPY_NEVERREPLACE
+Hiçbir zaman üzerine yazma
+; Never replace files
+;
+STR_OP_COPY_ONLYOLDER
+Sadece eski ise üzerine yaz
+; Replace only older files
+;
+STR_OP_COPY_ASKBEFORE
+Üzerine yazmadan önce sor
+; Ask before replacing
+;
+STR_OP_DATE_DATEFORMAT
+Tarih biçemi...
+; Date format...
+;
+STR_OP_DATE_DDMMMYY
+GG-AAA-YY   (22-Kas-92)
+; DD-MMM-YY   (22-Sep-92)
+;
+STR_OP_DATE_YYMMDD
+YY-AA-GG    (92-09-22)
+; YY-MM-DD    (92-09-22)
+;
+STR_OP_DATE_MMDDYY
+AA-GG-YY    (09-22-92)
+; MM-DD-YY    (09-22-92)
+;
+STR_OP_DATE_DDMMYY
+GG-AA-YY    (22-09-92)
+; DD-MM-YY    (22-09-92)
+;
+STR_OP_DATE_NAMESUB
+Gün adý kullan (Bugün, Yarýn vs...)
+; Name substitution (Today, Tomorrow, etc)
+;
+STR_OP_DATE_12HOUR
+12'li saat
+; 12 hour clock
+;
+STR_OP_DEL_ASKBEFORE
+Önce sor...
+; Ask before...
+;
+STR_OP_DEL_COMMENCING
+Silmeye baþlamadan
+; Commencing delete
+;
+STR_OP_DEL_DELETEFILES
+Dosyalarý silerken
+; Deleting files
+;
+STR_OP_DEL_DELETEDIRS
+Boþ olmayan dizinleri silerken
+; Deleting non-empty directories
+;
+STR_OP_DEL_IGNOREPROT
+Silmeye karþý koruma bitini yoksay
+; Ignore the delete protection bit
+;
+STR_OP_ERROR_ENABLE
+Etkinleþtir...
+; Enable...
+;
+STR_OP_ERROR_DOSREQ
+DOS istemcilerini
+; DOS requesters
+;
+STR_OP_ERROR_OPUSREQ
+Opus hata istemcilerini
+; Opus error requesters
+;
+STR_OP_GENERAL_DRAG
+Týkla-M-Týkla sürükleme
+; Click-M-Click drag
+;
+STR_OP_GENERAL_DISPLAYINFO
+Bilgi gösterme
+; Display info
+;
+STR_OP_GENERAL_DOUBLECLICK
+Dosya çift týklama
+; File double-click
+;
+STR_OP_GENERAL_SLIDERACTIVE
+Kaydýrma çubuðundan etkinleþtirme
+; Window slider activate
+;
+STR_OP_ICON_CREATEWITHDIR
+Dizinlerle birlikte simge oluþtur
+; Create icon with directories
+;
+STR_OP_ICON_DOUNTOICONS
+Tüm eylemleri simgelere de uygula
+; Perform all actions on icons as well
+;
+STR_OP_ICON_SELECTAUTO
+Simgeleri otomatik seç
+; Select icons automatically
+;
+STR_OP_UPDATE_WHENPROCESSING
+Dosyalar iþlenirken...
+; When processing files...
+;
+STR_OP_UPDATE_PROGRESSIND
+Ýþlem ilerleme göstergesi
+; Operation progress indicator
+;
+STR_OP_UPDATE_LEFTJUSTIFY
+Durum çubuðunda dosya adýný sola yasla
+; Left-justify filename in status bar
+;
+STR_OP_UPDATE_SCROLLTOFOLLOW
+Dizin penceresini kaydýrarak takip et
+; Scroll directory window to follow operations
+;
+STR_OP_UPDATE_UPDATEFREE
+Boþ disk alanýný güncelle
+; Update free disk space
+;
+STR_OP_UPDATE_STARTNOTIFY
+Dizinleri StartNotify() kullanarak yenile
+; Directory refresh using StartNotify()
+;
+STR_OP_UPDATE_REDRAWMORE
+Sayfanýn çeyreðinden fazlasýný yeniden çiz
+; Redraw more than a quarter of a page
+;
+STR_OP_UPDATE_QUIETGETDIR
+Tararken liste kaydýracýný da güncelle
+; Update listview slider while scanning
+;
+STR_SYS_AMIGADOS_TITLE
+AmigaDOS uygulamalarý çalýþtýrýlýrken...
+; Running AmigaDOS applications...
+;
+STR_SYS_AMIGADOS_SHELL
+Kabuk
+; Shell
+;
+STR_SYS_AMIGADOS_CONSOLE
+Konsol
+; Console
+;
+STR_SYS_AMIGADOS_STARTUP
+Baþl. betiði
+; Startup script
+;
+STR_SYS_AMIGADOS_PRIORITY
+Öncelik
+; Priority
+;
+STR_SYS_CLOCK_TITLE
+Saat/bellek çubuðu...
+; Clock/memory bar...
+;
+STR_SYS_CLOCK_MEMORY
+Bellek gözlemci
+; Memory monitor
+;
+STR_SYS_CLOCK_CPUMONITOR
+Ýþlemci gözlemci
+; CPU monitor
+;
+STR_SYS_CLOCK_DATE
+Tarih
+; Date
+;
+STR_SYS_CLOCK_TIME
+Saat
+; Time
+;
+STR_SYS_CLOCK_WHENICONIFIED
+Gizlendiðinde...
+; When iconified...
+;
+STR_SYS_CLOCK_WINDOW
+Pencereli
+; Window
+;
+STR_SYS_CLOCK_NOWINDOW
+Penceresiz
+; No window
+;
+STR_SYS_CLOCK_APPICON
+Uygulama simgesi
+; An AppIcon
+;
+STR_SYS_CLOCK_SHOWFREEAS
+Boþ alaný göster...
+; Show free space as...
+;
+STR_SYS_CLOCK_BYTES
+Bayt boþta
+; Bytes free
+;
+STR_SYS_CLOCK_KILOBYTES
+Kilo/Megabayt boþta
+; Kilo/Megabytes free
+;
+STR_SYS_CLOCK_TEXTFORMAT
+Metin biçemi...
+; Text format...
+;
+STR_SYS_CLOCK_CHIPANDFAST
+CHIP: ve FAST:
+; CHIP: and FAST:
+;
+STR_SYS_CLOCK_CANDF
+C: ve F:
+; C: and F:
+;
+STR_SYS_DIR_CACHES
+Dizin önbellekleri...
+; Directory caches...
+;
+STR_SYS_DIR_NUMBUFFERS
+Pencere baþý önbellek
+; Buffers per window
+;
+STR_SYS_DIR_ALWAYSEMPTY
+Her zaman boþ bir önbelleðe taþý
+; Always move to an empty buffer
+;
+STR_SYS_DIR_REREADINCOMPLETE
+Deðiþmiþ önbellekleri yeniden oku
+; Re-read changed buffers
+;
+STR_SYS_DIR_SEARCHBUFFERS
+Önbellekte arama yap...
+; Search buffers on...
+;
+STR_SYS_DIR_SEARCHPARENT
+Üst/Kök dizin iþleminde
+; Parent/Root operation
+;
+STR_SYS_DIR_DIRREAD
+Çift-týklama/Týkla-m-týkla dizin okumada
+; Double-click/Click-m-click directory read
+;
+STR_SYS_DIR_AUTODISKCHANGE
+Oto disk deðiþimi
+; Auto diskchange
+;
+STR_SYS_DIR_AUTODISKLOAD
+Oto disk yükleme
+; Auto disk load
+;
+STR_SYS_DIR_EXPANDPATHS
+Yol adlarýný uzat
+; Expand pathnames
+;
+STR_SYS_DIR_USEEXALL
+ExAll() kullan
+; Use ExAll()
+;
+STR_FILEVIEW_HEX
+Hex
+; Hex
+;
+STR_SYS_DIR_BLOCKSFREE
+Blok boþta
+; Blocks free
+;
+STR_SYS_DIR_PERCENTAGE
+Boþ alan yüzde oraný
+; Percentage of space free
+;
+STR_PALETTE_RESET
+Sýfýrla
+; Reset
+;
+STR_PALETTE_DOPUS_DEFAULT
+Directory Opus varsayýlaný
+; Directory Opus default
+;
+STR_PALETTE_WB_DEFAULT
+Workbench varsayýlaný
+; Workbench default
+;
+STR_PALETTE_WB_CURRENT
+Workbench þu anki
+; Workbench current
+;
+STR_OKAY_TO_QUIT
+Tamam
+; Okay
+;
+STR_SCREEN_GENERAL
+Genel
+; General
+;
+STR_FTYPE_ACTION
+Eylem
+; Action
+;
+STR_FTYPE_COMMAND
+Komut
+; Command
+;
+STR_FILEVIEW_DEC
+Ondalýk
+; Decimal
+;
+STR_EDIT_MENU
+Düzenle
+; Edit
+;
+STR_SYS_SHOWPATTERN_TITLE
+Dizin listesi kalýplarý...
+; Directory list pattern...
+;
+STR_SYS_SHOWPATTERN_HIDDENBIT
+Gizli biti olan dosyalarý gizle
+; Hide files with hidden bit set
+;
+STR_SYS_SHOWPATTERN_SHOW
+Göster
+; Show
+;
+STR_SYS_SHOWPATTERN_HIDE
+Gizle
+; Hide
+;
+STR_SYS_STARTUP_TITLE
+Baþlangýçta okunacak dizinler...
+; Directories to read on startup...
+;
+STR_SYS_STARTUP_LEFT
+Sol
+; Left
+;
+STR_SYS_STARTUP_RIGHT
+Sað
+; Right
+;
+STR_SYS_STARTUP_AREXX
+Çalýþtýrýlacak ARexx betikleri...
+; ARexx scripts to execute on...
+;
+STR_SYS_STARTUP_STARTUP
+Baþlangýçta
+; Startup
+;
+STR_SYS_STARTUP_UNICONIFY
+Simge dönüþü
+; Uniconify
+;
+STR_SYS_VIEWPLAY_TITLE
+Resim/Animasyon görüntüleyici (IFF ILBM/ANIM)...
+; Picture/animation viewer (IFF ILBM/ANIM)...
+;
+STR_SYS_VIEWPLAY_BLACK
+Kareler arasý siyah art alan
+; Black background between pictures
+;
+STR_SYS_VIEWPLAY_PAUSED
+Animasyonu hazýrda beklet
+; Start animation paused
+;
+STR_SYS_VIEWPLAY_8BITCOL
+Boyama rengi baþýna 8-bit
+; 8-bits per gun color
+;
+STR_SYS_VIEWPLAY_SHOWDELAY
+Gösterim gecik.
+; Show delay
+;
+STR_SYS_VIEWPLAY_FADEDELAY
+Solma gecik.
+; Fade delay
+;
+STR_SYS_VIEWPLAY_SOUNDPLAYER
+Ses çalýcý (IFF 8SVX)...
+; Sound player (IFF 8SVX)...
+;
+STR_SYS_VIEWPLAY_FILTER
+Çalým için ses filtresini kapat
+; Turn audio filter off for play
+;
+STR_SYS_VIEWPLAY_LOOP
+Çift týklanýrsa tekrarla
+; Loop on double-click
+;
+STR_SYS_VIEWPLAY_TEXTVIEW
+Metin görüntüleyici...
+; Text viewer...
+;
+STR_SYS_VIEWPLAY_BORDERS
+Gösterici kenarlarý
+; Text viewer borders
+;
+STR_SYS_VIEWPLAY_TABSIZE
+Sekme boyutu
+; Tab size
+;
+STR_SCREEN_GENERAL_TINYGADS
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; Bottom-right tiny buttons
+;
+STR_SCREEN_GENERAL_GADGETSLIDERS
+Ayarlar ana ekraný
+; Button banks sliders
+;
+STR_SCREEN_GENERAL_INDICATERMB
+Ýþlem ayarlarý ekraný
+; Indicate button has RMB function
+;
+STR_SCREEN_GENERAL_NEWLOOKSLIDERS
+Menü ayarlarý ekraný
+; New-look sliders
+;
+STR_EDITLIST_TITLE1
+Sürücü düðmeleri ayarlarý ekraný
+; Flags...
+;
+STR_EDITLIST_TITLE2
+Dosya türü ayarlarý ekraný
+; Events...
+;
+STR_FILETYPEACTIONLIST_TITLE
+Ekran ayarlarý ekraný
+; Defined filetype actions...
+;
+STR_HOTKEYSLIST_TITLE
+Sistem ayarlarý ekraný
+; Global hotkeys defined...
+;
+STR_SCREENMODELIST_TITLE
+Genel kýsayol tuþlarý ayarlarý ekraný
+; Display mode...
+;
+STR_LEFT_WINDOW
+Ana Menü
+; Left window
+;
+STR_RIGHT_WINDOW
+Sol fare tuþu
+; Right window
+;
+STR_SEP_MIX_FILES
+Sað fare tuþu
+; Mix files/directories
+;
+STR_SEP_DIRS_FIRST
+Tamam
+; Directories first
+;
+STR_SEP_FILES_FIRST
+Ýptal
+; Files first
+;
+STR_FUNCTIONLIST_ABOUT
+Mevcut gösterim baþlýklarý...
+; About         -      Display program info
+;
+STR_FUNCTIONLIST_ADDICON
+Seçilen gösterimler...
+; AddIcon       -      Add icons to entries
+;
+STR_FUNCTIONLIST_ALARM
+Gösterim uzunluklarý...
+; Alarm         -            Sound an alarm
+;
+STR_FUNCTIONLIST_ALL
+(  Ýþaretlenene göre sýralanýr)
+; All           -        Select all entries
+;
+STR_FUNCTIONLIST_ANSIREAD
+Girdi ayýracý...
+; AnsiRead      -          ANSI text viewer
+;
+STR_FUNCTIONLIST_AREXX
+Gizleme/gösterme kýsayol tuþu
+; ARexx         -      Run an ARexx command
+;
+STR_FUNCTIONLIST_ASSIGN
+Proje'nin Varsayýlan Aracý...
+; Assign        -    Assign logical devices
+;
+STR_FUNCTIONLIST_BEEP
+Arzuladýðýnýz dosyayý seçin
+; Beep          -              Sound a beep
+;
+STR_FUNCTIONLIST_BUFFERLIST
+Arzuladýðýnýz dizini seçin
+; BufferList    - List buffered directories
+;
+STR_FUNCTIONLIST_BUTTONICONIFY
+Arzuladýðýnýz yazýtipi ve boyutunu seçin
+; ButtonIconify -   Iconify to button strip
+;
+STR_FUNCTIONLIST_CD
+_Kýsayol
+; CD            -  Change current directory
+;
+STR_FUNCTIONLIST_CHECKFIT
+Yeni düðme bankalarý mevcut eklenir.
+; CheckFit      - Check if entries will fit
+;
+STR_FUNCTIONLIST_CLEARBUFFERS
+Varsayýlan düðme bankalarý mevcutlara eklenir.
+; ClearBuffers  -       Clear buffered dirs
+;
+STR_FUNCTIONLIST_CLEARSIZES
+Ayarlanmýþ bir düðme bankasý yok!
+; ClearSizes    -    Remove dir byte counts
+;
+STR_FUNCTIONLIST_CLEARWIN
+Düðme silindi.
+; ClearWin      -  Clear the current window
+;
+STR_FUNCTIONLIST_CLONE
+Orjinal düðmenin taþýnacaðý düðme konumunu seçin.
+; Clone         -    Clone selected entries
+;
+STR_FUNCTIONLIST_COMMENT
+Seçilen düðme ile yer deðiþtirilecek düðmeyi seçin.
+; Comment       - Give filenotes to entries
+;
+STR_FUNCTIONLIST_CONFIGURE
+Kopyalanacak düðmeyi seçin.
+; Configure     -      Launch config editor
+;
+STR_FUNCTIONLIST_CONTST
+Yer deðiþtirme yapýlacak düðmeyi seçin.
+; ContST        -  Restart paused ST module
+;
+STR_FUNCTIONLIST_COPY
+Düðme düzenleme ekraný
+; Copy          -     Copy selected entries
+;
+STR_FUNCTIONLIST_COPYAS
+Bu bankanýn taþýnacaðý banka numarasýný girin. \n\
+Eðer var olmayan bir banka ise yenisi oluþturulur.
+; CopyAs        -       Copy with new names
+;
+STR_FUNCTIONLIST_COPYWINDOW
+Seçilen banka mevcut! Gerçekten bu bankanýn\n\
+üzerine yazmak istiyor musunuz?
+; CopyWindow    -  Copy one window to other
+;
+STR_FUNCTIONLIST_DATESTAMP
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; DateStamp     -    Modify file datestamps
+;
+STR_FUNCTIONLIST_DEFAULTS
+Ayarlar ana ekraný
+; Defaults      - Set default configuration
+;
+STR_FUNCTIONLIST_DELETE
+Ýþlem ayarlarý ekraný
+; Delete        -   Delete selected entries
+;
+STR_FUNCTIONLIST_DIRTREE
+Menü ayarlarý ekraný
+; DirTree       -     Create directory tree
+;
+STR_FUNCTIONLIST_DISKCOPY
+Sürücü düðmeleri ayarlarý ekraný
+; Diskcopy      -         Copy floppy disks
+;
+STR_FUNCTIONLIST_DISKCOPYBG
+Dosya türü ayarlarý ekraný
+; DiskcopyBG    -    Diskcopy in background
+;
+STR_FUNCTIONLIST_DISKINFO
+Ekran ayarlarý ekraný
+; DiskInfo      -    Display info on a disk
+;
+STR_FUNCTIONLIST_DISPLAYDIR
+Sistem ayarlarý ekraný
+; DisplayDir    -  Update directory display
+;
+STR_FUNCTIONLIST_DOPUSTOBACK
+Genel kýsayol tuþlarý ayarlarý ekraný
+; DopusToBack   -   Move screen to the back
+;
+STR_FUNCTIONLIST_DOPUSTOFRONT
+Ana Menü
+; DopusToFront  -  Move screen to the front
+;
+STR_FUNCTIONLIST_ENCRYPT
+Sol fare tuþu
+; Encrypt       -    Encrypt selected files
+;
+STR_FUNCTIONLIST_ENDFUNCTION
+Sað fare tuþu
+; FinishSection -     Finish above commands
+;
+STR_FUNCTIONLIST_ERRORHELP
+Tamam
+; ErrorHelp     -      Help with DOS errors
+;
+STR_FUNCTIONLIST_EXECUTE
+Ýptal
+; Execute       -       Execute batch files
+;
+STR_FUNCTIONLIST_FORMAT
+Mevcut gösterim baþlýklarý...
+; Format        -       Format floppy disks
+;
+STR_FUNCTIONLIST_FORMATBG
+Seçilen gösterimler...
+; FormatBG      -      Format in background
+;
+STR_FUNCTIONLIST_GETDEVICES
+Gösterim uzunluklarý...
+; GetDevices    -       Display device list
+;
+STR_FUNCTIONLIST_GETSIZES
+(  Ýþaretlenene göre sýralanýr)
+; GetSizes      - Calculate total dir sizes
+;
+STR_FUNCTIONLIST_HELP
+Girdi ayýracý...
+; Help          -  Turn help mode on or off
+;
+STR_FUNCTIONLIST_HEXREAD
+Gizleme/gösterme kýsayol tuþu
+; HexRead       -   Hexadecimal text viewer
+;
+STR_FUNCTIONLIST_HUNT
+Proje'nin Varsayýlan Aracý...
+; Hunt          -      Search for filenames
+;
+STR_FUNCTIONLIST_ICONIFY
+Arzuladýðýnýz dosyayý seçin
+; Iconify       -           Iconify program
+;
+STR_FUNCTIONLIST_ICONINFO
+Arzuladýðýnýz dizini seçin
+; IconInfo      - Give information on icons
+;
+STR_FUNCTIONLIST_INSTALL
+Arzuladýðýnýz yazýtipi ve boyutunu seçin
+; Install       -       Make disks bootable
+;
+STR_FUNCTIONLIST_INSTALLBG
+_Kýsayol
+; InstallBG     -     Install in background
+;
+STR_FUNCTIONLIST_LASTSAVED
+Yeni düðme bankalarý mevcut eklenir.
+; LastSaved     -    Read last-saved config
+;
+STR_FUNCTIONLIST_LOADCONFIG
+Varsayýlan düðme bankalarý mevcutlara eklenir.
+; LoadConfig    -     Load nominated config
+;
+STR_FUNCTIONLIST_LOADSTRINGS
+Ayarlanmýþ bir düðme bankasý yok!
+; LoadStrings   -    Load a new string file
+;
+STR_FUNCTIONLIST_LOOPPLAY
+Düðme silindi.
+; LoopPlay      -     Loop-play sound files
+;
+STR_FUNCTIONLIST_MAKEDIR
+Orjinal düðmenin taþýnacaðý düðme konumunu seçin.
+; Makedir       -    Create a new directory
+;
+STR_FUNCTIONLIST_MODIFY
+Seçilen düðme ile yer deðiþtirilecek düðmeyi seçin.
+; Modify        -      Change configuration
+;
+STR_FUNCTIONLIST_MOVE
+Kopyalanacak düðmeyi seçin.
+; Move          -     Move selected entries
+;
+STR_FUNCTIONLIST_MOVEAS
+Yer deðiþtirme yapýlacak düðmeyi seçin.
+; MoveAs        -       Move with new names
+;
+STR_FUNCTIONLIST_NEWCLI
+Düðme düzenleme ekraný
+; NewCLI        -     Open a new CLI window
+;
+STR_FUNCTIONLIST_NONE
+Bu bankanýn taþýnacaðý banka numarasýný girin. \n\
+Eðer var olmayan bir banka ise yenisi oluþturulur.
+; None          -      Deselect all entries
+;
+STR_FUNCTIONLIST_OTHERWINDOW
+Seçilen banka mevcut! Gerçekten bu bankanýn\n\
+üzerine yazmak istiyor musunuz?
+; OtherWindow   -     Activate other window
+;
+STR_FUNCTIONLIST_PARENT
+Düðme bankasý kopyalandý.
+; Parent        -     Read parent directory
+;
+STR_FUNCTIONLIST_PLAY
+Bu banka ile yer deðiþtirilecek banka numarasýný girin.
+; Play          - Play selected sound files
+;
+STR_FUNCTIONLIST_PLAYST
+Seçilen düðme bankasý yok!
+; PlayST        -      Play ST modules only
+;
+STR_FUNCTIONLIST_PRINT
+Düðme bankalarý yer deðiþtirildi.
+; Print         -      Print selected files
+;
+STR_FUNCTIONLIST_PRINTDIR
+Bu ayarlanmýþ olan tek düðme bankasý!\n\
+Gerçekten bu bankayý silmek istiyor musunuz?
+; PrintDir      - Print displayed directory
+;
+STR_FUNCTIONLIST_PROTECT
+Bu düðme bankasýný gerçekten silmek istiyor musunuz?
+; Protect       -    Modify protection bits
+;
+STR_FUNCTIONLIST_QUIT
+Düðme bankasý silindi.
+; Quit          -       Quit Directory Opus
+;
+STR_FUNCTIONLIST_READ
+Silinecek düðmeyi seçin.
+; Read          -         Plain text viewer
+;
+STR_FUNCTIONLIST_REDRAW
+Düðme bankasý no
+; Redraw        -        Redraw main screen
+;
+STR_FUNCTIONLIST_RELABEL
+Düðme ayarlarý ekraný - ayarlanmýþ banka yok
+; Relabel       -         Change disk names
+;
+STR_FUNCTIONLIST_REMEMBER
+Yeni banka için bellek tahsis edilemedi!
+; Remember      -     Remember config state
+;
+STR_FUNCTIONLIST_RENAME
+Yeni düðme bankasý oluþturuldu.
+; Rename        -   Rename selected entries
+;
+STR_FUNCTIONLIST_RESCAN
+Yeni menüler yüklendi.
+; Rescan        -  Reload current directory
+;
+STR_FUNCTIONLIST_RESELECT
+Varsayýlan menüler yüklendi.
+; Reselect      -          Reselect entries
+;
+STR_FUNCTIONLIST_RESTORE
+Menü baþlýðýný girin.
+; Restore       -   Restore remembered cfg.
+;
+STR_FUNCTIONLIST_ROOT
+Menü nesnesi silindi.
+; Root          -       Read root directory
+;
+STR_FUNCTIONLIST_RUN
+Menü nesnesi araya eklendi.
+; Run           -             Run a program
+;
+STR_FUNCTIONLIST_SAVECONFIG
+Bu menüyü gerçekten silmek istiyor musunuz?
+; SaveConfig    -       Save current config
+;
+STR_FUNCTIONLIST_SCANDIR
+Menü silindi.
+; ScanDir       -  Load nominated directory
+;
+STR_FUNCTIONLIST_SEARCH
+Menü sýralandý.
+; Search        - Search files for a string
+;
+STR_FUNCTIONLIST_SELECT
+Seçilen menünün kopyalanacaðý yeri seçin.
+; Select        -   Wildcard-select entries
+;
+STR_FUNCTIONLIST_SHOW
+Seçilen ile yer deðiþtirilecek menüyü seçin.
+; Show          -    Display graphic images
+;
+STR_FUNCTIONLIST_SMARTREAD
+Seçilen menü nesnesinin kopyalanacaðý konumu seçin.
+; SmartRead     -   Auto Hex or Text viewer
+;
+STR_FUNCTIONLIST_STOPST
+Seçilen ile yer deðiþtirilecek menü nesnesini seçin.
+; StopST        -    Stop ST module playing
+;
+STR_FUNCTIONLIST_SWAPWINDOW
+Menü nesnesi düzenleme ekraný
+; SwapWindow    -  Swap contents of windows
+;
+STR_FUNCTIONLIST_TOGGLE
+Kopyalanacak menüyü seçin.
+; Toggle        -     Toggle all selections
+;
+STR_FUNCTIONLIST_UNICONIFY
+Yer deðiþtirilecek menüyü seçin.
+; UnIconify     -        Un-iconify program
+;
+STR_FUNCTIONLIST_USER_FTYPE1
+Silinecek menüyü seçin.
+; User1         -  Custom filetype action 1
+;
+STR_FUNCTIONLIST_USER_FTYPE2
+Sýralanacak menüyü seçin.
+; User2         -  Custom filetype action 2
+;
+STR_FUNCTIONLIST_USER_FTYPE3
+ÖNÜNE yeni bi nesne eklenecek menü nesnesini seçin.
+; User3         -  Custom filetype action 3
+;
+STR_FUNCTIONLIST_USER_FTYPE4
+Kopyalanacak menü nesnesini seçin.
+; User4         -  Custom filetype action 4
+;
+STR_FUNCTIONLIST_VERIFY
+Yer deðiþtirilecek menü nesnesini seçin.
+; Verify        -           Verify function
+;
+STR_FUNCTIONLIST_VERSION
+Silinecek menü nesnesini seçin.
+; Version       -   Display version numbers
+;
+STR_COMMANDSEQ_DESTINATION
+Düzenle
+; {d}  -         Destination directory name
+;
+STR_COMMANDSEQ_FIRSTFILE
+_Kýsayol tuþu
+; {f}  -   First selected entry (with path)
+;
+STR_COMMANDSEQ_ALLFILES
+Kýsayol
+; {F}  -  All selected entries (with paths)
+;
+STR_COMMANDSEQ_FIRSTFILEUNSEL
+Mevcut fonksiyonlarýn listesi...
+; {fu} -   First entry (path ; no unselect)
+;
+STR_COMMANDSEQ_ALLFILESUNSEL
+Mevcut komutlarýn listesi...
+; {Fu} -   All entries (path ; no unselect)
+;
+STR_COMMANDSEQ_FIRSTFILENOPATH
+Ön-alan
+; {o}  -   First selected entry (name only)
+;
+STR_COMMANDSEQ_ALLFILESNOPATH
+Art-alan
+; {O}  -  All selected entries (names only)
+;
+STR_COMMANDSEQ_FIRSTFILENOPATHUNSEL
+Buraya bir araç býrakýn!
+; {ou} -   First entry (name ; no unselect)
+;
+STR_COMMANDSEQ_ALLFILESNOPATHUNSEL
+Yeni sürücü bankalarý yüklendi.
+; {Ou} -   All entries (name ; no unselect)
+;
+STR_COMMANDSEQ_PORTNAME
+Varsayýlan sürücü bankalarý sýfýrlandý.
+; {Q}  -       Query the value of something
+;
+STR_COMMANDSEQ_DIRREQ
+Sürücü düðmesi silindi.
+; {Rd} -                Directory requester
+;
+STR_COMMANDSEQ_FILEREQ
+Seçilen sürücü düðmesinin kopyalacanacaðý konumu seçin.
+; {Rf} -                     File requester
+;
+STR_COMMANDSEQ_MULTIFILEREQ
+Seçilen ile yer deðiþtirilecek sürücü düðmesini seçin.
+; {RF} -        Multi-select file requester
+;
+STR_COMMANDSEQ_FONTREQ
+Seçilen sürücü bankasýnýn kopyalanacaðý konumu seçin.
+; {Ro} -                     Font requester
+;
+STR_COMMANDSEQ_ARGUMENTS
+Seçilen ile yer deðiþtirilecek sürücü bankasýný seçin.
+; {Rs} -                   String requester
+;
+STR_COMMANDSEQ_SOURCE
+Bu sürücü bankasýný gerçekten silmek istiyor musunuz?
+; {s}  -              Source directory name
+;
+STR_CLASSOPS_AND
+_Yol
+; And          - start of another group
+;
+STR_CLASSOPS_MATCH
+Sistem aygýtlarýnýn listesi.
+; Match        - text or $hex
+;
+STR_CLASSOPS_MATCHBITS
+Kopyalanacak sürücü bankasýna týklayýn.
+; MatchBits    - HSPARWED with + and -
+;
+STR_CLASSOPS_MATCHCOMMENT
+Yer deðiþtirilecek sürücü bankasýna týklayýn.
+; MatchComment - text
+;
+STR_CLASSOPS_MATCHDATE
+Silinecek sürücü bankasýna týklayýn.
+; MatchDate    - date string or range
+;
+STR_CLASSOPS_MATCHNAME
+Sýralanacak sürücü bankasýna týklayýn.
+; MatchName    - filename
+;
+STR_CLASSOPS_MATCHSIZE
+Kopyalanacak sürücü bankasýna týklayýn.
+; MatchSize    - value with >, < and =
+;
+STR_CLASSOPS_MOVE
+Yer deðiþtirilecek sürücü düðmesine týklayýn.
+; Move         - byte offset from here
+;
+STR_CLASSOPS_MOVETO
+Silinecek sürücü düðmesine týklayýn.
+; MoveTo       - absolute location
+;
+STR_CLASSOPS_OR
+Yeni dosya türleri var olanlarla birleþtirildi.
+; Or           - start of another group
+;
+STR_CLASSOPS_SEARCHFOR
+Varsayýlan dosya türleri var olanlarla birleþtirildi.
+; SearchFor    - text or $hex
+;
+STR_BY
+Bu sýnýfý gerçekten silmek istiyor musunuz?
+; by
+;
+STR_SELECT_HOTKEY_TO_SWAP
+Dosya sýnýfý silindi.
+; Select hotkey to swap.
+;
+STR_SELECT_SECOND_HOTKEY_TO_SWAP
+Yüklenecek sýnýf dosyasýný seçin
+; Select second hotkey to swap with first.
+;
+STR_MODULE_LIST_TITLE
+Dosya sýnýflarýný kaydetmek için bir ad girin
+; External support modules...
+;
+STR_MODULE_LIST_CHECK_STRING
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; (  Check indicates a module to be pre-loaded)
+;
+STR_SYS_CLOCK_KILOBYTES_FREE
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; Kilobytes free
+;
+STR_SYS_STARTUP_CONFIG
+Ayarlar ana ekraný
+; Cfg return
+;
+STR_MENU_DUPLICATE
+Ýþlem ayarlarý ekraný
+; Duplicate...
+;
+STR_FILECLASS_DUPLICATE
+Menü ayarlarý ekraný
+; Select class to duplicate...
+;
+STR_MENU_CLEARCLIPS
+Sürücü düðmeleri ayarlarý ekraný
+; Clear clips
+;
+STR_REALLY_CLEAR_CLIPS
+Dosya türü ayarlarý ekraný
+; Really clear all clipped functions?
+;
+STR_SCREEN_GENERAL_DRAGREQUESTERS
+Ekran ayarlarý ekraný
+; Draggable requesters
+;
+STR_FORMAT_OWNER
+Sistem ayarlarý ekraný
+; Owner
+;
+STR_FORMAT_GROUP
+Genel kýsayol tuþlarý ayarlarý ekraný
+; Group
+;
+STR_PALETTE_TINT
+Ana Menü
+; Tint
+;
+STR_PALETTE_PHARAOH
+Sol fare tuþu
+; Pharaoh
+;
+STR_PALETTE_SUNSET
+Sað fare tuþu
+; Sunset
+;
+STR_PALETTE_OCEAN
+Tamam
+; Ocean
+;
+STR_PALETTE_STEEL
+Ýptal
+; Steel
+;
+STR_PALETTE_CHOCOLATE
+Mevcut gösterim baþlýklarý...
+; Chocolate
+;
+STR_PALETTE_PEWTER
+Seçilen gösterimler...
+; Pewter
+;
+STR_PALETTE_WINE
+Gösterim uzunluklarý...
+; Wine
+;
+STR_PALETTE_A2024
+(  Ýþaretlenene göre sýralanýr)
+; A2024
+;
+STR_FTYPE_CLICKMCLICK
+Girdi ayýracý...
+; Click-m-click
+;
+STR_FTYPE_DOUBLECLICK
+Gizleme/gösterme kýsayol tuþu
+; LMB Double-click
+;
+STR_FTYPE_MMBCLICK
+Proje'nin Varsayýlan Aracý...
+; MMB Double-click
+;
+STR_FUNCTION_COMMAND
+Arzuladýðýnýz dosyayý seçin
+; Command
+;
+STR_FUNCTION_AMIGADOS
+Arzuladýðýnýz dizini seçin
+; AmigaDOS
+;
+STR_FUNCTION_WORKBENCH
+Arzuladýðýnýz yazýtipi ve boyutunu seçin
+; Workbench
+;
+STR_FUNCTION_BATCH
+_Kýsayol
+; Batch
+;
+STR_FUNCTION_AREXX
+Yeni düðme bankalarý mevcut eklenir.
+; ARexx
+;
+STR_MODE_WORKBENCH_CLONE
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; Workbench:Clone
+;
+STR_MODE_WORKBENCH_USE
+Ayarlar ana ekraný
+; Workbench:Use
+;
+STR_COLOURS_TINY_GADS
+Ýþlem ayarlarý ekraný
+; BRSA?EFCIQ
+;
+STR_FORMAT_GROUPBITS
+Menü ayarlarý ekraný
+; Net protection bits
+;
+STR_MENUNAME_NEATSTUFF
+Sürücü düðmeleri ayarlarý ekraný
+; Tools
+;
+STR_NEAT_PAINT_MODE
+Dosya türü ayarlarý ekraný
+; Paint mode
+;
+STR_PAINT_SELECT_COLOURS
+Ekran ayarlarý ekraný
+; Select paint colors
+;
+STR_PAINT_STATE
+Sistem ayarlarý ekraný
+;   (Paint mode active)
+;
+STR_SCREEN_GENERAL_TITLEBARSTATUS
+Mevcut ayarlamalarý kaydetmeden\n\
+çýkmak istiyor musunuz?
+; Display status text in title bar
+;
+STR_OP_UPDATE_PROGRESSIND_COPY
+Ayarlar ana ekraný
+; Current file progress indicator (Copy)
+;
+STR_SCREEN_MODE_USE
+Ýþlem ayarlarý ekraný
+; Use
+;
+STR_SCREEN_GENERAL_WINDOWBORDERS
+Menü ayarlarý ekraný
+; Custom screen window borders
+;
+STR_SCREEN_MODE_CLONE
+Sürücü düðmeleri ayarlarý ekraný
+; Clone
+;
+STR_SCREEN_SLIDERS
+Dosya türü ayarlarý ekraný
+; Sliders
+;
+STR_OP_UPDATE_PROGRESS
+Ekran ayarlarý ekraný
+; Progress indicator...
+;
+STR_FONTPLACE_SCREEN
+Sistem ayarlarý ekraný
+; Screen font
+;
+STR_FUNCTIONLIST_SETVAR
+Genel kýsayol tuþlarý ayarlarý ekraný
+; SetVar        -  Set an internal variable
+;
+STR_COMMANDSEQ_VARIABLE
+Ana Menü
+; {v}  -               Pre-defined variable
+;
+STR_SYS_VIEWPLAY_BESTMODEID
+Sol fare tuþu
+; Pick best screen-mode
+;
+STR_FUNCTIONLIST_NOTIFY
+Sað fare tuþu
+; Notify        -    Notification requester
+;
+STR_FUNCTIONLIST_PARENTLIST
+Tamam
+; ParentList    -   List parent directories
+;
+STR_SIZE_KMGMODE
+Ýptal
+; Show size in K/M/G
+;
+STR_SYS_VIEWPLAY_INWINDOW
+Mevcut gösterim baþlýklarý...
+; View in window
+;
+STR_SYS_TOP_Y
+Seçilen gösterimler...
+; Top Y
+;
+STR_SYS_LEFT_X
+Gösterim uzunluklarý...
+; Left X
+;
+STR_SYS_WIDTH
+(  Ýþaretlenene göre sýralanýr)
+; Width
+;
+STR_SYS_HEIGHT
+Girdi ayýracý...
+; Height
+;
+STR_CLASSOPS_MATCHI
+Gizleme/gösterme kýsayol tuþu
+; MatchI       - text (case-insensitive)
+;
+STR_MENU_MAX_REACHED
+Proje'nin Varsayýlan Aracý...
+; Warning! Some menus were not imported due to lack of free space.
+;
+STR_OP_GENERAL_FMPARENTMODE
+Arzuladýðýnýz dosyayý seçin
+; FileMaster-like Parent
+;
+STR_OP_COPY_COPYARCHIVE
+Arzuladýðýnýz dizini seçin
+; Copy archive bit too
+;
+STR_OP_GENERAL_FORCEQUIT
+Arzuladýðýnýz yazýtipi ve boyutunu seçin
+; Don't ask before quit
+;
+STR_USE
+_Kýsayol
+; Use
+;
+STR_FUNCTIONLIST_MAKELINK
+Yeni düðme bankalarý mevcut eklenir.
+; MakeLink      -  Create soft or hard link
+;
+STR_OP_GENERAL_MMBSELECTS
+Varsayýlan düðme bankalarý mevcutlara eklenir.
+; Single MMB click selects lister
+;

@@ -1,0 +1,237 @@
+## version $VER: DOpus_Print.catalog 1.1 (17.10.2012)
+## codeset 6
+## language türkçe
+## chunk AUTH Alper Sönmez
+;
+STR_SELECT_FILE
+Dosya seç
+; Select file
+;
+STR_ABORT
+Durdur
+; Abort
+;
+STR_CONTINUE
+Devam
+; Continue
+;
+STR_OKAY
+Tamam
+; Okay
+;
+STR_CANCEL
+Vazgeç
+; Cancel
+;
+STR_FILE
+Dosya
+; File
+;
+STR_TOP_MARGIN
+Üst Boþluk
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Alt Boþluk
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Sol Boþluk
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Sað Boþluk
+; Right Margin
+;
+STR_TAB_SIZE
+Sekme boyutu
+; Tab size
+;
+STR_PRINT_PITCH
+Koyuluk
+; Print pitch
+;
+STR_QUALITY
+Yoðunluk
+; Density
+;
+STR_EJECT
+Son sayfayý çýkart
+; Eject final page
+;
+STR_CONFIGURATION
+ayarlarý...
+; configuration...
+;
+STR_TITLE
+Baþlýk
+; Title
+;
+STR_DATE
+Tarih
+; Date
+;
+STR_PAGE_NUMBER
+Sayfa no.
+; Page no.
+;
+STR_TEXT_STYLE
+Metin stili
+; Text style
+;
+STR_PRINTER
+Yazýcý
+; Printer
+;
+STR_PRINT
+Yazdýr
+; Print
+;
+STR_EXIT
+Çýkýþ
+; Exit
+;
+STR_OUTPUT_TO
+Çýkýþ...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Elit
+; Elite
+;
+STR_FINE
+Ýyi
+; Fine
+;
+STR_NORMAL
+Normal
+; Normal
+;
+STR_BOLD
+Kalýn
+; Bold
+;
+STR_ITALICS
+Ýtalik
+; Italics
+;
+STR_UNDERLINED
+AltÇizgi
+; UnLined
+;
+STR_DOUBLESTRIKE
+DbStrik
+; DbStrik
+;
+STR_SHADOW
+Gölgeli
+; Shadow
+;
+STR_DRAFT
+Taslak
+; Draft
+;
+STR_LETTER
+Mektup
+; Letter
+;
+STR_HEADER
+ÜstBilgi
+; Header
+;
+STR_FOOTER
+AltBilgi
+; Footer
+;
+STR_SIZE
+Boyut
+; Size
+;
+STR_PROTECTION
+Koruma
+; Protection
+;
+STR_COMMENT
+Açýklama
+; Comment
+;
+STR_FILETYPE
+Dosya türü
+; File type
+;
+STR_PRINT_DOT
+Yazdýr...
+; Print...
+;
+STR_PRINTDIR
+DizinYazdýr
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+Dosya açýlamadý. Tekrar dene?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+Çýktý dosyasý açýlamadý. Tekrar dene?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+Yazýcý açýlamadý. Tekrar dene?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+Dizin yazdýrmada hata. Tekrar dene?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+Geçersiz þifre girildi. Tekrar dene?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+Yazýcý hatasý! Tekrar dene?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+Yazdýrma görevini gerçekten durdur?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Dosya oluþturuluyor
+; Creating file
+;
+STR_OPENING_PRINTER
+Yazýcý açýlýyor
+; Opening printer
+;
+STR_LOADING_FILE
+Dosya yükleniyor...
+; Loading file..
+;
+STR_PRINTING_FILE
+Dosya yazdýrýlýyor...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+Durdurmak için ESC'ye basýn
+; Press ESC to abort
+;
+STR_PAGE
+Sayfa
+; Page
+;
+STR_COMPLETE
+tamamlandý
+; complete
+;
+STR_TOFILE
+Dosya
+; File
+;
+STR_PRINTWIN
+Yazdýr
+; Print
+;
