@@ -1,0 +1,145 @@
+## version $VER: DOpus_Icon.catalog 1.1 (17.10.2012)
+## codeset 6
+## language türkçe
+## chunk AUTH Alper Sönmez
+;
+STR_REMAP_COLORS
+_Renk eþle
+; Rema_p colors
+;
+STR_SAVE
+_Kaydet
+; Sa_ve
+;
+STR_SKIP
+A_tla
+; S_kip
+;
+STR_CANCEL
+_Ýptal
+; _Cancel
+;
+STR_DELETE
+Si_l
+; De_lete
+;
+STR_NEW
+Y_eni
+; _New
+;
+STR_TOOLTYPES
+Araç türleri:
+; Tool types:
+;
+STR_COMMENT
+Açýkla_ma:
+; Co_mment:
+;
+STR_DEFAULT_TOOL
+_Vars. araç:
+; De_fault tool:
+;
+STR_VALIDATING
+Doðrulanýyor
+; Validating
+;
+STR_WRITE_PROTECTED
+Yazma korumalý
+; Write protected
+;
+STR_READ_WRITE
+Okuma/Yazma
+; Read/Write
+;
+STR_SCRIPT
+_Betik
+; _Script
+;
+STR_ARCHIVED
+_Arþiv
+; _Archived
+;
+STR_READABLE
+_Okunur
+; _Readable
+;
+STR_WRITABLE
+_Yazýlýr
+; _Writable
+;
+STR_EXECUTABLE
+_Çalýþýr
+; _Executable
+;
+STR_DELETABLE
+_Silinir
+; _Deletable
+;
+STR_BLOCKS
+Blok
+; Blocks
+;
+STR_USED
+Kullanýmda
+; Used
+;
+STR_FREE
+Boþta
+; Free
+;
+STR_BLOCK_SIZE
+Blok boyutu
+; Block size
+;
+STR_CREATED
+Oluþturma
+; Created
+;
+STR_LAST_CHANGED
+Son deðiþim
+; Last changed
+;
+STR_BYTES
+Bayt
+; Bytes
+;
+STR_STACK
+Yýðý_n:
+; S_tack
+;
+STR_DISK
+Disk
+; Disk
+;
+STR_DRAWER
+Çekmece
+; Drawer
+;
+STR_TOOL
+Araç
+; Tool
+;
+STR_PROJECT
+Proje
+; Project
+;
+STR_TRASH
+Çöp kutusu
+; Trash
+;
+STR_DEVICE
+Aygýt
+; Device
+;
+STR_KICK
+Kick
+; Kick
+;
+STR_APPICON
+UygSimgesi
+; AppIcon
+;
+STR_ICON
+Simge
+; Icon
+;

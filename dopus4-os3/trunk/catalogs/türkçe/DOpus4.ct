@@ -1,0 +1,1411 @@
+## version $VER: DOpus4.catalog 1.1 (12.10.2012)
+## codeset 6
+## language türkçe
+## chunk AUTH Alper Sönmez
+;
+STR_DIRS_FILES_BYTES_COUNT
+Dizin : %03ld/%03ld  Dosya : %03ld/%03ld  Bayt : %7ld/%7ld
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
+;
+STR_DOPUS_ALREADY_RUNNING
+Directory Opus bellekte mevcut.\n\
+Bir baþka kopyasýný çalýþtýrmak ister misiniz?
+; Directory Opus is already resident in memory.\nDo you want to run another copy?
+;
+STR_UNABLE_TO_OPEN_WINDOW
+Ekran/Pencere açýlamadý!
+; Unable to open screen/window!
+;
+STR_WELCOME_TO_DOPUS
+Directory Opus'a hoþ geldiniz!
+; Welcome to Directory Opus!
+;
+STR_WELCOME_BACK_TO_DOPUS
+Directory Opus'a yeniden hoþ geldiniz!
+; Welcome back to Directory Opus!
+;
+STR_INTERROGATING_FILE
+Dosya sorgulanýyor...
+; Interrogating file...
+;
+STR_READING_DIRECTORY
+Dizin okunuyor...
+; Reading directory...
+;
+STR_ENTER_ARGUMENTS_FOR
+"%s" için argümanlarý girin
+; Enter arguments for \"%s\"
+;
+STR_ENTER_DIRECTORY_NAME
+Dizin adý girin
+; Enter directory name
+;
+STR_FILE_ALREADY_EXISTS
+Dosya veya dizin zaten mevcut!
+; File or directory already exists!
+;
+STR_DIRECTORY_CREATED
+Dizin oluþturuldu.
+; Directory created.
+;
+STR_PRINTING_DIRECTORY
+Dizin yazdýrýlýyor...
+; Printing directory...
+;
+STR_DIRECTORY
+Dizin 
+; Directory 
+;
+STR_DEVICE_LIST
+Aygýt listesi\n\n
+; Device list\n\n
+;
+STR_NO_CHIP_FOR_ICON
+Simgeyi görüntülemek için yeterli bellek yok
+; Not enough chip memory to display icon
+;
+STR_FILE_NOT_ILBM
+Dosya ILBM deðil
+; File is not ILBM
+;
+STR_ERROR_IN_IFF
+IFF yapýsýnda hata
+; Error in IFF structure
+;
+STR_NO_CHIP_FOR_PICTURE
+Resmi görüntülemek için yeterli bellek yok
+; Not enough chip memory to display picture
+;
+STR_CANT_ALLOCATE_AUDIO
+Ses kanallarý tahsis edilemedi
+; Can't allocate audio channels
+;
+STR_NOT_ST_MOD
+Dosya desteklenen bir müzik modülü deðil
+; File is not a supported music module
+;
+STR_FILE_EXISTS_REPLACE
+"%s" zaten mevcut! Üzerine yazýlsýn mý?
+; \"%s\" already exists! Replace?
+;
+STR_SELECT_UNPROTECT
+\n\
+'Sil' bitini kurmak için Korumayý Kaldýr'ý seçin.
+; \nSelect Unprotect to set the deletion bit.
+;
+STR_ENTER_TIME
+Zamaný SA:DK:SN biçiminde girin
+; Enter time in the form HH:MM:SS
+;
+STR_AREXX_NOT_RUNNING
+ARexx sunucusu bulunamadý!
+; ARexx server not found!
+;
+STR_ENTER_AREXX_COMMAND
+ARexx komutu girin
+; Enter ARexx command
+;
+STR_ENTER_NEW_CD
+Yeni dizin konumunu girin
+; Enter new current directory
+;
+STR_SCANNING_DEVICE_LIST
+Aygýt listesi taranýyor...
+; Scanning device list...
+;
+STR_FOUND_A_MATCH
+"%s" dosyasý\n\
+"%s" dizininde bulundu.\n\
+Konuma gidilsin mi?
+; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+;
+STR_BUFFERS_CLEARED
+Gösterimde olmayan dizin önbellekleri temizlendi.
+; Buffers not currently displayed have been cleared.
+;
+STR_UNREADABLE_DISK
+Okunamayan disk
+; Unreadable disk
+;
+STR_NOT_A_DOS_DISK
+DOS diski deðil
+; Not a DOS disk
+;
+STR_KICKSTART_DISK
+Kickstart diski
+; Kickstart disk
+;
+STR_VALIDATING
+Doðrulanmakta olan disk
+; Validating
+;
+STR_WRITE_PROTECTED
+Yazma korumalý
+; Write protected
+;
+STR_READ_WRITE
+Okuna/Yazýlabilir
+; Read/Write
+;
+STR_DEVICE_NOT_MOUNTED
+Aygýt veya veribirimi baðlý deðil
+; Device or volume not mounted
+;
+STR_NO_DISK_IN_DRIVE
+Sürücüde disk yok
+; No disk in drive
+;
+STR_DOS_ERROR_CODE
+DOS hata kodu %ld
+; DOS error code %ld
+;
+STR_ENTER_NEW_DISK_NAME
+Yeni disk adý girin
+; Enter new disk name
+;
+STR_ENTER_ASSIGN_NAME
+Aygýtý yeniden atamak için dizin girin
+; Enter directory to re-assign device
+;
+STR_CANT_CANCEL_ASSIGN
+Atama iptal edilemedi.
+; Can't cancel assign.
+;
+STR_ENTER_DEVICE_NAME
+Bu dizin için bir aygýt adý girin
+; Enter device name for this directory
+;
+STR_ASSIGN_FAILED
+Atama baþarýsýz
+; Assign failed
+;
+STR_NO_DESTINATION_SELECTED
+Bir hedef dizini seçilmedi!
+; No destination directory selected!
+;
+STR_CANT_COPY_DIR_TO_ITSELF
+Bir dizini kendisine kopyalayamazsýnýz!
+; You can't copy a directory into itself!
+;
+STR_SHOWING_FONT
+Seçilen yazýtipi görüntüleniyor...
+; Showing selected font...
+;
+STR_RUNNING_FILE
+Seçilen dosya çalýþtýrýlýyor...
+; Running selected file...
+;
+STR_PLAYING_FILE
+Seçilen dosya çalýnýyor...
+; Playing selected file...
+;
+STR_SHOWING_FILE
+Seçilen dosya görüntüleniyor...
+; Showing selected file...
+;
+STR_PLAYING_ST_MOD
+Müzik modülü çalýnýyor...
+; Playing music module...
+;
+STR_READING_SELECTED_FILE
+Seçilen dosya okunuyor...
+; Reading selected file...
+;
+STR_FOUND_A_MATCH_READ
+"%s"\n\
+dosyasýnda bir eþleþme bulundu.\n\
+Dosya okunsun mu?
+; Found a match in the file\n\"%s\"\nShall I read the file?
+;
+STR_CONFIG_CHANGED_QUIT
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Gerçekten çýkmak istiyor musunuz?
+; You have modified the configuration.\nDo you really want to quit?
+;
+STR_SAVING_CONFIG
+Ayarlar kaydediliyor...
+; Saving configuration...
+;
+STR_READING_CONFIG
+Ayarlar okunuyor...
+; Reading configuration...
+;
+STR_CONFIG_CHANGED_LASTSAVED
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Son kaydedilen ayarlar yüklensin mi?
+; You have modified the configuration.\nReally load the last-saved settings?
+;
+STR_CONFIG_CHANGED_DEFAULTS
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Varsayýlanlar geri getirilmeden önce kaydedilsin mi?
+; You have modified the configuration.\nSave before restoring defaults?
+;
+STR_HELP_NOT_AVAILABLE
+Bu eylem için yardým bulunamadý!
+; Help not available for that function!
+;
+STR_SCANNING_TREE
+Dizin aðacý taranýyor...
+; Scanning directory tree...
+;
+STR_ENTER_A_STRING
+Bir sýralý girin
+; Enter a string
+;
+STR_PLEASE_CHOOSE
+Lütfen seçin
+; Please choose
+;
+STR_COMMENTING
+açýklama ekleniyor
+; commenting
+;
+STR_PROTECTING
+koruma biti ekleniyor
+; protecting
+;
+STR_DATESTAMPING
+tarih bilgisi ekleniyor
+; datestamping
+;
+STR_DELETING
+siliniyor
+; deleting
+;
+STR_COPYING
+kopyalanýyor
+; copying
+;
+STR_CREATING
+oluþturuluyor
+; creating
+;
+STR_CANT_OVERCOPY_FILES
+Bu dosyalarý kendi üzerlerine kopyalayamazsýnýz!
+; You can't copy these files over themselves!
+;
+STR_INTERROGATING_FILES
+Dosyalar sorgulanýyor...
+; Interrogating files...
+;
+STR_NOT_IDENTIFIED
+%s tanýmlanamadý.
+; %s could not be identified.
+;
+STR_LOADING_CONFIG
+Ayarlama programý yükleniyor...
+; Loading configuration program...
+;
+STR_WAITING_FOR_PORT
+Ayarlama portu için bekleniyor...
+; Waiting for configuration port...
+;
+STR_CONFIG_NOT_FOUND
+Ayarlama programý bulunamadý/yüklenemedi.
+; Configuration program not found/could not be loaded.
+;
+STR_ALIEN_WINDOWS
+Directory Opus ekranýnda açýlmýþ yabancý pencereler var.\n\
+Vazgeç'e basýp elle kapatabilir veya Kapat'a basýp Directory\n\
+Opus'un kapatmasýný saðlayabilirsiniz (TEHLÝKELÝ!)
+; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+;
+STR_REALLY_DELETE
+Seçilen girdileri gerçekten silmek istiyor musunuz?
+; Do you really wish to delete selected entries?
+;
+STR_WISH_TO_DELETE
+"%s" dosyasýný/dizinini gerçekten silmek istiyor musunuz?
+; Do you really wish to delete \"%s\"?
+;
+STR_NOT_EMPTY
+"%s" boþ deðil! Silinsin mi?
+; \"%s\" is not empty! Delete?
+;
+STR_ENTER_NEW_NAME
+Yeni bir ad girin
+; Enter new name
+;
+STR_RENAMING
+yeniden adlandýrýyor
+; renaming
+;
+STR_ENTER_NEW_NAME_MOVE
+Taþýnan dosya için yeni bir ad girin
+; Enter new name for moved file
+;
+STR_MOVING
+taþýnýyor
+; moving
+;
+STR_ENTER_NEW_NAME_CLONE
+Kopyalanan girdi için yeni bir ad girin
+; Enter name for cloned entry
+;
+STR_CLONING
+kopyalýyor
+; cloning
+;
+STR_SIZE_IS_NOT_KNOWN
+Seçilen dizin için boyut bilinmiyor.\n\
+Bu dizin için bir bayt sayýmý uygulansýn mý?
+; Size is not known for the selected directory.\nPerform a byte count on this directory?
+;
+STR_FILE_MAY_NOT_FIT
+Seçilen dosya büyük ihtimalle hedefe sýðmayacak.\n\
+Kopyalamaya devam edilsin mi?
+; Selected file will probably not fit in destination.\nContinue with the copy?
+;
+STR_SIZES_NOT_KNOWN
+Seçilen bazý dizinler için boyutlar bilinmiyor.\n\
+Bu dizinler için bir bayt sayýmý uygulansýn mý?
+; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
+;
+STR_ENTRIES_MAY_NOT_FIT
+Seçilen girdiler büyük ihtimalle hedefe sýðmayacak.\n\
+Kopyalamaya devam edilsin mi?
+; Selected entries will probably not fit in destination.\nContinue with the copy?
+;
+STR_ENTER_NEW_NAME_COPY
+Kopyalanan dosyaya yeni bir ad girin
+; Enter new name for copied file
+;
+STR_ENTER_HUNT_PATTERN
+Avlanacak dosya adý kalýbýný girin
+; Enter file pattern to hunt
+;
+STR_COULD_NOT_FIND_FILE
+Üzgünüm! Dosya bulunamadý!
+; Sorry! File could not be found!
+;
+STR_FOUND_MATCHING_FILES
+%ld eþleþen dosya bulundu.
+; Found %ld matching files.
+;
+STR_ADDING_ICON
+simge ekleniyor :
+; adding an icon to
+;
+STR_SELECT_COMMENT
+Comment
+; Comment
+;
+STR_ENTER_COMMENT
+Açýklama girin
+; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+;
+STR_ENTER_PASSWORD
+Þifre girin
+; Enter password
+;
+STR_ENTER_DATE_AND_TIME
+Directory Opus bellekte mevcut.\n\
+Bir baþka kopyasýný çalýþtýrmak ister misiniz?
+; Enter date and time (blank for current)
+;
+STR_ENTER_SEARCH_STRING
+Ekran/Pencere açýlamadý!
+; Enter search string
+;
+STR_RENAME_REQ
+Directory Opus'a hoþ geldiniz!
+; Rena_me
+;
+STR_STRING_NOT_FOUND
+Directory Opus'a yeniden hoþ geldiniz!
+; Sorry! String could not be found!
+;
+STR_MATCHED_FILES
+Dosya sorgulanýyor...
+; Matched in %ld files.
+;
+STR_NO_SOURCE_SELECTED
+Dizin okunuyor...
+; No source directory selected!
+;
+STR_TEMPORARY_OUTPUT_FILE
+"%s" için argümanlarý girin
+; Temporary output file
+;
+STR_ENTER_ARGUMENTS
+Dizin adý girin
+; Enter arguments
+;
+STR_SELECT_FUNCTION
+Dosya veya dizin zaten mevcut!
+; Select function you need help with, or Help again to cancel.
+;
+STR_CONFIG_CHANGED_LOAD
+Okuna/Yazýlabilir
+; You have modified the configuration.\nReally load a new configuration file?
+;
+STR_ABORTED
+Aygýt veya veribirimi baðlý deðil
+; Aborted.
+;
+STR_ENTER_DOS_ERROR_CODE
+Sürücüde disk yok
+; Enter DOS error code
+;
+STR_NO_HELP_FOR_ERROR
+DOS hata kodu %ld
+; Help not available for that error code!
+;
+STR_ERROR_OCCURED
+Yeni disk adý girin
+; An error occured %s \"%s\"\n%s
+;
+STR_RENAME
+Aygýtý yeniden atamak için dizin girin
+; Rename
+;
+STR_AS
+Atama iptal edilemedi.
+; As
+;
+STR_ENTER_SELECT_PATTERN
+Bu dizin için bir aygýt adý girin
+; Enter select pattern
+;
+STR_FILE_ENCRYPTED
+Atama baþarýsýz
+; \nFile is encrypted!\n\n
+;
+STR_READING_FILE
+Bir hedef dizini seçilmedi!
+; Reading file...
+;
+STR_NO_MEMORY_TO_DECRUNCH
+Bir dizini kendisine kopyalayamazsýnýz!
+; Not enough memory to load/decrunch complete file!
+;
+STR_BAD_PASSWORD
+Seçilen yazýtipi görüntüleniyor...
+; Incorrect password given!
+;
+STR_COUNTING_LINES
+Seçilen dosya çalýþtýrýlýyor...
+; Counting lines...
+;
+STR_JUMP_TO_LINE
+Seçilen dosya çalýnýyor...
+; Jump to which line?
+;
+STR_JUMP_TO_PERCENTAGE
+Seçilen dosya görüntüleniyor...
+; Jump to what percentage?
+;
+STR_CANT_OPEN_PRINTER
+Müzik modülü çalýnýyor...
+; Can't open printer!
+;
+STR_ERROR_PRINTING_FILE
+Seçilen dosya okunuyor...
+; Error printing file! IoErr = %ld\n
+;
+STR_READY_PRINTER
+"%s"\n\
+dosyasýnda bir eþleþme bulundu.\n\
+Dosya okunsun mu?
+; Ready printer, and choose OKAY to continue
+;
+STR_CANT_FIND_ICON
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Gerçekten çýkmak istiyor musunuz?
+; Unable to find or load an icon for that file.
+;
+STR_ENCRYPTING
+Ayarlar kaydediliyor...
+; encrypting
+;
+STR_NEW_DISK_INSERTED
+Ayarlar okunuyor...
+; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
+;
+STR_REPLACE_ALL
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Son kaydedilen ayarlar yüklensin mi?
+; Replace _all
+;
+STR_ENTER_DATE_1
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Varsayýlanlar geri getirilmeden önce kaydedilsin mi?
+; Enter date in the form DD-MMM-YY
+;
+STR_ENTER_DATE_2
+Bu eylem için yardým bulunamadý!
+; Enter date in the form YY-MM-DD
+;
+STR_ENTER_DATE_3
+Dizin aðacý taranýyor...
+; Enter date in the form MM-DD-YY
+;
+STR_ENTER_DATE_4
+Bir sýralý girin
+; Enter date in the form DD-MM-YY
+;
+STR_CONTINUE_WITH_SEARCH
+Lütfen seçin
+; Do you wish to continue with the search?
+;
+STR_REALLY_QUIT
+açýklama ekleniyor
+; Do you really want to quit Directory Opus?
+;
+STR_REALLY_PROCEED
+koruma biti ekleniyor
+; Do you really wish to proceed with this operation?
+;
+STR_SCREEN_MODE_UNAVAILABLE
+tarih bilgisi ekleniyor
+; Screen mode not available.
+;
+STR_ERROR_INITIALISING_PRINTER
+siliniyor
+; Error initialising printer.\nCheck cable and connections.
+;
+STR_REALLY_ABORT_PRINT
+kopyalanýyor
+; Really abort the print?
+;
+STR_SELECT_SOURCE_DIR
+oluþturuluyor
+; Select the source directory
+;
+STR_SELECT_DESTINATION_DIR
+Bu dosyalarý kendi üzerlerine kopyalayamazsýnýz!
+; Select the destination directory
+;
+STR_SELECT_A_FILE
+Dosyalar sorgulanýyor...
+; Select a file
+;
+STR_SELECT_A_DIRECTORY
+%s tanýmlanamadý.
+; Select a directory
+;
+STR_LEFT_WINDOW
+Ayarlama programý yükleniyor...
+; Left window
+;
+STR_RIGHT_WINDOW
+Ayarlama portu için bekleniyor...
+; Right window
+;
+STR_DEVICE_LIST_TITLE
+Ayarlama programý bulunamadý/yüklenemedi.
+; <Device list>
+;
+STR_DIR_NOT_AVAILABLE_TITLE
+Directory Opus ekranýnda açýlmýþ yabancý pencereler var.\n\
+Vazgeç'e basýp elle kapatabilir veya Kapat'a basýp Directory\n\
+Opus'un kapatmasýný saðlayabilirsiniz (TEHLÝKELÝ!)
+; <Directory not available>
+;
+STR_BUFFER_LIST_TITLE
+Seçilen girdileri gerçekten silmek istiyor musunuz?
+; <Buffer list>
+;
+STR_UNPROTECT
+"%s" dosyasýný/dizinini gerçekten silmek istiyor musunuz?
+; Unprotect
+;
+STR_RUN
+"%s" boþ deðil! Silinsin mi?
+; _Run
+;
+STR_TRY_AGAIN
+Yeni bir ad girin
+; _Try Again
+;
+STR_RETRY
+yeniden adlandýrýyor
+; Retry
+;
+STR_ABORT
+Taþýnan dosya için yeni bir ad girin
+; A_bort
+;
+STR_REPLACE
+taþýnýyor
+; _Replace
+;
+STR_SKIP
+Kopyalanan girdi için yeni bir ad girin
+; _Skip
+;
+STR_ALL
+kopyalýyor
+; _All
+;
+STR_REMOVE
+Seçilen dizin için boyut bilinmiyor.\n\
+Bu dizin için bir bayt sayýmý uygulansýn mý?
+; Remove
+;
+STR_QUIT
+Seçilen dosya büyük ihtimalle hedefe sýðmayacak.\n\
+Kopyalamaya devam edilsin mi?
+; _Quit
+;
+STR_SAVE_QUIT
+Seçilen bazý dizinler için boyutlar bilinmiyor.\n\
+Bu dizinler için bir bayt sayýmý uygulansýn mý?
+; _Save & quit
+;
+STR_LOAD
+Seçilen girdiler büyük ihtimalle hedefe sýðmayacak.\n\
+Kopyalamaya devam edilsin mi?
+; Load
+;
+STR_SAVE
+Kopyalanan dosyaya yeni bir ad girin
+; Save
+;
+STR_DEFAULTS
+Avlanacak dosya adý kalýbýný girin
+; Defaults
+;
+STR_CLOSE
+Üzgünüm! Dosya bulunamadý!
+; Close
+;
+STR_DELETE
+%ld eþleþen dosya bulundu.
+; _Delete
+;
+STR_LEAVE
+simge ekleniyor :
+; Leave
+;
+STR_YES
+Yes
+; Yes
+;
+STR_NO
+Açýklama girin
+; No
+;
+STR_ICONIFY
+_Iconify
+; _Iconify
+;
+STR_CONTINUE
+Þifre girin
+; C_ontinue
+;
+STR_OKAY
+_Okay
+; _Okay
+;
+STR_CANCEL
+Tarih ve saat girin ('þimdi' için boþ býrakýn)
+; _Cancel
+;
+STR_OKAY_TITLE
+Aranacak sýralýyý girin
+; OK
+;
+STR_DESCRIPTION
+Description
+; Description
+;
+STR_PRINT_CONTROL
+Üzgünüm! Dosya bulunamadý!
+; Print control
+;
+STR_FILE
+%ld dosyada eþleþme bulundu.
+; File
+;
+STR_IMAGE_SIZE
+Bir kaynak dizin seçilmedi!
+; Image size
+;
+STR_PAGE_SIZE
+Geçici çýktý dosyasý
+; Page size
+;
+STR_SCREEN_SIZE
+Argümanlarý girin
+; Screen size
+;
+STR_DEPTH
+Yardým istediðiniz eylemi seçin (vazgeçmek için tekrar Yardým'a basýn)
+; Depth
+;
+STR_COLOURS
+Yetersiz bellek
+; Colors
+;
+STR_SCREEN_MODES
+Ýþlem tablosu dolu
+; Screen modes
+;
+STR_ASPECT
+Kötü kalýp
+; _Aspect:
+;
+STR_IMAGE
+Kötü sayý
+; _Image:
+;
+STR_SHADE
+Gerekli argüman eksik
+; _Shade:
+;
+STR_PLACEMENT
+"=" imini izlemesi gereken argüman eksik
+; _Placement:
+;
+STR_FORMFEED
+Çok fazla argüman
+; _Form feed
+;
+STR_PRINT
+Eþleþmeyen týrnak iþaretleri
+; Print
+;
+STR_ABORT_PRINT
+Argüman satýrý geçersiz veya çok uzun
+; Abort print
+;
+STR_PORTRAIT
+Dosya çalýþtýrýlabilir deðil
+; Portrait
+;
+STR_LANDSCAPE
+Geçersiz yerleþik kütüphane
+; Landscape
+;
+STR_POSITIVE
+Nesne kullanýmda
+; Positive
+;
+STR_NEGATIVE
+Nesne zaten mevcut
+; Negative
+;
+STR_BLACK_WHITE
+Dizin bulunamadý
+; Black&White
+;
+STR_GRAY_SCALE
+Nesne bulunamadý
+; Gray scale
+;
+STR_COLOUR
+Geçersiz pencere tanýmlamasý
+; Color
+;
+STR_CENTER
+Bilinmeyen paket istem tipi
+; Center
+;
+STR_FULL_LEFT
+Nesne adý geçersiz
+; Full left
+;
+STR_FONT
+Nesne kilidi geçersiz
+; Font
+;
+STR_FONT_SIZE
+Nesne gereken tipte deðil
+; Font size
+;
+STR_NUM_CHARS
+Disk doðrulanmamýþ
+; Characters
+;
+STR_FONT_STYLE
+Disk kopya korumalý
+; Font style
+;
+STR_FONT_FLAGS
+Aygýtlar üzeri yeniden adlandýrmaya giriþildi
+; Font flags
+;
+STR_ICON
+Dizin boþ deðil
+; Icon
+;
+STR_ICON_TYPE
+Çok fazla katman
+; Icon type
+;
+STR_ICON_ALTERNATE
+Arama hatasý
+; Alt. image
+;
+STR_ICON_DEFAULTTOOL
+Komut çok uzun
+; Default tool
+;
+STR_NUM_FRAMES
+Disk dolu
+; Frame
+;
+STR_PLAYING_ANIM
+Nesne silinmeye karþý korumalý
+; Playing selected animation...
+;
+STR_OLD_NEW_FILE_REPLACE
+Dosya yazma korumalý
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %7ld  Date : %19s\n\
+; Old  -  Size : %7ld  Date : %19s
+;
+STR_REMAINING
+Dosya okuma korumalý
+; %ld of %ld items
+;
+STR_CUSTOM_LIST
+Geçerli bir DOS diski deðil
+; Custom list
+;
+STR_ENTRIES_IN_TREE
+Dizinde baþka girdi yok
+; %ld entries in tree
+;
+STR_DIRS_IN_BUFFERS
+Nesne bir soft-link
+; %ld directories in buffers
+;
+STR_USER_ENTRIES
+Ayarlarý deðiþtirdiniz.\n\
+Yeni ayar dosyasý gerçekten yüklensin mi?
+; %ld user-defined entries
+;
+STR_COMPLETED
+Durduruldu...
+; Completed
+;
+STR_UNICONIFY
+DOS hata kodu girin
+; Uniconify
+;
+STR_CUSTPORT_NOT_FOUND
+Bu hata kodu için yardým bulunamadý!
+; User-specified custom handler port\n\"%s\"\ncould not be found!
+;
+STR_CHECKFIT_STRING
+Bir hata oluþtu %s "%s"\n\
+%s
+; Bytes needed : %11qd   Bytes free : %11qd   Fit : %.1f%%
+;
+STR_DIR_TREE
+Yeniden adlandýrýlacak
+; <Directory tree>
+;
+STR_BUILDING_TREE
+Yeni ad
+; Generating tree structure...
+;
+STR_UNPROTECT_ALL
+Seçim kalýbýný girin
+; Unprotect all
+;
+STR_READING_CHANGED_DIRECTORY
+\n\
+Dosya þifrelenmiþ!\n\n
+; Buffered directory changed - re-reading
+;
+STR_CREATING_DIRECTORY
+Dosya okunuyor...
+; creating directory
+;
+STR_STARTING_DISK_MODULE
+Dosyanýn tamamýný yüklemek/geniþletmek için yeterli bellek yok!
+; Starting disk module...
+;
+STR_UNABLE_TO_LOAD_MODULE
+Verilen þifre doðru deðil!
+; Unable to load external module
+;
+STR_SELECT_ALL_ENTRIES
+Satýrlar sayýlýyor...
+; All entries
+;
+STR_SELECT_ONLY_FILES
+Satýra git:
+; Only files
+;
+STR_SELECT_ONLY_DIRS
+Yüzdeye git:
+; Only dirs
+;
+STR_SELECT_NAME
+Yazýcý açýlamadý!
+; Name
+;
+STR_SELECT_DATE
+Dosya yazdýrmada hata! IoErr = %ld\n
+; Date
+;
+STR_SELECT_BITS
+Yazýcýyý hazýrlayýn ve TAMAM'a basýn
+; Bits
+;
+STR_STARTING_PRINT_MODULE
+Dosya için bir simge bulunamadý veya yüklenemedi.
+; Starting print module...
+;
+STR_ABOUT
+þifreliyor
+; %s\nBased on GPL release version 4.12\nmodified by %s\n\n\
+; This program is free software; you can redistribute it and/or\n\
+; modify it under the terms of the GNU General Public License\n\
+; as published by the Free Software Foundation; either version 2\n\
+; of the License, or (at your option) any later version.\n\n\
+; This program is distributed in the hope that it will be useful,\n\
+; but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
+; GNU General Public License for more details.\n\n\
+; All users of Directory Opus 4 (including versions distributed\n\
+; under the GPL) are entitled to upgrade to the latest version of\n\
+; Directory Opus version 5 at a reduced price. Please see\n\
+; http://www.gpsoft.com.au for more information.
+;
+STR_PRINTTITLE
+DF%ld sürücüsüne yeni bir disk takýldý:\n\
+Bu diski okumak istiyor musunuz?
+; Print _Title
+;
+STR_SEARCH_NO_CASE
+Treat upper and lower case as the same
+; Treat upper and lower case as the same
+;
+STR_SEARCH_WILD
+Tarihi GG-AAA-YY biçeminde girin
+; Recognise ? as a wildcard character
+;
+STR_SEARCH_ONLYWORD
+Tarihi YY-AA-GG biçeminde girin
+; Only match on whole, unbroken words
+;
+STR_ENTER_FILTER
+Tarihi AA-GG-YY biçeminde girin
+; Enter file filter
+;
+STR_SELECT_PROTECTION_BITS
+Tarihi GG-AA-YY biçeminde girin
+; Select new protection bits
+;
+STR_DIRECTORY_OPUS_REQUEST
+Aramaya devam etmek istiyor musunuz?
+; Directory Opus Request
+;
+STR_CLOCK_CHIP
+Directory Opus'u gerçekten kapatmak istiyor musunuz?
+; CHIP:
+;
+STR_CLOCK_FAST
+Bu iþleme gerçekten devam etmek istiyor musunuz?
+; FAST:
+;
+STR_CLOCK_TOTAL
+Ekran kipi bulunamadý.
+; TOTAL:
+;
+STR_CLOCK_MEM
+Yazýcý ilklendirilemedi.\n\
+Kablo ve baðlantýlarý denetleyin.
+; MEM:
+;
+STR_KEY
+Bir hedef dizini seçilmedi!
+; Key :
+;
+STR_TINY_BUTTONS
+Bir dizini kendisine kopyalayamazsýnýz!
+; BRSA?EFCIQ
+;
+STR_VIEW_BUTTONS
+Seçilen yazýtipi görüntüleniyor...
+; UDTBSPQ
+;
+STR_DISKINFO_DEVICE
+Seçilen dosya çalýþtýrýlýyor...
+; Device
+;
+STR_DISKINFO_NAME
+Seçilen dosya çalýnýyor...
+; Name
+;
+STR_DISKINFO_SIZE
+Seçilen dosya görüntüleniyor...
+; Size
+;
+STR_DISKINFO_USED
+Müzik modülü çalýnýyor...
+; Used
+;
+STR_DISKINFO_FREE
+Seçilen dosya okunuyor...
+; Free
+;
+STR_DISKINFO_PERCENT
+"%s"\n\
+dosyasýnda bir eþleþme bulundu.\n\
+Dosya okunsun mu?
+; Percent
+;
+STR_DISKINFO_DENSITY
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Gerçekten çýkmak istiyor musunuz?
+; Density
+;
+STR_DISKINFO_ERRORS
+Ayarlar kaydediliyor...
+; Errors
+;
+STR_DISKINFO_STATUS
+Ayarlar okunuyor...
+; Status
+;
+STR_DISKINFO_DATE
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Son kaydedilen ayarlar yüklensin mi?
+; Date
+;
+STR_DISKINFO_BYTES
+Ayarlarda deðiþiklik yaptýnýz.\n\
+Varsayýlanlar geri getirilmeden önce kaydedilsin mi?
+; bytes
+;
+STR_DISKINFO_BLOCKS
+Bu eylem için yardým bulunamadý!
+; blocks
+;
+STR_DISKINFO_FULL
+Dizin aðacý taranýyor...
+; full
+;
+STR_DISKINFO_SFREE
+Bir sýralý girin
+; free
+;
+STR_DISKINFO_BYTESPERBLOCK
+Lütfen seçin
+; bytes/block
+;
+STR_TEXT_VIEWER_TITLE
+açýklama ekleniyor
+; Directory Opus Text Viewer
+;
+STR_PROTECT_ALL_BITS
+koruma biti ekleniyor
+; All bits
+;
+STR_PROTECT_NONE
+tarih bilgisi ekleniyor
+; None
+;
+STR_PROTECT_TOGGLE
+siliniyor
+; Toggle
+;
+STR_PROTECT_REVERT
+kopyalanýyor
+; Revert
+;
+STR_PROTECT_OLD
+oluþturuluyor
+; Old :
+;
+STR_PROTECT_NEW
+Bu dosyalarý kendi üzerlerine kopyalayamazsýnýz!
+; New :
+;
+STR_PROTECT_MASK
+Dosyalar sorgulanýyor...
+; Mask:
+;
+STR_PROTECT_HIDDEN
+%s tanýmlanamadý.
+; _Hidden
+;
+STR_PROTECT_SCRIPT
+Ayarlama programý yükleniyor...
+; _Script
+;
+STR_PROTECT_PURE
+Ayarlama portu için bekleniyor...
+; _Pure
+;
+STR_PROTECT_ARCHIVE
+Ayarlama programý bulunamadý/yüklenemedi.
+; _Archive
+;
+STR_PROTECT_READ
+Directory Opus ekranýnda açýlmýþ yabancý pencereler var.\n\
+Vazgeç'e basýp elle kapatabilir veya Kapat'a basýp Directory\n\
+Opus'un kapatmasýný saðlayabilirsiniz (TEHLÝKELÝ!)
+; _Read
+;
+STR_PROTECT_WRITE
+Seçilen girdileri gerçekten silmek istiyor musunuz?
+; _Write
+;
+STR_PROTECT_EXECUTED
+"%s" dosyasýný/dizinini gerçekten silmek istiyor musunuz?
+; _Execute
+;
+STR_PROTECT_DELETED
+"%s" boþ deðil! Silinsin mi?
+; _Delete
+;
+STR_FILE_REQUEST
+Yeni bir ad girin
+; File request
+;
+STR_OF
+yeniden adlandýrýyor
+; of
+;
+STR_FRAME
+Taþýnan dosya için yeni bir ad girin
+; Frame
+;
+STR_DISK_OP_TITLE
+taþýnýyor
+; Directory Opus Disk Operations
+;
+STR_BUTTON_STRIP
+Kopyalanan girdi için yeni bir ad girin
+; Directory Opus Button Strip
+;
+STR_NO_FIT
+kopyalýyor
+;  N
+;
+STR_YES_FIT
+Seçilen dizin için boyut bilinmiyor.\n\
+Bu dizin için bir bayt sayýmý uygulansýn mý?
+;  Y
+;
+STR_FTYPE_DEFAULT
+Seçilen dosya büyük ihtimalle hedefe sýðmayacak.\n\
+Kopyalamaya devam edilsin mi?
+; Default
+;
+STR_FTYPE_UNKNOWN
+Seçilen bazý dizinler için boyutlar bilinmiyor.\n\
+Bu dizinler için bir bayt sayýmý uygulansýn mý?
+; Unknown file type
+;
+STR_MULTI_DRAG
+Directory Opus'a hoþ geldiniz!
+; Multi-drag - %ld files selected
+;
+STR_PRESS_MOUSE_BUTTON
+Directory Opus'a yeniden hoþ geldiniz!
+; Press left mouse button to continue...
+;
+STR_NETWORK_NO_OWNER
+Dosya sorgulanýyor...
+; No owner
+;
+STR_NETWORK_NO_GROUP
+Dizin okunuyor...
+; No group
+;
+STR_ERROR_ERROR_HELP
+"%s" için argümanlarý girin
+; Error help
+;
+STR_SKIP_ALL
+Dizin adý girin
+; S_kip all
+;
+STR_PARENT_MULTI
+Dosya veya dizin zaten mevcut!
+; Parents and Multi-Assigns...
+;
+STR_DISKINFO_FILESYSTEM
+Dizin oluþturuldu.
+; F.System
+;
+STR_ANIM_TYPE
+Dizin yazdýrýlýyor...
+; Anim type
+;
+STR_GFX_NATIVE
+Dizin 
+; Native
+;
+STR_OPENING_ARCHIVE
+Aygýt listesi\n\n
+; Opening archive...
+;
+STR_LISTER_MENU
+Simgeyi görüntülemek için yeterli bellek yok
+; Lister options
+;
+STR_FILE_NAME
+Dosya ILBM deðil
+; Name
+;
+STR_FILE_SIZE
+IFF yapýsýnda hata
+; Size
+;
+STR_PROTECTION_BITS
+Resmi görüntülemek için yeterli bellek yok
+; Protection
+;
+STR_CREATION_DATE
+Ses kanallarý tahsis edilemedi
+; Date
+;
+STR_FILE_COMMENT
+Dosya desteklenen bir müzik modülü deðil
+; Comment
+;
+STR_FILE_TYPE
+"%s" zaten mevcut! Üzerine yazýlsýn mý?
+; File type
+;
+STR_OWNER
+\n\
+'Sil' bitini kurmak için Korumayý Kaldýr'ý seçin.
+; Owner
+;
+STR_GROUP
+Zamaný SA:DK:SN biçiminde girin
+; Group
+;
+STR_NET_PROTECTION_BITS
+ARexx sunucusu bulunamadý!
+; Net protection bits
+;
+STR_REVERSE_ORDER
+ARexx komutu girin
+; Reverse order
+;
+STR_SIZE_AS_KMG
+Yeni dizin konumunu girin
+; Sizes in K/M/G format
+;
+STR_BRING_TO_FRONT
+Aygýt listesi taranýyor...
+; _Bring to front
+;
+STR_REPLACE_DIR_WITH_FILE
+"%s" dosyasý\n\
+"%s" dizininde bulundu.\n\
+Konuma gidilsin mi?
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %7ld  Date : %19s\n\
+; Old  -                  Date : %19s
+;
+STR_REPLACE_FILE_WITH_DIR
+Gösterimde olmayan dizin önbellekleri temizlendi.
+; \"%s\" already exists! Replace?\n\n\
+; New  -                  Date : %19s\n\
+; Old  -  Size : %7ld  Date : %19s
+;
+STR_OPERATION_NOT_SUPPORTED
+Okunamayan disk
+; Operation not supported
+;
+STR_QUERY_REMOVE_ASSIGN
+DOS diski deðil
+; Do you really wish to remove \"%s\" assign?
+;
+STR_VERSION_CONTENTS
+Kickstart diski
+; %-42s\n\n\
+;   Directory Opus%24s  \n\
+;   DOpus Library%25s  \n\
+;   Compile time%26s  \n\
+;   Compile date%26s  \n\
+;   Port/screen name%22s  \n\n\
+;   Kickstart%29s  \n\
+;   Workbench%29s  \n\
+;   Processor%29s  \n\
+;   Math co-processor%21s  \n\
+;   Graphics chipset%22s  \n\
+;   Video system%26s  \0
+;
+STR_VERSION_HEADER
+Doðrulanmakta olan disk
+; Version information...
+;
+STR_DIRSFIRST
+Yazma korumalý
+; Show dirs first
+;
+STR_FILESFIRST
+Okuna/Yazýlabilir
+; Show files first
+;
+STR_MIXDIRSFILES
+Aygýt veya veribirimi baðlý deðil
+; Mix files and dirs
+;
+STR_SORTALPHA
+Sürücüde disk yok
+; Plain alphanumeric
+;
+STR_SORTDEC
+DOS hata kodu %ld
+; Recognize decimals
+;
+STR_SORTHEX
+Yeni disk adý girin
+; Recognize hexadecimals
+;
+STR_SORTBY
+Aygýtý yeniden atamak için dizin girin
+; Sort by
+;
+STR_NAMESORT_MENU
+Atama iptal edilemedi.
+; Name sorting
+;
+STR_FILE_EXTENSION
+Bu dizin için bir aygýt adý girin
+; Extension
+;
+STR_PROTECT_OKAY
+Atama baþarýsýz
+; _Okay
+;
+STR_PROTECT_ALL
+Bir hedef dizini seçilmedi!
+; A_ll
+;
+STR_ENTER_MAKELINK_PARAMS
+Bir dizini kendisine kopyalayamazsýnýz!
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Seçilen yazýtipi görüntüleniyor...
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Seçilen dosya çalýþtýrýlýyor...
+; Hard
+;
+STR_MAKELINK_TYPE
+Seçilen dosya çalýnýyor...
+; Type
+;
+STR_MAKELINK_NAME
+Seçilen dosya görüntüleniyor...
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Müzik modülü çalýnýyor...
+; Link destination
+;
+STR_PROTECT_CANCEL
+Seçilen dosya okunuyor...
+; _Cancel
+;
