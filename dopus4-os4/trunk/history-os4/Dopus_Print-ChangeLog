@@ -43,15 +43,11 @@ Dopus_Print - ChangeLog:
 * Bumped program revision for next release.
 + Committed repository revision 581.
 
-***Released archive of repository revision 582. (DirectoryOpus 4.18.42)
-
 2015-04-23 - dopus_print-os4/doprint.c
 * Added missing reply port to IORequest allocation for opening
     printer.device.
 * Bumped revision for next release. (Dopus_Print 4.18.4)
 + Committed repository revision 584.
-
-***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
 
 2015-05-20 - dopus_print-os4/Makefile
 * Made cosmetic changes to makefile for better output readability.

@@ -66,13 +66,9 @@ old IDOS->Lock()/IDOS->Examine() pair.
   config file with newer Dopus4 that has no way to set that option.
 + Committed revision 576.
 
-***Released archive of repository revision 578. (DirectoryOpus 4.18.41)
-
 2015-03-27 - library-os4/Makefile
 * Changed some flags in the library makefile.
 + Committed revision 580.
-
-***Released archive of repository revision 582. (DirectoryOpus 4.18.42)
 
 2015-04-27 - dopus.library 22.42.2 library-os4/main/LAllocRemember.c
                                    library-os4/Makefile
@@ -86,8 +82,6 @@ old IDOS->Lock()/IDOS->Examine() pair.
 * Fixed library version string.
 * Bumped library revision (22.42.2).
 + Committed revision 589.
-
-***Released archive of repository revision 590. (DirectoryOpus 4.18.43)
 
 2015-05-05 - config-os4/#?
 * Replaced all AllocMem() and FreeMem() function calls with AllocVec()
