@@ -1,0 +1,78 @@
+
+OS4 DirectoryOpus4 releases:
+
+DirectoryOpus 4.17    Apr 22, 2006 Repository revision 40  (alpha)
+DirectoryOpus 4.17    Apr 26, 2006 Repository revision 59
+DirectoryOpus 4.17    Apr 27, 2006 Repository revision 64
+DirectoryOpus 4.17    Apr 28, 2006 Repository revision 78
+DirectoryOpus 4.17    Apr 29, 2006 Repository revision 82
+DirectoryOpus 4.17    Apr 30, 2006 Repository revision 89
+DirectoryOpus 4.17    Aug 31, 2006 Repository revision 146
+DirectoryOpus 4.17.27 Sep 16, 2006 Repository revision 160
+DirectoryOpus 4.17.32 Sep 25, 2006 Repository revision 168
+DirectoryOpus 4.18    Dec 11, 2006 Repository revision 222/223
+DirectoryOpus 4.18.12 Oct 18, 2008 Repository revision 291
+DirectoryOpus 4.18.17 Nov 06, 2008 Repository revision 304
+DirectoryOpus 4.18.19 Nov 28, 2008 Repository revision 308
+DirectoryOpus 4.18.22 Feb 15, 2008 Repository revision 313
+DirectoryOpus 4.18.27 Sep 29, 2009 Repository revision 319
+DirectoryOpus 4.18.36 Nov 28, 2009 Repository revision 360
+DirectoryOpus 4.18.37 Jan 03, 2010 Repository revision 361
+DirectoryOpus 4.18.38 Oct 06, 2012 Repository revision 427
+DirectoryOpus 4.18.39 Nov 30, 2012 Repository revision 550 (withdrawn)
+DirectoryOpus 4.18.40 Dec 08, 2012 Repository revision 560
+DirectoryOpus 4.18.41 Feb 22, 2015 Repository revision 578
+DirectoryOpus 4.18.42 Apr 20, 2015 Repository revision 582
+DirectoryOpus 4.18.43 Apr 28, 2015 Repository revision 590
+DirectoryOpus 4.18.44 Jul 26, 2015 Repository revision 615
+
+**********************************************************
+
+Unreleased OS4 DirectoryOpus4 revisions:
+
+Sep 09, 2006 r149 DirectoryOpus 4.17.18
+Sep 10, 2006 r151 DirectoryOpus 0.00.19
+Sep 11, 2006 r152 DirectoryOpus 4.17.20
+Sep 12, 2006 r153 DirectoryOpus 4.17.26
+Sep 19, 2006 r161 DirectoryOpus 4.17.29
+Sep 20, 2006 r164 DirectoryOpus 4.17.30
+Sep 24, 2006 r165 DirectoryOpus 4.17.31
+Sep 25, 2006 r167 DirectoryOpus 4.17.32
+Sep 29, 2006 r185 DirectoryOpus 4.17.33
+Oct 04, 2006 r189 DirectoryOpus 4.17.34
+Oct 07, 2006 r197 DirectoryOpus 4.17.35
+Oct 11, 2006 r200 DirectoryOpus 4.17.36
+Oct 20, 2006 r202 DirectoryOpus 4.17.37
+Oct 30, 2006 r205 DirectoryOpus 4.17.38
+Oct 30, 2006 r206 DirectoryOpus 4.17.39
+Nov 01, 2006 r210 DirectoryOpus 4.17.40
+Nov 09, 2006 r216 DirectoryOpus 4.17.41
+Nov 16, 2006 r221 DirectoryOpus 4.17.42
+Dec 27, 2006 r225 DirectoryOpus 4.18.1
+Jul 22, 2006 r238 DirectoryOpus 4.18.2
+Jan 07, 2008 r257 DirectoryOpus 4.18.3
+Sep 18, 2008 r266 DirectoryOpus 4.18.4
+Sep 18, 2008 r268 DirectoryOpus 4.18.5
+Sep 23, 2008 r275 DirectoryOpus 4.18.6
+Sep 30, 2008 r284 DirectoryOpus 4.18.8
+Oct 17, 2008 r288 DirectoryOpus 4.18.10
+Oct 21, 2008 r295 DirectoryOpus 4.18.13
+Oct 23, 2008 r301 DirectoryOpus 4.18.14
+Oct 23, 2008 r302 DirectoryOpus 4.18.15
+Oct 31, 2008 r303 DirectoryOpus 4.18.16
+Nov 08, 2008 r306 DirectoryOpus 4.18.18
+Dec 22, 2008 r309 DirectoryOpus 4.18.21
+Feb 28, 2008 r314 DirectoryOpus 4.18.23
+May 13, 2009 r315 DirectoryOpus 4.18.24
+May 25, 2009 r316 DirectoryOpus 4.18.25
+Sep 27, 2009 r318 DirectoryOpus 4.18.26
+Sep 28, 2009 r319 DirectoryOpus 4.18.27
+Oct 01, 2009 r322 DirectoryOpus 4.18.29
+Oct 05, 2009 r331 DirectoryOpus 4.18.30
+Oct 11, 2009 r344 DirectoryOpus 4.18.31
+Oct 12, 2009 r346 DirectoryOpus 4.18.32
+Oct 12, 2009 r347 DirectoryOpus 4.18.33
+Oct 14, 2009 r351 DirectoryOpus 4.18.34
+Oct 20, 2009 r355 DirectoryOpus 4.18.35
+
+ 

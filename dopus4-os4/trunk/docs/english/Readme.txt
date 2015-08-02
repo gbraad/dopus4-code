@@ -48,7 +48,7 @@ Changes in this release (4.18.44) include:
 
 *Fixed a crash in the Dopus4 text viewer. If Dopus4 was on the
  Workbench screen and the text viewer was open when the user quit
- the Dopus4 program, the viewer would crash (Grim readper).
+ the Dopus4 program, the viewer would crash (Grim Reaper).
 
 *Fixed a bug in Dopus_Print that prevented updating of the output
  filename in the requester.
@@ -69,7 +69,7 @@ Changes in this release (4.18.44) include:
 
 *Fixed all compiler warnings to make it easier to spot new warnings.
 
-* Added a missing Tooltype to the DirectoryOpus icon.
+*Added a missing Tooltype to the DirectoryOpus icon.
 
 *Changed the copyright data in about window.
 

@@ -619,6 +619,8 @@ IDOS->ExamineDir(). Should be a lot faster.
 + Committed revision 590.
 + Released repository revision 590. (DirectoryOpus 4.18.43)
 
+*******************************************************************
+
 2015-04-28 - DirectoryOpus.guide
 * Updated guide copyright dates etc.
 Committed revision 592.
