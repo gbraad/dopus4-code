@@ -48,9 +48,9 @@ int main(int argc, char **argv)
 //	IDOS->SetProcWindow((APTR)-1L);
 
 	/* Attempt to open the DOPUS.LIBRARY. Look first in default search path, and then look for it on the distribution disk. If we can't find it exit */
-	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", 22)))
+	if(!(DOpusBase = IExec->OpenLibrary("dopus.library", LIB_VER)))
 	{
-		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:libs/dopus.library", 22)))
+		if(!(DOpusBase = IExec->OpenLibrary("PROGDIR:libs/dopus.library", LIB_VER)))
 		{
 			DOpusBase = NULL;
 		}

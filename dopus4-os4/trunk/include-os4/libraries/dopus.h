@@ -65,6 +65,10 @@ the existing commercial status of Directory Opus 5.
 	#pragma amiga-align
 #endif
 
+/* LIB_VER is the minimum library version for programs to open  */
+/* Update this definition when dopus.library version is changed */
+#define LIB_VER 23
+
 /* 64bit NULL pointer */
 #define NOLL ((void *)0LL)
 

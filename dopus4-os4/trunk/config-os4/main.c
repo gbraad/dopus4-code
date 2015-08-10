@@ -29,9 +29,6 @@ the existing commercial status of Directory Opus 5.
 
 #include "config.h"
 
-#define LIB_VER 22
-#define LIB_REV 25
-
 int onworkbench = 0;
 
 int main(int argc, char **argv)
