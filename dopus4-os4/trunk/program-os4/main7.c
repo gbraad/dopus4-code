@@ -55,37 +55,30 @@ static struct AHIRequest *AHIio;
 static BYTE AHIDevice = -1;
 static struct AHIAudioCtrl *actrl;
 
-int checkisfont(STRPTR pathname, STRPTR fontname)
+
+int doplay8svx(STRPTR fname, int loop)
 {
-	int a;
-	char fontsize[36], fontpath[256], *ptr;
+	Object *o;
+	BYTE sig;
 
-	strlcpy(fontpath, pathname, sizeof(fontpath));
-	if((ptr = IDOS->FilePart(fontpath)))
+	if((o = IDataTypes->NewDTObject(fname, DTA_GroupID, GID_SOUND, TAG_END)))
 	{
-		strlcpy(fontsize, ptr, sizeof(fontsize));
-		*(--ptr) = 0;
-		if((ptr = IDOS->FilePart(fontpath)))
+		if((sig = IExec->AllocSignal(-1)) != -1)
 		{
-			for(a = 0;; a++)
-			{
-				if(!(isdigit(fontsize[a])))
-					break;
-			}
-			if(!fontsize[a])
-			{
-				strlcat(fontpath, ".font", sizeof(fontpath));
-				if(IDOpus->CheckExist(fontpath, NULL))
-				{
-					strlcpy(fontname, fontpath, sizeof(fontname));
-					return (1);
-				}
-			}
+			IIntuition->SetAttrs(o, SDTA_SignalTask, IExec->FindTask(NULL), SDTA_SignalBit, 1L << sig, DTA_Repeat, loop ? TRUE : FALSE, TAG_END);
+			IDataTypes->DoDTMethod(o, NULL, NULL, DTM_TRIGGER, NULL, STM_PLAY, NULL);
+			IExec->Wait((1L << sig) | SIGBREAKF_CTRL_C);
+			IExec->FreeSignal(sig);
 		}
+		IDataTypes->DisposeDTObject(o);
 	}
-	return (0);
+	else
+	{
+		return 0;
+	}
+		
+	return 1;
 }
-
 
 void drawrecaround(struct RastPort *r, int x, int y, int x1, int y1, int width, int height)
 {
@@ -177,30 +170,6 @@ ULONG AHISoundFunc(struct AHIAudioCtrl *actrl, struct AHISoundMessage *smsg)
 }
 
 static struct Hook AHISoundHook;
-
-int doplay8svx(STRPTR fname, int loop)
-{
-	Object *o;
-	BYTE sig;
-
-	if((o = IDataTypes->NewDTObject(fname, DTA_GroupID, GID_SOUND, TAG_END)))
-	{
-		if((sig = IExec->AllocSignal(-1)) != -1)
-		{
-			IIntuition->SetAttrs(o, SDTA_SignalTask, IExec->FindTask(NULL), SDTA_SignalBit, 1L << sig, DTA_Repeat, loop ? TRUE : FALSE, TAG_END);
-			IDataTypes->DoDTMethod(o, NULL, NULL, DTM_TRIGGER, NULL, STM_PLAY, NULL);
-			IExec->Wait((1L << sig) | SIGBREAKF_CTRL_C);
-			IExec->FreeSignal(sig);
-		}
-		IDataTypes->DisposeDTObject(o);
-	}
-	else
-	{
-		return 0;
-	}
-		
-	return 1;
-}
 
 int doplay8svxold(STRPTR fname, int loop)
 {

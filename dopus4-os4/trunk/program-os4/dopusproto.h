@@ -184,7 +184,7 @@ char *get_our_pubscreen(void);
 void change_port_name(char *);
 
 /* main7.c */
-int readicon(char *, int);
+// int readicon(char *, int); Removed but when?
 void drawrecaround(struct RastPort *, int, int, int, int, int, int);
 int doplay8svx(char *, int);
 int doplay8svxold(char *, int);
@@ -267,7 +267,6 @@ int32 expand_path(CONST_STRPTR, STRPTR);
 /* main15.c */
 void ftype_doubleclick(char *, char *, int);
 int filesearch(char *, int *, int);
-int checkisfont(char *, char *);
 void initclock(void);
 int internal_function(int, int, char *, char *);
 void do_parent_root(int);
@@ -277,6 +276,7 @@ int checknewconfig(void);
 void dragcompgad(int, int);
 
 /* main16.c */
+int checkisfont(char *, char *, int);
 int showfont(char *, int, int);
 int setupfontdisplay(int, UWORD *);
 void cleanup_fontdisplay(void);

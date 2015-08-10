@@ -124,6 +124,9 @@ void ftype_doubleclick(char *path, char *name, int state)
 		int len;
 		APTR mem;
 		struct xadClient *cl;
+		BPTR lock = 0;
+		char pathbuf[PATHBUF_SIZE] = {0};
+		char *arcname = NULL;
 
 		if((fh = IDOS->Open(buf, MODE_OLDFILE)))
 		{
@@ -134,39 +137,61 @@ void ftype_doubleclick(char *path, char *name, int state)
 			IDOS->Close(fh);
 			cl = IXadMaster->xadRecogFile(len, mem, NULL);
 			IExec->FreeVec(mem);
-			if(cl)
+			if (cl && Window)
 			{
 				strlcpy(str_pathbuffer[data_active_window], buf, sizeof(str_pathbuffer[0]));
 				startgetdir(data_active_window, SGDFLAGS_CANMOVEEMPTY | SGDFLAGS_CANCHECKBUFS);
 				return;
 			}
+			else if (cl && (lock = IDOS->Lock("SYS:Utilities/UnArc", SHARED_LOCK)))
+			{
+				IDOS->UnLock(lock);
+				arcname = IDOS->FilePart(buf);
+				if (arcname != pathbuf)
+				{
+					strlcpy(pathbuf, buf, sizeof(pathbuf));
+					pathbuf[arcname - buf] = '\0';
+					if (!(lock = IDOS->Lock(pathbuf, SHARED_LOCK)))
+						return;
+	    			IWorkbench->OpenWorkbenchObject("SYS:Utilities/UnArc",
+					                                WBOPENA_ArgLock, lock,
+					                                WBOPENA_ArgName, arcname,
+					                                TAG_DONE);
+					IDOS->UnLock(lock);
+				}
+				return;
+			}
 		}
 	}
+
 	if(checkexec(buf))
 	{
-		if(checkisfont(buf, buf2))
+		if(checkisfont(buf, buf2, sizeof(buf2)))
 		{
 			dostatustext(globstring[STR_SHOWING_FONT]);
 			if(showfont(buf2, atoi(name), 1))
 				okay();
 			return;
 		}
-		dostatustext(globstring[STR_RUNNING_FILE]);
-		strlcpy(buf2, buf, 256);
-		strlcat(buf2, ".info", 256);
-		if(IDOpus->CheckExist(buf2, NULL) < 0)
+		else if (!status_iconified)
 		{
-			a = 1;
+			dostatustext(globstring[STR_RUNNING_FILE]);
+			strlcpy(buf2, buf, 256);
+			strlcat(buf2, ".info", 256);
+			if(IDOpus->CheckExist(buf2, NULL) < 0)
+			{
+				a = 1;
+			}
+			else
+			{
+				a = 0;
+			}
+			if((a = dorun(buf, state, a)) > 0 || a == -2)
+			{
+				okay();
+			}
+			return;
 		}
-		else
-		{
-			a = 0;
-		}
-		if((a = dorun(buf, state, a)) > 0 || a == -2)
-		{
-			okay();
-		}
-		return;
 	}
 
 	if((dto = IDataTypes->NewDTObject(buf, DTA_GroupID, GID_PICTURE, TAG_END)))

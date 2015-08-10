@@ -64,11 +64,11 @@ struct Gadget dummybordergad =
 struct NewWindow icon_win =
 {
 	100, 0, 433, 10, 255, 255, ICON_IDCMP, WFLG_CLOSEGADGET | WFLG_RMBTRAP | WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_NEWLOOKMENUS, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, WBENCHSCREEN
-}
-, appicon_win =
-{
-	0, 0, 1, 1, 255, 255, ICON_IDCMP, WFLG_BACKDROP | WFLG_BORDERLESS | WFLG_SIMPLE_REFRESH | WFLG_NOCAREREFRESH, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, WBENCHSCREEN
 };
+//, appicon_win =
+//{
+//	0, 0, 1, 1, 255, 255, ICON_IDCMP, WFLG_BACKDROP | WFLG_BORDERLESS | WFLG_SIMPLE_REFRESH | WFLG_NOCAREREFRESH, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, WBENCHSCREEN
+//};
 
 static int icon_ty, icon_len;
 static UBYTE icon_fpen, icon_bpen;
@@ -378,10 +378,10 @@ void iconify(int louise, int buttons, int banknum)
 				IIntuition->SetWindowTitles(Window, "DirOpus", (char *)-1);
 		}
 	}
-	else if(icon_type & ICON_APPICON)
-	{
-		Window = IIntuition->OpenWindowTags(&appicon_win, WA_PubScreenName, (Tag) "Workbench", WA_PubScreenFallBack, TRUE, TAG_END);
-	}
+//	else if(icon_type & ICON_APPICON)
+//	{
+//		Window = IIntuition->OpenWindowTags(&appicon_win, WA_PubScreenName, (Tag) "Workbench", WA_PubScreenFallBack, TRUE, TAG_END);
+//	}
 
 	if(!(status_flags & STATUS_DONEREXX))
 	{
@@ -568,13 +568,15 @@ void iconify(int louise, int buttons, int banknum)
 						IExec->ReplyMsg((struct Message *)amsg);
 						goto endiconify;
 					}
-					else if((amsg->am_Type == AMTYPE_APPICON && Window) || (amsg->am_Type == AMTYPE_APPWINDOW && amsg->am_ID == APPWINID))
+					else if((amsg->am_Type == AMTYPE_APPICON) || (amsg->am_Type == AMTYPE_APPWINDOW && amsg->am_ID == APPWINID))
 					{
 						for(a = 0; a < amsg->am_NumArgs; a++)
 						{
 							if(amsg->am_ArgList[a].wa_Lock)
 							{
-								if(status_flags & STATUS_ISINBUTTONS && amsg->am_MouseY > Window->BorderTop)
+								if(Window &&
+								   (status_flags & STATUS_ISINBUTTONS) &&
+								   (amsg->am_MouseY > Window->BorderTop))
 								{
 									if(dopus_curgadbank && (b = gadgetfrompos(amsg->am_MouseX, amsg->am_MouseY)) != -1)
 									{
@@ -600,7 +602,7 @@ void iconify(int louise, int buttons, int banknum)
 										}
 									}
 								}
-								else
+								else if (!Window)
 								{
 									if(amsg->am_ArgList[a].wa_Name[0])
 									{
@@ -610,7 +612,7 @@ void iconify(int louise, int buttons, int banknum)
 										strlcpy(func_external_file, pathbuf, sizeof(func_external_file));
 										IDOS->AddPart(func_external_file, amsg->am_ArgList[a].wa_Name, sizeof(func_external_file));
 										ftype_doubleclick(pathbuf, amsg->am_ArgList[a].wa_Name, 0);
-										IIntuition->ModifyIDCMP(Window, ICON_IDCMP);
+//										IIntuition->ModifyIDCMP(Window, ICON_IDCMP);
 										unbusy();
 									}
 								}

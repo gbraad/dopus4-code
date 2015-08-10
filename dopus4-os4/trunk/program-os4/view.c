@@ -113,7 +113,10 @@ enum
 
 static struct NewWindow viewwin =
 {
-	0, 0, 0, 0, 255, 255, IDCMP_RAWKEY | IDCMP_VANILLAKEY | IDCMP_MOUSEBUTTONS | IDCMP_EXTENDEDMOUSE | IDCMP_GADGETUP | IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
+	0, 0, 0, 0, 255, 255, IDCMP_RAWKEY | IDCMP_VANILLAKEY |
+	IDCMP_MOUSEBUTTONS | IDCMP_EXTENDEDMOUSE | IDCMP_GADGETUP |
+	IDCMP_GADGETDOWN | IDCMP_MOUSEMOVE, 0, NULL, NULL, NULL,
+	NULL, NULL, 0, 0, 0, 0, CUSTOMSCREEN
 };
 
 static struct Gadget *viewGadgets[VIEW_GAD_COUNT];
@@ -474,8 +477,7 @@ int32 view_file_process(char *argStr, int32 argLen, struct ExecBase *sysbase)
 
 void cleanupviewfile(struct ViewData *vdata)
 {
-	if((config->viewbits & VIEWBITS_INWINDOW) &&
-	   (vdata->view_screen == MainScreen))
+	if(config->viewbits & VIEWBITS_INWINDOW)
 	{
 		if(vdata->view_window)
 		{
@@ -486,8 +488,8 @@ void cleanupviewfile(struct ViewData *vdata)
 			vdata->view_window = NULL;
 		}
 	}
-	else if(vdata->view_screen)
 //	if((vdata->view_screen) && (vdata->view_screen != MainScreen))
+	else if(vdata->view_screen)
 	{
 		IIntuition->ScreenToBack(vdata->view_screen);
 		if(vdata->view_window)
@@ -1064,7 +1066,16 @@ int view_setupdisplay(struct ViewData *vdata)
 
 		viewwin.Flags = WFLG_DRAGBAR | WFLG_DEPTHGADGET | WFLG_CLOSEGADGET | WFLG_RMBTRAP;
 		viewwin.IDCMPFlags |= IDCMP_CLOSEWINDOW;
-		viewwin.Screen = Window->WScreen;
+		if (Window)
+		{
+			viewwin.Screen = Window->WScreen;
+			viewwin.Type = CUSTOMSCREEN;
+		}
+		else
+		{
+			viewwin.Screen = NULL;
+			viewwin.Type = WBENCHSCREEN;
+		}
 	}
 	else
 	{
