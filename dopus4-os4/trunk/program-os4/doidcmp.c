@@ -1259,7 +1259,10 @@ void doidcmp()
 
 struct IntuiMessage *getintuimsg(void)
 {
-	return ((IMsg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)));
+	if (Window) // There is no window if iconified as appicon.
+		return ((IMsg = (struct IntuiMessage *)IExec->GetMsg(Window->UserPort)));
+	else
+		return NULL;
 }
 
 void flushidcmp()

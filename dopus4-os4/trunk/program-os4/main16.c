@@ -30,6 +30,38 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/amigaguide.h>
 
+
+int checkisfont(STRPTR pathname, STRPTR fontname, int fontname_size)
+{
+	int a;
+	char fontsize[36], fontpath[256], *ptr;
+
+	strlcpy(fontpath, pathname, sizeof(fontpath));
+	if((ptr = IDOS->FilePart(fontpath)))
+	{
+		strlcpy(fontsize, ptr, sizeof(fontsize));
+		*(--ptr) = 0;
+		if((ptr = IDOS->FilePart(fontpath)))
+		{
+			for(a = 0;; a++)
+			{
+				if(!(isdigit(fontsize[a])))
+					break;
+			}
+			if(!fontsize[a])
+			{
+				strlcat(fontpath, ".font", sizeof(fontpath));
+				if(IDOpus->CheckExist(fontpath, NULL))
+				{
+					strlcpy(fontname, fontpath, fontname_size);
+					return (1);
+				}
+			}
+		}
+	}
+	return (0);
+}
+
 int showfont(char *name, int size, int np)
 {
 	int base, y, fred, t, len;
@@ -54,8 +86,6 @@ int showfont(char *name, int size, int np)
 		fontscreen = IIntuition->LockPubScreen(NULL);
 	}
 
-//	font = IDiskfont->OpenDiskFont(&sfattr);
-
 	fontwindow = IIntuition->OpenWindowTags(NULL, WA_CustomScreen, fontscreen, WA_Left, 128, WA_Top, 128, WA_Width, 1024, WA_Height, 768, WA_Flags, WFLG_GIMMEZEROZERO | WFLG_ACTIVATE | WFLG_RMBTRAP, WA_IDCMP, IDCMP_MOUSEBUTTONS | IDCMP_VANILLAKEY, TAG_END);
 	if(!fontwindow)
 	{
@@ -65,13 +95,6 @@ int showfont(char *name, int size, int np)
 		doerror(-1);
 		return (0);
 	}
-
-//	if(!font || !fontwindow)
-//	{
-//		doerror(-1);
-//		return (0);
-//	}
-
 
 	base = font->tf_Baseline;
 

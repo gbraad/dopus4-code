@@ -119,6 +119,7 @@ clean-cats:
 .PHONY : clean-release
 clean-release:
 	${DELETE} .release
+	${DELETE} .bin
 
 #
 

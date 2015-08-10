@@ -985,7 +985,10 @@ void busy()
 		endnotifies();
 		status_flags |= STATUS_BUSY;
 	}
-	IIntuition->SetWindowPointer(Window, WA_BusyPointer, TRUE, WA_PointerDelay, TRUE, TAG_DONE);
+	if (Window)
+	{
+		IIntuition->SetWindowPointer(Window, WA_BusyPointer, TRUE, WA_PointerDelay, TRUE, TAG_DONE);
+	}
 }
 
 void unbusy()
@@ -1004,7 +1007,10 @@ void unbusy()
 		size_gadgets[1].GadgetType = GTYP_SIZING;
 		status_flags &= ~STATUS_BUSY;
 	}
-	IIntuition->SetWindowPointer(Window, TAG_DONE);
+	if (Window)
+	{
+		IIntuition->SetWindowPointer(Window, TAG_DONE);
+	}
 }
 
 void free_file_memory(struct Directory *file)
