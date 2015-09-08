@@ -107,7 +107,7 @@ int printfile(struct RequesterBase *reqbase, char *filename, PrintData *printdat
 	if(printdata->headfoot[FOOTER].headfoot_flags)
 		handle->paper_lines -= 2;
 	handle->paper_width = (printdata->right_margin - printdata->left_margin) + 1;
-	handle->filename = IDOS->FilePart(filename);
+	handle->filename = (char *)IDOS->FilePart(filename);
 	handle->reqbase = reqbase;
 
 	if((margin = printdata->left_margin - 1) > 0)

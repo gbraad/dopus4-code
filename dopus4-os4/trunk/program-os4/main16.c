@@ -37,11 +37,11 @@ int checkisfont(STRPTR pathname, STRPTR fontname, int fontname_size)
 	char fontsize[36], fontpath[256], *ptr;
 
 	strlcpy(fontpath, pathname, sizeof(fontpath));
-	if((ptr = IDOS->FilePart(fontpath)))
+	if((ptr = (char *)IDOS->FilePart(fontpath)))
 	{
 		strlcpy(fontsize, ptr, sizeof(fontsize));
 		*(--ptr) = 0;
-		if((ptr = IDOS->FilePart(fontpath)))
+		if((ptr = (char *)IDOS->FilePart(fontpath)))
 		{
 			for(a = 0;; a++)
 			{

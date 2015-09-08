@@ -76,7 +76,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 		if(freq->dirbuf[0] && (Self->CheckExist(freq->dirbuf, NULL) < 0))
 		{
 			char *ptr;
-			if((ptr = IDOS->FilePart(freq->dirbuf)))
+			if((ptr = (char *)IDOS->FilePart(freq->dirbuf)))
 			{
 				if(freq->filebuf)
 				{
@@ -144,7 +144,7 @@ int _DOpus_FileRequest(struct DOpusIFace *Self, struct DOpusFileReq *freq)
 */
 		if(font)
 		{
-			if((ptr = IDOS->FilePart(freq->dirbuf)))
+			if((ptr = (char *)IDOS->FilePart(freq->dirbuf)))
 			{
 				strlcpy(initialfont, ptr, sizeof(initialfont));
 				a = strlen(initialfont);

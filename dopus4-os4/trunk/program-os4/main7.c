@@ -48,7 +48,8 @@ static struct IOAudio *audio_req2[2];	/* Audio IO Request block #2 */
 static STRPTR audiodata;	/* Audio data to play */
 static int64 audio_size;	/* Size of audio data */
 
-struct Library *AHIBase;
+//struct Library *AHIBase;
+struct Device *AHIBase;
 struct AHIIFace *IAHI;
 static struct MsgPort *AHImp;
 static struct AHIRequest *AHIio;
@@ -117,8 +118,8 @@ BOOL OpenAHI(void)
 			AHIio->ahir_Version = 4;
 			if(!(AHIDevice = IExec->OpenDevice(AHINAME, AHI_NO_UNIT, (struct IORequest *)AHIio, 0)))
 			{
-				AHIBase = (struct Library *)AHIio->ahir_Std.io_Device;
-				if((IAHI = (struct AHIIFace *)IExec->GetInterface(AHIBase, "main", 1, NULL)))
+				AHIBase = (struct Device *)AHIio->ahir_Std.io_Device;
+				if((IAHI = (struct AHIIFace *)IExec->GetInterface((struct Library *)AHIBase, "main", 1, NULL)))
 				{
 					return TRUE;
 				}

@@ -662,7 +662,7 @@ int _DOpus_DoSimpleRequest(struct DOpusIFace *Self, struct Window *window, struc
 					strlcpy(dirbuf, strbuf, sizeof(dirbuf));
 					if(!(simple->flags & SRF_DIRGLASS))
 					{
-						if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
+						if((ptr = (char *)IDOS->FilePart(dirbuf)) > dirbuf)
 						{
 							strlcpy(filebuf, ptr, sizeof(filebuf));
 							*ptr = 0;

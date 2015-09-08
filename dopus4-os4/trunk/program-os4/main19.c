@@ -347,13 +347,13 @@ int checkfiletypefunc(char *name, int fn)
 
 		if(type->actionstring[fn][0])
 		{
-			do_title_string(type->actionstring[fn], title, 0, IDOS->FilePart(name), sizeof(title));
+			do_title_string(type->actionstring[fn], title, 0, (char *)IDOS->FilePart(name), sizeof(title));
 			dostatustext(title);
 		}
 		else
 			title[0] = 0;
 
-		dofunctionstring(type->function[fn], IDOS->FilePart(name), title, &par);
+		dofunctionstring(type->function[fn], (char *)IDOS->FilePart(name), title, &par);
 		return (1);
 	}
 	return (0);

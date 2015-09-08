@@ -56,7 +56,7 @@ int start_external(struct dopus_func_start *func)
 		func->startup.wbstartup.sm_ArgList[arg].wa_Name = func->args[arg];
 
 	strlcpy(path, func->segname, sizeof(path));
-	if((ptr = IDOS->FilePart(path)))
+	if((ptr = (char *)IDOS->FilePart(path)))
 		*ptr = 0;
 
 	if(!(func->startup.wbstartup.sm_ArgList[0].wa_Lock = IDOS->Lock(path, ACCESS_READ)))

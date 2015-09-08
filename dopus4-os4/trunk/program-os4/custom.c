@@ -75,10 +75,10 @@ void dofunctionstring(char *func, char *name, char *title, struct dopusfuncpar *
 	if(func_external_file[0])
 	{
 		noloop = 1;
-		if((ptr = IDOS->FilePart(func_external_file)))
+		if((ptr = (char *)IDOS->FilePart(func_external_file)))
 			strlcpy(func_single_file, ptr, sizeof(func_single_file));
 		strlcpy(funcdata->source_path, func_external_file, sizeof(funcdata->source_path));
-		if((ptr = IDOS->FilePart(funcdata->source_path)))
+		if((ptr = (char *)IDOS->FilePart(funcdata->source_path)))
 			*ptr = 0;
 		norm = 0;
 		if(!status_iconified)
@@ -1047,7 +1047,7 @@ int buildcustfunc(STRPTR function, int line_len, char *buffer, int *moretodo, in
 			filebuf[0] = 0;
 			if(!(h & DFRF_DIRREQ))
 			{
-				ptr = IDOS->FilePart(buf3);
+				ptr = (char *)IDOS->FilePart(buf3);
 				if(ptr > buf3)
 				{
 					if(ptr[(strlen(ptr) - 1)] != '/')
@@ -1330,7 +1330,7 @@ struct Directory *reload_file(int win, char *name)
 	}
 	else
 	{
-		if((cust = findfile(dopus_curwin[win], IDOS->FilePart(name), NULL)))
+		if((cust = findfile(dopus_curwin[win], (char *)IDOS->FilePart(name), NULL)))
 			removefile(cust, dopus_curwin[win], win, FALSE);
 	}
 
@@ -1891,7 +1891,7 @@ void build_default_string(char *string, char *buffer, char *filename, char *sour
 				strlcpy(&buffer[pos], filename, buflen - pos);
 				break;
 			case 'o':
-				if((ptr = IDOS->FilePart(filename)))
+				if((ptr = (char *)IDOS->FilePart(filename)))
 					strlcpy(&buffer[pos], ptr, buflen - pos);
 				break;
 			case 's':

@@ -288,7 +288,7 @@ int recursedir(STRPTR fdir, STRPTR fdest, int dowhat, int fdata)
 					{
 						dname[a - 1] = 0;
 					}
-					if((a = delfile(dname, IDOS->FilePart(dname), globstring[STR_DELETING], glob_unprotect_all, 1)) == -1)
+					if((a = delfile(dname, (char *)IDOS->FilePart(dname), globstring[STR_DELETING], glob_unprotect_all, 1)) == -1)
 					{
 						myabort();
 						ret = -10;

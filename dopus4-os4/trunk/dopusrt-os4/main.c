@@ -114,7 +114,8 @@ int main(int argc, char **argv)
 	myproc = (struct Process *)IExec->FindTask(NULL);
 	cli = IDOS->Cli(); //BADDR(myproc->pr_CLI);
 
-	if((cont = IDOS->GetConsoleTask()))
+//	if((cont = IDOS->GetConsoleTask()))
+	if((cont = IDOS->GetConsolePort()))
 	{
 		struct InfoData *ind = IDOS->AllocDosObject(DOS_INFODATA, NULL);
 

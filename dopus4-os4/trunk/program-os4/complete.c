@@ -42,7 +42,7 @@ void do_path_completion(int win, USHORT qual)
 	{
 		match[0] = 0;
 	}
-	else if((ptr = IDOS->FilePart(path)))
+	else if((ptr = (char *)IDOS->FilePart(path)))
 	{
 		strlcpy(match, ptr, FILEBUF_SIZE - 1);
 		match[FILEBUF_SIZE - 1] = 0;
