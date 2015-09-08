@@ -254,7 +254,7 @@ int getmakelinkdata(char *namebuf, char *destbuf, int *type)
 						char dirbuf[PATHBUF_SIZE], filebuf[FILEBUF_SIZE], *ptr;
 
 						strlcpy(dirbuf, makelink_destbuf, sizeof(dirbuf));
-						if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
+						if((ptr = (char *)IDOS->FilePart(dirbuf)) > dirbuf)
 						{
 							strlcpy(filebuf, ptr, sizeof(filebuf));
 							*ptr = 0;

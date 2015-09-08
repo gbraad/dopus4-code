@@ -83,7 +83,7 @@ int doroot(char *str, int size)
 
 		while(!(l = IDOS->Lock(str, ACCESS_READ)))
 		{
-			c = IDOS->FilePart(str);
+			c = (char *)IDOS->FilePart(str);
 			if(c > str)
 				*(--c) = 0;
 		}
@@ -972,7 +972,7 @@ int dorun(STRPTR name, int state, int workbench)
 		strlcat(buf, argbuf, sizeof(buf));
 	}
 	defaultpar(&par);
-	dofunctionstring(buf, NULL, IDOS->FilePart(name), &par);
+	dofunctionstring(buf, NULL, (char *)IDOS->FilePart(name), &par);
 	return (1);
 }
 

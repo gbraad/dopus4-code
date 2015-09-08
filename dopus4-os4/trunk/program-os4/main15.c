@@ -146,7 +146,7 @@ void ftype_doubleclick(char *path, char *name, int state)
 			else if (cl && (lock = IDOS->Lock("SYS:Utilities/UnArc", SHARED_LOCK)))
 			{
 				IDOS->UnLock(lock);
-				arcname = IDOS->FilePart(buf);
+				arcname = (char *)IDOS->FilePart(buf);
 				if (arcname != pathbuf)
 				{
 					strlcpy(pathbuf, buf, sizeof(pathbuf));
@@ -312,7 +312,7 @@ int filesearch(char *name, int *found, int skipall)
 			snprintf(buf, sizeof(buf), globstring[STR_FOUND_A_MATCH_READ], name);
 			if((rec = simplerequest(TDRIMAGE_INFO, buf, globstring[STR_OKAY], globstring[STR_ABORT], globstring[STR_SKIP], (skipall) ? globstring[STR_SKIP_ALL] : NULL, NULL)) == 1)
 			{
-				message = IDOS->FilePart(name);
+				message = (STRPTR)IDOS->FilePart(name);
 				busy();
 				rec = viewfile(name, message, 0, str_search_string, 1, 0);
 				unbusy();
@@ -646,7 +646,7 @@ int internal_function(int function, int rexx, char *source, char *dest)
 
 						strlcpy(func_external_file, rexx_args[0], sizeof(func_external_file));
 						strlcpy(buf2, func_external_file, sizeof(buf2));
-						if((ptr = IDOS->FilePart(buf2)))
+						if((ptr = (char *)IDOS->FilePart(buf2)))
 						{
 							strlcpy(func_single_file, ptr, sizeof(func_single_file));
 							*ptr = 0;

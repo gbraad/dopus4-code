@@ -118,10 +118,12 @@ int main(int argc, char **argv)
 				if(!arglist)
 					port = NULL;
 				if(dirlocks[arg])
-					oldcurdir = IDOS->CurrentDir(dirlocks[arg]);
+//					oldcurdir = IDOS->CurrentDir(dirlocks[arg]);
+					oldcurdir = IDOS->SetCurrentDir(dirlocks[arg]);
 				do_print(&vis, port, arglist, argc - arg, &argv[arg]);
 				if(dirlocks[arg])
-					IDOS->CurrentDir(oldcurdir);
+//					IDOS->CurrentDir(oldcurdir);
+					IDOS->SetCurrentDir(oldcurdir);
 			}
 			IDOpus->FreeStringFile(stringdata);
 		}
@@ -322,7 +324,7 @@ int get_file_byrequest(struct Gadget *gadget, struct Window *window, int save)
 	filereq.filearray = NULL;
 
 	strlcpy(dirbuf, path, PATHBUF_SIZE);
-	if((ptr = IDOS->FilePart(dirbuf)) > dirbuf)
+	if((ptr = (char *)IDOS->FilePart(dirbuf)) > dirbuf)
 	{
 		strlcpy(filebuf, ptr, FILEBUF_SIZE);
 		*ptr = 0;

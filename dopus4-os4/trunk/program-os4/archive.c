@@ -50,7 +50,7 @@ int readarchive(struct DirectoryWindow *dir, int win)
 	}
 	while(!(lock = IDOS->Lock(arcname, ACCESS_READ)))
 	{
-		c = IDOS->FilePart(arcname);
+		c = (char *)IDOS->FilePart(arcname);
 		if(c == arcname)
 		{
 			return 0;
@@ -335,7 +335,7 @@ uint32 ProgressFunc(struct Hook *hook, APTR *Obj, struct xadProgressInfo *xadp)
 
 	if(xadp && xadp->xpi_FileInfo && (config->dynamicflags & UPDATE_PROGRESSIND_COPY))
 	{
-		arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 0);
+		arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, xadp->xpi_CurrentSize, xadp->xpi_FileInfo->xfi_Size, (char *)IDOS->FilePart(xadp->xpi_FileInfo->xfi_FileName), 0);
 	}
 
 	switch(xadp->xpi_Mode)
@@ -423,7 +423,7 @@ uint32 extractarchive(char *archivename, char *source, char *destination)
 						snprintf(destname, PATHBUF_SIZE, "%s%s", destination, xadfi->xfi_FileName);
 						if((config->dynamicflags & UPDATE_PROGRESSIND_COPY))
 						{
-							arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 100, IDOS->FilePart(xadfi->xfi_FileName), 0);
+							arbiter_command(ARBITER_PROGRESS_UPDATE, 0, 0, 0, 100, (char *)IDOS->FilePart(xadfi->xfi_FileName), 0);
 						}
 						snprintf(formatstring, FORMATSTR_SIZE, globstring[STR_FILE_EXISTS_REPLACE], xadfi->xfi_FileName);
 						if((xad_result = IXadMaster->xadFileUnArc(xadai, XAD_ENTRYNUMBER, xadfi->xfi_EntryNumber, XAD_OUTFILENAME, (uint32)destname, XAD_MAKEDIRECTORY, TRUE, XAD_OVERWRITE, xadoverwrite, XAD_PROGRESSHOOK, ProgressHook, TAG_END)) == 0L)

@@ -36,7 +36,7 @@ setdebug:
 $(TARGET) : printstrings.h strings.c $(OBJS)
 	@$(MAKEDIR) $(DESTDIR)
 	$(CC) $(OBJS) -o $@.debug $(LDFLAGS)
-	$(STRIP) -s $@.debug -o $@
+	@$(STRIP) -s $@.debug -o $@
 
 data.o: data.c DOpus_Print_rev.h
 

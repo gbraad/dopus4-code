@@ -199,7 +199,9 @@ int checkexistreplace(STRPTR sourcename, STRPTR destname, int destname_size, str
 
 				if(whatsit(globstring[STR_ENTER_NEW_NAME], FILEBUF_SIZE, dname, NULL))
 				{
-					*IDOS->FilePart(destname) = 0;
+					// *IDOS->FilePart(destname) = 0;
+					char *ptr = (char *)IDOS->FilePart(destname);
+					ptr[0] = '\0';
 					strlcat(destname, dname, destname_size);
 				}
 			}

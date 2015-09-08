@@ -110,7 +110,7 @@ void makedir(int rexx)
 		if(!(lock = IDOS->CreateDir(new_directory)))
 		{
 			doerror((err = IDOS->IoErr()));
-			if(rexx || (a = checkerror(globstring[STR_CREATING_DIRECTORY], IDOS->FilePart(new_directory), -err)) == 3)
+			if(rexx || (a = checkerror(globstring[STR_CREATING_DIRECTORY], (char *)IDOS->FilePart(new_directory), -err)) == 3)
 			{
 				myabort();
 				return;
@@ -232,7 +232,7 @@ int iconwrite(int type, STRPTR name)
 				err = IDOS->IoErr();
 			}
 		}
-		if((suc = checkerror(globstring[STR_ADDING_ICON], IDOS->FilePart(namebuf), err)) == 3)
+		if((suc = checkerror(globstring[STR_ADDING_ICON], (char *)IDOS->FilePart(namebuf), err)) == 3)
 			return (-1);
 		if(suc == 0 || suc == 2)
 			return (0);
@@ -309,7 +309,7 @@ char *getarexxpath(int rexx, int win, int num, int argnum)
 				IDOS->FreeDosObject(DOS_EXAMINEDATA, data);
 			}
 			IDOS->SetProcWindow(save);
-			ptr = IDOS->FilePart(rexx_args[argnum]);
+			ptr = (char *)IDOS->FilePart(rexx_args[argnum]);
 			strlcpy(dos_global_entry.name, ptr, sizeof(dos_global_entry.name));
 			if(ptr > rexx_args[argnum])
 			{

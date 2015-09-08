@@ -28,7 +28,7 @@ setdebug:
 
 main.o: main.c DOpusRT_rev.h
 	@echo ">>>>>Compiling $<"
-	$(CC) -c $< $(CFLAGS) -o $@
+	@$(CC) -c $< $(CFLAGS) -o $@
 
 $(TARGET): main.o
 	@$(MAKEDIR) $(DESTDIR)
