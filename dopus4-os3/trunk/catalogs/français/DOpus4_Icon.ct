@@ -1,0 +1,144 @@
+## version $VER: DOpus4_Icon.catalog 1.1 (19.06.2001)
+## codeset 0
+## language français
+;
+STR_REMAP_COLORS
+C_ouleurs 1.3
+; Rema_p colors
+;
+STR_SAVE
+_Sauver
+; Sa_ve
+;
+STR_SKIP
+_Ignorer
+; S_kip
+;
+STR_CANCEL
+_Annuler
+; _Cancel
+;
+STR_DELETE
+Effacer
+; De_lete
+;
+STR_NEW
+_Nouveau
+; _New
+;
+STR_TOOLTYPES
+Types d'outils
+; Tool types:
+;
+STR_COMMENT
+Commentaire :
+; Co_mment:
+;
+STR_DEFAULT_TOOL
+P_rogramme :
+; De_fault tool:
+;
+STR_VALIDATING
+Validation en cours
+; Validating
+;
+STR_WRITE_PROTECTED
+Protégé contre l'écriture
+; Write protected
+;
+STR_READ_WRITE
+Lecture/Écriture
+; Read/Write
+;
+STR_SCRIPT
+S_cript
+; _Script
+;
+STR_ARCHIVED
+A_rchivé
+; _Archived
+;
+STR_READABLE
+_Lisible
+; _Readable
+;
+STR_WRITABLE
+_Modifiable
+; _Writable
+;
+STR_EXECUTABLE
+E_xécutable
+; _Executable
+;
+STR_DELETABLE
+E_ffaçable
+; _Deletable
+;
+STR_BLOCKS
+Blocs
+; Blocks
+;
+STR_USED
+Utilisés
+; Used
+;
+STR_FREE
+Libre
+; Free
+;
+STR_BLOCK_SIZE
+Taille bloc
+; Block size
+;
+STR_CREATED
+Crée le 
+; Created
+;
+STR_LAST_CHANGED
+Modifié le 
+; Last changed
+;
+STR_BYTES
+Octets
+; Bytes
+;
+STR_STACK
+_Pile
+; S_tack
+;
+STR_DISK
+Disque
+; Disk
+;
+STR_DRAWER
+Dossier
+; Drawer
+;
+STR_TOOL
+Outils
+; Tool
+;
+STR_PROJECT
+Projet
+; Project
+;
+STR_TRASH
+Corbeille
+; Trash
+;
+STR_DEVICE
+Device
+; Device
+;
+STR_KICK
+Kickstart
+; Kick
+;
+STR_APPICON
+Icône application
+; AppIcon
+;
+STR_ICON
+Icône
+; Icon
+;
