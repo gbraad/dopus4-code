@@ -1,0 +1,242 @@
+## version $VER: DOpus4_Print.catalog 1.0 (23.06.06)
+## codeset 0
+## language català
+;
+STR_SELECT_FILE
+Escull fitxer...
+; Select file
+;
+STR_ABORT
+Interrompre
+; Abort
+;
+STR_CONTINUE
+Continuar
+; Continue
+;
+STR_OKAY
+Ok
+; Okay
+;
+STR_CANCEL
+Cancel.lar
+; Cancel
+;
+STR_FILE
+Fitx.
+; File
+;
+STR_TOP_MARGIN
+Marge sup.:
+; Top Margin
+;
+STR_BOTTOM_MARGIN
+Marge inf.:
+; Bottom Margin
+;
+STR_LEFT_MARGIN
+Marge esq.:
+; Left Margin
+;
+STR_RIGHT_MARGIN
+Marge dret:
+; Right Margin
+;
+STR_TAB_SIZE
+Tabulador:
+; Tab size
+;
+STR_PRINT_PITCH
+Separació
+; Print pitch
+;
+STR_QUALITY
+Calitat
+; Density
+;
+STR_EJECT
+Expulsar pàgina
+; Eject final page
+;
+STR_CONFIGURATION
+configuració...
+; configuration...
+;
+STR_TITLE
+Títol
+; Title
+;
+STR_DATE
+Data
+; Date
+;
+STR_PAGE_NUMBER
+Nº pàg.
+; Page no.
+;
+STR_TEXT_STYLE
+Estil de text
+; Text style
+;
+STR_PRINTER
+Impressora
+; Printer
+;
+STR_PRINT
+Imprimir
+; Print
+;
+STR_EXIT
+Sortir
+; Exit
+;
+STR_OUTPUT_TO
+Enviar a...
+; Output to...
+;
+STR_PICA
+Pica
+; Pica
+;
+STR_ELITE
+Élit
+; Elite
+;
+STR_FINE
+Fina
+; Fine
+;
+STR_NORMAL
+Normal
+; Normal
+;
+STR_BOLD
+Negreta
+; Bold
+;
+STR_ITALICS
+Cursiva
+; Italics
+;
+STR_UNDERLINED
+Subratllada
+; UnLined
+;
+STR_DOUBLESTRIKE
+Doble an.
+; DbStrik
+;
+STR_SHADOW
+Sombrejat
+; Shadow
+;
+STR_DRAFT
+Borrat
+; Draft
+;
+STR_LETTER
+Carta
+; Letter
+;
+STR_HEADER
+Capçalera
+; Header
+;
+STR_FOOTER
+Peu pàg.
+; Footer
+;
+STR_SIZE
+Mida
+; Size
+;
+STR_PROTECTION
+Banderes
+; Protection
+;
+STR_COMMENT
+Comentari
+; Comment
+;
+STR_FILETYPE
+Tipu de fitxer
+; File type
+;
+STR_PRINT_DOT
+Imprimir...
+; Print...
+;
+STR_PRINTDIR
+Imprimir directori
+; Printdir
+;
+STR_UNABLE_TO_OPEN_FILE
+No s'ha pogut obrir el fitxer.\n\n\
+¿Reintentar?
+; Unable to open file. Try again?
+;
+STR_UNABLE_TO_OPEN_OUTPUT
+No s'ha pogut obrir el fitxer de sortida.\n\n\
+¿Reintentar?
+; Unable to open output file. Try again?
+;
+STR_UNABLE_TO_OPEN_PRINTER
+No s'ha pogut iniciar la impressora.\n\n\
+¿Reintentar?
+; Unable to open printer. Try again?
+;
+STR_ERROR_PRINTING_DIR
+No s'ha pogut imprimir el directori.\n\n\
+¿Reintentar?
+; Error printing directory. Try again?
+;
+STR_INCORRECT_PASSWORD
+La contrasenya introduida no és correcte.\n\n\
+¿Reintentar?
+; Incorrect password entered. Try again?
+;
+STR_PRINT_ERROR
+¡Error a l'imprimir!\n\n\
+¿Reintentar?
+; Print error! Try again?
+;
+STR_REALLY_ABORT
+¿De debó vols interrompre la impresió?
+; Really abort print operation?
+;
+STR_CREATING_FILE
+Creant fitxer...
+; Creating file
+;
+STR_OPENING_PRINTER
+Inicialitzant impressora...
+; Opening printer
+;
+STR_LOADING_FILE
+Carregant fitxer...
+; Loading file..
+;
+STR_PRINTING_FILE
+Imprimint...
+; Printing file...
+;
+STR_PRESS_ESCAPE
+<ESC> = interrompre
+; Press ESC to abort
+;
+STR_PAGE
+Pàgina
+; Page
+;
+STR_COMPLETE
+fet
+; complete
+;
+STR_TOFILE
+Fitxer
+; File
+;
+STR_PRINTWIN
+Imprimir
+; Print
+;

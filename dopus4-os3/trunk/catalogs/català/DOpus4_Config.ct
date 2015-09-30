@@ -1,0 +1,2493 @@
+## version $VER: DOpus4_Config.catalog 1.0 (23.06.06)
+## codeset 0
+## language català
+;
+STR_REALLY_DISCARD_CONFIG
+De debó vols descartar\n\
+la nova configuració?
+; Do you really want to discard the\ncurrent configuration settings?
+;
+STR_EXIT_WITHOUT_SAVING
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; Do you really want to exit without\nsaving the current configuration settings?
+;
+STR_CONFIGURATION_MAIN_SCREEN
+ConfigOpus - Principal
+; Configuration main screen
+;
+STR_OPERATION_SCREEN
+ConfigOpus - Operacions
+; Operation configuration screen
+;
+STR_MENU_SCREEN
+ConfigOpus - Menús
+; Menu configuration screen
+;
+STR_DRIVE_SCREEN
+ConfigOpus - Unitats
+; Drive button configuration screen
+;
+STR_FILETYPE_SCREEN
+ConfigOpus - Tipus de Fitxer
+; Filetype configuration screen
+;
+STR_SCREEN_SCREEN
+ConfigOpus - Pantalla
+; Screen configuration screen
+;
+STR_SYSTEM_SCREEN
+ConfigOpus - Sistema
+; System configuration screen
+;
+STR_HOTKEYS_SCREEN
+ConfigOpus - Tecles d'invocació
+; Global hotkeys configuration screen
+;
+STR_MAIN_MENU
+Menú principal
+; Main Menu
+;
+STR_LEFT_MOUSE_BUTTON
+Botó  esq. ratolí
+; Left mouse button
+;
+STR_RIGHT_MOUSE_BUTTON
+Botó dret ratolí
+; Right mouse button
+;
+STR_OKAY
+Acceptar
+; Okay
+;
+STR_CANCEL
+Cancel·lar
+; Cancel
+;
+STR_AVAILABLE_DISPLAY_ITEMS
+Disponible...
+; Available display items...
+;
+STR_SELECTED_DISPLAY_ITEMS
+Mostrar...
+; Selected display items...
+;
+STR_DISPLAYED_LENGTHS
+Longitut de camps...
+; Displayed lengths...
+;
+STR_CHECK_INDICATES_SORT
+(  = criteri d'ordenació)
+; (  Check indicates sort item)
+;
+STR_ENTRY_SEPARATION
+Llista de fitxers...
+; Entry separation...
+;
+STR_UNICONIFY_HOTKEY
+Tecles de desconificació/invocació...
+; Uniconify/activate hotkey
+;
+STR_PROJECTS_DEFAULT_TOOL
+Eines per omisió...
+; Project's Default Tool...
+;
+STR_SELECT_DESIRED_FILE
+Escull fitxer...
+; Select the desired file
+;
+STR_SELECT_DESIRED_DIRECTORY
+Escull directori...
+; Select the desired directory
+;
+STR_SELECT_DESIRED_FONT
+Escull tipus de lletra i mida...
+; Select the desired font and size
+;
+STR_HOTKEY_USCORE
+_Tecles
+; _Hotkey
+;
+STR_NEW_GADGET_BANKS_APPENDED
+Afegit nou banc als ja existents.
+; New button banks appended to existing ones.
+;
+STR_DEFAULT_GADGET_BANKS_APPENDED
+Afegit banc per omisió als ja existents.
+; Default button banks appended to existing ones.
+;
+STR_NO_GADGET_BANKS_CONFIGURED
+No existeix cap banc de botons configurat!
+; There are no button banks configured!
+;
+STR_GADGET_DELETED
+Botó borrat.
+; Button deleted.
+;
+STR_SELECT_GADGET_TO_COPY
+Escull posició a la qual copiar el botó escollit...
+; Select the button position to copy the original button to.
+;
+STR_SELECT_GADGET_TO_SWAP
+Escull botó a intercanviar amb l'escollit...
+; Select the button to swap with the first button.
+;
+STR_SELECT_A_GADGET_TO_COPY
+Escull el botó a copiar...
+; Select a button to copy.
+;
+STR_SELECT_FIRST_GADGET_TO_SWAP
+Escul el botó a intercanviar...
+; Select the first button to swap.
+;
+STR_GADGET_EDIT_SCREEN
+Botons - Editor
+; Button edit screen
+;
+STR_ENTER_BANK_TO_COPY
+Introdueix el número de banc al qual copiar.\n\
+(Es crea un de nou si encara no existeix)
+; Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
+;
+STR_BANK_ALREADY_EXISTS
+El banc escollit ja existeix.\n\n\
+De debó vols sobreescriure'l?
+; Selected bank already exists! Do you really\nwant to overwrite this bank?
+;
+STR_GADGET_BANK_COPIED
+Banc de botons copiat.
+; Button bank copied.
+;
+STR_ENTER_BANK_TO_SWAP
+Indica nº de banc pel que vols intercanivar aquest.
+; Enter bank number to swap this bank with.
+;
+STR_BANK_DOES_NOT_EXIST
+El banc de botons escollit no existeix.
+; Selected button bank does not exist.
+;
+STR_BANKS_SWAPPED
+Bancs de botons intercanviats.
+; Button banks swapped.
+;
+STR_ONLY_BANK_CONFIGURED
+Aquest és l'únic banc de botons configurat.\n\n\
+De debó vols borrar-lo?
+; This is the only button bank configured!\nDo you really want to delete this button bank?
+;
+STR_REALLY_DELETE_BANK
+De debó vols borrar aquest banc de botons?
+; Do you really want to delete this button bank?
+;
+STR_BANK_DELETED
+Banc de botons borrat.
+; Button bank deleted.
+;
+STR_SELECT_GADGET_TO_DELETE
+Escull el botó a borrar...
+; Select a button to delete.
+;
+STR_GADGET_BANK_NUMBER
+Banc de botons número
+; Button bank number
+;
+STR_GADGET_SCREEN_NO_BANKS
+Bancs de botons: cap banc configurat.
+; Button configuration screen - no banks configured
+;
+STR_NO_MEMORY_FOR_NEW_BANK
+No s'ha pogut reservar suficient\n\
+memòria pel nou banc!
+; Unable to allocate memory for new bank!
+;
+STR_NEW_BANK_CREATED
+Creat nou banc de botons.
+; New button bank created.
+;
+STR_NEW_MENUS_LOADED
+Carregats nous menús.
+; New menus loaded.
+;
+STR_DEFAULT_MENUS_LOADED
+Carregats menús per omisió.
+; Default menus loaded.
+;
+STR_ENTER_MENU_TITLE
+Introdueix títol del menú
+; Enter menu title.
+;
+STR_MENU_ITEM_DELETED
+Opció de menú borrat.
+; Menu item deleted.
+;
+STR_MENU_ITEM_INSERTED
+Opció de menú insertada.
+; Menu item inserted.
+;
+STR_REALLY_DELETE_THIS_MENU
+\n\
+De debó vols borrar aquest menú?
+; Do you really want to delete this menu?
+;
+STR_MENU_DELETED
+Menú borrat.
+; Menu deleted.
+;
+STR_MENU_SORTED
+Menú ordenat.
+; Menu sorted.
+;
+STR_SELECT_MENU_TO_COPY
+Escull lloc al qual copiar el menú escollit...
+; Select an item in the menu to copy the original menu to.
+;
+STR_SELECT_MENU_TO_SWAP
+Escull menú a intercanviar amb l'escollit...
+; Select an item in the menu to swap with the first.
+;
+STR_SELECT_ITEM_TO_COPY
+Escull lloc al qual copiar l'opció del menú escollida...
+; Select item position to copy the original menu item to.
+;
+STR_SELECT_ITEM_TO_SWAP
+Escull l'opció del menú a intercanviar amb l'escollida...
+; Select menu item to swap with the first item.
+;
+STR_MENU_ITEM_EDIT_SCREEN
+Menús - Editor
+; Menu item edit screen
+;
+STR_SELECT_ITEM_IN_MENU_TO_COPY
+Escull el menú a copiar...
+; Select an item in the menu to copy.
+;
+STR_SELECT_ITEM_IN_MENU_TO_SWAP
+Escull el menú a intercanviar...
+; Select an item in the first menu to swap.
+;
+STR_SELECT_ITEM_IN_MENU_TO_DELETE
+Escull el menú a borrar...
+; Select an item in the menu to delete.
+;
+STR_SELECT_ITEM_IN_MENU_TO_SORT
+Escull el manú a ordenar...
+; Select an item in the menu to sort.
+;
+STR_SELECT_ITEM_TO_INSERT_BEFORE
+Escull l'opció de menú sobre la qual insertar la nova...
+; Select the menu item to insert the new item BEFORE.
+;
+STR_SELECT_MENU_ITEM_TO_COPY
+Escull l'opció de menú que desitges copiar...
+; Select a menu item to copy.
+;
+STR_SELECT_MENU_ITEM_TO_SWAP
+Escull l'opció de menú que desitges intercanviar...
+; Select the first menu item to swap.
+;
+STR_SELECT_MENU_ITEM_TO_DELETE
+Escull l'opció de menú que desitges borrar...
+; Select a menu item to delete.
+;
+STR_EDIT
+Editar
+; Edit
+;
+STR_SHORTCUT_KEY
+_Drecera
+; Shortcut _key
+;
+STR_HOTKEY
+Tecles
+; Hotkey
+;
+STR_ARGUMENT_CONTROL_SEQUENCES
+Funcions disponibles...
+; List of available functions...
+;
+STR_AVAILABLE_COMMANDS
+Comandes disponibles...
+; List of available commands...
+;
+STR_FOREGROUND
+Text
+; Foreground
+;
+STR_BACKGROUND
+Fons
+; Background
+;
+STR_DROP_A_TOOL_HERE
+Deixa aquí una eina!
+; Drop a tool here!
+;
+STR_NEW_DRIVE_BANKS_LOADED
+Carregant nou banc d'unitats.
+; New drive banks loaded.
+;
+STR_DEFAULT_DRIVE_BANKS_RESET
+Bancs d'unitats per omisió reiniciats.
+; Default drive banks reset.
+;
+STR_DRIVE_GADGET_DELETED
+Botó d'unitat borrat.
+; Drive button deleted.
+;
+STR_SELECT_DRIVE_TO_COPY_TO
+Escull el lloc al qual copiar l'unitat escollida...
+; Select the drive position to copy the original drive button to.
+;
+STR_SELECT_DRIVE_TO_SWAP_WITH_FIRST
+Escull unitat a intercanviar amb l'escollida...
+; Select the drive button to swap with the first button.
+;
+STR_SELECT_DRIVE_BANK_TO_COPY_TO
+Escull el lloc al qual copiar el banc escollit...
+; Select a drive button in the bank to copy the original bank to.
+;
+STR_SELECT_DRIVE_BANK_TO_SWAP_WITH_FIRST
+Escull el banc a intercanviar amb l'escollit
+; Select a drive button in the bank to swap with the first bank.
+;
+STR_REALLY_DELETE_DRIVE_BANK
+Vols borrar aquest banc d'unitats?
+; Do you really want to delete this drive bank?
+;
+STR_PATH
+_Ruta
+; _Path
+;
+STR_SYSTEM_DEVICES_LISTED
+Llistades les unitats del sistema.
+; System devices listed.
+;
+STR_SELECT_DRIVE_BANK_TO_COPY
+Escull en el banc un botó d'unitat a copiar.
+; Select a drive button in the bank to copy.
+;
+STR_SELECT_DRIVE_BANK_TO_SWAP
+Escull el banc a intercanviar.
+; Select a drive button in the first bank to swap.
+;
+STR_SELECT_DRIVE_BANK_TO_DELETE
+Escull el banc a borrar.
+; Select a drive button in the bank to delete.
+;
+STR_SELECT_DRIVE_BANK_TO_SORT
+Escull el banc a ordenar.
+; Select a drive button in the bank to sort.
+;
+STR_SELECT_DRIVE_GADGET_TO_COPY
+Escull el botó d'unitat a copiar...
+; Select a drive button to copy.
+;
+STR_SELECT_DRIVE_GADGET_TO_SWAP
+Escull el primer botó d'unitat a intercanviar...
+; Select the first drive button to swap.
+;
+STR_SELECT_DRIVE_GADGET_TO_DELETE
+Escull el botó d'unitat a borrar.
+; Select a drive button to delete.
+;
+STR_NEW_FILETYPES_MERGED
+Fusionats nous tipus de fitxers amb els ja existents.
+; New filetypes merged with existing ones.
+;
+STR_DEFAULT_FILETYPES_MERGED
+Fusionats els tipus de fitxer per defecte amb els ja existents.
+; Default filetypes merged with existing ones.
+;
+STR_REALLY_DELETE_THIS_CLASS
+Vols borrar aquesta classe?
+; Do you really want to delete this class?
+;
+STR_FILE_CLASS_DELETED
+Classe de fitxer borrada.
+; File class deleted.
+;
+STR_SELECT_CLASS_FILE_TO_LOAD
+Escull la classe a carregar
+; Select the class file to load
+;
+STR_ENTER_NAME_TO_SAVE_CLASSES
+Guardar classes de fitxer com...
+; Enter a name to save the file classes
+;
+STR_SELECT_CLASSES_TO_IMPORT
+Escull classes de fitxer a importar...
+; Select file classes to import
+;
+STR_ERASE_ALL_CLASSES
+Vols borrar totes les classes de fitxers?
+; Do you really wish to erase all file classes?
+;
+STR_EXIT_WITHOUT_SAVING_CLASSES
+Vols abandonar aquesta secció sense\n\
+guardar els canvis en les classes de fitxers?
+; Do you really wish to exit this section without\nsaving changes made to the file classes?
+;
+STR_REDEFINE_EXISTING_CLASS_ACTION
+Aquesta classe de fitxer ja té una\n\
+operació definida.Vols continuar?
+; That file class already has an action defined\nfor it. Do you wish to continue?
+;
+STR_DEFAULT_ACTION_CAN_NOT_BE_MOVED
+L'operació per defecte no pot moure's de lloc.
+; The default action can not be moved.
+;
+STR_CLASS_ACTIONS_SWAPPED
+Operacions de classe intercanviades.
+; Class actions swapped.
+;
+STR_SELECT_ACTION_TO_SWAP
+Escull l'operació a intercanviar.
+; Select the first action to swap.
+;
+STR_SELECT_ACTION_TO_SWAP_WITH_FIRST
+Escull operació a intercanviar amb l'escollida.
+; Select the second action to swap with the first.
+;
+STR_SELECT_ACTION_TO_DELETE
+Escull operació a borrar.
+; Select an action to delete.
+;
+STR_REALLY_DELETE_THIS_ACTION
+Vols borrar aquesta operació?
+; Do you really want to delete this action?
+;
+STR_ACTION_DELETED
+Operació borrada.
+; Action deleted.
+;
+STR_FILETYPE_CLASS
+Classe de Tipus de fitxer
+; Filetype class
+;
+STR_EDIT_CLASS
+Editar classe
+; Edit class
+;
+STR_FILE_CLASS_EDIT_SCREEN
+Classes de Fitxers - Editor
+; File class edit screen
+;
+STR_OPEN_FAILED
+Error a l'obrir - Error DOS %ld\n\n\
+Reintentar-ho?
+; Open failed - DOS error code %ld\nTry again?
+;
+STR_SAVE_FAILED
+Error al guardar - Error DOS %ld\n\n\
+Reintentar-ho?
+; Save failed - DOS error code %ld\nTry again?
+;
+STR_LIST_OF_FILETYPE_COMMANDS
+Comandes d'identificació de fitxers...
+; List of file identification commands...
+;
+STR_POSITION
+Posició
+; Position
+;
+STR_OFFSET
+Separació
+; Offset
+;
+STR_FILE_NOT_FOUND
+No s'ha trobat el fitxer.
+; File not found!
+;
+STR_EXAMPLE
+Exemple
+; Example
+;
+STR_DISPLAY_MODE_DESCRIPTION
+Propietats...
+; Display mode description...
+;
+STR_DISPLAY_ITEM
+Elements...
+; Display item...
+;
+STR_FONT
+Tipus de lletra...
+; Font...
+;
+STR_FONT_SIZE
+Mida...
+; Size...
+;
+STR_MODIFY_SIZE
+Ajustar mida...
+; Adjust size...
+;
+STR_USE_MMB
+Usar botó central del ratolí
+; Use middle mouse button
+;
+STR_MINIMUM_SIZE
+Mida mínima
+; Minimum size
+;
+STR_MAXIMUM_SIZE
+Mida màxima
+; Maximum size
+;
+STR_DEFAULT_SIZE
+Mida per defecte
+; Default size
+;
+STR_MAXIMUM_COLORS
+Màxims colors
+; Maximum colors
+;
+STR_LOADING_FONT
+Carregant tipus de lletra...
+; Loading font...
+;
+STR_FONT_COULD_NOT_BE_LOADED
+No s'ha pogut carregar el tipus de lletra.
+; Font could not be loaded!
+;
+STR_ENTER_CONFIGURATION_FILENAME
+Guardar configuració com...
+; Enter configuration filename
+;
+STR_SELECT_CONFIGURATION_TO_LOAD
+Escull configuració a carregar.
+; Select configuration file to load
+;
+STR_FILE_NOT_VALID_CONFIGURATION
+El fitxer no és una configuració vàlida.\n\n\
+Reintentar-ho?
+; File is not a valid configuration file!\nTry again?
+;
+STR_SELECT_MENUS_TO_IMPORT
+Escull menús a importar.
+; Select menus to import
+;
+STR_SELECT_FILETYPES_TO_IMPORT
+Escull tipus de fitxer a importar.
+; Select filetypes to import
+;
+STR_SELECT_HOTKEYS_TO_IMPORT
+Escull tecles d'invocació a importar.
+; Select hotkeys to import
+;
+STR_SELECT_FUNCTION_TO_PASTE
+Escull funció a enganxar.
+; Select function to paste
+;
+STR_NEW_HOTKEYS_MERGED
+Tecles d'invocació fusionades amb les ja existents.
+; New hotkeys merged with existing ones.
+;
+STR_DEFAULT_HOTKEYS_MERGED
+Tecles d'invocació per defecte fusionada amb les ja existents.
+; Default hotkeys merged with existing ones.
+;
+STR_SELECT_HOTKEY_TO_DELETE
+Escull tecles d'invocació a borrar.
+; Select hotkey to delete.
+;
+STR_SELECT_HOTKEY_TO_DUPLICATE
+Escull tecles d'invocació a duplicar.
+; Select hotkey to duplicate.
+;
+STR_REALLY_DELETE_HOTKEY
+Vols borrar aquestes tecles d'invocació?
+; Do you really want to delete this hotkey?
+;
+STR_HOTKEY_DELETED
+Tecles d'invocació borrades.
+; Hotkey deleted.
+;
+STR_HOTKEY_EDIT_SCREEN
+Tecles d'invocació - Editor
+; Hotkey edit screen
+;
+STR_NEW_BANK
+Nou
+; New bank
+;
+STR_INSERT_BANK
+Inserir
+; Insert bank
+;
+STR_NEXT_BANK
+Següent
+; Next bank
+;
+STR_LAST_BANK
+Anterior
+; Prev bank
+;
+STR_CLEAR
+Netejar
+; Clear
+;
+STR_CLEAR_LAST
+Borrar últim
+; Clear last
+;
+STR_MENU_DEFAULT
+Per defecte
+; Default
+;
+STR_MENU_OPEN
+Obrir...
+; Open...
+;
+STR_MENU_SAVE
+Guardar
+; Save
+;
+STR_MENU_SAVE_AS
+Guardar com...
+; Save As...
+;
+STR_MENU_CUT
+Tallar
+; Cut
+;
+STR_MENU_COPY
+Copiar
+; Copy
+;
+STR_MENU_PASTE
+Enganxar...
+; Paste...
+;
+STR_MENU_ERASE
+Borrar
+; Erase
+;
+STR_MENU_NEW
+Nou...
+; New...
+;
+STR_MENU_EDIT
+Editar...
+; Edit...
+;
+STR_MENU_DELETE
+Borrar...
+; Delete...
+;
+STR_GADGETROWS_NONE
+Sense botons
+; No buttons
+;
+STR_GADGETROWS_ONE
+Una fila
+; One row
+;
+STR_GADGETROWS_TWO
+Dos files
+; Two rows
+;
+STR_GADGETROWS_THREE
+Tres files
+; Three rows
+;
+STR_GADGETROWS_SIX
+Seis files
+; Six rows
+;
+STR_MENUNAME_CONFIGURE
+Configuració
+; Configure
+;
+STR_MENUNAME_GADGETROWS
+Files de botons
+; Button rows
+;
+STR_MENUNAME_CLASSES
+Classes
+; Classes
+;
+STR_FILECLASS_DEFINE
+Defineix una operació per la classe...
+; Define an action for class...
+;
+STR_FILECLASS_EDIT
+Escull la classe a editar...
+; Select class to edit...
+;
+STR_FILECLASS_DELETE
+Escull la classe a borrar...
+; Select class to delete...
+;
+STR_FONTPLACE_CLOCK
+Rellotge//Memòria
+; Clock/Memory
+;
+STR_FONTPLACE_GADGETS
+Botons
+; Custom buttons
+;
+STR_FONTPLACE_MENUS
+Menús
+; Custom menus
+;
+STR_FONTPLACE_DISKNAMES
+Unitats
+; Disk names
+;
+STR_FONTPLACE_WINDOW
+Llistes
+; Directory window
+;
+STR_FONTPLACE_GENERAL
+General (mida 8)
+; General (8 point)
+;
+STR_FONTPLACE_ICONIFY
+Iconificar a botonera
+; Iconify to buttons
+;
+STR_FONTPLACE_PATHS
+Ruta
+; Path names
+;
+STR_FONTPLACE_REQUESTERS
+Requesters
+; Requesters
+;
+STR_FONTPLACE_STATUS
+Borra l'estat
+; Status bar
+;
+STR_FONTPLACE_TEXTVIEWER
+Visor de text
+; Text viewer
+;
+STR_PALETTE_PRESETS
+Predefinicions...
+; Presets...
+;
+STR_ICONLIST_TITLE
+Icones d'AddIcon...
+; AddIcon's icons...
+;
+STR_FORMAT_NAME
+Nom
+; File name
+;
+STR_FORMAT_SIZE
+Mida
+; File size
+;
+STR_FORMAT_BITS
+Bits de protecció
+; Protection bits
+;
+STR_FORMAT_DATE
+Data
+; Creation date
+;
+STR_FORMAT_COMMENT
+Comentari
+; File comment
+;
+STR_FORMAT_TYPE
+Tipus de fitxer
+; File type
+;
+STR_ICONS_DRAWER
+   Caixa (icona)
+;    Drawer icon
+;
+STR_ICONS_TOOL
+   Eina (icona)
+;    Default Tool icon
+;
+STR_ICONS_PROJECT
+   Projecte (icona)
+;    Default Project icon
+;
+STR_MAINMENU_GADGETS
+Botons
+; Buttons
+;
+STR_MAINMENU_DRIVES
+Unitats
+; Drives
+;
+STR_MAINMENU_FILETYPES
+Tipus fitxer
+; Filetypes
+;
+STR_MAINMENU_HOTKEYS
+Tecl. invocació
+; Hotkeys
+;
+STR_MAINMENU_MENUS
+Menús
+; Menus
+;
+STR_MAINMENU_OPERATION
+Operacions
+; Operation
+;
+STR_MAINMENU_SCREEN
+Pantalla
+; Screen
+;
+STR_MAINMENU_SYSTEM
+Sistema
+; System
+;
+STR_ALL
+Tot
+; All
+;
+STR_OPERATION_DATEFORMAT
+Data-Hora
+; Date format
+;
+STR_OPERATION_DELETE
+Borrar
+; Delete
+;
+STR_OPERATION_ERRORCHECK
+Errors
+; Error check
+;
+STR_OPERATION_GENERAL
+General
+; General
+;
+STR_OPERATION_ICONS
+Icones
+; Icons
+;
+STR_OPERATION_LISTFORMAT
+Llistes
+; List format
+;
+STR_OPERATION_UPDATE
+Actualitzar
+; Update
+;
+STR_SYSTEM_AMIGADOS
+AmigaDOS
+; AmigaDOS
+;
+STR_SYSTEM_CLOCKS
+Rellotges
+; Clocks
+;
+STR_SYSTEM_DIRECTORIES
+Directoris
+; Directories
+;
+STR_SYSTEM_ICONS
+Icones
+; Icons
+;
+STR_SYSTEM_MODULES
+Mòduls
+; Modules
+;
+STR_SYSTEM_SHOWPATTERN
+Filtres
+; Show pattern
+;
+STR_SYSTEM_STARTUP
+Inicia
+; Startup
+;
+STR_SYSTEM_VIEWPLAY
+Veure-Escoltar
+; View & Play
+;
+STR_GADGET_COPYBANK
+Copiar banc
+; Copy bank
+;
+STR_GADGET_SWAPBANK
+Canviar banc 
+; Swap bank
+;
+STR_GADGET_DELETEBANK
+Borrar banc
+; Delete bank
+;
+STR_GADGET_COPYGADGET
+Copiar botó
+; Copy button
+;
+STR_GADGET_SWAPGADGET
+Canviar botó
+; Swap button
+;
+STR_GADGET_DELETEGADGET
+Borrar botó
+; Del. button
+;
+STR_FLAG_AUTOICONIFY
+Auto-iconificar
+; Auto iconify
+;
+STR_FLAG_CDDESTINATION
+CD a destí
+; CD destination
+;
+STR_FLAG_CDSOURCE
+CD a origen
+; CD source
+;
+STR_FLAG_DOPUSTOFRONT
+DirOpus a primer térme
+; Directory Opus to front
+;
+STR_FLAG_DOALLFILES
+Amb tots els fitxers
+; Do all files
+;
+STR_FLAG_INCLUDEDOPUS
+Incloure DOpus-Startup
+; Include DOpus-Startup
+;
+STR_FLAG_INCLUDESHELL
+Incloure Shell-Startup
+; Include Shell-Startup
+;
+STR_FLAG_NOQUOTE
+Sense cometes
+; No filename quote
+;
+STR_FLAG_OUTPUTFILE
+Sortida de fitxers
+; Output to file
+;
+STR_FLAG_OUTPUTWINDOW
+Finestra de sortida
+; Output window
+;
+STR_FLAG_RECURSIVE
+Directoris repetits
+; Recursive directories
+;
+STR_FLAG_RELOAD
+Recarregar cada fitxer
+; Reload each file
+;
+STR_FLAG_RESCANDEST
+Reexplorar destí
+; Rescan destination
+;
+STR_FLAG_RESCANSOURCE
+Reexplorar origen
+; Rescan source
+;
+STR_FLAG_RUNASYNC
+Execució asíncrona
+; Run asynchronously
+;
+STR_FLAG_WORKBENCHTOFRONT
+Workbench a primer terme
+; Workbench to front
+;
+STR_EDIT_NAME
+_Nom:
+; _Name
+;
+STR_EDIT_SAMPLE
+Capturar
+; Sample
+;
+STR_EDIT_NEWENTRY
+Nou
+; New entry
+;
+STR_EDIT_DUPLICATE
+Duplicar
+; Duplicate
+;
+STR_EDIT_SWAP
+Intercanviar
+; Swap
+;
+STR_EDIT_STACKSIZE
+Mida de p_ila:
+; _Stack size
+;
+STR_EDIT_PRIORITY
+_Prioritat:
+; _Priority
+;
+STR_EDIT_CLOSEDELAY
+_Espera al tancament:
+; _Close delay
+;
+STR_EDIT_ACTION
+_Descripció:
+; _Event description
+;
+STR_EDITCLASS_FILECLASS
+_Nom:
+; _File class
+;
+STR_EDITCLASS_CLASSID
+_ID classe:
+; Class _ID
+;
+STR_EDITCLASS_FILEVIEWER
+_Visor
+; File _viewer
+;
+STR_MENU_COPYMENU
+Copiar menú
+; Copy menu
+;
+STR_MENU_SWAPMENU
+Canviar menú
+; Swap menu
+;
+STR_MENU_DELETEMENU
+Borrar menú 
+; Delete menu
+;
+STR_MENU_SORTMENU
+Ordenar
+; Sort menu
+;
+STR_MENU_INSERTITEM
+Insertar
+; Insert item
+;
+STR_MENU_COPYITEM
+Copiar opció
+; Copy item
+;
+STR_MENU_SWAPITEM
+Canviar opció
+; Swap item
+;
+STR_MENU_DELETEITEM
+Borrar opció
+; Delete item
+;
+STR_DRIVES_GETDRIVES
+Unitats
+; Get drives
+;
+STR_DRIVES_SORTBANK
+Ordenar
+; Sort bank
+;
+STR_DRIVES_COPYDRIVE
+Copiar unitat
+; Copy drive
+;
+STR_DRIVES_SWAPDRIVE
+Canviar unitat
+; Swap drive
+;
+STR_DRIVES_DELETEDRIVE
+Borrar unitat
+; Delete drive
+;
+STR_HOTKEYS_NEWHOTKEY
+Nova
+; New hotkey
+;
+STR_SCREEN_COLORS
+Colors
+; Colors
+;
+STR_SCREEN_FONTS
+Lletra
+; Fonts
+;
+STR_SCREEN_PALETTE
+Paleta
+; Palette
+;
+STR_SCREEN_SCREENMODE
+Pantalla
+; Screen mode
+;
+STR_PALETTE_RED
+V_ermell
+; _Red
+;
+STR_PALETTE_GREEN
+_Verd
+; _Green
+;
+STR_PALETTE_BLUE
+_Blau
+; _Blue
+;
+STR_COLOR_STATUS
+Barra d'estat
+; Status bar
+;
+STR_COLOR_SELDISK
+Llista seleccionada
+; Selected disk name
+;
+STR_COLOR_UNSELDISK
+Llista sense seleccionar
+; Unselected disk name
+;
+STR_COLOR_SELDIR
+Directori seleccionat
+; Selected directory
+;
+STR_COLOR_UNSELDIR
+Dir. sense seleccionar
+; Unselected directory
+;
+STR_COLOR_SELFILE
+Fitxer seleccionat
+; Selected file
+;
+STR_COLOR_UNSELFILE
+Fitxer sense seleccionar
+; Unselected file
+;
+STR_COLOR_SLIDERS
+Lliscadors
+; Sliders
+;
+STR_COLOR_ARROWS
+Fletxes
+; Arrows
+;
+STR_COLOR_TINY
+Botons petits
+; Tiny buttons
+;
+STR_COLOR_CLOCK
+Barra rellotgej/memòria
+; Clock/memory bar
+;
+STR_COLOR_REQUESTER
+Text de petició
+; Requester text
+;
+STR_COLOR_BOXES
+Caixes 3D
+; 3D boxes
+;
+STR_COLOR_PATHNAME
+Rutes
+; Path name
+;
+STR_COLOR_SELPATHNAME
+Rutes seleccionades
+; Selected path name
+;
+STR_SCREENMODE_WIDTH
+A_mplada
+; _Width
+;
+STR_SCREENMODE_HEIGHT
+A_ltura
+; _Height
+;
+STR_SCREENMODE_COLORS
+_Colors
+; _Colors
+;
+STR_SCREENMODE_DEFAULT
+Per defecte
+; Use default
+;
+STR_SCREENMODE_HALFHEIGHT
+Mitja altura
+; Half-height screen
+;
+STR_LISTFORMAT_TITLE
+Format de la llista
+; Format of the list in the
+;
+STR_LISTFORMAT_RESET
+Restaurar
+; Reset
+;
+STR_LISTFORMAT_NAME
+Nom
+; 
+;
+STR_LISTFORMAT_COMMENT
+Comentari
+; 
+;
+STR_LISTFORMAT_REVERSE
+Ordenació inversa
+; Reverse sorting
+;
+STR_ARROWS_INSIDE
+Fletxes a l'interior
+; Arrows on the inside
+;
+STR_ARROWS_OUTSIDE
+Fletxes a l'exterior
+; Arrows on the outside
+;
+STR_ARROWS_EACH
+Una fletxa a cada extrem
+; One arrow at each end of the button
+;
+STR_ARROWTYPE_UPDOWN
+Lliscadors amunt/aball
+; Scroll up/down
+;
+STR_ARROWTYPE_LEFTRIGHT
+Lliscadors esq./dreta
+; Scroll left/right
+;
+STR_ARROWTYPE_PREVNEXT
+Buffer anterior/següent
+; Buffer previous/next
+;
+STR_NEW
+Nou
+; New
+;
+STR_MISC_FLAGS
+Banderes varies...
+; Misc. flags...
+;
+STR_OP_COPY_WHENCOPYING
+Al copair fitxers i directoris...
+; When copying files and directories...
+;
+STR_OP_COPY_CHECKDEST
+Comprovar espai lliure al destí
+; Check destination's free space before starting
+;
+STR_OP_COPY_SETARCHIVE
+Activar bandera arxivat a l'acabar
+; Set archive bit of source after finishing
+;
+STR_OP_COPY_ALSOCOPY
+Copiar també de l'origen...
+; Also copy source's...
+;
+STR_OP_COPY_DATESTAMP
+data de l'última modificació
+; datestamp
+;
+STR_OP_COPY_BITS
+bits de protecció
+; protection bits
+;
+STR_OP_COPY_COMMENT
+comentari
+; comment
+;
+STR_OP_COPY_IFFILEEXISTS
+Quan un fitxer ja existeix...
+; What to do when a file already exists...
+;
+STR_OP_COPY_ALWAYSREPLACE
+Substituir sempre
+; Always replace files
+;
+STR_OP_COPY_NEVERREPLACE
+No substituir mai
+; Never replace files
+;
+STR_OP_COPY_ONLYOLDER
+Substituir només fitxers antics
+; Replace only older files
+;
+STR_OP_COPY_ASKBEFORE
+Preguntar abans de substituir
+; Ask before replacing
+;
+STR_OP_DATE_DATEFORMAT
+Format de la data...
+; Date format...
+;
+STR_OP_DATE_DDMMMYY
+DD-MMM-AA   (16-Set-86)
+; DD-MMM-YY   (22-Sep-92)
+;
+STR_OP_DATE_YYMMDD
+AA-MM-DD    (86-09-16)
+; YY-MM-DD    (92-09-22)
+;
+STR_OP_DATE_MMDDYY
+MM-DD-AA    (09-16-86)
+; MM-DD-YY    (09-22-92)
+;
+STR_OP_DATE_DDMMYY
+DD-MM-AA    (16-09-86)
+; DD-MM-YY    (22-09-92)
+;
+STR_OP_DATE_NAMESUB
+Substituir nom (Avui, Demà, etc.)
+; Name substitution (Today, Tomorrow, etc)
+;
+STR_OP_DATE_12HOUR
+Rellotge de 12 hores
+; 12 hour clock
+;
+STR_OP_DEL_ASKBEFORE
+Preguntar abans de...
+; Ask before...
+;
+STR_OP_DEL_COMMENCING
+començar a borrar
+; Commencing delete
+;
+STR_OP_DEL_DELETEFILES
+borrar fitxers
+; Deleting files
+;
+STR_OP_DEL_DELETEDIRS
+borrar directoris no buits
+; Deleting non-empty directories
+;
+STR_OP_DEL_IGNOREPROT
+Ignorar protecció contra el borrat
+; Ignore the delete protection bit
+;
+STR_OP_ERROR_ENABLE
+Activar...
+; Enable...
+;
+STR_OP_ERROR_DOSREQ
+Requesters del DOS
+; DOS requesters
+;
+STR_OP_ERROR_OPUSREQ
+Requesters d'error de DirOpus
+; Opus error requesters
+;
+STR_OP_GENERAL_DRAG
+Premer-M-Premer per arrossegar
+; Click-M-Click drag
+;
+STR_OP_GENERAL_DISPLAYINFO
+Mostra informació
+; Display info
+;
+STR_OP_GENERAL_DOUBLECLICK
+Doble click al fitxer
+; File double-click
+;
+STR_OP_GENERAL_SLIDERACTIVE
+Usar lliscador activa la finestra
+; Window slider activate
+;
+STR_OP_ICON_CREATEWITHDIR
+Afegir icones als directoris
+; Create icon with directories
+;
+STR_OP_ICON_DOUNTOICONS
+Actuar també sobre les icones
+; Perform all actions on icons as well
+;
+STR_OP_ICON_SELECTAUTO
+Escollir icones automàticament
+; Select icons automatically
+;
+STR_OP_UPDATE_WHENPROCESSING
+Al processar fitxers...
+; When processing files...
+;
+STR_OP_UPDATE_PROGRESSIND
+Indicador bàsic
+; Operation progress indicator
+;
+STR_OP_UPDATE_LEFTJUSTIFY
+No centrar els fitxers a la barra d'estat
+; Left-justify filename in status bar
+;
+STR_OP_UPDATE_SCROLLTOFOLLOW
+Lliscar finestra per seguir l'operació
+; Scroll directory window to follow operations
+;
+STR_OP_UPDATE_UPDATEFREE
+Actualizar espai lliure del disc
+; Update free disk space
+;
+STR_OP_UPDATE_STARTNOTIFY
+Actualitzar directori amb StartNotify()
+; Directory refresh using StartNotify()
+;
+STR_OP_UPDATE_REDRAWMORE
+Redibuixar més d'un quart de pàgina
+; Redraw more than a quarter of a page
+;
+STR_OP_UPDATE_QUIETGETDIR
+Actualizar lliscador a l'explorar
+; Update listview slider while scanning
+;
+STR_SYS_AMIGADOS_TITLE
+Execució d'aplicacions AmigaDOS...
+; Running AmigaDOS applications...
+;
+STR_SYS_AMIGADOS_SHELL
+Shell
+; Shell
+;
+STR_SYS_AMIGADOS_CONSOLE
+Consola
+; Console
+;
+STR_SYS_AMIGADOS_STARTUP
+Inici
+; Startup script
+;
+STR_SYS_AMIGADOS_PRIORITY
+Prioritat
+; Priority
+;
+STR_SYS_CLOCK_TITLE
+Barra de rellotge/memòria...
+; Clock/memory bar...
+;
+STR_SYS_CLOCK_MEMORY
+Memòria
+; Memory monitor
+;
+STR_SYS_CLOCK_CPUMONITOR
+% CPU
+; CPU monitor
+;
+STR_SYS_CLOCK_DATE
+Data
+; Date
+;
+STR_SYS_CLOCK_TIME
+Hora
+; Time
+;
+STR_SYS_CLOCK_WHENICONIFIED
+A l'estar iconificat...
+; When iconified...
+;
+STR_SYS_CLOCK_WINDOW
+Finestra
+; Window
+;
+STR_SYS_CLOCK_NOWINDOW
+Sense finestra
+; No window
+;
+STR_SYS_CLOCK_APPICON
+Icona d'aplicació
+; An AppIcon
+;
+STR_SYS_CLOCK_SHOWFREEAS
+Espai lliure a...
+; Show free space as...
+;
+STR_SYS_CLOCK_BYTES
+Bytes
+; Bytes free
+;
+STR_SYS_CLOCK_KILOBYTES
+Kilo/Megabytes
+; Kilo/Megabytes free
+;
+STR_SYS_CLOCK_TEXTFORMAT
+Format de text...
+; Text format...
+;
+STR_SYS_CLOCK_CHIPANDFAST
+CHIP: i FAST:
+; CHIP: and FAST:
+;
+STR_SYS_CLOCK_CANDF
+C: i F:
+; C: and F:
+;
+STR_SYS_DIR_CACHES
+Caches de directori...
+; Directory caches...
+;
+STR_SYS_DIR_NUMBUFFERS
+Buffers per finestra
+; Buffers per window
+;
+STR_SYS_DIR_ALWAYSEMPTY
+Passar sempre a buffer buit
+; Always move to an empty buffer
+;
+STR_SYS_DIR_REREADINCOMPLETE
+Rellegir buffers canviats o incomplets
+; Re-read changed buffers
+;
+STR_SYS_DIR_SEARCHBUFFERS
+Llegir buffers al...
+; Search buffers on...
+;
+STR_SYS_DIR_SEARCHPARENT
+obrir pare/arrel
+; Parent/Root operation
+;
+STR_SYS_DIR_DIRREAD
+llegir directori amb doble click/P-M-P
+; Double-click/Click-m-click directory read
+;
+STR_SYS_DIR_AUTODISKCHANGE
+Auto-canviar disc
+; Auto diskchange
+;
+STR_SYS_DIR_AUTODISKLOAD
+Auto-carregar disc
+; Auto disk load
+;
+STR_SYS_DIR_EXPANDPATHS
+Expandir rutes
+; Expand pathnames
+;
+STR_SYS_DIR_USEEXALL
+Usar ExAll()
+; Use ExAll()
+;
+STR_FILEVIEW_HEX
+Hex
+; Hex
+;
+STR_SYS_DIR_BLOCKSFREE
+Blocs
+; Blocks free
+;
+STR_SYS_DIR_PERCENTAGE
+Percentatge d'espai lliure
+; Percentage of space free
+;
+STR_PALETTE_RESET
+Restaurar
+; Reset
+;
+STR_PALETTE_DOPUS_DEFAULT
+Valors per defecte del DOpus
+; Directory Opus default
+;
+STR_PALETTE_WB_DEFAULT
+Valors per defecta del Workbench
+; Workbench default
+;
+STR_PALETTE_WB_CURRENT
+Clonar Workbench
+; Workbench current
+;
+STR_OKAY_TO_QUIT
+Acceptar
+; Okay
+;
+STR_SCREEN_GENERAL
+General
+; General
+;
+STR_FTYPE_ACTION
+Operació
+; Action
+;
+STR_FTYPE_COMMAND
+Comanda
+; Command
+;
+STR_FILEVIEW_DEC
+Decimal
+; Decimal
+;
+STR_EDIT_MENU
+Editar
+; Edit
+;
+STR_SYS_SHOWPATTERN_TITLE
+Patró de directoris...
+; Directory list pattern...
+;
+STR_SYS_SHOWPATTERN_HIDDENBIT
+Amagar fitxers amb bandera H activada
+; Hide files with hidden bit set
+;
+STR_SYS_SHOWPATTERN_SHOW
+Mostrar
+; Show
+;
+STR_SYS_SHOWPATTERN_HIDE
+Amagar
+; Hide
+;
+STR_SYS_STARTUP_TITLE
+Directoris a llegir a l'inici...
+; Directories to read on startup...
+;
+STR_SYS_STARTUP_LEFT
+Esquerra
+; Left
+;
+STR_SYS_STARTUP_RIGHT
+Dreta
+; Right
+;
+STR_SYS_STARTUP_AREXX
+Scripts ARexx a executar al...
+; ARexx scripts to execute on...
+;
+STR_SYS_STARTUP_STARTUP
+Inici
+; Startup
+;
+STR_SYS_STARTUP_UNICONIFY
+Desiconificar
+; Uniconify
+;
+STR_SYS_VIEWPLAY_TITLE
+Visor d'imatges/animacions (IFF ILBM/ANIM)...
+; Picture/animation viewer (IFF ILBM/ANIM)...
+;
+STR_SYS_VIEWPLAY_BLACK
+Fons negra entre imatges
+; Black background between pictures
+;
+STR_SYS_VIEWPLAY_PAUSED
+Començar amb animació aturada
+; Start animation paused
+;
+STR_SYS_VIEWPLAY_8BITCOL
+8 bits de color per canó
+; 8-bits per gun color
+;
+STR_SYS_VIEWPLAY_SHOWDELAY
+Intermedi
+; Show delay
+;
+STR_SYS_VIEWPLAY_FADEDELAY
+Fos
+; Fade delay
+;
+STR_SYS_VIEWPLAY_SOUNDPLAYER
+Reproductor de so (IFF 8SVX)...
+; Sound player (IFF 8SVX)...
+;
+STR_SYS_VIEWPLAY_FILTER
+Desactivar filtre d'audio
+; Turn audio filter off for play
+;
+STR_SYS_VIEWPLAY_LOOP
+Doble pulsació produeix un bucle
+; Loop on double-click
+;
+STR_SYS_VIEWPLAY_TEXTVIEW
+Visor de text...
+; Text viewer...
+;
+STR_SYS_VIEWPLAY_BORDERS
+Usar lliscadors
+; Text viewer borders
+;
+STR_SYS_VIEWPLAY_TABSIZE
+Tabulador
+; Tab size
+;
+STR_SCREEN_GENERAL_TINYGADS
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; Bottom-right tiny buttons
+;
+STR_SCREEN_GENERAL_GADGETSLIDERS
+ConfigOpus - Principal
+; Button banks sliders
+;
+STR_SCREEN_GENERAL_INDICATERMB
+ConfigOpus - Operacions
+; Indicate button has RMB function
+;
+STR_SCREEN_GENERAL_NEWLOOKSLIDERS
+ConfigOpus - Menús
+; New-look sliders
+;
+STR_EDITLIST_TITLE1
+ConfigOpus - Unitats
+; Flags...
+;
+STR_EDITLIST_TITLE2
+ConfigOpus - Tipus de Fitxer
+; Events...
+;
+STR_FILETYPEACTIONLIST_TITLE
+ConfigOpus - Pantalla
+; Defined filetype actions...
+;
+STR_HOTKEYSLIST_TITLE
+ConfigOpus - Sistema
+; Global hotkeys defined...
+;
+STR_SCREENMODELIST_TITLE
+ConfigOpus - Tecles d'invocació
+; Display mode...
+;
+STR_LEFT_WINDOW
+Menú principal
+; Left window
+;
+STR_RIGHT_WINDOW
+Botó  esq. ratolí
+; Right window
+;
+STR_SEP_MIX_FILES
+Botó dret ratolí
+; Mix files/directories
+;
+STR_SEP_DIRS_FIRST
+Acceptar
+; Directories first
+;
+STR_SEP_FILES_FIRST
+Cancel·lar
+; Files first
+;
+STR_FUNCTIONLIST_ABOUT
+Disponible...
+; About         -      Display program info
+;
+STR_FUNCTIONLIST_ADDICON
+Mostrar...
+; AddIcon       -      Add icons to entries
+;
+STR_FUNCTIONLIST_ALARM
+Longitut de camps...
+; Alarm         -            Sound an alarm
+;
+STR_FUNCTIONLIST_ALL
+(  = criteri d'ordenació)
+; All           -        Select all entries
+;
+STR_FUNCTIONLIST_ANSIREAD
+Llista de fitxers...
+; AnsiRead      -          ANSI text viewer
+;
+STR_FUNCTIONLIST_AREXX
+Tecles de desconificació/invocació...
+; ARexx         -      Run an ARexx command
+;
+STR_FUNCTIONLIST_ASSIGN
+Eines per omisió...
+; Assign        -    Assign logical devices
+;
+STR_FUNCTIONLIST_BEEP
+Escull fitxer...
+; Beep          -              Sound a beep
+;
+STR_FUNCTIONLIST_BUFFERLIST
+Escull directori...
+; BufferList    - List buffered directories
+;
+STR_FUNCTIONLIST_BUTTONICONIFY
+Escull tipus de lletra i mida...
+; ButtonIconify -   Iconify to button strip
+;
+STR_FUNCTIONLIST_CD
+_Tecles
+; CD            -  Change current directory
+;
+STR_FUNCTIONLIST_CHECKFIT
+Afegit nou banc als ja existents.
+; CheckFit      - Check if entries will fit
+;
+STR_FUNCTIONLIST_CLEARBUFFERS
+Afegit banc per omisió als ja existents.
+; ClearBuffers  -       Clear buffered dirs
+;
+STR_FUNCTIONLIST_CLEARSIZES
+No existeix cap banc de botons configurat!
+; ClearSizes    -    Remove dir byte counts
+;
+STR_FUNCTIONLIST_CLEARWIN
+Botó borrat.
+; ClearWin      -  Clear the current window
+;
+STR_FUNCTIONLIST_CLONE
+Escull posició a la qual copiar el botó escollit...
+; Clone         -    Clone selected entries
+;
+STR_FUNCTIONLIST_COMMENT
+Escull botó a intercanviar amb l'escollit...
+; Comment       - Give filenotes to entries
+;
+STR_FUNCTIONLIST_CONFIGURE
+Escull el botó a copiar...
+; Configure     -      Launch config editor
+;
+STR_FUNCTIONLIST_CONTST
+Escul el botó a intercanviar...
+; ContST        -  Restart paused ST module
+;
+STR_FUNCTIONLIST_COPY
+Botons - Editor
+; Copy          -     Copy selected entries
+;
+STR_FUNCTIONLIST_COPYAS
+Introdueix el número de banc al qual copiar.\n\
+(Es crea un de nou si encara no existeix)
+; CopyAs        -       Copy with new names
+;
+STR_FUNCTIONLIST_COPYWINDOW
+El banc escollit ja existeix.\n\n\
+De debó vols sobreescriure'l?
+; CopyWindow    -  Copy one window to other
+;
+STR_FUNCTIONLIST_DATESTAMP
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; DateStamp     -    Modify file datestamps
+;
+STR_FUNCTIONLIST_DEFAULTS
+ConfigOpus - Principal
+; Defaults      - Set default configuration
+;
+STR_FUNCTIONLIST_DELETE
+ConfigOpus - Operacions
+; Delete        -   Delete selected entries
+;
+STR_FUNCTIONLIST_DIRTREE
+ConfigOpus - Menús
+; DirTree       -     Create directory tree
+;
+STR_FUNCTIONLIST_DISKCOPY
+ConfigOpus - Unitats
+; Diskcopy      -         Copy floppy disks
+;
+STR_FUNCTIONLIST_DISKCOPYBG
+ConfigOpus - Tipus de Fitxer
+; DiskcopyBG    -    Diskcopy in background
+;
+STR_FUNCTIONLIST_DISKINFO
+ConfigOpus - Pantalla
+; DiskInfo      -    Display info on a disk
+;
+STR_FUNCTIONLIST_DISPLAYDIR
+ConfigOpus - Sistema
+; DisplayDir    -  Update directory display
+;
+STR_FUNCTIONLIST_DOPUSTOBACK
+ConfigOpus - Tecles d'invocació
+; DopusToBack   -   Move screen to the back
+;
+STR_FUNCTIONLIST_DOPUSTOFRONT
+Menú principal
+; DopusToFront  -  Move screen to the front
+;
+STR_FUNCTIONLIST_ENCRYPT
+Botó  esq. ratolí
+; Encrypt       -    Encrypt selected files
+;
+STR_FUNCTIONLIST_ENDFUNCTION
+Botó dret ratolí
+; FinishSection -     Finish above commands
+;
+STR_FUNCTIONLIST_ERRORHELP
+Acceptar
+; ErrorHelp     -      Help with DOS errors
+;
+STR_FUNCTIONLIST_EXECUTE
+Cancel·lar
+; Execute       -       Execute batch files
+;
+STR_FUNCTIONLIST_FORMAT
+Disponible...
+; Format        -       Format floppy disks
+;
+STR_FUNCTIONLIST_FORMATBG
+Mostrar...
+; FormatBG      -      Format in background
+;
+STR_FUNCTIONLIST_GETDEVICES
+Longitut de camps...
+; GetDevices    -       Display device list
+;
+STR_FUNCTIONLIST_GETSIZES
+(  = criteri d'ordenació)
+; GetSizes      - Calculate total dir sizes
+;
+STR_FUNCTIONLIST_HELP
+Llista de fitxers...
+; Help          -  Turn help mode on or off
+;
+STR_FUNCTIONLIST_HEXREAD
+Tecles de desconificació/invocació...
+; HexRead       -   Hexadecimal text viewer
+;
+STR_FUNCTIONLIST_HUNT
+Eines per omisió...
+; Hunt          -      Search for filenames
+;
+STR_FUNCTIONLIST_ICONIFY
+Escull fitxer...
+; Iconify       -           Iconify program
+;
+STR_FUNCTIONLIST_ICONINFO
+Escull directori...
+; IconInfo      - Give information on icons
+;
+STR_FUNCTIONLIST_INSTALL
+Escull tipus de lletra i mida...
+; Install       -       Make disks bootable
+;
+STR_FUNCTIONLIST_INSTALLBG
+_Tecles
+; InstallBG     -     Install in background
+;
+STR_FUNCTIONLIST_LASTSAVED
+Afegit nou banc als ja existents.
+; LastSaved     -    Read last-saved config
+;
+STR_FUNCTIONLIST_LOADCONFIG
+Afegit banc per omisió als ja existents.
+; LoadConfig    -     Load nominated config
+;
+STR_FUNCTIONLIST_LOADSTRINGS
+No existeix cap banc de botons configurat!
+; LoadStrings   -    Load a new string file
+;
+STR_FUNCTIONLIST_LOOPPLAY
+Botó borrat.
+; LoopPlay      -     Loop-play sound files
+;
+STR_FUNCTIONLIST_MAKEDIR
+Escull posició a la qual copiar el botó escollit...
+; Makedir       -    Create a new directory
+;
+STR_FUNCTIONLIST_MODIFY
+Escull botó a intercanviar amb l'escollit...
+; Modify        -      Change configuration
+;
+STR_FUNCTIONLIST_MOVE
+Escull el botó a copiar...
+; Move          -     Move selected entries
+;
+STR_FUNCTIONLIST_MOVEAS
+Escul el botó a intercanviar...
+; MoveAs        -       Move with new names
+;
+STR_FUNCTIONLIST_NEWCLI
+Botons - Editor
+; NewCLI        -     Open a new CLI window
+;
+STR_FUNCTIONLIST_NONE
+Introdueix el número de banc al qual copiar.\n\
+(Es crea un de nou si encara no existeix)
+; None          -      Deselect all entries
+;
+STR_FUNCTIONLIST_OTHERWINDOW
+El banc escollit ja existeix.\n\n\
+De debó vols sobreescriure'l?
+; OtherWindow   -     Activate other window
+;
+STR_FUNCTIONLIST_PARENT
+Banc de botons copiat.
+; Parent        -     Read parent directory
+;
+STR_FUNCTIONLIST_PLAY
+Indica nº de banc pel que vols intercanivar aquest.
+; Play          - Play selected sound files
+;
+STR_FUNCTIONLIST_PLAYST
+El banc de botons escollit no existeix.
+; PlayST        -      Play ST modules only
+;
+STR_FUNCTIONLIST_PRINT
+Bancs de botons intercanviats.
+; Print         -      Print selected files
+;
+STR_FUNCTIONLIST_PRINTDIR
+Aquest és l'únic banc de botons configurat.\n\n\
+De debó vols borrar-lo?
+; PrintDir      - Print displayed directory
+;
+STR_FUNCTIONLIST_PROTECT
+De debó vols borrar aquest banc de botons?
+; Protect       -    Modify protection bits
+;
+STR_FUNCTIONLIST_QUIT
+Banc de botons borrat.
+; Quit          -       Quit Directory Opus
+;
+STR_FUNCTIONLIST_READ
+Escull el botó a borrar...
+; Read          -         Plain text viewer
+;
+STR_FUNCTIONLIST_REDRAW
+Banc de botons número
+; Redraw        -        Redraw main screen
+;
+STR_FUNCTIONLIST_RELABEL
+Bancs de botons: cap banc configurat.
+; Relabel       -         Change disk names
+;
+STR_FUNCTIONLIST_REMEMBER
+No s'ha pogut reservar suficient\n\
+memòria pel nou banc!
+; Remember      -     Remember config state
+;
+STR_FUNCTIONLIST_RENAME
+Creat nou banc de botons.
+; Rename        -   Rename selected entries
+;
+STR_FUNCTIONLIST_RESCAN
+Carregats nous menús.
+; Rescan        -  Reload current directory
+;
+STR_FUNCTIONLIST_RESELECT
+Carregats menús per omisió.
+; Reselect      -          Reselect entries
+;
+STR_FUNCTIONLIST_RESTORE
+Introdueix títol del menú
+; Restore       -   Restore remembered cfg.
+;
+STR_FUNCTIONLIST_ROOT
+Opció de menú borrat.
+; Root          -       Read root directory
+;
+STR_FUNCTIONLIST_RUN
+Opció de menú insertada.
+; Run           -             Run a program
+;
+STR_FUNCTIONLIST_SAVECONFIG
+\n\
+De debó vols borrar aquest menú?
+; SaveConfig    -       Save current config
+;
+STR_FUNCTIONLIST_SCANDIR
+Menú borrat.
+; ScanDir       -  Load nominated directory
+;
+STR_FUNCTIONLIST_SEARCH
+Menú ordenat.
+; Search        - Search files for a string
+;
+STR_FUNCTIONLIST_SELECT
+Escull lloc al qual copiar el menú escollit...
+; Select        -   Wildcard-select entries
+;
+STR_FUNCTIONLIST_SHOW
+Escull menú a intercanviar amb l'escollit...
+; Show          -    Display graphic images
+;
+STR_FUNCTIONLIST_SMARTREAD
+Escull lloc al qual copiar l'opció del menú escollida...
+; SmartRead     -   Auto Hex or Text viewer
+;
+STR_FUNCTIONLIST_STOPST
+Escull l'opció del menú a intercanviar amb l'escollida...
+; StopST        -    Stop ST module playing
+;
+STR_FUNCTIONLIST_SWAPWINDOW
+Menús - Editor
+; SwapWindow    -  Swap contents of windows
+;
+STR_FUNCTIONLIST_TOGGLE
+Escull el menú a copiar...
+; Toggle        -     Toggle all selections
+;
+STR_FUNCTIONLIST_UNICONIFY
+Escull el menú a intercanviar...
+; UnIconify     -        Un-iconify program
+;
+STR_FUNCTIONLIST_USER_FTYPE1
+Escull el menú a borrar...
+; User1         -  Custom filetype action 1
+;
+STR_FUNCTIONLIST_USER_FTYPE2
+Escull el manú a ordenar...
+; User2         -  Custom filetype action 2
+;
+STR_FUNCTIONLIST_USER_FTYPE3
+Escull l'opció de menú sobre la qual insertar la nova...
+; User3         -  Custom filetype action 3
+;
+STR_FUNCTIONLIST_USER_FTYPE4
+Escull l'opció de menú que desitges copiar...
+; User4         -  Custom filetype action 4
+;
+STR_FUNCTIONLIST_VERIFY
+Escull l'opció de menú que desitges intercanviar...
+; Verify        -           Verify function
+;
+STR_FUNCTIONLIST_VERSION
+Escull l'opció de menú que desitges borrar...
+; Version       -   Display version numbers
+;
+STR_COMMANDSEQ_DESTINATION
+Editar
+; {d}  -         Destination directory name
+;
+STR_COMMANDSEQ_FIRSTFILE
+_Drecera
+; {f}  -   First selected entry (with path)
+;
+STR_COMMANDSEQ_ALLFILES
+Tecles
+; {F}  -  All selected entries (with paths)
+;
+STR_COMMANDSEQ_FIRSTFILEUNSEL
+Funcions disponibles...
+; {fu} -   First entry (path ; no unselect)
+;
+STR_COMMANDSEQ_ALLFILESUNSEL
+Comandes disponibles...
+; {Fu} -   All entries (path ; no unselect)
+;
+STR_COMMANDSEQ_FIRSTFILENOPATH
+Text
+; {o}  -   First selected entry (name only)
+;
+STR_COMMANDSEQ_ALLFILESNOPATH
+Fons
+; {O}  -  All selected entries (names only)
+;
+STR_COMMANDSEQ_FIRSTFILENOPATHUNSEL
+Deixa aquí una eina!
+; {ou} -   First entry (name ; no unselect)
+;
+STR_COMMANDSEQ_ALLFILESNOPATHUNSEL
+Carregant nou banc d'unitats.
+; {Ou} -   All entries (name ; no unselect)
+;
+STR_COMMANDSEQ_PORTNAME
+Bancs d'unitats per omisió reiniciats.
+; {Q}  -       Query the value of something
+;
+STR_COMMANDSEQ_DIRREQ
+Botó d'unitat borrat.
+; {Rd} -                Directory requester
+;
+STR_COMMANDSEQ_FILEREQ
+Escull el lloc al qual copiar l'unitat escollida...
+; {Rf} -                     File requester
+;
+STR_COMMANDSEQ_MULTIFILEREQ
+Escull unitat a intercanviar amb l'escollida...
+; {RF} -        Multi-select file requester
+;
+STR_COMMANDSEQ_FONTREQ
+Escull el lloc al qual copiar el banc escollit...
+; {Ro} -                     Font requester
+;
+STR_COMMANDSEQ_ARGUMENTS
+Escull el banc a intercanviar amb l'escollit
+; {Rs} -                   String requester
+;
+STR_COMMANDSEQ_SOURCE
+Vols borrar aquest banc d'unitats?
+; {s}  -              Source directory name
+;
+STR_CLASSOPS_AND
+_Ruta
+; And          - start of another group
+;
+STR_CLASSOPS_MATCH
+Llistades les unitats del sistema.
+; Match        - text or $hex
+;
+STR_CLASSOPS_MATCHBITS
+Escull en el banc un botó d'unitat a copiar.
+; MatchBits    - HSPARWED with + and -
+;
+STR_CLASSOPS_MATCHCOMMENT
+Escull el banc a intercanviar.
+; MatchComment - text
+;
+STR_CLASSOPS_MATCHDATE
+Escull el banc a borrar.
+; MatchDate    - date string or range
+;
+STR_CLASSOPS_MATCHNAME
+Escull el banc a ordenar.
+; MatchName    - filename
+;
+STR_CLASSOPS_MATCHSIZE
+Escull el botó d'unitat a copiar...
+; MatchSize    - value with >, < and =
+;
+STR_CLASSOPS_MOVE
+Escull el primer botó d'unitat a intercanviar...
+; Move         - byte offset from here
+;
+STR_CLASSOPS_MOVETO
+Escull el botó d'unitat a borrar.
+; MoveTo       - absolute location
+;
+STR_CLASSOPS_OR
+Fusionats nous tipus de fitxers amb els ja existents.
+; Or           - start of another group
+;
+STR_CLASSOPS_SEARCHFOR
+Fusionats els tipus de fitxer per defecte amb els ja existents.
+; SearchFor    - text or $hex
+;
+STR_BY
+Vols borrar aquesta classe?
+; by
+;
+STR_SELECT_HOTKEY_TO_SWAP
+Classe de fitxer borrada.
+; Select hotkey to swap.
+;
+STR_SELECT_SECOND_HOTKEY_TO_SWAP
+Escull la classe a carregar
+; Select second hotkey to swap with first.
+;
+STR_MODULE_LIST_TITLE
+Guardar classes de fitxer com...
+; External support modules...
+;
+STR_MODULE_LIST_CHECK_STRING
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; (  Check indicates a module to be pre-loaded)
+;
+STR_SYS_CLOCK_KILOBYTES_FREE
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; Kilobytes free
+;
+STR_SYS_STARTUP_CONFIG
+ConfigOpus - Principal
+; Cfg return
+;
+STR_MENU_DUPLICATE
+ConfigOpus - Operacions
+; Duplicate...
+;
+STR_FILECLASS_DUPLICATE
+ConfigOpus - Menús
+; Select class to duplicate...
+;
+STR_MENU_CLEARCLIPS
+ConfigOpus - Unitats
+; Clear clips
+;
+STR_REALLY_CLEAR_CLIPS
+ConfigOpus - Tipus de Fitxer
+; Really clear all clipped functions?
+;
+STR_SCREEN_GENERAL_DRAGREQUESTERS
+ConfigOpus - Pantalla
+; Draggable requesters
+;
+STR_FORMAT_OWNER
+ConfigOpus - Sistema
+; Owner
+;
+STR_FORMAT_GROUP
+ConfigOpus - Tecles d'invocació
+; Group
+;
+STR_PALETTE_TINT
+Menú principal
+; Tint
+;
+STR_PALETTE_PHARAOH
+Botó  esq. ratolí
+; Pharaoh
+;
+STR_PALETTE_SUNSET
+Botó dret ratolí
+; Sunset
+;
+STR_PALETTE_OCEAN
+Acceptar
+; Ocean
+;
+STR_PALETTE_STEEL
+Cancel·lar
+; Steel
+;
+STR_PALETTE_CHOCOLATE
+Disponible...
+; Chocolate
+;
+STR_PALETTE_PEWTER
+Mostrar...
+; Pewter
+;
+STR_PALETTE_WINE
+Longitut de camps...
+; Wine
+;
+STR_PALETTE_A2024
+(  = criteri d'ordenació)
+; A2024
+;
+STR_FTYPE_CLICKMCLICK
+Llista de fitxers...
+; Click-m-click
+;
+STR_FTYPE_DOUBLECLICK
+Tecles de desconificació/invocació...
+; LMB Double-click
+;
+STR_FTYPE_MMBCLICK
+Eines per omisió...
+; MMB Double-click
+;
+STR_FUNCTION_COMMAND
+Escull fitxer...
+; Command
+;
+STR_FUNCTION_AMIGADOS
+Escull directori...
+; AmigaDOS
+;
+STR_FUNCTION_WORKBENCH
+Escull tipus de lletra i mida...
+; Workbench
+;
+STR_FUNCTION_BATCH
+_Tecles
+; Batch
+;
+STR_FUNCTION_AREXX
+Afegit nou banc als ja existents.
+; ARexx
+;
+STR_MODE_WORKBENCH_CLONE
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; Workbench:Clone
+;
+STR_MODE_WORKBENCH_USE
+ConfigOpus - Principal
+; Workbench:Use
+;
+STR_COLOURS_TINY_GADS
+ConfigOpus - Operacions
+; BRSA?EFCIQ
+;
+STR_FORMAT_GROUPBITS
+ConfigOpus - Menús
+; Net protection bits
+;
+STR_MENUNAME_NEATSTUFF
+ConfigOpus - Unitats
+; Tools
+;
+STR_NEAT_PAINT_MODE
+ConfigOpus - Tipus de Fitxer
+; Paint mode
+;
+STR_PAINT_SELECT_COLOURS
+ConfigOpus - Pantalla
+; Select paint colors
+;
+STR_PAINT_STATE
+ConfigOpus - Sistema
+;   (Paint mode active)
+;
+STR_SCREEN_GENERAL_TITLEBARSTATUS
+De debó vols sortir sense\n\
+guardar la nova configuració?
+; Display status text in title bar
+;
+STR_OP_UPDATE_PROGRESSIND_COPY
+ConfigOpus - Principal
+; Current file progress indicator (Copy)
+;
+STR_SCREEN_MODE_USE
+ConfigOpus - Operacions
+; Use
+;
+STR_SCREEN_GENERAL_WINDOWBORDERS
+ConfigOpus - Menús
+; Custom screen window borders
+;
+STR_SCREEN_MODE_CLONE
+ConfigOpus - Unitats
+; Clone
+;
+STR_SCREEN_SLIDERS
+ConfigOpus - Tipus de Fitxer
+; Sliders
+;
+STR_OP_UPDATE_PROGRESS
+ConfigOpus - Pantalla
+; Progress indicator...
+;
+STR_FONTPLACE_SCREEN
+ConfigOpus - Sistema
+; Screen font
+;
+STR_FUNCTIONLIST_SETVAR
+ConfigOpus - Tecles d'invocació
+; SetVar        -  Set an internal variable
+;
+STR_COMMANDSEQ_VARIABLE
+Menú principal
+; {v}  -               Pre-defined variable
+;
+STR_SYS_VIEWPLAY_BESTMODEID
+Botó  esq. ratolí
+; Pick best screen-mode
+;
+STR_FUNCTIONLIST_NOTIFY
+Botó dret ratolí
+; Notify        -    Notification requester
+;
+STR_FUNCTIONLIST_PARENTLIST
+Acceptar
+; ParentList    -   List parent directories
+;
+STR_SIZE_KMGMODE
+Cancel·lar
+; Show size in K/M/G
+;
+STR_SYS_VIEWPLAY_INWINDOW
+Disponible...
+; View in window
+;
+STR_SYS_TOP_Y
+Mostrar...
+; Top Y
+;
+STR_SYS_LEFT_X
+Longitut de camps...
+; Left X
+;
+STR_SYS_WIDTH
+(  = criteri d'ordenació)
+; Width
+;
+STR_SYS_HEIGHT
+Llista de fitxers...
+; Height
+;
+STR_CLASSOPS_MATCHI
+Tecles de desconificació/invocació...
+; MatchI       - text (case-insensitive)
+;
+STR_MENU_MAX_REACHED
+Eines per omisió...
+; Warning! Some menus were not imported due to lack of free space.
+;
+STR_OP_GENERAL_FMPARENTMODE
+Escull fitxer...
+; FileMaster-like Parent
+;
+STR_OP_COPY_COPYARCHIVE
+Escull directori...
+; Copy archive bit too
+;
+STR_OP_GENERAL_FORCEQUIT
+Escull tipus de lletra i mida...
+; Don't ask before quit
+;
+STR_USE
+_Tecles
+; Use
+;
+STR_FUNCTIONLIST_MAKELINK
+Afegit nou banc als ja existents.
+; MakeLink      -  Create soft or hard link
+;
+STR_OP_GENERAL_MMBSELECTS
+Afegit banc per omisió als ja existents.
+; Single MMB click selects lister
+;

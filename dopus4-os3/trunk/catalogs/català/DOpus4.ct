@@ -1,0 +1,1418 @@
+## version $VER: DOpus4.catalog 1.0 (23.06.06)
+## codeset 0
+## language català
+;
+STR_DIRS_FILES_BYTES_COUNT
+Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
+;
+STR_DOPUS_ALREADY_RUNNING
+Directoy Opus ja està en funcionament.\n\
+Vols llençar una altra còpia?
+; Directory Opus is already resident in memory.\nDo you want to run another copy?
+;
+STR_UNABLE_TO_OPEN_WINDOW
+No es pot obrir la pantalla o finestra.
+; Unable to open screen/window!
+;
+STR_WELCOME_TO_DOPUS
+Benvingut a Directory Opus!
+; Welcome to Directory Opus!
+;
+STR_WELCOME_BACK_TO_DOPUS
+Benvingut de nou a Directory Opus!
+; Welcome back to Directory Opus!
+;
+STR_INTERROGATING_FILE
+Examinant fitxer...  
+; Interrogating file...
+;
+STR_READING_DIRECTORY
+Llegint directori...  
+; Reading directory...
+;
+STR_ENTER_ARGUMENTS_FOR
+Introdueix arguments per "%s"
+; Enter arguments for \"%s\"
+;
+STR_ENTER_DIRECTORY_NAME
+Introdueix nom del directori
+; Enter directory name
+;
+STR_FILE_ALREADY_EXISTS
+El fitxer o directori ja existeix!
+; File or directory already exists!
+;
+STR_DIRECTORY_CREATED
+Directori creat.
+; Directory created.
+;
+STR_PRINTING_DIRECTORY
+Imprimint directori...
+; Printing directory...
+;
+STR_DIRECTORY
+Directori 
+; Directory 
+;
+STR_DEVICE_LIST
+Lista d'unitats\n\n
+; Device list\n\n
+;
+STR_NO_CHIP_FOR_ICON
+Memòria gràfica insuficient per mostrar la icona.
+; Not enough chip memory to display icon
+;
+STR_FILE_NOT_ILBM
+No és un fitxer ILBM.
+; File is not ILBM
+;
+STR_ERROR_IN_IFF
+Error en estructura IFF.
+; Error in IFF structure
+;
+STR_NO_CHIP_FOR_PICTURE
+Memòria gràfica insuficient per mostrar la imatge.
+; Not enough chip memory to display picture
+;
+STR_CANT_ALLOCATE_AUDIO
+No es pot reservar els canals d'audio.
+; Can't allocate audio channels
+;
+STR_NOT_ST_MOD
+El fitxer és un mòdul de música no suportada.
+; File is not a supported music module
+;
+STR_FILE_EXISTS_REPLACE
+¡El fitxer "%s"\n\
+ja existeix! Vols substituir-lo?
+; \"%s\" already exists! Replace?
+;
+STR_SELECT_UNPROTECT
+\n\
+Escull 'Desprotegir' per activar el bit Borrable.
+; \nSelect Unprotect to set the deletion bit.
+;
+STR_ENTER_TIME
+Introdueix hora en format HH:MM:SS
+; Enter time in the form HH:MM:SS
+;
+STR_AREXX_NOT_RUNNING
+¡No s'ha pogut trobar el servidor ARexx!
+; ARexx server not found!
+;
+STR_ENTER_AREXX_COMMAND
+Introdueix comanda ARexx
+; Enter ARexx command
+;
+STR_ENTER_NEW_CD
+Introdueix el nou directori actual
+; Enter new current directory
+;
+STR_SCANNING_DEVICE_LIST
+Explorant llista d'unitats...
+; Scanning device list...
+;
+STR_FOUND_A_MATCH
+Trobat "%s" en\n\
+"%s"\n\n\
+Anar a aquest directori?
+; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+;
+STR_BUFFERS_CLEARED
+Netejant els buffers no mostrats.
+; Buffers not currently displayed have been cleared.
+;
+STR_UNREADABLE_DISK
+Disc illegible.
+; Unreadable disk
+;
+STR_NOT_A_DOS_DISK
+El disc no és del tipus DOS.
+; Not a DOS disk
+;
+STR_KICKSTART_DISK
+Disc Kickstart
+; Kickstart disk
+;
+STR_VALIDATING
+Validant
+; Validating
+;
+STR_WRITE_PROTECTED
+Només lectura
+; Write protected
+;
+STR_READ_WRITE
+Lectura/Escriptura
+; Read/Write
+;
+STR_DEVICE_NOT_MOUNTED
+Unitat o volum no muntats.
+; Device or volume not mounted
+;
+STR_NO_DISK_IN_DRIVE
+No hi ha disc en la unitat.
+; No disk in drive
+;
+STR_DOS_ERROR_CODE
+Error DOS: %ld
+; DOS error code %ld
+;
+STR_ENTER_NEW_DISK_NAME
+Introdueix nou nom del disc
+; Enter new disk name
+;
+STR_ENTER_ASSIGN_NAME
+Introdueix directori a reassignar
+; Enter directory to re-assign device
+;
+STR_CANT_CANCEL_ASSIGN
+No es pot cancel·lar l'assignació.
+; Can't cancel assign.
+;
+STR_ENTER_DEVICE_NAME
+Introdueix assignació per aquest directori
+; Enter device name for this directory
+;
+STR_ASSIGN_FAILED
+Assignació fallida.
+; Assign failed
+;
+STR_NO_DESTINATION_SELECTED
+No has escollit un directori destí.
+; No destination directory selected!
+;
+STR_CANT_COPY_DIR_TO_ITSELF
+No es pot copiar un direcotir a si mateix.
+; You can't copy a directory into itself!
+;
+STR_SHOWING_FONT
+Mostrant tipus de lletra escollit...
+; Showing selected font...
+;
+STR_RUNNING_FILE
+Executant fitxer...
+; Running selected file...
+;
+STR_PLAYING_FILE
+Reproduint fitxer...
+; Playing selected file...
+;
+STR_SHOWING_FILE
+Mostrant fitxer...
+; Showing selected file...
+;
+STR_PLAYING_ST_MOD
+Reproduint mòdul...
+; Playing music module...
+;
+STR_READING_SELECTED_FILE
+Llegint fitxer...
+; Reading selected file...
+;
+STR_FOUND_A_MATCH_READ
+Trobada coincidència al fitxer\n\
+"%s"\n\n\
+Vols veure el fitxer?
+; Found a match in the file\n\"%s\"\nShall I read the file?
+;
+STR_CONFIG_CHANGED_QUIT
+Has modificat la configuració.\n\n\
+De debò vols sortir?
+; You have modified the configuration.\nDo you really want to quit?
+;
+STR_SAVING_CONFIG
+Guardant configuració...
+; Saving configuration...
+;
+STR_READING_CONFIG
+Llegint configuració...
+; Reading configuration...
+;
+STR_CONFIG_CHANGED_LASTSAVED
+Has modificat la configuració.\n\n\
+De debò vols carregar la configuració anterior?
+; You have modified the configuration.\nReally load the last-saved settings?
+;
+STR_CONFIG_CHANGED_DEFAULTS
+Has modificat la configuració.\n\n\
+Guardar-la abans de recuperar els valors per omisió?
+; You have modified the configuration.\nSave before restoring defaults?
+;
+STR_HELP_NOT_AVAILABLE
+No hi ha ajuda disponible per aquesta funció.
+; Help not available for that function!
+;
+STR_SCANNING_TREE
+Explorant abre de directoris...
+; Scanning directory tree...
+;
+STR_ENTER_A_STRING
+Introdueix una cadena
+; Enter a string
+;
+STR_PLEASE_CHOOSE
+Si us plau, escull.
+; Please choose
+;
+STR_COMMENTING
+afegint comentari
+; commenting
+;
+STR_PROTECTING
+protegint
+; protecting
+;
+STR_DATESTAMPING
+posant data
+; datestamping
+;
+STR_DELETING
+borrant
+; deleting
+;
+STR_COPYING
+copiant
+; copying
+;
+STR_CREATING
+creant
+; creating
+;
+STR_CANT_OVERCOPY_FILES
+No es pot copiar els fitxers a si mateixos.
+; You can't copy these files over themselves!
+;
+STR_INTERROGATING_FILES
+Examinant fitxers...
+; Interrogating files...
+;
+STR_NOT_IDENTIFIED
+No s'ha pogut identificar "%s".
+; %s could not be identified.
+;
+STR_LOADING_CONFIG
+Carregant programa de configuració...
+; Loading configuration program...
+;
+STR_WAITING_FOR_PORT
+Esperant al port de ConfigOpus...
+; Waiting for configuration port...
+;
+STR_CONFIG_NOT_FOUND
+No s'ha pogut trobar o carregar\n\
+el programa de configuració.
+; Configuration program not found/could not be loaded.
+;
+STR_ALIEN_WINDOWS
+Existeixen finestres obertes a la pantalla del Directory Opus.\n\n\
+Prem Cancel·lar i tanca-les tu, o prem Tancar i\n\
+Directory Opus les tancarà per tu (PERILLÓS!).
+; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+;
+STR_REALLY_DELETE
+De debò vols borrar els objectes seleccionats?
+; Do you really wish to delete selected entries?
+;
+STR_WISH_TO_DELETE
+De debò vols borrar "%s"?
+; Do you really wish to delete \"%s\"?
+;
+STR_NOT_EMPTY
+¡"%s" no està buit!\n\n\
+De debò vols borrar-lo?
+; \"%s\" is not empty! Delete?
+;
+STR_ENTER_NEW_NAME
+Introdueix nom nou
+; Enter new name
+;
+STR_RENAMING
+reanomenat
+; renaming
+;
+STR_ENTER_NEW_NAME_MOVE
+Introdueix un nom nou per al fitxer mogut
+; Enter new name for moved file
+;
+STR_MOVING
+movent
+; moving
+;
+STR_ENTER_NEW_NAME_CLONE
+Introdueix un nom nou pel fitxer duplicat
+; Enter name for cloned entry
+;
+STR_CLONING
+duplicant
+; cloning
+;
+STR_SIZE_IS_NOT_KNOWN
+Es desconeix la mida del directori seleccionat.\n\n\
+Vols fer un recompte del teu espai en bytes?
+; Size is not known for the selected directory.\nPerform a byte count on this directory?
+;
+STR_FILE_MAY_NOT_FIT
+Possiblement el fitxer escollit no cabrà al destí.\n\n\
+De debó vols copiar-lo?
+; Selected file will probably not fit in destination.\nContinue with the copy?
+;
+STR_SIZES_NOT_KNOWN
+Es desconeix  la mida d'alguns dels directoris seleccionats.\n\n\
+Vols fer un recompte del teu espai bytes?
+; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
+;
+STR_ENTRIES_MAY_NOT_FIT
+Possiblement els objectes seleccionats no cabrán al destí..\n\n\
+De debó vols copiar-los?
+; Selected entries will probably not fit in destination.\nContinue with the copy?
+;
+STR_ENTER_NEW_NAME_COPY
+Introdueix un nom nou pel fitxer copiat
+; Enter new name for copied file
+;
+STR_ENTER_HUNT_PATTERN
+Introdueix patró de cerca
+; Enter file pattern to hunt
+;
+STR_COULD_NOT_FIND_FILE
+No s'ha trobat cap coincidència.
+; Sorry! File could not be found!
+;
+STR_FOUND_MATCHING_FILES
+S'han trobat %ld coincidència.
+; Found %ld matching files.
+;
+STR_ADDING_ICON
+afegint icona a
+; adding an icon to
+;
+STR_SELECT_COMMENT
+Comment
+; Comment
+;
+STR_ENTER_COMMENT
+Introdueix comentari
+; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+;
+STR_ENTER_PASSWORD
+Introdueix contrasenya
+; Enter password
+;
+STR_ENTER_DATE_AND_TIME
+Directoy Opus ja està en funcionament.\n\
+Vols llençar una altra còpia?
+; Enter date and time (blank for current)
+;
+STR_ENTER_SEARCH_STRING
+No es pot obrir la pantalla o finestra.
+; Enter search string
+;
+STR_RENAME_REQ
+Benvingut a Directory Opus!
+; Rena_me
+;
+STR_STRING_NOT_FOUND
+Benvingut de nou a Directory Opus!
+; Sorry! String could not be found!
+;
+STR_MATCHED_FILES
+Examinant fitxer...  
+; Matched in %ld files.
+;
+STR_NO_SOURCE_SELECTED
+Llegint directori...  
+; No source directory selected!
+;
+STR_TEMPORARY_OUTPUT_FILE
+Introdueix arguments per "%s"
+; Temporary output file
+;
+STR_ENTER_ARGUMENTS
+Introdueix nom del directori
+; Enter arguments
+;
+STR_SELECT_FUNCTION
+El fitxer o directori ja existeix!
+; Select function you need help with, or Help again to cancel.
+;
+STR_CONFIG_CHANGED_LOAD
+Lectura/Escriptura
+; You have modified the configuration.\nReally load a new configuration file?
+;
+STR_ABORTED
+Unitat o volum no muntats.
+; Aborted.
+;
+STR_ENTER_DOS_ERROR_CODE
+No hi ha disc en la unitat.
+; Enter DOS error code
+;
+STR_NO_HELP_FOR_ERROR
+Error DOS: %ld
+; Help not available for that error code!
+;
+STR_ERROR_OCCURED
+Introdueix nou nom del disc
+; An error occured %s \"%s\"\n%s
+;
+STR_RENAME
+Introdueix directori a reassignar
+; Rename
+;
+STR_AS
+No es pot cancel·lar l'assignació.
+; As
+;
+STR_ENTER_SELECT_PATTERN
+Introdueix assignació per aquest directori
+; Enter select pattern
+;
+STR_FILE_ENCRYPTED
+Assignació fallida.
+; \nFile is encrypted!\n\n
+;
+STR_READING_FILE
+No has escollit un directori destí.
+; Reading file...
+;
+STR_NO_MEMORY_TO_DECRUNCH
+No es pot copiar un direcotir a si mateix.
+; Not enough memory to load/decrunch complete file!
+;
+STR_BAD_PASSWORD
+Mostrant tipus de lletra escollit...
+; Incorrect password given!
+;
+STR_COUNTING_LINES
+Executant fitxer...
+; Counting lines...
+;
+STR_JUMP_TO_LINE
+Reproduint fitxer...
+; Jump to which line?
+;
+STR_JUMP_TO_PERCENTAGE
+Mostrant fitxer...
+; Jump to what percentage?
+;
+STR_CANT_OPEN_PRINTER
+Reproduint mòdul...
+; Can't open printer!
+;
+STR_ERROR_PRINTING_FILE
+Llegint fitxer...
+; Error printing file! IoErr = %ld\n
+;
+STR_READY_PRINTER
+Trobada coincidència al fitxer\n\
+"%s"\n\n\
+Vols veure el fitxer?
+; Ready printer, and choose OKAY to continue
+;
+STR_CANT_FIND_ICON
+Has modificat la configuració.\n\n\
+De debò vols sortir?
+; Unable to find or load an icon for that file.
+;
+STR_ENCRYPTING
+Guardant configuració...
+; encrypting
+;
+STR_NEW_DISK_INSERTED
+Llegint configuració...
+; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
+;
+STR_REPLACE_ALL
+Has modificat la configuració.\n\n\
+De debò vols carregar la configuració anterior?
+; Replace _all
+;
+STR_ENTER_DATE_1
+Has modificat la configuració.\n\n\
+Guardar-la abans de recuperar els valors per omisió?
+; Enter date in the form DD-MMM-YY
+;
+STR_ENTER_DATE_2
+No hi ha ajuda disponible per aquesta funció.
+; Enter date in the form YY-MM-DD
+;
+STR_ENTER_DATE_3
+Explorant abre de directoris...
+; Enter date in the form MM-DD-YY
+;
+STR_ENTER_DATE_4
+Introdueix una cadena
+; Enter date in the form DD-MM-YY
+;
+STR_CONTINUE_WITH_SEARCH
+Si us plau, escull.
+; Do you wish to continue with the search?
+;
+STR_REALLY_QUIT
+afegint comentari
+; Do you really want to quit Directory Opus?
+;
+STR_REALLY_PROCEED
+protegint
+; Do you really wish to proceed with this operation?
+;
+STR_SCREEN_MODE_UNAVAILABLE
+posant data
+; Screen mode not available.
+;
+STR_ERROR_INITIALISING_PRINTER
+borrant
+; Error initialising printer.\nCheck cable and connections.
+;
+STR_REALLY_ABORT_PRINT
+copiant
+; Really abort the print?
+;
+STR_SELECT_SOURCE_DIR
+creant
+; Select the source directory
+;
+STR_SELECT_DESTINATION_DIR
+No es pot copiar els fitxers a si mateixos.
+; Select the destination directory
+;
+STR_SELECT_A_FILE
+Examinant fitxers...
+; Select a file
+;
+STR_SELECT_A_DIRECTORY
+No s'ha pogut identificar "%s".
+; Select a directory
+;
+STR_LEFT_WINDOW
+Carregant programa de configuració...
+; Left window
+;
+STR_RIGHT_WINDOW
+Esperant al port de ConfigOpus...
+; Right window
+;
+STR_DEVICE_LIST_TITLE
+No s'ha pogut trobar o carregar\n\
+el programa de configuració.
+; <Device list>
+;
+STR_DIR_NOT_AVAILABLE_TITLE
+Existeixen finestres obertes a la pantalla del Directory Opus.\n\n\
+Prem Cancel·lar i tanca-les tu, o prem Tancar i\n\
+Directory Opus les tancarà per tu (PERILLÓS!).
+; <Directory not available>
+;
+STR_BUFFER_LIST_TITLE
+De debò vols borrar els objectes seleccionats?
+; <Buffer list>
+;
+STR_UNPROTECT
+De debò vols borrar "%s"?
+; Unprotect
+;
+STR_RUN
+¡"%s" no està buit!\n\n\
+De debò vols borrar-lo?
+; _Run
+;
+STR_TRY_AGAIN
+Introdueix nom nou
+; _Try Again
+;
+STR_RETRY
+reanomenat
+; Retry
+;
+STR_ABORT
+Introdueix un nom nou per al fitxer mogut
+; A_bort
+;
+STR_REPLACE
+movent
+; _Replace
+;
+STR_SKIP
+Introdueix un nom nou pel fitxer duplicat
+; _Skip
+;
+STR_ALL
+duplicant
+; _All
+;
+STR_REMOVE
+Es desconeix la mida del directori seleccionat.\n\n\
+Vols fer un recompte del teu espai en bytes?
+; Remove
+;
+STR_QUIT
+Possiblement el fitxer escollit no cabrà al destí.\n\n\
+De debó vols copiar-lo?
+; _Quit
+;
+STR_SAVE_QUIT
+Es desconeix  la mida d'alguns dels directoris seleccionats.\n\n\
+Vols fer un recompte del teu espai bytes?
+; _Save & quit
+;
+STR_LOAD
+Possiblement els objectes seleccionats no cabrán al destí..\n\n\
+De debó vols copiar-los?
+; Load
+;
+STR_SAVE
+Introdueix un nom nou pel fitxer copiat
+; Save
+;
+STR_DEFAULTS
+Introdueix patró de cerca
+; Defaults
+;
+STR_CLOSE
+No s'ha trobat cap coincidència.
+; Close
+;
+STR_DELETE
+S'han trobat %ld coincidència.
+; _Delete
+;
+STR_LEAVE
+afegint icona a
+; Leave
+;
+STR_YES
+Yes
+; Yes
+;
+STR_NO
+Introdueix comentari
+; No
+;
+STR_ICONIFY
+_Iconify
+; _Iconify
+;
+STR_CONTINUE
+Introdueix contrasenya
+; C_ontinue
+;
+STR_OKAY
+_Okay
+; _Okay
+;
+STR_CANCEL
+Introdueix data i hora (o res per usar els valors actuals)
+; _Cancel
+;
+STR_OKAY_TITLE
+Introdueix cadena a cercar
+; OK
+;
+STR_DESCRIPTION
+Description
+; Description
+;
+STR_PRINT_CONTROL
+No s'ha trobat la cadena.
+; Print control
+;
+STR_FILE
+S'han trobat coincidències amb %ld fitxers.
+; File
+;
+STR_IMAGE_SIZE
+No has escollit un directori origen.
+; Image size
+;
+STR_PAGE_SIZE
+Fitxer de sortida temporal
+; Page size
+;
+STR_SCREEN_SIZE
+Introdueix arguments
+; Screen size
+;
+STR_DEPTH
+Selecciona funció de la que vols ajuda o prem <Help> per cancel·lar.
+; Depth
+;
+STR_COLOURS
+Memòria insuficient.
+; Colors
+;
+STR_SCREEN_MODES
+Taula de processos plena.
+; Screen modes
+;
+STR_ASPECT
+Plantilla no vàlida.
+; _Aspect:
+;
+STR_IMAGE
+Número erroni.
+; _Image:
+;
+STR_SHADE
+Falta l'argument requerit.
+; _Shade:
+;
+STR_PLACEMENT
+Falta l'argument després de "="
+; _Placement:
+;
+STR_FORMFEED
+Masses arguments.
+; _Form feed
+;
+STR_PRINT
+Falten o sobren cometes.
+; Print
+;
+STR_ABORT_PRINT
+Argument no vàlit o molt llarg.
+; Abort print
+;
+STR_PORTRAIT
+El fitxer no és executable.
+; Portrait
+;
+STR_LANDSCAPE
+Llibreria resident no vàlida.
+; Landscape
+;
+STR_POSITIVE
+L'objecte s'està usant.
+; Positive
+;
+STR_NEGATIVE
+L'objecte ja existeix.
+; Negative
+;
+STR_BLACK_WHITE
+No s'ha trobat el directori.
+; Black&White
+;
+STR_GRAY_SCALE
+No s'ha trobat l'objecte.
+; Gray scale
+;
+STR_COLOUR
+Descripció de finestra no vàlida.
+; Color
+;
+STR_CENTER
+Petició de paquet de tipus desconegut.
+; Center
+;
+STR_FULL_LEFT
+Nom d'objecte no vàlid.
+; Full left
+;
+STR_FONT
+Bloqueig d'objecte no vàlid.
+; Font
+;
+STR_FONT_SIZE
+L'objecte no és del tipus requerit.
+; Font size
+;
+STR_NUM_CHARS
+Disc no vàlid.
+; Characters
+;
+STR_FONT_STYLE
+Disc protegit contra escriptura.
+; Font style
+;
+STR_FONT_FLAGS
+S'ha intentat reanomenar entre unitats.
+; Font flags
+;
+STR_ICON
+El directori no està buit.
+; Icon
+;
+STR_ICON_TYPE
+Hi ha masses nivells.
+; Icon type
+;
+STR_ICON_ALTERNATE
+Ha fallat la cerca
+; Alt. image
+;
+STR_ICON_DEFAULTTOOL
+El comentari és massa llarg.
+; Default tool
+;
+STR_NUM_FRAMES
+El disc està ple.
+; Frame
+;
+STR_PLAYING_ANIM
+Objete protegit contra el borrat.
+; Playing selected animation...
+;
+STR_OLD_NEW_FILE_REPLACE
+Fitxer protegit contra escriptura.
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %7ld  Date : %19s\n\
+; Old  -  Size : %7ld  Date : %19s
+;
+STR_REMAINING
+Fitxer protegit contra lectura.
+; %ld of %ld items
+;
+STR_CUSTOM_LIST
+No és un disc DOS vàlid.
+; Custom list
+;
+STR_ENTRIES_IN_TREE
+No hi ha més objectes al directori.
+; %ld entries in tree
+;
+STR_DIRS_IN_BUFFERS
+L'objecte és un enllanç dèbil.
+; %ld directories in buffers
+;
+STR_USER_ENTRIES
+Has modificat la configuració.\n\n\
+De debó en vols carregar una nova?
+; %ld user-defined entries
+;
+STR_COMPLETED
+Interromput...
+; Completed
+;
+STR_UNICONIFY
+Introdueix codi d'error DOS
+; Uniconify
+;
+STR_CUSTPORT_NOT_FOUND
+No hi ha ajuda disponible per aquest codi d'error.
+; User-specified custom handler port\n\"%s\"\ncould not be found!
+;
+STR_CHECKFIT_STRING
+S'ha produit un error %s "%s"\n\n\
+%s
+; Bytes needed : %11qd   Bytes free : %11qd   Fit : %.1f%%
+;
+STR_DIR_TREE
+Reanomenar
+; <Directory tree>
+;
+STR_BUILDING_TREE
+Com
+; Generating tree structure...
+;
+STR_UNPROTECT_ALL
+Introdueix el patró de selecció
+; Unprotect all
+;
+STR_READING_CHANGED_DIRECTORY
+\n\
+El fitxer està encriptat.\n\n
+; Buffered directory changed - re-reading
+;
+STR_CREATING_DIRECTORY
+Legint fitxer...
+; creating directory
+;
+STR_STARTING_DISK_MODULE
+Memòria insuficient per carregar/descomprimir el fitxer complet.
+; Starting disk module...
+;
+STR_UNABLE_TO_LOAD_MODULE
+La contrasenya introduida no és correcta.
+; Unable to load external module
+;
+STR_SELECT_ALL_ENTRIES
+Comptant línies...
+; All entries
+;
+STR_SELECT_ONLY_FILES
+Saltar a la línia?
+; Only files
+;
+STR_SELECT_ONLY_DIRS
+Saltar al percentatge?
+; Only dirs
+;
+STR_SELECT_NAME
+No es pot inicialitzar la impressora.
+; Name
+;
+STR_SELECT_DATE
+Error a l'imprimir el fitxer: %ld\n
+; Date
+;
+STR_SELECT_BITS
+Prepara la impressora i prem Acceptar per continuar.
+; Bits
+;
+STR_STARTING_PRINT_MODULE
+No es pot trobar o carregar una icona per aquest fitxer.
+; Starting print module...
+;
+STR_ABOUT
+encriptat
+; %s\nBased on GPL release version 4.12\nmodified by %s\n\n\
+; This program is free software; you can redistribute it and/or\n\
+; modify it under the terms of the GNU General Public License\n\
+; as published by the Free Software Foundation; either version 2\n\
+; of the License, or (at your option) any later version.\n\n\
+; This program is distributed in the hope that it will be useful,\n\
+; but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
+; GNU General Public License for more details.\n\n\
+; All users of Directory Opus 4 (including versions distributed\n\
+; under the GPL) are entitled to upgrade to the latest version of\n\
+; Directory Opus version 5 at a reduced price. Please see\n\
+; http://www.gpsoft.com.au for more information.
+;
+STR_PRINTTITLE
+S'ha insertat un dics en DF%ld:\n\n\
+De debó vols legir aquest disc?
+; Print _Title
+;
+STR_SEARCH_NO_CASE
+Treat upper and lower case as the same
+; Treat upper and lower case as the same
+;
+STR_SEARCH_WILD
+Introdueix data en format DD-MMM-AA
+; Recognise ? as a wildcard character
+;
+STR_SEARCH_ONLYWORD
+Introdueix data en format AA-MM-DD
+; Only match on whole, unbroken words
+;
+STR_ENTER_FILTER
+Introdueix data en format MM-DD-AA
+; Enter file filter
+;
+STR_SELECT_PROTECTION_BITS
+Introdueix data en format DD-MM-AA
+; Select new protection bits
+;
+STR_DIRECTORY_OPUS_REQUEST
+Vols continuar amb la cerca?
+; Directory Opus Request
+;
+STR_CLOCK_CHIP
+Vols sortir del Directory Opus?
+; CHIP:
+;
+STR_CLOCK_FAST
+Vols continuar amb aquesta operació?
+; FAST:
+;
+STR_CLOCK_TOTAL
+Tipus de pantalla no disponible.
+; TOTAL:
+;
+STR_CLOCK_MEM
+Error a l'inicialitzar la impressora.\n\
+Comprova el cable i les conexions.
+; MEM:
+;
+STR_KEY
+No has escollit un directori destí.
+; Key :
+;
+STR_TINY_BUTTONS
+No es pot copiar un direcotir a si mateix.
+; BRSA?EFCIQ
+;
+STR_VIEW_BUTTONS
+Mostrant tipus de lletra escollit...
+; UDTBSPQ
+;
+STR_DISKINFO_DEVICE
+Executant fitxer...
+; Device
+;
+STR_DISKINFO_NAME
+Reproduint fitxer...
+; Name
+;
+STR_DISKINFO_SIZE
+Mostrant fitxer...
+; Size
+;
+STR_DISKINFO_USED
+Reproduint mòdul...
+; Used
+;
+STR_DISKINFO_FREE
+Llegint fitxer...
+; Free
+;
+STR_DISKINFO_PERCENT
+Trobada coincidència al fitxer\n\
+"%s"\n\n\
+Vols veure el fitxer?
+; Percent
+;
+STR_DISKINFO_DENSITY
+Has modificat la configuració.\n\n\
+De debò vols sortir?
+; Density
+;
+STR_DISKINFO_ERRORS
+Guardant configuració...
+; Errors
+;
+STR_DISKINFO_STATUS
+Llegint configuració...
+; Status
+;
+STR_DISKINFO_DATE
+Has modificat la configuració.\n\n\
+De debò vols carregar la configuració anterior?
+; Date
+;
+STR_DISKINFO_BYTES
+Has modificat la configuració.\n\n\
+Guardar-la abans de recuperar els valors per omisió?
+; bytes
+;
+STR_DISKINFO_BLOCKS
+No hi ha ajuda disponible per aquesta funció.
+; blocks
+;
+STR_DISKINFO_FULL
+Explorant abre de directoris...
+; full
+;
+STR_DISKINFO_SFREE
+Introdueix una cadena
+; free
+;
+STR_DISKINFO_BYTESPERBLOCK
+Si us plau, escull.
+; bytes/block
+;
+STR_TEXT_VIEWER_TITLE
+afegint comentari
+; Directory Opus Text Viewer
+;
+STR_PROTECT_ALL_BITS
+protegint
+; All bits
+;
+STR_PROTECT_NONE
+posant data
+; None
+;
+STR_PROTECT_TOGGLE
+borrant
+; Toggle
+;
+STR_PROTECT_REVERT
+copiant
+; Revert
+;
+STR_PROTECT_OLD
+creant
+; Old :
+;
+STR_PROTECT_NEW
+No es pot copiar els fitxers a si mateixos.
+; New :
+;
+STR_PROTECT_MASK
+Examinant fitxers...
+; Mask:
+;
+STR_PROTECT_HIDDEN
+No s'ha pogut identificar "%s".
+; _Hidden
+;
+STR_PROTECT_SCRIPT
+Carregant programa de configuració...
+; _Script
+;
+STR_PROTECT_PURE
+Esperant al port de ConfigOpus...
+; _Pure
+;
+STR_PROTECT_ARCHIVE
+No s'ha pogut trobar o carregar\n\
+el programa de configuració.
+; _Archive
+;
+STR_PROTECT_READ
+Existeixen finestres obertes a la pantalla del Directory Opus.\n\n\
+Prem Cancel·lar i tanca-les tu, o prem Tancar i\n\
+Directory Opus les tancarà per tu (PERILLÓS!).
+; _Read
+;
+STR_PROTECT_WRITE
+De debò vols borrar els objectes seleccionats?
+; _Write
+;
+STR_PROTECT_EXECUTED
+De debò vols borrar "%s"?
+; _Execute
+;
+STR_PROTECT_DELETED
+¡"%s" no està buit!\n\n\
+De debò vols borrar-lo?
+; _Delete
+;
+STR_FILE_REQUEST
+Introdueix nom nou
+; File request
+;
+STR_OF
+reanomenat
+; of
+;
+STR_FRAME
+Introdueix un nom nou per al fitxer mogut
+; Frame
+;
+STR_DISK_OP_TITLE
+movent
+; Directory Opus Disk Operations
+;
+STR_BUTTON_STRIP
+Introdueix un nom nou pel fitxer duplicat
+; Directory Opus Button Strip
+;
+STR_NO_FIT
+duplicant
+;  N
+;
+STR_YES_FIT
+Es desconeix la mida del directori seleccionat.\n\n\
+Vols fer un recompte del teu espai en bytes?
+;  Y
+;
+STR_FTYPE_DEFAULT
+Possiblement el fitxer escollit no cabrà al destí.\n\n\
+De debó vols copiar-lo?
+; Default
+;
+STR_FTYPE_UNKNOWN
+Es desconeix  la mida d'alguns dels directoris seleccionats.\n\n\
+Vols fer un recompte del teu espai bytes?
+; Unknown file type
+;
+STR_MULTI_DRAG
+Benvingut a Directory Opus!
+; Multi-drag - %ld files selected
+;
+STR_PRESS_MOUSE_BUTTON
+Benvingut de nou a Directory Opus!
+; Press left mouse button to continue...
+;
+STR_NETWORK_NO_OWNER
+Examinant fitxer...  
+; No owner
+;
+STR_NETWORK_NO_GROUP
+Llegint directori...  
+; No group
+;
+STR_ERROR_ERROR_HELP
+Introdueix arguments per "%s"
+; Error help
+;
+STR_SKIP_ALL
+Introdueix nom del directori
+; S_kip all
+;
+STR_PARENT_MULTI
+El fitxer o directori ja existeix!
+; Parents and Multi-Assigns...
+;
+STR_DISKINFO_FILESYSTEM
+Directori creat.
+; F.System
+;
+STR_ANIM_TYPE
+Imprimint directori...
+; Anim type
+;
+STR_GFX_NATIVE
+Directori 
+; Native
+;
+STR_OPENING_ARCHIVE
+Lista d'unitats\n\n
+; Opening archive...
+;
+STR_LISTER_MENU
+Memòria gràfica insuficient per mostrar la icona.
+; Lister options
+;
+STR_FILE_NAME
+No és un fitxer ILBM.
+; Name
+;
+STR_FILE_SIZE
+Error en estructura IFF.
+; Size
+;
+STR_PROTECTION_BITS
+Memòria gràfica insuficient per mostrar la imatge.
+; Protection
+;
+STR_CREATION_DATE
+No es pot reservar els canals d'audio.
+; Date
+;
+STR_FILE_COMMENT
+El fitxer és un mòdul de música no suportada.
+; Comment
+;
+STR_FILE_TYPE
+¡El fitxer "%s"\n\
+ja existeix! Vols substituir-lo?
+; File type
+;
+STR_OWNER
+\n\
+Escull 'Desprotegir' per activar el bit Borrable.
+; Owner
+;
+STR_GROUP
+Introdueix hora en format HH:MM:SS
+; Group
+;
+STR_NET_PROTECTION_BITS
+¡No s'ha pogut trobar el servidor ARexx!
+; Net protection bits
+;
+STR_REVERSE_ORDER
+Introdueix comanda ARexx
+; Reverse order
+;
+STR_SIZE_AS_KMG
+Introdueix el nou directori actual
+; Sizes in K/M/G format
+;
+STR_BRING_TO_FRONT
+Explorant llista d'unitats...
+; _Bring to front
+;
+STR_REPLACE_DIR_WITH_FILE
+Trobat "%s" en\n\
+"%s"\n\n\
+Anar a aquest directori?
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %7ld  Date : %19s\n\
+; Old  -                  Date : %19s
+;
+STR_REPLACE_FILE_WITH_DIR
+Netejant els buffers no mostrats.
+; \"%s\" already exists! Replace?\n\n\
+; New  -                  Date : %19s\n\
+; Old  -  Size : %7ld  Date : %19s
+;
+STR_OPERATION_NOT_SUPPORTED
+Disc illegible.
+; Operation not supported
+;
+STR_QUERY_REMOVE_ASSIGN
+El disc no és del tipus DOS.
+; Do you really wish to remove \"%s\" assign?
+;
+STR_VERSION_CONTENTS
+Disc Kickstart
+; %-42s\n\n\
+;   Directory Opus%24s  \n\
+;   DOpus Library%25s  \n\
+;   Compile time%26s  \n\
+;   Compile date%26s  \n\
+;   Port/screen name%22s  \n\n\
+;   Kickstart%29s  \n\
+;   Workbench%29s  \n\
+;   Processor%29s  \n\
+;   Math co-processor%21s  \n\
+;   Graphics chipset%22s  \n\
+;   Video system%26s  \0
+;
+STR_VERSION_HEADER
+Validant
+; Version information...
+;
+STR_DIRSFIRST
+Només lectura
+; Show dirs first
+;
+STR_FILESFIRST
+Lectura/Escriptura
+; Show files first
+;
+STR_MIXDIRSFILES
+Unitat o volum no muntats.
+; Mix files and dirs
+;
+STR_SORTALPHA
+No hi ha disc en la unitat.
+; Plain alphanumeric
+;
+STR_SORTDEC
+Error DOS: %ld
+; Recognize decimals
+;
+STR_SORTHEX
+Introdueix nou nom del disc
+; Recognize hexadecimals
+;
+STR_SORTBY
+Introdueix directori a reassignar
+; Sort by
+;
+STR_NAMESORT_MENU
+No es pot cancel·lar l'assignació.
+; Name sorting
+;
+STR_FILE_EXTENSION
+Introdueix assignació per aquest directori
+; Extension
+;
+STR_PROTECT_OKAY
+Assignació fallida.
+; _Okay
+;
+STR_PROTECT_ALL
+No has escollit un directori destí.
+; A_ll
+;
+STR_ENTER_MAKELINK_PARAMS
+No es pot copiar un direcotir a si mateix.
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Mostrant tipus de lletra escollit...
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Executant fitxer...
+; Hard
+;
+STR_MAKELINK_TYPE
+Reproduint fitxer...
+; Type
+;
+STR_MAKELINK_NAME
+Mostrant fitxer...
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Reproduint mòdul...
+; Link destination
+;
+STR_PROTECT_CANCEL
+Llegint fitxer...
+; _Cancel
+;

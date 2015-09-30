@@ -1,0 +1,144 @@
+## version $VER: DOpus4_Icon.catalog 1.0 (23.06.06)
+## codeset 0
+## language català
+;
+STR_REMAP_COLORS
+_Remapejar col.
+; Rema_p colors
+;
+STR_SAVE
+_Guardar
+; Sa_ve
+;
+STR_SKIP
+Sal_tar
+; S_kip
+;
+STR_CANCEL
+_Cancel·lar
+; _Cancel
+;
+STR_DELETE
+_Borrar
+; De_lete
+;
+STR_NEW
+_Nou
+; _New
+;
+STR_TOOLTYPES
+Tipus:
+; Tool types:
+;
+STR_COMMENT
+Co_mentari:
+; Co_mment:
+;
+STR_DEFAULT_TOOL
+_Eines:
+; De_fault tool:
+;
+STR_VALIDATING
+Validant
+; Validating
+;
+STR_WRITE_PROTECTED
+Només lectura
+; Write protected
+;
+STR_READ_WRITE
+Lectura/Escriptura
+; Read/Write
+;
+STR_SCRIPT
+_Script
+; _Script
+;
+STR_ARCHIVED
+_Arxivat
+; _Archived
+;
+STR_READABLE
+_Llegible
+; _Readable
+;
+STR_WRITABLE
+_Escribible
+; _Writable
+;
+STR_EXECUTABLE
+E_xecutable
+; _Executable
+;
+STR_DELETABLE
+_Borrable
+; _Deletable
+;
+STR_BLOCKS
+Blocs
+; Blocks
+;
+STR_USED
+Usats
+; Used
+;
+STR_FREE
+Lliures
+; Free
+;
+STR_BLOCK_SIZE
+Mida bloc
+; Block size
+;
+STR_CREATED
+Creat
+; Created
+;
+STR_LAST_CHANGED
+Últim canvi
+; Last changed
+;
+STR_BYTES
+Bytes
+; Bytes
+;
+STR_STACK
+_Pila
+; S_tack
+;
+STR_DISK
+Disc
+; Disk
+;
+STR_DRAWER
+Calaix
+; Drawer
+;
+STR_TOOL
+Eina
+; Tool
+;
+STR_PROJECT
+Projecte
+; Project
+;
+STR_TRASH
+Paperera
+; Trash
+;
+STR_DEVICE
+Volum
+; Device
+;
+STR_KICK
+Kickstart
+; Kick
+;
+STR_APPICON
+Icona d'aplicació
+; AppIcon
+;
+STR_ICON
+Icona
+; Icon
+;
