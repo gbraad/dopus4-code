@@ -1,0 +1,1413 @@
+## version $VER: DOpus4.catalog 1.1 (19.06.2001)
+## codeset 0
+## language français
+;
+STR_DIRS_FILES_BYTES_COUNT
+Répertoires : %03ld/%03ld    Fichiers : %03ld/%03ld    Octets : %07ld/%07ld
+; Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7s/%7s
+;
+STR_DOPUS_ALREADY_RUNNING
+Directory Opus est déjà résident en mémoire.\n\
+Désirez-vous exécuter une autre copie ?
+; Directory Opus is already resident in memory.\nDo you want to run another copy?
+;
+STR_UNABLE_TO_OPEN_WINDOW
+Impossible d'ouvrir l'écran ou la fenêtre !
+; Unable to open screen/window!
+;
+STR_WELCOME_TO_DOPUS
+Bienvenue dans Directory Opus !
+; Welcome to Directory Opus!
+;
+STR_WELCOME_BACK_TO_DOPUS
+Bienvenue à nouveau dans Directory Opus !
+; Welcome back to Directory Opus!
+;
+STR_INTERROGATING_FILE
+Analyse du fichier...
+; Interrogating file...
+;
+STR_READING_DIRECTORY
+Lecture du répertoire...
+; Reading directory...
+;
+STR_ENTER_ARGUMENTS_FOR
+Entrez les arguments pour « %s »
+; Enter arguments for \"%s\"
+;
+STR_ENTER_DIRECTORY_NAME
+Entrez le nom du répertoire
+; Enter directory name
+;
+STR_FILE_ALREADY_EXISTS
+Ce fichier ou ce répertoire existe déjà !
+; File or directory already exists!
+;
+STR_DIRECTORY_CREATED
+Répertoire créé.
+; Directory created.
+;
+STR_PRINTING_DIRECTORY
+Impression du répertoire...
+; Printing directory...
+;
+STR_DIRECTORY
+Répertoire 
+; Directory 
+;
+STR_DEVICE_LIST
+Liste des périphériques\n\n
+; Device list\n\n
+;
+STR_NO_CHIP_FOR_ICON
+Mémoire graphique insuffisante pour afficher l'icône
+; Not enough chip memory to display icon
+;
+STR_FILE_NOT_ILBM
+Ce fichier n'est pas un ILBM
+; File is not ILBM
+;
+STR_ERROR_IN_IFF
+Erreur dans la structure IFF
+; Error in IFF structure
+;
+STR_NO_CHIP_FOR_PICTURE
+Mémoire graphique insuffisante pour afficher l'image
+; Not enough chip memory to display picture
+;
+STR_CANT_ALLOCATE_AUDIO
+Impossible d'allouer les canaux audio
+; Can't allocate audio channels
+;
+STR_NOT_ST_MOD
+Ce fichier n'est pas un module de musique connu
+; File is not a supported music module
+;
+STR_FILE_EXISTS_REPLACE
+Le fichier « %s » existe déjà ! Le remplacer ?
+; \"%s\" already exists! Replace?
+;
+STR_SELECT_UNPROTECT
+\n\
+Choisissez « Déprotéger » pour mettre l'attribut de suppression
+; \nSelect Unprotect to set the deletion bit.
+;
+STR_ENTER_TIME
+Entrez l'heure sous la forme HH:MM:SS
+; Enter time in the form HH:MM:SS
+;
+STR_AREXX_NOT_RUNNING
+Le serveur AREXX n'est pas présent ! Exécutez RexxMast.
+; ARexx server not found!
+;
+STR_ENTER_AREXX_COMMAND
+Entrez une commande AREXX :
+; Enter ARexx command
+;
+STR_ENTER_NEW_CD
+Entrez le nom du nouveau répertoire courant :
+; Enter new current directory
+;
+STR_SCANNING_DEVICE_LIST
+Recherche des périphériques...
+; Scanning device list...
+;
+STR_FOUND_A_MATCH
+J'ai trouvé le fichier « %s » dans le répertoire\n\
+« %s »\n\
+Dois-je y aller ?
+; Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?
+;
+STR_BUFFERS_CLEARED
+Les tampons non visibles ont été effacés.
+; Buffers not currently displayed have been cleared.
+;
+STR_UNREADABLE_DISK
+Disque illisible
+; Unreadable disk
+;
+STR_NOT_A_DOS_DISK
+Ce n'est pas un disque DOS
+; Not a DOS disk
+;
+STR_KICKSTART_DISK
+Disque Kickstart
+; Kickstart disk
+;
+STR_VALIDATING
+Validation...
+; Validating
+;
+STR_WRITE_PROTECTED
+Protégé en écriture
+; Write protected
+;
+STR_READ_WRITE
+Lecture/Écriture
+; Read/Write
+;
+STR_DEVICE_NOT_MOUNTED
+Périphérique ou volume non monté
+; Device or volume not mounted
+;
+STR_NO_DISK_IN_DRIVE
+Pas de disque dans le lecteur
+; No disk in drive
+;
+STR_DOS_ERROR_CODE
+Erreur DOS numéro %ld
+; DOS error code %ld
+;
+STR_ENTER_NEW_DISK_NAME
+Entrez le nouveau nom du disque :
+; Enter new disk name
+;
+STR_ENTER_ASSIGN_NAME
+Entrez le nom du répertoire pour réassigner le périphérique
+; Enter directory to re-assign device
+;
+STR_CANT_CANCEL_ASSIGN
+Impossible de supprimer l'assignation.
+; Can't cancel assign.
+;
+STR_ENTER_DEVICE_NAME
+Entrez le nom du périphérique pour ce répertoire :
+; Enter device name for this directory
+;
+STR_ASSIGN_FAILED
+L'assignation a échoué
+; Assign failed
+;
+STR_NO_DESTINATION_SELECTED
+Pas de répertoire de destination sélectionné !
+; No destination directory selected!
+;
+STR_CANT_COPY_DIR_TO_ITSELF
+Vous ne pouvez copier un répertoire dans lui-même !
+; You can't copy a directory into itself!
+;
+STR_SHOWING_FONT
+Affichage de la police sélectionnée...
+; Showing selected font...
+;
+STR_RUNNING_FILE
+Exécution du fichier sélectionné...
+; Running selected file...
+;
+STR_PLAYING_FILE
+Écoute du fichier sélectionné...
+; Playing selected file...
+;
+STR_SHOWING_FILE
+Affichage du fichier sélectionné...
+; Showing selected file...
+;
+STR_PLAYING_ST_MOD
+Écoute d'un module musicale...
+; Playing music module...
+;
+STR_READING_SELECTED_FILE
+Lecture du fichier sélectionné...
+; Reading selected file...
+;
+STR_FOUND_A_MATCH_READ
+Correspondance trouvée dans le fichier\n\
+« %s »\n\
+Voulez-vous lire ce fichier ?
+; Found a match in the file\n\"%s\"\nShall I read the file?
+;
+STR_CONFIG_CHANGED_QUIT
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment quitter ?
+; You have modified the configuration.\nDo you really want to quit?
+;
+STR_SAVING_CONFIG
+Sauvegarde du fichier de configuration...
+; Saving configuration...
+;
+STR_READING_CONFIG
+Lecture du fichier de configuration...
+; Reading configuration...
+;
+STR_CONFIG_CHANGED_LASTSAVED
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment charger la dernière configuration sauvée ?
+; You have modified the configuration.\nReally load the last-saved settings?
+;
+STR_CONFIG_CHANGED_DEFAULTS
+Vous avez modifié la configuration.\n\
+Sauvegarder avant de revenir aux paramètres par défaut ?
+; You have modified the configuration.\nSave before restoring defaults?
+;
+STR_HELP_NOT_AVAILABLE
+Aucune aide existante pour cette fonction !
+; Help not available for that function!
+;
+STR_SCANNING_TREE
+Analyse de l'arborescence des répertoires...
+; Scanning directory tree...
+;
+STR_ENTER_A_STRING
+Entrez une chaîne :
+; Enter a string
+;
+STR_PLEASE_CHOOSE
+Merci de choisir
+; Please choose
+;
+STR_COMMENTING
+en commentant
+; commenting
+;
+STR_PROTECTING
+en modifiant les attributs
+; protecting
+;
+STR_DATESTAMPING
+en modifiant la date
+; datestamping
+;
+STR_DELETING
+en effaçant
+; deleting
+;
+STR_COPYING
+en copiant
+; copying
+;
+STR_CREATING
+en créant
+; creating
+;
+STR_CANT_OVERCOPY_FILES
+Vous ne pouvez pas copier ces fichiers sur eux-mêmes !
+; You can't copy these files over themselves!
+;
+STR_INTERROGATING_FILES
+Analyse des fichiers...
+; Interrogating files...
+;
+STR_NOT_IDENTIFIED
+%s ne peut pas être identifié.
+; %s could not be identified.
+;
+STR_LOADING_CONFIG
+Chargement du programme de configuration...
+; Loading configuration program...
+;
+STR_WAITING_FOR_PORT
+Attente sur le port de configuration...
+; Waiting for configuration port...
+;
+STR_CONFIG_NOT_FOUND
+Programme de configuration non trouvé ou impossible à charger.
+; Configuration program not found/could not be loaded.
+;
+STR_ALIEN_WINDOWS
+Il y a des fenêtres étrangères ouvertes sur l'écran de Directory Opus.\n\
+Cliquez sur « Annuler » et fermez les d'abord,\n\
+ou cliquez sur « Fermer » et\n\
+Directory Opus les fermera pour vous (DANGER !)
+; There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)
+;
+STR_REALLY_DELETE
+Désirez-vous vraiment supprimer les fichiers sélectionnés ?
+; Do you really wish to delete selected entries?
+;
+STR_WISH_TO_DELETE
+Désirez-vous vraiment supprimer « %s » ?
+; Do you really wish to delete \"%s\"?
+;
+STR_NOT_EMPTY
+« %s » n'est pas vide ! Le supprimer ?
+; \"%s\" is not empty! Delete?
+;
+STR_ENTER_NEW_NAME
+Entrez le nouveau nom :
+; Enter new name
+;
+STR_RENAMING
+en renommant
+; renaming
+;
+STR_ENTER_NEW_NAME_MOVE
+Entrez un nouveau nom pour le fichier déplacé :
+; Enter new name for moved file
+;
+STR_MOVING
+en déplaçant
+; moving
+;
+STR_ENTER_NEW_NAME_CLONE
+Entrez un nouveau nom pour le fichier cloné :
+; Enter name for cloned entry
+;
+STR_CLONING
+en clonant
+; cloning
+;
+STR_SIZE_IS_NOT_KNOWN
+La taille du répertoire sélectionné n'est pas connue.\n\
+Voulez-vous la calculer ?
+; Size is not known for the selected directory.\nPerform a byte count on this directory?
+;
+STR_FILE_MAY_NOT_FIT
+Le fichier sélectionné ne tiendra probablement pas dans la destination.\n\
+Continuer la copie ?
+; Selected file will probably not fit in destination.\nContinue with the copy?
+;
+STR_SIZES_NOT_KNOWN
+La taille de certains répertoires sélectionnés n'est pas connue.\n\
+Voulez-vous calculer leur taille ?
+; Sizes are not known for some selected directories.\nPerform a byte count on these directories?
+;
+STR_ENTRIES_MAY_NOT_FIT
+Les entrées sélectionnées ne tiendront vraisemblablement pas dans la destination.\n\
+Continuer la copie ?
+; Selected entries will probably not fit in destination.\nContinue with the copy?
+;
+STR_ENTER_NEW_NAME_COPY
+Entrez un nouveau nom pour le fichier copié :
+; Enter new name for copied file
+;
+STR_ENTER_HUNT_PATTERN
+Entrez le motif de recherche de fichiers :
+; Enter file pattern to hunt
+;
+STR_COULD_NOT_FIND_FILE
+Désolé ! Aucun fichier trouvé !
+; Sorry! File could not be found!
+;
+STR_FOUND_MATCHING_FILES
+%ld fichier(s) correspondant(s) trouvé(s).
+; Found %ld matching files.
+;
+STR_ADDING_ICON
+en ajoutant une icône à
+; adding an icon to
+;
+STR_SELECT_COMMENT
+\x00
+; Comment
+;
+STR_ENTER_COMMENT
+Entrez un commentaire :
+; Enter comment
+;
+STR_CANNOT_CLOSE_SCREEN
+\x00
+; I cannot close the screen because\nthere are alien windows opened on it.\nI'll wait quietly until they'll be closed
+;
+STR_ENTER_PASSWORD
+Entrez un mot de passe :
+; Enter password
+;
+STR_ENTER_DATE_AND_TIME
+Directory Opus est déjà résident en mémoire.\n\
+Désirez-vous exécuter une autre copie ?
+; Enter date and time (blank for current)
+;
+STR_ENTER_SEARCH_STRING
+Impossible d'ouvrir l'écran ou la fenêtre !
+; Enter search string
+;
+STR_RENAME_REQ
+Bienvenue dans Directory Opus !
+; Rena_me
+;
+STR_STRING_NOT_FOUND
+Bienvenue à nouveau dans Directory Opus !
+; Sorry! String could not be found!
+;
+STR_MATCHED_FILES
+Analyse du fichier...
+; Matched in %ld files.
+;
+STR_NO_SOURCE_SELECTED
+Lecture du répertoire...
+; No source directory selected!
+;
+STR_TEMPORARY_OUTPUT_FILE
+Entrez les arguments pour « %s »
+; Temporary output file
+;
+STR_ENTER_ARGUMENTS
+Entrez le nom du répertoire
+; Enter arguments
+;
+STR_SELECT_FUNCTION
+Ce fichier ou ce répertoire existe déjà !
+; Select function you need help with, or Help again to cancel.
+;
+STR_CONFIG_CHANGED_LOAD
+Lecture/Écriture
+; You have modified the configuration.\nReally load a new configuration file?
+;
+STR_ABORTED
+Périphérique ou volume non monté
+; Aborted.
+;
+STR_ENTER_DOS_ERROR_CODE
+Pas de disque dans le lecteur
+; Enter DOS error code
+;
+STR_NO_HELP_FOR_ERROR
+Erreur DOS numéro %ld
+; Help not available for that error code!
+;
+STR_ERROR_OCCURED
+Entrez le nouveau nom du disque :
+; An error occured %s \"%s\"\n%s
+;
+STR_RENAME
+Entrez le nom du répertoire pour réassigner le périphérique
+; Rename
+;
+STR_AS
+Impossible de supprimer l'assignation.
+; As
+;
+STR_ENTER_SELECT_PATTERN
+Entrez le nom du périphérique pour ce répertoire :
+; Enter select pattern
+;
+STR_FILE_ENCRYPTED
+L'assignation a échoué
+; \nFile is encrypted!\n\n
+;
+STR_READING_FILE
+Pas de répertoire de destination sélectionné !
+; Reading file...
+;
+STR_NO_MEMORY_TO_DECRUNCH
+Vous ne pouvez copier un répertoire dans lui-même !
+; Not enough memory to load/decrunch complete file!
+;
+STR_BAD_PASSWORD
+Affichage de la police sélectionnée...
+; Incorrect password given!
+;
+STR_COUNTING_LINES
+Exécution du fichier sélectionné...
+; Counting lines...
+;
+STR_JUMP_TO_LINE
+Écoute du fichier sélectionné...
+; Jump to which line?
+;
+STR_JUMP_TO_PERCENTAGE
+Affichage du fichier sélectionné...
+; Jump to what percentage?
+;
+STR_CANT_OPEN_PRINTER
+Écoute d'un module musicale...
+; Can't open printer!
+;
+STR_ERROR_PRINTING_FILE
+Lecture du fichier sélectionné...
+; Error printing file! IoErr = %ld\n
+;
+STR_READY_PRINTER
+Correspondance trouvée dans le fichier\n\
+« %s »\n\
+Voulez-vous lire ce fichier ?
+; Ready printer, and choose OKAY to continue
+;
+STR_CANT_FIND_ICON
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment quitter ?
+; Unable to find or load an icon for that file.
+;
+STR_ENCRYPTING
+Sauvegarde du fichier de configuration...
+; encrypting
+;
+STR_NEW_DISK_INSERTED
+Lecture du fichier de configuration...
+; A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
+;
+STR_REPLACE_ALL
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment charger la dernière configuration sauvée ?
+; Replace _all
+;
+STR_ENTER_DATE_1
+Vous avez modifié la configuration.\n\
+Sauvegarder avant de revenir aux paramètres par défaut ?
+; Enter date in the form DD-MMM-YY
+;
+STR_ENTER_DATE_2
+Aucune aide existante pour cette fonction !
+; Enter date in the form YY-MM-DD
+;
+STR_ENTER_DATE_3
+Analyse de l'arborescence des répertoires...
+; Enter date in the form MM-DD-YY
+;
+STR_ENTER_DATE_4
+Entrez une chaîne :
+; Enter date in the form DD-MM-YY
+;
+STR_CONTINUE_WITH_SEARCH
+Merci de choisir
+; Do you wish to continue with the search?
+;
+STR_REALLY_QUIT
+en commentant
+; Do you really want to quit Directory Opus?
+;
+STR_REALLY_PROCEED
+en modifiant les attributs
+; Do you really wish to proceed with this operation?
+;
+STR_SCREEN_MODE_UNAVAILABLE
+en modifiant la date
+; Screen mode not available.
+;
+STR_ERROR_INITIALISING_PRINTER
+en effaçant
+; Error initialising printer.\nCheck cable and connections.
+;
+STR_REALLY_ABORT_PRINT
+en copiant
+; Really abort the print?
+;
+STR_SELECT_SOURCE_DIR
+en créant
+; Select the source directory
+;
+STR_SELECT_DESTINATION_DIR
+Vous ne pouvez pas copier ces fichiers sur eux-mêmes !
+; Select the destination directory
+;
+STR_SELECT_A_FILE
+Analyse des fichiers...
+; Select a file
+;
+STR_SELECT_A_DIRECTORY
+%s ne peut pas être identifié.
+; Select a directory
+;
+STR_LEFT_WINDOW
+Chargement du programme de configuration...
+; Left window
+;
+STR_RIGHT_WINDOW
+Attente sur le port de configuration...
+; Right window
+;
+STR_DEVICE_LIST_TITLE
+Programme de configuration non trouvé ou impossible à charger.
+; <Device list>
+;
+STR_DIR_NOT_AVAILABLE_TITLE
+Il y a des fenêtres étrangères ouvertes sur l'écran de Directory Opus.\n\
+Cliquez sur « Annuler » et fermez les d'abord,\n\
+ou cliquez sur « Fermer » et\n\
+Directory Opus les fermera pour vous (DANGER !)
+; <Directory not available>
+;
+STR_BUFFER_LIST_TITLE
+Désirez-vous vraiment supprimer les fichiers sélectionnés ?
+; <Buffer list>
+;
+STR_UNPROTECT
+Désirez-vous vraiment supprimer « %s » ?
+; Unprotect
+;
+STR_RUN
+« %s » n'est pas vide ! Le supprimer ?
+; _Run
+;
+STR_TRY_AGAIN
+Entrez le nouveau nom :
+; _Try Again
+;
+STR_RETRY
+en renommant
+; Retry
+;
+STR_ABORT
+Entrez un nouveau nom pour le fichier déplacé :
+; A_bort
+;
+STR_REPLACE
+en déplaçant
+; _Replace
+;
+STR_SKIP
+Entrez un nouveau nom pour le fichier cloné :
+; _Skip
+;
+STR_ALL
+en clonant
+; _All
+;
+STR_REMOVE
+La taille du répertoire sélectionné n'est pas connue.\n\
+Voulez-vous la calculer ?
+; Remove
+;
+STR_QUIT
+Le fichier sélectionné ne tiendra probablement pas dans la destination.\n\
+Continuer la copie ?
+; _Quit
+;
+STR_SAVE_QUIT
+La taille de certains répertoires sélectionnés n'est pas connue.\n\
+Voulez-vous calculer leur taille ?
+; _Save & quit
+;
+STR_LOAD
+Les entrées sélectionnées ne tiendront vraisemblablement pas dans la destination.\n\
+Continuer la copie ?
+; Load
+;
+STR_SAVE
+Entrez un nouveau nom pour le fichier copié :
+; Save
+;
+STR_DEFAULTS
+Entrez le motif de recherche de fichiers :
+; Defaults
+;
+STR_CLOSE
+Désolé ! Aucun fichier trouvé !
+; Close
+;
+STR_DELETE
+%ld fichier(s) correspondant(s) trouvé(s).
+; _Delete
+;
+STR_LEAVE
+en ajoutant une icône à
+; Leave
+;
+STR_YES
+\x00
+; Yes
+;
+STR_NO
+Entrez un commentaire :
+; No
+;
+STR_ICONIFY
+\x00
+; _Iconify
+;
+STR_CONTINUE
+Entrez un mot de passe :
+; C_ontinue
+;
+STR_OKAY
+\x00
+; _Okay
+;
+STR_CANCEL
+Entrez la date et l'heure (laissez vide pour la date actuelle)
+; _Cancel
+;
+STR_OKAY_TITLE
+Entrez la chaîne à rechercher :
+; OK
+;
+STR_DESCRIPTION
+\x00
+; Description
+;
+STR_PRINT_CONTROL
+Désolé ! La chaîne n'a pas été trouvée !
+; Print control
+;
+STR_FILE
+Correspondance(s) trouvée(s) dans %ld fichiers.
+; File
+;
+STR_IMAGE_SIZE
+Pas de répertoire source sélectionné !
+; Image size
+;
+STR_PAGE_SIZE
+Fichier de sortie temporaire
+; Page size
+;
+STR_SCREEN_SIZE
+Entrez les arguments :
+; Screen size
+;
+STR_DEPTH
+Cliquez pour obtenir une aide, ou « Aide » à nouveau pour annuler.
+; Depth
+;
+STR_COLOURS
+Mémoire insuffisante
+; Colors
+;
+STR_SCREEN_MODES
+Table des processus pleine !
+; Screen modes
+;
+STR_ASPECT
+Mauvaise syntaxe
+; _Aspect:
+;
+STR_IMAGE
+Mauvais nombre
+; _Image:
+;
+STR_SHADE
+Argument nécessaire absent
+; _Shade:
+;
+STR_PLACEMENT
+Argument après « = » absent
+; _Placement:
+;
+STR_FORMFEED
+Trop d'arguments
+; _Form feed
+;
+STR_PRINT
+Guillemets non refermés
+; Print
+;
+STR_ABORT_PRINT
+Ligne d'arguments invalide ou trop longue
+; Abort print
+;
+STR_PORTRAIT
+Le fichier n'est pas exécutable
+; Portrait
+;
+STR_LANDSCAPE
+Bibliothèque résidente invalide
+; Landscape
+;
+STR_POSITIVE
+Objet en cours d'utilisation
+; Positive
+;
+STR_NEGATIVE
+Objet déjà existant
+; Negative
+;
+STR_BLACK_WHITE
+Répertoire non trouvé
+; Black&White
+;
+STR_GRAY_SCALE
+Objet non trouvé
+; Gray scale
+;
+STR_COLOUR
+Description de fenêtre invalide
+; Color
+;
+STR_CENTER
+Requête de données de type inconnu
+; Center
+;
+STR_FULL_LEFT
+Nom d'objet invalide
+; Full left
+;
+STR_FONT
+Verrouillage sur objet invalide
+; Font
+;
+STR_FONT_SIZE
+L'objet n'est pas du type requis
+; Font size
+;
+STR_NUM_CHARS
+Disque non validé
+; Characters
+;
+STR_FONT_STYLE
+Disque protégé en écriture
+; Font style
+;
+STR_FONT_FLAGS
+Impossible de renommer entre disques !
+; Font flags
+;
+STR_ICON
+Répertoire non vide
+; Icon
+;
+STR_ICON_TYPE
+Trop de niveaux
+; Icon type
+;
+STR_ICON_ALTERNATE
+Erreur de positionnement
+; Alt. image
+;
+STR_ICON_DEFAULTTOOL
+Commentaire trop long
+; Default tool
+;
+STR_NUM_FRAMES
+Le disque est plein
+; Frame
+;
+STR_PLAYING_ANIM
+Objet protégé contre la suppression
+; Playing selected animation...
+;
+STR_OLD_NEW_FILE_REPLACE
+Le fichier est protégé en écriture
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %7ld  Date : %19s\n\
+; Old  -  Size : %7ld  Date : %19s
+;
+STR_REMAINING
+Le fichier est protégé en lecture
+; %ld of %ld items
+;
+STR_CUSTOM_LIST
+Ce disque n'est pas reconnu par le DOS
+; Custom list
+;
+STR_ENTRIES_IN_TREE
+Plus d'entrées dans le répertoire
+; %ld entries in tree
+;
+STR_DIRS_IN_BUFFERS
+Cet objet est un lien « soft »
+; %ld directories in buffers
+;
+STR_USER_ENTRIES
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment charger un nouveau fichier de configuration ?
+; %ld user-defined entries
+;
+STR_COMPLETED
+Annulé...
+; Completed
+;
+STR_UNICONIFY
+Entrez le code d'erreur DOS :
+; Uniconify
+;
+STR_CUSTPORT_NOT_FOUND
+Aide non disponible pour ce code d'erreur !
+; User-specified custom handler port\n\"%s\"\ncould not be found!
+;
+STR_CHECKFIT_STRING
+Une erreur s'est produite %s « %s »\n\
+%s
+; Bytes needed : %11qd   Bytes free : %11qd   Fit : %.1f%%
+;
+STR_DIR_TREE
+Renommer
+; <Directory tree>
+;
+STR_BUILDING_TREE
+en
+; Generating tree structure...
+;
+STR_UNPROTECT_ALL
+Entrez le motif de sélection
+; Unprotect all
+;
+STR_READING_CHANGED_DIRECTORY
+\n\
+Le fichier est crypté !\n\n
+; Buffered directory changed - re-reading
+;
+STR_CREATING_DIRECTORY
+Lecture du fichier...
+; creating directory
+;
+STR_STARTING_DISK_MODULE
+Mémoire insuffisante pour charger tout le fichier !
+; Starting disk module...
+;
+STR_UNABLE_TO_LOAD_MODULE
+Mot de passe erroné !
+; Unable to load external module
+;
+STR_SELECT_ALL_ENTRIES
+Comptage des lignes...
+; All entries
+;
+STR_SELECT_ONLY_FILES
+Aller à quelle ligne ?
+; Only files
+;
+STR_SELECT_ONLY_DIRS
+Aller à quel pourcentage ?
+; Only dirs
+;
+STR_SELECT_NAME
+Impossible de se connecter à l'imprimante !
+; Name
+;
+STR_SELECT_DATE
+Erreur d'impression du fichier ! IoErr = %ld\n
+; Date
+;
+STR_SELECT_BITS
+Mettez l'imprimante en ligne, et choisissez « Ok » pour continuer
+; Bits
+;
+STR_STARTING_PRINT_MODULE
+Impossible de trouver ou de charger l'icône de ce fichier.
+; Starting print module...
+;
+STR_ABOUT
+en cryptant
+; %s\nBased on GPL release version 4.12\nmodified by %s\n\n\
+; This program is free software; you can redistribute it and/or\n\
+; modify it under the terms of the GNU General Public License\n\
+; as published by the Free Software Foundation; either version 2\n\
+; of the License, or (at your option) any later version.\n\n\
+; This program is distributed in the hope that it will be useful,\n\
+; but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
+; GNU General Public License for more details.\n\n\
+; All users of Directory Opus 4 (including versions distributed\n\
+; under the GPL) are entitled to upgrade to the latest version of\n\
+; Directory Opus version 5 at a reduced price. Please see\n\
+; http://www.gpsoft.com.au for more information.
+;
+STR_PRINTTITLE
+Un nouveau disque a été inséré dans le lecteur DF%ld:\n\
+Désirez-vous lire ce disque ?
+; Print _Title
+;
+STR_SEARCH_NO_CASE
+\x00
+; Treat upper and lower case as the same
+;
+STR_SEARCH_WILD
+Entrez la date sous la forme JJ-MMM-AA :
+; Recognise ? as a wildcard character
+;
+STR_SEARCH_ONLYWORD
+Entrez la date sous la forme AA-MMM-JJ :
+; Only match on whole, unbroken words
+;
+STR_ENTER_FILTER
+Entrez la date sous la forme MM-JJ-AA :
+; Enter file filter
+;
+STR_SELECT_PROTECTION_BITS
+Entrez la date sous la forme JJ-MM-AA :
+; Select new protection bits
+;
+STR_DIRECTORY_OPUS_REQUEST
+Désirez-vous continuer la recherche ?
+; Directory Opus Request
+;
+STR_CLOCK_CHIP
+Désirez-vous vraiment quitter Directory Opus ?
+; CHIP:
+;
+STR_CLOCK_FAST
+Désirez-vous vraiment effectuer cette opération ?
+; FAST:
+;
+STR_CLOCK_TOTAL
+Mode d'écran non disponible.
+; TOTAL:
+;
+STR_CLOCK_MEM
+Erreur d'initialisation de l'imprimante.\n\
+Vérifiez les cables et connexions.
+; MEM:
+;
+STR_KEY
+Pas de répertoire de destination sélectionné !
+; Key :
+;
+STR_TINY_BUTTONS
+Vous ne pouvez copier un répertoire dans lui-même !
+; BRSA?EFCIQ
+;
+STR_VIEW_BUTTONS
+Affichage de la police sélectionnée...
+; UDTBSPQ
+;
+STR_DISKINFO_DEVICE
+Exécution du fichier sélectionné...
+; Device
+;
+STR_DISKINFO_NAME
+Écoute du fichier sélectionné...
+; Name
+;
+STR_DISKINFO_SIZE
+Affichage du fichier sélectionné...
+; Size
+;
+STR_DISKINFO_USED
+Écoute d'un module musicale...
+; Used
+;
+STR_DISKINFO_FREE
+Lecture du fichier sélectionné...
+; Free
+;
+STR_DISKINFO_PERCENT
+Correspondance trouvée dans le fichier\n\
+« %s »\n\
+Voulez-vous lire ce fichier ?
+; Percent
+;
+STR_DISKINFO_DENSITY
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment quitter ?
+; Density
+;
+STR_DISKINFO_ERRORS
+Sauvegarde du fichier de configuration...
+; Errors
+;
+STR_DISKINFO_STATUS
+Lecture du fichier de configuration...
+; Status
+;
+STR_DISKINFO_DATE
+Vous avez modifié la configuration.\n\
+Désirez-vous vraiment charger la dernière configuration sauvée ?
+; Date
+;
+STR_DISKINFO_BYTES
+Vous avez modifié la configuration.\n\
+Sauvegarder avant de revenir aux paramètres par défaut ?
+; bytes
+;
+STR_DISKINFO_BLOCKS
+Aucune aide existante pour cette fonction !
+; blocks
+;
+STR_DISKINFO_FULL
+Analyse de l'arborescence des répertoires...
+; full
+;
+STR_DISKINFO_SFREE
+Entrez une chaîne :
+; free
+;
+STR_DISKINFO_BYTESPERBLOCK
+Merci de choisir
+; bytes/block
+;
+STR_TEXT_VIEWER_TITLE
+en commentant
+; Directory Opus Text Viewer
+;
+STR_PROTECT_ALL_BITS
+en modifiant les attributs
+; All bits
+;
+STR_PROTECT_NONE
+en modifiant la date
+; None
+;
+STR_PROTECT_TOGGLE
+en effaçant
+; Toggle
+;
+STR_PROTECT_REVERT
+en copiant
+; Revert
+;
+STR_PROTECT_OLD
+en créant
+; Old :
+;
+STR_PROTECT_NEW
+Vous ne pouvez pas copier ces fichiers sur eux-mêmes !
+; New :
+;
+STR_PROTECT_MASK
+Analyse des fichiers...
+; Mask:
+;
+STR_PROTECT_HIDDEN
+%s ne peut pas être identifié.
+; _Hidden
+;
+STR_PROTECT_SCRIPT
+Chargement du programme de configuration...
+; _Script
+;
+STR_PROTECT_PURE
+Attente sur le port de configuration...
+; _Pure
+;
+STR_PROTECT_ARCHIVE
+Programme de configuration non trouvé ou impossible à charger.
+; _Archive
+;
+STR_PROTECT_READ
+Il y a des fenêtres étrangères ouvertes sur l'écran de Directory Opus.\n\
+Cliquez sur « Annuler » et fermez les d'abord,\n\
+ou cliquez sur « Fermer » et\n\
+Directory Opus les fermera pour vous (DANGER !)
+; _Read
+;
+STR_PROTECT_WRITE
+Désirez-vous vraiment supprimer les fichiers sélectionnés ?
+; _Write
+;
+STR_PROTECT_EXECUTED
+Désirez-vous vraiment supprimer « %s » ?
+; _Execute
+;
+STR_PROTECT_DELETED
+« %s » n'est pas vide ! Le supprimer ?
+; _Delete
+;
+STR_FILE_REQUEST
+Entrez le nouveau nom :
+; File request
+;
+STR_OF
+en renommant
+; of
+;
+STR_FRAME
+Entrez un nouveau nom pour le fichier déplacé :
+; Frame
+;
+STR_DISK_OP_TITLE
+en déplaçant
+; Directory Opus Disk Operations
+;
+STR_BUTTON_STRIP
+Entrez un nouveau nom pour le fichier cloné :
+; Directory Opus Button Strip
+;
+STR_NO_FIT
+en clonant
+;  N
+;
+STR_YES_FIT
+La taille du répertoire sélectionné n'est pas connue.\n\
+Voulez-vous la calculer ?
+;  Y
+;
+STR_FTYPE_DEFAULT
+Le fichier sélectionné ne tiendra probablement pas dans la destination.\n\
+Continuer la copie ?
+; Default
+;
+STR_FTYPE_UNKNOWN
+La taille de certains répertoires sélectionnés n'est pas connue.\n\
+Voulez-vous calculer leur taille ?
+; Unknown file type
+;
+STR_MULTI_DRAG
+Bienvenue dans Directory Opus !
+; Multi-drag - %ld files selected
+;
+STR_PRESS_MOUSE_BUTTON
+Bienvenue à nouveau dans Directory Opus !
+; Press left mouse button to continue...
+;
+STR_NETWORK_NO_OWNER
+Analyse du fichier...
+; No owner
+;
+STR_NETWORK_NO_GROUP
+Lecture du répertoire...
+; No group
+;
+STR_ERROR_ERROR_HELP
+Entrez les arguments pour « %s »
+; Error help
+;
+STR_SKIP_ALL
+Entrez le nom du répertoire
+; S_kip all
+;
+STR_PARENT_MULTI
+Ce fichier ou ce répertoire existe déjà !
+; Parents and Multi-Assigns...
+;
+STR_DISKINFO_FILESYSTEM
+Répertoire créé.
+; F.System
+;
+STR_ANIM_TYPE
+Impression du répertoire...
+; Anim type
+;
+STR_GFX_NATIVE
+Répertoire 
+; Native
+;
+STR_OPENING_ARCHIVE
+Liste des périphériques\n\n
+; Opening archive...
+;
+STR_LISTER_MENU
+Mémoire graphique insuffisante pour afficher l'icône
+; Lister options
+;
+STR_FILE_NAME
+Ce fichier n'est pas un ILBM
+; Name
+;
+STR_FILE_SIZE
+Erreur dans la structure IFF
+; Size
+;
+STR_PROTECTION_BITS
+Mémoire graphique insuffisante pour afficher l'image
+; Protection
+;
+STR_CREATION_DATE
+Impossible d'allouer les canaux audio
+; Date
+;
+STR_FILE_COMMENT
+Ce fichier n'est pas un module de musique connu
+; Comment
+;
+STR_FILE_TYPE
+Le fichier « %s » existe déjà ! Le remplacer ?
+; File type
+;
+STR_OWNER
+\n\
+Choisissez « Déprotéger » pour mettre l'attribut de suppression
+; Owner
+;
+STR_GROUP
+Entrez l'heure sous la forme HH:MM:SS
+; Group
+;
+STR_NET_PROTECTION_BITS
+Le serveur AREXX n'est pas présent ! Exécutez RexxMast.
+; Net protection bits
+;
+STR_REVERSE_ORDER
+Entrez une commande AREXX :
+; Reverse order
+;
+STR_SIZE_AS_KMG
+Entrez le nom du nouveau répertoire courant :
+; Sizes in K/M/G format
+;
+STR_BRING_TO_FRONT
+Recherche des périphériques...
+; _Bring to front
+;
+STR_REPLACE_DIR_WITH_FILE
+J'ai trouvé le fichier « %s » dans le répertoire\n\
+« %s »\n\
+Dois-je y aller ?
+; \"%s\" already exists! Replace?\n\n\
+; New  -  Size : %7ld  Date : %19s\n\
+; Old  -                  Date : %19s
+;
+STR_REPLACE_FILE_WITH_DIR
+Les tampons non visibles ont été effacés.
+; \"%s\" already exists! Replace?\n\n\
+; New  -                  Date : %19s\n\
+; Old  -  Size : %7ld  Date : %19s
+;
+STR_OPERATION_NOT_SUPPORTED
+Disque illisible
+; Operation not supported
+;
+STR_QUERY_REMOVE_ASSIGN
+Ce n'est pas un disque DOS
+; Do you really wish to remove \"%s\" assign?
+;
+STR_VERSION_CONTENTS
+Disque Kickstart
+; %-42s\n\n\
+;   Directory Opus%24s  \n\
+;   DOpus Library%25s  \n\
+;   Compile time%26s  \n\
+;   Compile date%26s  \n\
+;   Port/screen name%22s  \n\n\
+;   Kickstart%29s  \n\
+;   Workbench%29s  \n\
+;   Processor%29s  \n\
+;   Math co-processor%21s  \n\
+;   Graphics chipset%22s  \n\
+;   Video system%26s  \0
+;
+STR_VERSION_HEADER
+Validation...
+; Version information...
+;
+STR_DIRSFIRST
+Protégé en écriture
+; Show dirs first
+;
+STR_FILESFIRST
+Lecture/Écriture
+; Show files first
+;
+STR_MIXDIRSFILES
+Périphérique ou volume non monté
+; Mix files and dirs
+;
+STR_SORTALPHA
+Pas de disque dans le lecteur
+; Plain alphanumeric
+;
+STR_SORTDEC
+Erreur DOS numéro %ld
+; Recognize decimals
+;
+STR_SORTHEX
+Entrez le nouveau nom du disque :
+; Recognize hexadecimals
+;
+STR_SORTBY
+Entrez le nom du répertoire pour réassigner le périphérique
+; Sort by
+;
+STR_NAMESORT_MENU
+Impossible de supprimer l'assignation.
+; Name sorting
+;
+STR_FILE_EXTENSION
+Entrez le nom du périphérique pour ce répertoire :
+; Extension
+;
+STR_PROTECT_OKAY
+L'assignation a échoué
+; _Okay
+;
+STR_PROTECT_ALL
+Pas de répertoire de destination sélectionné !
+; A_ll
+;
+STR_ENTER_MAKELINK_PARAMS
+Vous ne pouvez copier un répertoire dans lui-même !
+; Enter link parameters
+;
+STR_MAKELINK_TYPE_SOFT
+Affichage de la police sélectionnée...
+; Soft
+;
+STR_MAKELINK_TYPE_HARD
+Exécution du fichier sélectionné...
+; Hard
+;
+STR_MAKELINK_TYPE
+Écoute du fichier sélectionné...
+; Type
+;
+STR_MAKELINK_NAME
+Affichage du fichier sélectionné...
+; Link name
+;
+STR_MAKELINK_DESTINATION
+Écoute d'un module musicale...
+; Link destination
+;
+STR_PROTECT_CANCEL
+Lecture du fichier sélectionné...
+; _Cancel
+;

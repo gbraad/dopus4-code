@@ -1,0 +1,272 @@
+## version $VER: DOpus4_Disk.catalog 1.1 (19.06.2001)
+## codeset 0
+## language français
+;
+STR_FORMAT_NAME
+_Nom
+; _Name
+;
+STR_FORMAT_FFS
+_Fast File System
+; _Fast File System
+;
+STR_FORMAT_INTERNATIONAL
+Mode _international
+; _International Mode
+;
+STR_FORMAT_CACHING
+Mode _répertoire rapide
+; _Directory Caching
+;
+STR_FORMAT_TRASHCAN
+Avec _corbeille
+; _Put Trashcan
+;
+STR_FORMAT_VERIFY
+_Vérifier
+; _Verify
+;
+STR_FORMAT_FORMAT
+Formater
+; Format
+;
+STR_FORMAT_QUICKFORMAT
+Format rapide
+; Quick Format
+;
+STR_FORMAT_EXIT
+Quitter
+; E_xit
+;
+STR_FORMAT_EMPTY
+_Vide
+; Empty
+;
+STR_FORMAT_INFODISPLAY
+ %ld pistes, %ld octets/piste, %s
+; %ld tracks, %ld bytes/trk, %s
+;
+STR_FORMAT_FORMATTING
+Formatage %ld, %ld à faire
+; Formatting %ld, %ld to go
+;
+STR_FORMAT_VERIFYING
+Vérification  %ld, %ld à faire
+; Verifying  %ld, %ld to go
+;
+STR_FORMAT_INITIALISING
+Initialisation du disque...
+; Initialising disk...
+;
+STR_FORMAT_FORMATERROR
+Erreur en formatant la piste %ld
+; Format error on track %ld
+;
+STR_FORMAT_ERRORVERIFYING
+Erreur en vérifiant la piste %ld
+; Error verifying track %ld
+;
+STR_FORMAT_VERIFYERROR
+Erreur en vérifiant la piste %ld
+; Verify error on track %ld
+;
+STR_SUCCESS
+Opération réussie
+; Operation successful
+;
+STR_FAILED_ERROR
+Opération échouée
+; Operation failed
+;
+STR_MEMORY_ERROR
+Pas assez de mémoire
+; Not enough memory
+;
+STR_BITMAP_ERROR
+Erreur de bitmap
+; Bitmap error
+;
+STR_DEVICE_ERROR
+Erreur du lecteur
+; Device error
+;
+STR_NODEVICE_ERROR
+Impossible d'ouvrir le lecteur
+; Couldn't open device
+;
+STR_RETRY
+_Réessayer
+; Retry
+;
+STR_NODISKPRESENT
+Aucun disque dans %s
+; No disk present in %s
+;
+STR_DISKWRITEPROTECTED
+Disque dans %s protégé en écriture
+; Disk in %s is write protected
+;
+STR_ABORTED
+Annulé...
+; Aborted.
+;
+STR_FORMAT_MAKINGTRASHCAN
+Création de la corbeille...
+; Creating Trashcan...
+;
+STR_DISK_NOT_BLANK
+Le disque dans le lecteur %s n'est pas vide !\n\n\
+Le volume  « %s » contient %s.\n\n\
+Toutes les données seront effacées.\n\
+Cliquez « Poursuivre » pour continuer.
+; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n\
+; All data will be erased.\nChoose Proceed to continue the %s.
+;
+STR_PROCEED
+_Poursuivre
+; Proceed
+;
+STR_CHECKING_DESTINATION
+Vérification de la destination...
+; Checking destination disk...
+;
+STR_DISKCOPY_DISKCOPY
+Copie
+; _Diskcopy
+;
+STR_DISKCOPY_FROM
+De...
+; From...
+;
+STR_DISKCOPY_TO
+Vers...
+; To...
+;
+STR_DISKCOPY_INFODISPLAY
+%s, %s utilisés
+; %s, %s used
+;
+STR_DISKCOPY_NODISK
+Pas d'information de disque disponible
+; No disk info available
+;
+STR_CHECKING_DISKS
+Vérification disque(s)...
+; Checking disk(s)...
+;
+STR_DISKCOPY_READING
+Lecture    %ld, %ld à faire
+; Reading    %ld, %ld to go
+;
+STR_DISKCOPY_WRITING
+Ecriture   %ld, %ld à faire
+; Writing    %ld, %ld to go
+;
+STR_DISKCOPY_READERROR
+Erreur de lecture à la piste %ld
+; Read error on track %ld
+;
+STR_DISKCOPY_WRITEERROR
+Erreur d'écriture à la piste %ld
+; Write error on track %ld
+;
+STR_DISKCOPY_INSERTSOURCE
+Insérez le disque source dans %s
+; Insert source disk in %s
+;
+STR_DISKCOPY_INSERTDEST
+Insérez le disque de destination dans %s
+; Insert destination disk in %s
+;
+STR_INSTALL_INSTALL
+_Installer
+; Install
+;
+STR_INSTALL_NOBOOT
+_Non boot
+; No Boot
+;
+STR_INSTALL_NOINFO
+Données bloc de démarrage indisponibles
+; Bootblock info unavailable
+;
+STR_INSTALL_NOTBOOTABLE
+Disque non bootable
+; Disk is not bootable
+;
+STR_INSTALL_NORMAL
+Bloc de démarrage %s %s standard
+; Normal %s %s bootblock
+;
+STR_INSTALL_NONSTANDARD
+Bloc de démarrage non standard
+; Non-standard bootblock
+;
+STR_INSTALL_ERRORWRITING
+Erreur écrivant le bloc de démarrage
+; Error writing bootblock!
+;
+STR_INVALID_DISK
+Disque non installable
+; Disk is unsuitable for installing
+;
+STR_INSTALL_INSTALLINGDISK
+Installation disque...
+; Installing disk...
+;
+STR_CANCEL
+_Annuler
+; Cancel
+;
+STR_BUMP_NAMES
+_Nom modifié
+; _Bump name
+;
+STR_BUMPING_NAME
+Copie du nom...
+; Bumping disk name...
+;
+STR_DISKCOPY_CHECK
+Vérifier
+; _Check
+;
+STR_WINDOW_FORMAT
+Format
+; Format
+;
+STR_WINDOW_DISKCOPY
+Diskcopy
+; Diskcopy
+;
+STR_WINDOW_INSTALL
+Install
+; Install
+;
+STR_DISK_NOT_BLANK_FORMAT
+Format
+; Format
+;
+STR_DISK_NOT_BLANK_DISKCOPY
+Diskcopy
+; Diskcopy
+;
+STR_FORMAT_SFS_CASE
+Case-sensitive
+; Case-sensitive
+;
+STR_FORMAT_SFS_SHOWREC
+Show 'Recycled'
+; Show 'Recycled'
+;
+STR_FORMAT_SFS_NOREC
+No 'Recycled'
+; No 'Recycled'
+;
+STR_FORMAT_PFS_DELDIR
+DelDir blocks
+; DelDir blocks
+;
+STR_FORMAT_PFS_FNSIZE
+Filename size
+; Filename size
+;
