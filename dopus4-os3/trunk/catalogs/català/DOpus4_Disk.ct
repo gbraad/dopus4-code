@@ -1,0 +1,272 @@
+## version $VER: DOpus4_Disk.catalog 1.0 (23.06.06)
+## codeset 0
+## language català
+;
+STR_FORMAT_NAME
+_Nou
+; _Name
+;
+STR_FORMAT_FFS
+_Sist. ràpid fitxers
+; _Fast File System
+;
+STR_FORMAT_INTERNATIONAL
+Mode _internacional
+; _International Mode
+;
+STR_FORMAT_CACHING
+Cache de _directori
+; _Directory Caching
+;
+STR_FORMAT_TRASHCAN
+Posar _paperera
+; _Put Trashcan
+;
+STR_FORMAT_VERIFY
+_Verificar
+; _Verify
+;
+STR_FORMAT_FORMAT
+Formatejar
+; Format
+;
+STR_FORMAT_QUICKFORMAT
+Format ràpid
+; Quick Format
+;
+STR_FORMAT_EXIT
+Sortir
+; E_xit
+;
+STR_FORMAT_EMPTY
+Buit
+; Empty
+;
+STR_FORMAT_INFODISPLAY
+%ld pistes, %ld bytes/pista, %s
+; %ld tracks, %ld bytes/trk, %s
+;
+STR_FORMAT_FORMATTING
+Formatejant %ld, %ld per acabar
+; Formatting %ld, %ld to go
+;
+STR_FORMAT_VERIFYING
+Verificant %ld, %ld per acabar
+; Verifying  %ld, %ld to go
+;
+STR_FORMAT_INITIALISING
+Inicialitzant disc...
+; Initialising disk...
+;
+STR_FORMAT_FORMATERROR
+Error de formatejat a la pista %ld
+; Format error on track %ld
+;
+STR_FORMAT_ERRORVERIFYING
+Error al verificar la pista %ld
+; Error verifying track %ld
+;
+STR_FORMAT_VERIFYERROR
+Error de verificació a la pista %ld
+; Verify error on track %ld
+;
+STR_SUCCESS
+Operació finalitzada amb èxit
+; Operation successful
+;
+STR_FAILED_ERROR
+Operació fallida.
+; Operation failed
+;
+STR_MEMORY_ERROR
+Memòria insuficient.
+; Not enough memory
+;
+STR_BITMAP_ERROR
+Error al mapa de bits
+; Bitmap error
+;
+STR_DEVICE_ERROR
+Error d'unitat
+; Device error
+;
+STR_NODEVICE_ERROR
+No s'ha pogut obrir la unitat
+; Couldn't open device
+;
+STR_RETRY
+Reintentar
+; Retry
+;
+STR_NODISKPRESENT
+No hi ha disc a la unitat %s
+; No disk present in %s
+;
+STR_DISKWRITEPROTECTED
+El disc de la unitat %s està protegit contra escriptura.
+; Disk in %s is write protected
+;
+STR_ABORTED
+Interromput...
+; Aborted.
+;
+STR_FORMAT_MAKINGTRASHCAN
+Creant paperera...
+; Creating Trashcan...
+;
+STR_DISK_NOT_BLANK
+El disc de la unitat %s no està buit!\n\n\
+El volum "%s" conté %s.\n\n\
+Es perdran totes les dades!\n\n\
+Escull 'Continuar' per seguir %s.
+; Disk in drive %s is not blank!\n\nVolume \"%s\" contains %s.\n\n\
+; All data will be erased.\nChoose Proceed to continue the %s.
+;
+STR_PROCEED
+Continuar
+; Proceed
+;
+STR_CHECKING_DESTINATION
+Comprovant disc de destí...
+; Checking destination disk...
+;
+STR_DISKCOPY_DISKCOPY
+Copiar
+; _Diskcopy
+;
+STR_DISKCOPY_FROM
+De...
+; From...
+;
+STR_DISKCOPY_TO
+A...
+; To...
+;
+STR_DISKCOPY_INFODISPLAY
+%s, %s usats
+; %s, %s used
+;
+STR_DISKCOPY_NODISK
+Informació de disc no disponible.
+; No disk info available
+;
+STR_CHECKING_DISKS
+Comprovant disc(s)...
+; Checking disk(s)...
+;
+STR_DISKCOPY_READING
+Llegint     %ld, %ld per acabar
+; Reading    %ld, %ld to go
+;
+STR_DISKCOPY_WRITING
+Escribint %ld, %ld per acabar
+; Writing    %ld, %ld to go
+;
+STR_DISKCOPY_READERROR
+Error de lectura a la pista %ld
+; Read error on track %ld
+;
+STR_DISKCOPY_WRITEERROR
+Error d'escriptura a la pista %ld
+; Write error on track %ld
+;
+STR_DISKCOPY_INSERTSOURCE
+Inseta disc ORIGEN a la unitat %s
+; Insert source disk in %s
+;
+STR_DISKCOPY_INSERTDEST
+Inserta disc DESTÍ a la unitat %s
+; Insert destination disk in %s
+;
+STR_INSTALL_INSTALL
+Instal·lar
+; Install
+;
+STR_INSTALL_NOBOOT
+Desinst.
+; No Boot
+;
+STR_INSTALL_NOINFO
+Informació d'arrencada no disponible
+; Bootblock info unavailable
+;
+STR_INSTALL_NOTBOOTABLE
+El disc no és d'arrencada
+; Disk is not bootable
+;
+STR_INSTALL_NORMAL
+Bloc d'arrencada normal %s %s
+; Normal %s %s bootblock
+;
+STR_INSTALL_NONSTANDARD
+Bloc d'arrencada no estàndar
+; Non-standard bootblock
+;
+STR_INSTALL_ERRORWRITING
+Error a l'escriure el bloc d'arrencada
+; Error writing bootblock!
+;
+STR_INVALID_DISK
+Aquest dics no admet bloc d'arrencada
+; Disk is unsuitable for installing
+;
+STR_INSTALL_INSTALLINGDISK
+Instal·lant bloc d'arrencada...
+; Installing disk...
+;
+STR_CANCEL
+Cancel·lar
+; Cancel
+;
+STR_BUMP_NAMES
+_Reanomenar
+; _Bump name
+;
+STR_BUMPING_NAME
+Canviant nom...
+; Bumping disk name...
+;
+STR_DISKCOPY_CHECK
+Verificar
+; _Check
+;
+STR_WINDOW_FORMAT
+Format
+; Format
+;
+STR_WINDOW_DISKCOPY
+DiskCopy
+; Diskcopy
+;
+STR_WINDOW_INSTALL
+Install
+; Install
+;
+STR_DISK_NOT_BLANK_FORMAT
+Format
+; Format
+;
+STR_DISK_NOT_BLANK_DISKCOPY
+Diskcopy
+; Diskcopy
+;
+STR_FORMAT_SFS_CASE
+Case-sensitive
+; Case-sensitive
+;
+STR_FORMAT_SFS_SHOWREC
+Show 'Recycled'
+; Show 'Recycled'
+;
+STR_FORMAT_SFS_NOREC
+No 'Recycled'
+; No 'Recycled'
+;
+STR_FORMAT_PFS_DELDIR
+DelDir blocks
+; DelDir blocks
+;
+STR_FORMAT_PFS_FNSIZE
+Filename size
+; Filename size
+;
